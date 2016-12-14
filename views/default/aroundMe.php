@@ -1,8 +1,10 @@
 <?php 
-  HtmlHelper::registerCssAndScriptsFiles( array('/assets/css/default/directory.css'), Yii::app()->theme->baseUrl);
-  HtmlHelper::registerCssAndScriptsFiles( array('/js/default/directory.js') , $this->module->assetsUrl);
+ $cssAnsScriptFilesModule = array(
+    '/css/default/directory.css',
+    '/js/default/directory.js',
+  );
+  HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 ?>
-
 <style>
   
   #grid_around{

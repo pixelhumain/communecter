@@ -18,7 +18,7 @@ function startSearch(indexMin, indexMax, callBack){
 
     mylog.log("startSearch", indexMin, indexMax, indexStep);
 
-	  var name = $('#searchBarText').val();
+	  var name = ($('#searchBarText').length>0) ? $('#searchBarText').val() : "";
     
     if(name == "" && searchType.indexOf("cities") > -1) return;  
 
@@ -34,25 +34,26 @@ function startSearch(indexMin, indexMax, callBack){
     }
     else{ if(scrollEnd) return; }
     
-    if(name.length>=3 || name.length == 0){
+    if(name.length>=3 || name.length == 0)
+    {
       var locality = "";
-      if(communexionActivated){
-	    if(typeof(cityInseeCommunexion) != "undefined"){
-			if(levelCommunexion == 1) locality = cpCommunexion;
-			if(levelCommunexion == 2) locality = inseeCommunexion;
-		}else{
-			if(levelCommunexion == 1) locality = inseeCommunexion;
-			if(levelCommunexion == 2) locality = cpCommunexion;
-		}
+      if( communexionActivated )
+      {
+  	    if(typeof(cityInseeCommunexion) != "undefined")
+        {
+    			if(levelCommunexion == 1) locality = cpCommunexion;
+    			if(levelCommunexion == 2) locality = inseeCommunexion;
+    		}else{
+    			if(levelCommunexion == 1) locality = inseeCommunexion;
+    			if(levelCommunexion == 2) locality = cpCommunexion;
+    		}
         //if(levelCommunexion == 3) locality = cpCommunexion.substr(0, 2);
         if(levelCommunexion == 3) locality = inseeCommunexion;
         if(levelCommunexion == 4) locality = inseeCommunexion;
         if(levelCommunexion == 5) locality = "";
       } 
       autoCompleteSearch(name, locality, indexMin, indexMax, callBack);
-    }else{
-      
-    }   
+    }  
 }
 
 
@@ -152,7 +153,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
               var city, postalCode = "";
 
               //parcours la liste des résultats de la recherche
-              mylog.dir(data);
+              //mylog.dir(data);
               str = showResultsDirectoryHtml(data);
 
               if(str == "") { 
@@ -425,7 +426,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
             postalCode = o.cp ? o.cp : o.address.postalCode ? o.address.postalCode : "";
           }
           
-          mylog.dir(o);
+          //mylog.dir(o);
           var id = getObjectId(o);
           var insee = o.insee ? o.insee : "";
           mylog.log(itemType);
@@ -464,10 +465,14 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
           }
 
           var tags = "";
+          var elTagsList = "";
           if(typeof o.tags != "undefined" && o.tags != null){
             $.each(o.tags, function(key, value){
-              if(value != "")
-              tags +=   "<a href='javascript:' class='badge bg-transparent text-red btn-tag tag' data-tag-value='"+value+"'>#" + value + "</a> ";
+              if(value != ""){
+                tags +=   "<a href='javascript:' class='badge bg-transparent text-red btn-tag tag' data-tag-value='"+value+"'>#" + value + "</a> ";
+                elTagsList += slugify(value)+" ";
+              }
+
             });
           }
 
@@ -506,7 +511,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
           var updated   = notEmpty(o.updatedLbl) ? o.updatedLbl : null; 
           
           //template principal
-          str += "<div class='col-lg-3 col-md-4 col-sm-6 col-xs-12 searchEntityContainer "+type+"'>";
+          str += "<div class='col-lg-3 col-md-4 col-sm-6 col-xs-12 searchEntityContainer "+type+" "+elTagsList+" '>";
           str +=    "<div class='searchEntity'>";
 
           if(itemType!="city" && (useMinSize))
@@ -651,4 +656,85 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
     return str;
   }
 
-  
+function searchDirectory(parentClass,elemClass){
+    if($(this).val().length>2 ){
+        $.each( $(elemClass) ,function (i,k) { 
+            var found = null,
+            searchVal = $(this).val();
+            if( $(this).find(".entityName").text().search( new RegExp( searchVal, "i" ) ) >= 0 || 
+                $(this).find(".entityLocality").text().search( new RegExp( searchVal, "i" ) ) >= 0 || 
+                $(this).find(".tagsContainer").text().search( new RegExp( searchVal, "i" ) ) >= 0 )
+                found = 1;
+
+            if(found >= 0)
+              $(this).removeClass('hide');
+            else
+              $(this).addClass('hide');
+        });
+        if( $(parentClass).length > 0 )
+            directory.toggleParents(parentClass,elemClass);
+    }
+}
+
+var directory = {
+
+    elemClass : '.searchEntityContainer',
+    //build list of unique tags based on a directory structure
+    tagList : function  (elClass,dest) { 
+        var tagsT = [];
+
+        console.log("tags count",$(".btn-tag").length);
+        $.each($(elClass),function(k,o){
+          console.log(o.text);
+          if(!inArray(o.text,tagsT)){
+            tagsT.push(o.text);
+            $(dest).append("<a class='label favElBtn' href='javascript:directory.toggleEmptyParentSection(\".favSection\",\"."+slugify(o.text.substring(1))+"\",\""+directory.elemClass+"\",1)'><i class='fa fa-tag'></i> "+o.text.substring(1)+"</a><br/>");
+          }
+        })
+        console.log("tags count",tagsT.length);
+
+        $(directory.elemClass).show()
+    },
+
+    //show hide parents when empty
+    toggleEmptyParentSection : function (parents,tag,children) { 
+        if(tag){
+            toggle(tag,children,1);
+            directory.toggleParents(parents,children);
+        } else {
+            $(parents).removeClass('hide');
+            $(children).removeClass('hide');
+        }
+    },
+
+    toggleParents : function (parents,children) { 
+        $.each( favTypes, function(i,k)
+        {
+            if( $(parents+' div'+children+'.'+k).length == $(parents+' div'+children+'.'+k+'.hide ').length )
+                $('.'+k+'fav').addClass('hide');
+            else
+                $('.'+k+'fav').removeClass('hide');
+        });
+    },
+    search : function(parentClass, searchVal) { 
+        console.log("searchDir searchVal",searchVal);           
+        if(searchVal.length>2 ){
+            $.each( $(directory.elemClass) ,function (i,k) { 
+                      var found = null;
+                      if( $(this).find(".entityName").text().search( new RegExp( searchVal, "i" ) ) >= 0 || 
+                          $(this).find(".entityLocality").text().search( new RegExp( searchVal, "i" ) ) >= 0 || 
+                $(this).find(".tagsContainer").text().search( new RegExp( searchVal, "i" ) ) >= 0 )
+                {
+                    console.log("found")
+                    found = 1;
+                }
+                if(found)
+                    $(this).removeClass('hide');
+                else
+                    $(this).addClass('hide');
+            });
+            directory.toggleParents(parentClass, directory.elemClass);
+        } else
+            directory.toggleEmptyParentSection(parentClass,null, directory.elemClass ,1);
+    }
+}

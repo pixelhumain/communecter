@@ -7,6 +7,7 @@ on garde les librairies specifique au module dans le module
 	$cssAnsScriptFilesModule = array(
 		'/js/communecter.js',
 		'/js/default/index.js',
+		//'/js/default/directory.js',
 		'/js/dataHelpers.js',
 		'/js/sig/localisationHtml5.js',
 		'/js/floopDrawerRight.js',
@@ -15,6 +16,7 @@ on garde les librairies specifique au module dans le module
 		'/js/default/globalsearch.js',
 		'/js/sig/findAddressGeoPos.js',
 		'/js/jquery.filter_input.js',
+
 	);
 	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 

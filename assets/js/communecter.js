@@ -4,9 +4,7 @@ $(document).ready(function() {
 	setTimeout( function () { checkPoll() }, 10000);
 	document.onkeyup = keyboardNav.checkKeycode;
 	$.contextMenu({
-	    // define which elements trigger this menu
 	    selector: ".add2fav",
-	    // define the elements of the menu
 	    items: {
 	        add2fav: {name: "Ajouter à vos favoris",icon: "fa-star", callback: function(key, opt){ 
 	        	href = opt.$trigger[0].hash.split(".");
@@ -19,7 +17,6 @@ $(document).ready(function() {
 				}
 	         }}
 	    }
-	    // there's more, have a look at the demos and docs...
 	});
 
 	   
@@ -1039,32 +1036,53 @@ function activateHoverMenu () {
 	}, 1000);
 }
 
-function openSmallMenuAjax (url,title) { 
+var favTypes = [];
+function openSmallMenuAjax (url,title,icon,color) { 
+	if( typeof showResultsDirectoryHtml == "undefined" )
+	    lazyLoad( moduleUrl+'/js/default/directory.js', null, null );
+    	
 	getAjax( null , url , function(data){
-		content = "<div class='col-md-12 col-sm-12 padding-5 center no-padding bg-dark'><h1 class='homestead'> ";
+		content = "<div class='hidden-xs col-sm-2'><h2 class='homestead'>filtres <i class='fa fa-angle-down'></i></h2><div id='favTags'>"+
+				"<a class='label favElBtn' href='javascript:directory.toggleEmptyParentSection(\".favSection\",\".searchEntityContainer\",\".searchEntityContainer\",1)'> <i class='fa fa-tag'></i> Tout voir </a><br/>"+
+				"</div></div> "+
+				"<div class='col-xs-12 col-sm-10 padding-5 center no-padding'><h1 class='homestead'> ";
 		if( data.count == 0 )
-			content += " No Favorites available <i class='fa fa-star text-yellow'></i> </h1></div>";
+			content += " No Favorites available <i class='fa "+icon+" text-"+color+"'></i> </h1></div>";
 		else {
-			content += title+" <i class='fa fa-star text-yellow'></i> <br/><input name='toto' placeholder='vous cherchez quoi ?'><br/>"+
-						"<span class='text-extra-small helvetica'>filtre : #tag, §organisations, §citoyens, §projects, §events, §poi </span><br/>"+
-						"<div class='tagsScopeTool bg-white'></div>"+
-						"</h1></div>";
+			content += title+" <i class='fa "+icon+" text-"+color+"'></i></h1>"+
+							"<input name='searchSmallMenu' class='searchSmallMenu text-black' placeholder='vous cherchez quoi ?' style='margin-bottom:8px'><br/>"+
+							"<span class='text-extra-small helvetica sectionFilters'>"+
+								" <span class='btn btn-xs favSectionBtn btn-default'><a class='text-black helvetica ' href='javascript:$(\".searchSmallMenu\").val(\"\");directory.toggleEmptyParentSection(\".favSection\",null,\".searchEntityContainer\",1)'> Tout voir</a></span> </span>"+
+							" </span><br/>"+
+						"</div>";
+			openMenuSmall( content );
 			
-			$.each( data.list,function(key,list)
+			$.each( data.list, function(key,list)
 			{
-				var subContent = showResultsDirectoryHtml(list, key, "min");
-				if( notEmpty(subContent) ) 
-					content += "<div class='col-md-12 col-sm-12 padding-15'><h2 class='homestead'> "+key+" <i class='fa fa-angle-down'></i> </h2>"
-								+subContent;
+				var subContent = showResultsDirectoryHtml ( list, key, "min" );
+				if( notEmpty(subContent) ){
+					favTypes.push(key);
+					$(".menuSmallBlockUI").append("<div class='"+key+"fav favSection'><div class=' col-xs-12 col-sm-offset-2 col-sm-10 padding-15'><h2 class='homestead'> "+key+" <i class='fa fa-angle-down'></i> </h2>"+
+								subContent+
+								"</div>");
+					$(".sectionFilters").append(" <span class='btn btn-xs favSectionBtn bg-"+typeObj[key].color+"'><a class='text-black helvetica' href='javascript:toggle(\"."+key+"fav\",\".favSection\",1)'> "+key+"</a></span> ")
+				}
 			});
 		}
 		
-	    openMenuSmall( content );
-	    showTagsScopesMin(".tagsScopeTool");
+	   	directory.tagList(".btn-tag","#favTags");
+
+	   	$('.searchSmallMenu').off().on("keyup",function() { 
+			directory.search ( ".favSection", $(this).val() );
+	   	});
+		    //showTagsScopesMin(".tagsScopeTool");
     } );
 }
 
-function openSmallMenuAjaxBuild (id,url,title) { 
+
+
+//openSmallMenuAjaxBuild("",baseUrl+"/"+moduleId+"/favorites/list/tpl/directory2","FAvoris")
+function openSmallMenuAjaxBuild (url,title) { 
 	openMenuSmall( );
 	getAjax( ".menuSmallBlockUI" , url , null,"html" );
 }
@@ -1551,1016 +1569,6 @@ function buildDynForm(elementObj, afterLoad,data) {
 		alert('Vous devez etre loggué');
 }
 
-
-var contextData = null;
-var typeObj = {
-	"person" : {
-		col : "citoyens" , 
-		ctrl : "person",
-		titleClass : "bg-yellow",
-		bgClass : "bgPerson",
-		lbh : "#person.invite",
-		dynForm : {
-		    jsonSchema : {
-			    title : "Inviter quelqu'un",
-			    icon : "user",
-			    type : "object",
-			    properties : {
-			    	info : {
-		                "inputType" : "custom",
-		                "html":"<p><i class='fa fa-info-circle'></i> Si vous voulez créer un nouveau projet de façon à le rendre plus visible : c'est le bon endroit !!<br>Vous pouvez ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
-		            },
-		            inviteSearch : {
-		            	placeholder : " Nom ou Email",
-			            "inputType" : "text",
-			            "rules" : {
-			                "required" : true
-			            },
-			            init : function(){
-			            	$("#ajaxFormModal #inviteSearch ").keyup(function(e){
-						    var search = $('#inviteSearch').val();
-						    if(search.length>2){
-						    	clearTimeout(timeout);
-								timeout = setTimeout('autoCompleteInviteSearch("'+encodeURI(search)+'")', 500); 
-							}else{
-							 	$("#newInvite #dropdown_searchInvite").css({"display" : "none" });	
-							}	
-						});
-			            }
-		            },
-			        invitedUserName : {
-			        	placeholder : "Nom",
-			            "inputType" : "text",
-			            "rules" : {
-			                "required" : true
-			            },
-			            init : function(){
-			            	$(".invitedUserNametext").css("display","none");	
-			            }
-			        },
-			        invitedUserEmail : {
-			        	placeholder : "Email",
-			            "inputType" : "text",
-			            "rules" : {
-			                "required" : true
-			            },
-			            init:function(){
-			            	$(".invitedUserEmailtext").css("display","none");	 
-			            }
-			        },
-			        "preferences[publicFields]" : {
-		                inputType : "hidden",
-		                value : []
-		            },
-		            "preferences[privateFields]" : {
-		                inputType : "hidden",
-		                value : []
-		            },
-		            "preferences[isOpenData]" : {
-		                inputType : "hidden",
-		                value : false
-		            },
-			    }
-			}
-		}
-	},
-	"persons" : {col:"citoyens" , ctrl:"person"},
-	"citoyen" : {col:"citoyens" , ctrl:"person"},
-	"citoyens" : {col:"citoyens" , ctrl:"person",color:"yellow",icon:"user"},
-	"poi":{ 
-		col:"poi",
-		ctrl:"poi",
-		color:"azure",
-		icon:"info-circle",
-
-		dynForm : {
-		    jsonSchema : {
-			    title : "Point of interest Form",
-			    icon : "map-marker",
-			    type : "object",
-			    
-			    onLoads : {
-			    	//pour creer un subevnt depuis un event existant
-			    	subPoi : function(){
-			    		if(contextData.type && contextData.id ){
-		    				$('#ajaxFormModal #parentId').val(contextData.id);
-			    			$("#ajaxFormModal #parentType").val( contextData.type ); 
-			    		}
-			    		
-			    	}/*,
-			    	loadData : function(data){
-				    	mylog.warn("--------------- loadData ---------------------",data);
-				    	$('#ajaxFormModal #name').val(data.name);
-				    	$('#ajaxFormModal #type').val(data.type);
-				    	$('#ajaxFormModal #parentId').val(data.parentId);
-			    		$("#ajaxFormModal #parentType").val( data.parentType ); 
-				    },*/
-			    },
-			    properties : {
-			    	info : {
-		                "inputType" : "custom",
-		                "html":"<p><i class='fa fa-info-circle'></i> Un Point d'interet est un élément assez libre qui peut etre géolocalisé ou pas, qui peut etre rataché à une organisation, un projet ou un évènement.</p>",
-		            },
-		            type :{
-		            	"inputType" : "select",
-		            	"placeholder" : "Type du point d'intérêt",
-		            	"options" : poiTypes
-		            },
-			        name : {
-			        	placeholder : "Nom",
-			            "inputType" : "text",
-			            "rules" : { "required" : true }
-			        },
-		            description : {
-		                "inputType" : "wysiwyg",
-	            		"placeholder" : "Décrire c'est partager",
-	            		init:function(){
-				      		activateSummernote("#ajaxFormModal #description");
-			            }
-		            },
-		            location : {
-		                inputType : "location"
-		            },
-		            tags :{
-		                "inputType" : "tags",
-		                "placeholder" : "Tags ou Types de point d'interet",
-		                "values" : tagsList
-		            },
-		            formshowers : {
-		                "inputType" : "custom",
-		                "html": "<a class='btn btn-default text-dark w100p' href='javascript:;' onclick='$(\".urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options (urls)</a>",
-		            },
-		            urls : {
-			        	placeholder : "url",
-			            "inputType" : "array",
-			            "value" : [],
-			            init:function(){
-				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
-			            	$(".urlsarray").css("display","none");	
-			            }
-			        },
-		            parentId :{
-		            	"inputType" : "hidden"
-		            },
-		            parentType : {
-			            "inputType" : "hidden"
-			        },
-			    }
-			}
-		}},
-		"siteurl":{ 
-		col:"siteurl",
-		ctrl:"siteurl",
-		dynForm : {
-		    jsonSchema : {
-			    title : "Point of interest Form",
-			    icon : "map-marker",
-			    type : "object",
-			    
-			    onLoads : {
-			    	//pour creer un subevnt depuis un event existant
-			    	subPoi : function(){
-			    		if(contextData.type && contextData.id ){
-		    				$('#ajaxFormModal #parentId').val(contextData.id);
-			    			$("#ajaxFormModal #parentType").val( contextData.type ); 
-			    		}
-			    		
-			    	}/*,
-			    	loadData : function(data){
-				    	mylog.warn("--------------- loadData ---------------------",data);
-				    	$('#ajaxFormModal #name').val(data.name);
-				    	$('#ajaxFormModal #type').val(data.type);
-				    	$('#ajaxFormModal #parentId').val(data.parentId);
-			    		$("#ajaxFormModal #parentType").val( data.parentType ); 
-				    },*/
-			    },
-			    properties : {
-			    	info : {
-		                "inputType" : "custom",
-		                "html":"<p><i class='fa fa-info-circle'></i> Une url.</p>",
-		            },
-		            urls : {
-			        	placeholder : "url",
-			            "inputType" : "array",
-			            "value" : [],
-			            init:function(){
-				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
-			            	//$(".urlsarray").css("display","none");	
-			            }
-			        },
-		            type :{
-		            	"inputType" : "select",
-		            	"placeholder" : "Type du point d'intérêt",
-		            	"options" : poiTypes
-		            },
-			        name : {
-			        	placeholder : "Nom",
-			            "inputType" : "text",
-			            "rules" : { "required" : true }
-			        },
-		            description : {
-		                "inputType" : "wysiwyg",
-	            		"placeholder" : "Décrire c'est partager",
-	            		init:function(){
-				      		activateSummernote("#ajaxFormModal #description");
-			            }
-		            },
-		            location : {
-		                inputType : "location"
-		            },
-		            tags :{
-		                "inputType" : "tags",
-		                "placeholder" : "Tags ou Types de point d'interet",
-		                "values" : tagsList
-		            },
-		            
-		            parentId :{
-		            	"inputType" : "hidden"
-		            },
-		            parentType : {
-			            "inputType" : "hidden"
-			        },
-			    }
-			}
-		}},
-	"organization" : { 
-		col:"organizations", 
-		ctrl:"organization", 
-		icon : "group",
-		titleClass : "bg-green",
-		bgClass : "bgOrga",
-		dynForm : {
-		    jsonSchema : {
-			    title : trad.addOrganization,
-			    icon : "group",
-			    type : "object",
-			    beforeSave : function(){
-			    	if (typeof $("#ajaxFormModal #description").code === 'function' ) 
-			    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
-			    },
-			    properties : {
-			    	info : {
-		                "inputType" : "custom",
-		                "html":"<p><i class='fa fa-info-circle'></i> Si vous voulez créer une nouvelle organisation de façon à le rendre plus visible : c'est le bon endroit !!<br>Vous pouvez ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
-		            },
-			        name : {
-			        	placeholder : "Nom",
-			            "inputType" : "text",
-			            "rules" : { "required" : true },
-			            init : function(){
-			            	$("#ajaxFormModal #name ").off().on("blur",function(){
-			            		if($("#ajaxFormModal #name ").val().length > 3 )
-				            		globalSearch($(this).val(),["organizations"]);
-			            	});
-			            }
-			        },
-			        similarLink : {
-		                "inputType" : "custom",
-		                "html":"<div id='similarLink'><div id='listSameName'></div></div>",
-		            },
-			        type :{
-		            	"inputType" : "select",
-		            	"placeholder" : "Type d'organisation",
-		            	"rules" : { "required" : true },
-		            	"options" : organizationTypes
-		            },
-		            role :{
-		            	"inputType" : "select",
-		            	"placeholder" : "Quel est votre rôle dans cette organisation ?",
-		            	"rules" : { "required" : true },
-		            	//value : "admin",
-		            	"options" : {
-		            		admin : trad.administrator,
-							member : trad.member,
-							creator : trad.justCitizen
-		            	}
-		            },
-		            location : {
-		                inputType : "location"
-		            },
-		            tags :{
-		              "inputType" : "tags",
-		              "placeholder" : "Tags ou Types de l'organisation",
-		              "values" : tagsList
-		            },
-		            formshowers : {
-		                "inputType" : "custom",
-		                "html":
-						"<a class='btn btn-default text-dark w100p' href='javascript:;' onclick='$(\".emailtext,.descriptionwysiwyg,.urltext\").slideToggle();activateSummernote(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (email, desc, urls, telephone)</a>",
-		            },
-		            email : {
-			        	placeholder : "Email du responsable",
-			            "inputType" : "text",
-			            init : function(){
-			            	$(".emailtext").css("display","none");
-			            }
-			        },
-			        
-			        description : {
-		                "inputType" : "wysiwyg",
-	            		"placeholder" : "Décrire c'est partager",
-			            init : function(){
-			            	$(".descriptionwysiwyg").css("display","none");
-			            }
-		            },
-		            url : {
-		                "inputType" :"text",
-		                "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
-		                "placeholder" : "url, lien, adresse web",
-		                init:function(){
-				            getMediaFromUrlContent("#url", ".resultGetUrl0",0);
-				            $(".urltext").css("display","none");
-			            }
-		            },
-		            /*urls : {
-			        	placeholder : "URL du site web",
-			            "inputType" : "array",
-			            "value" : [],
-			            init:function(){
-				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
-			            	$(".urlsarray").css("display","none");	
-			            }
-			        },*/
-			        telephone : {
-			        	placeholder : "Téléphne",
-			            "inputType" : "text",
-			            init : function(){
-			            	$(".telephonetext").css("display","none");
-			            }
-			        },
-		            "preferences[publicFields]" : {
-		                inputType : "hidden",
-		                value : []
-		            },
-		            "preferences[privateFields]" : {
-		                inputType : "hidden",
-		                value : []
-		            },
-		            "preferences[isOpenData]" : {
-		                inputType : "hidden",
-		                value : true
-		            },
-		            "preferences[isOpenEdition]" : {
-		                inputType : "hidden",
-		                value : true
-		            }
-			    }
-			}
-		}
-		/*form : {
-			url : "/"+moduleId+"/organization/addorganizationform",
-			title : "Ajouter une Organisation"
-		}*/	},
-	"organizations" : {col:"organizations",ctrl:"organization",color:"green",icon:"users"},
-	"event" : {
-		col:"events",
-		ctrl:"event",
-		icon : "calendar",
-		titleClass : "bg-orange",
-		bgClass : "bgEvent",
-		dynForm : {
-		    jsonSchema : {
-			    title : trad.addEvent,
-			    icon : "calendar",
-			    type : "object",
-			    onLoads : {
-			    	//pour creer un subevnt depuis un event existant
-			    	"subEvent" : function(){
-			    		//alert(contextData.type);
-			    		if(contextData.type == "events"){
-			    			$("#ajaxFormModal #parentId").removeClass('hidden');
-			    		
-		    				if( $('#ajaxFormModal #parentId > optgroup > option[value="'+contextData.id+'"]').length == 0 )
-			    				$('#ajaxFormModal #parentId > optgroup[label="events"]').prepend('<option value="'+contextData.id+'" selected>Fait parti de : '+contextData.name+'</option>');
-			    			else if ( contextData && contextData.id ){
-				    			$("#ajaxFormModal #parentId").val( contextData.id );
-			    			}
-			    			
-			    			if( contextData && contextData.type )
-			    				$("#ajaxFormModal #parentType").val( contextData.type ); 
-
-			    			if(contextData.startDate && contextData.endDate ){
-			    				$("#ajaxFormModal").after("<input type='hidden' id='startDateParent' value='"+contextData.startDate+"'/>"+
-			    										  "<input type='hidden' id='endDateParent' value='"+contextData.endDate+"'/>");
-			    				$("#ajaxFormModal #startDate").after("<span id='parentstartDate'><i class='fa fa-warning'></i> date début du parent : "+moment( contextData.startDate).format('YYYY/MM/DD HH:mm')+"</span>");
-			    				$("#ajaxFormModal #endDate").after("<span id='parentendDate'><i class='fa fa-warning'></i> date de fin du parent : "+moment( contextData.endDate).format('YYYY/MM/DD HH:mm')+"</span>");
-			    			}
-			    			//alert($("#ajaxFormModal #parentId").val() +" | "+$("#ajaxFormModal #parentType").val());
-			    		}
-			    		else {
-				    		if( $('#ajaxFormModal #organizerId > optgroup > option[value="'+contextData.id+'"]').length == 0 )
-			    				$('#ajaxFormModal #organizerId').prepend('<option data-type="'+typeObj[contextData.type].ctrl+'" value="'+contextData.id+'" selected>Organisé par : '+contextData.name+'</option>');
-			    			else if( contextData && contextData.id )
-				    			$("#ajaxFormModal #organizerId").val( contextData.id );
-			    			if( contextData && contextData.type )
-			    				$("#ajaxFormModal #organizerType").val( contextData.type);
-			    			//alert($("#ajaxFormModal #organizerId").val() +" | "+$("#ajaxFormModal #organizerType").val());
-			    		}
-			    	}
-			    },
-			    beforeSave : function(){
-			    	//alert("onBeforeSave");
-			    	
-			    	if( !$("#ajaxFormModal #allDay").val())
-			    		$("#ajaxFormModal #allDay").val(false);
-			    	if( typeof $("#ajaxFormModal #description").code === 'function' )
-			    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
-			    	mylog.log($("#ajaxFormModal #startDate").val(),moment( $("#ajaxFormModal #startDate").val()).format('YYYY/MM/DD HH:mm'));
-			    	//$("#ajaxFormModal #startDate").val( moment( $("#ajaxFormModal #startDate").val()).format('YYYY/MM/DD HH:mm'));
-					//$("#ajaxFormModal #startDate").val( moment( $("#ajaxFormModal #endDate").val()).format('YYYY/MM/DD HH:mm'));
-					mylog.log($("#ajaxFormModal #startDate").val());
-			    },
-			    properties : {
-			    	info : {
-		                "inputType" : "custom",
-		                "html":"<p><i class='fa fa-info-circle'></i> Si vous voulez créer un nouvel évènement de façon à le rendre plus visible : c'est le bon endroit !!<br>Vous pouvez inviter des participants, planifier des sous évènements, publier des actus lors de l'évènement...</p>",
-		            },
-		            name : {
-			        	placeholder : "Nom",
-			            "inputType" : "text",
-			            "rules" : { "required" : true },
-			            init : function(){
-			            	$("#ajaxFormModal #name ").off().on("blur",function(){
-			            		if($("#ajaxFormModal #name ").val().length > 3 )
-			            			globalSearch($(this).val(),["events"]);
-			            	});
-			            }
-			        },
-			        similarLink : {
-		                "inputType" : "custom",
-		                "html":"<div id='similarLink'><div id='listSameName'></div></div>",
-		            },
-			        organizerId :{
-			        	"rules" : { "required" : true },
-		            	"inputType" : "select",
-		            	"placeholder" : "Qui organise ?",
-		            	"rules" : { "required" : true },
-		            	"options" : firstOptions(),
-		            	"groupOptions" : myAdminList( ["organizations","projects"] ),
-			            init : function(){
-			            	$("#ajaxFormModal #organizerId").off().on("change",function(){
-			            		
-			            		organizerId = $(this).val();
-			            		if(organizerId == "dontKnow" )
-			            			organizerType = "dontKnow";
-			            		else if( $('#organizerId').find(':selected').data('type') && typeObj[$('#organizerId').find(':selected').data('type')] )
-			            			organizerType = typeObj[$('#organizerId').find(':selected').data('type')].col;
-			            		else
-			            			organizerType = typeObj["person"].col;
-
-			            		mylog.warn( "organizer",organizerId,organizerType );
-			            		$("#ajaxFormModal #organizerType ").val( organizerType );
-			            	});
-			            }
-		            },
-			        organizerType : {
-			            "inputType" : "hidden"
-			        },
-			        parentId :{
-		            	"inputType" : "select",
-		            	"class" : "hidden",
-		            	"placeholder" : "Fait parti d'un évènement ?",
-		            	"options" : {
-		            		"":"Pas de Parent"
-		            	},
-		            	"groupOptions" : myAdminList( ["events"] ),
-		            	init : function(){
-			            	$("#ajaxFormModal #parentId ").off().on("change",function(){
-			            		
-			            		parentId = $(this).val();
-			            		if( parentId != "" ){
-			            			if(typeof myContacts != "undefined")
-			            			$.each(myContacts.events,function (i,evObj) { 
-			            				//mylog.log("event : ",evObj["_id"]["$id"]);
-			            				if( evObj["_id"]["$id"] == parentId){
-			            					mylog.warn("event found : ",evObj.startDate+"|"+evObj.endDate);
-				            				$("#parentstartDate").html("<i class='fa fa-warning'></i> date début du parent : "+moment( evObj.startDate ).format('YYYY/MM/DD HH:mm'));
-				    						$("#parentendDate").html("<i class='fa fa-warning'></i> date de fin du parent : "+moment( evObj.endDate).format('YYYY/MM/DD HH:mm'));
-				    					}
-			            			});
-			            		}
-			            	});
-			            }
-		            },
-		            parentType : {
-			            "inputType" : "hidden"
-			        },
-			        type :{
-		            	"inputType" : "select",
-		            	"placeholder" : "Type d\'évènement",
-		            	"options" : eventTypes,
-		            	"rules" : { "required" : true },
-		            },
-		            allDay : {
-		            	"inputType" : "checkbox",
-		            	init : function(){
-			            	$("#ajaxFormModal #allDay").off().on("switchChange.bootstrapSwitch",function (e, data) {
-			            		mylog.log("toto",$("#ajaxFormModal #allDay").val());
-			            	})
-			            },
-		            	"switch" : {
-		            		"onText" : "Oui",
-		            		"offText" : "Non",
-		            		"labelText":"Toute la journée",
-		            		"onChange" : function(){
-		            			var allDay = $("#ajaxFormModal #allDay").is(':checked');
-		            			$("#ajaxFormModal #allDay").val($("#ajaxFormModal #allDay").is(':checked'));
-		            			if (allDay) {
-		            				$(".dateTimeInput").addClass("dateInput");
-		            				$(".dateTimeInput").removeClass("dateTimeInput");
-		            				$('.dateInput').datetimepicker('destroy');
-		            				$(".dateInput").datetimepicker({ 
-								        autoclose: true,
-								        lang: "fr",
-								        format: "d/m/Y",
-								        timepicker:false
-								    });
-								    startDate = moment($('#ajaxFormModal #startDate').val(), "DD/MM/YYYY HH:mm").format("DD/MM/YYYY");
-								    endDate = moment($('#ajaxFormModal #endDate').val(), "DD/MM/YYYY HH:mm").format("DD/MM/YYYY");
-		            			} else {
-		            				$(".dateInput").addClass("dateTimeInput");
-		            				$(".dateInput").removeClass("dateInput");
-		            				$('.dateTimeInput').datetimepicker('destroy');
-		            				$(".dateTimeInput").datetimepicker({ 
-					       				weekStart: 1,
-										step: 15,
-										lang: 'fr',
-										format: 'd/m/Y H:i'
-								    });
-								    
-		            				startDate = moment($('#ajaxFormModal #startDate').val(), "DD/MM/YYYY").format("DD/MM/YYYY HH:mm");
-									endDate = moment($('#ajaxFormModal #endDate').val(), "DD/MM/YYYY").format("DD/MM/YYYY HH:mm");
-		            			}
-							    $('#ajaxFormModal #startDate').val(startDate);
-								$('#ajaxFormModal #endDate').val(endDate);
-		            		}
-		            	}
-		            },
-		            startDate : {
-		                "inputType" : "datetime",
-		                "placeholder":"Date de début",
-			            "rules" : { 
-			            	required : true,
-			            	duringDates: ["#startDateParent","#endDateParent","la date de début"]
-			        	}
-		            },
-		            endDate : {
-		                "inputType" : "datetime",
-		                "placeholder":"Date de fin",
-			            "rules" : { 
-			            	required : true,
-			            	greaterThan: ["#ajaxFormModal #startDate","la date de début"],
-			            	duringDates: ["#ajaxFormModal #startDateParent","#ajaxFormModal #endDateParent","la date de fin"]
-					    }
-		            },
-		            /*public : {
-		            	"inputType" : "hidden",
-		            	"switch" : {
-		            		"onText" : "Privé",
-		            		"offText" : "Public",
-		            		"labelText":"Type"
-		            	}
-		            },*/
-		            location : {
-		                inputType : "location"
-		            },
-		            tags :{
-		              "inputType" : "tags",
-		              "placeholder" : "Tags de l\'événement",
-		              "values" : tagsList
-		            },
-		            formshowers : {
-		                "inputType" : "custom",
-		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".descriptionwysiwyg,.urltext\").slideToggle();activateSummernote(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (desc, urls)</a>",
-		            },
-			        
-			        description : {
-		                "inputType" : "wysiwyg",
-	            		"placeholder" : "Décrire c'est partager",
-			            init : function(){
-			            	$(".descriptionwysiwyg").css("display","none");
-			            }
-		            },
-		            url : {
-		                "inputType" :"text",
-		                "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
-		                "placeholder" : "url, lien, adresse web",
-		                init:function(){
-				            getMediaFromUrlContent("#url", ".resultGetUrl0",0);
-				            $(".urltext").css("display","none");
-			            }
-		            },
-		            /*urls : {
-			        	placeholder : "url",
-			            "inputType" : "array",
-			            "value" : [],
-			            init:function(){
-				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
-			            	$(".urlsarray").css("display","none");	
-			            }
-			        },*/
-		            "preferences[publicFields]" : {
-		                inputType : "hidden",
-		                value : []
-		            },
-		            "preferences[privateFields]" : {
-		                inputType : "hidden",
-		                value : []
-		            },
-		            "preferences[isOpenData]" : {
-		                inputType : "hidden",
-		                value : true
-		            },
-		            "preferences[isOpenEdition]" : {
-		                inputType : "hidden",
-		                value : true
-		            }
-			    }
-			}
-		}
-		/*form : {
-			url:"/"+moduleId+"/event/eventsv",
-			title : "Ajouter un évènement"
-		}*/	},
-	"events" : {col:"events",ctrl:"event",color:"orange"},
-	"projects" : {col:"projects",ctrl:"project",color:"purple",icon:"lightbulb-o"},
-	"project" : {
-		col:"projects",
-		ctrl:"project",
-		icon : "lightbulb-o",
-		titleClass : "bg-purple",
-		bgClass : "bgProject",
-		dynForm : {
-		    jsonSchema : {
-			    title : trad.addProject,
-			    icon : "lightbulb-o",
-			    type : "object",
-			    onLoads : {
-			    	//pour creer un subevnt depuis un event existant
-			    	"sub" : function(){
-			    			$("#ajaxFormModal #parentId").val( contextData.id );
-			    		 	$("#ajaxFormModal #parentType").val( contextData.type ); 
-			    		 	$("#ajax-modal-modal-title").html($("#ajax-modal-modal-title").html()+" sur "+contextData.name );
-			    	}
-			    },beforeSave : function(){
-			    	if( typeof $("#ajaxFormModal #description").code === 'function' ) 
-			    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
-			    },
-			    properties : {
-			    	info : {
-		                "inputType" : "custom",
-		                "html":"<p><i class='fa fa-info-circle'></i> Si vous voulez créer un nouveau projet de façon à le rendre plus visible : c'est le bon endroit !!<br>Vous pouvez ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
-		            },
-			        name : {
-			        	placeholder : "Nom",
-			            "inputType" : "text",
-			            "rules" : {
-			                "required" : true
-			            },
-			            init : function(){
-			            	$("#ajaxFormModal #name ").off().on("blur",function(){
-			            		if($("#ajaxFormModal #name ").val().length > 3 )
-			            			globalSearch($(this).val(),["projects"]);
-			            	});
-			            }
-			        },
-			        similarLink : {
-		                "inputType" : "custom",
-		                "html":"<div id='similarLink'><div id='listSameName'></div></div><div id='space20'></div>",
-		            },
-		            location : {
-		                inputType : "location"
-		            },
-		            tags :{
-		              "inputType" : "tags",
-		              "placeholder" : "Tags ou Types de l'organisation",
-		              "values" : tagsList
-		            },
-		            formshowers : {
-		                "inputType" : "custom",
-		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".descriptionwysiwyg,.urltext\").slideToggle();activateSummernote(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (desc, urls)</a>",
-		            },
-			        description : {
-		                "inputType" : "wysiwyg",
-	            		"placeholder" : "Décrire c'est partager",
-			            init : function(){
-			            	$(".descriptionwysiwyg").css("display","none");
-			            }
-		            },
-		            url : {
-		                "inputType" :"text",
-		                "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
-		                "placeholder" : "url, lien, adresse web",
-		                init:function(){
-				            getMediaFromUrlContent("#url", ".resultGetUrl0",0);
-				            $(".urltext").css("display","none");
-			            }
-		            },
-		            /*urls : {
-			        	placeholder : "url",
-			            "inputType" : "array",
-			            "value" : [],
-			            init:function(){
-				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
-			            	$(".urlsarray").css("display","none");	
-			            }
-			        },*/
-		            "preferences[publicFields]" : {
-		                inputType : "hidden",
-		                value : []
-		            },
-		            "preferences[privateFields]" : {
-		                inputType : "hidden",
-		                value : []
-		            },
-		            "preferences[isOpenData]" : {
-		                inputType : "hidden",
-		                value : true
-		            },
-		            "preferences[isOpenEdition]" : {
-		                inputType : "hidden",
-		                value : true
-		            },
-		            parentId :{
-		            	"inputType" : "hidden",
-		            	value : userId	
-		            },
-		            parentType : {
-			            "inputType" : "hidden",
-			            value : "citoyens"
-			        },
-			    }
-			}
-		} },
-	"city" : {col:"cities",ctrl:"city"},
-	"cities" : {col:"cities",ctrl:"city", titleClass : "bg-red", icon : "university",},
-	"entry" : {
-		col:"surveys",
-		ctrl:"survey",
-		titleClass : "bg-lightblue",
-		bgClass : "bgDDA",
-		icon : "gavel",
-		saveUrl : baseUrl+"/" + moduleId + "/survey/saveSession",
-		dynForm : {
-		    jsonSchema : {
-			    title : "Ajouter une proposition",
-			    icon : "gavel",
-			    type : "object",
-			    onLoads : {
-			    	//pour creer un subevnt depuis un event existant
-			    	"sub" : function(){
-		    			$("#ajaxFormModal #survey").val( contextData.id );
-		    		 	$("#ajax-modal-modal-title").html($("#ajax-modal-modal-title").html()+" sur "+contextData.name );
-			    	}
-			    },
-			    beforeSave : function(){
-			    	
-			    	if( typeof $("#ajaxFormModal #message").code === 'function' )  
-			    		$("#ajaxFormModal #message").val( $("#ajaxFormModal #message").code() );
-			    },
-			    properties : {
-			    	info : {
-		                "inputType" : "custom",
-		                "html":"<p><i class='fa fa-info-circle'></i> Une proposition sert à discuter et demander l'avis d'une communauté sur une idée ou une question donnée</p>",
-		            },
-			        id :{
-		              "inputType" : "hidden",
-		              "value" : ""
-		            },
-		            survey :{
-		            	inputType : "select",
-		            	placeholder : "Choisir une thématique ?",
-		            	init : function(){
-		            		if( userId )
-		            		{
-		            			/*filling the seclect*/
-			            		if(notNull(window.myVotesList)){
-			            			html = buildSelectGroupOptions( window.myVotesList);
-			            			$("#survey").append(html); 
-			            		} else {
-			            			getAjax( null , baseUrl+"/" + moduleId + "/rooms/index/type/citoyens/id/"+userId+"/view/data/fields/votes" , function(data){
-			            			    window.myVotesList = {};
-			            			    $.each( data.votes , function( k,v ) 
-			            			    { 
-			            			    	parentName = "";
-				            			    if(!window.myVotesList[ v.parentType]){
-				            			    	var label = ( v.parentType == "cities" && cpCommunexion && v.parentId.indexOf(cpCommunexion) ) ? cityNameCommunexion : v.parentType;
-				            			    	window.myVotesList[ v.parentType] = {"label":label};
-				            			    	window.myVotesList[ v.parentType].options = {}
-				            			    }else{
-				            			    	//if(notNull(myContactsById[v.parentType]) && notNull(myContactsById[v.parentType][v['_id']['$id']]))
-				            			    	//parentName = myContactsById[v.parentType][v['_id']['$id']].name;
-				            			    }
-			            			    	window.myVotesList[ v.parentType].options[v['_id']['$id'] ] = v.name+parentName; 
-			            			    }); 
-			            			    //run through myContacts to fill parent names 
-			            			    mylog.dir(window.myVotesList);
-			            			    
-			            			    html = buildSelectGroupOptions(window.myVotesList);
-										$("#survey").append(html);
-										if(contextData && contextData.id)
-											$("#ajaxFormModal #survey").val( contextData.id );
-								    } );
-			            		}
-			            		/*$("#survey").change(function() { 
-			            			mylog.dir( $(this).val().split("_"));
-			            		});*/
-
-		            		}
-		            	},
-		            	custom : "<br/><span class='text-small'>Une thématique est un espace de décision lié à une ville, une organisation ou un projet <br/>Vous pouvez créer des espaces coopératifs sur votre commune, organisation et projet</span>"
-		            },
-		            name :{
-		              "inputType" : "text",
-		              "placeholder" : "Titre de la proposition",
-		              "rules" : { "required" : true }
-		            },
-		            message :{
-		              "inputType" : "wysiwyg",
-		              "placeholder" : "Texte de la proposition",
-		              "rules" : { "required" : true },
-		              init:function(){
-				      	activateSummernote("#ajaxFormModal #message");
-			            }
-		              
-		            },
-		            dateEnd :{
-		              "inputType" : "date",
-		              "placeholder" : "Fin de la période de vote",
-		              "rules" : { 
-		              	required : true,
-		              	greaterThanNow : ["DD/MM/YYYY"]
-		              }
-		            },
-		            tags :{
-		                "inputType" : "tags",
-		                "placeholder" : "Tags",
-		                "values" : tagsList
-		            },
-		            formshowers : {
-		                "inputType" : "custom",
-		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options ( urls)</a>",
-		            },
-		            urls : {
-		                "inputType" : "array",
-		                "placeholder" : "url, informations supplémentaires, actions à faire, etc",
-		                "value" : [],
-			            init:function(){
-				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
-			            	$(".urlsarray").css("display","none");	
-			            }
-		            },
-		            email:{
-		            	inputType : "hidden",
-		            	value : (userId!=null && userConnected!=null) ? userConnected.email : ""
-		            },
-		            organizer:{
-		            	inputType : "hidden",
-		            	value : "currentUser"
-		            },
-		            type : {
-		            	inputType : "hidden",
-		            	value : "entry"
-		            }
-			    }
-			}
-		}},
-	"vote" : {col:"actionRooms",ctrl:"survey"},
-	"survey" : {col:"actionRooms",ctrl:"survey",color:"lightblue2",icon:"cog"},
-	"action" : {
-		col:"actions",
-		ctrl:"room",
-		titleClass : "bg-lightblue",
-		bgClass : "bgDDA",
-		icon : "cogs",
-		saveUrl : baseUrl+"/" + moduleId + "/rooms/saveaction",
-		dynForm : {
-		    jsonSchema : {
-			    title : "Ajouter une action",
-			    icon : "gavel",
-			    type : "object",
-			    onLoads : {
-			    	//pour creer un subevnt depuis un event existant
-			    	"sub" : function(){
-			    		$("#ajaxFormModal #room").val( contextData.id );
-		    		 	$("#ajax-modal-modal-title").html($("#ajax-modal-modal-title").html()+" sur "+contextData.name );
-			    	}
-			    },
-			    beforeSave : function(){
-			    	if( typeof $("#ajaxFormModal #message").code === 'function' ) 
-			    		$("#ajaxFormModal #message").val( $("#ajaxFormModal #message").code() );
-			    },
-			    properties : {
-			    	info : {
-		                "inputType" : "custom",
-		                "html":"<p><i class='fa fa-info-circle'></i> Une Action permet de faire avancer votre projet ou le fonctionnement de votre association</p>",
-		            },
-			        id :{
-		              "inputType" : "hidden",
-		              "value" : ""
-		            },
-		            room :{
-		            	inputType : "select",
-		            	placeholder : "Choisir une thématique ?",
-		            	init : function(){
-		            		if( userId )
-		            		{
-		            			/*filling the seclect*/
-			            		if(notNull(window.myActionsList)){
-			            			html = buildSelectGroupOptions( window.myActionsList);
-			            			$("#room").append(html); 
-			            		} else {
-			            			getAjax( null , baseUrl+"/" + moduleId + "/rooms/index/type/citoyens/id/"+userId+"/view/data/fields/actions" , function(data){
-			            			    window.myActionsList = {};
-			            			    $.each( data.actions , function( k,v ) 
-			            			    { mylog.log(v.parentType,v.parentId);
-			            			    	if(v.parentType){
-					            			    if( !window.myActionsList[ v.parentType] ){
-					            			    	var label = ( v.parentType == "cities" && cpCommunexion && v.parentId.indexOf(cpCommunexion) ) ? cityNameCommunexion : v.parentType;
-					            			    	window.myActionsList[ v.parentType] = {"label":label};
-					            			    	window.myActionsList[ v.parentType].options = {};
-					            			    }
-				            			    	window.myActionsList[ v.parentType].options[v['_id']['$id'] ] = v.name; 
-				            			    }
-			            			    }); 
-			            			    mylog.dir(window.myActionsList);
-			            			    html = buildSelectGroupOptions(window.myActionsList);
-										$("#room").append(html);
-										if(contextData && contextData.id)
-											$("#ajaxFormModal #room").val( contextData.id );
-								    } );
-			            		}
-		            		}
-		            	},
-		            	custom : "<br/><span class='text-small'>Choisir l'espace où s'ajoutera votre action parmi vos organisations et projets<br/>Vous pouvez créer des espaces coopératifs sur votre commune, organisation et projet  </span>"
-		            },
-		            name :{
-		              "inputType" : "text",
-		              "placeholder" : "Titre de la l'action",
-		              "rules" : { "required" : true }
-		            },
-		            message :{
-		              "inputType" : "wysiwyg",
-		              "placeholder" : "Description de l'action'",
-		              "rules" : { "required" : true },
-		              init:function(){
-				      	activateSummernote("#ajaxFormModal #message");
-			            }
-		            },
-		            startDate :{
-		              "inputType" : "date",
-		              "placeholder" : "Date de début"
-		            },
-		            dateEnd :{
-		              "inputType" : "date",
-		              "placeholder" : "Date de fin"
-		            },
-
-		         	tags :{
-		                "inputType" : "tags",
-		                "placeholder" : "Tags",
-		                "values" : tagsList
-		            },
-		            formshowers : {
-		                "inputType" : "custom",
-		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options (urls)</a>",
-		            },
-		            urls : {
-		                "inputType" : "array",
-		                "placeholder" : "url",
-		                "value" : [],
-			            init:function(){
-				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
-			            	$(".urlsarray").css("display","none");	
-			            }
-		            },
-		            email:{
-		            	inputType : "hidden",
-		            	value : (userId!=null && userConnected != null) ? userConnected.email : ""
-		            },
-		            organizer:{
-		            	inputType : "hidden",
-		            	value : "currentUser"
-		            },
-		            "type" : {
-		            	inputType : "hidden",
-		            	value : "action"
-		            },
-		            parentId :{
-		            	"inputType" : "hidden",
-		            	value : userId	
-		            },
-		            parentType : {
-			            "inputType" : "hidden",
-			            value : "citoyens"
-			        },
-			    }
-			}
-		} },
-	"actions" : {col:"actions",ctrl:"room"},
-	"rooms" : {col:"actions",ctrl:"room",color:"azure",icon:"gavel"},
-	"discuss" : {col:"actionRooms",ctrl:"room"}
-};
 
 function  firstOptions() { 
 	var res = {
@@ -3148,4 +2156,1019 @@ var favorite = {
 		} else
 			toastr.error(trad.LoginFirst);
 	}
+};
+
+var contextData = null;
+var typeObj = {
+	"person" : {
+		col : "citoyens" , 
+		ctrl : "person",
+		titleClass : "bg-yellow",
+		bgClass : "bgPerson",
+		color:"yellow",
+		icon:"user",
+		lbh : "#person.invite",
+		dynForm : {
+		    jsonSchema : {
+			    title : "Inviter quelqu'un",
+			    icon : "user",
+			    type : "object",
+			    properties : {
+			    	info : {
+		                "inputType" : "custom",
+		                "html":"<p><i class='fa fa-info-circle'></i> Si vous voulez créer un nouveau projet de façon à le rendre plus visible : c'est le bon endroit !!<br>Vous pouvez ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
+		            },
+		            inviteSearch : {
+		            	placeholder : " Nom ou Email",
+			            "inputType" : "text",
+			            "rules" : {
+			                "required" : true
+			            },
+			            init : function(){
+			            	$("#ajaxFormModal #inviteSearch ").keyup(function(e){
+						    var search = $('#inviteSearch').val();
+						    if(search.length>2){
+						    	clearTimeout(timeout);
+								timeout = setTimeout('autoCompleteInviteSearch("'+encodeURI(search)+'")', 500); 
+							}else{
+							 	$("#newInvite #dropdown_searchInvite").css({"display" : "none" });	
+							}	
+						});
+			            }
+		            },
+			        invitedUserName : {
+			        	placeholder : "Nom",
+			            "inputType" : "text",
+			            "rules" : {
+			                "required" : true
+			            },
+			            init : function(){
+			            	$(".invitedUserNametext").css("display","none");	
+			            }
+			        },
+			        invitedUserEmail : {
+			        	placeholder : "Email",
+			            "inputType" : "text",
+			            "rules" : {
+			                "required" : true
+			            },
+			            init:function(){
+			            	$(".invitedUserEmailtext").css("display","none");	 
+			            }
+			        },
+			        "preferences[publicFields]" : {
+		                inputType : "hidden",
+		                value : []
+		            },
+		            "preferences[privateFields]" : {
+		                inputType : "hidden",
+		                value : []
+		            },
+		            "preferences[isOpenData]" : {
+		                inputType : "hidden",
+		                value : false
+		            },
+			    }
+			}
+		}
+	},
+	"persons" : {col:"citoyens" , ctrl:"person"},
+	"citoyen" : {col:"citoyens" , ctrl:"person"},
+	"citoyens" : {col:"citoyens" , ctrl:"person",color:"yellow",icon:"user"},
+	"poi":{ 
+		col:"poi",
+		ctrl:"poi",
+		color:"azure",
+		icon:"info-circle",
+
+		dynForm : {
+		    jsonSchema : {
+			    title : "Point of interest Form",
+			    icon : "map-marker",
+			    type : "object",
+			    
+			    onLoads : {
+			    	//pour creer un subevnt depuis un event existant
+			    	subPoi : function(){
+			    		if(contextData.type && contextData.id ){
+		    				$('#ajaxFormModal #parentId').val(contextData.id);
+			    			$("#ajaxFormModal #parentType").val( contextData.type ); 
+			    		}
+			    		
+			    	}/*,
+			    	loadData : function(data){
+				    	mylog.warn("--------------- loadData ---------------------",data);
+				    	$('#ajaxFormModal #name').val(data.name);
+				    	$('#ajaxFormModal #type').val(data.type);
+				    	$('#ajaxFormModal #parentId').val(data.parentId);
+			    		$("#ajaxFormModal #parentType").val( data.parentType ); 
+				    },*/
+			    },
+			    properties : {
+			    	info : {
+		                "inputType" : "custom",
+		                "html":"<p><i class='fa fa-info-circle'></i> Un Point d'interet est un élément assez libre qui peut etre géolocalisé ou pas, qui peut etre rataché à une organisation, un projet ou un évènement.</p>",
+		            },
+		            type :{
+		            	"inputType" : "select",
+		            	"placeholder" : "Type du point d'intérêt",
+		            	"options" : poiTypes
+		            },
+			        name : {
+			        	placeholder : "Nom",
+			            "inputType" : "text",
+			            "rules" : { "required" : true }
+			        },
+		            description : {
+		                "inputType" : "wysiwyg",
+	            		"placeholder" : "Décrire c'est partager",
+	            		init:function(){
+				      		activateSummernote("#ajaxFormModal #description");
+			            }
+		            },
+		            location : {
+		                inputType : "location"
+		            },
+		            tags :{
+		                "inputType" : "tags",
+		                "placeholder" : "Tags ou Types de point d'interet",
+		                "values" : tagsList
+		            },
+		            formshowers : {
+		                "inputType" : "custom",
+		                "html": "<a class='btn btn-default text-dark w100p' href='javascript:;' onclick='$(\".urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options (urls)</a>",
+		            },
+		            urls : {
+			        	placeholder : "url",
+			            "inputType" : "array",
+			            "value" : [],
+			            init:function(){
+				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
+			            	$(".urlsarray").css("display","none");	
+			            }
+			        },
+		            parentId :{
+		            	"inputType" : "hidden"
+		            },
+		            parentType : {
+			            "inputType" : "hidden"
+			        },
+			    }
+			}
+		}},
+		"siteurl":{ 
+		col:"siteurl",
+		ctrl:"siteurl",
+		dynForm : {
+		    jsonSchema : {
+			    title : "Point of interest Form",
+			    icon : "map-marker",
+			    type : "object",
+			    
+			    onLoads : {
+			    	//pour creer un subevnt depuis un event existant
+			    	subPoi : function(){
+			    		if(contextData.type && contextData.id ){
+		    				$('#ajaxFormModal #parentId').val(contextData.id);
+			    			$("#ajaxFormModal #parentType").val( contextData.type ); 
+			    		}
+			    		
+			    	}/*,
+			    	loadData : function(data){
+				    	mylog.warn("--------------- loadData ---------------------",data);
+				    	$('#ajaxFormModal #name').val(data.name);
+				    	$('#ajaxFormModal #type').val(data.type);
+				    	$('#ajaxFormModal #parentId').val(data.parentId);
+			    		$("#ajaxFormModal #parentType").val( data.parentType ); 
+				    },*/
+			    },
+			    properties : {
+			    	info : {
+		                "inputType" : "custom",
+		                "html":"<p><i class='fa fa-info-circle'></i> Une url.</p>",
+		            },
+		            urls : {
+			        	placeholder : "url",
+			            "inputType" : "array",
+			            "value" : [],
+			            init:function(){
+				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
+			            	//$(".urlsarray").css("display","none");	
+			            }
+			        },
+		            type :{
+		            	"inputType" : "select",
+		            	"placeholder" : "Type du point d'intérêt",
+		            	"options" : poiTypes
+		            },
+			        name : {
+			        	placeholder : "Nom",
+			            "inputType" : "text",
+			            "rules" : { "required" : true }
+			        },
+		            description : {
+		                "inputType" : "wysiwyg",
+	            		"placeholder" : "Décrire c'est partager",
+	            		init:function(){
+				      		activateSummernote("#ajaxFormModal #description");
+			            }
+		            },
+		            location : {
+		                inputType : "location"
+		            },
+		            tags :{
+		                "inputType" : "tags",
+		                "placeholder" : "Tags ou Types de point d'interet",
+		                "values" : tagsList
+		            },
+		            
+		            parentId :{
+		            	"inputType" : "hidden"
+		            },
+		            parentType : {
+			            "inputType" : "hidden"
+			        },
+			    }
+			}
+		}},
+	"organization" : { 
+		col:"organizations", 
+		ctrl:"organization", 
+		icon : "group",
+		titleClass : "bg-green",
+		color:"green",
+		bgClass : "bgOrga",
+		dynForm : {
+		    jsonSchema : {
+			    title : trad.addOrganization,
+			    icon : "group",
+			    type : "object",
+			    beforeSave : function(){
+			    	if (typeof $("#ajaxFormModal #description").code === 'function' ) 
+			    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
+			    },
+			    properties : {
+			    	info : {
+		                "inputType" : "custom",
+		                "html":"<p><i class='fa fa-info-circle'></i> Si vous voulez créer une nouvelle organisation de façon à le rendre plus visible : c'est le bon endroit !!<br>Vous pouvez ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
+		            },
+			        name : {
+			        	placeholder : "Nom",
+			            "inputType" : "text",
+			            "rules" : { "required" : true },
+			            init : function(){
+			            	$("#ajaxFormModal #name ").off().on("blur",function(){
+			            		if($("#ajaxFormModal #name ").val().length > 3 )
+				            		globalSearch($(this).val(),["organizations"]);
+			            	});
+			            }
+			        },
+			        similarLink : {
+		                "inputType" : "custom",
+		                "html":"<div id='similarLink'><div id='listSameName'></div></div>",
+		            },
+			        type :{
+		            	"inputType" : "select",
+		            	"placeholder" : "Type d'organisation",
+		            	"rules" : { "required" : true },
+		            	"options" : organizationTypes
+		            },
+		            role :{
+		            	"inputType" : "select",
+		            	"placeholder" : "Quel est votre rôle dans cette organisation ?",
+		            	"rules" : { "required" : true },
+		            	//value : "admin",
+		            	"options" : {
+		            		admin : trad.administrator,
+							member : trad.member,
+							creator : trad.justCitizen
+		            	}
+		            },
+		            location : {
+		                inputType : "location"
+		            },
+		            tags :{
+		              "inputType" : "tags",
+		              "placeholder" : "Tags ou Types de l'organisation",
+		              "values" : tagsList
+		            },
+		            formshowers : {
+		                "inputType" : "custom",
+		                "html":
+						"<a class='btn btn-default text-dark w100p' href='javascript:;' onclick='$(\".emailtext,.descriptionwysiwyg,.urltext\").slideToggle();activateSummernote(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (email, desc, urls, telephone)</a>",
+		            },
+		            email : {
+			        	placeholder : "Email du responsable",
+			            "inputType" : "text",
+			            init : function(){
+			            	$(".emailtext").css("display","none");
+			            }
+			        },
+			        
+			        description : {
+		                "inputType" : "wysiwyg",
+	            		"placeholder" : "Décrire c'est partager",
+			            init : function(){
+			            	$(".descriptionwysiwyg").css("display","none");
+			            }
+		            },
+		            url : {
+		                "inputType" :"text",
+		                "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
+		                "placeholder" : "url, lien, adresse web",
+		                init:function(){
+				            getMediaFromUrlContent("#url", ".resultGetUrl0",0);
+				            $(".urltext").css("display","none");
+			            }
+		            },
+		            /*urls : {
+			        	placeholder : "URL du site web",
+			            "inputType" : "array",
+			            "value" : [],
+			            init:function(){
+				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
+			            	$(".urlsarray").css("display","none");	
+			            }
+			        },*/
+			        telephone : {
+			        	placeholder : "Téléphne",
+			            "inputType" : "text",
+			            init : function(){
+			            	$(".telephonetext").css("display","none");
+			            }
+			        },
+		            "preferences[publicFields]" : {
+		                inputType : "hidden",
+		                value : []
+		            },
+		            "preferences[privateFields]" : {
+		                inputType : "hidden",
+		                value : []
+		            },
+		            "preferences[isOpenData]" : {
+		                inputType : "hidden",
+		                value : true
+		            },
+		            "preferences[isOpenEdition]" : {
+		                inputType : "hidden",
+		                value : true
+		            }
+			    }
+			}
+		}
+		/*form : {
+			url : "/"+moduleId+"/organization/addorganizationform",
+			title : "Ajouter une Organisation"
+		}*/	},
+	"organizations" : {col:"organizations",ctrl:"organization",color:"green",icon:"users"},
+	"event" : {
+		col:"events",
+		ctrl:"event",
+		icon : "calendar",
+		titleClass : "bg-orange",
+		color:"orange",
+		bgClass : "bgEvent",
+		dynForm : {
+		    jsonSchema : {
+			    title : trad.addEvent,
+			    icon : "calendar",
+			    type : "object",
+			    onLoads : {
+			    	//pour creer un subevnt depuis un event existant
+			    	"subEvent" : function(){
+			    		//alert(contextData.type);
+			    		if(contextData.type == "events"){
+			    			$("#ajaxFormModal #parentId").removeClass('hidden');
+			    		
+		    				if( $('#ajaxFormModal #parentId > optgroup > option[value="'+contextData.id+'"]').length == 0 )
+			    				$('#ajaxFormModal #parentId > optgroup[label="events"]').prepend('<option value="'+contextData.id+'" selected>Fait parti de : '+contextData.name+'</option>');
+			    			else if ( contextData && contextData.id ){
+				    			$("#ajaxFormModal #parentId").val( contextData.id );
+			    			}
+			    			
+			    			if( contextData && contextData.type )
+			    				$("#ajaxFormModal #parentType").val( contextData.type ); 
+
+			    			if(contextData.startDate && contextData.endDate ){
+			    				$("#ajaxFormModal").after("<input type='hidden' id='startDateParent' value='"+contextData.startDate+"'/>"+
+			    										  "<input type='hidden' id='endDateParent' value='"+contextData.endDate+"'/>");
+			    				$("#ajaxFormModal #startDate").after("<span id='parentstartDate'><i class='fa fa-warning'></i> date début du parent : "+moment( contextData.startDate).format('YYYY/MM/DD HH:mm')+"</span>");
+			    				$("#ajaxFormModal #endDate").after("<span id='parentendDate'><i class='fa fa-warning'></i> date de fin du parent : "+moment( contextData.endDate).format('YYYY/MM/DD HH:mm')+"</span>");
+			    			}
+			    			//alert($("#ajaxFormModal #parentId").val() +" | "+$("#ajaxFormModal #parentType").val());
+			    		}
+			    		else {
+				    		if( $('#ajaxFormModal #organizerId > optgroup > option[value="'+contextData.id+'"]').length == 0 )
+			    				$('#ajaxFormModal #organizerId').prepend('<option data-type="'+typeObj[contextData.type].ctrl+'" value="'+contextData.id+'" selected>Organisé par : '+contextData.name+'</option>');
+			    			else if( contextData && contextData.id )
+				    			$("#ajaxFormModal #organizerId").val( contextData.id );
+			    			if( contextData && contextData.type )
+			    				$("#ajaxFormModal #organizerType").val( contextData.type);
+			    			//alert($("#ajaxFormModal #organizerId").val() +" | "+$("#ajaxFormModal #organizerType").val());
+			    		}
+			    	}
+			    },
+			    beforeSave : function(){
+			    	//alert("onBeforeSave");
+			    	
+			    	if( !$("#ajaxFormModal #allDay").val())
+			    		$("#ajaxFormModal #allDay").val(false);
+			    	if( typeof $("#ajaxFormModal #description").code === 'function' )
+			    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
+			    	mylog.log($("#ajaxFormModal #startDate").val(),moment( $("#ajaxFormModal #startDate").val()).format('YYYY/MM/DD HH:mm'));
+			    	//$("#ajaxFormModal #startDate").val( moment( $("#ajaxFormModal #startDate").val()).format('YYYY/MM/DD HH:mm'));
+					//$("#ajaxFormModal #startDate").val( moment( $("#ajaxFormModal #endDate").val()).format('YYYY/MM/DD HH:mm'));
+					mylog.log($("#ajaxFormModal #startDate").val());
+			    },
+			    properties : {
+			    	info : {
+		                "inputType" : "custom",
+		                "html":"<p><i class='fa fa-info-circle'></i> Si vous voulez créer un nouvel évènement de façon à le rendre plus visible : c'est le bon endroit !!<br>Vous pouvez inviter des participants, planifier des sous évènements, publier des actus lors de l'évènement...</p>",
+		            },
+		            name : {
+			        	placeholder : "Nom",
+			            "inputType" : "text",
+			            "rules" : { "required" : true },
+			            init : function(){
+			            	$("#ajaxFormModal #name ").off().on("blur",function(){
+			            		if($("#ajaxFormModal #name ").val().length > 3 )
+			            			globalSearch($(this).val(),["events"]);
+			            	});
+			            }
+			        },
+			        similarLink : {
+		                "inputType" : "custom",
+		                "html":"<div id='similarLink'><div id='listSameName'></div></div>",
+		            },
+			        organizerId :{
+			        	"rules" : { "required" : true },
+		            	"inputType" : "select",
+		            	"placeholder" : "Qui organise ?",
+		            	"rules" : { "required" : true },
+		            	"options" : firstOptions(),
+		            	"groupOptions" : myAdminList( ["organizations","projects"] ),
+			            init : function(){
+			            	$("#ajaxFormModal #organizerId").off().on("change",function(){
+			            		
+			            		organizerId = $(this).val();
+			            		if(organizerId == "dontKnow" )
+			            			organizerType = "dontKnow";
+			            		else if( $('#organizerId').find(':selected').data('type') && typeObj[$('#organizerId').find(':selected').data('type')] )
+			            			organizerType = typeObj[$('#organizerId').find(':selected').data('type')].col;
+			            		else
+			            			organizerType = typeObj["person"].col;
+
+			            		mylog.warn( "organizer",organizerId,organizerType );
+			            		$("#ajaxFormModal #organizerType ").val( organizerType );
+			            	});
+			            }
+		            },
+			        organizerType : {
+			            "inputType" : "hidden"
+			        },
+			        parentId :{
+		            	"inputType" : "select",
+		            	"class" : "hidden",
+		            	"placeholder" : "Fait parti d'un évènement ?",
+		            	"options" : {
+		            		"":"Pas de Parent"
+		            	},
+		            	"groupOptions" : myAdminList( ["events"] ),
+		            	init : function(){
+			            	$("#ajaxFormModal #parentId ").off().on("change",function(){
+			            		
+			            		parentId = $(this).val();
+			            		if( parentId != "" ){
+			            			if(typeof myContacts != "undefined")
+			            			$.each(myContacts.events,function (i,evObj) { 
+			            				//mylog.log("event : ",evObj["_id"]["$id"]);
+			            				if( evObj["_id"]["$id"] == parentId){
+			            					mylog.warn("event found : ",evObj.startDate+"|"+evObj.endDate);
+				            				$("#parentstartDate").html("<i class='fa fa-warning'></i> date début du parent : "+moment( evObj.startDate ).format('YYYY/MM/DD HH:mm'));
+				    						$("#parentendDate").html("<i class='fa fa-warning'></i> date de fin du parent : "+moment( evObj.endDate).format('YYYY/MM/DD HH:mm'));
+				    					}
+			            			});
+			            		}
+			            	});
+			            }
+		            },
+		            parentType : {
+			            "inputType" : "hidden"
+			        },
+			        type :{
+		            	"inputType" : "select",
+		            	"placeholder" : "Type d\'évènement",
+		            	"options" : eventTypes,
+		            	"rules" : { "required" : true },
+		            },
+		            allDay : {
+		            	"inputType" : "checkbox",
+		            	init : function(){
+			            	$("#ajaxFormModal #allDay").off().on("switchChange.bootstrapSwitch",function (e, data) {
+			            		mylog.log("toto",$("#ajaxFormModal #allDay").val());
+			            	})
+			            },
+		            	"switch" : {
+		            		"onText" : "Oui",
+		            		"offText" : "Non",
+		            		"labelText":"Toute la journée",
+		            		"onChange" : function(){
+		            			var allDay = $("#ajaxFormModal #allDay").is(':checked');
+		            			$("#ajaxFormModal #allDay").val($("#ajaxFormModal #allDay").is(':checked'));
+		            			if (allDay) {
+		            				$(".dateTimeInput").addClass("dateInput");
+		            				$(".dateTimeInput").removeClass("dateTimeInput");
+		            				$('.dateInput').datetimepicker('destroy');
+		            				$(".dateInput").datetimepicker({ 
+								        autoclose: true,
+								        lang: "fr",
+								        format: "d/m/Y",
+								        timepicker:false
+								    });
+								    startDate = moment($('#ajaxFormModal #startDate').val(), "DD/MM/YYYY HH:mm").format("DD/MM/YYYY");
+								    endDate = moment($('#ajaxFormModal #endDate').val(), "DD/MM/YYYY HH:mm").format("DD/MM/YYYY");
+		            			} else {
+		            				$(".dateInput").addClass("dateTimeInput");
+		            				$(".dateInput").removeClass("dateInput");
+		            				$('.dateTimeInput').datetimepicker('destroy');
+		            				$(".dateTimeInput").datetimepicker({ 
+					       				weekStart: 1,
+										step: 15,
+										lang: 'fr',
+										format: 'd/m/Y H:i'
+								    });
+								    
+		            				startDate = moment($('#ajaxFormModal #startDate').val(), "DD/MM/YYYY").format("DD/MM/YYYY HH:mm");
+									endDate = moment($('#ajaxFormModal #endDate').val(), "DD/MM/YYYY").format("DD/MM/YYYY HH:mm");
+		            			}
+							    $('#ajaxFormModal #startDate').val(startDate);
+								$('#ajaxFormModal #endDate').val(endDate);
+		            		}
+		            	}
+		            },
+		            startDate : {
+		                "inputType" : "datetime",
+		                "placeholder":"Date de début",
+			            "rules" : { 
+			            	required : true,
+			            	duringDates: ["#startDateParent","#endDateParent","la date de début"]
+			        	}
+		            },
+		            endDate : {
+		                "inputType" : "datetime",
+		                "placeholder":"Date de fin",
+			            "rules" : { 
+			            	required : true,
+			            	greaterThan: ["#ajaxFormModal #startDate","la date de début"],
+			            	duringDates: ["#ajaxFormModal #startDateParent","#ajaxFormModal #endDateParent","la date de fin"]
+					    }
+		            },
+		            /*public : {
+		            	"inputType" : "hidden",
+		            	"switch" : {
+		            		"onText" : "Privé",
+		            		"offText" : "Public",
+		            		"labelText":"Type"
+		            	}
+		            },*/
+		            location : {
+		                inputType : "location"
+		            },
+		            tags :{
+		              "inputType" : "tags",
+		              "placeholder" : "Tags de l\'événement",
+		              "values" : tagsList
+		            },
+		            formshowers : {
+		                "inputType" : "custom",
+		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".descriptionwysiwyg,.urltext\").slideToggle();activateSummernote(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (desc, urls)</a>",
+		            },
+			        
+			        description : {
+		                "inputType" : "wysiwyg",
+	            		"placeholder" : "Décrire c'est partager",
+			            init : function(){
+			            	$(".descriptionwysiwyg").css("display","none");
+			            }
+		            },
+		            url : {
+		                "inputType" :"text",
+		                "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
+		                "placeholder" : "url, lien, adresse web",
+		                init:function(){
+				            getMediaFromUrlContent("#url", ".resultGetUrl0",0);
+				            $(".urltext").css("display","none");
+			            }
+		            },
+		            /*urls : {
+			        	placeholder : "url",
+			            "inputType" : "array",
+			            "value" : [],
+			            init:function(){
+				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
+			            	$(".urlsarray").css("display","none");	
+			            }
+			        },*/
+		            "preferences[publicFields]" : {
+		                inputType : "hidden",
+		                value : []
+		            },
+		            "preferences[privateFields]" : {
+		                inputType : "hidden",
+		                value : []
+		            },
+		            "preferences[isOpenData]" : {
+		                inputType : "hidden",
+		                value : true
+		            },
+		            "preferences[isOpenEdition]" : {
+		                inputType : "hidden",
+		                value : true
+		            }
+			    }
+			}
+		}
+		/*form : {
+			url:"/"+moduleId+"/event/eventsv",
+			title : "Ajouter un évènement"
+		}*/	},
+	"events" : {col:"events",ctrl:"event",color:"orange"},
+	"projects" : {col:"projects",ctrl:"project",color:"purple",icon:"lightbulb-o"},
+	"project" : {
+		col:"projects",
+		ctrl:"project",
+		icon : "lightbulb-o",
+		titleClass : "bg-purple",
+		color:"purple",
+		bgClass : "bgProject",
+		dynForm : {
+		    jsonSchema : {
+			    title : trad.addProject,
+			    icon : "lightbulb-o",
+			    type : "object",
+			    onLoads : {
+			    	//pour creer un subevnt depuis un event existant
+			    	"sub" : function(){
+			    			$("#ajaxFormModal #parentId").val( contextData.id );
+			    		 	$("#ajaxFormModal #parentType").val( contextData.type ); 
+			    		 	$("#ajax-modal-modal-title").html($("#ajax-modal-modal-title").html()+" sur "+contextData.name );
+			    	}
+			    },beforeSave : function(){
+			    	if( typeof $("#ajaxFormModal #description").code === 'function' ) 
+			    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
+			    },
+			    properties : {
+			    	info : {
+		                "inputType" : "custom",
+		                "html":"<p><i class='fa fa-info-circle'></i> Si vous voulez créer un nouveau projet de façon à le rendre plus visible : c'est le bon endroit !!<br>Vous pouvez ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
+		            },
+			        name : {
+			        	placeholder : "Nom",
+			            "inputType" : "text",
+			            "rules" : {
+			                "required" : true
+			            },
+			            init : function(){
+			            	$("#ajaxFormModal #name ").off().on("blur",function(){
+			            		if($("#ajaxFormModal #name ").val().length > 3 )
+			            			globalSearch($(this).val(),["projects"]);
+			            	});
+			            }
+			        },
+			        similarLink : {
+		                "inputType" : "custom",
+		                "html":"<div id='similarLink'><div id='listSameName'></div></div><div id='space20'></div>",
+		            },
+		            location : {
+		                inputType : "location"
+		            },
+		            tags :{
+		              "inputType" : "tags",
+		              "placeholder" : "Tags ou Types de l'organisation",
+		              "values" : tagsList
+		            },
+		            formshowers : {
+		                "inputType" : "custom",
+		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".descriptionwysiwyg,.urltext\").slideToggle();activateSummernote(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (desc, urls)</a>",
+		            },
+			        description : {
+		                "inputType" : "wysiwyg",
+	            		"placeholder" : "Décrire c'est partager",
+			            init : function(){
+			            	$(".descriptionwysiwyg").css("display","none");
+			            }
+		            },
+		            url : {
+		                "inputType" :"text",
+		                "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
+		                "placeholder" : "url, lien, adresse web",
+		                init:function(){
+				            getMediaFromUrlContent("#url", ".resultGetUrl0",0);
+				            $(".urltext").css("display","none");
+			            }
+		            },
+		            /*urls : {
+			        	placeholder : "url",
+			            "inputType" : "array",
+			            "value" : [],
+			            init:function(){
+				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
+			            	$(".urlsarray").css("display","none");	
+			            }
+			        },*/
+		            "preferences[publicFields]" : {
+		                inputType : "hidden",
+		                value : []
+		            },
+		            "preferences[privateFields]" : {
+		                inputType : "hidden",
+		                value : []
+		            },
+		            "preferences[isOpenData]" : {
+		                inputType : "hidden",
+		                value : true
+		            },
+		            "preferences[isOpenEdition]" : {
+		                inputType : "hidden",
+		                value : true
+		            },
+		            parentId :{
+		            	"inputType" : "hidden",
+		            	value : userId	
+		            },
+		            parentType : {
+			            "inputType" : "hidden",
+			            value : "citoyens"
+			        },
+			    }
+			}
+		} },
+	"city" : {col:"cities",ctrl:"city"},
+	"cities" : {col:"cities",ctrl:"city", titleClass : "bg-red", icon : "university",},
+	"entry" : {
+		col:"surveys",
+		ctrl:"survey",
+		titleClass : "bg-lightblue",
+		bgClass : "bgDDA",
+		icon : "gavel",
+		saveUrl : baseUrl+"/" + moduleId + "/survey/saveSession",
+		dynForm : {
+		    jsonSchema : {
+			    title : "Ajouter une proposition",
+			    icon : "gavel",
+			    type : "object",
+			    onLoads : {
+			    	//pour creer un subevnt depuis un event existant
+			    	"sub" : function(){
+		    			$("#ajaxFormModal #survey").val( contextData.id );
+		    		 	$("#ajax-modal-modal-title").html($("#ajax-modal-modal-title").html()+" sur "+contextData.name );
+			    	}
+			    },
+			    beforeSave : function(){
+			    	
+			    	if( typeof $("#ajaxFormModal #message").code === 'function' )  
+			    		$("#ajaxFormModal #message").val( $("#ajaxFormModal #message").code() );
+			    },
+			    properties : {
+			    	info : {
+		                "inputType" : "custom",
+		                "html":"<p><i class='fa fa-info-circle'></i> Une proposition sert à discuter et demander l'avis d'une communauté sur une idée ou une question donnée</p>",
+		            },
+			        id :{
+		              "inputType" : "hidden",
+		              "value" : ""
+		            },
+		            survey :{
+		            	inputType : "select",
+		            	placeholder : "Choisir une thématique ?",
+		            	init : function(){
+		            		if( userId )
+		            		{
+		            			/*filling the seclect*/
+			            		if(notNull(window.myVotesList)){
+			            			html = buildSelectGroupOptions( window.myVotesList);
+			            			$("#survey").append(html); 
+			            		} else {
+			            			getAjax( null , baseUrl+"/" + moduleId + "/rooms/index/type/citoyens/id/"+userId+"/view/data/fields/votes" , function(data){
+			            			    window.myVotesList = {};
+			            			    $.each( data.votes , function( k,v ) 
+			            			    { 
+			            			    	parentName = "";
+				            			    if(!window.myVotesList[ v.parentType]){
+				            			    	var label = ( v.parentType == "cities" && cpCommunexion && v.parentId.indexOf(cpCommunexion) ) ? cityNameCommunexion : v.parentType;
+				            			    	window.myVotesList[ v.parentType] = {"label":label};
+				            			    	window.myVotesList[ v.parentType].options = {}
+				            			    }else{
+				            			    	//if(notNull(myContactsById[v.parentType]) && notNull(myContactsById[v.parentType][v['_id']['$id']]))
+				            			    	//parentName = myContactsById[v.parentType][v['_id']['$id']].name;
+				            			    }
+			            			    	window.myVotesList[ v.parentType].options[v['_id']['$id'] ] = v.name+parentName; 
+			            			    }); 
+			            			    //run through myContacts to fill parent names 
+			            			    mylog.dir(window.myVotesList);
+			            			    
+			            			    html = buildSelectGroupOptions(window.myVotesList);
+										$("#survey").append(html);
+										if(contextData && contextData.id)
+											$("#ajaxFormModal #survey").val( contextData.id );
+								    } );
+			            		}
+			            		/*$("#survey").change(function() { 
+			            			mylog.dir( $(this).val().split("_"));
+			            		});*/
+
+		            		}
+		            	},
+		            	custom : "<br/><span class='text-small'>Une thématique est un espace de décision lié à une ville, une organisation ou un projet <br/>Vous pouvez créer des espaces coopératifs sur votre commune, organisation et projet</span>"
+		            },
+		            name :{
+		              "inputType" : "text",
+		              "placeholder" : "Titre de la proposition",
+		              "rules" : { "required" : true }
+		            },
+		            message :{
+		              "inputType" : "wysiwyg",
+		              "placeholder" : "Texte de la proposition",
+		              "rules" : { "required" : true },
+		              init:function(){
+				      	activateSummernote("#ajaxFormModal #message");
+			            }
+		              
+		            },
+		            dateEnd :{
+		              "inputType" : "date",
+		              "placeholder" : "Fin de la période de vote",
+		              "rules" : { 
+		              	required : true,
+		              	greaterThanNow : ["DD/MM/YYYY"]
+		              }
+		            },
+		            tags :{
+		                "inputType" : "tags",
+		                "placeholder" : "Tags",
+		                "values" : tagsList
+		            },
+		            formshowers : {
+		                "inputType" : "custom",
+		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options ( urls)</a>",
+		            },
+		            urls : {
+		                "inputType" : "array",
+		                "placeholder" : "url, informations supplémentaires, actions à faire, etc",
+		                "value" : [],
+			            init:function(){
+				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
+			            	$(".urlsarray").css("display","none");	
+			            }
+		            },
+		            email:{
+		            	inputType : "hidden",
+		            	value : (userId!=null && userConnected!=null) ? userConnected.email : ""
+		            },
+		            organizer:{
+		            	inputType : "hidden",
+		            	value : "currentUser"
+		            },
+		            type : {
+		            	inputType : "hidden",
+		            	value : "entry"
+		            }
+			    }
+			}
+		}},
+	"vote" : {col:"actionRooms",ctrl:"survey"},
+	"survey" : {col:"actionRooms",ctrl:"survey",color:"lightblue2",icon:"cog"},
+	"action" : {
+		col:"actions",
+		ctrl:"room",
+		titleClass : "bg-lightblue",
+		bgClass : "bgDDA",
+		icon : "cogs",
+		saveUrl : baseUrl+"/" + moduleId + "/rooms/saveaction",
+		dynForm : {
+		    jsonSchema : {
+			    title : "Ajouter une action",
+			    icon : "gavel",
+			    type : "object",
+			    onLoads : {
+			    	//pour creer un subevnt depuis un event existant
+			    	"sub" : function(){
+			    		$("#ajaxFormModal #room").val( contextData.id );
+		    		 	$("#ajax-modal-modal-title").html($("#ajax-modal-modal-title").html()+" sur "+contextData.name );
+			    	}
+			    },
+			    beforeSave : function(){
+			    	if( typeof $("#ajaxFormModal #message").code === 'function' ) 
+			    		$("#ajaxFormModal #message").val( $("#ajaxFormModal #message").code() );
+			    },
+			    properties : {
+			    	info : {
+		                "inputType" : "custom",
+		                "html":"<p><i class='fa fa-info-circle'></i> Une Action permet de faire avancer votre projet ou le fonctionnement de votre association</p>",
+		            },
+			        id :{
+		              "inputType" : "hidden",
+		              "value" : ""
+		            },
+		            room :{
+		            	inputType : "select",
+		            	placeholder : "Choisir une thématique ?",
+		            	init : function(){
+		            		if( userId )
+		            		{
+		            			/*filling the seclect*/
+			            		if(notNull(window.myActionsList)){
+			            			html = buildSelectGroupOptions( window.myActionsList);
+			            			$("#room").append(html); 
+			            		} else {
+			            			getAjax( null , baseUrl+"/" + moduleId + "/rooms/index/type/citoyens/id/"+userId+"/view/data/fields/actions" , function(data){
+			            			    window.myActionsList = {};
+			            			    $.each( data.actions , function( k,v ) 
+			            			    { mylog.log(v.parentType,v.parentId);
+			            			    	if(v.parentType){
+					            			    if( !window.myActionsList[ v.parentType] ){
+					            			    	var label = ( v.parentType == "cities" && cpCommunexion && v.parentId.indexOf(cpCommunexion) ) ? cityNameCommunexion : v.parentType;
+					            			    	window.myActionsList[ v.parentType] = {"label":label};
+					            			    	window.myActionsList[ v.parentType].options = {};
+					            			    }
+				            			    	window.myActionsList[ v.parentType].options[v['_id']['$id'] ] = v.name; 
+				            			    }
+			            			    }); 
+			            			    mylog.dir(window.myActionsList);
+			            			    html = buildSelectGroupOptions(window.myActionsList);
+										$("#room").append(html);
+										if(contextData && contextData.id)
+											$("#ajaxFormModal #room").val( contextData.id );
+								    } );
+			            		}
+		            		}
+		            	},
+		            	custom : "<br/><span class='text-small'>Choisir l'espace où s'ajoutera votre action parmi vos organisations et projets<br/>Vous pouvez créer des espaces coopératifs sur votre commune, organisation et projet  </span>"
+		            },
+		            name :{
+		              "inputType" : "text",
+		              "placeholder" : "Titre de la l'action",
+		              "rules" : { "required" : true }
+		            },
+		            message :{
+		              "inputType" : "wysiwyg",
+		              "placeholder" : "Description de l'action'",
+		              "rules" : { "required" : true },
+		              init:function(){
+				      	activateSummernote("#ajaxFormModal #message");
+			            }
+		            },
+		            startDate :{
+		              "inputType" : "date",
+		              "placeholder" : "Date de début"
+		            },
+		            dateEnd :{
+		              "inputType" : "date",
+		              "placeholder" : "Date de fin"
+		            },
+
+		         	tags :{
+		                "inputType" : "tags",
+		                "placeholder" : "Tags",
+		                "values" : tagsList
+		            },
+		            formshowers : {
+		                "inputType" : "custom",
+		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options (urls)</a>",
+		            },
+		            urls : {
+		                "inputType" : "array",
+		                "placeholder" : "url",
+		                "value" : [],
+			            init:function(){
+				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
+			            	$(".urlsarray").css("display","none");	
+			            }
+		            },
+		            email:{
+		            	inputType : "hidden",
+		            	value : (userId!=null && userConnected != null) ? userConnected.email : ""
+		            },
+		            organizer:{
+		            	inputType : "hidden",
+		            	value : "currentUser"
+		            },
+		            "type" : {
+		            	inputType : "hidden",
+		            	value : "action"
+		            },
+		            parentId :{
+		            	"inputType" : "hidden",
+		            	value : userId	
+		            },
+		            parentType : {
+			            "inputType" : "hidden",
+			            value : "citoyens"
+			        },
+			    }
+			}
+		} },
+	"actions" : {col:"actions",color:"azure",ctrl:"room",icon:"cog"},
+	"rooms" : {col:"actions",ctrl:"room",color:"azure",icon:"gavel"},
+	"discuss" : {col:"actionRooms",ctrl:"room"}
 };
