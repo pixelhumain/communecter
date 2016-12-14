@@ -1042,33 +1042,12 @@ function openSmallMenuAjax (url,title,icon,color) {
 	    lazyLoad( moduleUrl+'/js/default/directory.js', null, null );
     	
 	getAjax( null , url , function(data){
-		content = "<div class='hidden-xs col-sm-2'><h2 class='homestead'>filtres <i class='fa fa-angle-down'></i></h2><div id='favTags'>"+
-				"<a class='label favElBtn' href='javascript:directory.toggleEmptyParentSection(\".favSection\",\".searchEntityContainer\",\".searchEntityContainer\",1)'> <i class='fa fa-tag'></i> Tout voir </a><br/>"+
-				"</div></div> "+
-				"<div class='col-xs-12 col-sm-10 padding-5 center no-padding'><h1 class='homestead'> ";
+		buildHeader( title,icon,color );
+		openMenuSmall( content );
 		if( data.count == 0 )
-			content += " No Favorites available <i class='fa "+icon+" text-"+color+"'></i> </h1></div>";
-		else {
-			content += title+" <i class='fa "+icon+" text-"+color+"'></i></h1>"+
-							"<input name='searchSmallMenu' class='searchSmallMenu text-black' placeholder='vous cherchez quoi ?' style='margin-bottom:8px'><br/>"+
-							"<span class='text-extra-small helvetica sectionFilters'>"+
-								" <span class='btn btn-xs favSectionBtn btn-default'><a class='text-black helvetica ' href='javascript:$(\".searchSmallMenu\").val(\"\");directory.toggleEmptyParentSection(\".favSection\",null,\".searchEntityContainer\",1)'> Tout voir</a></span> </span>"+
-							" </span><br/>"+
-						"</div>";
-			openMenuSmall( content );
-			
-			$.each( data.list, function(key,list)
-			{
-				var subContent = showResultsDirectoryHtml ( list, key, "min" );
-				if( notEmpty(subContent) ){
-					favTypes.push(key);
-					$(".menuSmallBlockUI").append("<div class='"+key+"fav favSection'><div class=' col-xs-12 col-sm-offset-2 col-sm-10 padding-15'><h2 class='homestead'> "+key+" <i class='fa fa-angle-down'></i> </h2>"+
-								subContent+
-								"</div>");
-					$(".sectionFilters").append(" <span class='btn btn-xs favSectionBtn bg-"+typeObj[key].color+"'><a class='text-black helvetica' href='javascript:toggle(\"."+key+"fav\",\".favSection\",1)'> "+key+"</a></span> ")
-				}
-			});
-		}
+			$(".titleSmallMenu").html(" No "+title+" available <i class='fa "+icon+" text-"+color+"'></i>");
+		else 
+			directory.buildList(data.list);
 		
 	   	directory.tagList(".btn-tag","#favTags");
 
@@ -1079,7 +1058,30 @@ function openSmallMenuAjax (url,title,icon,color) {
     } );
 }
 
+function openSmallMenuS (title,icon,color,searchBack) { 
+	if( typeof showResultsDirectoryHtml == "undefined" )
+	    lazyLoad( moduleUrl+'/js/default/directory.js', null, null );
+    	
+	buildHeader(title,icon,color);
+	openMenuSmall( content );
 
+	if (typeof searchBack == "function") 
+		searchBack();
+
+}
+
+function buildHeader(title,icon,color) { 
+	content = "<div class='hidden-xs col-sm-2'><h2 class='homestead'>filtres <i class='fa fa-angle-down'></i></h2><div id='favTags'>"+
+			"<a class='label favElBtn' href='javascript:directory.toggleEmptyParentSection(\".favSection\",\".searchEntityContainer\",\".searchEntityContainer\",1)'> <i class='fa fa-tag'></i> Tout voir </a><br/>"+
+			"</div></div> "+
+			"<div class='col-xs-12 col-sm-10 padding-5 center no-padding'><div class='homestead titleSmallMenu' style='font-size:45px'> ";
+	content += title+" <i class='fa "+icon+" text-"+color+"'></i></div>"+
+					"<input name='searchSmallMenu' class='searchSmallMenu text-black' placeholder='vous cherchez quoi ?' style='margin-bottom:8px;width: 300px;font-size: x-large;'><br/>"+
+					"<span class='text-extra-small helvetica sectionFilters'>"+
+						" <span class='btn btn-xs favSectionBtn btn-default'><a class='text-black helvetica ' href='javascript:$(\".searchSmallMenu\").val(\"\");directory.toggleEmptyParentSection(\".favSection\",null,\".searchEntityContainer\",1)'> Tout voir</a></span> </span>"+
+					" </span><br/>"+
+				"</div>";
+}
 
 //openSmallMenuAjaxBuild("",baseUrl+"/"+moduleId+"/favorites/list/tpl/directory2","FAvoris")
 function openSmallMenuAjaxBuild (url,title) { 
@@ -1115,6 +1117,37 @@ function openMenuSmall (content) {
 	bindLBHLinks();
 }
 
+
+function searchFinder(name)
+{
+  mylog.log("Finder",name);
+    $.ajax({
+		type: "POST",
+        url: baseUrl+"/" + moduleId + "/search/globalautocomplete",
+        data: {"name" : name},
+        dataType: "json",
+        success: function(data){
+        	if(!data){
+        		toastr.error(data.content);
+        	}else{
+				var list = {};
+		        $.each(data, function(i, v) {
+					mylog.log(v, v.length, v.size);
+              if(inArray(v.type,["organization","citoyen","event","project","city"]) || v.insee){
+                type = (v.insee) ? "cities" : v.type+"s";
+                if( typeof list[type] == "undefined")
+		              list[type] = [];
+		            list[type].push(v);
+              
+              }
+			  	});
+				mylog.dir(list);
+            directory.buildList(list);
+            directory.tagList(".btn-tag","#favTags");
+		    }
+   		}
+	})
+}
 
 var selection;
 function  bindHighlighter() { 

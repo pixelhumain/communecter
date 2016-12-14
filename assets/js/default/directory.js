@@ -679,6 +679,23 @@ function searchDirectory(parentClass,elemClass){
 var directory = {
 
     elemClass : '.searchEntityContainer',
+    //builds a small sized list
+    buildList : function(list) {
+      $(".favSectionBtnNew,.favSection").remove();
+
+      $.each( list, function(key,list)
+      {
+        var subContent = showResultsDirectoryHtml ( list, key, "min" );
+        if( notEmpty(subContent) ){
+          favTypes.push(key);
+          $(".menuSmallBlockUI").append("<div class='"+key+"fav favSection '><div class=' col-xs-12 col-sm-10 padding-15'><h2 class='homestead'> "+key+" <i class='fa fa-angle-down'></i> </h2>"+
+                subContent+
+                "</div>");
+          color = (typeObj[key] && typeObj[key].color) ? typeObj[key].color : "white";
+          $(".sectionFilters").append(" <span class='btn btn-xs favSectionBtn favSectionBtnNew  bg-"+color+"'><a class='text-black helvetica' href='javascript:toggle(\"."+key+"fav\",\".favSection\",1)'> "+key+"</a></span> ")
+        }
+      });
+    },
     //build list of unique tags based on a directory structure
     tagList : function  (elClass,dest) { 
         var tagsT = [];
@@ -721,13 +738,14 @@ var directory = {
         if(searchVal.length>2 ){
             $.each( $(directory.elemClass) ,function (i,k) { 
                       var found = null;
-                      if( $(this).find(".entityName").text().search( new RegExp( searchVal, "i" ) ) >= 0 || 
-                          $(this).find(".entityLocality").text().search( new RegExp( searchVal, "i" ) ) >= 0 || 
-                $(this).find(".tagsContainer").text().search( new RegExp( searchVal, "i" ) ) >= 0 )
+              if( $(this).find(".entityName").text().search( new RegExp( searchVal, "i" ) ) >= 0 || 
+                  $(this).find(".entityLocality").text().search( new RegExp( searchVal, "i" ) ) >= 0 || 
+                  $(this).find(".tagsContainer").text().search( new RegExp( searchVal, "i" ) ) >= 0 )
                 {
-                    console.log("found")
-                    found = 1;
+                  //mylog.log("found");
+                  found = 1;
                 }
+
                 if(found)
                     $(this).removeClass('hide');
                 else
