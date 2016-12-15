@@ -1860,8 +1860,8 @@ var typeObj = {
 			    			if(contextData.startDate && contextData.endDate ){
 			    				$("#ajaxFormModal").after("<input type='hidden' id='startDateParent' value='"+contextData.startDate+"'/>"+
 			    										  "<input type='hidden' id='endDateParent' value='"+contextData.endDate+"'/>");
-			    				$("#ajaxFormModal #startDate").after("<span id='parentstartDate'><i class='fa fa-warning'></i> date début du parent : "+moment( contextData.startDate).format('YYYY/MM/DD HH:mm')+"</span>");
-			    				$("#ajaxFormModal #endDate").after("<span id='parentendDate'><i class='fa fa-warning'></i> date de fin du parent : "+moment( contextData.endDate).format('YYYY/MM/DD HH:mm')+"</span>");
+			    				$("#ajaxFormModal #startDate").after("<span id='parentstartDate'><i class='fa fa-warning'></i> date début du parent : "+moment( contextData.startDate).format('DD/MM/YYYY HH:mm')+"</span>");
+			    				$("#ajaxFormModal #endDate").after("<span id='parentendDate'><i class='fa fa-warning'></i> date de fin du parent : "+moment( contextData.endDate).format('DD/MM/YYYY HH:mm')+"</span>");
 			    			}
 			    			//alert($("#ajaxFormModal #parentId").val() +" | "+$("#ajaxFormModal #parentType").val());
 			    		}
@@ -1944,18 +1944,32 @@ var typeObj = {
 		            	"groupOptions" : myAdminList( ["events"] ),
 		            	init : function(){
 			            	$("#ajaxFormModal #parentId ").off().on("change",function(){
-			            		
 			            		parentId = $(this).val();
+			            		startDateParent = "2000/01/01 00:00";
+			            		endDateParent = "2100/01/01 00:00";
 			            		if( parentId != "" ){
-			            			if(typeof myContacts != "undefined")
-			            			$.each(myContacts.events,function (i,evObj) { 
-			            				//mylog.log("event : ",evObj["_id"]["$id"]);
-			            				if( evObj["_id"]["$id"] == parentId){
-			            					mylog.warn("event found : ",evObj.startDate+"|"+evObj.endDate);
-				            				$("#parentstartDate").html("<i class='fa fa-warning'></i> date début du parent : "+moment( evObj.startDate ).format('YYYY/MM/DD HH:mm'));
-				    						$("#parentendDate").html("<i class='fa fa-warning'></i> date de fin du parent : "+moment( evObj.endDate).format('YYYY/MM/DD HH:mm'));
-				    					}
-			            			});
+			            			//Search in the current context
+			            			if (typeof contextData != "undefined") {
+			            				if (contextData.type == "events" && contextData.id == parentId) {
+			            					mylog.warn("event found in contextData : ",contextData.startDate+"|"+contextData.endDate);
+				            				startDateParent = contextData.startDate;
+				            				endDateParent = contextData.endDate
+			            				}
+			            			}
+			            			//Search in my contacts list
+			            			if(typeof myContacts != "undefined") {
+				            			$.each(myContacts.events,function (i,evObj) { 
+				            				if( evObj["_id"]["$id"] == parentId){
+				            					mylog.warn("event found in my contact list: ",evObj.startDate+"|"+evObj.endDate);
+				            					startDateParent = evObj.startDate;
+				            					endDateParent = evObj.endDate
+					    					}
+				            			});
+				            		}
+				            		$("#startDateParent").val(startDateParent);
+				            		$("#endDateParent").val(endDateParent);
+				            		$("#parentstartDate").html("<i class='fa fa-warning'></i> Date de début de l'événement parent : "+moment( startDateParent ).format('DD/MM/YYYY HH:mm'));
+					    			$("#parentendDate").html("<i class='fa fa-warning'></i> Date de fin de l'événement parent : "+moment( endDateParent ).format('DD/MM/YYYY HH:mm'));
 			            		}
 			            	});
 			            }
@@ -2016,19 +2030,19 @@ var typeObj = {
 		            },
 		            startDate : {
 		                "inputType" : "datetime",
-		                "placeholder":"Date de début",
+		                "placeholder": "Date de début",
 			            "rules" : { 
 			            	required : true,
-			            	duringDates: ["#startDateParent","#endDateParent","la date de début"]
+			            	duringDates: ["#startDateParent","#endDateParent","La date de début"]
 			        	}
 		            },
 		            endDate : {
 		                "inputType" : "datetime",
-		                "placeholder":"Date de fin",
+		                "placeholder": "Date de fin",
 			            "rules" : { 
 			            	required : true,
 			            	greaterThan: ["#ajaxFormModal #startDate","la date de début"],
-			            	duringDates: ["#ajaxFormModal #startDateParent","#ajaxFormModal #endDateParent","la date de fin"]
+			            	duringDates: ["#startDateParent","#endDateParent","La date de fin"]
 					    }
 		            },
 		            /*public : {
