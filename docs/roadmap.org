@@ -130,14 +130,15 @@ Liste des notifications déjà lues => #370 #453
     [X] increment element favoriteCount
     [X] add btn on elements
     [X] maybe use right click, on any link > add to fav
-    [ ] onclickfav tags > active css
-    [ ] apply multi tag cumulation
+    [X] onclickfav tags > active css
+    [X] apply multi tag cumulation
     [ ] new feature : turn favorites into collections
       [ ] add to collection : select or create collection
       [ ] view collection on map 
     [ ] bugs 
       [ ] add survey
       [ ]  on my profile with loading directory.js
+  [ ] cut up communecter.js into sub files
   [ ] POI kanban viewer
   [ ] my POIs
   [ ] add photo

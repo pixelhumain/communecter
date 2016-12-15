@@ -697,6 +697,7 @@ var directory = {
       });
     },
     //build list of unique tags based on a directory structure
+    //on click hides empty parent sections
     tagList : function  (elClass,dest) { 
         var tagsT = [];
 
@@ -705,7 +706,7 @@ var directory = {
           console.log(o.text);
           if(!inArray(o.text,tagsT)){
             tagsT.push(o.text);
-            $(dest).append("<a class='label favElBtn' href='javascript:directory.toggleEmptyParentSection(\".favSection\",\"."+slugify(o.text.substring(1))+"\",\""+directory.elemClass+"\",1)'><i class='fa fa-tag'></i> "+o.text.substring(1)+"</a><br/>");
+            $(dest).append("<a class='btn btn-xs btn-link w100p favElBtn "+slugify(o.text.substring(1))+"Btn' data-tag='"+slugify(o.text.substring(1))+"' href='javascript:directory.toggleEmptyParentSection(\".favSection\",\"."+slugify(o.text.substring(1))+"\",\""+directory.elemClass+"\",1)'><i class='fa fa-tag'></i> "+o.text.substring(1)+"</a><br/>");
           }
         })
         console.log("tags count",tagsT.length);
@@ -715,10 +716,25 @@ var directory = {
 
     //show hide parents when empty
     toggleEmptyParentSection : function (parents,tag,children) { 
+        mylog.log("toggleEmptyParentSection ",parents,tag,children);
         if(tag){
-            toggle(tag,children,1);
+            $(".favAllBtn").removeClass("btn-red");
+            //apply tag filtering
+            $(tag+"Btn").toggleClass("btn-link").toggleClass("active  btn-red");
+
+            tags = "";
+            $.each($(".favElBtn.active"),function(i,o) { 
+              tags += "."+$(o).data("tag")+",";
+            });  
+            tags = tags.replace(/,\s*$/, "");
+            mylog.log(tags)
+            toggle(tags,children,1);
+
             directory.toggleParents(parents,children);
         } else {
+            //show all
+            $(".favElBtn").removeClass("active btn-red").addClass("btn-link");
+            $(".favAllBtn").addClass("btn-red");
             $(parents).removeClass('hide');
             $(children).removeClass('hide');
         }

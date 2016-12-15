@@ -1037,86 +1037,82 @@ function activateHoverMenu () {
 }
 
 var favTypes = [];
-function openSmallMenuAjax (url,title,icon,color) { 
-	if( typeof showResultsDirectoryHtml == "undefined" )
-	    lazyLoad( moduleUrl+'/js/default/directory.js', null, null );
-    	
-	getAjax( null , url , function(data){
-		buildHeader( title,icon,color );
-		openMenuSmall( content );
-		if( data.count == 0 )
-			$(".titleSmallMenu").html(" No "+title+" available <i class='fa "+icon+" text-"+color+"'></i>");
-		else 
-			directory.buildList(data.list);
-		
-	   	directory.tagList(".btn-tag","#favTags");
+var smallMenu = {
+	openAjax : function  (url,title,icon,color) { 
+		if( typeof showResultsDirectoryHtml == "undefined" )
+		    lazyLoad( moduleUrl+'/js/default/directory.js', null, null );
+	    	
+		getAjax( null , url , function(data){
+			smallMenu.buildHeader( title,icon,color );
+			smallMenu.open( content );
+			if( data.count == 0 )
+				$(".titleSmallMenu").html(" No "+title+" available <i class='fa "+icon+" text-"+color+"'></i>");
+			else 
+				directory.buildList(data.list);
+			
+		   	directory.tagList(".btn-tag","#favTags");
 
-	   	$('.searchSmallMenu').off().on("keyup",function() { 
-			directory.search ( ".favSection", $(this).val() );
-	   	});
-		    //showTagsScopesMin(".tagsScopeTool");
-    } );
-}
+		   	$('.searchSmallMenu').off().on("keyup",function() { 
+				directory.search ( ".favSection", $(this).val() );
+		   	});
+	    } );
+	},
+	openSmall : function  (title,icon,color,searchBack) { 
+		if( typeof showResultsDirectoryHtml == "undefined" )
+		    lazyLoad( moduleUrl+'/js/default/directory.js', null, null );
+	    	
+		smallMenu.buildHeader(title,icon,color);
+		smallMenu.open( content );
 
-function openSmallMenuS (title,icon,color,searchBack) { 
-	if( typeof showResultsDirectoryHtml == "undefined" )
-	    lazyLoad( moduleUrl+'/js/default/directory.js', null, null );
-    	
-	buildHeader(title,icon,color);
-	openMenuSmall( content );
-
-	if (typeof searchBack == "function") 
-		searchBack();
-
-}
-
-function buildHeader(title,icon,color) { 
-	content = "<div class='hidden-xs col-sm-2'><h2 class='homestead'>filtres <i class='fa fa-angle-down'></i></h2><div id='favTags'>"+
-			"<a class='label favElBtn' href='javascript:directory.toggleEmptyParentSection(\".favSection\",\".searchEntityContainer\",\".searchEntityContainer\",1)'> <i class='fa fa-tag'></i> Tout voir </a><br/>"+
-			"</div></div> "+
-			"<div class='col-xs-12 col-sm-10 padding-5 center no-padding'><div class='homestead titleSmallMenu' style='font-size:45px'> ";
-	content += title+" <i class='fa "+icon+" text-"+color+"'></i></div>"+
-					"<input name='searchSmallMenu' class='searchSmallMenu text-black' placeholder='vous cherchez quoi ?' style='margin-bottom:8px;width: 300px;font-size: x-large;'><br/>"+
-					"<span class='text-extra-small helvetica sectionFilters'>"+
-						" <span class='btn btn-xs favSectionBtn btn-default'><a class='text-black helvetica ' href='javascript:$(\".searchSmallMenu\").val(\"\");directory.toggleEmptyParentSection(\".favSection\",null,\".searchEntityContainer\",1)'> Tout voir</a></span> </span>"+
-					" </span><br/>"+
-				"</div>";
-}
-
-//openSmallMenuAjaxBuild("",baseUrl+"/"+moduleId+"/favorites/list/tpl/directory2","FAvoris")
-function openSmallMenuAjaxBuild (url,title) { 
-	openMenuSmall( );
-	getAjax( ".menuSmallBlockUI" , url , null,"html" );
-}
-
-function openMenuSmall (content) { 
-	menuContent = (content) ? content : $(".menuSmall").html();
-	$.blockUI({ 
-		title : 'Welcome to your page', 
-		message : menuContent,
-		onOverlayClick: $.unblockUI,
-        css: { 
-         //    border: 'none', 
-         //    padding: '15px', 
-         //    backgroundColor: 'rgba(0,0,0,0.7)', 
-         //    '-webkit-border-radius': '10px', 
-         //    '-moz-border-radius': '10px', 
-         //    color: '#fff' ,
-        	// "cursor": "pointer"
-        },
-		overlayCSS: { backgroundColor: '#000'}
-	});
-	$(".blockPage").addClass("menuSmallBlockUI");
-	// If network, check width of menu small
-	if(typeof globalTheme != "undefined" && globalTheme == "network"){
-		if($("#ficheInfoDetail").is(":visible"))
-			$(".menuSmallBlockUI").css("cssText", "width: 100% !important;left: 0% !important;");
-		else
-			$(".menuSmallBlockUI").css("cssText", "width: 83.5% !important;left: 16.5% !important;");
+		if (typeof searchBack == "function") 
+			searchBack();
+	},
+	buildHeader : function (title,icon,color) { 
+		content = "<div class='hidden-xs col-sm-2'><h2 class='homestead'>filtres <i class='fa fa-angle-down'></i></h2><div id='favTags'>"+
+				"<a class='btn btn-red btn-xs favElBtn favAllBtn ' href='javascript:directory.toggleEmptyParentSection(\".favSection\",null,\".searchEntityContainer\",1)'> <i class='fa fa-tags'></i> Tout voir </a><br/>"+
+				"</div></div> "+
+				"<div class='col-xs-12 col-sm-10 padding-5 center no-padding'><div class='homestead titleSmallMenu' style='font-size:45px'> ";
+		content += title+" <i class='fa "+icon+" text-"+color+"'></i></div>"+
+						"<input name='searchSmallMenu' class='searchSmallMenu text-black' placeholder='vous cherchez quoi ?' style='margin-bottom:8px;width: 300px;font-size: x-large;'><br/>"+
+						"<span class='text-extra-small helvetica sectionFilters'>"+
+							" <span class='btn btn-xs favSectionBtn btn-default'><a class='text-black helvetica ' href='javascript:$(\".searchSmallMenu\").val(\"\");directory.toggleEmptyParentSection(\".favSection\",null,\".searchEntityContainer\",1)'> Tout voir</a></span> </span>"+
+						" </span><br/>"+
+					"</div>";
+	},
+	//openSmallMenuAjaxBuild("",baseUrl+"/"+moduleId+"/favorites/list/tpl/directory2","FAvoris")
+	//opens any html without post processing
+	openAjaxHTML : function  (url,title) { 
+		smallMenu.open( );
+		getAjax( ".menuSmallBlockUI" , url , null,"html" );
+	},
+	open : function (content) { 
+		menuContent = (content) ? content : $(".menuSmall").html();
+		$.blockUI({ 
+			title : 'Welcome to your page', 
+			message : menuContent,
+			onOverlayClick: $.unblockUI,
+	        css: { 
+	         //    border: 'none', 
+	         //    padding: '15px', 
+	         //    backgroundColor: 'rgba(0,0,0,0.7)', 
+	         //    '-webkit-border-radius': '10px', 
+	         //    '-moz-border-radius': '10px', 
+	         //    color: '#fff' ,
+	        	// "cursor": "pointer"
+	        },
+			overlayCSS: { backgroundColor: '#000'}
+		});
+		$(".blockPage").addClass("menuSmallBlockUI");
+		// If network, check width of menu small
+		if(typeof globalTheme != "undefined" && globalTheme == "network"){
+			if($("#ficheInfoDetail").is(":visible"))
+				$(".menuSmallBlockUI").css("cssText", "width: 100% !important;left: 0% !important;");
+			else
+				$(".menuSmallBlockUI").css("cssText", "width: 83.5% !important;left: 16.5% !important;");
+		}
+		bindLBHLinks();
 	}
-	bindLBHLinks();
 }
-
 
 function searchFinder(name)
 {
@@ -2015,51 +2011,6 @@ function shadowOnHeader() {
     if (y > 0) {  $('.main-top-menu').addClass('shadow'); }
     else { $('.main-top-menu').removeClass('shadow'); }
 }
-
-/* ************************************
-Keyboard Shortcuts
-*************************************** */
-var keyboardNav = {
-	keycodeObj : {"backspace":8,"tab":9,"enter":13,"shift":16,"ctrl":17,"alt":18,"pause/break":19,"capslock":20,"escape":27,"pageup":33,"pagedown":34,"end":35,
-	"home":36,"left":37,"up":38,"right":39,"down":40,"insert":45,"delete":46,"0":48,"1":49,"2":50,"3":51,"4":52,"5":53,"6":54,"7":55,"8":56,"9":57,
-	"a":65,"b":66,"c":67,"d":68,"e":69,"f":70,"g":71,"h":72,"i":73,"j":74,"k":75,"l":76,"m":77,"n":78,"o":79,"p":80,"q":81,"r":82,"s":83,"t":84,"u":85,"v":86,"w":87,
-	"x":88,"y":89,"z":90,"left window key":91,"right window key":92,"select key":93,"numpad 0":96,"numpad 1":97,"numpad 2":98,"numpad 3":99,"numpad 4":100,"numpad 5":101,
-	"numpad 6":102,"numpad 7":103,"numpad 8":104,"numpad 9":105,"multiply":106,"add":107,"subtract":109,"decimal point":110,"divide":111,"f1":112,"f2":113,"f3":114,
-	"f4":115,"f5":116,"f6":117,"f7":118,"f8":119,"f9":120,"f10":121,"f11":122,"f12":123,"num lock":144,"scroll lock":145,"semi-colon":186,"equal sign":187,
-	"comma":188,"dash":189,"period":190,"forward slash":191,"grave accent":192,"open bracket":219,"back slash":220,"close braket":221,"single quote":222},
-
-	keyMap : {
-		"112" : function(){ $(".menu-name-profil").trigger('click') },//f1
-		"113" : function(){ if(userId)loadByHash('#person.detail.id.'+userId); else alert("login first"); },//f2
-		"114" : function(){ showMap(true); },//f3
-		"115" : function(){ console.clear();console.warn("repair society") },//f4
-		"117" : function(){ console.clear();loadByHash(location.hash) },//f6
-	},
-	keyMapCombo : {
-		"69" : function(){openForm('event')}, //e
-		"79" : function(){openForm('organization')},//o
-		"80" : function(){openForm('project')},//p
-		"73" : function(){openForm('person')},//i
-		"65" : function(){openForm('action')},//a
-		"86" : function(){openForm('entry')},//v
-		"70" : function(){ openSmallMenuAjaxBuild('.menuSmallBlockUI' , baseUrl+'/'+moduleId+'/favorites/list/tpl/directory2' , 'Mes Favoris') }//f
-	},
-	checkKeycode : function(e) {
-		e.preventDefault();
-		var keycode;
-		if (window.event) {keycode = window.event.keyCode;e=event;}
-		else if (e){ keycode = e.which;}
-		//console.log("keycode: ",keycode);
-		if(e.ctrlKey && e.altKey && keyboardNav.keyMapCombo[keycode] ){
-			console.warn("keyMapCombo",keycode);//shiftKey ctrlKey altKey
-			keyboardNav.keyMapCombo[keycode]();
-		}
-		else if( keyboardNav.keyMap[keycode] ){
-			console.warn("keyMap",keycode);
-			keyboardNav.keyMap[keycode]();
-		}
-	}
-};
 
 function autoCompleteInviteSearch(search){
 	if (search.length < 3) { return }
@@ -3204,4 +3155,51 @@ var typeObj = {
 	"actions" : {col:"actions",color:"azure",ctrl:"room",icon:"cog"},
 	"rooms" : {col:"actions",ctrl:"room",color:"azure",icon:"gavel"},
 	"discuss" : {col:"actionRooms",ctrl:"room"}
+};
+
+/* ************************************
+Keyboard Shortcuts
+*************************************** */
+var keyboardNav = {
+	keycodeObj : {"backspace":8,"tab":9,"enter":13,"shift":16,"ctrl":17,"alt":18,"pause/break":19,"capslock":20,"escape":27,"pageup":33,"pagedown":34,"end":35,
+	"home":36,"left":37,"up":38,"right":39,"down":40,"insert":45,"delete":46,"0":48,"1":49,"2":50,"3":51,"4":52,"5":53,"6":54,"7":55,"8":56,"9":57,
+	"a":65,"b":66,"c":67,"d":68,"e":69,"f":70,"g":71,"h":72,"i":73,"j":74,"k":75,"l":76,"m":77,"n":78,"o":79,"p":80,"q":81,"r":82,"s":83,"t":84,"u":85,"v":86,"w":87,
+	"x":88,"y":89,"z":90,"left window key":91,"right window key":92,"select key":93,"numpad 0":96,"numpad 1":97,"numpad 2":98,"numpad 3":99,"numpad 4":100,"numpad 5":101,
+	"numpad 6":102,"numpad 7":103,"numpad 8":104,"numpad 9":105,"multiply":106,"add":107,"subtract":109,"decimal point":110,"divide":111,"f1":112,"f2":113,"f3":114,
+	"f4":115,"f5":116,"f6":117,"f7":118,"f8":119,"f9":120,"f10":121,"f11":122,"f12":123,"num lock":144,"scroll lock":145,"semi-colon":186,"equal sign":187,
+	"comma":188,"dash":189,"period":190,"forward slash":191,"grave accent":192,"open bracket":219,"back slash":220,"close braket":221,"single quote":222},
+
+	keyMap : {
+		"112" : function(){ $(".menu-name-profil").trigger('click') },//f1
+		"113" : function(){ if(userId)loadByHash('#person.detail.id.'+userId); else alert("login first"); },//f2
+		"114" : function(){ showMap(true); },//f3
+		"115" : function(){ console.clear();console.warn("repair society") },//f4
+		"117" : function(){ console.clear();loadByHash(location.hash) },//f6
+	},
+	keyMapCombo : {
+		"69" : function(){openForm('event')}, //e : event
+		"79" : function(){openForm('organization')},//o : orga
+		"80" : function(){openForm('project')},//p : project
+		"73" : function(){openForm('person')},//i : invite
+		"65" : function(){openForm('action')},//a : actions
+		"86" : function(){openForm('entry')},//v : votes
+		"70" : function(){ $(".searchIcon").trigger("click") },//f : find
+		"66" : function(){ smallMenu.openAjax(baseUrl+'/'+moduleId+'/favorites/list','Mes Favoris','fa-star','yellow') },//b best : favoris
+		"82" : function(){smallMenu.openAjax(baseUrl+'/'+moduleId+'/person/directory?tpl=json','Mon répertoire','fa-book','red')}//r : annuaire
+	},
+	checkKeycode : function(e) {
+		e.preventDefault();
+		var keycode;
+		if (window.event) {keycode = window.event.keyCode;e=event;}
+		else if (e){ keycode = e.which;}
+		//console.log("keycode: ",keycode);
+		if(e.ctrlKey && e.altKey && keyboardNav.keyMapCombo[keycode] ){
+			console.warn("keyMapCombo",keycode);//shiftKey ctrlKey altKey
+			keyboardNav.keyMapCombo[keycode]();
+		}
+		else if( keyboardNav.keyMap[keycode] ){
+			console.warn("keyMap",keycode);
+			keyboardNav.keyMap[keycode]();
+		}
+	}
 };
