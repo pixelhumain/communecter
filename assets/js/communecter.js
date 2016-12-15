@@ -6,20 +6,25 @@ $(document).ready(function() {
 	$.contextMenu({
 	    selector: ".add2fav",
 	    items: {
-	        add2fav: {name: "Ajouter à vos favoris",icon: "fa-star", callback: function(key, opt){ 
-	        	href = opt.$trigger[0].hash.split(".");
-	        	//alert(href);
-	        	if(userId && $.inArray(href[0],["#organization","#project","#event","#person","#element","#survey","#rooms"])){
-		        	var what = ( href[0] == "#element" ) ? href[3] : typeObj[ href[0].substring(1) ].col; 
-					var	id = ( href[0] == "#element" ) ? href[5] : href[3];
-					//alert( what+id );
-					favorite.add2fav(what,id);
-				}
-	         }}
+	        add2fav: { 
+	        	name: function($element, key, item){ 
+        			var str = "Ajouter à vos favoris";//( userConnected.favorites && userConnected.favorites[] ) ? "Retirer de vos favoris" : "Ajouter à vos favoris";
+        			return str; 
+        		},
+	        	icon: "fa-star", 
+	        	callback: function(key, opt){ 
+		        	href = opt.$trigger[0].hash.split(".");
+		        	//alert(href);
+		        	if(userId && $.inArray(href[0],["#organization","#project","#event","#person","#element","#survey","#rooms"])){
+			        	var what = ( href[0] == "#element" ) ? href[3] : typeObj[ href[0].substring(1) ].col; 
+						var	id = ( href[0] == "#element" ) ? href[5] : href[3];
+						//alert( what+id );
+						favorite.add2fav(what,id);
+					}
+	        	}
+	    	}
 	    }
 	});
-
-	   
 });
 var prevStep = 0;
 var steps = ["explain1","live","explain2","event","explain3","orga","explain4","project","explain5","person"];
@@ -1050,7 +1055,6 @@ var smallMenu = {
 			else 
 				directory.buildList(data.list);
 			
-		   	directory.tagList(".btn-tag","#favTags");
 
 		   	$('.searchSmallMenu').off().on("keyup",function() { 
 				directory.search ( ".favSection", $(this).val() );
@@ -1068,14 +1072,20 @@ var smallMenu = {
 			searchBack();
 	},
 	buildHeader : function (title,icon,color) { 
-		content = "<div class='hidden-xs col-sm-2'><h2 class='homestead'>filtres <i class='fa fa-angle-down'></i></h2><div id='favTags'>"+
-				"<a class='btn btn-red btn-xs favElBtn favAllBtn ' href='javascript:directory.toggleEmptyParentSection(\".favSection\",null,\".searchEntityContainer\",1)'> <i class='fa fa-tags'></i> Tout voir </a><br/>"+
-				"</div></div> "+
-				"<div class='col-xs-12 col-sm-10 padding-5 center no-padding'><div class='homestead titleSmallMenu' style='font-size:45px'> ";
-		content += title+" <i class='fa "+icon+" text-"+color+"'></i></div>"+
+		content = "<div class='hidden-xs col-sm-2'><h2 class='homestead'>filtres <i class='fa fa-angle-down'></i></h2>"+
+					"<a class='btn btn-dark-blue btn-xs favElBtn favAllBtn text-left' href='javascript:directory.toggleEmptyParentSection(\".favSection\",null,\".searchEntityContainer\",1)'> <i class='fa fa-tags'></i> Tout voir </a><br/>"+
+					"<div id='listTags'></div>"+
+					"<div id='listScopes'>"+
+						"<h2 class='homestead'>Où <i class='fa fa-angle-down'></i></h2>"+
+					"</div>"+
+				"</div> "+
+				"<div class='col-xs-12 col-sm-10 padding-5 center no-padding'>"+
+					"<a class='pull-right text-white text-extra-large' href='javascript:smallMenu.open();'> <i class='fa fa-th'></i></a>"+	
+					"<div class='homestead titleSmallMenu' style='font-size:45px'> "+
+						title+" <i class='fa "+icon+" text-"+color+"'></i></div>"+
 						"<input name='searchSmallMenu' class='searchSmallMenu text-black' placeholder='vous cherchez quoi ?' style='margin-bottom:8px;width: 300px;font-size: x-large;'><br/>"+
 						"<span class='text-extra-small helvetica sectionFilters'>"+
-							" <span class='btn btn-xs favSectionBtn btn-default'><a class='text-black helvetica ' href='javascript:$(\".searchSmallMenu\").val(\"\");directory.toggleEmptyParentSection(\".favSection\",null,\".searchEntityContainer\",1)'> Tout voir</a></span> </span>"+
+							" <span class='btn btn-xs favSectionBtn btn-default'><a class='text-black helvetica ' href='javascript:directory.toggleEmptyParentSection(\".favSection\",null,\".searchEntityContainer\",1)'> Tout voir</a></span> </span>"+
 						" </span><br/>"+
 					"</div>";
 	},
@@ -1139,7 +1149,6 @@ function searchFinder(name)
 			  	});
 				mylog.dir(list);
             directory.buildList(list);
-            directory.tagList(".btn-tag","#favTags");
 		    }
    		}
 	})

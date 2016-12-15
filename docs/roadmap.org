@@ -138,6 +138,7 @@ Liste des notifications déjà lues => #370 #453
     [ ] bugs 
       [ ] add survey
       [ ]  on my profile with loading directory.js
+      [ ] change right click name Remove from fav
   [ ] cut up communecter.js into sub files
   [ ] POI kanban viewer
   [ ] my POIs
