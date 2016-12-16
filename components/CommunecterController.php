@@ -418,16 +418,17 @@ class CommunecterController extends Controller
       "get" => array("href" => "/ph/communecter/element/get"),
       "delete" => array("href" => "/ph/communecter/element/delete"),
     ),
-    "k" => array(
-      "web"               => array('href' => "/ph/communecter/k/web",               "public" => true),
-      "websearch"         => array('href' => "/ph/communecter/k/websearch",         "public" => true),
-      "live"              => array('href' => "/ph/communecter/k/live",              "public" => true),
-      "referencement"     => array('href' => "/ph/communecter/k/referencement",     "public" => true),
-      "savereferencement" => array('href' => "/ph/communecter/k/savereferencement", "public" => true),
-      "agenda"            => array('href' => "/ph/communecter/k/agenda",            "public" => true),
-      "mediacrawler"      => array('href' => "/ph/communecter/k/mediacrawler",      "public" => true),
-      "page"              => array('href' => "/ph/communecter/k/page",              "public" => true),
-      "social"            => array('href' => "/ph/communecter/k/social",            "public" => true),
+    "co2" => array(
+      "web"               => array('href' => "/ph/communecter/co2/web",               "public" => true),
+      "websearch"         => array('href' => "/ph/communecter/co2/websearch",         "public" => true),
+      "live"              => array('href' => "/ph/communecter/co2/live",              "public" => true),
+      "referencement"     => array('href' => "/ph/communecter/co2/referencement",     "public" => true),
+      "savereferencement" => array('href' => "/ph/communecter/co2/savereferencement", "public" => true),
+      "agenda"            => array('href' => "/ph/communecter/co2/agenda",            "public" => true),
+      "mediacrawler"      => array('href' => "/ph/communecter/co2/mediacrawler",      "public" => true),
+      "page"              => array('href' => "/ph/communecter/co2/page",              "public" => true),
+      "social"            => array('href' => "/ph/communecter/co2/social",            "public" => true),
+      "power"            => array('href' => "/ph/communecter/co2/power",              "public" => true),
       ),
     "siteurl" => array(
       "incnbclick"        => array('href' => "ph/communecter/siteurl/incnbclick")

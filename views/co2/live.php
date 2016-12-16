@@ -14,65 +14,9 @@
     //header + menu
     $this->renderPartial($layoutPath.'header', 
                         array(  "layoutPath"=>$layoutPath , 
-                                "subdomain"=>$subdomain,
-                                "mainTitle"=>$mainTitle,
-                                "placeholderMainSearch"=>$placeholderMainSearch) ); 
+                                "page" => "live") ); 
 ?>
 
-<style>
-	/*.timeline-body > p, .timeline-body > ul{
-		padding:0px;
-		font-size:14px;
-	}	
-	.carousel-inner > .item > a > img, .carousel-inner > .item > img, .img-responsive, .thumbnail a > img, .thumbnail > img{
-		display:inline;
-	}
-	.timeline-footer{
-		min-height:40px;
-	}
-
-	.timeline-heading h5{
-		padding: 10px 10px !important;
-	}
-
-	.srcMedia{
-		text-align:right;
-	}
-	.timeline-inverted .srcMedia{
-		text-align:left;
-	}
-
-	.link-read-media{
-		float: left;
-	}
-	.timeline-inverted .link-read-media{
-		float: right;
-	}
-	.srcMedia small.ilyaL{
-		display: inline;
-	}
-	.srcMedia small.ilyaR{
-		display: none;
-	}
-	.timeline-inverted .srcMedia small.ilyaL{
-		display: none;
-	}
-	.timeline-inverted .srcMedia small.ilyaR{
-		display: inline;
-	}
-
-	.ctnr-txtarea{
-		left:40px!important;
-	}
-	.newsAddComment{
-		margin-right:15px;
-		font-weight:700;
-	}
-
-	#reasonComment{
-		margin-top:15px;
-	}*/
-</style>
 
 <div class="col-md-12 col-sm-12 col-xs-12 bg-white no-padding">
 
@@ -109,7 +53,7 @@
 
 
 
-<?php $this->renderPartial($layoutPath.'footer', array("subdomain"=>$subdomain)); ?>
+<?php $this->renderPartial($layoutPath.'footer', array("subdomain"=>"live")); ?>
 
 <script>
 var loadingData = false;
