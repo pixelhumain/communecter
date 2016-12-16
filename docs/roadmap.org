@@ -125,14 +125,21 @@ Liste des notifications déjà lues => #370 #453
 
 ** @Tib 
   [X] Finance Transparente
-  [X] add to favorite 
+  [ ] add to favorite 
     [X] favorites.{type}.id on persons data
     [X] increment element favoriteCount
     [X] add btn on elements
     [X] maybe use right click, on any link > add to fav
+    [X] onclickfav tags > active css
+    [X] apply multi tag cumulation
+    [ ] new feature : turn favorites into collections
+      [ ] add to collection : select or create collection
+      [ ] view collection on map 
     [ ] bugs 
-      [ ] onclick left menu
       [ ] add survey
+      [ ]  on my profile with loading directory.js
+      [ ] change right click name Remove from fav
+  [ ] cut up communecter.js into sub files
   [ ] POI kanban viewer
   [ ] my POIs
   [ ] add photo
@@ -147,7 +154,12 @@ Liste des notifications déjà lues => #370 #453
   [ ] Quick Add Bookmarklets
   [ ] Element Trombinoscope 
   [ ] INTEGRATTE MARKDOWN wisiwig
-
+  [ ] new feature : film viewer
+    [ ] a film is a collection of type webdocu+question
+    [ ] each poi
+      [ ] is part of the collection , poi.collection : zordi
+      [ ] holds , 3 questions each question is connected to another poi 
+      [ ] when the poi.type.video stops playing , ask the 3 questions 
   * DDA
   [ ] Quand la liste est vide , faire une page explication avec des kickers pour creer des espaces
   [ ] bug : sur archiver , persiste dans les listes 

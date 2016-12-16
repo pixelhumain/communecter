@@ -553,6 +553,7 @@ function getWiki(q){
                                       "<div id='P94'>located in time zone : "+wikidata.entities[q].claims.P421[0].mainsnak.datavalue.value+"</div>"+
                                       "<div id='P94'>area : "+wikidata.entities[q].claims.P2046[0].mainsnak.datavalue.value+"</div>"+
                                       "<div id='P94'>shared borders : "+wikidata.entities[q].claims.P47[0].mainsnak.datavalue.value+"</div>"+
+                                      "<div id='P94'>lien insee : "+wikidata.entities[q].claims.P374[0].mainsnak.datavalue.value+"</div>"+
                                       "</div>"+
                                     "</div>");
               $('.modal-footer').show();
