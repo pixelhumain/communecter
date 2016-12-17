@@ -101,7 +101,7 @@ function loadStream(indexMin, indexMax){
 
 	$.ajax({ 
         type: "POST",
-        url: baseUrl+"/"+moduleId+"/k/live",
+        url: baseUrl+"/"+moduleId+"/co2/live",
         data: { indexMin: indexMin, 
         		indexMax:indexMax, 
         		renderPartial:true 
@@ -129,7 +129,7 @@ function initStream(){
 	//toastr.info("Initialisation du LIVE en cours, merci de patienter quelques secondes.");
 	$.ajax({ 
         type: "POST",
-        url: baseUrl+"/"+moduleId+"/k/mediacrawler",
+        url: baseUrl+"/"+moduleId+"/co2/mediacrawler",
         success:
             function(html) {
                 //toastr.success("Initialisation terminée.");

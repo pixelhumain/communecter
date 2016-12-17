@@ -6,14 +6,61 @@
     );
     HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 
+
+    $cssAnsScriptFilesModule = array(
+      '/css/news/newsSV.css',
+    );
+    HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule,Yii::app()->theme->baseUrl."/assets");
+
     $timezone = 'Pacific/Noumea';
 		$pair = false;
 
     $imgDefault = $this->module->assetsUrl.'/images/news/profile_default_l.png';
 
+    
+
+   $nbCol = 1;
+
+?>
+
+<div class="col-md-12 col-sm-12 no-padding margin-bottom-15" style="padding-left:25px!important;">
+<?php //var_dump($params); 
+      $params = array(
+                "type" => $type,
+                "contextParentId" => $contextParentId,
+                "parent" => $parent,
+                "contextParentType" => $contextParentType,
+        );
+      $this->renderPartial('formCreateNewsCO2', $params);
+?>
+</div>
+
+<style>
+  .timeline-heading h5{
+    height: 55px;
+  }
+  .timeline-panel{
+    background-color: white;
+  }
+
+  <?php if($nbCol == 1){ ?>
+    .timeline > li{
+      width:100%;
+    }
+    .timeline::before {
+      left:0;
+    }
+  <?php } ?>
+</style>
+
+<?php 
+    if(sizeof($news)==0){
+      echo "<div class='padding-15'><i class='fa fa-ban'></i> Aucun message dans ce fil d'actualité</div>";
+   }
+
    // var_dump($news);exit;
 		foreach($news as $key => $media){ 
-			$class = $pair ? "timeline-inverted" : "";
+			$class = $pair || ($nbCol == 1) ? "timeline-inverted" : "";
 			$pair = !$pair;
 
       $thumbAuthor =  @$media['author']['profilThumbImageUrl'] ? 
@@ -30,13 +77,10 @@
 
       if(@$media["imageBackground"])
         $srcMainImg = Yii::app()->createUrl($media["imageBackground"]);
+
+
 	?>
 
-<style>
-  .timeline-heading h5{
-    height: 55px;
-  }
-</style>
   
       <li class="<?php echo $class; ?>">
         <div class="timeline-badge primary"><a><i class="glyphicon glyphicon-record" rel="tooltip"></i></a></div>
@@ -132,7 +176,7 @@
           </div>
           
           
-          <div class="timeline-footer pull-left col-md-12 padding-top-5">
+          <div class="timeline-footer pull-left col-md-12 col-sm-12 col-xs-12 padding-top-5">
               <!-- <a class="btn-comment-media" data-media-id="<?php echo $media["_id"]; ?>"><i class="fa fa-comment"></i> Commenter</a> -->
               <!-- <a><i class="glyphicon glyphicon-thumbs-up"></i></a>
               <a><i class="glyphicon glyphicon-share"></i></a> -->

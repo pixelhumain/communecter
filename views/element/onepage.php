@@ -86,111 +86,112 @@
 			  </ul>
 		</div>
 	</div>
-    <!-- Header -->
-    <section class="header" id="header">
-    	<button class="btn btn-default btn-sm pull-right margin-right-15 hidden-xs btn-edit-section margin-top-70" data-id="#header">
-	        <i class="fa fa-cog"></i>
-	    </button>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
+	<div id="onepage">
+	    <!-- Header -->
+	    <section class="header" id="header">
+	    	<button class="btn btn-default btn-sm pull-right margin-right-15 hidden-xs btn-edit-section margin-top-70" data-id="#header">
+		        <i class="fa fa-cog"></i>
+		    </button>
+	        <div class="container">
+	            <div class="row">
+	                <div class="col-md-12">
 
-                    <?php //var_dump($element["address"]); ?>
+	                    <?php //var_dump($element["address"]); ?>
 
-                    <div class="col-md-12 col-sm-12">
-	                    <div class="col-md-3 col-sm-4 hidden-xs text-right btn-tools">
-	                    	<?php if(@$edit == true){ ?>
-	                    	<button class="btn btn-default">Editer les informations <i class="fa fa-pencil"></i></button><br>
-	                    	<button class="btn btn-default"> Paramétrer la page <i class="fa fa-cog"></i></button>
-		                    <?php } ?>
-	                    </div>
-	                    <div class="col-md-6 col-sm-4 col-xs-12 text-center" style="margin-top:-20px;">
-	                    	<?php if(@$element['profilMediumImageUrl'] && @$element['profilMediumImageUrl'] != "") { ?>
-	                        	<?php if(@$typeItem){ ?>
-		                    		<span class="col-md-12 col-sm-12 bold">
-		                    			<?php if (@$element["typeSig"]!="people" && @$element["typeSig"]!="organizations") {
-		                    					echo ucfirst(Yii::t("common", @$typeItem)); 
-		                    				  }
-		                    				  if (@$element["typeSig"]=="organizations") 
-		                    				  	echo Yii::t("common", $element["type"]);  
-		                    			?>
-		                    		</span><br>
-		                    	<?php } ?>
-
-	                        	<img class="img-responsive thumbnail 
-	                        				<?php if(@$useBorderElement==true){ ?>thumb-type-color-<?php echo $iconColor; ?><?php } ?>" 
-	                    		 src="<?php echo @$element['profilMediumImageUrl'] ? Yii::app()->createUrl('/'.@$element['profilMediumImageUrl']) : $imgDefault; ?>" 
-	                    		 alt="">
-
-		                    	<?php if(@$useBorderElement==true && $icon != "" && $iconColor != ""){ ?>
-			                    <div class="col-md-12 col-sm-12 no-padding text-center i-item">
-			                        <i class="fa fa-<?php echo $icon; ?> i-type-color-<?php echo $iconColor; ?>"></i>
-			                    </div>
+	                    <div class="col-md-12 col-sm-12">
+		                    <div class="col-md-3 col-sm-4 hidden-xs text-right btn-tools">
+		                    	<?php if(@$edit == true){ ?>
+		                    	<button class="btn btn-default">Editer les informations <i class="fa fa-pencil"></i></button><br>
+		                    	<button class="btn btn-default"> Paramétrer la page <i class="fa fa-cog"></i></button>
 			                    <?php } ?>
-		                    <?php } ?>
-	                    </div>
-	                    <div class="col-md-3 col-sm-4 col-xs-12 text-left btn-tools pull-right">
-	                    	
-	                    	<button class="btn btn-default"><i class="fa fa-link"></i> <span class="hidden-xs">Suivre cette page</span></button><br>
-	                    	<?php if($type == Organization::COLLECTION ){ ?>
-	                    	<button class="btn btn-default"><i class="fa fa-plus-circle"></i> <span class="hidden-xs">Devenir membre</span></button><br>
-	                    	<?php } ?>
+		                    </div>
+		                    <div class="col-md-6 col-sm-4 col-xs-12 text-center" style="margin-top:-20px;">
+		                    	<?php if(@$element['profilMediumImageUrl'] && @$element['profilMediumImageUrl'] != "") { ?>
+		                        	<?php if(@$typeItem){ ?>
+			                    		<span class="col-md-12 col-sm-12 bold">
+			                    			<?php if (@$element["typeSig"]!="people" && @$element["typeSig"]!="organizations") {
+			                    					echo ucfirst(Yii::t("common", @$typeItem)); 
+			                    				  }
+			                    				  if (@$element["typeSig"]=="organizations") 
+			                    				  	echo Yii::t("common", $element["type"]);  
+			                    			?>
+			                    		</span><br>
+			                    	<?php } ?>
 
-	                    	<?php if($type == Project::COLLECTION ){ ?>
-	                    	<button class="btn btn-default"><i class="fa fa-plus-circle"></i> <span class="hidden-xs">Devenir contributeur</span></button><br>
-	                    	<?php } ?>
+		                        	<img class="img-responsive thumbnail 
+		                        				<?php if(@$useBorderElement==true){ ?>thumb-type-color-<?php echo $iconColor; ?><?php } ?>" 
+		                    		 src="<?php echo @$element['profilMediumImageUrl'] ? Yii::app()->createUrl('/'.@$element['profilMediumImageUrl']) : $imgDefault; ?>" 
+		                    		 alt="">
 
-	                    	<?php if($type == Event::COLLECTION ){ ?>
-	                    	<button class="btn btn-default"><i class="fa fa-plus-circle"></i> <span class="hidden-xs">Je participe</span></button><br>
-	                    	<?php } ?>
-
-	                    	<button class="btn btn-default"><i class="fa fa-star"></i> <span class="hidden-xs">Favoris</span></button>
-	                    </div>
-	                    <div class="col-md-12 col-sm-12 intro-text">
-	                    	<?php if(!@$element['profilMediumImageUrl'] || @$element['profilMediumImageUrl'] == "") { ?>
-	                        	<?php if(@$typeItem){ ?>
-		                    		<span class="col-md-12 col-sm-12 bold">
-		                    			<?php if (@$element["typeSig"]!="people" && @$element["typeSig"]!="organizations") {
-		                    					echo ucfirst(Yii::t("common", @$typeItem)); 
-		                    				  }
-		                    				  if (@$element["typeSig"]=="organizations") 
-		                    				  	echo Yii::t("common", $element["type"]);  
-		                    			?>
-		                    		</span><br>
+			                    	<?php if(@$useBorderElement==true && $icon != "" && $iconColor != ""){ ?>
+				                    <div class="col-md-12 col-sm-12 no-padding text-center i-item">
+				                        <i class="fa fa-<?php echo $icon; ?> i-type-color-<?php echo $iconColor; ?>"></i>
+				                    </div>
+				                    <?php } ?>
+			                    <?php } ?>
+		                    </div>
+		                    <div class="col-md-3 col-sm-4 col-xs-12 text-left btn-tools pull-right">
+		                    	
+		                    	<button class="btn btn-default"><i class="fa fa-link"></i> <span class="hidden-xs">Suivre cette page</span></button><br>
+		                    	<?php if($type == Organization::COLLECTION ){ ?>
+		                    	<button class="btn btn-default"><i class="fa fa-plus-circle"></i> <span class="hidden-xs">Devenir membre</span></button><br>
 		                    	<?php } ?>
-		                    <?php } ?>
 
-	                        <span class="name"><?php echo @$element["name"]; ?></span><br>
-	                        <span class="email"><?php echo @$element["email"]; ?></span>
-	                        <hr class="bold-hr">
-	                        <span class="skills"><?php echo @$element["shortDescription"]; ?></span>
-	                    </div>
-	                    
-                    </div>
+		                    	<?php if($type == Project::COLLECTION ){ ?>
+		                    	<button class="btn btn-default"><i class="fa fa-plus-circle"></i> <span class="hidden-xs">Devenir contributeur</span></button><br>
+		                    	<?php } ?>
 
-                    <div class="col-md-12 col-sm-12">		                
-	                    <div class="tags">
-	                    	<?php if(@$element["tags"])
-	                    			foreach ($element["tags"]  as $key => $tag) { ?>
-	                    		<span class="badge bg-red"><?php echo $tag; ?></span>
-	                    	<?php } ?>
+		                    	<?php if($type == Event::COLLECTION ){ ?>
+		                    	<button class="btn btn-default"><i class="fa fa-plus-circle"></i> <span class="hidden-xs">Je participe</span></button><br>
+		                    	<?php } ?>
+
+		                    	<button class="btn btn-default"><i class="fa fa-star"></i> <span class="hidden-xs">Favoris</span></button>
+		                    </div>
+		                    <div class="col-md-12 col-sm-12 intro-text">
+		                    	<?php if(!@$element['profilMediumImageUrl'] || @$element['profilMediumImageUrl'] == "") { ?>
+		                        	<?php if(@$typeItem){ ?>
+			                    		<span class="col-md-12 col-sm-12 bold">
+			                    			<?php if (@$element["typeSig"]!="people" && @$element["typeSig"]!="organizations") {
+			                    					echo ucfirst(Yii::t("common", @$typeItem)); 
+			                    				  }
+			                    				  if (@$element["typeSig"]=="organizations") 
+			                    				  	echo Yii::t("common", $element["type"]);  
+			                    			?>
+			                    		</span><br>
+			                    	<?php } ?>
+			                    <?php } ?>
+
+		                        <span class="name"><?php echo @$element["name"]; ?></span><br>
+		                        <span class="email"><?php echo @$element["email"]; ?></span>
+		                        <hr class="bold-hr">
+		                        <span class="skills"><?php echo @$element["shortDescription"]; ?></span>
+		                    </div>
+		                    
 	                    </div>
-	                    <div class="commune text-red homestead margin-top-10">
-	                		<?php if(@$element["address"] && @$element["address"]["addressLocality"]) {
-	                				echo "<i class='fa fa-university'></i> ".$element["address"]["addressLocality"];
-	                				if(@$element["address"]["postalCode"]) echo ", ";
-	                			  }
-	                			  if(@$element["address"] && @$element["address"]["postalCode"]) 
-	                			  	echo $element["address"]["postalCode"];
-	                		?>
-	                    </div>
+
+	                    <div class="col-md-12 col-sm-12">		                
+		                    <div class="tags">
+		                    	<?php if(@$element["tags"])
+		                    			foreach ($element["tags"]  as $key => $tag) { ?>
+		                    		<span class="badge bg-red"><?php echo $tag; ?></span>
+		                    	<?php } ?>
+		                    </div>
+		                    <div class="commune text-red homestead margin-top-10">
+		                		<?php if(@$element["address"] && @$element["address"]["addressLocality"]) {
+		                				echo "<i class='fa fa-university'></i> ".$element["address"]["addressLocality"];
+		                				if(@$element["address"]["postalCode"]) echo ", ";
+		                			  }
+		                			  if(@$element["address"] && @$element["address"]["postalCode"]) 
+		                			  	echo $element["address"]["postalCode"];
+		                		?>
+		                    </div>
+		                </div>
+
 	                </div>
-
-                </div>
-            </div>
-        </div>
-    </section>
-
+	            </div>
+	        </div>
+	    </section>
+    </div>
     <!-- About Section -->
     <?php if(isset($element["description"])){ ?>
     <!-- <section class="darkblue padding-bottom-50 shadow hidden" id="description">
@@ -506,6 +507,8 @@
 
     var currentIdSection = "";
 	jQuery(document).ready(function() {
+		
+
 		//$(".dropdown-onepage-main-menu").hide();
 		$("#main-page-name, title").html(elementName);
 
