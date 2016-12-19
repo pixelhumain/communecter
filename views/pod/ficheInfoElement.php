@@ -766,7 +766,7 @@ if($showOdesc == true){
 		changeHiddenIconeElement(true);
 		manageDivEditElement();
 		bindAboutPodElement();
-		favorite.applyColor(contextData.type,contextData.id);
+		collection.applyColor(contextData.type,contextData.id);
 		/*$("#btn-update-geopos").click(function(){
 			findGeoPosByAddress();
 		});
