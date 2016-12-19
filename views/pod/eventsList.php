@@ -32,7 +32,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->reque
 					<table class="table table-striped table-hover" id="events">
 						<tbody>
 					<?php	
-						foreach ($events as $e) {						
+						foreach ($events as $e) {					
 							if (empty($e["endDate"]) || (!empty($e["endDate"]) && isset($e["endDate"]->sec) && $e["endDate"]->sec > time())) {
 								$eventStyle = "";
 								$eventClass = "";
