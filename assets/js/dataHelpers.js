@@ -152,8 +152,8 @@ function addCustomValidators() {
 	jQuery.validator.addMethod("duringDates", function(value, element, params) {  
 		if( $(params[0]).val() && $(params[1]).val() ){
 			//console.warn(moment(value, "DD/MM/YYYY HH:mm"),moment($(params[0]).val()),moment($(params[1]).val()));
-	    	return (moment(value, "DD/MM/YYYY HH:mm").isAfter(moment($(params[0]).val())) 
-	    		&& moment(value, "DD/MM/YYYY HH:mm").isBefore(moment($(params[1]).val())));
+	    	return (moment(value, "DD/MM/YYYY HH:mm").isSameOrAfter(moment($(params[0]).val())) 
+	    		&& moment(value, "DD/MM/YYYY HH:mm").isSameOrBefore(moment($(params[1]).val())));
 	    	//return  ( new Date(value) >= new Date( $(params[0]).val() ) && new Date(value) <= new Date($(params[1]).val()) );
 		} 
 		return true;
