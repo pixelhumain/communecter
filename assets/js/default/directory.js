@@ -18,7 +18,7 @@ function startSearch(indexMin, indexMax, callBack){
 
     mylog.log("startSearch", indexMin, indexMax, indexStep);
 
-	  var name = $('#searchBarText').val();
+	  var name = ($('#searchBarText').length>0) ? $('#searchBarText').val() : "";
     
     if(name == "" && searchType.indexOf("cities") > -1) return;  
 
@@ -34,25 +34,26 @@ function startSearch(indexMin, indexMax, callBack){
     }
     else{ if(scrollEnd) return; }
     
-    if(name.length>=3 || name.length == 0){
+    if(name.length>=3 || name.length == 0)
+    {
       var locality = "";
-      if(communexionActivated){
-	    if(typeof(cityInseeCommunexion) != "undefined"){
-			if(levelCommunexion == 1) locality = cpCommunexion;
-			if(levelCommunexion == 2) locality = inseeCommunexion;
-		}else{
-			if(levelCommunexion == 1) locality = inseeCommunexion;
-			if(levelCommunexion == 2) locality = cpCommunexion;
-		}
+      if( communexionActivated )
+      {
+  	    if(typeof(cityInseeCommunexion) != "undefined")
+        {
+    			if(levelCommunexion == 1) locality = cpCommunexion;
+    			if(levelCommunexion == 2) locality = inseeCommunexion;
+    		}else{
+    			if(levelCommunexion == 1) locality = inseeCommunexion;
+    			if(levelCommunexion == 2) locality = cpCommunexion;
+    		}
         //if(levelCommunexion == 3) locality = cpCommunexion.substr(0, 2);
         if(levelCommunexion == 3) locality = inseeCommunexion;
         if(levelCommunexion == 4) locality = inseeCommunexion;
         if(levelCommunexion == 5) locality = "";
       } 
       autoCompleteSearch(name, locality, indexMin, indexMax, callBack);
-    }else{
-      
-    }   
+    }  
 }
 
 
@@ -152,7 +153,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
               var city, postalCode = "";
 
               //parcours la liste des résultats de la recherche
-              mylog.dir(data);
+              //mylog.dir(data);
               str = showResultsDirectoryHtml(data);
 
               if(str == "") { 
@@ -380,7 +381,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
         itemType=(contentType) ? contentType :o.type;
         if( itemType )
         {
-          mylog.log("showResultsDirectoryHtml", o);
+          //mylog.log("showResultsDirectoryHtml", o);
           var typeIco = i;
           
           mapElements.push(o);
@@ -425,7 +426,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
             postalCode = o.cp ? o.cp : o.address.postalCode ? o.address.postalCode : "";
           }
           
-          mylog.dir(o);
+          //mylog.dir(o);
           var id = getObjectId(o);
           var insee = o.insee ? o.insee : "";
           mylog.log(itemType);
@@ -464,10 +465,14 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
           }
 
           var tags = "";
+          var elTagsList = "";
           if(typeof o.tags != "undefined" && o.tags != null){
             $.each(o.tags, function(key, value){
-              if(value != "")
-              tags +=   "<a href='javascript:' class='badge bg-transparent text-red btn-tag tag' data-tag-value='"+value+"'>#" + value + "</a> ";
+              if(value != ""){
+                tags +=   "<a href='javascript:' class='badge bg-transparent text-red btn-tag tag' data-tag-value='"+value+"'>#" + value + "</a> ";
+                elTagsList += slugify(value)+" ";
+              }
+
             });
           }
 
@@ -506,7 +511,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
           var updated   = notEmpty(o.updatedLbl) ? o.updatedLbl : null; 
           
           //template principal
-          str += "<div class='col-lg-3 col-md-4 col-sm-6 col-xs-12 searchEntityContainer "+type+"'>";
+          str += "<div class='col-lg-3 col-md-4 col-sm-6 col-xs-12 searchEntityContainer "+type+" "+elTagsList+" '>";
           str +=    "<div class='searchEntity'>";
 
           if(itemType!="city" && (useMinSize))
@@ -531,7 +536,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
                 str += "<div class='dateUpdated'><i class='fa fa-flash'></i> <span class='hidden-xs'>actif </span>" + updated + "</div>";
 
               if(itemType!="city" && (typeof size == "undefined" || size == "max"))
-                str += "<a href='"+url+"' class='container-img-profil lbh lbhEl'>" + imgProfil + "</a>";
+                str += "<a href='"+url+"' class='container-img-profil lbh add2fav'>" + imgProfil + "</a>";
 
               str += "<div class='padding-10 informations'>";
 
@@ -544,7 +549,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
                 
                 if(typeof size == "undefined" || size == "max"){
                   str += "<div class='entityCenter no-padding'>";
-                  str +=    "<a href='"+url+"' class='lbh lbhEl'>" + htmlIco + "</a>";
+                  str +=    "<a href='"+url+"' class='lbh add2fav'>" + htmlIco + "</a>";
                   str += "</div>";
                 }
               }  
@@ -553,19 +558,19 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
                                  
                   
                 if(notEmpty(o.parent) && notEmpty(o.parent.name))
-                  str += "<a href='"+urlParent+"' class='entityName text-"+parentColor+" lbh lbhEl text-light-weight margin-bottom-5'>" +
+                  str += "<a href='"+urlParent+"' class='entityName text-"+parentColor+" lbh add2fav text-light-weight margin-bottom-5'>" +
                             "<i class='fa "+parentIcon+"'></i> "
                             + o.parent.name + 
                           "</a>";
 
                 var iconFaReply = notEmpty(o.parent) ? "<i class='fa fa-reply fa-rotate-180'></i> " : "";
-                str += "<a href='"+url+"' class='entityName text-dark lbh lbhEl'>"+
+                str += "<a href='"+url+"' class='entityName text-dark lbh add2fav'>"+
                           iconFaReply + name + 
                        "</a>";
                 
                 var thisLocality = "";
                 if(fullLocality != "" && fullLocality != " ")
-                     thisLocality = "<a href='"+url+'\' data-id="' + dataId + '"' + "  class='entityLocality lbh lbhEl'>"+
+                     thisLocality = "<a href='"+url+'\' data-id="' + dataId + '"' + "  class='entityLocality lbh add2fav'>"+
                                       "<i class='fa fa-home'></i> " + fullLocality + 
                                     "</a>";
                 else thisLocality = "<br>";
@@ -576,7 +581,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
                   parentIco = "";
                   if(type == "surveys"){ parentUrl = "#survey.entries.id."+o.survey; parentIco = "archive"; }
                   else if(type == "actions") {parentUrl = "#rooms.actions.id."+o.room;parentIco = "cogs";}
-                  str += "<div class='entityDescription text-dark'><i class='fa fa-" + parentIco + "'></i><a href='" + parentUrl + "' class='lbh lbhEl'> " + o.parentRoom.name + "</a></div>";
+                  str += "<div class='entityDescription text-dark'><i class='fa fa-" + parentIco + "'></i><a href='" + parentUrl + "' class='lbh add2fav'> " + o.parentRoom.name + "</a></div>";
                   if(notEmpty(o.parentRoom.parentObj)){
                     var typeIcoParent = o.parentRoom.parentObj.typeSig;
                     //mylog.log("typeIcoParent", o.parentRoom);
@@ -632,7 +637,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
                   
                   if(typeof size == "undefined" || size == "max"){
                     str += "<div class='entityCenter no-padding'>";
-                    str +=    "<a href='"+url+"' class='lbh lbhEl'>" + htmlIco + "</a>";
+                    str +=    "<a href='"+url+"' class='lbh add2fav'>" + htmlIco + "</a>";
                     str += "</div>";
                   }
                 }  
@@ -651,4 +656,126 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
     return str;
   }
 
-  
+var directory = {
+
+    elemClass : '.menuSmallBlockUI .searchEntityContainer ',
+    path : 'div.menuSmallBlockUI div.favSection div.searchEntityContainer',
+    //builds a small sized list
+    buildList : function(list) {
+      $(".favSectionBtnNew,.favSection").remove();
+
+      $.each( list, function(key,list)
+      {
+        var subContent = showResultsDirectoryHtml ( list, key, "min" );
+        if( notEmpty(subContent) ){
+          favTypes.push(key);
+          $(".menuSmallBlockUI").append("<div class='"+key+"fav favSection '><div class=' col-xs-12 col-sm-10 padding-15'><h2 class='homestead'> "+key+" <i class='fa fa-angle-down'></i> </h2>"+
+                subContent+
+                "</div>");
+          color = (typeObj[key] && typeObj[key].color) ? typeObj[key].color : "white";
+          $(".sectionFilters").append(" <span class=' btn btn-xs favSectionBtn favSectionBtnNew  bg-"+color+"'><a class='text-black helvetica' href='javascript:toggle(\"."+key+"fav\",\".favSection\",1)'> "+key+"</a></span> ")
+        }
+      });
+      
+      directory.filterList();
+      $(directory.elemClass).show()
+    },
+    //build list of unique tags based on a directory structure
+    //on click hides empty parent sections
+    filterList : function  (elClass,dest) { 
+        var tagsT = [];
+        var scopesT = [];
+        $("#listTags").html("");
+        $("#listScopes").html("<h2 class='homestead'>Où <i class='fa fa-angle-down'></i></h2>");
+        $.each($(directory.elemClass),function(k,o){
+          
+          var oScope = $(o).find(".entityLocality").text();
+          console.log("tags count",$(o).find(".btn-tag").length);
+          $.each($(o).find(".btn-tag"),function(i,oT){
+            var oTag = $(oT).data('tag-value');
+            if( notEmpty( oTag ) && !inArray( oTag,tagsT ) ){
+              tagsT.push(oTag);
+              console.log(oTag);
+              $("#listTags").append("<a class='btn btn-xs btn-link text-white text-left w100p favElBtn "+slugify(oTag)+"Btn' data-tag='"+slugify(oTag)+"' href='javascript:directory.toggleEmptyParentSection(\".favSection\",\"."+slugify(oTag)+"\",\""+directory.elemClass+"\",1)'><i class='fa fa-tag'></i> "+oTag+"</a><br/>");
+            }
+          });
+          if( notEmpty( oScope ) && !inArray( oScope,scopesT ) ){
+            scopesT.push(oScope);
+            $("#listScopes").append("<a class='btn btn-xs btn-link text-white text-left w100p favElBtn "+slugify(oScope)+"Btn' href='javascript:directory.searchFor(\""+oScope+"\")'><i class='fa fa-map-marker'></i> "+oScope+"</a><br/>");
+          }
+        })
+        console.log("tags count",tagsT.length,scopesT.length);
+    },
+
+    //show hide parents when empty
+    toggleEmptyParentSection : function ( parents ,tag ,children ) { 
+        mylog.log("toggleEmptyParentSection ", parents, tag, children);
+        var showAll = true;
+        if(tag){
+          $(".favAllBtn").removeClass("btn-dark-blue");
+          //apply tag filtering
+          $(tag+"Btn").toggleClass("btn-link text-white").toggleClass("active  btn-dark-blue");
+
+          if( $( ".favElBtn.active" ).length > 0 ) 
+          {
+            showAll = false;
+            tags = "";
+            $.each( $( ".favElBtn.active" ) ,function( i,o ) { 
+              tags += "."+$(o).data("tag")+",";
+            });  
+            tags = tags.replace(/,\s*$/, "");
+            mylog.log(tags)
+            toggle(tags,children,1);
+
+            directory.toggleParents(directory.path);
+          }
+        }
+        
+        if(showAll)
+          directory.showAll(parents,children);
+    },
+    showAll: function(parents,children,path) 
+    {
+      //show all
+      $(".favElBtn").removeClass("active btn-dark-blue").addClass("btn-link text-white ");
+      $(".favAllBtn").addClass("btn-dark-blue");
+      $(parents).removeClass('hide');
+      $(children).removeClass('hide');
+    },
+    toggleParents : function (path) { 
+        //mylog.log("toggleParents",parents,children);
+        $.each( favTypes, function(i,k)
+        {
+          if( $(path+'.'+k).length == $(path+'.'+k+'.hide ').length )
+            $('.'+k+'fav').addClass('hide');
+          else
+            $('.'+k+'fav').removeClass('hide');
+        });
+    },
+    //fait de la recherche client dans les champs demandé
+    search : function(parentClass, searchVal) { 
+        console.log("searchDir searchVal",searchVal);           
+        if(searchVal.length>2 ){
+            $.each( $(directory.elemClass) ,function (i,k) { 
+                      var found = null;
+              if( $(this).find(".entityName").text().search( new RegExp( searchVal, "i" ) ) >= 0 || 
+                  $(this).find(".entityLocality").text().search( new RegExp( searchVal, "i" ) ) >= 0 || 
+                  $(this).find(".tagsContainer").text().search( new RegExp( searchVal, "i" ) ) >= 0 )
+                {
+                  //mylog.log("found");
+                  found = 1;
+                }
+
+                if(found)
+                    $(this).removeClass('hide');
+                else
+                    $(this).addClass('hide');
+            });
+            directory.toggleParents(directory.path);
+        } else
+            directory.toggleEmptyParentSection(parentClass,null, directory.elemClass ,1);
+    },
+    searchFor : function (str) { 
+      $(".searchSmallMenu").val(str).trigger("keyup");
+     }
+}

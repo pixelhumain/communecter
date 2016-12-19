@@ -4,9 +4,14 @@
     //header + menu
     $this->renderPartial($layoutPath.'header', 
                         array(  "layoutPath"=>$layoutPath , 
-                                "subdomain"=>$subdomain,
-                                "mainTitle"=>$mainTitle,
-                                "placeholderMainSearch"=>$placeholderMainSearch) ); 
+                                "page" => "web",
+                                // "subdomain"=>$subdomain,
+                                // "subdomainName" => $subdomainName,
+                                // "icon" => $icon, 
+                                // "mainTitle"=>$mainTitle,
+                                // "placeholderMainSearch"=>$placeholderMainSearch) 
+                            )
+                        ); 
 ?>
 
 <style>
@@ -16,15 +21,25 @@
         padding-bottom:50px;
     }
 </style>
+<section class="padding-top-15 hidden" id="">
+        <div class="row">
+            <div class="col-md-12" id="">
+                <h2>TODO pour CO2 :</h2>
+                <p>Le green-web regroupe l'ensemble des sites à vocation alternatives, écologiques, sociales, solidaires, afin de faciliter l'accès à ces ressources</p>
+                <h3 class="text-center">référencer un maximum de site web fournissant des info / actu / solutions / alternatives</h3>
+                <h3 class="text-center">Définir une liste de catégorie spécifique pour faire des recherches simples et intuitives</h3>
+            </div>
+        </div>
+</section>
 <section class="padding-top-15 hidden" id="sectionSearchResults">
         <div class="row">
             <div class="col-md-12" id="searchResults"></div>
         </div>
 </section>
 
-<div id="mainCategories"></div>
+<div id="mainCategories" class="shadow"></div>
 
-<?php $this->renderPartial($layoutPath.'footer',  array( "subdomain"=>$subdomain ) ); ?>
+<?php $this->renderPartial($layoutPath.'footer',  array( "subdomain"=>"web" ) ); ?>
 
 <script>
 jQuery(document).ready(function() {
@@ -32,7 +47,7 @@ jQuery(document).ready(function() {
     initWebInterface();
     buildListCategories();
 
-    location.hash = "#k.web";
+    location.hash = "#co2.web";
 });
 
 function initWebInterface(){

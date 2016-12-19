@@ -11,10 +11,8 @@
     $layoutPath = 'webroot.themes.'.Yii::app()->theme->name.'.views.layouts.';
     //header + menu
     $this->renderPartial($layoutPath.'header', 
-                        array(  "layoutPath"=>$layoutPath , 
-                                "subdomain"=>$subdomain,
-                                "mainTitle"=>$mainTitle,
-                                "placeholderMainSearch"=>$placeholderMainSearch) ); 
+                        array(  "layoutPath"=>$layoutPath ,
+                                "page" => "social") ); 
 ?>
 <style>
 	
@@ -45,17 +43,11 @@
 </style>
 
 
-<div class="col-md-12 col-sm-12 col-xs-12 bg-white no-padding">
-    <div class="col-md-10 col-md-offset-1" style="margin-top:-20px;">
-        
-    </div>
-</div>
-
-<div class="col-md-12 col-sm-12 col-xs-12 bg-white no-padding" style="min-height:700px;">
+<div class="col-md-12 col-sm-12 col-xs-12 bg-white no-padding shadow padding-top-50" style="min-height:700px;">
 	<div class="col-md-10 col-md-offset-1" id="page"></div>
 </div>
 
-<?php $this->renderPartial($layoutPath.'footer', array("subdomain"=>$subdomain)); ?>
+<?php $this->renderPartial($layoutPath.'footer', array("subdomain"=>"social")); ?>
 
 <script>
 
