@@ -7,7 +7,7 @@
  * @author: Sylvain Barbot <sylvain@pixelhumain.com>
  * Date: 05/05/2015
  */
-class FavoritesController extends CommunecterController {
+class CollectionsController extends CommunecterController {
 
 	protected function beforeAction($action) {
 		parent::initPage();
@@ -16,8 +16,9 @@ class FavoritesController extends CommunecterController {
 	public function actions()
 	{
 	    return array(
-	    	'add'     	=> 'citizenToolKit.controllers.favorites.AddAction',
-	        'list'     	=> 'citizenToolKit.controllers.favorites.ListAction',
+	    	'add'     	=> 'citizenToolKit.controllers.collections.AddAction',
+	        'list'     	=> 'citizenToolKit.controllers.collections.ListAction',
+	        'new'     	=> 'citizenToolKit.controllers.collections.NewAction',
 	    );
 	}
 }

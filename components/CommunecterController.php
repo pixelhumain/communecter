@@ -106,9 +106,10 @@ class CommunecterController extends Controller
     "adminpublic" => array(
       "index"    => array("href" => "/ph/communecter/adminpublic/index"),
     ),
-    "favorites" => array(
-      "add"    => array("href" => "/ph/communecter/favorites/add"),
-      "list"    => array("href" => "/ph/communecter/favorites/list"),
+    "collections" => array(
+      "add"    => array("href" => "/ph/communecter/collections/add"),
+      "list"    => array("href" => "/ph/communecter/collections/list"),
+      "new"    => array("href" => "/ph/communecter/collections/new"),
     ),
     "default" => array(
       "index"                => array("href" => "/ph/communecter/default/index", "public" => true),
@@ -338,7 +339,6 @@ class CommunecterController extends Controller
       "multiconnect"           => array("href" => "/ph/communecter/link/multiconnect"),
       "follow"           => array("href" => "/ph/communecter/link/follow"),
       "validate"          => array("href" => "/ph/communecter/link/validate"),
-      "favorite"          => array("href" => "/ph/communecter/link/favorite"),
     ),
     "document" => array(
       "resized"             => array("href"=> "/ph/communecter/document/resized", "public" => true),
