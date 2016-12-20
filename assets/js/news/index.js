@@ -936,7 +936,7 @@ function saveNews(){
 				},
 			},
 			messages : {
-				getUrl : "* Please write something",
+				getUrl : "* "+trad["emptymsg"],
 				goSaveNews: "* Image is still loading"
 
 			},

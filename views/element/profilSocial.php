@@ -11,6 +11,33 @@
 			  ) , 
 		Yii::app()->theme->baseUrl. '/assets');
 
+	$cssAnsScriptFilesModule = array(
+  '/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css',
+  '/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysiwyg-color.css',
+  '/plugins/bootstrap-datetimepicker/css/datetimepicker.css',
+  '/plugins/x-editable/css/bootstrap-editable.css',
+  '/plugins/select2/select2.css',
+  //X-editable...
+  '/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js' , 
+  '/plugins/x-editable/js/bootstrap-editable.js' , 
+  '/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' , 
+  '/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , 
+  '/plugins/wysihtml5/wysihtml5.js',
+  '/plugins/jquery.scrollTo/jquery.scrollTo.min.js',
+  '/plugins/ScrollToFixed/jquery-scrolltofixed-min.js',
+  '/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js',
+  '/plugins/jquery.appear/jquery.appear.js',
+  '/plugins/jquery.elastic/elastic.js',
+  '/plugins/underscore-master/underscore.js',
+  '/plugins/jquery-mentions-input-master/jquery.mentionsInput.js',
+  '/plugins/jquery-mentions-input-master/jquery.mentionsInput.css',
+  '/plugins/jquery-mentions-input-master/lib/jquery.events.input.js',
+  
+);
+error_log("BasURL : ".Yii::app()->request->baseUrl);
+HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->request->baseUrl);
+
+
 	$imgDefault = $this->module->assetsUrl.'/images/thumbnail-default.jpg';
 	
 	//récupération du type de l'element
@@ -33,7 +60,7 @@
 		width:100%;
 		height:300px;
 	}
-	.social-main-container{
+	.social-main-container, #central-container{
 		background-color: #f8f8f8;
 		min-height:1200px;
 	}
@@ -65,7 +92,7 @@
 		margin-top: 5px;
 	}
 	footer{
-        position: absolute!important;
+        /*position: absolute!important;*/
         bottom: 0px;
     }
 
@@ -144,8 +171,8 @@
 	    <div class="col-md-8 col-md-offset-4 col-sm-8 col-sm-offset-3 col-lg-9 col-lg-offset-3 sub-menu-social">
 	    	
 	    	<div class="btn-group">
-			  <button type="button" class="btn btn-default bold"><i class="fa fa-rss"></i> Fil d'actu<span class="hidden-sm">alité</span>s</button>
-			  <button type="button" class="btn btn-default bold"><i class="fa fa-user-circle"></i> Journal</button>
+			  <button type="button" class="btn btn-default bold" id="btn-start-newsstream"><i class="fa fa-rss"></i> Fil d'actu<span class="hidden-sm">alité</span>s</button>
+			  <button type="button" class="btn btn-default bold" id="btn-start-mystream"><i class="fa fa-user-circle"></i> Journal</button>
 			</div>
 
 			<div class="btn-group margin-left-10">
@@ -173,15 +200,16 @@
 			  <button type="button" class="btn btn-default bold">
 			  	<i class="fa fa-user-secret"></i> <span class="hidden-xs hidden-sm hidden-md">Admin</span>
 			  </button>
-			  <!-- <button type="button" class="btn btn-default bold">
-			  	<i class="fa fa-user-secret letter-red"></i> <span class="hidden-xs hidden-sm hidden-md"></span>
-			  </button> -->
+			  <button type="button" class="btn btn-default bold" id="btn-superadmin">
+			  	<i class="fa fa-grav letter-red"></i> <span class="hidden-xs hidden-sm hidden-md"></span>
+			  </button>
 			</div>
 			
 		</div>
 
 		<div class="col-md-6 col-md-offset-4 col-sm-6 col-sm-offset-3 col-lg-6 col-lg-offset-3">
-	    	<ul class="timeline inline-block" id="timeline-page"></ul>
+			<div id="central-container"></div>
+	    	</ul>
 		</div>
 
 
@@ -236,8 +264,8 @@
 	
 
 	<?php 
-		//$layoutPath = 'webroot.themes.'.Yii::app()->theme->name.'.views.layouts.';
-		//$this->renderPartial($layoutPath.'footer',  array( "subdomain"=>"page" ) ); 
+		$layoutPath = 'webroot.themes.'.Yii::app()->theme->name.'.views.layouts.';
+		$this->renderPartial($layoutPath.'footer',  array( "subdomain"=>"page" ) ); 
 	?>
     
 
@@ -249,8 +277,22 @@
 
 	jQuery(document).ready(function() {
 		initSocial();
+		bindButtonMenu();
+		loadNewsStream(true);
 	});
 
+
+	function bindButtonMenu(){
+		$("#btn-superadmin").click(function(){
+			loadAdminDashboard();
+		});
+		$("#btn-start-newsstream").click(function(){
+			loadNewsStream(true);
+		});
+		$("#btn-start-mystream").click(function(){
+			loadNewsStream(false);
+		});
+	}
 
 	function initSocial(){
 		var Accordion = function(el, multiple) {
@@ -280,14 +322,75 @@
 
    		$(".tooltips").tooltip();
 
+
    		
 	}
 
 	function loadAdminDashboard(){
-
+		$('#central-container').html("<i class='fa fa-spin fa-refresh'></i>");
+		getAjax('#central-container' ,baseUrl+'/'+moduleId+"/co2/superadmin/action/main",function(){ 
+				
+		},"html");
 	}
 
-	
+	function loadNewsStream(isLiveBool){
+		isLive = isLiveBool==true ? "/isLive/true" : ""; 
+		dateLimit = 0;
+		scrollEnd = false;
+		var url = "news/index/type/citoyens/id/<?php echo (string)$element["_id"] ?>"+isLive+"/date/"+dateLimit+"?isFirst=1&tpl=co2&renderPartial=true";
+		console.log("URL", url);
+		$('#central-container').html("<i class='fa fa-spin fa-refresh'></i>");
+		ajaxPost('#central-container', baseUrl+'/'+moduleId+'/'+url, 
+			null,
+			function(){ 
+				$(window).bind("scroll",function(){ 
+				    if(!loadingData && !scrollEnd){
+				          var heightWindow = $("html").height() - $("body").height();
+				          if( $(this).scrollTop() >= heightWindow - 400){
+				            loadStream(currentIndexMin+indexStep, currentIndexMax+indexStep, isLiveBool);
+				          }
+				    }
+				});
+		},"html");
+	}
+
+
+function loadStream(indexMin, indexMax, isLiveBool){ console.log("LOAD STREAM PROFILSOCIAL");
+	loadingData = true;
+	currentIndexMin = indexMin;
+	currentIndexMax = indexMax;
+
+	isLive = isLiveBool==true ? "/isLive/true" : "";
+	var url = "news/index/type/citoyens/id/<?php echo (string)$element["_id"] ?>"+isLive+"/date/"+dateLimit+"?tpl=co2&renderPartial=true";
+	$.ajax({ 
+        type: "POST",
+        url: baseUrl+"/"+moduleId+'/'+url,
+        data: { indexMin: indexMin, 
+        		indexMax:indexMax, 
+        		renderPartial:true 
+        	},
+        success:
+            function(data) {
+                if(data){ //alert(data);
+                	$("#news-list").append(data);
+                	//bindTags();
+					
+				}
+				loadingData = false;
+				$(".stream-processing").hide();
+            },
+        error:function(xhr, status, error){
+            loadingData = false;
+            $("#news-list").html("erreur");
+        },
+        statusCode:{
+                404: function(){
+                	loadingData = false;
+                    $("#news-list").html("not found");
+            }
+        }
+    });
+}
 
 </script>
 

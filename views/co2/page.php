@@ -36,7 +36,7 @@ jQuery(document).ready(function() {
 	
 	//location.hash = location.hash + "?tpl="+tpl;
 
-	getAjax('#onepage' ,baseUrl+'/'+moduleId+"/element/detail/type/"+type+"/id/"+id+"?tpl="+tpl,function(){ 
+	getAjax('#onepage' ,baseUrl+'/'+moduleId+"/element/detail/type/"+type+"/id/"+id+"?tpl=profilSocial",function(){ 
 				
 			},"html");
 });

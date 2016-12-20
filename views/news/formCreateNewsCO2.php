@@ -367,7 +367,7 @@
         <div class="col-md-12 no-padding">
           <hr class="submit">
           
-          <button id="btn-submit-form" type="submit" class="btn btn-green pull-right">Envoyer <i class="fa fa-arrow-circle-right"></i></button>
+          <button id="btn-submit-form" type="submit" class="btn btn-success pull-right">Envoyer <i class="fa fa-arrow-circle-right"></i></button>
 
 
         <?php if((@$canManageNews && $canManageNews==true) 

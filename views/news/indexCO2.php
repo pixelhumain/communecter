@@ -1,5 +1,6 @@
 <?php 
-    
+
+
     $cssAnsScriptFilesModule = array(
       '/js/news/autosize.js',
       '/js/news/newsHtml.js',
@@ -14,26 +15,12 @@
 
     $timezone = 'Pacific/Noumea';
 		$pair = false;
+    $nbCol = 1;
 
     $imgDefault = $this->module->assetsUrl.'/images/news/profile_default_l.png';
 
-    
-
-   $nbCol = 1;
-
 ?>
 
-<div class="col-md-12 col-sm-12 no-padding margin-bottom-15" style="padding-left:25px!important;">
-<?php //var_dump($params); 
-      $params = array(
-                "type" => $type,
-                "contextParentId" => $contextParentId,
-                "parent" => $parent,
-                "contextParentType" => $contextParentType,
-        );
-      $this->renderPartial('formCreateNewsCO2', $params);
-?>
-</div>
 
 <style>
   .timeline-heading h5{
@@ -51,150 +38,205 @@
       left:0;
     }
   <?php } ?>
+
+  .btn-green{
+    background-color: #5CB85C;
+  }
+
+  #get_url{
+    min-height:100px!important;
+    padding:0px;
+    margin: 5px;
+  }
+  .get_url_input {
+    font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+  
+  input#addImage{
+    display: none;
+  }
 </style>
 
-<?php 
-    if(sizeof($news)==0){
-      echo "<div class='padding-15'><i class='fa fa-ban'></i> Aucun message dans ce fil d'actualité</div>";
-   }
 
-   // var_dump($news);exit;
-		foreach($news as $key => $media){ 
-			$class = $pair || ($nbCol == 1) ? "timeline-inverted" : "";
-			$pair = !$pair;
+<ul class="timeline inline-block" id="news-list">
+  <div class="col-md-12 col-sm-12 no-padding margin-bottom-15" style="padding-left:25px!important;">
+  <?php //var_dump($params); 
+        $params = array(
+                  "type" => $type,
+                  "contextParentId" => $contextParentId,
+                  "parent" => $parent,
+                  "contextParentType" => $contextParentType,
+                  "canManageNews" => @$canManageNews,
+                  "isLive" => @$isLive,
+                  "authorizedToStock" => @$authorizedToStock
+          );
+        $this->renderPartial('formCreateNewsCO2', $params);
+  ?>
+  </div>
 
-      $thumbAuthor =  @$media['author']['profilThumbImageUrl'] ? 
-                      Yii::app()->createUrl('/'.@$media['author']['profilThumbImageUrl']) 
-                      : $imgDefault;
+    <?php $this->renderPartial('newsPartialCO2', array("news"=>$news,
+                                                       "pair"=>$pair,
+                                                       "nbCol"=>$nbCol,
+                                                       "timezone"=>$timezone,
+                                                       "isFirst"=>true)); ?>
 
-      $srcMainImg = "";              
-      if(@$media["media"]["images"])
-        $srcMainImg = Yii::app()->createUrl("upload/".
-                                            Yii::app()->controller->module->id."/".
-                                            $media["media"]["images"][0]["folder"].'/'.
-                                            $media["media"]["images"][0]["name"]);
-
-
-      if(@$media["imageBackground"])
-        $srcMainImg = Yii::app()->createUrl($media["imageBackground"]);
-
-
-	?>
-
-  
-      <li class="<?php echo $class; ?>">
-        <div class="timeline-badge primary"><a><i class="glyphicon glyphicon-record" rel="tooltip"></i></a></div>
-        <div class="timeline-panel">
-          <div class="timeline-heading text-center">
-            
-
-               	<h5 class="text-left srcMedia">
-              		<small class="ilyaL">
-  
-                    <img class="pull-right img-circle" src="<?php echo @$thumbAuthor; ?>" height=40>
-                    <div class="pull-right padding-5">
-                      <a href=""><?php echo @$media["author"]["name"]; ?></a><br>
-                      <span class="margin-top-5">
-                      <?php if($media["type"]=="news") { ?>
-                        <i class="fa fa-pencil-square"></i> a publié un message
-                      <?php } ?>
-                      <?php if($media["type"]=="activityStream") { ?>
-                        <?php $iconColor = Element::getColorIcon($media["object"]["objectType"]) ? 
-                                           Element::getColorIcon($media["object"]["objectType"]) : ""; ?>
-                        <i class="fa fa-plus-circle"></i> a créé un 
-                        <span class="text-<?php echo @$iconColor; ?>">
-                          <?php echo Yii::t("common", @$media["object"]["objectType"]); ?>
-                        </span>
-                      <?php } ?>
-                      </span>
-                    </div>
-
-                  </small>
-
-              	  <small class="ilyaR">
-  
-                    <img class="pull-left img-circle" src="<?php echo @$thumbAuthor; ?>" height=40>
-                    <div class="pull-left padding-5">
-                      <a href=""><?php echo @$media["author"]["name"]; ?></a><br>
-                      <span class="margin-top-5">
-                      <?php if($media["type"]=="news") { ?>
-                        <i class="fa fa-pencil-square"></i> a publié un message
-                      <?php } ?>
-                      <?php if($media["type"]=="activityStream") { ?>
-                        <?php $iconColor = Element::getColorIcon($media["object"]["objectType"]) ? 
-                                           Element::getColorIcon($media["object"]["objectType"]) : ""; ?>
-                        <i class="fa fa-plus-circle"></i> a créé un 
-                        <span class="text-<?php echo @$iconColor; ?>">
-                          <?php echo Yii::t("common", @$media["object"]["objectType"]); ?>
-                        </span>
-                      <?php } ?>
-                      </span>
-                    </div>
-                    
-                  </small>
-
-                  <a href="<?php echo @$media["href"]; ?>" target="_blank" class="link-read-media margin-top-10 hidden-xs img-circle">
-                    <small>
-                      <i class="fa fa-clock-o"></i> 
-                      <?php echo Translate::pastTime(date($media["date"]->sec), "timestamp", $timezone); ?>
-                    </small>
-                  </a>
-                </h5>
-              
-              <div class="timeline-body padding-10 col-md-12 text-left">
-                <!-- <h4><a target="_blank" href="<?php echo @$media["href"]; ?>"><?php echo @$media["title"]; ?></a></h4> -->
-                <?php if($media["type"]=="activityStream") { ?>
-                  <?php $faIcon = Element::getFaIcon($media["object"]["objectType"]) ? 
-                                  Element::getFaIcon($media["object"]["objectType"]) : ""; ?>
-                  <h4 class="no-padding">
-                    <a target="_blank" 
-                       href="#k.page.type.<?php echo @$media["object"]["objectType"]; ?>.id.<?php echo @$media["object"]["id"]; ?>">
-                       <i class="fa fa-<?php echo $faIcon; ?>"></i> <?php echo @$media["name"]; ?>
-                    </a>
-                  </h4>
-                  <?php if(@$media["startDate"]) { ?>
-                    <?php echo date($media["startDate"]->sec); ?>
-                  <?php } ?>
-                <?php } ?>
-                <p><?php echo $media["text"]; ?></p>
-                
-              </div>
-
-              <?php if(@$srcMainImg != ""){ ?>
-                <a class="inline-block bg-black" target="_blank" href="<?php echo @$media["href"]; ?>">
-                <img class="img-responsive" src="<?php echo $srcMainImg; ?>" />
-                </a>
-              <?php } ?>
-
-
-              <?php if(@$media["contentType"] == "youtube"){ ?>
-              	<iframe width="100%" height="315" src="https://www.youtube.com/embed/<?php echo $media["idYoutube"]; ?>" frameborder="0" allowfullscreen></iframe>
-              <?php } ?>
-
-
-            
-          </div>
-          
-          
-          <div class="timeline-footer pull-left col-md-12 col-sm-12 col-xs-12 padding-top-5">
-              <!-- <a class="btn-comment-media" data-media-id="<?php echo $media["_id"]; ?>"><i class="fa fa-comment"></i> Commenter</a> -->
-              <!-- <a><i class="glyphicon glyphicon-thumbs-up"></i></a>
-              <a><i class="glyphicon glyphicon-share"></i></a> -->
-              <div class="col-md-12 pull-left padding-5" id="footer-media-<?php echo $media["_id"]; ?>"></div>
-              <div class="col-md-12 no-padding pull-left margin-top-10" id="commentContent<?php echo $media["_id"]; ?>"></div>
-          </div>
-        </div>
-      </li>
-
-<?php } ?>
+</ul>
 
 <script>
-var news = <?php echo json_encode($news); ?>;
+  var news = <?php echo json_encode($news); ?>;
+
+
+  var loadingData = false;
+  var scrollEnd = false;
+  var currentIndexMin = 0;
+  var currentIndexMax = 10;
+  var isLive = true;
+
+  var indexStep = currentIndexMax;
+  var dateLimit = 0;  
+
+  var initLimitDate = <?php echo json_encode(@$limitDate) ?>;
+
+
+  var contextParentType = <?php echo json_encode(@$contextParentType) ?>;
+  var contextParentId = <?php echo json_encode(@$contextParentId) ?>;
+
+  var totalEntries = 0;
+
+  var canPostNews = <?php echo json_encode(@$canPostNews) ?>;
+  var canManageNews = <?php echo json_encode(@$canManageNews) ?>;
+  var idSession = "<?php echo Yii::app()->session["userId"] ?>";
+
+  var months = ["<?php echo Yii::t('common','january') ?>", "<?php echo Yii::t('common','febuary') ?>", "<?php echo Yii::t('common','march') ?>", "<?php echo Yii::t('common','april') ?>", "<?php echo Yii::t('common','may') ?>", "<?php echo Yii::t('common','june') ?>", "<?php echo Yii::t('common','july') ?>", "<?php echo Yii::t('common','august') ?>", "<?php echo Yii::t('common','september') ?>", "<?php echo Yii::t('common','october') ?>", "<?php echo Yii::t('common','november') ?>", "<?php echo Yii::t('common','december') ?>"];
+
+
+  var uploadUrl = "<?php echo Yii::app()->params['uploadUrl'] ?>";
+
+
+
 console.log("NEWS", news);
 jQuery(document).ready(function() {
-  initCommentsTools(news);
+  
+  showFormBlock(false);
+  initForm();
+
+  if(typeof(initLimitDate.created) == "object")
+      dateLimit=initLimitDate.created.sec;
+  else
+      dateLimit=initLimitDate.created;
+
 });
 
+function initForm(){
+  getMediaFromUrlContent(".get_url_input",".results",1);
+  
+  setTimeout(function(){
+    $("#btn-submit-form").on("click",function(){
+      saveNews();
+    });
+  },500);
+
+  initTags();
+  initCommentsTools(news);
+
+  //Sig.restartMap();
+  //Sig.showMapElements(Sig.map, news);
+  initFormImages();
+  console.log(myContacts);
+  if(myContacts != null){
+    $.each(myContacts["people"], function (key,value){
+      if(typeof(value) != "undefined" ){
+        avatar="";
+        console.log(value);
+          if(value.profilThumbImageUrl!="")
+          avatar = baseUrl+value.profilThumbImageUrl;
+          object = new Object;
+          object.id = value._id.$id;
+          object.name = value.name;
+        object.avatar = avatar;
+        object.type = "citoyens";
+        mentionsContact.push(object);
+      }
+      });
+      $.each(myContacts["organizations"], function (key,value){
+        if(typeof(value) != "undefined" ){
+        avatar="";
+        if(value.profilThumbImageUrl!="")
+        avatar = baseUrl+value.profilThumbImageUrl;
+        object = new Object;
+        object.id = value._id.$id;
+        object.name = value.name;
+      object.avatar = avatar;
+      object.type = "organizations";
+      mentionsContact.push(object);
+      }
+      });
+  }
+  
+  $('textarea.mention').mentionsInput({
+    onDataRequest:function (mode, query, callback) {
+        if(stopMention)
+          return false;
+        var data = mentionsContact;
+        data = _.filter(data, function(item) { return item.name.toLowerCase().indexOf(query.toLowerCase()) > -1 });
+      callback.call(this, data);
+
+        var search = {"search" : query};
+        $.ajax({
+        type: "POST",
+            url: baseUrl+"/"+moduleId+"/search/searchmemberautocomplete",
+            data: search,
+            dataType: "json",
+            success: function(retdata){
+              if(!retdata){
+                toastr.error(retdata.content);
+              }else{
+                //mylog.log(retdata);
+                data = [];
+                for(var key in retdata){
+                  for (var id in retdata[key]){
+                    avatar="";
+                    if(retdata[key][id].profilThumbImageUrl!="")
+                      avatar = baseUrl+retdata[key][id].profilThumbImageUrl;
+                    object = new Object;
+                    object.id = id;
+                    object.name = retdata[key][id].name;
+                    object.avatar = avatar;
+                    object.type = key;
+                    var findInLocal = _.findWhere(mentionsContact, {
+                  name: retdata[key][id].name, 
+                  type: key
+                }); 
+                if(typeof(findInLocal) == "undefined")
+                  mentionsContact.push(object);
+                }
+                }
+                data=mentionsContact;
+                //mylog.log(data);
+              data = _.filter(data, function(item) { return item.name.toLowerCase().indexOf(query.toLowerCase()) > -1 });
+            callback.call(this, data);
+            mylog.log(callback);
+            }
+        } 
+      })
+    }
+    });
+}
+
+function initTags(){
+  if(contextParentType=="pixels"){
+    tagsNews=["bug","idea"];
+  }
+  else {
+    tagsNews = <?php echo json_encode($tags); ?>
+  }
+  /////// A réintégrer pour la version last
+  var $scrollElement = $(".my-main-container");
+
+  
+  $('#tags').select2({tags:tagsNews});
+  $("#tags").select2('val', "");
+}
 
 function initCommentsTools(thisMedias){
   //ajoute la barre de commentaire & vote up down signalement sur tous les medias

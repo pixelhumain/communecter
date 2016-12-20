@@ -538,7 +538,7 @@
 		//showElementPad('news');
 		var url = "news/index/type/citoyens/id/<?php echo (string)$element["_id"] ?>?isFirst=1&";
 		console.log("URL", url);
-		ajaxPost('#timeline-page', baseUrl+'/'+moduleId+'/'+url+"renderPartial=true&tpl=kgougle", 
+		ajaxPost('#timeline-page', baseUrl+'/'+moduleId+'/'+url+"renderPartial=true&tpl=co2", 
 			null,
 			function(){ 
 				

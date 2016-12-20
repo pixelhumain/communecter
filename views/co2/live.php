@@ -75,7 +75,7 @@ jQuery(document).ready(function() {
     initKInterface();
 
     //init loading in scroll
-    $(window).bind("scroll",function(){ 
+    $(window).off().bind("scroll",function(){ 
 	    if(!loadingData && !scrollEnd){
 	          var heightWindow = $("html").height() - $("body").height();
 	          if( $(this).scrollTop() >= heightWindow - 400){
@@ -94,7 +94,7 @@ jQuery(document).ready(function() {
 });
 
 
-function loadStream(indexMin, indexMax){
+function loadStream(indexMin, indexMax){ console.log("load stream LIVE");
 	loadingData = true;
 	currentIndexMin = indexMin;
 	currentIndexMax = indexMax;
