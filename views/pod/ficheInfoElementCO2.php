@@ -427,7 +427,7 @@
 		changeHiddenIconeElement(true);
 		manageDivEditElement();
 		bindAboutPodElement();
-		favorite.applyColor(contextData.type,contextData.id);
+		//favorite.applyColor(contextData.type,contextData.id);
 
 		loadNewsStream();
 
