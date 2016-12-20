@@ -1883,10 +1883,17 @@ var typeObj = {
 			    		$("#ajaxFormModal #allDay").val(false);
 			    	if( typeof $("#ajaxFormModal #description").code === 'function' )
 			    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
-			    	mylog.log($("#ajaxFormModal #startDate").val(),moment( $("#ajaxFormModal #startDate").val()).format('YYYY/MM/DD HH:mm'));
-			    	//$("#ajaxFormModal #startDate").val( moment( $("#ajaxFormModal #startDate").val()).format('YYYY/MM/DD HH:mm'));
-					//$("#ajaxFormModal #startDate").val( moment( $("#ajaxFormModal #endDate").val()).format('YYYY/MM/DD HH:mm'));
-					mylog.log($("#ajaxFormModal #startDate").val());
+			    	//mylog.log($("#ajaxFormModal #startDate").val(),moment( $("#ajaxFormModal #startDate").val()).format('YYYY/MM/DD HH:mm'));
+			    	
+			    	//Transform datetime before sending
+			    	var allDay = $("#ajaxFormModal #allDay").is(':checked');
+			    	var dateformat = "DD/MM/YYYY";
+			    	if (! allDay) 
+			    		var dateformat = "DD/MM/YYYY HH:mm"
+			    	$("#ajaxFormModal #startDate").val( moment( $("#ajaxFormModal #startDateInput").val(), dateformat).format());
+					$("#ajaxFormModal #endDate").val( moment( $("#ajaxFormModal #endDateInput").val(), dateformat).format());
+					console.log(params);
+					//mylog.log($("#ajaxFormModal #startDate").val());
 			    },
 			    properties : {
 			    	info : {
@@ -2007,8 +2014,8 @@ var typeObj = {
 								        format: "d/m/Y",
 								        timepicker:false
 								    });
-								    startDate = moment($('#ajaxFormModal #startDate').val(), "DD/MM/YYYY HH:mm").format("DD/MM/YYYY");
-								    endDate = moment($('#ajaxFormModal #endDate').val(), "DD/MM/YYYY HH:mm").format("DD/MM/YYYY");
+								    startDate = moment($('#ajaxFormModal #startDateInput').val(), "DD/MM/YYYY HH:mm").format("DD/MM/YYYY");
+								    endDate = moment($('#ajaxFormModal #endDateInput').val(), "DD/MM/YYYY HH:mm").format("DD/MM/YYYY");
 		            			} else {
 		            				$(".dateInput").addClass("dateTimeInput");
 		            				$(".dateInput").removeClass("dateInput");
@@ -2020,15 +2027,15 @@ var typeObj = {
 										format: 'd/m/Y H:i'
 								    });
 								    
-		            				startDate = moment($('#ajaxFormModal #startDate').val(), "DD/MM/YYYY").format("DD/MM/YYYY HH:mm");
-									endDate = moment($('#ajaxFormModal #endDate').val(), "DD/MM/YYYY").format("DD/MM/YYYY HH:mm");
+		            				startDate = moment($('#ajaxFormModal #startDateInput').val(), "DD/MM/YYYY").format("DD/MM/YYYY HH:mm");
+									endDate = moment($('#ajaxFormModal #endDateInput').val(), "DD/MM/YYYY").format("DD/MM/YYYY HH:mm");
 		            			}
-							    $('#ajaxFormModal #startDate').val(startDate);
-								$('#ajaxFormModal #endDate').val(endDate);
+							    $('#ajaxFormModal #startDateInput').val(startDate);
+								$('#ajaxFormModal #endDateInput').val(endDate);
 		            		}
 		            	}
 		            },
-		            startDate : {
+		            startDateInput : {
 		                "inputType" : "datetime",
 		                "placeholder": "Date de début",
 			            "rules" : { 
@@ -2036,12 +2043,12 @@ var typeObj = {
 			            	duringDates: ["#startDateParent","#endDateParent","La date de début"]
 			        	}
 		            },
-		            endDate : {
+		            endDateInput : {
 		                "inputType" : "datetime",
 		                "placeholder": "Date de fin",
 			            "rules" : { 
 			            	required : true,
-			            	greaterThan: ["#ajaxFormModal #startDate","la date de début"],
+			            	greaterThan: ["#ajaxFormModal #startDateInput","la date de début"],
 			            	duringDates: ["#startDateParent","#endDateParent","La date de fin"]
 					    }
 		            },
@@ -2106,6 +2113,12 @@ var typeObj = {
 		            "preferences[isOpenEdition]" : {
 		                inputType : "hidden",
 		                value : true
+		            },
+		            "startDate" : {
+		            	inputType : "hidden"
+		            },
+		            "endDate" : {
+		            	inputType : "hidden"
 		            }
 			    }
 			}
