@@ -389,8 +389,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 			<div class="col-md-12 col-lg-12 col-xs-12 no-padding" style="padding-right:10px !important;">
 				<div class="col-md-12 col-lg-12 col-xs-12 no-padding">
 					<div class="text-dark lbl-info-details margin-top-10">
-						<i class="fa fa-clock-o"></i>  <?php echo Yii::t("common","When") ?> ?
-						<span id="dateTimezone" class="entityDetails"></span>
+						<a id="dateTimezone" href="javascript:;" class="tooltips text-dark" data-original-title="toto" data-toggle="tooltip" data-placement="right"><i class="fa fa-clock-o"></i>&nbsp;<?php echo Yii::t("common","When") ?> ?</a>
 					</div>
 				</div>
 				<div class="col-md-12 col-lg-12 col-xs-12 entityDetails no-padding">
@@ -1456,6 +1455,11 @@ if($showOdesc == true){
 				datepicker: {
 					weekStart: 1
 				},
+				params : function(params) {
+					//add timezone to date before sending
+					params.value = moment(params.value).local().format();
+					return params;
+				},
 				success : function(data) {
 					if(data.result) {
 						toastr.success(data.msg);
@@ -1476,8 +1480,13 @@ if($showOdesc == true){
 	        	viewformat: 'dd/mm/yyyy',
 	        	datepicker: {
 	                weekStart: 1
-	           },
-	           success : function(data) {
+				},
+   				params : function(params) {
+   					//add timezone to date before sending
+					params.value = moment(params.value).local().format();
+					return params;
+				},
+				success : function(data) {
 			        if(data.result) {
 			        	toastr.success(data.msg);
 						loadActivity=true;
@@ -1503,6 +1512,11 @@ if($showOdesc == true){
 					minuteStep: 30,
 					language: 'fr'
 				   },
+				params : function(params) {
+					//add timezone to date before sending
+					params.value = moment(params.value).local().format();
+					return params;
+				},
 				success : function(data) {
 					if(data.result) {
 						toastr.success(data.msg);
@@ -1525,8 +1539,13 @@ if($showOdesc == true){
 	                weekStart: 1,
 	                minuteStep: 30,
 	                language: 'fr'
-	           },
-	           success : function(data) {
+				},
+				params : function(params) {
+					//add timezone to date before sending
+					params.value = moment(params.value).local().format();
+					return params;
+				},
+				success : function(data) {
 			        if(data.result) {
 			        	toastr.success(data.msg);
 						loadActivity=true;
@@ -1543,7 +1562,7 @@ if($showOdesc == true){
 			$('#startDate').editable('setValue', moment(startDate).local().format(formatDate), true);
 		if(endDate != "")
 			$('#endDate').editable('setValue', moment(endDate).local().format(formatDate), true);
-		$('#dateTimezone').html("Fuseau horaire : GMT " + moment().local().format("Z"));
+		$('#dateTimezone').attr('data-original-title', "Fuseau horaire : GMT " + moment().local().format("Z"));
 	}
 
 	function updateCalendar() {
