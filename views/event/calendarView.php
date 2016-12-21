@@ -161,24 +161,13 @@ function buildCalObj(eventObj)
     case "low" : prioClass = 'event-generic'; break;
     default : prioClass = 'event-job'; 
   }
-  if(eventObj.startDate && eventObj.startDate != "")
-  {
-    //mylog.log("eventObj", eventObj, eventObj.startDate);
-    var sd = eventObj.startDate.split(" ")[0];
-    var sh = eventObj.startDate.split(" ")[1];
-    var sdv = sd.split("-");
-    var shv = sh.split(":");
-    var startDate = new Date(sdv[0],parseInt(sdv[1])-1,sdv[2], shv[0], shv[1]);
+
+  if(eventObj.startDate && eventObj.startDate != "") {
+    var startDate = moment(eventObj.startDate).local();
     var endDate = null;
-    if(eventObj.endDate && eventObj.endDate != "" )
-    {
-      var ed = eventObj.endDate.split(" ")[0];
-      var eh = eventObj.endDate.split(" ")[1];
-      var edv = ed.split("-");
-      var ehv = eh.split(":");
-      endDate = new Date(edv[0],parseInt(edv[1])-1,edv[2], ehv[0], ehv[1]);
-     }
-     //mylog.log("taskCalObj",eventObj['_id']['$id']);
+    if(eventObj.endDate && eventObj.endDate != "" ) {
+      endDate = moment(eventObj.startDate).local();
+    }
     var organiser = "";
     
 

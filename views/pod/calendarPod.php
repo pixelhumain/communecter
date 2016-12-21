@@ -86,8 +86,7 @@
   })
 
 //creates fullCalendar
-function buildCalObj(eventObj)
-{
+function buildCalObj(eventObj) {
   //mylog.log("addTasks2CAlendar","task",taskId,eventObj);
   //entries for the calendar
   var taskCal = null;
@@ -99,30 +98,16 @@ function buildCalObj(eventObj)
     case "low" : prioClass = 'event-generic'; break;
     default : prioClass = 'event-job'; 
   }
-  if(eventObj.startDate && eventObj.startDate != "")
-  {
-    //mylog.log("eventObj", eventObj, eventObj.startDate);
-    var sd = eventObj.startDate.split(" ")[0];
-    var sh = eventObj.startDate.split(" ")[1];
-    var sdv = sd.split("-");
-    var shv = sh.split(":");
-    var startDate = new Date(sdv[0],parseInt(sdv[1])-1,sdv[2], shv[0], shv[1]);
 
+  if(eventObj.startDate && eventObj.startDate != "") {
+    var startDate = moment(eventObj.startDate).local();
     var endDate = null;
-    if(eventObj.endDate && eventObj.endDate != "" )
-    {
-      var ed = eventObj.endDate.split(" ")[0];
-      var eh = eventObj.endDate.split(" ")[1];
-      var edv = ed.split("-");
-      var ehv = eh.split(":");
-      endDate = new Date(edv[0],parseInt(edv[1])-1,parseInt(edv[2])+1, ehv[0], ehv[1]); //year month day hour sec
-
-     }
-     //alert(startDate+" | "+endDate);
-     //mylog.log("taskCalObj",eventObj['_id']['$id']);
-    var organiser = "";
+    if(eventObj.endDate && eventObj.endDate != "" ) {
+      endDate = moment(eventObj.endDate).local();
+    }
+    console.log("Start Date = "+startDate+" // End Date = "+endDate);
     
-
+    var organiser = "";
     if("undefined" != typeof eventObj["links"] && "undefined" != typeof eventObj.links["organizer"]){
       $.each(eventObj.links["organizer"], function(k, v){
       	if($.inArray(k, tabOrganiser)==-1){
