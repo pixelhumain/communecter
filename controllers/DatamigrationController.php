@@ -1051,10 +1051,15 @@ class DatamigrationController extends CommunecterController {
 						
 						$nbelement ++ ;
 						$elt["modifiedByBatch"][] = array("RefactorSource" => new MongoDate(time()));
-						$res = PHDB::update( $type, 
-						  	array("_id"=>new MongoId($keyElt)),
-	                        array('$set' => array(	"source" => $newsource,
-	                        						"modifiedByBatch" => $elt["modifiedByBatch"])));
+						try {
+							$res = PHDB::update( $type, 
+						  		array("_id"=>new MongoId($keyElt)),
+	                        	array('$set' => array(	"source" => $newsource,
+	                        							"modifiedByBatch" => $elt["modifiedByBatch"])));
+						} catch (MongoWriteConcernException $e) {
+							echo("Erreur à la mise à jour de l'élément ".$type." avec l'id ".$keyElt);
+							die();
+						}
 						echo "Elt mis a jour : ".$type." et l'id ".$keyElt."<br>" ;
 					}
 					
