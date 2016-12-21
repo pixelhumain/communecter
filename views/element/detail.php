@@ -307,6 +307,23 @@ if($('#breadcum').length)
 				?>
 			</div>
 			<?php } ?>
+
+
+			<?php if (($type==Project::COLLECTION || $type==Organization::COLLECTION || $type==Event::COLLECTION)){ ?>
+				<div class="col-xs-12">
+					<?php 
+						$contacts = ( empty($element["contacts"]) ? array() : $element["contacts"] ) ;
+						$this->renderPartial('../pod/contactsList',array( 	"contacts" => $contacts, 
+																			"contextId" => (String) $element["_id"],
+																			"contextType" => $controller,
+																			"authorised" => $edit,
+																			"openEdition" => $openEdition
+																		  ));
+					?>						  
+				</div>
+			<?php } ?>
+
+
 	    	<?php if (($type==Project::COLLECTION || $type==Organization::COLLECTION || $type==Event::COLLECTION)){ ?>
 	    		<?php if(!@Yii::app()->params["front"] || (@Yii::app()->params["front"] && Yii::app()->params["front"]["event"]==true)){ ?>
 				<div class="col-xs-12">
