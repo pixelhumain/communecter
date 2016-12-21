@@ -1047,7 +1047,7 @@ class DatamigrationController extends CommunecterController {
 								$newsource["url"] = $elt["source"]["url"];
 							if(!empty($elt["source"]["id"])){
 								if(!empty($elt["source"]["id"]['$numberLong']))
-									$newsource["id"] = $elt["source"]['$numberLong']["id"];
+									$newsource["id"] = $elt["source"]["id"]['$numberLong'];
 								else
 									$newsource["id"] = $elt["source"]["id"];
 							}
