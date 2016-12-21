@@ -568,7 +568,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                         str += "<i class='fa fa-desktop fa_url'></i><a href='"+website+"' target='_blank'>"+website+"</a><br/>";
                         <?php if(isset($params['result']['fullLocality']) && $params['result']['fullLocality']) { ?>
                           if(fullLocality != "" && fullLocality != " ")
-                          str += "<a href='"+url+"' onclick='"+onclickCp+"'"+target+ ' data-id="' + dataId + '"' + "  class='entityLocality'><i class='fa fa-home'></i> " + fullLocality + "</a><br/>";
+                          str += "<div class='entityLocality'><i class='fa fa-home'></i> " + fullLocality + "</div><br/>";
                         <?php } ?>
                     str += "</div>";
 
@@ -841,7 +841,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 			$(".breadcrumAnchor[data-value='4']").remove();
 			newLevel=4;
 		}
-		getAjaxFiche(url, newLevel) 
+		getAjaxFiche(url, newLevel); 
 	  }
   }
   function getAjaxFiche(url, breadcrumLevel){
@@ -859,9 +859,9 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 	    pathIcon = "list";
     }
     isEntityView=true;
-    window.location.hash = url;
+	allReadyLoad = true;
+	location.hash = url;
     urlHash=url;
-    console.log("oui");
     if(urlHash.indexOf("type") < 0 && urlHash.indexOf("default.view") < 0 && urlHash.indexOf("gallery") < 0 && urlHash.indexOf("news") < 0 && urlHash.indexOf("invite") < 0){
 	    urlSplit=urlHash.replace( "#","" ).split(".");
 	    console.log(urlHash);
@@ -885,8 +885,6 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
     getAjax('#ficheInfoDetail', baseUrl+'/'+moduleId+url+'?network='+networkParams,
     	function(){
 	    $.unblockUI();
-	    //$("#repertory").hide( 700 );
-	   // $("").fadeOut();
 	    console.log(contextData);
 	    //Construct breadcrumb
 	    if(breadcrumLevel != false){
@@ -894,20 +892,6 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 		    		'<a href="javascript:;" onclick="breadcrumGuide('+breadcrumLevel+',\''+urlHash+'\')" class="breadcrumAnchor text-dark" data-value="'+breadcrumLevel+'">'+contextData.name+'</a>';
 		    $("#breadcrum").append($html);
 		}
-	    /*if(breadcrumb){
-		    if($(".lastElementBreadcrumb").length > 0)
-		    	$(".lastElementBreadcrumb").remove();
-		    $html= "<li class='lastElementBreadcrumb' style='margin-left:15px;'><i class='fa fa-level-up' style='transform:rotate(90deg);'></i> <a href='javascript:;' onclick='getAjaxFiche(\"#element.detail.type."+contextData.typeSig+".id."+contextData._id.$id+"\")'>"+contextData.name+"</a></li>"+
-					"</div>";
-			$(".breadcrumbVertical").append($html);
-
-	    } else {
-			$html="<div class='panel panel-back padding-5'>"+
-					"<ol class='breadcrumbVertical'><li><a href='javascript:;' onclick='reverseToRepertory();'><i class='fa fa-"+pathIcon+"'> </i> "+pathTitle+"</a></li>"+
-						"<li><i class='fa fa-level-up' style='transform:rotate(90deg);'></i> <a href='javascript:;' onclick='getAjaxFiche(\"#element.detail.type."+contextData.typeSig+".id."+contextData._id.$id+"\", true)'>"+contextData.name+"</a></li>"+
-					"</div>";
-			$(".panel-group").append($html);
-		}*/
     },"html");
   }
 function reverseToRepertory(){

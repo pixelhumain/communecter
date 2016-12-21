@@ -1033,8 +1033,9 @@ class DatamigrationController extends CommunecterController {
 		$nbelement = 0 ;
 		foreach ($types as $keyType => $type) {
 			$elements = PHDB::find($type, array("source" => array('$exists' => 1)));
+
 			if(!empty($elements)){
-				foreach ($elements as $keyElt => $elt) {
+				foreach (@$elements as $keyElt => $elt) {
 					if(!empty($elt["source"])){
 						$newsource = array();
 						if(!empty($elt["source"]["key"]) && empty($elt["source"]["keys"])){
@@ -1055,11 +1056,17 @@ class DatamigrationController extends CommunecterController {
 							
 							$nbelement ++ ;
 							$elt["modifiedByBatch"][] = array("RefactorSource" => new MongoDate(time()));
-							$res = PHDB::update( 	$type, 
-												  	array("_id" => new MongoId($keyElt)),
-							                        array('$set' => array(	"source" => $newsource,
-							                        						"modifiedByBatch" => $elt["modifiedByBatch"])));
+							try {
+								$res = PHDB::update( $type, 
+							  		array("_id"=>new MongoId($keyElt)),
+		                        	array('$set' => array(	"source" => $newsource,
+		                        							"modifiedByBatch" => $elt["modifiedByBatch"])));
+							} catch (MongoWriteConcernException $e) {
+								echo("Erreur à la mise à jour de l'élément ".$type." avec l'id ".$keyElt);
+								die();
+							}
 							echo "Elt mis a jour : ".$type." et l'id ".$keyElt."<br>" ;
+
 						}
 					}
 				}
