@@ -458,6 +458,8 @@ class CommunecterController extends Controller
       //if (strpos("http://".$host, $_SERVER["HTTP_ORIGIN"]) >= 0 || strpos("https://".$host, $_SERVER["HTTP_ORIGIN"]) >= 0 ){
     if( isset( $_POST["X-Auth-Token"]) && Authorisation::isMeteorConnected( $_POST["X-Auth-Token"] ) ){
       $prepareData = false;
+      //once the token is check => remove the token from the post
+      unset($_POST["X-Auth-Token"]);
     }
       //} 
     //}
