@@ -1892,7 +1892,6 @@ var typeObj = {
 			    		var dateformat = "DD/MM/YYYY HH:mm"
 			    	$("#ajaxFormModal #startDate").val( moment( $("#ajaxFormModal #startDateInput").val(), dateformat).format());
 					$("#ajaxFormModal #endDate").val( moment( $("#ajaxFormModal #endDateInput").val(), dateformat).format());
-					console.log(params);
 					//mylog.log($("#ajaxFormModal #startDate").val());
 			    },
 			    properties : {
@@ -3060,6 +3059,16 @@ function cityKeyPart(unikey, part){
 	if(part == "cp" && unikey.indexOf("-") < 0) return "";
 	if(part == "cp") return unikey.substr(e+1, len);
 	if(part == "country") return unikey.substr(e+1, len);
+}
+
+function manageTimestampOnDate() {
+	$.each($(".date2format"), function(k, v) { 
+		var dates = "";
+		dates = moment($(this).data("startdate")).local().format("DD-MM-YYYY HH:mm");
+		dates += "</br>"+moment($(this).data("enddate")).local().format("DD-MM-YYYY HH:mm");
+		console.log(dates);
+		$(this).html(dates);
+	})
 }
 /*
 elementJson = {
