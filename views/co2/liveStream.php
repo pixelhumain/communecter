@@ -5,6 +5,8 @@
 		foreach($medias as $key => $media){ 
 			$class = $pair ? "timeline-inverted" : "";
 			$pair = !$pair;
+
+   
 	?>
 
       <li class="<?php echo $class; ?>">

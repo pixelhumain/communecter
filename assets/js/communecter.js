@@ -5,27 +5,43 @@ $(document).ready(function() {
 	document.onkeyup = keyboardNav.checkKeycode;
 	$.contextMenu({
 	    selector: ".add2fav",
-	    items: {
-	        add2fav: { 
-	        	name: function($element, key, item){ 
-        			var str = "Ajouter à vos favoris";//( userConnected.favorites && userConnected.favorites[] ) ? "Retirer de vos favoris" : "Ajouter à vos favoris";
-        			return str; 
-        		},
-	        	icon: "fa-star", 
-	        	callback: function(key, opt){ 
-		        	href = opt.$trigger[0].hash.split(".");
-		        	//alert(href);
-		        	if(userId && $.inArray(href[0],["#organization","#project","#event","#person","#element","#survey","#rooms"])){
-			        	var what = ( href[0] == "#element" ) ? href[3] : typeObj[ href[0].substring(1) ].col; 
-						var	id = ( href[0] == "#element" ) ? href[5] : href[3];
-						//alert( what+id );
-						favorite.add2fav(what,id);
-					}
-	        	}
-	    	}
-	    }
+        build: function($trigger, e) {
+        	if(userId){
+	        	var btns = {};
+	        	$.each(userConnected.collections,function (col,list) { 
+	        		btns[col] = { 
+			        	name: function($element, key, item){ 
+		        			var str = "Ajouter à "+col;
+		        			return str; 
+		        		},
+			        	icon: "fa-folder-open", 
+			        	callback: function(key, opt){ 
+				        	href = opt.$trigger[0].hash.split(".");
+				        	//alert(href);
+				        	if(userId && $.inArray(href[0],["#organization","#project","#event","#person","#element","#survey","#rooms"])){
+					        	var what = ( href[0] == "#element" ) ? href[3] : typeObj[ href[0].substring(1) ].col; 
+								var	id = ( href[0] == "#element" ) ? href[5] : href[3];
+								//alert( what+id );
+								collection.add2fav(what,id,col);
+							}
+			        	}
+			    	}
+	        	});
+	        	btns.newCollection =  { 
+		        	name: "Créer une nouvelle Collection",
+		        	icon: "fa-folder-open-o", 
+		        	callback: function(key, opt){ 
+			        	if(userId ){
+				        	collection.new();
+						}
+		        	}
+		    	};
+	            return { items: btns }
+	        }
+        }
 	});
 });
+
 var prevStep = 0;
 var steps = ["explain1","live","explain2","event","explain3","orga","explain4","project","explain5","person"];
 var slides = {
@@ -1051,7 +1067,7 @@ var smallMenu = {
 			smallMenu.buildHeader( title,icon,color );
 			smallMenu.open( content );
 			if( data.count == 0 )
-				$(".titleSmallMenu").html(" No "+title+" available <i class='fa "+icon+" text-"+color+"'></i>");
+				$(".titleSmallMenu").html(title+" vide <i class='fa "+icon+" text-"+color+"'></i>");
 			else 
 				directory.buildList(data.list);
 			
@@ -1065,7 +1081,7 @@ var smallMenu = {
 		if( typeof showResultsDirectoryHtml == "undefined" )
 		    lazyLoad( moduleUrl+'/js/default/directory.js', null, null );
 	    	
-		smallMenu.buildHeader(title,icon,color);
+		var content = smallMenu.buildHeader(title,icon,color);
 		smallMenu.open( content );
 
 		if (typeof searchBack == "function") 
@@ -1088,6 +1104,7 @@ var smallMenu = {
 							" <span class='btn btn-xs favSectionBtn btn-default'><a class='text-black helvetica ' href='javascript:directory.toggleEmptyParentSection(\".favSection\",null,\".searchEntityContainer\",1)'> Tout voir</a></span> </span>"+
 						" </span><br/>"+
 					"</div>";
+		return content;
 	},
 	//openSmallMenuAjaxBuild("",baseUrl+"/"+moduleId+"/favorites/list/tpl/directory2","FAvoris")
 	//opens any html without post processing
@@ -1097,6 +1114,8 @@ var smallMenu = {
 	},
 	open : function (content) { 
 		menuContent = (content) ? content : $(".menuSmall").html();
+		//buildCollectionList ();
+
 		$.blockUI({ 
 			title : 'Welcome to your page', 
 			message : menuContent,
@@ -1223,7 +1242,7 @@ function  bindLBHLinks() {
 			var what = ( href[0] == "#element" ) ? href[3] : typeObj[ href[0].substring(1) ].col; 
 			var	id = ( href[0] == "#element" ) ? href[5] : href[3];
 			//alert( what+id+$(this).attr("href") );
-			//favorite.add2fav(what,id);
+			//collection.add2fav(what,id);
 		}
 	   return false;
 	});*/
@@ -2113,33 +2132,57 @@ function cityKeyPart(unikey, part){
 	if(part == "country") return unikey.substr(e+1, len);
 }
 
-var favorite = {
-	applyColor : function (what,id) {
+var collection = {
+	new : function () { 
+		if(userId){
+			var name = prompt('Nom de la collection ?');
+			var params = {name : name};
+			
+			ajaxPost(null,baseUrl+"/"+moduleId+"/collections/new",params,function(data) { 
+				console.warn(params.action);
+				if(data.result){
+					toastr.success(data.msg);
+					if(!userConnected.collections)
+						userConnected.collections = {};
+					if(!userConnected.collections[name])
+						userConnected.collections[name] = {};
+				}
+				else
+					toastr.error(data.msg);
+			}, "none");
+		} else
+			toastr.error(trad.LoginFirst);
+	},
+	applyColor : function (what,id,col) {
+		var collection = (typeof col == "undefined") ? "favorites" : col;
 		console.log("applyColor",what,id)
-		if(userConnected && userConnected.favorites && userConnected.favorites[what] && userConnected.favorites[what][id] ){
+		if(userConnected && userConnected.collections && userConnected.collections[collection] && userConnected.collections[collection][what] && userConnected.collections[collection][what][id] ){
 			$(".star_"+what+"_"+id).children("i").removeClass("fa-star-o").addClass('fa-star text-red');
 			console.warn("applying Color",what,id)
 		}
 	},
-	add2fav : function (what,id){
+	add2fav : function (what,id,col){
+		var collection = (typeof col == "undefined") ? "favorites" : col;
 		if(userId){
-			var params = {id : id, type : what};
+			var params = {id : id, type : what, collection : collection};
 			var el = ".star_"+what+"_"+id;
 			
-			ajaxPost(null,baseUrl+"/"+moduleId+"/favorites/add",params,function(data) { 
+			ajaxPost(null,baseUrl+"/"+moduleId+"/collections/add",params,function(data) { 
 				console.warn(params.action);
 				if(data.result){
 					if(data.action == '$unset'){
 						$(el).children("i").removeClass("fa-star text-red").addClass('fa-star-o');
-						delete userConnected.favorites[what][id];
+						delete userConnected.collections[collection][what][id];
 					}
 					else{
 						$(el).children("i").removeClass("fa-star-o").addClass('fa-star text-red');
-						if(!userConnected.favorites)
-							userConnected.favorites = {};
-						if(!userConnected.favorites[what])
-							userConnected.favorites[what] = {};
-						userConnected.favorites[what][id] = new Date();	
+						if(!userConnected.collections)
+							userConnected.collections = {};
+						if(!userConnected.collections[collection])
+							userConnected.collections[collection] = {};
+						if(!userConnected.collections[collection][what])
+							userConnected.collections[collection][what] = {};
+						userConnected.collections[collection][what][id] = new Date();	
 					}
 					toastr.success(data.msg);
 				}
@@ -3193,7 +3236,7 @@ var keyboardNav = {
 		"65" : function(){openForm('action')},//a : actions
 		"86" : function(){openForm('entry')},//v : votes
 		"70" : function(){ $(".searchIcon").trigger("click") },//f : find
-		"66" : function(){ smallMenu.openAjax(baseUrl+'/'+moduleId+'/favorites/list','Mes Favoris','fa-star','yellow') },//b best : favoris
+		"66" : function(){ smallMenu.openAjax(baseUrl+'/'+moduleId+'/collections/list','Mes Favoris','fa-star','yellow') },//b best : favoris
 		"82" : function(){smallMenu.openAjax(baseUrl+'/'+moduleId+'/person/directory?tpl=json','Mon répertoire','fa-book','red')}//r : annuaire
 	},
 	checkKeycode : function(e) {

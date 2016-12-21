@@ -106,9 +106,10 @@ class CommunecterController extends Controller
     "adminpublic" => array(
       "index"    => array("href" => "/ph/communecter/adminpublic/index"),
     ),
-    "favorites" => array(
-      "add"    => array("href" => "/ph/communecter/favorites/add"),
-      "list"    => array("href" => "/ph/communecter/favorites/list"),
+    "collections" => array(
+      "add"    => array("href" => "/ph/communecter/collections/add"),
+      "list"    => array("href" => "/ph/communecter/collections/list"),
+      "new"    => array("href" => "/ph/communecter/collections/new"),
     ),
     "default" => array(
       "index"                => array("href" => "/ph/communecter/default/index", "public" => true),
@@ -339,7 +340,6 @@ class CommunecterController extends Controller
       "multiconnect"           => array("href" => "/ph/communecter/link/multiconnect"),
       "follow"           => array("href" => "/ph/communecter/link/follow"),
       "validate"          => array("href" => "/ph/communecter/link/validate"),
-      "favorite"          => array("href" => "/ph/communecter/link/favorite"),
     ),
     "document" => array(
       "resized"             => array("href"=> "/ph/communecter/document/resized", "public" => true),
@@ -426,10 +426,11 @@ class CommunecterController extends Controller
       "referencement"     => array('href' => "/ph/communecter/co2/referencement",     "public" => true),
       "savereferencement" => array('href' => "/ph/communecter/co2/savereferencement", "public" => true),
       "agenda"            => array('href' => "/ph/communecter/co2/agenda",            "public" => true),
-      "mediacrawler"      => array('href' => "/ph/communecter/co2/mediacrawler",      "public" => true),
+      "mediacrawler"      => array('href' => "/ph/communecter/co2/mediacrawler",      "public" => false),
       "page"              => array('href' => "/ph/communecter/co2/page",              "public" => true),
       "social"            => array('href' => "/ph/communecter/co2/social",            "public" => true),
-      "power"            => array('href' => "/ph/communecter/co2/power",              "public" => true),
+      "power"             => array('href' => "/ph/communecter/co2/power",             "public" => true),
+      "superadmin"        => array('href' => "/ph/communecter/co2/superadmin",        "public" => false),
       ),
     "siteurl" => array(
       "incnbclick"        => array('href' => "ph/communecter/siteurl/incnbclick")

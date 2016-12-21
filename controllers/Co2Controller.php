@@ -26,7 +26,8 @@ class Co2Controller extends CommunecterController {
 	        'mediacrawler'  => 'citizenToolKit.controllers.co2.MediaCrawlerAction',
 	        'page' 			=> 'citizenToolKit.controllers.co2.PageAction',
 	        'social' 		=> 'citizenToolKit.controllers.co2.SocialAction',
-	        'power' 		=> 'citizenToolKit.controllers.co2.PowerAction'
+	        'power' 		=> 'citizenToolKit.controllers.co2.PowerAction',
+	        'superadmin' 	=> 'citizenToolKit.controllers.co2.SuperAdminAction'
 	    );
 	}
 }

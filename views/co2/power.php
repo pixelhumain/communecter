@@ -4,11 +4,8 @@
     //header + menu
     $this->renderPartial($layoutPath.'header', 
                         array(  "layoutPath"=>$layoutPath , 
-                                "subdomain"=>$subdomain,
-                                "subdomainName" => $subdomainName,
-                                "icon" => $icon, 
-                                "mainTitle"=>$mainTitle,
-                                "placeholderMainSearch"=>$placeholderMainSearch) ); 
+                                "page"=>"power"
+                            ) ); 
 ?>
 <script>
 jQuery(document).ready(function() {

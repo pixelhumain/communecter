@@ -441,7 +441,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
           if(type == "citoyens") url += '.viewer.' + userId;
 
           if(typeof TPL != "undefined")
-            if(TPL == "kgougle") url = '#k.page.type.'+type+'.id.' + id;
+            if(TPL == "kgougle") url = '#co2.page.type.'+type+'.id.' + id;
 
 
           //else if(type == "poi")    url = '#element.detail.type.poi.id.' + id;

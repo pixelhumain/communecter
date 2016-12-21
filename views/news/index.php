@@ -309,6 +309,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
     margin: 0 0 10px 0 !important;
     display: block;
 }
+
 </style>
 <!--<textarea class="mention"></textarea>-->
 

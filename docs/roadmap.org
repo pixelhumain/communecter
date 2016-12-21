@@ -132,18 +132,27 @@ Liste des notifications déjà lues => #370 #453
     [X] maybe use right click, on any link > add to fav
     [X] onclickfav tags > active css
     [X] apply multi tag cumulation
-    [ ] new feature : turn favorites into collections
-      [ ] add to collection : select or create collection
+    [X] moved favorites into collections.favorites
+    [X] collection library viewer and connect to collections/list/col/surf
+    [X] add new collection
+    [ ] rebuild collection list 
+    [X] add to collection from contextMenu
+    [ ] delete a collection
+    wish list:
       [ ] view collection on map 
     [ ] bugs 
       [ ] add survey
-      [ ]  on my profile with loading directory.js
+      [ ] on my profile with loading directory.js
       [ ] change right click name Remove from fav
-  [ ] cut up communecter.js into sub files
+      [ ] persisting location, 
+      [ ] no crossing between location search and tags
+      [ ] Remove from Favorite or a collection
+      [ ] contextmenu on nowList
   [ ] POI kanban viewer
   [ ] my POIs
   [ ] add photo
   [ ] Count requests DB per page
+  [ ] cut up communecter.js into sub files
   [ ] header du live ou dans en ce moment
     - les events favoris du territoire
   [ ] PPT explication des 25 use cases
