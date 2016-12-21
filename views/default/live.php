@@ -109,7 +109,7 @@ jQuery(document).ready(function() {
 	var liveType = "<?php echo (@$type && !empty($type)) ? $type : ''; ?>";
 	if(typeof liveTypeName[liveType] != "undefined") 
 		 liveType = " > "+liveTypeName[liveType];
-	else liveType = ", la boite à outil citoyenne connectée " + liveType;
+	else liveType = ", la boite à outils citoyenne connectée " + liveType;
 
 	setTitle("Communecter" + liveType, "<i class='fa fa-heartbeat '></i>");
 	
@@ -122,7 +122,7 @@ jQuery(document).ready(function() {
     $("#btn-slidup-scopetags").click(function(){
       slidupScopetagsMin();
     });
-	$('#btn-start-search').click(function(e){ //console.log("alo");
+	$('#btn-start-search').click(function(e){ //mylog.log("alo");
 		startSearch(false);
     });
 	$(".btn-filter-type").click(function(e){
@@ -216,7 +216,7 @@ function loadLiveNow () {
 }
 
 
-function showNewsStream(isFirst){ console.log("showNewsStream");
+function showNewsStream(isFirst){ mylog.log("showNewsStream");
 
 	scrollEnd = false;
 
@@ -237,7 +237,7 @@ function showNewsStream(isFirst){ console.log("showNewsStream");
 	<?php if(@Yii::app()->session["userId"]){ ?>
 	else if(liveScopeType == "community"){
 		thisType = "citoyens";
-		urlCtrl = "/news/index/type/citoyens/id/<?php echo @Yii::app()->session["userId"]; ?>";
+		urlCtrl = "/news/index/type/citoyens/id/<?php echo @Yii::app()->session["userId"]; ?>/isLive/true";
 	}
 	<?php } ?>
 	
@@ -297,8 +297,8 @@ function showNewsStream(isFirst){ console.log("showNewsStream");
 		       	dataType: "json",
 		       	data: dataNewsSearch,
 		    	success: function(data){
-			    	//console.log("LOAD NEWS BY AJAX");
-			    	//console.log(data.news);
+			    	//mylog.log("LOAD NEWS BY AJAX");
+			    	//mylog.log(data.news);
 			    	$(".newsTL").html('<div class="spine"></div>');
 					if(data){
 						buildTimeLine (data.news, 0, 5);
@@ -309,12 +309,12 @@ function showNewsStream(isFirst){ console.log("showNewsStream");
 							dateLimit=data.limitDate.created;
 					}
 					loadingData = false;
-					$(".my-main-container").bind('scroll', function(){ console.log("in linve", loadingData, scrollEnd);
+					$(".my-main-container").bind('scroll', function(){ mylog.log("in linve", loadingData, scrollEnd);
 					    if(!loadingData && !scrollEnd){
-					          var heightContainer = $("#timeline").height(); console.log("heightContainer", heightContainer);
+					          var heightContainer = $("#timeline").height(); mylog.log("heightContainer", heightContainer);
 					          var heightWindow = $(window).height();
 					          if( ($(this).scrollTop() + heightWindow) >= heightContainer - 200){
-					            console.log("scroll in news/index MAX");
+					            mylog.log("scroll in news/index MAX");
 					            loadStream(currentIndexMin+indexStep, currentIndexMax+indexStep);
 					        	
 					          }
@@ -338,7 +338,7 @@ function addSearchType(type){
     $(".search_"+type).removeClass("fa-circle-o");
     $(".search_"+type).addClass("fa-check-circle-o");
   }
-    console.log(searchType);
+    mylog.log(searchType);
 }
 function removeSearchType(type){
   var index = searchType.indexOf(type);
@@ -347,7 +347,7 @@ function removeSearchType(type){
     $(".search_"+type).removeClass("fa-check-circle-o");
     $(".search_"+type).addClass("fa-circle-o");
   }
-  console.log(searchType);
+  mylog.log(searchType);
 }
 
 

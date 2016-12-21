@@ -843,7 +843,7 @@ jQuery(document).ready(function()
 	changeHiddenIcone();
 	debugMap.push(personData);
 
-	//console.dir(contextMapPerson);
+	//mylog.dir(contextMapPerson);
 
 	if(contextMapPerson != null){
 		var elementsMap = new Array();
@@ -889,12 +889,12 @@ jQuery(document).ready(function()
 	}
 	buildQRCode("person","<?php echo (string)$person["_id"]?>");
 	
-	$(".toggle-tag-dropdown").click(function(){ console.log("toogle");
+	$(".toggle-tag-dropdown").click(function(){ mylog.log("toogle");
 		if(!$("#dropdown-content-multi-tag").hasClass('open'))
 		setTimeout(function(){ $("#dropdown-content-multi-tag").addClass('open'); }, 300);
 		$("#dropdown-content-multi-tag").addClass('open');
 	});
-	$(".toggle-scope-dropdown").click(function(){ console.log("toogle");
+	$(".toggle-scope-dropdown").click(function(){ mylog.log("toogle");
 		if(!$("#dropdown-content-multi-scope").hasClass('open'))
 		setTimeout(function(){ $("#dropdown-content-multi-scope").addClass('open'); }, 300);
 	});
@@ -902,7 +902,7 @@ jQuery(document).ready(function()
 
 function buildBgClassesList() 
 { 
-	console.log("-----------------buildBgClassesList----------------------");
+	mylog.log("-----------------buildBgClassesList----------------------");
 	if( $(".bgClassesContainer").html() == "" )
 	{
 		$.each(bgClasses,function(i,v) { 
@@ -916,9 +916,9 @@ function buildBgClassesList()
 }
 function bindAboutPodEvents() 
 {
-	console.log("-----------------bindAboutPodEvents----------------------");
+	mylog.log("-----------------bindAboutPodEvents----------------------");
 	$(".changePasswordBtn").click(function () {
-		console.log("changePasswordbuttton");
+		mylog.log("changePasswordbuttton");
 		loadByHash('#person.changepassword.id.'+userId+'.mode.initSV', false);
 	});
 
@@ -932,7 +932,7 @@ function bindAboutPodEvents()
 			crossDomain:true,
 			complete: function () {},
 			success: function (obj){
-				console.log("obj", obj);
+				mylog.log("obj", obj);
 				$("<a />", {
 				    "download": "profil.json",
 				    "href" : "data:application/json," + encodeURIComponent(JSON.stringify(obj))
@@ -954,8 +954,8 @@ function bindAboutPodEvents()
 		switchMode();
 	});
 	
-	//console.log("personData");
-	//console.dir(personData);
+	//mylog.log("personData");
+	//mylog.dir(personData);
 
 	$("#editGeoPosition").click(function(){
 		Sig.startModifyGeoposition(personId, "citoyens", Sig.currentPersonData);
@@ -963,7 +963,7 @@ function bindAboutPodEvents()
 	});
 
 	$('.exportMyDataBtn').click("click",function () { 
-    	console.log("exportMyDataBtn");
+    	mylog.log("exportMyDataBtn");
     	$.ajax({
 	        type: "GET",
 	        url: baseUrl+"/"+moduleId+"/data/exportinitdata/id/<?php echo Yii::app()->session["userId"] ?>/module/communecter"
@@ -981,7 +981,7 @@ function bindAboutPodEvents()
     });
 
     $(".editConfidentialityBtn").click(function(){
-    	console.log("confidentiality");
+    	mylog.log("confidentiality");
     	$("#modal-confidentiality").modal("show");
     });
 
@@ -1010,7 +1010,7 @@ function bindAboutPodEvents()
 }
 
 function initXEditable() {
-	console.log("-----------------initXEditable----------------------");
+	mylog.log("-----------------initXEditable----------------------");
 	$.fn.editable.defaults.mode = 'inline';
 	$('.editable-person').editable({
     	url: baseUrl+"/"+moduleId+"/person/updatefield", //this url will not be used for creating new job, it is only for update
@@ -1130,13 +1130,13 @@ function initXEditable() {
 	$('#address').editable({
 		validate: function(value) {
             value.streetAddress=$("#streetAddress").text();
-            console.log(value);
+            mylog.log(value);
         },
 		url: baseUrl+"/"+moduleId+"/person/updatefield",
 		mode: 'popup',
 		success: function(response, newValue) {
-			console.log("success update postal Code : ");
-			console.dir(newValue);
+			mylog.log("success update postal Code : ");
+			mylog.dir(newValue);
 			
 			var country = notEmpty(response.user.address.addressCountry) ? response.user.address.addressCountry : null;
 			var depName = notEmpty(response.user.address.depName) ? response.user.address.depName : null;
@@ -1186,7 +1186,7 @@ function initXEditable() {
 }
 
 function manageModeContext() {
-	console.log("-----------------manageModeContext----------------------");
+	mylog.log("-----------------manageModeContext----------------------");
 	listXeditables = [	'#birthDate', '#description', '#fax', '#fixe', '#mobile', '#tags', '#address', 
 						'#addressCountry', '#facebookAccount', '#twitterAccount',
 						'#gpplusAccount', '#gitHubAccount', '#skypeAccount', '#telegramAccount'];
@@ -1211,7 +1211,7 @@ function manageModeContext() {
 }
 
 function switchMode() {
-	console.log("-----------------switchMode----------------------");
+	mylog.log("-----------------switchMode----------------------");
 	if(mode == "view"){
 		mode = "update";
 		manageModeContext();
@@ -1237,9 +1237,9 @@ function switchMode() {
 
 function changeHiddenIcone() 
 { 
-	console.log("-----------------changeHiddenIcone----------------------");
-	/*console.log("------------", $("#fax").text().length, $("#fax").val());*/
-	console.log("------------", mode);
+	mylog.log("-----------------changeHiddenIcone----------------------");
+	/*mylog.log("------------", $("#fax").text().length, $("#fax").val());*/
+	mylog.log("------------", mode);
 	if(mode == "view"){
 		if($("#username").text().length == 0){ $(".fa_name").addClass("hidden"); }
 		if($("#birthDate").text().length == 0){ $(".fa_birthDate").addClass("hidden"); }
@@ -1264,12 +1264,12 @@ function changeHiddenIcone()
 }
 
 function manageSocialNetwork(iconObject, value) {
-	//console.log("-----------------manageSocialNetwork----------------------");
+	//mylog.log("-----------------manageSocialNetwork----------------------");
 	tabId2Icon = {"facebookAccount" : "fa-facebook", "twitterAccount" : "fa-twitter", 
 			"gpplusAccount" : "fa-google-plus", "gitHubAccount" : "fa-github", "skypeAccount" : "fa-skype", "telegramAccount" : "fa-send"}
 
 	var fa = tabId2Icon[iconObject.attr("id")];
-	console.log(value);
+	mylog.log(value);
 	iconObject.empty();
 	if (value != "") {
 		
@@ -1285,7 +1285,7 @@ function manageSocialNetwork(iconObject, value) {
 		iconObject.html('<i class="fa '+fa+' text-white"></i> Telegram');
 	}
 
-	console.log(iconObject);
+	mylog.log(iconObject);
 }
 
 
@@ -1293,7 +1293,7 @@ function manageSocialNetwork(iconObject, value) {
 	//modification de la position geographique	
 
 	function findGeoPosByAddress(){
-		console.log("-----------------findGeoPosByAddress----------------------");
+		mylog.log("-----------------findGeoPosByAddress----------------------");
 		//si la streetAdress n'est pas renseignée
 		if($("#streetAddress").html() == $("#streetAddress").attr("data-emptytext")){
 			//on récupère la valeur du code insee s'il existe
@@ -1327,7 +1327,7 @@ function manageSocialNetwork(iconObject, value) {
 
 	//quand la recherche nominatim a fonctionné
 	function callbackNominatimSuccess(obj){
-		console.log("callbackNominatimSuccess");
+		mylog.log("callbackNominatimSuccess");
 		//si nominatim a trouvé un/des resultats
 		if (obj.length > 0) {
 			//on utilise les coordonnées du premier resultat
@@ -1345,19 +1345,19 @@ function manageSocialNetwork(iconObject, value) {
 				var postalCode = $("#entity-cp-value").attr("cp-val");
 			}
 			//si on a un codeInsee, on lance la recherche de position par codeInsee
-			console.log("recherche by insee", insee);
+			mylog.log("recherche by insee", insee);
 			if(insee != "") findGeoposByInsee(insee, null,postalCode);
 		}
 	}
 
 	//en cas d'erreur nominatim
 	function callbackNominatimError(error){
-		console.log("callbackNominatimError");
+		mylog.log("callbackNominatimError");
 	}
 
 	//quand la recherche par code insee a fonctionné
 	function callbackFindByInseeSuccess(obj){
-		console.log("callbackFindByInseeSuccess");
+		mylog.log("callbackFindByInseeSuccess");
 		//si on a bien un résultat
 		if (typeof obj != "undefined" && obj != "") {
 			//récupère les coordonnées
@@ -1370,13 +1370,13 @@ function manageSocialNetwork(iconObject, value) {
 			showGeoposFound(coords, personId, "person", personData);
 		}
 		else {
-			console.log("Erreur getlatlngbyinsee vide");
+			mylog.log("Erreur getlatlngbyinsee vide");
 		}
 	}
 
 	//quand la recherche par code insee n'a pas fonctionné
 	function callbackFindByInseeError(){
-		console.log("erreur getlatlngbyinsee");
+		mylog.log("erreur getlatlngbyinsee");
 		toastr.error('');
 	}
 

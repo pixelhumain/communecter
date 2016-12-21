@@ -13,31 +13,48 @@
     display: inline-block!important;
   }
 
+  .headerDirectory a.lbh:hover{
+    text-decoration: underline !important;
+  }
 </style>
 
-<div class="row headerDirectory bg-white padding-15">
-  <h3 class="text-dark text-left">
-    <i class="fa fa-crosshairs"></i> Retrouvez les éléments <b>les plus actifs autour de vous</b>, dans un rayon de 
-    <select class="inline text-red" id="stepSearch" style="padding: 6px;font-size:17px;">
-      <option value="2000" <?php echo $radius=="2000"?"selected":"";?>>2</option>
-      <option value="5000" <?php echo $radius=="5000"?"selected":"";?>>5</option>
-      <option value="10000" <?php echo $radius=="10000"?"selected":"";?>>10</option>
-      <option value="25000" <?php echo $radius=="25000"?"selected":"";?>>25</option>
-      <option value="50000" <?php echo $radius=="50000"?"selected":"";?>>50</option>
-    </select> km
-    <button class="btn btn-default text-azure" style="margin-left:20px;" onclick="javascript:showMap(true)">
-      <i class="fa fa-map-marker"></i> Afficher sur la carte
-    </button>
-  </h3>
+<?php 
+  $specs = Element::getElementSpecsByType($type);
+  $link = $specs["hash"].$id;
+?>
 
-    
-    <div class="info-no-result <?php if(sizeOf($all)>0) echo 'hidden'; ?>">
+<div class="row headerDirectory bg-white padding-15">
+  
+    <?php if($lat==null){ ?>
+    <div class="info-no-result">
       <h3 class="text-red">
-        <i class="fa fa-ban"></i> Aucun élément n'a été trouvé.
-        <br><small><b>Élargissez la zone de recherche pour plus de résultat</b></small>
+        <i class="fa fa-ban"></i> Cet élément n'est pas communecté. 
+        <br><small><b>Impossible d'effectuer une recherche géographique.</b></small>
       </h3>
-      <button class="btn bg-dark" id="reloadAuto"><i class="fa fa-binoculars"></i> Recherche automatique</button>
     </div>
+    <?php }else{ ?>
+      <h3 class="text-dark text-left">
+        <i class="fa fa-crosshairs"></i> Retrouvez les éléments <b>les plus actifs</b>, autour de <a href="#<?php echo $link; ?>" class="lbh" id="element-name"></a> dans un rayon de 
+        <select class="inline text-red" id="stepSearch" style="padding: 6px;font-size:17px;">
+          <option value="2000" <?php echo $radius=="2000"?"selected":"";?>>2</option>
+          <option value="5000" <?php echo $radius=="5000"?"selected":"";?>>5</option>
+          <option value="10000" <?php echo $radius=="10000"?"selected":"";?>>10</option>
+          <option value="25000" <?php echo $radius=="25000"?"selected":"";?>>25</option>
+          <option value="50000" <?php echo $radius=="50000"?"selected":"";?>>50</option>
+        </select> km
+        <button class="btn btn-default text-azure" style="margin-left:20px;" onclick="javascript:showMap(true)">
+          <i class="fa fa-map-marker"></i> Afficher sur la carte
+        </button>
+      </h3>
+
+      <div class="info-no-result <?php if(sizeOf($all)>0) echo 'hidden'; ?>">
+        <h3 class="text-red">
+          <i class="fa fa-ban"></i> Aucun élément n'a été trouvé.
+          <br><small><b>Élargissez la zone de recherche pour plus de résultat</b></small>
+        </h3>
+        <button class="btn bg-dark" id="reloadAuto"><i class="fa fa-binoculars"></i> Recherche automatique</button>
+      </div>
+    <?php } ?>
     
     <div class="info-results <?php if(sizeOf($all)==0) echo 'hidden'; ?>">
       <h3 class="text-dark">
@@ -73,11 +90,15 @@ var noFitBoundAroundMe = true;
 
 jQuery(document).ready(function() {
 	
-	setTitle("Autour de <span class='text-"+colorTitle+"'><i class='fa "+iconTitle+"'></i> "+parentName+"</span>",
+  var elementName = "<span class='text-"+colorTitle+"'><i class='fa "+iconTitle+"'></i> "+parentName+"</span>";
+	setTitle("Autour de "+elementName,
 			 "<i class='fa fa-crosshairs'></i>", 
 			 "Autour de "+parentName);
 
-  //console.log(elementsMap);
+  $("#element-name").html(elementName);
+  //$("#element-name").addClass("text-"+colorTitle);
+
+  //mylog.log(elementsMap);
 
   //showMap(true);
 	if(notEmpty(elementsMap)){ 
@@ -192,12 +213,14 @@ function refreshAroundMe(radius){
         var new_URL = "#element.aroundme.type."+typeElement+".id."+idElement+".radius."+radiusElement+".manual.true";
         window.history.replaceState( {} , "", new_URL );
 
-        var str = showResultsDirectoryHtml(data.all);
-         $("#grid_around").html(str);
-        initBtnLink();
-        refreshUIAroundMe(data.all); 
-        $("#loader-aroundme").html("");
-        setTimeout(function(){ hideMapLegende(); }, 300);
+        setTimeout(function(){ 
+          var str = showResultsDirectoryHtml(data.all);
+          $("#grid_around").html(str);
+          initBtnLink();
+          refreshUIAroundMe(data.all); 
+          $("#loader-aroundme").html("");
+          hideMapLegende();
+        }, 1500);
       } else {
         toastr.error(data.msg);
       }
@@ -211,12 +234,12 @@ function initBtnLink(){
   $.each($(".followBtn"), function(index, value){
     var id = $(value).attr("data-id");
     var type = $(value).attr("data-type");
-    //console.log("error type :", type);
+    //mylog.log("error type :", type);
     if(type == "person") type = "people";
     else type = typeObj[type].col;
-    //console.log("#floopItem-"+type+"-"+id);
+    //mylog.log("#floopItem-"+type+"-"+id);
     if($("#floopItem-"+type+"-"+id).length){
-      //console.log("I FOLLOW THIS");
+      //mylog.log("I FOLLOW THIS");
       if(type=="people"){
         $(value).html("<i class='fa fa-unlink text-green'></i>");
         $(value).attr("data-original-title", "Ne plus suivre cette personne");
@@ -261,7 +284,7 @@ function initBtnLink(){
 
   var thiselement = this;
   $(this).html("<i class='fa fa-spin fa-circle-o-notch text-azure'></i>");
-  //console.log(formData);
+  //mylog.log(formData);
   var linkType = (type == "events") ? "connect" : "follow";
   if ($(this).attr("data-ownerlink")=="follow"){
     $.ajax({
@@ -283,7 +306,7 @@ function initBtnLink(){
     });
   } else if ($(this).attr("data-ownerlink")=="unfollow"){
     formData.connectType =  "followers";
-    //console.log(formData);
+    //mylog.log(formData);
     $.ajax({
       type: "POST",
       url: baseUrl+"/"+moduleId+"/link/disconnect",

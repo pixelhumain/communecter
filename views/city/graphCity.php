@@ -40,13 +40,13 @@
 
 		//var optionChecked = optionData;
 
-		/*console.log("insee", insee);
-		console.log("map", map);
-		console.log("name_id", name_id);
-		console.log("typeData", typeData);
-		console.log("typeGraph", typeGraph);
-		console.log("typeZone", typeZone);
-		console.log("optionChecked", optionChecked);*/
+		/*mylog.log("insee", insee);
+		mylog.log("map", map);
+		mylog.log("name_id", name_id);
+		mylog.log("typeData", typeData);
+		mylog.log("typeGraph", typeGraph);
+		mylog.log("typeZone", typeZone);
+		mylog.log("optionChecked", optionChecked);*/
 		if(title != "")
 			$("#title").html(title);
 		
@@ -63,11 +63,11 @@
 
 
 function getMultiBarChart(map, typeData, optionChecked, name_id){
-	console.warn("----------------- getMultiBarChart -----------------");
-	//console.log(name_id + "_panel : ", map, typeData, optionChecked);
-	//console.log("optionChecked 3 : ",  optionChecked);
+	mylog.warn("----------------- getMultiBarChart -----------------");
+	//mylog.log(name_id + "_panel : ", map, typeData, optionChecked);
+	//mylog.log("optionChecked 3 : ",  optionChecked);
 	var mapData = buildDataSetMulti(map, typeData,  optionChecked, name_id);
-	//console.log(mapData);
+	//mylog.log(mapData);
 	nv.addGraph(function() {
 	    var chart = nv.models.multiBarChart()
 	    	.stacked(false)
@@ -83,7 +83,7 @@ function getMultiBarChart(map, typeData, optionChecked, name_id){
 				bottom : 100,
 			})
           	.tooltip(function(key, x, y, e, graph) {
-          		//console.log("e", e);
+          		//mylog.log("e", e);
 			    return '<h3>' + key + '</h3>' +
 			           '<p>' +  y + ' on ' + x + '</p>';
 			});
@@ -108,28 +108,28 @@ function getMultiBarChart(map, typeData, optionChecked, name_id){
 }
 
 function buildDataSetMulti(map, typeData, optionChecked, name_id){
-	//console.warn("----------------- buildDataSetMulti -----------------");
-	//console.log(name_id + "_panel : ", map, typeData, optionChecked);
+	//mylog.warn("----------------- buildDataSetMulti -----------------");
+	//mylog.log(name_id + "_panel : ", map, typeData, optionChecked);
 	var mapData = [];
 	var tabYear = [];
 	
 	$.each(optionChecked, function(keyInd,valuesOptionChecked){
-		//console.log("test", valuesOptionChecked);
+		//mylog.log("test", valuesOptionChecked);
 		var valInfo ;
 		valuesMap=[];
 		$.each(map, function(nameCommune,valuesCommune){
-			//console.log("test2", valuesCommune);
+			//mylog.log("test2", valuesCommune);
 			$.each(valuesCommune, function(codeInsee,valuesInsee){
-				//console.log("test2", valuesInsee);
+				//mylog.log("test2", valuesInsee);
 				$.each(valuesInsee, function(keyInfo,valuesInfo){
-					//console.log("valuesInfo", valuesInfo);
+					//mylog.log("valuesInfo", valuesInfo);
 					valInfo = valuesInfo ;
 					if(typeData == keyInfo)
 					{
 						var val = {};
 						val["x"] = nameCommune;
 						val["y"] = jsonHelper.getValueByPath(valuesInfo, add_element_mapping(valuesOptionChecked, "value"));
-						//console.log("val : ", val);
+						//mylog.log("val : ", val);
 						valuesMap.push(val);
 					}
 				});
@@ -141,15 +141,15 @@ function buildDataSetMulti(map, typeData, optionChecked, name_id){
 						};
 		mapData.push(itemMap);
 		
-		//console.log("mapData", mapData);
+		//mylog.log("mapData", mapData);
 	});
-	//console.log("mapData FIN", mapData);
+	//mylog.log("mapData FIN", mapData);
 	return mapData;
 }
 
 function getPieChart(map, typeData, optionChecked, name_id){
-	//console.warn("----------------- getPieChart -----------------");
-	//console.log(name_id + "_panel : ", map, typeData, optionChecked);
+	//mylog.warn("----------------- getPieChart -----------------");
+	//mylog.log(name_id + "_panel : ", map, typeData, optionChecked);
 	var mapData = buildDataSetPie(map, typeData,  optionChecked, name_id);
 	
 	nv.addGraph(function() {
@@ -174,29 +174,29 @@ function getPieChart(map, typeData, optionChecked, name_id){
 
 
 function buildDataSetPie(map, typeData, optionChecked, name_id){
-	//console.warn("----------------- buildDataSetPie -----------------");
-	//console.log(name_id + "_panel : ", map, typeData, optionChecked);
-	//console.log("map",map);
-	//console.log("str",str);
+	//mylog.warn("----------------- buildDataSetPie -----------------");
+	//mylog.log(name_id + "_panel : ", map, typeData, optionChecked);
+	//mylog.log("map",map);
+	//mylog.log("str",str);
 	var mapData= [];
 	$.each(optionChecked, function(keyInd,valuesOptionChecked){
-		//console.log("optionChecked", valuesOptionChecked);
+		//mylog.log("optionChecked", valuesOptionChecked);
 		$.each(map, function(nameCommune,valuesCommune){
 			$.each(valuesCommune, function(codeInsee,valuesInsee){
 				$.each(valuesInsee, function(keyInfo,valuesInfo){
-					//console.log("valuesInfo", valuesInfo);
+					//mylog.log("valuesInfo", valuesInfo);
 					if(typeData == keyInfo)
 					{
 						var val = {};
 						val["label"] = nameCommune + " : " + jsonHelper.getValueByPath(valuesInfo, add_element_mapping(valuesOptionChecked, "label"));
 						val["value"] = jsonHelper.getValueByPath(valuesInfo, add_element_mapping(valuesOptionChecked, "value"));
-						//console.log("val : ", val);
+						//mylog.log("val : ", val);
 						mapData.push(val);
 					}
 				});
 			});
 		});
-		//console.log("mapData", mapData);
+		//mylog.log("mapData", mapData);
 	});
 	return mapData;
 }

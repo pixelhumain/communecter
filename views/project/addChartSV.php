@@ -357,7 +357,7 @@ function runChartFormValidation() {
 					nbProperties++;
 				}
 			});
-			console.log(newChart);
+			mylog.log(newChart);
 			$.blockUI({
 				message : '<i class="fa fa-spinner fa-spin"></i> Processing... <br/> '+
 	            '<blockquote>'+

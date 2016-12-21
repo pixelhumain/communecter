@@ -52,11 +52,11 @@
 				<?php
 				if(isset($editMode) && $editMode || isset($openEdition) && $openEdition){ ?>
 				<div class="user-image-buttons">
-					<span class="btn btn-blue btn-file fileupload-new btn-sm" id="<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>_photoAddBtn" ><span class="fileupload-new"><i class="fa fa-plus"></i> <span class="hidden-xs">Photo</span></span>
+					<span class="btn btn-blue btn-file btn-upload fileupload-new btn-sm" id="<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>_photoAddBtn" ><span class="fileupload-new"><i class="fa fa-plus"></i> <span class="hidden-xs">Photo</span></span>
 						<input type="file" accept=".gif, .jpg, .png" name="avatar" id="<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>_avatar">
 						<input class="<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>_isSubmit hidden" value="true"/>
 					</span>
-					<a href="#" class="btn fileupload-exists btn-red btn-sm" id="<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>_photoRemove" data-dismiss="fileupload">
+					<a href="#" class="btn btn-upload fileupload-exists btn-red btn-sm" id="<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>_photoRemove" data-dismiss="fileupload">
 						<i class="fa fa-times"></i>
 					</a>
 				</div>
@@ -101,8 +101,8 @@
 			    initFileUpload();
 			}, 1000);
 		}
-		console.log(baseUrl+"/imageTableu:");
-		console.log(image[contentId.toLowerCase()]);
+		mylog.log(baseUrl+"/imageTableu:");
+		mylog.log(image[contentId.toLowerCase()]);
 
 		$('#'+contentId+'_avatar').off().on('change.bs.fileinput', function () {
 			
@@ -121,9 +121,10 @@
 						if(file && file.size > 2097152){
 							toastr.error("<?php echo Yii::t('fileUpload','Size maximum 2Mo',null,Yii::app()->controller->module->id) ?>");
 						}
-						$("#"+contentId+"_fileUpload").css("opacity", "1");
+						/*$("#"+contentId+"_fileUpload").css("opacity", "1");
 						$("#"+contentId+"_photoUploading").css("display", "none");
-						$(".btn").removeClass("disabled");
+						$(".btn-upload").removeClass("disabled");*/
+						updateBtnUpload(false);
 						$("#"+contentId+"_fileUpload").fileupload("clear");
 					}
 				}, 200);
@@ -144,12 +145,13 @@
 
 
 		$("#"+contentId+"_photoAdd").off().on('submit',(function(e) {
-			if(debug)console.log("id2", id);
+			if(debug)mylog.log("id2", id);
 			$("."+contentId+"_isSubmit").val("true");
 			e.preventDefault();
-			$("#"+contentId+"_fileUpload").css("opacity", "0.4");
+			/*$("#"+contentId+"_fileUpload").css("opacity", "0.4");
 			$("#"+contentId+"_photoUploading").css("display", "block");
-			$(".btn").addClass("disabled");
+			$(".btn-upload").addClass("disabled");*/
+			updateBtnUpload(true);
 			$("#"+contentId+"_imgPreview").addClass("hidden");
 			$.ajax({
 				//url: baseUrl+"/"+moduleId+"/api/saveUserImages/type/"+type+"/id/"+id+"/contentKey/"+contentKey+"/user/<?php echo Yii::app()->session["userId"]?>",
@@ -161,7 +163,7 @@
 				processData: false,
 				dataType: "json",
 				success: function(data){
-					if(debug)console.log(data);
+					if(debug)mylog.log(data);
 			  		if(data.success){
 			  			imageName = data.name;
 			  			var doc = { 
@@ -176,6 +178,12 @@
 						  		"doctype" : "<?php echo Document::DOC_TYPE_IMAGE; ?>",
 						  		"contentKey" : contentKey
 						  	};
+
+						if(typeof contextData != "undefined" && contextData != null && typeof contextData.parentType != "undefined" && contextData.parentType != null){
+							doc["parentType"] = contextData.parentType ;
+							doc["parentId"] = contextData.parentId ;
+						}
+
 			  			saveImage(doc, "/"+data.dir+data.name);
 			  		}
 			  		else
@@ -192,11 +200,11 @@
 			$("."+contentId+"_isSubmit").val("false");
 			e.preventDefault();
 
-			$("#"+contentId+"_fileUpload").css("opacity", "0.4");
+			/*$("#"+contentId+"_fileUpload").css("opacity", "0.4");
 			$("#"+contentId+"_photoUploading").css("display", "block");
+			$(".btn-upload").addClass("disabled");*/
+			updateBtnUpload(true);
 			$("#"+contentId+"_imgPreview").removeClass("hidden");
-			$(".btn").addClass("disabled");
-
 			$.ajax({
 				
 				url: baseUrl+"/"+moduleId+"/document/delete/dir/"+moduleId+"/type/"+type+"/parentId/"+id,
@@ -208,9 +216,10 @@
 						
 						setTimeout(function(){
 							
-							$("#"+contentId+"_fileUpload").css("opacity", "1");
+							/*$("#"+contentId+"_fileUpload").css("opacity", "1");
 							$("#"+contentId+"_photoUploading").css("display", "none");
-							$(".btn").removeClass("disabled");
+							$(".btn-upload").removeClass("disabled");*/
+							updateBtnUpload(false);
 							toastr.success(data.msg);
 							if("undefined" != typeof updateShiftSlider && "function" == typeof updateShiftSlider && (contentId.indexOf(sliderKey) > -1)){
 								updateShiftSlider();
@@ -218,6 +227,7 @@
 						}, 2000);
 
 					}else{
+						updateBtnUpload(false);
 						toastr.error(data.error)
 					}
 				}
@@ -239,7 +249,7 @@
 				$("#"+contentId+"_imgPreview").html(imageUrl);
 
 			}
-			//if(debug)console.log("initFileUpload", images, imagesPath);
+			//if(debug)mylog.log("initFileUpload", images, imagesPath);
 			if(j == 0 || resize ){
 				if(editFile){
 					var textBlock = "<br><?php echo Yii::t('fileUpload','Click on',null,Yii::app()->controller->module->id) ?> <i class='fa fa-plus text-green'></i> <?php echo Yii::t('fileUpload','for share your pictures',null,Yii::app()->controller->module->id) ?>";
@@ -257,7 +267,7 @@
 			}
 		}
 		function saveImage(doc, path){
-			console.log("----------------saveImage------------------");
+			mylog.log("----------------saveImage------------------");
 			$.ajax({
 			  	type: "POST",
 			  	url: baseUrl+"/"+moduleId+"/document/save",
@@ -269,10 +279,11 @@
 					$(".fileupload-preview img").css("max-height", "190px");
 					imageId = data.id["$id"];
 					setTimeout(function(){
-						$("#"+contentId+"_fileUpload").css("opacity", "1");
+						/*$("#"+contentId+"_fileUpload").css("opacity", "1");
 						$("#"+contentId+"_photoUploading").css("display", "none");
-						$(".btn").removeClass("disabled");
-						console.log(typeof(updateSlider));
+						$(".btn").removeClass("disabled");*/
+						updateBtnUpload(false);
+						mylog.log(typeof(updateSlider));
 				  		if(typeof(updateSlider) != "undefined" && typeof (updateSlider) == "function"){
 							updateSlider(path, data.id["$id"]);
 				  		}
@@ -286,14 +297,16 @@
 				    //met à jour l'image de profil dans le menu principal
 				    updateMenuThumbProfil();
 
-				} else
+				} else{
+					updateBtnUpload(false);
 					toastr.error(data.msg);
+				}
 
 			});
 		}
 		//met à jour l'image de profil dans le menu principal
 		function updateMenuThumbProfil(){ 
-			console.log("loading new profil");
+			mylog.log("loading new profil");
 			$.ajax({
 			  	type: "POST",
 			  	url: baseUrl+"/"+moduleId+"/person/getthumbpath",
@@ -313,15 +326,29 @@
 
 		        }
 
-		        console.log(Sig.userData.profilImageUrl);
-		        console.log("NOUVELLE PATH THUMB PROFIL : <?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50/'); ?>" + data.profilImageUrl);
+		        mylog.log(Sig.userData.profilImageUrl);
+		        mylog.log("NOUVELLE PATH THUMB PROFIL : <?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50/'); ?>" + data.profilImageUrl);
 		    	Sig.userData.profilImageUrl = "<?php echo Yii::app()->createUrl('/'.$this->module->id.'/document/resized/50x50/'); ?>" + data.profilImageUrl;
-		        console.log(Sig.userData.profilImageUrl);
+		        mylog.log(Sig.userData.profilImageUrl);
 		        
 		    });
 		}
+
+		function updateBtnUpload(addDisable){ 
+			if(addDisable == true){
+				$("#"+contentId+"_fileUpload").css("opacity", "0.4");
+				$("#"+contentId+"_photoUploading").css("display", "block");
+				$(".btn-upload").addClass("disabled");
+			}else if(addDisable == false){
+				$("#"+contentId+"_fileUpload").css("opacity", "1");
+				$("#"+contentId+"_photoUploading").css("display", "none");
+				$(".btn").removeClass("disabled");
+			}
+		}
 		
 	});
+
+	
 
 
 	

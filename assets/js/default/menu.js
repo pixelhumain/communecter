@@ -145,7 +145,7 @@ function bindEventMenu(){
     // });
     
     $(".btn-login").click(function(){
-		//console.log("btn-login");
+		//mylog.log("btn-login");
 		showPanel("box-login");
 		//$(".main-col-search").html("");
 	}).mouseenter(function(e){ 
@@ -156,7 +156,7 @@ function bindEventMenu(){
 	});
 
     $(".btn-register").click(function(){
-    	//console.log("btn-register");
+    	//mylog.log("btn-register");
 		showPanel("box-register");
 		//$(".main-col-search").html("");
 	}).mouseenter(function(e){ 
@@ -167,7 +167,7 @@ function bindEventMenu(){
 	});
 
 	$(".btn-logout").click(function(){
-    	console.log("btn-logout");
+    	mylog.log("btn-logout");
 		window.location.href = urlLogout;
 	});
 
@@ -184,7 +184,7 @@ function bindEventMenu(){
 		}
 	});
 	$(".btn-param-postal-code").click(function(e){
-		////console.log("cookie", $.cookie('inseeCommunexion'));
+		////mylog.log("cookie", $.cookie('inseeCommunexion'));
 		if(typeof $.cookie('inseeCommunexion') == "undefined" && typeof inseeCommunexion == "undefined"){
 			//$(".search-loader").html("<i class='fa fa-spin fa-circle-o-notch'></i> Géolocalisation en cours ...");		
 			showMap(true);
@@ -205,9 +205,9 @@ function bindEventMenu(){
     });
     
     $(".btn-geoloc-auto").click(function(e){
-		//console.log("cookie", $.cookie('inseeCommunexion'));
+		//mylog.log("cookie", $.cookie('inseeCommunexion'));
     	if($.cookie('inseeCommunexion')){
-    		loadByHash("#city.detail.insee." + $.cookie('inseeCommunexion')+ ".postalCode." + $.cookie('cpCommunexion'));
+    		//loadByHash("#city.detail.insee." + $.cookie('inseeCommunexion')+ ".postalCode." + $.cookie('cpCommunexion'));
     	}else{
     		if(geolocHTML5Done == false){
 				//$(".search-loader").html("<i class='fa fa-spin fa-circle-o-notch'></i> Géolocalisation en cours ...");		
@@ -230,7 +230,7 @@ function bindEventMenu(){
 	var positionMouseMenu = "out";
 
 	// $(".hover-menu").mouseenter(function(){
-	// 	////console.log("enter all");
+	// 	////mylog.log("enter all");
 	// 	positionMouseMenu = "in";
 	// 	//$(".main-col-search").animate({ opacity:0.3 }, 0 );
 	// 	$(".main-menu-right .lbl-btn-menu-name").show(0);
@@ -249,7 +249,7 @@ function bindEventMenu(){
 
 
 	// $(".hover-menu .btn-menu").mouseenter(function(){
-	// 	////console.log("enter btn, loginRegister", isLoginRegister());
+	// 	////mylog.log("enter btn, loginRegister", isLoginRegister());
 	// 	if(!isLoginRegister()){
 	// 		positionMouseMenu = "inBtn";
 	// 		//$(".main-col-search").animate({ opacity:0.3 }, 0 );
@@ -315,7 +315,7 @@ function bindEventMenu(){
 					$(".main-menu-right .lbl-btn-menu-name").hide();
 					$(".menu-button").removeClass("large");
 					timeoutCommunexion = setTimeout(function(){ 
-						//console.log("HIDE HIDE"); $("#input-communexion").hide(200); clearTimeout(timeoutCommunexion); 
+						//mylog.log("HIDE HIDE"); $("#input-communexion").hide(200); clearTimeout(timeoutCommunexion); 
 					}, 300);
 				}
 				//$(".hover-info,.hover-info2").hide();
@@ -327,11 +327,11 @@ function bindEventMenu(){
 	});
 
 	$(".menu-button").click(function(){
-		////console.log("login display", !isLoginRegister());
+		////mylog.log("login display", !isLoginRegister());
 		//permet de savoir si l'utilisateur est en train de se logguer ou de s'inscrire
 	    var login_register = isLoginRegister();
 	    
-	    //console.log(isLoginRegister());
+	    //mylog.log(isLoginRegister());
 	    if(!isLoginRegister()){
 			positionMouseMenu = "out";
 			$(".main-col-search").animate({ opacity:1 }, 200 );

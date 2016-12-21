@@ -253,7 +253,7 @@ function saveJob() {
 			   var msg = 'New job created!';
 			   $('#msg').addClass('alert-success').removeClass('alert-error').html(msg).show();
 			   $('#save-btn').hide(); 
-			   console.log("data.job => "+data.job);
+			   mylog.log("data.job => "+data.job);
 			   if('undefined' != typeof updateJob && typeof updateJob == "function")
 						updateJob( data.job,  data.id);
 			   //$.hideSubview();
@@ -263,7 +263,7 @@ function saveJob() {
 			}               
 		},
 		error: function(errors) {
-			console.log("Bing y a une erreur !");
+			mylog.log("Bing y a une erreur !");
 			var msg = '';
 			if(errors && errors.responseText) { //ajax error, errors = xhr object
 				msg = errors.responseText;
@@ -271,7 +271,7 @@ function saveJob() {
 				$.each(errors, function(k, v) { msg += k+": "+v+"<br>"; });
 			} 
 			$('#msg').removeClass('alert-success').addClass('alert-error').html(msg).show();
-			console.log("Le msg : "+msg);
+			mylog.log("Le msg : "+msg);
 		}
 	});
 }
@@ -287,7 +287,7 @@ function activateEditable() {
 
 	//make jobTitle required
 	$('#jobSV #title').editable('option', 'validate', function(v) {
-		console.log("Title Mandatory");
+		mylog.log("Title Mandatory");
 		if(!v) return 'Required field!';
 	});
 
@@ -307,7 +307,7 @@ function activateEditable() {
 		url: baseUrl+"/"+moduleId+"/job/save", //this url will not be used for creating new user, it is only for update
 		mode: 'popup',
 		success: function(response, newValue) {
-			console.log("success update postal Code : "+newValue);
+			mylog.log("success update postal Code : "+newValue);
 		},
 		value : {
 			postalCode: '<?php echo (isset($job["jobLocation"]) && isset( $job["jobLocation"]["address"]["postalCode"])) ? $job["jobLocation"]["address"]["postalCode"] : null; ?>',

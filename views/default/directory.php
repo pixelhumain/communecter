@@ -58,8 +58,9 @@
 
   <div class="col-md-12 col-sm-12 col-xs-12 no-padding" style="margin-bottom: 20px;">
     <?php  //if(@$_GET['type'] != "cities"){ ?>  
-      <div class='city-name-locked homestead text-red'></div>
-      <div id="scopeListContainer" class="hidden-xs list_tags_scopes"></div>
+      <div id="scopeListContainer" class="hidden-xs list_tags_scopes inline-block"></div>
+      <div class='city-name-locked text-red'></div>
+      
     <?php //}else{ ?>
       <!-- <i class="fa fa-info-circle"></i> Indiquez le nom d'une commune, ou un code postal, pour lancer la recherche -->
     <?php //} ?>
@@ -93,8 +94,12 @@
   </div>
 
 <?php //$this->renderPartial(@$path."first_step_directory"); ?> 
-<?php  $city = @$_GET['lockCityKey'] ? City::getByUnikey($_GET['lockCityKey']) : null; 
-       $cityName = ($city!=null) ? $city["name"].", ".$city["cp"] : "";
+<?php $city = (@$_GET['lockCityKey'] ? City::getByUnikey($_GET['lockCityKey']) : null);
+
+      if($city == null && @$_GET['insee'])
+        $city = City::getCityByInsee($_GET['insee']);
+      
+      $cityName = (($city!=null) ? $city["name"]. (@$city["cp"]? ", ".$city["cp"] : "") : "");
 ?>
 
 <script type="text/javascript">
@@ -152,6 +157,8 @@ var typeSelected = <?php echo (@$_GET['type']) ? "'".$_GET['type']."'" : "null" 
 
 jQuery(document).ready(function() {
 
+  currentTypeSearchSend = "search";
+
   $("#searchBarText").val($(".input-global-search").val());
 
   $("#btn-slidup-scopetags").click(function(){
@@ -199,7 +206,7 @@ jQuery(document).ready(function() {
           var heightContainer = $(".my-main-container")[0].scrollHeight;
           var heightWindow = $(window).height();
           if( ($(this).scrollTop() + heightWindow) >= heightContainer-150){
-            console.log("scroll MAX");
+            mylog.log("scroll MAX");
             startSearch(currentIndexMin+indexStep, currentIndexMax+indexStep);
           }
         }
@@ -220,7 +227,7 @@ jQuery(document).ready(function() {
   });
 
   
-    $("#stepSearch").change(function(){ console.log("new stepSearch : " + $("#stepSearch").val());
+    $("#stepSearch").change(function(){ mylog.log("new stepSearch : " + $("#stepSearch").val());
       indexStepInit = parseInt($("#stepSearch").val());
     });
   
@@ -235,7 +242,7 @@ jQuery(document).ready(function() {
 });
 
 function searchCallback() { 
-  console.log("searchCallback");
+  mylog.log("searchCallback");
   startSearch(0, indexStepInit);
 }
 

@@ -22,10 +22,9 @@ class DefaultController extends CommunecterController {
     /**
      * Home page
      */
-	public function actionIndex() 
-	{
-    $this->render("index");
-  }
+    public function actionIndex() {   
+        $this->render("index");
+    }
 
   public function actionTwoStepRegister() 
   {

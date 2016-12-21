@@ -92,7 +92,7 @@ jQuery(document).ready(function() {
 	
 	//$(".new-news").off().on("click",function() { 
 		notSubview = ( $(this).data("notsubview")) ? $(this).data("notsubview") : null ;
-		console.log("add news on ",$(this).data('id'),$(this).data('type'),notSubview);
+		mylog.log("add news on ",$(this).data('id'),$(this).data('type'),notSubview);
 		if( $(this).data('id') )
 			contextId = $(this).data('id') ;
 		if( $(this).data('type') )
@@ -115,7 +115,7 @@ jQuery(document).ready(function() {
 				// 	onShow : function() 
 				// 	{
 				// 		buildDynForm();
-				// 		console.dir(form);
+				// 		mylog.dir(form);
 				// 	},
 				// 	onHide : function() {
 				// 		$("#ajaxSV").html('');
@@ -136,7 +136,7 @@ function openSubview () {
 		onShow : function() 
 		{
 			buildDynForm();
-			console.dir(form);
+			mylog.dir(form);
 		},
 		onHide : function() {
 			$("#formCreateNewsTemp").html('');
@@ -148,7 +148,7 @@ function openSubview () {
 	});
 }
 
-function buildDynForm(){ console.log("CONSTRUC FGORM");
+function buildDynForm(){ mylog.log("CONSTRUC FGORM");
 	var form = $.dynForm({
 		formId : "#ajaxForm",
 		formObj : formDefinition,
@@ -163,13 +163,13 @@ function buildDynForm(){ console.log("CONSTRUC FGORM");
 				getAjax(".newsFeed", baseUrl+"/"+moduleId+"/news/latest/type/"+contextType+"/id/<?php if(isset($_GET["id"]))echo $_GET["id"];?>/count/15", function(){}, "html");*/
 		},
 		onSave : function(){
-			console.log("saving Organization!!");
+			mylog.log("saving Organization!!");
 			var params = {};
 			$.each(dataBind,function(field,dest){
-				console.log("dataBind 1 ",field,$(field).val());
+				mylog.log("dataBind 1 ",field,$(field).val());
 				if(field != "" )
 				{
-					console.log("dataBind 2",field);
+					mylog.log("dataBind 2",field);
 					value = "";
 					if(dest == "tags"){
 						value = $(field).val().split(",");
@@ -178,15 +178,15 @@ function buildDynForm(){ console.log("CONSTRUC FGORM");
 
 					if( value != "" )
 					{
-						console.log("dataBind 3 ",field,dest,value);
+						mylog.log("dataBind 3 ",field,dest,value);
 						jsonHelper.setValueByPath( params, dest, value );
 					} 
 				}
 				else
-					console.log("save Error",field);
+					mylog.log("save Error",field);
 			});
 			params.id = '<?php echo Yii::app()->session['userId']; ?>';
-			console.dir(params);
+			mylog.dir(params);
 			$.ajax({
 	    	  type: "POST",
 	    	  url: baseUrl+"/<?php echo $this->module->id?>/news/save",
@@ -199,7 +199,7 @@ function buildDynForm(){ console.log("CONSTRUC FGORM");
 	            		updateNews(data.object);
 	            	else if( notSubview )
 	            		showAjaxPanel( '/news/index/type/<?php echo (isset($_GET['type'])) ? $_GET['type'] : 'citoyens' ?>/id/<?php echo (isset($_GET['id'])) ? $_GET['id'] : Yii::app()->session['userId'] ?>', 'KESS KISS PASS ','rss' )
-					console.dir(data);
+					mylog.dir(data);
 					$.unblockUI();
 					$("#ajaxSV").html('');
 					//$.hideSubview();

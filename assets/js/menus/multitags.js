@@ -1,7 +1,7 @@
 
 
 function saveMultiTag(){
-	//console.log("saveMultiTag() try"); console.log(myMultiTags); 
+	//mylog.log("saveMultiTag() try"); mylog.log(myMultiTags); 
 	hideSearchResults();
 	if(userId != null && userId != ""){
 		if(!notEmpty(myMultiTags)) myMultiTags = {};
@@ -11,10 +11,10 @@ function saveMultiTag(){
 	        data: {multitags : myMultiTags},
 	       	dataType: "json",
 	    	success: function(data){
-	    		console.log("saveMultiTag() success");
+	    		mylog.log("saveMultiTag() success");
 		    },
 			error: function(error){
-				console.log("Une erreur est survenue pendant l'enregistrement des tags");
+				mylog.log("Une erreur est survenue pendant l'enregistrement des tags");
 			}
 		});
 	}else{
@@ -25,13 +25,13 @@ function saveMultiTag(){
     saveCookieMultitags();
 }
 
-function saveCookieMultitags(){ //console.log("saveCookieMultitags", myMultiTags);
+function saveCookieMultitags(){ //mylog.log("saveCookieMultitags", myMultiTags);
 	$.cookie('multitags',   	JSON.stringify(myMultiTags),  	{ expires: 365, path: "/" });
 
 }
 
 function loadMultiTags(){
-	$.each(myMultiTags, function(key, value){ //console.log("each myMultiTags");
+	$.each(myMultiTags, function(key, value){ mylog.log("each myMultiTags", myMultiTags);
 		showTagInMultitag(key);
 	});
 	showCountTag();
@@ -40,8 +40,8 @@ function loadMultiTags(){
 
 function showCountTag(){
 	var count = 0;
-	//console.log("myMultiTags"); console.log(myMultiTags);
-	$.each(myMultiTags, function(key, value){ //console.log("each myMultiTags");
+	//mylog.log("myMultiTags"); mylog.log(myMultiTags);
+	$.each(myMultiTags, function(key, value){ //mylog.log("each myMultiTags");
 		if(value.active==true) count++;
 	}); //onsole.log("TAG COUNT : ", count);
 	$(".tags-count").html(count);
@@ -62,7 +62,7 @@ function selectAllTags(select){
 	});
 	saveMultiTag();
 }
-function showTagInMultitag(tagValue){ //console.log("showTagInMultitag()", tagValue);
+function showTagInMultitag(tagValue){ //mylog.log("showTagInMultitag()", tagValue);
 	var html = "";
 	if(tagExists(tagValue)){
 		var faActive = myMultiTags[tagValue].active == true ? "check-circle" : "circle-o";
@@ -99,12 +99,13 @@ function addTagToMultitag(tagValue){
 	if(tagValue == "") return;
 	if(tagValue.indexOf("#") == 0) tagValue = tagValue.substr(1, tagValue.length);
 	if(!tagExists(tagValue)){
-		//console.log("adding", tagValue);
+		//mylog.log("adding", tagValue);
 		myMultiTags[tagValue] = { active: true };
-		//console.log("adding : myMultiTags :", myMultiTags);
+		//mylog.log("adding : myMultiTags :", myMultiTags);
 		showTagInMultitag(tagValue);
 		saveMultiTag();
 		$("#input-add-multi-tag").val("");
+		$("[data-tag-value='"+tagValue+"'].item-tag-suggest").hide();
 		return true;
 	}else{
 		showMsgInfoMultiTag("Ce tag est déjà dans votre liste", "info");
@@ -112,17 +113,18 @@ function addTagToMultitag(tagValue){
 	}
 }
 
-function deleteTagInMultitag(tagValue){ //console.log("deleteTagInMultitag(tagValue)", tagValue);
+function deleteTagInMultitag(tagValue){ //mylog.log("deleteTagInMultitag(tagValue)", tagValue);
 	if(tagExists(tagValue)){
 		delete myMultiTags[tagValue];
-		$("[data-tag-value='"+tagValue+"']").remove();
+		$("[data-tag-value='"+tagValue+"'].item-tag-input ").remove();
+		$("[data-tag-value='"+tagValue+"'].item-tag-suggest").show();
 		saveMultiTag();
 		//showMsgInfoMultiTag("Le tag a bien été supprimé", "success");
 	}
-	//console.dir(myMultiTags);
+	//mylog.dir(myMultiTags);
 }
 
-function toogleTagMultitag(tagValue, selected){ //console.log("toogleTagMultitag(tagValue)", tagValue);
+function toogleTagMultitag(tagValue, selected){ //mylog.log("toogleTagMultitag(tagValue)", tagValue);
 	if(tagExists(tagValue)){
 		myMultiTags[tagValue].active = !myMultiTags[tagValue].active;
 		
@@ -132,12 +134,12 @@ function toogleTagMultitag(tagValue, selected){ //console.log("toogleTagMultitag
 		saveMultiTag();
 
 		if(myMultiTags[tagValue].active){
-			$("[data-tag-value='"+tagValue+"'] .item-tag-checker i.fa").removeClass("fa-circle-o");
-			$("[data-tag-value='"+tagValue+"'] .item-tag-checker i.fa").addClass("fa-check-circle");
+			$("[data-tag-value='"+tagValue+"'].item-tag-checker i.fa").removeClass("fa-circle-o");
+			$("[data-tag-value='"+tagValue+"'].item-tag-checker i.fa").addClass("fa-check-circle");
 			$("[data-tag-value='"+tagValue+"'].item-tag-input").removeClass("disabled");
 		}else{
-			$("[data-tag-value='"+tagValue+"'] .item-tag-checker i.fa").addClass("fa-circle-o");
-			$("[data-tag-value='"+tagValue+"'] .item-tag-checker i.fa").removeClass("fa-check-circle");
+			$("[data-tag-value='"+tagValue+"'].item-tag-checker i.fa").addClass("fa-circle-o");
+			$("[data-tag-value='"+tagValue+"'].item-tag-checker i.fa").removeClass("fa-check-circle");
 			$("[data-tag-value='"+tagValue+"'].item-tag-input").addClass("disabled");
 		}
 		
@@ -176,7 +178,7 @@ function rebuildSearchTagInput()
 		if(value.active)
 			searchTags += (searchTags == "") ? key :   ","+key;
 	});
-	//console.log("searchTags",searchTags);
+	//mylog.log("searchTags",searchTags);
 	if( $("#searchTags") )
 		$("#searchTags").val(searchTags);
 
@@ -203,11 +205,42 @@ function showTagsMin(htmlId){
 
 	$(".item-tag-checker").off().click(function(){ toogleTagMultitag( $(this).data("tag-value")) });
 	
-	$(".toggle-tag-dropdown").click(function(){ //console.log("toogle");
+	$(".toggle-tag-dropdown").click(function(){ //mylog.log("toogle");
 		if(!$("#dropdown-content-multi-tag").hasClass('open'))
 		setTimeout(function(){ $("#dropdown-content-multi-tag").addClass('open'); }, 300);
 		$("#dropdown-content-multi-tag").addClass('open');
 		//else
 		//$("#dropdown-content-multi-tag").removeClass('open');
 	});
+}
+
+function loadTagSuggestion(tagsSuggest){
+	$.each(tagsSuggest, function(key, value){ mylog.log("each tagsSuggest");
+		showTagSuggestion(key, value);
+	});
+}
+function showTagSuggestion(tagValue, tagSpec){ mylog.log("showTagSuggestion()", tagValue);
+	var html = "";
+	if(!tagExists(tagValue)){
+		var faActive = tagSpec.active == true ? "check-circle" : "circle-o";
+		var classDisable = tagSpec.active == false ? "disabled" : "";
+		html = 
+		'<span class="item-tag-suggest bg-red '+classDisable+'" data-tag-value="'+tagValue+'">' +
+				'<a  href="javascript:" class="item-tag-adder tooltips"' +
+					'data-toggle="tooltip" data-placement="bottom" ' +
+					'title="Ajouter à mes favoris" data-tag-value="'+tagValue+'">' +
+					'<i class="fa fa-plus-circle"></i>' +
+				'</a>' +
+				'<span class="item-tag-name">#'+tagValue+'</span>' +
+		'</span>';
+		$("#multi-tag-suggestion").append(html);
+		$(".tooltips").tooltip();
+		$(".item-tag-suggest").off().click(function(){ addTagToMultitag( $(this).data("tag-value")) });
+		//showMsgInfoMultiTag("Le tag a bien été ajouté", "success");
+	}else{
+		html = "";
+		//showMsgInfoMultiTag("showTagInMultitag error : ce tag n'existe pas - " + tagValue, "danger");
+	}
+	
+	
 }

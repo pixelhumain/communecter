@@ -99,6 +99,7 @@ class CommunecterController extends Controller
       "checkcities"    => array("href" => "/ph/communecter/admin/checkcities"),
       "checkcedex"    => array("href" => "/ph/communecter/admin/checkcedex"),
       "downloadfile" => array("href" => "/ph/communecter/admin/downloadfile"),
+      "createfile" => array("href" => "/ph/communecter/admin/createfile"),
       "mailerrordashboard" => array("href" => "/ph/communecter/admin/mailerrordashboard"),
     ),
     
@@ -159,6 +160,10 @@ class CommunecterController extends Controller
       "index"                 => array("href" => "/ph/communecter/search/index"),
       "mainmap"               => array("href" => "/ph/communecter/default/mainmap", "public" => true)
     ),
+    "network" => array(
+      "simplydirectory"    => array("href" => "/ph/communecter/network/simplydirectory")
+    ),
+
     "rooms"=> array(
       "index"    => array("href" => "/ph/communecter/rooms/index"),
       "saveroom" => array("href" => "/ph/communecter/rooms/saveroom"),
@@ -408,6 +413,20 @@ class CommunecterController extends Controller
       "get" => array("href" => "/ph/communecter/element/get"),
       "delete" => array("href" => "/ph/communecter/element/delete"),
     ),
+    "k" => array(
+      "web"               => array('href' => "/ph/communecter/k/web",               "public" => true),
+      "websearch"         => array('href' => "/ph/communecter/k/websearch",         "public" => true),
+      "live"              => array('href' => "/ph/communecter/k/live",              "public" => true),
+      "referencement"     => array('href' => "/ph/communecter/k/referencement",     "public" => true),
+      "savereferencement" => array('href' => "/ph/communecter/k/savereferencement", "public" => true),
+      "agenda"            => array('href' => "/ph/communecter/k/agenda",            "public" => true),
+      "mediacrawler"      => array('href' => "/ph/communecter/k/mediacrawler",      "public" => true),
+      "page"              => array('href' => "/ph/communecter/k/page",              "public" => true),
+      "social"            => array('href' => "/ph/communecter/k/social",            "public" => true),
+      ),
+    "siteurl" => array(
+      "incnbclick"        => array('href' => "ph/communecter/siteurl/incnbclick")
+    ),
   );
 
   function initPage(){
@@ -439,6 +458,8 @@ class CommunecterController extends Controller
       //if (strpos("http://".$host, $_SERVER["HTTP_ORIGIN"]) >= 0 || strpos("https://".$host, $_SERVER["HTTP_ORIGIN"]) >= 0 ){
     if( isset( $_POST["X-Auth-Token"]) && Authorisation::isMeteorConnected( $_POST["X-Auth-Token"] ) ){
       $prepareData = false;
+      //once the token is check => remove the token from the post
+      unset($_POST["X-Auth-Token"]);
     }
       //} 
     //}

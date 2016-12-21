@@ -8,15 +8,15 @@ var totalData = 0;
 
 var timeout = null;
 
-function startSearch(indexMin, indexMax){
-    
+function startSearch(indexMin, indexMax, callBack){
+    console.log("startSearch", typeof callBack, callBack);
     if(loadingData) return;
     loadingData = true;
     
-    //console.log("loadingData true");
+    //mylog.log("loadingData true");
     indexStep = indexStepInit;
 
-    console.log("startSearch", indexMin, indexMax, indexStep);
+    mylog.log("startSearch", indexMin, indexMax, indexStep);
 
 	  var name = $('#searchBarText').val();
     
@@ -49,7 +49,7 @@ function startSearch(indexMin, indexMax){
         if(levelCommunexion == 4) locality = inseeCommunexion;
         if(levelCommunexion == 5) locality = "";
       } 
-      autoCompleteSearch(name, locality, indexMin, indexMax);
+      autoCompleteSearch(name, locality, indexMin, indexMax, callBack);
     }else{
       
     }   
@@ -83,7 +83,8 @@ var loadingData = false;
 var mapElements = new Array(); 
 
 
-function autoCompleteSearch(name, locality, indexMin, indexMax){
+function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
+  console.log("autoCompleteSearch", typeof callBack, callBack);
 	if(typeof(cityInseeCommunexion) != "undefined"){
 	    var levelCommunexionName = { 1 : "CODE_POSTAL_INSEE",
 	                             2 : "INSEE",
@@ -97,7 +98,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 	                             4 : "REGION"
 	                           };
 	}
-    //console.log("levelCommunexionName", levelCommunexionName[levelCommunexion]);
+    //mylog.log("levelCommunexionName", levelCommunexionName[levelCommunexion]);
     var data = {
       "name" : name, 
       "locality" : "",//locality, 
@@ -125,7 +126,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
       
     if(isMapEnd)
       $.blockUI({
-        message : "<h1 class='homestead text-red'><i class='fa fa-spin fa-circle-o-notch'></i> Commune<span class='text-dark'>xion en cours ...</span></h1>"
+        message : "<h3 class='homestead text-red'><i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...</span></h3>"
       });
    
     $.ajax({
@@ -134,11 +135,11 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
           data: data,
           dataType: "json",
           error: function (data){
-             console.log("error autocomplete search"); console.dir(data);     
+             mylog.log("error autocomplete search"); mylog.dir(data);     
              //signal que le chargement est terminé
             loadingData = false;     
           },
-          success: function(data){ console.log("success autocomplete search"); //console.dir(data);
+          success: function(data){ mylog.log("success autocomplete search"); //mylog.dir(data);
             if(!data){ toastr.error(data.content); }
             else
             {
@@ -151,7 +152,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
               var city, postalCode = "";
 
               //parcours la liste des résultats de la recherche
-              console.dir(data);
+              mylog.dir(data);
               str = showResultsDirectoryHtml(data);
 
               if(str == "") { 
@@ -200,7 +201,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   $("#dropdown_search").html(str);
 
                   if(typeof myMultiTags != "undefined"){
-                    $.each(myMultiTags, function(key, value){ //console.log("binding bold "+key);
+                    $.each(myMultiTags, function(key, value){ //mylog.log("binding bold "+key);
                       $("[data-tag-value='"+key+"'].btn-tag").addClass("bold");
                     });
                   }
@@ -214,7 +215,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                 bindLBHLinks();
 
                 $.unblockUI();
-				        showMap(false);
+				        //showMap(false);
                 
                 //active le chargement de la suite des résultat au survol du bouton "afficher plus de résultats"
                 //(au cas où le scroll n'ait pas lancé le chargement comme prévu)
@@ -237,10 +238,10 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
     	        $(".btn-start-search").removeClass("bg-azure");
         	  }
 
-            //console.log("scrollEnd ? ", scrollEnd, indexMax, countData , indexMin);
+            //mylog.log("scrollEnd ? ", scrollEnd, indexMax, countData , indexMin);
             //si le nombre de résultat obtenu est inférieur au indexStep => tous les éléments ont été chargé et affiché
-            //console.log("SHOW MORE ?", indexMax, indexMin, indexMax - indexMin, countData);
-            console.log("SHOW MORE ?", countData, indexStep);
+            //mylog.log("SHOW MORE ?", indexMax, indexMin, indexMax - indexMin, countData);
+            mylog.log("SHOW MORE ?", countData, indexStep);
             //if(indexMax - countData > indexMin){ 
             if(countData < indexStep){
               $("#btnShowMoreResult").remove(); 
@@ -266,12 +267,12 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
   	$.each($(".followBtn"), function(index, value){
     	var id = $(value).attr("data-id");
    		var type = $(value).attr("data-type");
-      console.log("error type :", type);
+      mylog.log("error type :", type);
    		if(type == "person") type = "people";
    		else type = typeObj[type].col;
-      //console.log("#floopItem-"+type+"-"+id);
+      //mylog.log("#floopItem-"+type+"-"+id);
    		if($("#floopItem-"+type+"-"+id).length){
-   			//console.log("I FOLLOW THIS");
+   			//mylog.log("I FOLLOW THIS");
    			if(type=="people"){
 	   			$(value).html("<i class='fa fa-unlink text-green'></i>");
 	   			$(value).attr("data-original-title", "Ne plus suivre cette personne");
@@ -316,7 +317,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 
 		var thiselement = this;
 		$(this).html("<i class='fa fa-spin fa-circle-o-notch text-azure'></i>");
-		//console.log(formData);
+		//mylog.log(formData);
     var linkType = (type == "events") ? "connect" : "follow";
 		if ($(this).attr("data-ownerlink")=="follow"){
 			$.ajax({
@@ -338,7 +339,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 			});
 		} else if ($(this).attr("data-ownerlink")=="unfollow"){
 			formData.connectType =  "followers";
-			//console.log(formData);
+			//mylog.log(formData);
 			$.ajax({
 				type: "POST",
 				url: baseUrl+"/"+moduleId+"/link/disconnect",
@@ -377,15 +378,16 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
     $.each(data, function(i, o) {
         if( notNull(o.type) )
         {
+          mylog.log("showResultsDirectoryHtml", o);
           var typeIco = i;
           
           mapElements.push(o);
-
+          itemType=o.type;
+          if(typeof(typeObj[o.type]) == "undefined")
+          	itemType="poi";
           typeIco = o.type;
-          
           var ico = ("undefined" != typeof mapIconTop[typeIco]) ? mapIconTop[typeIco] : mapIconTop["default"];
           var color = ("undefined" != typeof mapColorIconTop[typeIco]) ? mapColorIconTop[typeIco] : mapColorIconTop["default"];
-          
           var parentIcon = ("undefined" != typeof mapIconTop[o.parentType]) ? mapIconTop[o.parentType] : mapIconTop["default"];
           var parentColor = ("undefined" != typeof mapColorIconTop[o.parentType]) ? mapColorIconTop[o.parentType] : mapColorIconTop["default"];
           
@@ -396,7 +398,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
           if("undefined" != typeof o.profilImageUrl && o.profilImageUrl != ""){
             imgProfil= "<img class='img-responsive' src='"+baseUrl+o.profilImageUrl+"'/>"
           }
-          if(typeObj[o.type] && typeObj[o.type].col == "poi" && typeof o.medias != "undefined" && typeof o.medias[0].content.image != "undefined")
+          if(typeObj[itemType] && typeObj[itemType].col == "poi" && typeof o.medias != "undefined" && typeof o.medias[0].content.image != "undefined")
             imgProfil= "<img class='img-responsive' src='"+o.medias[0].content.image+"'/>";
           
           var htmlIco ="<i class='fa "+ ico +" fa-2x bg-"+color+"'></i>";
@@ -412,20 +414,20 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
             postalCode = o.cp ? o.cp : o.address.postalCode ? o.address.postalCode : "";
           }
           
-          console.dir(o);
+          mylog.dir(o);
           var id = getObjectId(o);
           var insee = o.insee ? o.insee : "";
-          console.log(o.type);
-          type = typeObj[o.type].col;
+          mylog.log(o.type);
+          type = typeObj[itemType].col;
           // var url = "javascript:"; // baseUrl+'/'+moduleId+ "/default/simple#" + type + ".detail.id." + id;
           //type += "s";
 
   		    var urlParent = (notEmpty(o.parentType) && notEmpty(o.parentId)) ? 
-                          '#news.index.type.'+o.parentType+'.id.' + o.parentId : "";
+                          '#element.detail.type.'+o.parentType+'.id.' + o.parentId : "";
 
-          var url = '#news.index.type.'+type+'.id.' + id;
+          var url = '#element.detail.type.'+type+'.id.' + id;
           if(type == "citoyens") url += '.viewer.' + userId;
-          else if(type == "poi")    url = '#element.detail.type.poi.id.' + id;
+          //else if(type == "poi")    url = '#element.detail.type.poi.id.' + id;
           else if(type == "cities") url = "#city.detail.insee."+o.insee+".postalCode."+o.cp;
           else if(type == "surveys") url = "#survey.entry.id."+id;
           else if(type == "actions") url = "#rooms.action.id."+id;
@@ -469,8 +471,8 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
           //if(description == "") description = (notEmpty(o.description)) ? o.description : "";
           if(description == "") description = (notEmpty(o.message)) ? o.message : "";
    
-          //console.dir(o);
-          //console.log(typeof o.startDate);
+          //mylog.dir(o);
+          //mylog.log(typeof o.startDate);
 
           var startDate = notEmpty(o.startDate) ? dateToStr(o.startDate, "fr", true, true) : null;
           var endDate   = notEmpty(o.endDate) ? dateToStr(o.endDate, "fr", true, true)   : null;
@@ -494,7 +496,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
             if(userId != null){
                     isFollowed=false;
                     if(typeof o.isFollowed != "undefined" ) isFollowed=true;
-                    if(type!="cities" && type!="surveys" && type!="actions" && id != userId && userId != null && userId != ""){
+                    if(type!="cities" && type!="poi" && type!="surveys" && type!="actions" && id != userId && userId != null && userId != ""){
                       tip = (type == "events") ? "Participer" : 'Suivre';
                       str += "<a href='javascript:;' class='btn btn-default btn-sm btn-add-to-directory bg-white tooltips followBtn'" + 
                             'data-toggle="tooltip" data-placement="left" data-original-title="'+tip+'"'+
@@ -554,7 +556,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                   str += "<div class='entityDescription text-dark'><i class='fa fa-" + parentIco + "'></i><a href='" + parentUrl + "' class='lbh'> " + o.parentRoom.name + "</a></div>";
                   if(notEmpty(o.parentRoom.parentObj)){
                     var typeIcoParent = o.parentRoom.parentObj.typeSig;
-                    console.log("typeIcoParent", o.parentRoom);
+                    //mylog.log("typeIcoParent", o.parentRoom);
                     var icoParent = ("undefined" != typeof mapIconTop[typeIcoParent]) ? mapIconTop[typeIcoParent] : mapIconTop["default"];
                     var colorParent = ("undefined" != typeof mapColorIconTop[typeIcoParent]) ? mapColorIconTop[typeIcoParent] : mapColorIconTop["default"];
                     

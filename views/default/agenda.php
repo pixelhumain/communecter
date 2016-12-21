@@ -124,9 +124,9 @@
           <i class="fa fa-question-circle"></i>
     </button>
   </div>
-  <div class="space20"></div>
+  
   <div class="col-xs-12 no-padding " id="list_filters">
-    <div id="scopeListContainer" class="hidden-xs list_tags_scopes"></div>
+    <div id="scopeListContainer" class="hidden-xs list_tags_scopes inline-block"></div>
     <div class='city-name-locked homestead text-red'></div>
   </div>
   
@@ -138,7 +138,8 @@
 
 <?php //$this->renderPartial(@$path."first_step_directory"); ?> 
 <?php  $city = @$_GET['lockCityKey'] ? City::getByUnikey($_GET['lockCityKey']) : null; 
-       $cityName = ($city!=null) ? $city["name"].", ".$city["cp"] : "";
+       //$cityName = ($city!=null) ? $city["name"].", ".$city["cp"] : "";
+       $cityName = (($city!=null) ? $city["name"]. (@$city["cp"]? ", ".$city["cp"] : "") : "");
 ?> 
 
 <script type="text/javascript">
@@ -210,7 +211,7 @@ jQuery(document).ready(function() {
           var heightContainer = $(".my-main-container")[0].scrollHeight;
           var heightWindow = $(window).height();
           if( ($(this).scrollTop() + heightWindow) >= heightContainer-150){
-            console.log("scroll MAX");
+            mylog.log("scroll MAX");
             startSearch(currentIndexMin+indexStep, currentIndexMax+indexStep);
           }
         }
@@ -249,8 +250,8 @@ jQuery(document).ready(function() {
 
 var calendarInit = false;
 function showResultInCalendar(mapElements){
-  //console.log("showResultInCalendar");
-  //console.dir(mapElements);
+  //mylog.log("showResultInCalendar");
+  //mylog.dir(mapElements);
 
   var events = new Array();
   $.each(mapElements, function(key, thisEvent){
@@ -277,7 +278,7 @@ function showResultInCalendar(mapElements){
                               "position" : position });
   });
 
-  //console.dir(events);
+  //mylog.dir(events);
 
   if(calendarInit == true) {
     $(".calendar").html("");
@@ -304,7 +305,7 @@ function showResultInCalendar(mapElements){
 
 
 function searchCallback() { 
-  console.log("searchCallback");
+  mylog.log("searchCallback");
   startSearch(0, indexStepInit);
 }
 </script>

@@ -9,8 +9,8 @@
 		//initialisation de l'interface et des événements (click, etc)
 		Sig.initEnvironnement = function (thisMap, params){
 
-			////console.log("initParams");
-			////console.dir(params);
+			////mylog.log("initParams");
+			////mylog.dir(params);
 
 	    	var thisSig = this;
 	    	thisSig.userData = null;
@@ -56,10 +56,10 @@
 
 			//initialise les boutons zoom-in et zoom-out
 			if(params.useZoomButton){
-				$( this.cssModuleName + " #btn-zoom-in" )	 .click(function (){ console.log(thisMap.getZoom(), "max : ", thisMap.getMaxZoom(), "min : ", thisSig.map.getMinZoom());
+				$( this.cssModuleName + " #btn-zoom-in" )	 .click(function (){ mylog.log(thisMap.getZoom(), "max : ", thisMap.getMaxZoom(), "min : ", thisSig.map.getMinZoom());
 					if(thisMap.getZoom() < thisSig.maxZoom) thisMap.zoomIn(); 
 				});
-				$( this.cssModuleName + " #btn-zoom-out" )	 .click(function (){ console.log(thisMap.getZoom(), "max : ", thisMap.getMaxZoom(), "min : ", thisSig.map.getMinZoom());
+				$( this.cssModuleName + " #btn-zoom-out" )	 .click(function (){ mylog.log(thisMap.getZoom(), "max : ", thisMap.getMaxZoom(), "min : ", thisSig.map.getMinZoom());
 					if(thisMap.getZoom() > thisSig.minZoom) thisMap.zoomOut(); 
 				});
 			}
@@ -225,7 +225,7 @@
 							if(thisSig.StamenTonerLabels != null) thisSig.map.removeLayer(thisSig.StamenTonerLabels);
 						}
 					}
-					console.log("maxZoom", thisSig.map.getZoom(), 17);
+					mylog.log("maxZoom", thisSig.map.getZoom(), 17);
 					if(thisSig.map.getZoom() > thisSig.map.maxZoom )
 						thisSig.map.setZoom(thisSig.tileLayer.maxZoom);
 				});
@@ -236,7 +236,7 @@
 		
 		Sig.showIframeSig = function(){
 			
-			var hash = location.hash+"?tpl=iframesig";
+			var hash = "?tpl=iframesig"+location.hash+"?tpl=iframesig";
 				$("#ajax-modal").removeClass("bgEvent bgOrga bgProject bgPerson bgDDA");
 				$("#ajax-modal-modal-title").html("<i class='fa fa-share-square-o'></i> Partager cette carte.");
 				$(".modal-header").removeClass("bg-purple bg-green bg-orange bg-yellow bg-lightblue ");
@@ -285,7 +285,7 @@
 			};
 		Sig.loadIcoParams = function(){
 			//TODO : définir les icons et couleurs de chaque type disponoble
-			this.icoMarkersMap = { 		"default" 			: "",
+			this.icoMarkersMap = { 			"default" 			: "",
 
 										  	"city" 				: "city-marker-default",
 											
@@ -312,7 +312,13 @@
 
 											"markerPlace" 		: "map-marker",
 
-											"POI" 				: "NEWS_A",
+											"poi" 				: "poi-marker-default",
+											"poi.video" 		: "poi-video-marker-default",
+
+											"entry" 			: "entry-marker-default",
+											"action" 			: "action-marker-default",
+
+											"siteurl" 			: "marker-place",
 
 									  };
 
@@ -348,7 +354,13 @@
 											"markerPlace" 		: { ico : "map-marker", color : "red" 	},
 											"me" 				: { ico : "map-marker", color : "blue" 	},
 
-											"POI" 				: { ico : "map-marker", color : "dark" 	},
+											"poi" 				: { ico : "info-circle", color : "dark" 	},
+											"poi.video" 		: { ico : "video-camera", color : "dark" 	},
+
+											"entry" 			: { ico : "gavel", color : "azure" 	},
+											"action" 			: { ico : "cogs", color : "lightblue2" 	},
+
+											"siteurl" 			: { ico : "desktop", color : "blue" 	},
 
 									  };
 
@@ -369,7 +381,7 @@
 		Sig.initHomeBtn = function(){
 			//initialise le bouton home 
 			var thisSig = this;
-			if(this.initParameters.useHomeButton){ //console.log("init btn home " + baseUrl + "/" + moduleId);
+			if(this.initParameters.useHomeButton){ //mylog.log("init btn home " + baseUrl + "/" + moduleId);
 				$.ajax({
 						url: baseUrl+"/"+moduleId+"/sig/getmyposition",
 						type: "POST",
@@ -380,8 +392,12 @@
 								if(data.profilMarkerExists == true)
 								data.profilMarkerImageUrl = "/upload/" + moduleId + data.profilMarkerImageUrl;// + "?v="+thisSig.vMarker;
 								thisSig.vMarker++;
+								var lng =  parseFloat(data.position.longitude);
+								//mylog.log("MYPOSITION", data, lng);
+								lng += 0.0004;
+								data.position.longitude = new String(lng);
 								thisSig.myPosition = data;
-
+								//mylog.log("MYPOSITION", data, lng);
 								thisSig.showMyPosition();
 							}
 							else{
@@ -399,21 +415,20 @@
 		};
 
 		Sig.getIcoNameByType = function (data){
-			console.log("getIcoNameByType", data);
 			var type = this.getTypeSigOfData(data);
 			if(this.icoMarkersMap[type] != null){
 					return this.icoMarkersMap[type];
 			}else{  return this.icoMarkersMap['default']; }
 		};
 
-		Sig.getIcoByType = function (data){ 
+		Sig.getIcoByType = function (data){ //console.log("erzer", data);
 			var type = this.getTypeSigOfData(data);
 			if(this.icoMarkersTypes[type] != null){
 					return this.icoMarkersTypes[type].ico;
 			}else{  return this.icoMarkersTypes['default'].ico; }
 		};
 
-		Sig.getIcoColorByType = function (data){
+		Sig.getIcoColorByType = function (data){ //console.log("erzer", data);
 			var type = this.getTypeSigOfData(data);
 			if(this.icoMarkersTypes[type] != null){
 					return this.icoMarkersTypes[type].color;
@@ -431,7 +446,7 @@
 					return this.icoMarkersTags[tag].color;
 			}else{  return this.icoMarkersTags['default'].color; }
 		};
-		Sig.getObjectId = function (object){ //console.dir(object); //alert(object.$id);
+		Sig.getObjectId = function (object){ //mylog.dir(object); //alert(object.$id);
 			if(object === null) return null; //if(object["type"] == "meeting") alert("trouvé !");
 			if(typeof object == "undefined") return null; //if(object["type"] == "meeting") alert("trouvé !");
 
@@ -445,12 +460,20 @@
 			if("undefined" != typeof object.id) 	return object.id;
 			return null;
 		};
-		Sig.getThumbProfil = function (element){
-			var imgProfilPath =  assetPath + "/images/news/profile_default_l.png";
+
+		Sig.getThumbProfil = function (element){ 
+			defaultType=this.getTypeSigOfData(element);
+			if(element['typeSig']=="people")
+				defaultType="citoyens";
+			else if(notEmpty(element['typeSig']) && element['typeSig'].indexOf("poi.") >= 0){
+				defaultType=element['typeSig'].split(".");
+				defaultType=defaultType[1];
+			}
+			var imgProfilPath =  assetPath + "/images/thumb/default_"+defaultType+".png";
 			if(typeof element.author !== "undefined" && typeof element.author.profilImageUrl !== "undefined" && element.author.profilImageUrl != "") 
-				imgProfilPath = baseUrl + "/" + moduleId + "/document/resized/50x50" + element.author.profilImageUrl;
-			if(typeof element.profilImageUrl !== "undefined" && element.profilImageUrl != "") 
-				imgProfilPath =  baseUrl + "/" + moduleId + "/document/resized/50x50" + element.profilImageUrl;
+				imgProfilPath = baseUrl + element.author.profilImageUrl;
+			if(typeof element.profilThumbImageUrl !== "undefined" && element.profilThumbImageUrl != "") 
+				imgProfilPath =  baseUrl + element.profilThumbImageUrl;
 			if( typeof element.typeSig !== "undefined" && element.typeSig == "city")
 				imgProfilPath =  assetPath + "/images/city/city_default_l.png";
 			return imgProfilPath;
@@ -460,13 +483,25 @@
 			this.map.panTo(center, {"animate" : false });
 			//this.map.setZoom(zoom);
 			var height = $("#mapCanvasBg").height();
-			//console.log("height" + height);
+			//mylog.log("height" + height);
 			var center = height / 2;
 			var pan = center - 160;
-			//console.log("pan" + pan);
+			//mylog.log("pan" + pan);
 			//alert("yo");
 			//this.map.panBy([0, pan], {"animate" : false });
 			this.map.invalidateSize(false);
+		};
+
+		Sig.centerPopupMarker = function(coordinates, zoom){
+			var thisSig = this;
+			thisSig.map.panTo(coordinates, {"animate" : false });
+			setTimeout(function(){  thisSig.map.setZoom(zoom); //Sig.map.panBy([0, -50]);
+									setTimeout(function(){
+										thisSig.map.panTo(coordinates, {"animate" : false });
+										setTimeout(function(){ thisSig.map.panBy([0, -200]);}, 500);
+										mylog.log("panBy 200");
+									}, 700);
+								}, 2000);
 		};
 
 		Sig.showRightToolMap = function(bool){

@@ -79,6 +79,7 @@ var proposalFormDefinition = {
                 "required" : true
               },
               "value" : <?php echo ( isset($survey) && isset($survey["message"]) ) ? json_encode($survey["message"]) : '""' ?>,
+
             },
             "dateEnd" :{
               "inputType" : "date",
@@ -155,10 +156,6 @@ jQuery(document).ready(function() {
     organizerList[optKey] = optVal.name;
   });
 
-  activateSummernote('#editEntryContainer #message');
-
-  editEntrySV ();
- 
 
   /*!
   Non-Sucking Autogrow 1.1.1
@@ -174,7 +171,7 @@ jQuery(document).ready(function() {
 
 function editEntrySV () {
 
-  console.warn("--------------- editEntrySV ---------------------",proposalObj);
+  mylog.warn("--------------- editEntrySV ---------------------",proposalObj);
   $("#editEntryContainer").html("<div class='row bg-white'><div class='col-sm-10 col-sm-offset-1'>"+
               "<div class='space20'></div>"+
               //"<h1 id='proposerloiFormLabel' >Faire une proposition</h1>"+
@@ -186,7 +183,8 @@ function editEntrySV () {
           formId : "#editEntryContainer #ajaxFormEntry",
           formObj : proposalFormDefinition,
           onLoad : function() {
-            console.log("onLoad",proposalObj);
+            mylog.log("onLoad",proposalObj);
+            $('.btn-annuler').hide();
             if( proposalObj )
             {
                if(proposalObj.dateEnd)
@@ -197,13 +195,16 @@ function editEntrySV () {
                 var year = date.getFullYear().toString();
                 $("#editEntryContainer #dateEnd").val( day+"/"+month+"/"+year );
               }
+              activateSummernote("#ajaxFormEntry #message");
               $("#editEntryContainer #message").code(proposalObj.message);
-             
+             $('.mainDynFormCloseBtn').click(function(){ $('#modal-edit-entry').modal("hide"); });
+              
+
             }
           },
           onSave : function(){
-            console.log("saving Survey !!");
-            console.log($("#editEntryContainer #name").val());
+            mylog.log("saving Survey !!");
+            mylog.log($("#editEntryContainer #name").val());
             
             if( $("#editEntryContainer #name").val())// && prompt("combien font "+one+"+"+two+" ?") == one+two )
             {
@@ -234,19 +235,21 @@ function editEntrySV () {
               if( $("#editEntryContainer #dateEnd").val() )
                 params.dateEnd = $("#editEntryContainer #dateEnd").val();
 
-             console.dir(params);
+             mylog.dir(params);
              $.ajax({
                 type: "POST",
                 url: '<?php echo Yii::app()->createUrl($this->module->id."/survey/saveSession")?>',
                 data: params,
                 success: function(data){
                   if(data.result){
+                    window.myVotesList = null;
                     if( data.surveyId && data.surveyId["$id"] )
                       loadByHash( "#survey.entry.id."+data.surveyId["$id"] );
                     else if( $("#editEntryContainer #id").val() != "" )
                       loadByHash( "#survey.entry.survey."+data.parentId+".id."+$("#editEntryContainer #id").val() );
                     else
-                      loadByHash( "#survey.entries.id."+data.parentId )
+                      loadByHash( "#survey.entries.id."+data.parentId );
+                    $("#ajaxFormEntry").html('');
                   }
                   else {
                     toastr.error(data.msg);
@@ -266,8 +269,13 @@ function editEntrySV () {
             return false;
           }
         });
-        console.dir(formSurvey);
+        mylog.dir(formSurvey);
       
+}
+
+function openEntryForm(){
+  editEntrySV ();
+  $('#modal-edit-entry').modal("show"); 
 }
 
 function getUrls()
@@ -277,7 +285,7 @@ function getUrls()
         if( $(this).val() != "" )
           urls.push( $( this ).val() );
     });
-    console.log("urls",urls);
+    mylog.log("urls",urls);
     return ( urls.length ) ? urls : null;
 };
 

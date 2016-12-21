@@ -129,7 +129,7 @@ function bindBtnRemoveTask(){
 					return;
 				}
 
-				console.log(idTask);
+				mylog.log(idTask);
 				$.ajax({
 					type: "POST",
 					//url: baseUrl+"/"+moduleId+"/gantt/removeTask/projectId/"+projectId+"/taskId/"+idTask+"",
@@ -223,7 +223,7 @@ function initFormAddTask(){
 					"taskStart" : startDateSubmitTask,
 					"taskEnd" : endDateSubmitTask,
 				};
-				//console.log(params);
+				//mylog.log(params);
 		    	$.ajax({
 		            type: "POST",
 		            url: baseUrl+"/communecter/gantt/savetask",
@@ -240,7 +240,7 @@ function initFormAddTask(){
 							$(".task-start-date").val(moment());
 							$(".task-end-date").val(moment().add('days', 1));
 		            	}
-		            	console.log(data.result);   
+		            	mylog.log(data.result);   
 		            },
 		            error:function (xhr, ajaxOptions, thrownError){
 		              toastr.error( thrownError );

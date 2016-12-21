@@ -142,7 +142,7 @@
 	
 	function bindFicheInfoBtn(){
 		$("#disableOrganization").off().on("click",function () {
-			console.warn("disableOrganization",$(this).data("id"));
+			mylog.warn("disableOrganization",$(this).data("id"));
 			var id = $(this).data("id");
 			bootbox.confirm("<?php echo Yii::t('organization','This action is permanent and will close this Organization (Removed from search engines, and lists) !')." " ?><span class='text-red'>"+$(this).data("name")+"</span> ?", 
 				function(result) {
@@ -179,7 +179,7 @@
 					return;
 				}
 
-				console.log(idMember);
+				mylog.log(idMember);
 				$.ajax({
 					type: "POST",
 					url: baseUrl+"/"+moduleId+"/link/removemember/memberId/"+idMember+"/memberType/"+typeMember+"/memberOfId/"+idMemberOf+"/memberOfType/<?php echo Organization::COLLECTION ?>",

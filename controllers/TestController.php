@@ -1308,4 +1308,30 @@ La vie en santé;Santé;;
 		echo $str;
 	}
 
+	/*"latitude": "46.493621",
+"longitude": 
+"62301"*/
+
+	public function actionTestCityByLatLngGeoShape(){
+		$lat = "48.873479";
+		$lon = "2.3302237";
+		$cp = "75599";
+		$city = SIG::getCityByLatLngGeoShape($lat, $lon,$cp);
+		$city2 = SIG::getCityByLatLngGeoShape($lat, $lon,null);
+        var_dump($city);
+        echo "<br><br>--------------------------<br><br>";
+        var_dump($city2);
+	}
+
+	public function actionWikidata(){
+		$cities = PHDB::find(City::COLLECTION, array("wikidataID" => array('$exists' => false) , 'country' => array('$ne' => "BE")));
+		$nbcities = count($cities) ;
+		$str = "id;name;insee;country" ;
+		foreach ($cities as $key => $city) {
+			$name = $city["name"];
+			$str .=  $key." ; ".$name." ; ".$city["insee"]." ; ".$city["country"]."<br>" ;
+		}
+		echo  "NB Cities : " .$nbcities."<br>" ;
+		echo $str;
+	}
 }

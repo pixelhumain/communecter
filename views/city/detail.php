@@ -107,8 +107,11 @@ $this->renderPartial('../default/panels/toolbar');
     </a>
   <?php } ?>
   <div class="col-xs-12 col-md-12" style="margin-bottom:-10px;">
-      <h1 class="homestead text-red cityName-header">
-        <center><?php if($cityGlobal == false) echo $city["cp"]; ?> <i class="fa fa-university"></i> 
+      <h1 class="homestead text-red text-center cityName-header">
+        <span class="margin-bottom-10" style="">
+
+        <i class="fa fa-university"></i><br>
+        <?php if($cityGlobal == false) echo $city["cp"]; ?> 
         <?php
           if($cityGlobal == true)
             echo $city["name"]; 
@@ -124,12 +127,142 @@ $this->renderPartial('../default/panels/toolbar');
               </div>       
       <?php } 
           } ?>
-        </center>
+        </span>
+
+         <div id="div-discover" class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+        <!-- <div class="panel panel-white padding-10">
+            <div id="local-actors-popup-sig">
+              <div class="panel-heading text-center border-light">
+                <h3 class="panel-title text-blue"> <i class="fa fa-search"></i> Découvrir - Participer</h3>
+              </div>
+              <div class="panel-body no-padding "> -->
+
+                <div class="col-md-12 no-padding" style="margin-top:20px">
+                    <?php
+                      $lockCityKey = ($cityGlobal == true) ? $city["country"].'_'.$city["insee"] : City::getUnikey($city) ;
+
+                    ?>
+
+                    <div class="col-xs-3 center no-padding hidden-xs" style="margin-bottom:10px; font-size:17px; font-weight: 300;">
+                        <a href="#default.agenda?lockCityKey=<?php echo $lockCityKey; ?>" class="lbh btn btn-discover bg-orange">
+                          <i class="fa fa-calendar"></i>
+                        </a>
+                        <?php $cnt= (isset($events)) ? count($events): 0; ?>
+                        <span class="badge nb-localactors bg-orange"><?php echo $cnt; ?></span>
+                        <br>
+                        <span class="text-orange discover-subtitle">
+                          Agenda
+                         <?php //echo ($cityGlobal == true) ? $city["name"] : $city["namePc"] ?> 
+                        </span>
+                    </div>
+                    
+                    <div class="col-xs-4 col-sm-2 col-md-2 center no-padding" style="margin-bottom:10px; font-size:17px; font-weight: 300;">
+                        <a href="#default.directory?type=projects&lockCityKey=<?php echo $lockCityKey; ?>" " class="lbh btn btn-discover bg-purple">
+                          <i class="fa fa-lightbulb-o"></i>
+                        </a>
+                        <?php $cnt= (isset($projects)) ? count($projects): 0; ?>
+                        <span class="badge nb-localactors bg-purple"><?php echo $cnt; ?></span>
+                        <!-- <br/>Rechercher des -->
+                        <br/>
+                        <span class="text-purple discover-subtitle homestead">
+                         <?php echo Yii::t("common", "LOCAL PROJECTS") ;
+                         //echo ($cityGlobal == true) ? $city["name"] : $city["namePc"] ?> 
+                        </span>
+                    </div>
+
+                    <div class="col-xs-4 col-sm-2 col-md-2 center no-padding" style="margin-bottom:10px; font-size:17px; font-weight: 300;">
+                        <a href="#default.directory?type=persons&lockCityKey=<?php echo $lockCityKey; ?>" class="lbh btn btn-discover bg-yellow">
+                          <i class="fa fa-user"></i>
+                        </a>
+                        <?php $cnt= (isset($people)) ? count($people): 0; ?>
+                        <span class="badge nb-localactors bg-yellow"><?php echo $cnt; ?></span>
+                        <!-- <br/>Rechercher des -->
+                        <br/>
+                        <span class="text-yellow discover-subtitle homestead">
+
+                         <?php echo Yii::t("common", "LOCAL CONNECTED CITIZENS") ;
+                         //echo ($cityGlobal == true) ? $city["name"] : $city["namePc"] ?> 
+                        </span>
+                    </div>
+
+                    <div class="col-xs-4 col-sm-2 col-md-2 center no-padding" style="margin-bottom:10px; font-size:17px; font-weight: 300;">
+                        <a href="#default.directory?type=organizations&lockCityKey=<?php echo $lockCityKey; ?>" " class="lbh btn btn-discover bg-green">
+                          <i class="fa fa-group"></i>
+                        </a>
+                        <?php $cnt= (isset($organizations)) ? count($organizations): 0; ?>
+                        <span class="badge nb-localactors bg-green"><?php echo $cnt; ?></span>
+                        <!-- <br/>Rechercher des -->
+                        <br/>
+                        <span class="text-green discover-subtitle homestead">
+                         <?php echo Yii::t("common", "ORGANIZATIONS") ;
+                         //echo ($cityGlobal == true) ? $city["name"] : $city["namePc"] ?> 
+                        </span>
+                    </div>
+                    
+                    <div class="col-xs-6 col-sm-3 col-md-3 center no-padding visible-xs" style="margin-bottom:10px; font-size:17px; font-weight: 300;">
+                        <a href="#default.agenda?lockCityKey=<?php echo $lockCityKey; ?>" class="lbh btn btn-discover bg-orange">
+                          <i class="fa fa-calendar"></i>
+                        </a><br/>
+                        <span class="text-orange discover-subtitle">
+                          Agenda
+                         <?php //echo ($cityGlobal == true) ? $city["name"] : $city["namePc"] ?> 
+                        </span>
+                    </div>
+                    
+                    <!-- <div class="col-xs-3 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
+                        <a href="#default.news?city=<?php echo City::getUnikey($city); ?>" class="lbh btn btn-discover bg-azure">
+                          <i class="fa fa-rss"></i>
+                        </a><br/>L'actualité<br/><span class="text-red discover-subtitle">commune<span class="text-dark">ctée</span></span>
+                    </div> -->
+                    <?php if($cityGlobal != true){ ?>
+                    <div class="col-xs-6 col-sm-3 col-md-3 center text-red no-padding" style="margin-bottom:10px; font-size:17px; font-weight: 300;">
+                        <a href="#rooms.index.type.cities.id.<?php echo City::getUnikey($city); ?>" class="lbh btn btn-discover bg-red">
+                          <i class="fa fa-group"></i>
+                        </a>
+                        <br/>
+                        <span class='text-red discover-subtitle'>Conseil citoyen
+                        <!-- <br><?php //echo ($cityGlobal == true) ? $city["name"] : $city["namePc"] ?> -->
+                        </span>
+                    </div>
+                   <?php }else{?>
+                      <div class="col-xs-6 col-sm-3 col-md-3 center text-red no-padding" style="margin-bottom:10px; font-size:17px; font-weight: 300;">
+                          <label class="btn btn-discover bg-red"><i class="fa fa-group"></i></label>
+                          <br/><span class='text-red discover-subtitle'>Conseil citoyen<br/>
+                          <select id="selectRoom" class="text-red">
+                              <option value="">Choisir</option>
+                              <?php 
+                                foreach ($city["postalCodes"] as $key => $value) {
+                                  $cityUniKey = array("country" => $city["country"],
+                                                        "insee" => $city["insee"],
+                                                        "cp" => $value["postalCode"]);
+                                  echo '<option value="#rooms.index.type.cities.id.'.City::getUnikey($cityUniKey).'">'.$value["name"].' ('. $value["postalCode"].')</option>';
+                                }
+                              ?>
+                          </select> 
+                          </span> 
+                      </div>
+                    <?php } ?>
+                    
+                    <?php /*
+                    <div class="col-xs-6 center text-dark" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
+                        <strong>Le conseil citoyen</strong> est un lieu de discussion, de débat, de décision
+                    </div>
+                    <div class="col-xs-6 center text-dark" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
+                        <strong>Tout le monde</strong> peut participer !
+                    </div>
+                    */?>
+                </div>
+
+        <!--       </div>
+            </div>
+           
+        </div> -->
+    </div>
       </h1>
      
   </div>
 
-    <div id="pod-local-actors" class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+    <div id="pod-local-actors" class="col-lg-4 col-md-4 col-sm-4 col-xs-12 hidden">
         <div class="panel panel-white padding-10">
             <div id="local-actors-popup-sig">
               <div class="panel-heading text-center border-light">
@@ -150,18 +283,19 @@ $this->renderPartial('../default/panels/toolbar');
                       <?php echo strtolower (Yii::t("common", "LOCAL CONNECTED CITIZENS")); ?>
                       <span class="badge bg-yellow pull-right helvetica"><?php echo $cnt;?></span>
                     </a>
-
-                    <a href="#city.directory.insee.<?php echo $city["insee"]; ?>.postalCode.<?php echo $city["cp"]; ?>.tpl.directory2.type.projects"   class="lbh text-purple homestead col-xs-12 text-extra-large padding-5 bborder"'>
-                      <i class="fa fa-lightbulb-o"></i> <?php echo strtolower (Yii::t("common", "LOCAL PROJECTS")); ?>
-                      <?php $cnt= (isset($projects)) ? count($projects): 0; ?>
-                      <span class="badge bg-purple pull-right helvetica"><?php echo $cnt;?></span>
-                    </a>
+                      <a href="#city.directory.insee.<?php echo $city["insee"]; ?>.postalCode.<?php echo $city["cp"]; ?>.tpl.directory2.type.projects"   class="lbh text-purple homestead col-xs-12 text-extra-large padding-5 bborder"'>
+                        <i class="fa fa-lightbulb-o"></i> <?php echo strtolower (Yii::t("common", "LOCAL PROJECTS")); ?>
+                        <?php $cnt= (isset($projects)) ? count($projects): 0; ?>
+                        <span class="badge bg-purple pull-right helvetica"><?php echo $cnt;?></span>
+                      </a>
+                    <?php //echo Yii::t('common','Search a projects of your city.');?>
 
                     <a href="#city.directory.insee.<?php echo $city["insee"]; ?>.postalCode.<?php echo $city["cp"]; ?>.tpl.directory2.type.events" 
                        class="lbh text-orange homestead col-xs-12 text-extra-large padding-5 bborder"'>
                       <i class="fa fa-calendar"></i> <?php echo strtolower (Yii::t("common", "LOCAL EVENTS")); ?>
                       <span class="badge bg-orange pull-right helvetica"><?php echo count($events);?></span>
                     </a>
+                    
 
                     <a href="#city.directory.insee.<?php echo $city["insee"]; ?>.postalCode.<?php echo $city["cp"]; ?>.tpl.directory2.type.organizations" 
                       class="lbh text-green homestead col-xs-12 text-extra-large padding-5 bborder"'>
@@ -169,6 +303,7 @@ $this->renderPartial('../default/panels/toolbar');
                       <?php $cnt=0;foreach($organizations as $orga){/*if($orga["type"]==Organization::TYPE_NGO )*/$cnt++;} ?>
                       <span class="badge bg-green pull-right helvetica"><?php echo $cnt;?></span>
                     </a>
+                    
                     <?php /*
                     <div class="text-prune" onclick='loadByHash("#city.directory?tpl=directory2&type=organizations&insee=<?php echo $city["insee"]; ?>");'>
                       <i class="fa fa-male"></i><i class="fa fa-male"></i><i class="fa fa-male"></i><?php echo strtolower (Yii::t("common", "GROUPES")); ?>
@@ -189,63 +324,7 @@ $this->renderPartial('../default/panels/toolbar');
         </div>
     </div>
 
-    <div id="div-discover" class="col-md-8 col-sm-8 col-lg-8 col-xs-12">
-        <div class="panel panel-white padding-10">
-            <div id="local-actors-popup-sig">
-              <div class="panel-heading text-center border-light">
-                <h3 class="panel-title text-blue"> <i class="fa fa-search"></i> Découvrir - Participer</h3>
-              </div>
-              <div class="panel-body no-padding ">
-
-                <div class="col-md-12 no-padding" style="margin-top:20px">
-
-                    <div class="col-xs-4 center text-azure" style="margin-bottom:10px; font-size:17px; font-weight: 300;">
-                        <a href="#default.directory?lockCityKey=<?php echo City::getUnikey($city); ?>" class="lbh btn btn-discover bg-azure">
-                          <i class="fa fa-search"></i>
-                        </a>
-                        <br/>Rechercher à<br/>
-                        <span class="text-red discover-subtitle">
-                         <?php echo ($cityGlobal == true) ? $city["name"] : $city["namePc"] ?> 
-                        </span>
-                    </div>
-                    
-                    <div class="col-xs-4 center text-azure" style="margin-bottom:10px; font-size:17px; font-weight: 300;">
-                        <a href="#default.agenda?lockCityKey=<?php echo City::getUnikey($city); ?>" class="lbh btn btn-discover bg-azure">
-                          <i class="fa fa-calendar"></i>
-                        </a><br/>L'agenda de<br/>
-                        <span class="text-red discover-subtitle">
-                         <?php echo ($cityGlobal == true) ? $city["name"] : $city["namePc"] ?> 
-                        </span>
-                    </div>
-                    
-                    <!-- <div class="col-xs-3 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
-                        <a href="#default.news?city=<?php echo City::getUnikey($city); ?>" class="lbh btn btn-discover bg-azure">
-                          <i class="fa fa-rss"></i>
-                        </a><br/>L'actualité<br/><span class="text-red discover-subtitle">commune<span class="text-dark">ctée</span></span>
-                    </div> -->
-
-                    <div class="col-xs-4 center text-red " style="margin-bottom:10px; font-size:17px; font-weight: 300;">
-                        <a href="#rooms.index.type.cities.id.<?php echo City::getUnikey($city); ?>" class="lbh btn btn-discover bg-red">
-                          <i class="fa fa-group"></i>
-                        </a>
-                        <br/><span class='text-red'><strong>Conseil citoyen</strong>
-                        <br><?php echo ($cityGlobal == true) ? $city["name"] : $city["namePc"] ?></span>
-                    </div>
-                    <?php /*
-                    <div class="col-xs-6 center text-dark" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
-                        <strong>Le conseil citoyen</strong> est un lieu de discussion, de débat, de décision
-                    </div>
-                    <div class="col-xs-6 center text-dark" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
-                        <strong>Tout le monde</strong> peut participer !
-                    </div>
-                    */?>
-                </div>
-
-              </div>
-            </div>
-           
-        </div>
-    </div>
+   
 
 </div>
 
@@ -258,6 +337,8 @@ $this->renderPartial('../default/panels/toolbar');
 
 <script>
 
+
+
 //var contextMap = {};
 contextMap = <?php echo json_encode($contextMap) ?>;
 var city = <?php echo json_encode($city) ?>;
@@ -268,6 +349,9 @@ var events = <?php echo json_encode($events) ?>;
 var liveScopeType = "global";
 
 jQuery(document).ready(function() {
+
+  
+  
 
   $(".main-col-search").addClass("cityHeadSection");
 
@@ -318,7 +402,7 @@ jQuery(document).ready(function() {
 		var scroller_anchor = $("#pod-local-actors").offset().top;
 		scroller_anchor += $("#pod-local-actors").height();
 		topScroll=$(this).scrollTop();
-		console.log(window.scrollY+" // "+lastValue );
+		mylog.log(window.scrollY+" // "+lastValue );
 		
 		if (topScroll > (scroller_anchor-100)) {
 			$("#pod-local-actors").css("margin-bottom","550px");
@@ -338,6 +422,12 @@ jQuery(document).ready(function() {
 		}
 	});
 
+
+  $('#selectRoom').change(function(){
+    if($('#selectRoom').val() != "")
+      loadByHash($('#selectRoom').val());
+      
+  });
    // $("#podCooparativeSpace").html("<i class='fa fa-spin fa-refresh text-azure'></i>");
    //  var id = "<?php echo $city['country']."_".$city['insee']."-".$city['cp']; ?>";
    //    getAjax('#podCooparativeSpace',baseUrl+'/'+moduleId+"/rooms/index/type/cities/id/"+id+"/view/pod",
@@ -375,12 +465,12 @@ function initCityMap(){
   Sig.restartMap();
   Sig.map.setZoom(2, {animate:false});
   
-  console.log("city");
-  console.dir(city.geo);
+  mylog.log("city");
+  mylog.dir(city.geo);
   
   Sig.showMapElements(Sig.map, contextMap);
   var latlng = [parseFloat(city.geo.latitude)+0.0003, parseFloat(city.geo.longitude)+0.0003];
-   console.dir(latlng);
+   mylog.dir(latlng);
  
   var content = Sig.getPopupSimpleCity(city);
   var properties = {  id : "0",
@@ -397,8 +487,8 @@ function initCityMap(){
   Sig.map.panBy([0, -150]);
   //Sig.centerSimple(latlng, 13);
   Sig.currentMarkerPopupOpen = markerCity;  
-  console.log("geoShape");
-  console.dir(city["geoShape"]);
+  mylog.log("geoShape");
+  mylog.dir(city["geoShape"]);
   if(typeof city["geoShape"] != "undefined"){
     var geoShape = Sig.inversePolygon(city["geoShape"]["coordinates"][0]);
     Sig.showPolygon(geoShape);
@@ -424,5 +514,30 @@ function initCityMap(){
   Sig.allowMouseoverMaker = true;
 }
 
-	
+//wget("https://wikidata.org/w/api.php?action=wbgetclaims&format=json&entity=Q90&property=P18") 
+// https://wikidata.org/w/api.php?action=wbgetentities&format=json&ids=Q90&props=claims&languages=fr 
+// https://wikidata.org/w/api.php?action=wbgetclaims&format=json&entity=Q90&property=P18
+var wikidata = null;
+function wget(url){
+  $.ajax({
+        url:url,
+        type:"GET",
+        dataType: "jsonp",
+        /*data: {
+            q: "select title,abstract,url from search.news where query=\"cat\"",
+            format: "json"
+        },*/
+        success:function(data) {
+          if( notNull(data) ){
+            wikidata = data;
+            imgName = wikidata.entities.Q90.claims.P18[0].mainsnak.datavalue.value;
+            var hash = md5(imgName);
+            console.log(hash[0]+"/"+hash[0]+hash[1]+"/"+imgName);
+          }
+        },
+        error:function (xhr, ajaxOptions, thrownError){
+          alert("error");
+        } 
+    });
+}
 </script>

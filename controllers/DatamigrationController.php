@@ -930,19 +930,21 @@ class DatamigrationController extends CommunecterController {
 		$nbelement = 0 ;
 		foreach ($types as $keyType => $type) {
 			$elements = PHDB::find($type, array("links" => array('$exists' => 1)));
-			foreach ($elements as $keyElt => $elt) {
+			foreach (@$elements as $keyElt => $elt) {
 				if(!empty($elt["links"])){
 					$find = false;
 					$newLinks = array();
 					foreach(@$elt["links"] as $typeLinks => $links){
 
 						foreach(@$links as $keyLink => $link){
-							$eltL = PHDB::find($link["type"], array("_id"=>new MongoId($keyLink)));
-							if(empty($eltL)){
-								$find = true;
-			                    unset($links[$keyLink]);
+							if(!empty($link["type"])){
+								$eltL = PHDB::find($link["type"], array("_id"=>new MongoId($keyLink)));
+								if(empty($eltL)){
+									$find = true;
+				                    unset($links[$keyLink]);
+								}
+								$newLinks[$typeLinks] = $links;
 							}
-							$newLinks[$typeLinks] = $links;
 						}
 					}
 					if($find == true){
@@ -953,6 +955,119 @@ class DatamigrationController extends CommunecterController {
 	                        array('$set' => array(	"links" => $newLinks,
 	                        						"modifiedByBatch" => $elt["modifiedByBatch"])));
 						echo "Suppression de link  deprecated pour le type : ".$type." et l'id ".$keyElt."<br>" ;
+					}
+				}
+			}
+		}		
+		echo  "NB Element mis à jours: " .$nbelement."<br>" ;
+	}
+
+
+	public function actionFixBugCoutryReunion(){
+		$nbelement = 0 ;
+		$elements = PHDB::find(Organization::COLLECTION, array("address.addressCountry" => "Réunion"));
+		foreach (@$elements as $keyElt => $elt) {
+			if(!empty($elt["address"]["postalCode"]) || !empty($elt["address"]["cp"])){
+				$cpElt = (!empty($elt["address"]["postalCode"])?$elt["address"]["postalCode"]:$elt["address"]["cp"]);
+				$where = array("postalCodes.postalCode" => $cpElt);
+				$cities = PHDB::find("cities",$where);
+				foreach (@$cities as $keyCity => $city) {
+						$address = array(
+					        "@type" => "PostalAddress",
+					        "codeInsee" => $city["insee"],
+					        "addressCountry" => $city["country"],
+					        "postalCode" => $cpElt,
+					        "streetAddress" => ((@$elt["address"]["streetAddress"])?trim(@$fieldValue["address"]["streetAddress"]):""),
+					        "depName" => $city["depName"],
+					        "regionName" => $city["regionName"],
+					    	);
+
+						$find = false;
+				   		foreach ($city["postalCodes"] as $keyCp => $cp) {
+				   			if($cp["postalCode"] == $cpElt){
+				   				$address["addressLocality"] = $cp["name"];
+				   				$geo = $cp["geo"];
+				   				$geoPosition = $cp["geoPosition"];
+				   				$find = true;
+				   				break;
+				   			}
+				   		}
+
+				   		if($find == false){
+				   			$address["addressLocality"] = $city["alternateName"];
+				   			$geo = $city["geo"];
+				   			$geoPosition = $city["geoPosition"];
+				   		}
+					break;  	
+				}
+				
+				$nbelement ++ ;
+				$elt["modifiedByBatch"][] = array("fixBugCoutryReunion" => new MongoDate(time()));
+				$res = PHDB::update( Organization::COLLECTION, 
+				  	array("_id"=>new MongoId($keyElt)),
+                    array('$set' => array(	"address" => $address,
+                    						"geo" => $geo,
+                    						"geoPosition" => $geoPosition,
+                    						"modifiedByBatch" => $elt["modifiedByBatch"])));
+				echo "Update orga : l'id ".$keyElt."<br>" ;
+				
+			}else{
+				$nbelement ++ ;
+				$elt["modifiedByBatch"][] = array("fixBugCoutryReunion" => new MongoDate(time()));
+				$res = PHDB::update( Organization::COLLECTION, 
+				  	array("_id"=>new MongoId($keyElt)),
+                    array('$unset' => array("address" => ""),
+                    		'$set' => array( "modifiedByBatch" => $elt["modifiedByBatch"])));
+				echo "Update orga : l'id ".$keyElt."<br>" ;
+			}
+			
+		
+		}
+				
+		echo  "NB Element mis à jours: " .$nbelement."<br>" ;
+	}
+
+
+	public function actionRefactorSource(){
+		$types = array(Person::COLLECTION, Organization::COLLECTION, Project::COLLECTION, Event::COLLECTION);
+		$nbelement = 0 ;
+		foreach ($types as $keyType => $type) {
+			$elements = PHDB::find($type, array("source" => array('$exists' => 1)));
+
+			if(!empty($elements)){
+				foreach (@$elements as $keyElt => $elt) {
+					if(!empty($elt["source"])){
+						$newsource = array();
+						if(!empty($elt["source"]["key"]) && empty($elt["source"]["keys"])){
+							$newsource["insertOrign"] = "import" ;
+							$newsource["key"] = $elt["source"]["key"];
+							$newsource["keys"][] = $elt["source"]["key"];
+
+							if(!empty($elt["source"]["url"]))
+								$newsource["url"] = $elt["source"]["url"];
+							if(!empty($elt["source"]["id"])){
+								if(!empty($elt["source"]["id"]['$numberLong']))
+									$newsource["id"] = $elt["source"]["id"]['$numberLong'];
+								else
+									$newsource["id"] = $elt["source"]["id"];
+							}
+							if(!empty($elt["source"]["update"]))
+								$newsource["update"] = $elt["source"]["update"];
+							
+							$nbelement ++ ;
+							$elt["modifiedByBatch"][] = array("RefactorSource" => new MongoDate(time()));
+							try {
+								$res = PHDB::update( $type, 
+							  		array("_id"=>new MongoId($keyElt)),
+		                        	array('$set' => array(	"source" => $newsource,
+		                        							"modifiedByBatch" => $elt["modifiedByBatch"])));
+							} catch (MongoWriteConcernException $e) {
+								echo("Erreur à la mise à jour de l'élément ".$type." avec l'id ".$keyElt);
+								die();
+							}
+							echo "Elt mis a jour : ".$type." et l'id ".$keyElt."<br>" ;
+
+						}
 					}
 				}
 			}

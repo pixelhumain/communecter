@@ -78,7 +78,7 @@ $tabCommons = array(	"0" => "Ne souhaite pas",
 
 <script type="text/javascript">
 var properties=<?php echo json_encode($properties); ?> ;
-console.log(properties);
+mylog.log(properties);
 var countProperties=numAttrs(properties);
 jQuery(document).ready(function() {
 	Chart.defaults.global = {
@@ -204,13 +204,14 @@ function updateChart(data, nbProperties){
 }
 
 function chartInit(dataProperties){
-	console.log(dataProperties);
+	mylog.log(dataProperties);
 	var labelProperties=[];
 	var valueProperties=[];
 	for (var label in dataProperties){
 		labelProperties.push(label);
 		valueProperties.push(dataProperties[label]["value"]);
 	}
+<<<<<<< HEAD
 	console.log(labelProperties);
 	console.log(valueProperties);
 	Chart.defaults.global = {
@@ -336,6 +337,12 @@ document.getElementById("myChart").onclick = function(evt){
 };
 	///////////// LAST ON DEVELOPMENT //////////////
 	/*var data = {
+=======
+	mylog.log(labelProperties);
+	mylog.log(valueProperties);
+	
+	var data = {
+>>>>>>> origin/master
 	    labels : labelProperties,
 	    datasets: [
 	        {
@@ -358,6 +365,7 @@ document.getElementById("myChart").onclick = function(evt){
 	// This will get the first returned node in the jQuery collection.
 	myNewChart = new Chart(ctx).Radar(data, options);
 	console.log(myNewChart);*/
+
 }
 
 function numAttrs(obj) {

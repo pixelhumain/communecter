@@ -55,5 +55,19 @@ var trad = {"areyousuretodelete" : "<?php echo Yii::t("common", "Are you sure yo
 		"addEvent" : "<?php echo Yii::t("common","Add an Event") ?>",
 		"addOrganization" : "<?php echo Yii::t("common","Add an Organization") ?>",
 		"chooseCountry" : "<?php echo Yii::t("common","Choose a country") ?>",
+		"mustacceptCGU" : "<?php echo Yii::t("login","You must validate the CGU to sign up.") ?>",
+		"usernamenotunique" : "<?php echo Yii::t("login","The user name is not unique : please change it.")?>",
+		"somethingwentwrong" : "<?php echo Yii::t("login","Something went really bad : contact your administrator !")?>",
 };
 
+var tradCountry = {
+	"BE":"Belgique", 
+    "FR":"France",
+	"GP":"Guadeloupe", 
+	"GF":"Guyanne Française",
+	"MQ":"Martinique",
+	"YT":"Mayotte",
+	"NC":"Nouvelle-Calédonie",
+	"RE":"Réunion",
+    "PM":"St Pierre et Miquelon",
+};

@@ -289,9 +289,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 	$this->renderPartial('../pod/headerEntity', array("entity"=>$element, "type" => $type, "openEdition" => $openEdition, "edit" => $edit, "links" => $links, "firstView" => "directory")); 
 ?>
-<div class="row pull-left" id="directoryPad">
+<div class="" id="directoryPad">
 	<div class="col-md-12">
-		<div class="panel panel-transparent">
+		<div class="panel">
 			<div class="panel-body">
 				<!-- <div class="col-md-12">
 					Details proprietaire directory
@@ -318,7 +318,7 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 							</a>
 						</li>
 						<?php } ?>
-						<?php if(@$organizations && count($organizations) > 0){  ?>
+						<?php if(@$organizations && $countOrga > 0){  ?>
 						<li class="filter" data-filter=".organizations">
 							<a href="javascript:;" onclick="showFilters('#orgaTypesFilters', true)" class="filterorganizations bg-green">
 								<i class="fa fa-users fa-2"></i> <span class="hidden-xs hidden-md hidden-sm"><?php echo Yii::t("common","Organizations") ?></span> 
@@ -326,7 +326,7 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 							</a>
 						</li>
 						<?php } ?>
-						<?php if(@$events && count($events) > 0){  ?>
+						<?php if(@$events && $countEvent > 0){  ?>
 						<li class="filter" data-filter=".events">
 							<a href="javascript:"  class="filterevents bg-orange" onclick="$('.optionFilter').hide();$('.labelFollows').hide();">
 								<i class="fa fa-calendar fa-2"></i> <span class="hidden-xs hidden-md hidden-sm"><?php echo Yii::t("common","Events") ?></span> 
@@ -334,7 +334,7 @@ if($type != City::CONTROLLER && !@$_GET["renderPartial"])
 							</a>
 						</li>
 						<?php } ?>
-						<?php if(@$projects && count($projects) > 0){  ?>
+						<?php if(@$projects && $countProject > 0){  ?>
 						<li class="filter" data-filter=".projects">
 							<a href="javascript:;" class="filterprojects bg-purple" onclick="$('.optionFilter').hide();<?php if($followsProject > 0){ ?>$('.labelFollows').show();<?php }else{ ?>$('.labelFollows').hide();<?php } ?>"> 
 								<i class="fa fa-lightbulb-o fa-2"></i> <span class="hidden-xs hidden-md hidden-sm"><?php echo Yii::t("common","Projects") ?></span> 
@@ -883,7 +883,7 @@ jQuery(document).ready(function() {
 	convertAllStartDateEvent();
 });
 
- function convertAllStartDateEvent(){ console.log("convertAllStartDateEvent");
+ function convertAllStartDateEvent(){ mylog.log("convertAllStartDateEvent");
  	$.each($(".startDateEvent.start"), function(){
  		var date = dateToStr($(this).html(), "fr", true);
  		if($(this).attr("allday") == "true"){
@@ -919,7 +919,7 @@ jQuery(document).ready(function() {
  }
 function showHideFeatures(classId){
 	$(".features").addClass('hide');
-	console.log(classId);
+	mylog.log(classId);
 	$("."+classId).removeClass('hide');
 }
 function initGrid(){
@@ -930,7 +930,7 @@ function initGrid(){
 		$('#Grid').mixItUp({
 			callbacks: {
 				onMixEnd: function(state){
-					// console.log(state);
+					// mylog.log(state);
 					if (state.activeFilter != ".followers")
 						$(".followers").hide();
 				}	
@@ -938,7 +938,7 @@ function initGrid(){
 		});
 	}else{
 		var htmlDefault = "";
-		console.log("----------show----------", show);
+		mylog.log("----------show----------", show);
 		if(show == true){
 			htmlDefault = "<div class='center'>"+
 								"<i class='fa fa-share-alt fa-5x text-blue'></i>"+
@@ -959,28 +959,29 @@ function initGrid(){
 function bindBtnEvents(){
 	$(".disconnectBtn").off().on("click",function () {
 	        //$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
+	        var $this = $(this);
 	        params =new Object;
 	        if($("#parentType").val() == "citoyens" && elementId==$("#parentId").val()){
 		        params.childId = $("#parentId").val();
 		        params.childType =$("#parentType").val() ;
-		        params.parentType = $(this).data("type") ;
-		        params.parentId = $(this).data("id");
-			    params.connectType = $(this).data("connecttype");
+		        params.parentType = $this.data("type") ;
+		        params.parentId = $this.data("id");
+			    params.connectType = $this.data("connecttype");
 			    params.fromMyDirectory = true;
 	        }else{
-		        params.childId = $(this).data("id");
+		        params.childId = $this.data("id");
 		        if($("#parentType").val() == "events")
 		        	params.childType = "citoyens";
 		        else
-		        	params.childType = $(this).data("type");
+		        	params.childType = $this.data("type");
 		        params.parentType = $("#parentType").val();
 		        params.parentId = $("#parentId").val();
 		        params.connectType = $("#connectType").val();
 	        }
-	        var userType = $(this).data("type");
-	        var userId = $(this).data("id");
-	        var thisParent = $(this).parents().eq(2);
-	 	    //console.log(userId+"/"+userType+"/"+parentType+"/"+parentId+"/"+connectType);
+	        var userType = $this.data("type");
+	        var userId = $this.data("id");
+	        var thisParent = $this.parents().eq(2);
+	 	    //mylog.log(userId+"/"+userType+"/"+parentType+"/"+parentId+"/"+connectType);
 	        bootbox.confirm("<?php echo Yii::t("common", "Are you sure you want to delete") ?> <span class='text-red'>"+$(this).data("name")+"</span> <?php echo Yii::t("common", "from your community") ?> ?", 
 				function(result) {
 					if (result) {
@@ -994,7 +995,13 @@ function bindBtnEvents(){
 					        	thisParent.find(".toolsLoader").remove();
 					        	if ( data && data.result ) {               
 						       	 	toastr.success("<?php echo Yii::t("common", "Link divorced successfully") ?>!!");	
-						       	 	thisParent.css("background-color","#5f8295 !important").fadeOut(600);
+						       	 	thisParent.css("background-color","#5f8295 !important").fadeOut(600).remove();
+						       	 	if($("#parentType").val() == "citoyens" && elementId==$("#parentId").val()){
+							       	 	typeToRemove=$this.data("type");
+						       	 		if($this.data("type")=="citoyens")
+						       	 			typeToRemove = "people";	
+						       	 		removeFloopEntity($this.data("id"), typeToRemove);
+						       	 	}
 						        	//$("#"+data.collection+userId).remove();
 						        	//if(userType == "organizations")
 						        	badge=$(".menu_directory li[data-filter='."+userType+"']").find(".badge");
@@ -1013,6 +1020,12 @@ function bindBtnEvents(){
     								if(data.removeMeAsAdmin){
 										loadByHash(location.hash);
     								}
+    								if(typeof(mapUrl) != "undefined"){
+										if(typeof(mapUrl.detail.load) != "undefined" && mapUrl.detail.load)
+											mapUrl.detail.load = false;
+										if(typeof(mapUrl.directory.load) != "undefined" && mapUrl.directory.load)
+											mapUrl.directory.load = false;
+									}
 									//  $(this).toggleClass('active');
 									//	alert(nbItem);
 						        } else {
@@ -1081,14 +1094,14 @@ function sendInvitationAgain(id, name, $this){
 			        params = new Object;
 			        params.id = id;
 			        params.text = result;
-			        console.log(params);
+			        mylog.log(params);
 					$.ajax({
 						        type: "POST",
 						        url: baseUrl+"/"+moduleId+"/person/sendinvitationagain",
 						       	dataType: "json",
 						       	data: params,
 					        	success: function(data){
-						        	console.log(data);
+						        	mylog.log(data);
 						        	$thisParent.find(".toolsLoader").remove();
 						        	if(data && data.result){
 						        	toastr.success("<?php echo Yii::t("common", "Invitation sent again with success") ?>");
@@ -1100,7 +1113,7 @@ function sendInvitationAgain(id, name, $this){
 					       		error: function (xhr, ajaxOptions, thrownError) {
 							      //  alert(xhr.status);
 							        //alert(thrownError);
-							        console.log(xhr);
+							        mylog.log(xhr);
 							        toastr.error(xhr.responseText);
 							    }
 					});

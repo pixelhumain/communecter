@@ -11,6 +11,10 @@
 ----------------------------------------------------
 ----------------------------------------------------
 ----------------------------------------------------
+* Hot Fix 0.16
+** @Rapha : Fix Organisation avec country = Réunion
+/communecter/datamigration/FixBugCoutryReunion
+
 ----------------------------------------------------
 * Notragora
 add params in protected/config/
@@ -25,6 +29,9 @@ add params in protected/config/
 exécuter updateGeoPosElement.org sur la base
 Exemple : 
 mongo localhost:10019/bdname --username user --password pass updateGeoPosElements.org > result.txt
+
+** @Rapha : Update Geo Belgique sur les codes postal
+/communecter/datamigration/UpdateCitiesBelgiqueGeo
 
 ----------------------------------------------------
 * Version 0.15
@@ -560,3 +567,4 @@ In file : pixelhumain/ph/protected/config/paramsconfig.php
 Default params :
   'mapboxActive'      => true, //set to false to disable MapBox on no-local-server = prod || dev || qa (use OSM)
   'forceMapboxActive' => false,//set to true  to use MapBox on local-server
+  'mapboxToken' => '', //pense à mettre le Token sur QA et prod pour utiliser mapbox

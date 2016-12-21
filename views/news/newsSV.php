@@ -17,8 +17,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);
 <script type="text/javascript">
 var myContacts = <?php echo json_encode($myContacts) ?>;
 
-// console.log("myContacts"); 
-// console.dir(myContacts); 
+// mylog.log("myContacts"); 
+// mylog.dir(myContacts); 
 var contactTypes = [	{ name : "people",  		color: "yellow"	, icon:"user"			},
 						{ name : "organizations", 	color: "green" 	, icon:"group"			},
 						{ name : "projects", 		color: "purple"	, icon:"lightbulb-o"	},
@@ -115,7 +115,7 @@ jQuery(document).ready(function() {
 	
 	//$(".new-news").off().on("click",function() { 
 		notSubview = ( $(this).data("notsubview")) ? $(this).data("notsubview") : null ;
-		console.log("add news on ",$(this).data('id'),$(this).data('type'),notSubview);
+		mylog.log("add news on ",$(this).data('id'),$(this).data('type'),notSubview);
 		if( $(this).data('id') )
 			contextId = $(this).data('id') ;
 		if( $(this).data('type') )
@@ -139,7 +139,7 @@ jQuery(document).ready(function() {
 				// 	onShow : function() 
 				// 	{
 				// 		buildDynForm();
-				// 		console.dir(form);
+				// 		mylog.dir(form);
 				// 	},
 				// 	onHide : function() {
 				// 		$("#ajaxSV").html('');
@@ -161,7 +161,7 @@ function openSubview () {
 		onShow : function() 
 		{
 			buildDynForm();
-			console.dir(form);
+			mylog.dir(form);
 		},
 		onHide : function() {
 			$("#formCreateNewsTemp").html('');
@@ -191,13 +191,13 @@ function buildDynForm(){
 				getAjax(".newsFeed", baseUrl+"/"+moduleId+"/news/latest/type/"+contextType+"/id/<?php if(isset($_GET["id"]))echo $_GET["id"];?>/count/15", function(){}, "html");*/
 		},
 		onSave : function(){
-			console.log("saving News!!");
+			mylog.log("saving News!!");
 			var params = {};
 			$.each(dataBind,function(field,dest){
-				console.log("dataBind 1 ",field,$(field).val());
+				mylog.log("dataBind 1 ",field,$(field).val());
 				if(field != "" )
 				{
-					console.log("dataBind 2",field);
+					mylog.log("dataBind 2",field);
 					var value = "";
 
 					/*TAGS*/
@@ -223,7 +223,7 @@ function buildDynForm(){
 							});
 							//si le scope est privé (my wall) 
 							if($("#privateScope").val() == "true"){
-								console.log("scopePrivate", $(".typehidden input#type").val(), dest);
+								mylog.log("scopePrivate", $(".typehidden input#type").val(), dest);
 								//et qu'on est sur le même type que le type du receveur (people, orga, project, ou event)
 								if(dest == "scope."+$("input[name='type']").val() ||
 									(dest == "scope.citoyens" && $("input[name='type']").val() == "people")){
@@ -239,22 +239,22 @@ function buildDynForm(){
 					}
 
 					if( value != "" ){
-						console.log("dataBind 3 ",field,dest,value);
+						mylog.log("dataBind 3 ",field,dest,value);
 						jsonHelper.setValueByPath( params, dest, value );
 					} 
 				}
 				else
-					console.log("save Error",field);
+					mylog.log("save Error",field);
 			});
 			params.id = '<?php echo Yii::app()->session['userId']; ?>';
-			//console.dir(params);
+			//mylog.dir(params);
 			$.ajax({
 	    	  type: "POST",
 	    	  url: baseUrl+"/<?php echo $this->module->id?>/news/save",
 	    	  data: params,
 	    	  dataType: "json"
 	    	}).done( function(data){
-					console.log(data);
+					mylog.log(data);
 	    		if(data.result)
 	    		{
 	    			if(countEntries == 0){
@@ -267,7 +267,7 @@ function buildDynForm(){
 		            		showAjaxPanel( '/news/index/type/<?php echo (isset($_GET['type'])) ? $_GET['type'] : 'citoyens' ?>/id/<?php echo (isset($_GET['id'])) ? $_GET['id'] : Yii::app()->session['userId'] ?>/streamType/news', 'KESS KISS PASS ','rss' )
 		            	}
 					}
-					//console.dir(data);
+					//mylog.dir(data);
 					$.unblockUI();
 					//$("#ajaxSV").html('');
 					//$.hideSubview();
@@ -295,10 +295,10 @@ function showScope(){
 function bindEventScopeModal(){
 	/* initialisation des fonctionnalités de la modale SCOPE */
 	//parcourt tous les types de contacts
-	$.each(contactTypes, function(key, type){ //console.log("BINDEVENT CONTACTTYPES : " + type.name);
+	$.each(contactTypes, function(key, type){ //mylog.log("BINDEVENT CONTACTTYPES : " + type.name);
 		//initialise le scoll automatique de la liste de contact
 		$("#btn-scroll-type-"+type.name).click(function(){
-			//console.log("click btn scroll type : "+type.name+ " " + $("#scroll-type-"+type.name).position().top);
+			//mylog.log("click btn scroll type : "+type.name+ " " + $("#scroll-type-"+type.name).position().top);
 			$('#list-scroll-type').animate({
 	         scrollTop: $('#list-scroll-type').scrollTop() + $("#scroll-type-"+type.name).position().top 
 	         }, 400);
@@ -425,8 +425,8 @@ if((getType == "citoyens" || getType == "citoyen") && myId == getId) myWall = tr
 //affiche le contenu du formulaire
 //masqué par defaut
 function showFormBlock(bool){ 
-	console.log("my wall ?", myWall);
-	console.log("myId", myId, "getType", getType, "getId", getId);
+	mylog.log("my wall ?", myWall);
+	mylog.log("myId", myId, "getType", getType, "getId", getId);
 	if(bool){
 		$(".form-create-news-container #text").show("fast");
 		$(".form-create-news-container .tagstags").show("fast");

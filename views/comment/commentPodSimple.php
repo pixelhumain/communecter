@@ -66,6 +66,9 @@
 		margin-left:5px;
 
 	}
+	.text-comment{
+		white-space: pre-line;
+	}
 </style>
 <?php if($contextType == "actionRooms"){ ?>
 <div class='row'>
@@ -267,10 +270,10 @@
 	
 	var context = <?php echo json_encode($context)?>;
 
-	console.log("context");
-	console.dir(context);
-	console.log("comments");
-	console.dir(comments);
+	// mylog.log("context");
+	// mylog.dir(context);
+	// mylog.log("comments");
+	// mylog.dir(comments);
 
 	jQuery(document).ready(function() {
 
@@ -278,7 +281,7 @@
 		bindEventTextArea(idTextArea, idComment, false, "");
 		bindEventActions();
 
-		console.log(".comments-list-<?php echo $idComment; ?> .text-comment");
+		mylog.log(".comments-list-<?php echo $idComment; ?> .text-comment");
 		$("#comments-list-<?php echo $idComment; ?> .text-comment").each(function(){
 			linked = linkify($(this).html());
 			$(this).html(linked);
@@ -296,7 +299,7 @@
 		autosize($(idTextArea));
 
 		$(idTextArea).on('keyup ', function(e){
-			if(e.which == 13 && $(idTextArea).val() != "" && $(idTextArea).val() != " ") {
+			if(e.which == 13 && !e.shiftKey && $(idTextArea).val() != "" && $(idTextArea).val() != " ") {
 	            //submit form via ajax, this is not JS but server side scripting so not showing here
 	            saveComment($(idTextArea).val(), parentCommentId);
 	            $(idTextArea).val("");
@@ -316,7 +319,7 @@
 
 		$('.commentVoteUp').off().on("click",function(){
 			id=$(this).data("id");
-			console.log("thisData voted : ",  $(this).data("voted"));
+			mylog.log("thisData voted : ",  $(this).data("voted"));
 			//if($(this).data("voted")=="true") 
 			//	alert(typeof $(this).data("voted"));
 			if((!$(this).hasClass("text-green") && $(this).data("voted")==true)){
@@ -377,7 +380,7 @@
 					
 						'<span class="pull-left content-comment">'+						
 						'	<span class="text-black">'+
-						'		<span class="text-dark"><strong><?php echo @$me["name"]; ?></strong></span> '+
+						'		<span class="text-dark"><strong><?php echo @$me["name"]; ?></strong></span><br>'+
 						'		<span class="text-comment">'	+ textComment + "</span>" +
 						'	</span><br>'+
 							'<span class="">' +
@@ -430,16 +433,16 @@
 		}
 	}
 
-	function showMoreComments(id, hiddenCount){ console.log("showMoreComments", id, hiddenCount);
+	function showMoreComments(id, hiddenCount){ mylog.log("showMoreComments", id, hiddenCount);
 		$(".hidden-"+hiddenCount).removeClass("hidden");
 		$(".link-show-more-" + (hiddenCount-10)).addClass("hidden");
 	}
 
-	function hideComments(id, level){ console.log("#comments-list-"+id + " .item-comment", level);
+	function hideComments(id, level){ mylog.log("#comments-list-"+id + " .item-comment", level);
 		//$("#comments-list-"+id + " .item-comment").addClass("hidden");
 		if(level<=1){
 			$("#commentContent"+id).addClass("hidden");
-			//console.log("scroll TO : ", $('#newsFeed'+id).position().top, $('#newsHistory').position().top);
+			//mylog.log("scroll TO : ", $('#newsFeed'+id).position().top, $('#newsHistory').position().top);
 			$('.my-main-container').animate({
 		        scrollTop: $('#newsFeed'+id).position().top + $('#newsHistory').position().top
 		    }, 400);
@@ -477,7 +480,7 @@
 						toastr.success(data.msg);
 						var count = $("#newsFeed"+context["_id"]["$id"]+" .nbNewsComment").html();
 						if(!notEmpty(count)) count = 0;
-						//console.log(count, context["_id"]["$id"]);
+						//mylog.log(count, context["_id"]["$id"]);
 						if(data.newComment.contextType=="news"){
 							count = parseInt(count);
 							var newCount = count +1;
@@ -510,7 +513,7 @@
 	}
 
 
-	function answerComment(idComment, parentCommentId){ console.log("answerComment");
+	function answerComment(idComment, parentCommentId){ mylog.log("answerComment");
 		
 		if(!$("#comments-list-"+parentCommentId).hasClass("hidden"))
 			$("#comments-list-"+parentCommentId).addClass("hidden");
@@ -538,7 +541,7 @@
 
 
 	function reportAbuse(comment, contextId) {
-		// console.log(contextId);
+		// mylog.log(contextId);
 		var message = "<div id='reason' class='radio'>"+
 			"<h3 class='margin-top-10'>Pour quelle raison signalez-vous ce contenu ?</h3>" +
 			"<hr>" +
@@ -566,7 +569,7 @@
 		      label: "Annuler",
 		      className: "btn-default",
 		      callback: function() {
-		        console.log("Annuler");
+		        mylog.log("Annuler");
 		      }
 		    },
 		    danger: {
@@ -640,7 +643,7 @@
 
 
 	function actionOnComment(comment, action, method) {
-		console.log(comment);
+		mylog.log(comment);
 		params=new Object,
 		params.id = comment.data("id"),
 		params.collection = '<?php echo Comment::COLLECTION?>',
@@ -670,7 +673,7 @@
 								//to hide menu
 								$(".newsReport[data-id="+params.id+"]").hide();
 							}
-							else{ console.log("dataINC:", data);
+							else{ mylog.log("dataINC:", data);
 			                    if(data.inc>=1)
 			                    	toastr.success("<?php echo Yii::t("common", "Your vote has been successfully added") ?>");
 			                    else
@@ -694,21 +697,21 @@
 
 	//When a user already did an action on a comment the other buttons are disabled
 	function disableOtherAction(commentId, action,method) {
-		console.log("disableOtherAction", method);
+		mylog.log("disableOtherAction", method);
 		if(method){ //unset
 
-			console.log("disableOtherAction 1", action);
+			mylog.log("disableOtherAction 1", action);
 			$(".commentVoteUp[data-id='"+commentId+"']").removeClass("text-green").data("voted", false);
 			$(".commentVoteDown[data-id='"+commentId+"']").removeClass("text-orange").data("voted", false);
 			$(".commentReportAbuse[data-id='"+commentId+"']").data("voted", false);
 
 			var count = $(action+"[data-id='"+commentId+"']").data("countcomment");
-			console.log("count 1", count);
+			mylog.log("count 1", count);
 			$(action+"[data-id='"+commentId+"']").data("countcomment", count-1);
 			$(action+"[data-id='"+commentId+"'] .count").html(count-1);
 		}
 		else{ //set
-			console.log("disableOtherAction 2", method);
+			mylog.log("disableOtherAction 2", method);
 			$(".commentVoteUp[data-id='"+commentId+"']").removeClass("text-green").data("voted",true);
 			$(".commentVoteDown[data-id='"+commentId+"']").removeClass("text-orange").data("voted",true);
 			$(".commentReportAbuse[data-id='"+commentId+"']").data("voted",true);
@@ -724,7 +727,7 @@
 	}
 
 	function confirmDeleteComment(id, $this){
-		// console.log(contextId);
+		// mylog.log(contextId);
 		var message = "Souhaitez-vous vraiment supprimer ce commentaire ?";
 		var boxComment = bootbox.dialog({
 		  message: message,
@@ -734,7 +737,7 @@
 		      label: "Annuler",
 		      className: "btn-default",
 		      callback: function() {
-		        console.log("Annuler");
+		        mylog.log("Annuler");
 		      }
 		    },
 		    danger: {
@@ -765,7 +768,7 @@
 			//data: {"newsId": idNews},
 	    	success: function(data){
 	        	if (data.result) {    
-		        	console.log(data);           
+		        	mylog.log(data);           
 					toastr.success("<?php echo Yii::t("common","Comment successfully deleted")?>");
 					//liParent=$this.parents().eq(2);
 		        	//liParent.fadeOut();
@@ -782,7 +785,7 @@
 	}
 
 	function editComment(idComment){
-		// console.log(contextId);
+		// mylog.log(contextId);
 		var commentContent = $('#item-comment-'+idComment+' .text-comment').html().trim();
 		var message = "<div id='container-txtarea-"+idComment+"'>"+
 						"<textarea id='textarea-new-comment"+idComment+"' class='form-control' placeholder='modifier votre commentaire'>"+commentContent+
@@ -796,7 +799,7 @@
 		      label: "Annuler",
 		      className: "btn-default",
 		      callback: function() {
-		        console.log("Annuler");
+		        mylog.log("Annuler");
 		      }
 		    },
 		    enregistrer: {

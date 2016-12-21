@@ -88,7 +88,7 @@
 //creates fullCalendar
 function buildCalObj(eventObj)
 {
-  //console.log("addTasks2CAlendar","task",taskId,eventObj);
+  //mylog.log("addTasks2CAlendar","task",taskId,eventObj);
   //entries for the calendar
   var taskCal = null;
   var prioClass = 'event-job';
@@ -101,12 +101,13 @@ function buildCalObj(eventObj)
   }
   if(eventObj.startDate && eventObj.startDate != "")
   {
-    //console.log("eventObj", eventObj, eventObj.startDate);
+    //mylog.log("eventObj", eventObj, eventObj.startDate);
     var sd = eventObj.startDate.split(" ")[0];
     var sh = eventObj.startDate.split(" ")[1];
     var sdv = sd.split("-");
     var shv = sh.split(":");
     var startDate = new Date(sdv[0],parseInt(sdv[1])-1,sdv[2], shv[0], shv[1]);
+
     var endDate = null;
     if(eventObj.endDate && eventObj.endDate != "" )
     {
@@ -114,9 +115,11 @@ function buildCalObj(eventObj)
       var eh = eventObj.endDate.split(" ")[1];
       var edv = ed.split("-");
       var ehv = eh.split(":");
-      endDate = new Date(edv[0],parseInt(edv[1])-1,edv[2], ehv[0], ehv[1]);
+      endDate = new Date(edv[0],parseInt(edv[1])-1,parseInt(edv[2])+1, ehv[0], ehv[1]); //year month day hour sec
+
      }
-     //console.log("taskCalObj",eventObj['_id']['$id']);
+     //alert(startDate+" | "+endDate);
+     //mylog.log("taskCalObj",eventObj['_id']['$id']);
     var organiser = "";
     
 
@@ -135,7 +138,7 @@ function buildCalObj(eventObj)
     	organizerName = eventObj.organizer +" : "+ eventObj.name;
     }
 
-    console.log(organiser);
+    mylog.log(organiser);
     taskCal = {
       "title" : organizerName,
       "id" : eventObj['_id']['$id'],
@@ -149,14 +152,14 @@ function buildCalObj(eventObj)
     }
     if(eventObj.allDay )
       taskCal.allDay = eventObj.allDay;
-    //console.log(taskCal);
+    //mylog.log(taskCal);
   }
   return taskCal;
 }
 
 function showCalendar() {
 
-  console.info("addTasks2Calendar",events);//,taskCalendar);
+  mylog.info("addTasks2Calendar",events);//,taskCalendar);
   
   calendar = [];
   if(events){
@@ -171,9 +174,9 @@ function showCalendar() {
   dateToShow = new Date();
   $('#calendar').fullCalendar({
     header : {
-		left : 'prev,next',
-		center : 'title',
-		right : 'today, month, agendaWeek, agendaDay'
+  		left : 'prev,next',
+  		center : 'title',
+  		right : 'today, month, agendaWeek, agendaDay'
     },
     lang : 'fr',
     year : dateToShow.getFullYear(),
@@ -206,7 +209,7 @@ function showCalendar() {
     var today = new Date();
     var eventsSelected = [];
     $.each(events, function(k,v){
-      console.log("current event : ", v);
+      mylog.log("current event : ", v);
       
       var date = null;
       if("undefined" != typeof v.endDate && v.endDate.split("-")[2]){
@@ -219,9 +222,9 @@ function showCalendar() {
         var date = new Date(startSplit[0], parseInt(startSplit[1])-1, startSplit[2].split(" ")[0]);
         if(eventsSelected.length>=3){
           for(var i = 0; i<eventsSelected.length;i++){
-            console.log("for", eventsSelected);
+            mylog.log("for", eventsSelected);
             var date2 = new Date(eventsSelected[i].startDate.split("-")[0], parseInt(eventsSelected[i].startDate.split("-")[1])-1, eventsSelected[i].startDate.split("-")[2].split(" ")[0]);
-            //console.log(date, date2);
+            //mylog.log(date, date2);
             if(date2>=date){
               eventsSelected.splice(i, 0, v);
               eventsSelected.pop();
@@ -257,9 +260,9 @@ function showCalendar() {
   function initLastsEvents(){
     var DEFAULT_IMAGE_EVENT = "";
     if("undefined" != typeof events ){
-      console.log("OK initLastsEvents");
+      mylog.log("OK initLastsEvents");
       var tabEvents = getLastsEvent(events);
-      console.dir(tabEvents);
+      mylog.dir(tabEvents);
       var htmlRes = "";
 
       for(var i=0; i<tabEvents.length; i++ ){

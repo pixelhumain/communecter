@@ -67,7 +67,7 @@ function getCitiesGeoPosByPostalCode(postalCode, selectType) {
 		global: false,
 		async: false,
 		dataType: 'json',
-		success: function(data) { //console.dir(data);
+		success: function(data) { //mylog.dir(data);
 			result.push(data);
 		}
 	});
@@ -86,7 +86,7 @@ function isUniqueUsername(username) {
 		    response = data;
 		}
 	});
-	console.log("isUniqueUsername=", response);
+	mylog.log("isUniqueUsername=", response);
 	return response;
 }
 
@@ -139,24 +139,25 @@ function addCustomValidators() {
 
     jQuery.validator.addMethod("greaterThan", function(value, element, params) {    
 	    if (!/Invalid|NaN/.test(new Date(value))) {
-	        return new Date(value) > new Date($(params[0]).val());
+	        return moment(value, "DD/MM/YYYY HH:mm").isAfter(moment($(params[0]).val(), "DD/MM/YYYY HH:mm"));
 	    }    
 	    return isNaN(value) && isNaN($(params[0]).val()) || (Number(value) > Number($(params[0]).val())); 
 	},'Doit ètre aprés {1}.');
 
-	jQuery.validator.addMethod("greaterThanNow", function(value, element) {    
-	    if (!/Invalid|NaN/.test(new Date(value))) {
-	        return new Date(value) > new Date();
-	    }    
-	    return isNaN(value); 
-	},"Doit ètre aprés la date d'aujourd'hui.");
+	jQuery.validator.addMethod("greaterThanNow", function(value, element, params) {   
+		mylog.log(value," < ",new Date()); 
+	    return moment(value, params[0]).isAfter(moment()); 
+	},"Doit être après la date d'aujourd'hui.");
 
 	jQuery.validator.addMethod("duringDates", function(value, element, params) {  
 		if( $(params[0]).val() && $(params[1]).val() ){
-	    return  ( new Date(value) >= new Date( $(params[0]).val() ) && new Date(value) <= new Date($(params[1]).val()) );
+			//console.warn(moment(value, "DD/MM/YYYY HH:mm"),moment($(params[0]).val()),moment($(params[1]).val()));
+	    	return (moment(value, "DD/MM/YYYY HH:mm").isSameOrAfter(moment($(params[0]).val())) 
+	    		&& moment(value, "DD/MM/YYYY HH:mm").isSameOrBefore(moment($(params[1]).val())));
+	    	//return  ( new Date(value) >= new Date( $(params[0]).val() ) && new Date(value) <= new Date($(params[1]).val()) );
 		} 
 		return true;
-	},"Cette date exterieur à l'évènement parent.");
+	},"Cette date est exterieure à l'évènement parent.");
 }
 
 
@@ -184,7 +185,7 @@ function dateToStr(date, lang, inline, fullMonth){ //work with date formated : y
 	if(typeof date == "undefined") return;
 	if(fullMonth != true) fullMonth = false;
 
-	//console.log("convert format date 1", date);
+	//mylog.log("convert format date 1", date);
 	if(typeof date.sec != "undefined"){
 		date = new Date(date.sec);
 		date = dateSecToString(date);
@@ -193,10 +194,10 @@ function dateToStr(date, lang, inline, fullMonth){ //work with date formated : y
 		date = new Date(date);
 		date = dateSecToString(date);
 	}
-	//console.log(date);
+	//mylog.log(date);
 	if(lang == "fr"){
 		//(year, month, day, hours, minutes, seconds, milliseconds) 
-		//console.log("convert format date", date);
+		//mylog.log("convert format date", date);
 		var year 	= date.substr(0, 4);
 		var month 	= date.substr(5, 2);//getMonthStr(date.substr(5, 2), lang);
 		var day 	= date.substr(8, 2);

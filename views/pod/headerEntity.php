@@ -92,6 +92,7 @@ $controler = Element::getControlerByCollection($type);
 	#shortDescriptionHeader{
 		max-height: 75px;
 		overflow: hidden;
+		font-size: 15px;
 	}
 
 
@@ -218,7 +219,12 @@ $controler = Element::getControlerByCollection($type);
 						<h2 class="text-left no-margin <?php if (!@$entity["type"] && !empty($entity["type"])) echo "hide" ?>" style="font-weight:100; font-size:19px;">
 								<i class="fa fa-angle-right"></i> 
 								<label id="typeHeader" class="text-dark">
-									<?php echo Yii::t(Element::getCommonByCollection($type), @$entity["type"], null, Yii::app()->controller->module->id); ?>
+									<?php
+									if($type == Event::COLLECTION)
+										echo Yii::t(Element::getCommonByCollection($type), @$entity["type"], null, Yii::app()->controller->module->id); 
+									else
+										echo Yii::t("common", @$entity["type"]); 
+									?>
 								</label>
 						</h2>
 					<?php } ?>
@@ -230,7 +236,7 @@ $controler = Element::getControlerByCollection($type);
 					</span>
 					<?php if(!empty($entity["parentId"]) && !empty($entity["parentType"])) {
 							$parentEvent = Element::getElementSimpleById($entity["parentId"], $entity["parentType"]);
-							echo Yii::t("common","Parenthood").' : <a href="#'.$entity["parentType"].'.detail.id.'.$entity["parentId"].'" class="lbh">'.$parentEvent["name"]."</a>";
+							echo "<br/>".Yii::t("common","Parenthood").' : <a href="#'.$entity["parentType"].'.detail.id.'.$entity["parentId"].'" class="lbh">'.$parentEvent["name"]."</a>";
 							//echo Yii::t("event","Part of Event",null,Yii::app()->controller->module->id).' : <a href="#'.Event::COLLECTION.'.detail.id.'.$entity["parentId"].'" class="lbh">'.$parentEvent["name"]."</a>";	
 						}
 					?>
@@ -241,13 +247,13 @@ $controler = Element::getControlerByCollection($type);
 						<i id="iconLocalityyHeader" class="fa fa-globe <?php echo (empty($entity['address'])?'hidden':'');?>"></i>
 						<label class="text-red" id="localityHeader"><?php echo (empty($entity["address"]["addressLocality"])?"":$entity["address"]["addressLocality"].","); ?></label> 
 						<label class="text-red" id="pcHeader"><?php echo (empty($entity["address"]["postalCode"])?"":($entity["address"]["postalCode"].",")); ?></label>
-						<label class="text-red" id="countryHeader"><?php echo (empty($entity["address"]["addressCountry"])?"":$entity["address"]["addressCountry"].","); ?></label> 
+						<label class="text-red" id="countryHeader"><?php echo (empty($entity["address"]["addressCountry"])?"":OpenData::$phCountries[ $entity["address"]["addressCountry"]]); ?></label> 
 						<?php } ?>	
 					</span>
 				</div>
 				<?php if($type==Person::COLLECTION && Yii::app()->session["userId"] == (string) $entity["_id"]) { ?>
 					<div id="divCommunecterMoi" class="col-md-12 no-padding no-padding margin-bottom-10">
-						<a href="javascript:;" class="cobtnHeader hidden btn bg-red"><?php echo Yii::t("common", "Connect to your city");?></a> 
+						<a href="javascript:;" class="cobtnHeader hidden btn bg-red"><i class="fa fa-home"></i> <?php echo Yii::t("common", "Connect to your city");?></a> 
 						<a href="javascript:;" class="whycobtnHeader hidden btn btn-default explainLink" data-id="explainCommunectMe" ><?php echo Yii::t("common", "Why ?"); ?></a>
 					</div>
 					<?php if(@$entity["seePreferences"] && $entity["seePreferences"]==true){ ?>
@@ -291,6 +297,35 @@ $controler = Element::getControlerByCollection($type);
 
 		</div>
 		
+
+		<div class="col-lg-3 col-md-3 col-sm-3 col-xs-8 pull-right padding-10">
+			<div class="col-xs-12 no-padding">
+				<?php 
+				if(!empty($entity["badges"])){?>
+					<?php if( Badge::checkBadgeInListBadges("opendata", $entity["badges"]) ){?>
+						<div class="badgePH pull-right" data-title="OPENDATA">
+							<span class="fa-stack tooltips opendata" style="maring-bottom:5px" data-toggle="tooltip" data-placement="bottom" title='<?php echo Yii::t("badge","opendata", null, Yii::app()->controller->module->id)?>'>
+								<i class="fa fa-database main fa-stack-1x text-dark"></i>
+								<i class="fa fa-share-alt  mainTop fa-stack-1x"></i>
+							</span>
+							<span class="text-dark inline" style="font-size: 15px; line-height: 30px;"> 
+								<?php echo Yii::t("common","Open data") ?>						
+							</span>
+						</div>
+				<?php } 
+				} ?>
+			</div>
+
+			<div class="col-xs-12 no-padding">
+				<?php 
+				if ($openEdition == true) { ?>
+					<div class="badgePH pull-right" data-title="OPENEDITION">
+						<span class="pull-right tooltips" data-toggle="tooltip" data-placement="bottom" title="Tous les utilisateurs ont la possibilité de participer / modifier les informations." style="font-size: 15px; line-height: 30px;"><i class="fa fa-creative-commons"></i> <?php echo Yii::t("common","Open edition") ?></span>
+					</div>
+				<?php } ?>
+				
+			</div>
+		</div>
 		<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 pull-right padding-10">
 			<style type="text/css">
 				.badgePH{ 
@@ -319,12 +354,15 @@ $controler = Element::getControlerByCollection($type);
 
 			<div class="col-xs-12 no-padding">
 				<?php if ($type==Person::COLLECTION){ ?>
-				<span class="tag label label-warning pull-right">
+				<span class="label label-warning pull-right">
+					<i class="fa fa-bookmark"></i> <a href="javascript:;"  class="explainLink" data-id="explainGamification" style="color:inherit;"> 
+					<?php echo Gamification::badge( (string)$entity["_id"] )." : " ?>
 					<?php echo  @$entity["gamification"]['total'] ? 
 								@$entity["gamification"]['total'] :
 								"0"; 
 					?> pts
-				</span>
+					</a>
+				</span><br>
 				<?php } ?>
 				<div id="divTagsHeader" class="badgePH pull-right">
 					<?php if(isset($entity["tags"])){ ?>
@@ -342,34 +380,6 @@ $controler = Element::getControlerByCollection($type);
 				</div>
 			</div>
 			
-
-			<div class="col-xs-12 no-padding">
-				<?php 
-				if(!empty($entity["badges"])){?>
-					<?php if( Badge::checkBadgeInListBadges("opendata", $entity["badges"]) ){?>
-						<div class="badgePH pull-right" data-title="OPENDATA">
-							<span class="fa-stack tooltips opendata" style="maring-bottom:5px" data-toggle="tooltip" data-placement="bottom" title='<?php echo Yii::t("badge","opendata", null, Yii::app()->controller->module->id)?>'>
-								<i class="fa fa-database main fa-stack-1x text-dark"></i>
-								<i class="fa fa-share-alt  mainTop fa-stack-1x"></i>
-							</span>
-							<span class="text-dark inline" style="font-size: 15px; line-height: 30px;"> 
-								<?php echo Yii::t("common","Open data") ?>						
-							</span>
-						</div>
-				<?php } 
-				} ?>
-			</div>
-
-			<div class="col-xs-12 no-padding">
-				<?php 
-				if ($openEdition == true) { ?>
-					<div class="badgePH pull-right" data-title="OPENEDITION">
-						<span class="pull-right tooltips" data-toggle="tooltip" data-placement="bottom" title="Tous les utilisateurs ont la possibilité de participer / modifier les informations." style="font-size: 15px; line-height: 30px;"><i class="fa fa-creative-commons"></i> <?php echo Yii::t("common","Open edition") ?></span>
-					</div>
-				<?php } ?>
-				
-			</div>
-
 			
 		</div>
 	<?php }else{ ?>
@@ -521,16 +531,55 @@ $controler = Element::getControlerByCollection($type);
 	      <div class="modal-footer">
 	        <button type="button" class="lbh btn btn-success btn-confidentialitySettings" data-dismiss="modal" aria-label="Close" data-hash="#element.detail.type.<?php echo $type ?>.id.<?php echo $entity['_id'] ;?>">OK</button>
 	      </div>
+	      <?php
+		      //$addLink = (empty($users[Yii::app()->session["userId"]])?false:true); 
+		      if($edit && $type != Person::COLLECTION) 
+				$this->renderPartial('../element/addMembersFromMyContacts',array("type"=>$type, "parentId" =>(string)$entity['_id'], "users"=>@$users)); ?>
 	    </div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
 </div>
 <?php 
-Menu::element($entity,$type);
+Menu::element($entity,$type, @$menuConfig);
 $this->renderPartial('../default/panels/toolbar');
+
+$emptyAddress = (empty($entity["address"]["codeInsee"])?true:false);
+$showOdesc = true ;
+if(Person::COLLECTION == $type){
+	$showLocality = (Preference::showPreference($entity, $type, "locality", Yii::app()->session["userId"])?true:false);
+	$showOdesc = ((Preference::isOpenData($entity["preferences"]) && Preference::isPublic($entity, "locality"))?true:false);	
+}
+$odesc = "" ;
+if($showOdesc == true){
+	$controller = Element::getControlerByCollection($type) ;
+	if($type == Person::COLLECTION)
+		$odesc = $controller." : ".addslashes( strip_tags(json_encode(@$entity["shortDescription"]))).",".addslashes(json_encode(@$entity["address"]["streetAddress"])).",".@$entity["address"]["postalCode"].",".@$entity["address"]["addressLocality"].",".@$entity["address"]["addressCountry"] ;
+	else if($type == Organization::COLLECTION)
+		$odesc = $controller." : ".@$entity["type"].", ".addslashes( strip_tags(json_encode(@$entity["shortDescription"]))).",".addslashes(json_encode(@$entity["address"]["streetAddress"])).",".@$entity["address"]["postalCode"].",".@$entity["address"]["addressLocality"].",".@$entity["address"]["addressCountry"];
+	else if($type == Event::COLLECTION)
+		$odesc = $controller." : ".@$entity["startDate"].",".@$entity["endDate"].",".addslashes(json_encode(@$entity["address"]["streetAddress"])).",".@$entity["address"]["postalCode"].",". @$entity["address"]["addressLocality"].",".@$entity["address"]["addressCountry"].",".addslashes(strip_tags(json_encode(@$entity["shortDescription"])));
+	else if($type == Project::COLLECTION)
+		$odesc = $controller." : ".addslashes( strip_tags(json_encode(@$entity["shortDescription"]))).",".addslashes(json_encode(@$entity["address"]["streetAddress"])).",".@$entity["address"]["postalCode"].",".@$entity["address"]["addressLocality"].",".@$entity["address"]["addressCountry"];
+}
+	
 ?>
 
 <script type="text/javascript">
+var contextData = {
+		name : "<?php echo addslashes($entity["name"]) ?>",
+		id : "<?php echo (string)$entity["_id"] ?>",
+		type : "<?php echo $type ?>",
+		controller : <?php echo json_encode(Element::getControlerByCollection($type))?>,
+		otags : "<?php echo addslashes($entity["name"]).",".$type.",communecter,".@$entity["type"].",".addslashes(@implode(",", $entity["tags"])) ?>",
+		
+		odesc : <?php echo json_encode($odesc) ?>,
+		<?php 
+		if( @$entity["startDate"] )
+			echo "'startDate':'".$entity["startDate"]."',";
+		if( @$entity["endDate"] )
+			echo "'endDate':'".$entity["endDate"]."'"; ?>
+};	
+
 var contextMap = [];
 // If come from directoryAction => contextMap is already load
 <?php if(@$links){ ?>
@@ -538,7 +587,7 @@ var contextMap = [];
 <?php } else { ?>
 	var loadAllLinks=true;
 <?php } ?>
-var elementLinks = <?php echo isset($entity["links"]) ? json_encode($entity["links"]) : "''"; ?>;
+//var elementLinks = <?php echo isset($entity["links"]) ? json_encode($entity["links"]) : "''"; ?>;
 var contextType = <?php echo json_encode($type)?>;
 var element = <?php echo isset($entity) ? json_encode($entity) : "''"; ?>;
 if(contextType == "<?php echo Person::COLLECTION ?>")
@@ -624,18 +673,18 @@ var listElementView = [	'detail', 'detail.edit', 'news', 'directory', 'gallery',
 
 jQuery(document).ready(function() {
 	setTitle(element.name,contextIcon);
-	console.log("loadAllLinks-------", loadAllLinks);
+	mylog.log("loadAllLinks-------", loadAllLinks);
 	if(loadAllLinks){
 		$.ajaxSetup({ cache: true});
 		$.ajax({
 			url: baseUrl+"/"+moduleId+"/element/getalllinks/type/<?php echo $type ;?>/id/<?php echo (string)$entity["_id"] ?>",
 			type: 'POST',
-			data:{ "links" : elementLinks },
+			//data:{ "links" : elementLinks },
 			cache: true,
 			dataType: "json",
 			success: function (obj){
-				console.log("conntext/////");
-				console.log(obj);
+				mylog.log("conntext/////");
+				mylog.log(obj);
 				//Sig.restartMap();
 				contextMap = obj;
 				//mapUrl["directory"]["data"] = {"links" : contextMap};
@@ -646,7 +695,7 @@ jQuery(document).ready(function() {
 				
 			},
 			error: function (error) {
-				console.log("error findGeoposByInsee");
+				mylog.log("error findGeoposByInsee");
 				callbackFindByInseeError(error);	
 				$("#iconeChargement").hide();	
 			}
@@ -655,15 +704,12 @@ jQuery(document).ready(function() {
 		//var elementLinks = <?php echo isset($entity["links"]) ? json_encode($entity["links"]) : "''"; ?>;
 		contextMap = <?php echo isset($links) ? json_encode($links) : "''"; ?> ;
 		//mapUrl["directory"]["data"] = {"links" : contextMap};
-		Sig.restartMap();
+		//Sig.restartMap();
+		mylog.log(contextMap);
 		Sig.showMapElements(Sig.map, contextMap);	
 		//$(".communityBtn").removeClass("hide");
 	}
-	// Init Chart
-	if(contextType == "<?php echo Project::COLLECTION ?>"){
-		
-	}
-	console.log(element);
+
 	if(typeof(element.address) != "undefined" && element.address.addressLocality == ""){
 		$(".cobtnHeader,.whycobtnHeader").removeClass("hidden");
 		$("#addressHeader").addClass("hidden");
@@ -733,8 +779,8 @@ function showElementPad(type, id){
 	});
 	// If type object content load = true, no ajax
 	if(typeof(mapUrl[type]["load"]) != "undefined" && mapUrl[type]["load"] == true){
-		console.log("no ajax load");
-		console.log(mapUrl);
+		mylog.log("no ajax load");
+		mylog.log(mapUrl);
 		$.each(listElementView, function(i,value) {
 			$("#"+value+"Pad").hide();
 		});

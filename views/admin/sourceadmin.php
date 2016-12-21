@@ -52,7 +52,7 @@
 jQuery(document).ready(function() {
 	setTitle("Espace administrateur : Import de données","cog");
 	var nbWarnings = "<?php echo $nb ?>" ;
-	console.log(nbWarnings);
+	mylog.log(nbWarnings);
 	$("#nbWarnings").html(nbWarnings);
 	bindCheckGeo();
 });

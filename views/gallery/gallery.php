@@ -123,7 +123,7 @@ jQuery(document).ready(function() {
 });
 
 function initGrid(){
-	console.log(images);
+	mylog.log(images);
 	j = 0;
 	$.each(images, function(k, v){
 		j++;

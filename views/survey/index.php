@@ -295,6 +295,8 @@
   $count = 0;
   $switchcount = 1;
 
+ 
+
     /* **************************************
     *  go through the list of entries for the survey and build filters
     ***************************************** */
@@ -641,7 +643,7 @@
                     <br>Référencez et partagez <b>une par une</b>,
                     <br>les propositions qui concernent cet espace
                     <br><br>
-                    <button class="btn btn-success" onclick="$('#modal-create-proposal').modal('show')">
+                    <button class="btn btn-success" onclick='openForm("entry","sub")''>
                       <i class="fa fa-plus"></i> Ajouter une proposition
                     </button>
                   </blockquote>
@@ -717,6 +719,19 @@
 *  Initialisation
 *
 ***************************************** */
+
+ var contextData = {
+    name : "<?php echo addslashes(@$where["survey"]["name"]) ?>",
+    id : "<?php echo (string)@$where["survey"]["_id"] ?>",
+    type : "entry",
+    controller : "survey",
+    controller : "<?php echo Survey::CONTROLLER;?>",
+    otags : "<?php echo addslashes(@$where["survey"]["name"]).",débat, proposition, question, vote, communecter,".addslashes(@implode(",", @$where["survey"]["tags"])) ?>",
+    odesc : <?php echo json_encode( 'Propositions : '.addslashes(@$where["survey"]["name"])); ?>,
+    parentType : "<?php echo @$where["survey"]["parentType"] ?>",
+    parentId : "<?php echo (string)@$where["survey"]["parentId"] ?>"
+  };  
+
 var layout = 'grid', // Store the current layout as a variable
 $container = $('#mixcontainer'), // Cache the MixItUp container
 $changeLayout = $('#ChangeLayout'); // Cache the changeLayout button
@@ -746,7 +761,7 @@ jQuery(document).ready(function() {
   $('.voteIcon').off().on("click",function() { 
     $(this).addClass("faa-bounce animated");
     clickedVoteObject = $(this).data("vote");
-    console.log(clickedVoteObject);
+    mylog.log(clickedVoteObject);
    });
 
   $('#form-create-proposal #btn-submit-form').addClass("hidden");
@@ -803,12 +818,12 @@ function toogleTags(){
   *
   ***************************************** */
   function entryDetail(url,type){
-    console.warn("--------------- entryDetail ---------------------",url);
+    mylog.warn("--------------- entryDetail ---------------------",url);
     getAjax( "surveyDetails" , url , function(data){
       //$("#surveyDetails").html(data);
-      console.dir(data);
+      mylog.dir(data);
       
-      console.log("type", type);
+      mylog.log("type", type);
       if(type == "edit") 
         loadByHash(url);
       else 
@@ -824,7 +839,7 @@ function toogleTags(){
   ***************************************** */
 function addaction(id,action)
 {
-    console.warn("--------------- addaction ---------------------");
+    mylog.warn("--------------- addaction ---------------------");
     
       bootbox.confirm("Vous êtes sûr ? Vous ne pourrez pas changer votre vote",
           function(result) {
@@ -851,7 +866,7 @@ function addaction(id,action)
 
   function moderateEntry(id,action)
     {
-      console.warn("--------------- moderateEntry ---------------------");
+      mylog.warn("--------------- moderateEntry ---------------------");
       params = { 
         "survey" : id , 
         "action" : action , 
@@ -898,8 +913,8 @@ function addaction(id,action)
     }
 
 function readEntrySV(data,type) { 
-  console.warn("--------------- readEntrySV ---------------------");
-  console.dir(data);
+  mylog.warn("--------------- readEntrySV ---------------------");
+  mylog.dir(data);
   $("#readEntryContainer").html("<div class='col-sm-10 col-sm-offset-1 '>"+
               '<h1 class="homestead text-red center citizenAssembly-header">'+
               '<i class="fa fa-pie-chart "></i>'+
@@ -932,7 +947,7 @@ function toggleGraph(){
 }
 
 function archive(collection,id){
-  console.warn("--------------- archive ---------------------",collection,id);
+  mylog.warn("--------------- archive ---------------------",collection,id);
     
   bootbox.confirm("Vous êtes sûr ? ",
       function(result) {

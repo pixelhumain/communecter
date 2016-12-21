@@ -383,7 +383,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 
 	//var organizationId = "<?php if(isset($organizationId)) echo $organizationId ?>";
 	var listOrgaAdmin = <?php echo json_encode($myOrganizationAdmin); ?>;
-	console.log(listOrgaAdmin);
+	mylog.log(listOrgaAdmin);
 	var listProjectAdmin = <?php echo json_encode($myProjectAdmin); ?>;
 	var countries = getCountries("select2");
 	//var parentOrga = [];
@@ -398,11 +398,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 	}*/
 
 	$(".daterangepicker").on("hide.daterangepicker", function(){
-	 	console.log("ok");
+	 	mylog.log("ok");
 	});
 
 	$(".daterangepicker").on("apply.daterangepicker", function(ev, picker){
- 		console.log("ok");
+ 		mylog.log("ok");
  	});
 
 	jQuery(document).ready(function() {
@@ -519,7 +519,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 	
 	//validate new event form
 	function runEventFormValidation(el) {
-		console.log("runEventFormValidation");
+		mylog.log("runEventFormValidation");
 		var formEvent = $('.form-event');
 		var errorHandler2 = $('.errorHandler', formEvent);
 		var successHandler2 = $('.successHandler', formEvent);
@@ -582,13 +582,13 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 				// set error class to the control group
 			},
 			success : function(label, element) {
-				console.log("success");
+				mylog.log("success");
 				label.addClass('help-block valid');
 				// mark the current input as valid and display OK icon
 				$(element).closest('.form-group').removeClass('has-error').addClass('has-success').find('.symbol').removeClass('required').addClass('ok');
 			},
 			submitHandler : function(form) {
-				console.log("submitHandler");
+				mylog.log("submitHandler");
 				successHandler2.show();
 				errorHandler2.hide();
 
@@ -620,8 +620,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 				if( $("#newEventParentId").val() )
 					newEvent.parentId = $("#newEventParentId").val();
 				
-				console.log("newEvent");
-				console.dir(newEvent);
+				mylog.log("newEvent");
+				mylog.dir(newEvent);
 				$.blockUI( { message : '<span class="homestead"><i class="fa fa-spinner fa-circle-o-noch"></i> <?php echo Yii::t("common","Save Processing") ?> ...</span>' });
 				
 				$.ajax(
@@ -638,7 +638,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 			        if (data &&  data.result) {
 			        	toastr.success('<?php echo Yii::t("common","Event Created success") ?>');
 			        	$("#newEventId").val(data.id["$id"]);
-			        	console.log(data);
+			        	mylog.log(data);
 		        		addFloopEntity(data.id["$id"], "events", data.event);
 		        		loadByHash("#event.detail.id."+data.id["$id"]);
 							
@@ -658,7 +658,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 
 	// enables the edit form 
 	function editEvent() {
-		console.log("editEvent");
+		mylog.log("editEvent");
 		$(".close-new-event").off().on("click", function() {
 			$(".back-subviews").trigger("click");
 		});
@@ -718,7 +718,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 			$(".daterangepicker").hide();
 			var startDate = moment($("#newEvent").find(".event-start-date").val());
 			var endDate = moment($("#newEvent").find(".event-end-date").val());
-			console.log(startDate, endDate);
+			mylog.log(startDate, endDate);
 			if (state) {
 				$("#newEvent").find(".no-all-day-range").hide();
 				$("#newEvent").find(".all-day-range").show();
@@ -757,7 +757,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 			$("#"+idLabel).text(titleName+" : "+contextName);
 		}
 		$(".dropOrg").click(function() {
-			console.log(this);
+			mylog.log(this);
 			if ($(this).parents().eq(1).attr("id")=="organization"){
 				$("#labelOrga").text("<?php echo Yii::t("common","Organization") ?> : "+$(this).data("name"));
 				$("#newEventOrgaId").val($(this).data("id"));
@@ -780,7 +780,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 		})
 
 		$(".dropParent").click(function() {
-			console.log(this);
+			mylog.log(this);
 			if ($(this).parents().eq(1).attr("id")=="events"){
 				$("#labelParent").text("<?php echo Yii::t("event","Parent Event",null,Yii::app()->controller->module->id); ?> : "+$(this).data("name"));
 				$("#newEventParentId").val($(this).data("id"));
@@ -808,7 +808,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 
 	var currentCityByInsee = null;
 	function callBackFullSearch(resultNominatim){
-		console.log("callback ok");
+		mylog.log("callback ok");
 		var show = Sig.showCityOnMap(resultNominatim, true, "event");
 		if(!show && currentCityByInsee != null) {
 			Sig.showCityOnMap(currentCityByInsee, true, "event");
@@ -830,10 +830,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 					type: 'POST',
 					data: "insee="+insee+"&postalCode="+postalCode,
 		    		success: function (obj){
-		    			console.log("res getlatlngbyinsee");
-		    			console.dir(obj);
-		  				if(typeof obj["geo"] != "undefined"){ console.log("FULL SEARCH ???? ", $("#fullStreet").val());
-		  				console.dir(obj);
+		    			mylog.log("res getlatlngbyinsee");
+		    			mylog.dir(obj);
+		  				if(typeof obj["geo"] != "undefined"){ mylog.log("FULL SEARCH ???? ", $("#fullStreet").val());
+		  				mylog.dir(obj);
 		  					if($("#fullStreet") && $("#fullStreet").val() != ""){ 
 								if(typeof obj.geoShape != "undefined") {
 									//on recherche avec une limit bounds
@@ -855,7 +855,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 					},
 					error: function(error){
 						$("#iconeChargement").hide();
-						console.log("Une erreur est survenue pendant la recherche de la geopos city");
+						mylog.log("Une erreur est survenue pendant la recherche de la geopos city");
 					}
 				});
 			
@@ -864,7 +864,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 				var requestPart = streetAddress + ", " + country + ", " + postalCode; // + ", " + $("#addressCountry").val();
 				requestPart = transformNominatimUrl(requestPart);
 	
-		  		console.log("requestPart", requestPart);
+		  		mylog.log("requestPart", requestPart);
 		  		
 		  		$.ajax({
 					url: "//nominatim.openstreetmap.org/search?q=" + requestPart + "&format=json&polygon=0&addressdetails=1",
@@ -874,14 +874,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 					crossDomain:true,
 					complete: function () {},
 					success: function (result){
-						console.log("nominatim success", result.length);
-						console.dir(result);
+						mylog.log("nominatim success", result.length);
+						mylog.dir(result);
 						if(result.length > 0){ 
 							var result = result[0];
 							var coords = Sig.getCoordinates(result, "markerSingle");
 							//si on a une geoShape on l'affiche
 							if(typeof result.geoShape != "undefined"){
-								 console.log(result.geoShape);
+								 mylog.log(result.geoShape);
 								 Sig.showPolygon(result.geoShape);
 								}
 							var coords = L.latLng(result.lat, result.lon);
@@ -892,8 +892,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 						}
 					},
 					error: function (error) {
-						console.log("nominatim error");
-						console.dir(obj);
+						mylog.log("nominatim error");
+						mylog.dir(obj);
 						$("#error_street").html("Aucun résultat");
 						$("#btn-start-street-search").html('<i class="fa fa-search"></i> Rechercher');
 						$.unblockUI();
@@ -904,8 +904,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 	}
 
 	function callbackFindByInseeSuccessAdd(obj){
-		console.log("callbackFindByInseeSuccessAdd");
-		console.dir(obj);
+		mylog.log("callbackFindByInseeSuccessAdd");
+		mylog.dir(obj);
 		//si on a bien un résultat
 		if (typeof obj != "undefined" && obj != "") {
 			currentCityByInsee = obj;
@@ -930,12 +930,12 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 			}
 		}
 		else {
-			console.log("Erreur getlatlngbyinsee vide");
+			mylog.log("Erreur getlatlngbyinsee vide");
 		}
 	}
 	function callbackGoogleMapsSuccess(result){
-		console.log("callbackGoogleMapsSuccess");
-		console.dir(result);
+		mylog.log("callbackGoogleMapsSuccess");
+		mylog.dir(result);
 		if(result.status == "OK"){
   			//showMap(true);
   			$("#btn-start-street-search").html('<i class="fa fa-search"></i> Rechercher');

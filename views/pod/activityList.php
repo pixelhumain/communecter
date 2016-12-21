@@ -9,7 +9,8 @@ $arrayLabel=array(
 	"description" => Yii::t("common","the description"),
 	"tags" => Yii::t("common","the tags"),
 	"type" => Yii::t("common","the type"),
-	"address" => Yii::t("common","the city"),
+	"address" => Yii::t("common","the main locality"),
+	"addresses" => Yii::t("common","a second locality"),
 	"address.streetAddress" => Yii::t("common","the street"),
 	"address.addressCountry" => Yii::t("common","the country"),
 	"geo" => Yii::t("common","the position"),
@@ -29,7 +30,9 @@ $arrayLabel=array(
 	"licence" => Yii::t("common", "the licence"),
 	"properties.avancement" => Yii::t("common", "the maturity"),
 	"isOpenData" => Yii::t("common", "open data"),
-	"isOpenEdition" => Yii::t("common", "open edition")
+	"isOpenEdition" => Yii::t("common", "open edition"),
+	"state" => Yii::t("common", "state"),
+	"organizer" => Yii::t("common", "organizer")
 );
 if ($contextType == Organization::COLLECTION)
 	$contextTypeLabel=Yii::t("common","of the organization");
@@ -55,6 +58,8 @@ $countries= OpenData::getCountriesList();
 					$action = Yii::t("common", "has added");
 				else if($value["verb"]==ActStr::VERB_CREATE)
 					$action = Yii::t("common", "has created");
+				else if($value["verb"]==ActStr::VERB_DELETE)
+					$action = Yii::t("common", "has deleted");
 			?>
 				<div class='col-xs-12 padding-10' style="border-bottom: 1px solid lightgrey;">
 					<?php echo "<i class='fa fa-clock-o'></i> ".date("d/m/y H:i",$value["date"]->sec)."<br/>".
@@ -65,16 +70,20 @@ $countries= OpenData::getCountriesList();
 						if ($value["verb"]!=ActStr::VERB_CREATE)
 							echo $contextTypeLabel;
 						echo ": <span style='color: #21b384;'>";
-						if($value["object"]["displayName"]=="address"){
-							$address = $value["object"]["displayValue"]["address"];
-							$geo = $value["object"]["displayValue"]["geo"];
-							if(!empty($address["streetAddress"]))
-								echo $address["streetAddress"].", " ;
-							if(!empty($address["postalCode"]))
-								echo $address["postalCode"].", " ;
-							echo $address["addressLocality"] ;
-							echo ", ".OpenData::$phCountries[$address["addressCountry"]] ;
-							echo " <i class='fa fa-globe fa_addressCountry'></i> ( ".$geo["latitude"]."/".$geo["longitude"].") ";
+						if($value["object"]["displayName"]=="address" || $value["object"]["displayName"]=="addresses"){
+							if(@$value["object"]["displayValue"]){
+								if (@$value["object"]["displayValue"]["address"]){
+									$address = $value["object"]["displayValue"]["address"];
+									$geo = @$value["object"]["displayValue"]["geo"];
+									if(!empty($address["streetAddress"]))
+										echo $address["streetAddress"].", " ;
+									if(!empty($address["postalCode"]))
+										echo $address["postalCode"].", " ;
+									echo $address["addressLocality"] ;
+									echo ", ".OpenData::$phCountries[$address["addressCountry"]] ;
+									echo " <i class='fa fa-globe fa_addressCountry'></i> ( ".@$geo["latitude"]."/".@$geo["longitude"].") ";
+								} 
+							}
 						}
 							//echo $value["object"]["displayValue"];
 							//echo $value["object"]["displayValue"]["postalCode"]." ".$value["object"]["displayValue"]["addressLocality"];
@@ -92,7 +101,14 @@ $countries= OpenData::getCountriesList();
 									echo ", ";
 								echo $tel;
 							}
-						}else
+						} else if (@$value["object"]["displayName"] == "organizer") {
+							if ($value["object"]["displayValue"]["organizerType"] == "dontKnow") {
+								$organizer = "";
+							} else {
+								$organizer = Element::getInfos(@$value["object"]["displayValue"]["organizerType"], @$value["object"]["displayValue"]["organizerId"]);	
+							}
+							echo empty($organizer["name"]) ? "Inconnu" : @$value["object"]["displayValue"]["organizerType"]." / ".$organizer["name"];
+						} else
 							echo Yii::t("common",$value["object"]["displayValue"]);
 						
 							

@@ -90,7 +90,7 @@ function bindEvents(){
 		var page = 1 ;
 		var url = "https://api.openagenda.com/v1/events?lang=fr&key=6e08b4156e0860265c61e59f440ffb0e&when=18/03/2016-18/03/2066&limit=0";
 
-		console.log("url", url);
+		mylog.log("url", url);
 		$.ajax({
 			url: baseUrl+'/communecter/admin/getdatabyurl/',
 			type: 'POST',
@@ -98,7 +98,7 @@ function bindEvents(){
 			data:{ url : url },
 			async : false,
 			success: function (obj){
-				console.log('success', obj.data, obj.total);
+				mylog.log('success', obj.data, obj.total);
 				var object = jQuery.parseJSON(obj.data);
 				var x = object.total;
 				var y = 100;
@@ -118,13 +118,13 @@ function bindEvents(){
 				finish["ligneDelete"]  = "" ;
 				
 				check(z, 1, dateToday, date50, finish);
-				console.log("res", res);
+				mylog.log("res", res);
 
 
 				
 			},
 			error: function (error) {
-				console.log('error', error);
+				mylog.log('error', error);
 			}
 		});		
 	});
@@ -145,7 +145,7 @@ function bindEvents(){
 				jsonEventsUpdate : $("#jsonEventsUpdate").val()
 			},
 			success: function (data){
-				console.log('success', data);
+				mylog.log('success', data);
 				var ligne = "" ;
 				if(typeof data.result != "undefined"){
 					toastr.success(data.result.length + " events ont été ajoutés et/ou modifier");
@@ -169,7 +169,7 @@ function bindEvents(){
 					
 			},
 			error: function (error) {
-				console.log('error', error);
+				mylog.log('error', error);
 			}
 		});
 	});
@@ -194,16 +194,16 @@ function checkEventsOpenAgendaInDB(data){
 		async:false,
 		complete: function () {},
 		success: function (result){
-			console.log('result', result);
-			console.log('Add', result.Add.length);
-			console.log('Update', result.Update.length);
-			console.log('Delete', result.Delete.length);
+			mylog.log('result', result);
+			mylog.log('Add', result.Add.length);
+			mylog.log('Update', result.Update.length);
+			mylog.log('Delete', result.Delete.length);
 			arrayEvents["Add"] = result.Add;
 			arrayEvents["Update"] = result.Update;
 			arrayEvents["Delete"] = result.Delete;
 		},
 		error: function (error) {
-			console.log('error', error);
+			mylog.log('error', error);
 		}
 	});
 	
@@ -214,7 +214,7 @@ function checkEventsOpenAgendaInDB(data){
 function check (nbpage, page, dateToday, date50, finish){
 	
 	var url = "https://api.openagenda.com/v1/events?lang=fr&key=6e08b4156e0860265c61e59f440ffb0e&when="+dateToday+"-"+date50+"&limit=1000&page="+page ;
-	console.log('url', url);
+	mylog.log('url', url);
 	
 	$.ajax({
 		url: baseUrl+'/communecter/admin/getdatabyurl/',
@@ -223,14 +223,14 @@ function check (nbpage, page, dateToday, date50, finish){
 		data:{ url : url },
 		async : false,
 		success: function (object){
-			console.log('success', object);
+			mylog.log('success', object);
 			var obj = jQuery.parseJSON(object.data);
-			console.log('obj', obj);
+			mylog.log('obj', obj);
 			var allEvents = checkEventsOpenAgendaInDB(obj);
 			$.each(allEvents, function( stateEvent, arrayEvents ) {
 				var nbEvents = 0;
 				$.each(arrayEvents, function( keyEvent, Event ) {
-					//console.log(stateEvent, keyEvent, Event);
+					//mylog.log(stateEvent, keyEvent, Event);
 					nbEvents++;
 					if(stateEvent == "Add"){
 						finish["arrayAdd"].push(Event);
@@ -256,7 +256,7 @@ function check (nbpage, page, dateToday, date50, finish){
 			}
 		},
 		error: function (error) {
-			console.log('error', error);
+			mylog.log('error', error);
 		}
 	});
 	
@@ -282,7 +282,7 @@ function callbackF(finish){
 
 	$("#divCheckEvents").fadeIn("slow", function() {});
 	$.unblockUI();
-	console.log('---------FINISH---------------', finish);
+	mylog.log('---------FINISH---------------', finish);
 }
 
 
