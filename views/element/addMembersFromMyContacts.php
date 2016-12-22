@@ -226,7 +226,7 @@
 		      		 autocomplete="off" id="memberEmail" name="memberEmail" value=""/>
 		    </div>
 		    <div class="col-md-12 no-padding">
-		    	<input type="checkbox" id="memberIsAdmin" value="true"> <i class="fa fa-user-secret"></i> Ajouter en tant qu'admin
+		    	<span id='isAdminDiv' ><input type="checkbox" id="memberIsAdmin" value="true"> <i class="fa fa-user-secret"></i> Ajouter en tant qu'admin</span>
 		    	<button class="btn btn-primary pull-right" onclick="sendInvitationMailAddMember()">
 		    		<i class="fa fa-send"></i> Envoyer l'invitation
 		    	</button>
@@ -241,7 +241,7 @@
 <script type="text/javascript">
 var elementType = "<?php echo $type; ?>";
 var elementId = "<?php echo $parentId; ?>"
-var myContacts = getFloopContacts(); //""; <?php //echo json_encode($myContacts) ?>
+var myContactsMembers = getFloopContacts(); //""; <?php //echo json_encode($myContacts) ?>
 var listContact = new Array();
 
 var contactTypes = [{ name : "people", color: "yellow", icon:"user", label:"Citoyens" }];
@@ -261,7 +261,7 @@ var addLinkDynForm = {
   		"btnSaveTitle" : "Ajouter ces contacts",
   		"btnResetTitle" : "Annuler tout",
 
-        "values" : myContacts,
+        "values" : myContactsMembers,
         "mainTitle" : "Inviter vos contacts",
         "labelBtnOpenModal" : "<span class='text-dark'><i class='fa fa-group'></i> Sélectionner parmis mes contacts</span>",
         "contactTypes" : contactTypes
@@ -622,6 +622,11 @@ function autoCompleteEmailAddMember(searchValue){
         			$("#btn-save").addClass("hidden");
         			$("input[name='memberType']").click(function(){
         				$("#fa-type-contact-mail").removeClass("fa-user").removeClass("fa-group").addClass("fa-"+$(this).data("fa"));
+        				if ($(this).data('fa') == 'group') {
+        					$("#isAdminDiv").hide();
+        				} else {
+        					$("#isAdminDiv").show();
+        				}
         			});
         			//$("#formSendMailInvite").removeClass("hidden");
         			
@@ -668,7 +673,7 @@ function sendInvitation(){
 			var connectType = "";
 
 			if(addLinkSearchMode == "all") { contactPublicFound = listContact;
-			}else if(addLinkSearchMode=="contacts"){ contactPublicFound = myContacts; }
+			}else if(addLinkSearchMode=="contacts"){ contactPublicFound = myContactsMembers; }
 
 			$.each(contactPublicFound[type], function(k, contact){
 				if (typeof contact != undefined && contact != null) {
