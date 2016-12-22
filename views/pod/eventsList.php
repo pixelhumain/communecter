@@ -96,9 +96,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->reque
 									if(@$e["links"]["subEvents"]) echo "(".count($e["links"]["subEvents"]).")";
 									$startDate = (@$e["startDate"]) ? date(DateTime::ISO8601,(isset($e["startDate"]->sec))  ? $e["startDate"]->sec : strtotime($e["startDate"]) ) : "";
 			        				$endDate = (@$e["endDate"]) ? date(DateTime::ISO8601,(isset($e["endDate"]->sec))  ? $e["endDate"]->sec : strtotime($e["endDate"]) ) : "";
+			        				$allDay = (@$e["allDay"]) ? "true" : "false";
 			        				$dates = $startDate."<br/>".$endDate;
 									?>
-									<br/><span class="text-extra-small date2format" data-startDate="<?php echo $startDate;?>" data-endDate="<?php echo $endDate;?>"></span>
+									<br/><span class="text-extra-small date2format" data-startDate="<?php echo $startDate;?>" data-endDate="<?php echo $endDate;?>" data-allDay="<?php echo $allDay;?>"></span>
 								</a>
 							</td>
 							<td><?php if(isset($e["type"])) echo Yii::t("event",$e["type"],null,Yii::app()->controller->module->id);?></td>

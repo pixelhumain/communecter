@@ -237,43 +237,7 @@
 				var dataType = ("undefined" != typeof data['typeSig']) ? data['typeSig'] : "";
 
 				if(dataType == "event" || dataType == "events"){				
-					
-					//si on a bien les dates
-					if("undefined" != typeof data['startDate'] && "undefined" != typeof data['endDate']){
-						//var start = dateToStr(data['startDate'], "fr", true);
-						//var end = dateToStr(data['endDate'], "fr", true);
-						console.warn("Popup events ",data);
-						var startDateMoment = moment(data['startDate']).local();
-						var endDateMoment = moment(data['endDate']).local();
-
-						startDate = startDateMoment.format("DD-MM-YYYY");
-						endDate = endDateMoment.format("DD-MM-YYYY");
-
-						var hour1 = "Toute la journée";
-						var hour2 = "Toute la journée";
-						if(data["allDay"] == false || data["allDay"] == null) { 	
-							hour1 = startDateMoment.format("HH:mm");
-							hour2 = endDateMoment.format("HH:mm");
-						}
-						//si la date de debut == la date de fin
-						if( startDate == endDate) {
-							popupContent += "<div class='info_item startDate_item_map_list double'><i class='fa fa-caret-right'></i> Le " + startDate;
-							
-							if(data["allDay"] == true) { 		
-								popupContent += "</br><i class='fa fa-caret-right'></i> " + hour1;
-							} else {
-								popupContent += "</br><i class='fa fa-caret-right'></i> " + hour1 + " - " + hour2;
-							}
-							popupContent += "</div>";
-						} else {
-							popupContent += "<div class='info_item startDate_item_map_list double'><i class='fa fa-caret-right'></i> Du " + 
-												startDate + " - " + hour1 +
-											"</div>" +
-								   		  	"<div class='info_item startDate_item_map_list double'><i class='fa fa-caret-right'></i> Au " + 
-								   		  		endDate +  " - " + hour2 +
-								   		  	"</div></br>";
-						}
-					}
+					popupContent += displayStartAndEndDate(data);
 				}
 				popupContent += '<div class="btn btn-sm btn-more col-md-12"><i class="fa fa-hand-pointer-o"></i> en savoir +</div>';
 				popupContent += '</a>';

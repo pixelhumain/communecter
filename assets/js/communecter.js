@@ -3061,80 +3061,61 @@ function cityKeyPart(unikey, part){
 	if(part == "country") return unikey.substr(e+1, len);
 }
 
+//*********************************************************************************
+// Utility for events date
+//*********************************************************************************
 function manageTimestampOnDate() {
 	$.each($(".date2format"), function(k, v) { 
 		var dates = "";
-		dates = moment($(this).data("startdate")).local().format("DD-MM-YYYY HH:mm");
-		dates += "</br>"+moment($(this).data("enddate")).local().format("DD-MM-YYYY HH:mm");
-		console.log(dates);
+		var dateFormat = "DD-MM-YYYY HH:mm";
+		if ($(this).data("allday") == true) {
+			dateFormat = "DD-MM-YYYY";
+		}
+		dates = moment($(this).data("startdate")).local().format(dateFormat);
+		dates += "</br>"+moment($(this).data("enddate")).local().format(dateFormat);
 		$(this).html(dates);
 	})
 }
-/*
-elementJson = {
-    //reuired
-    "name" : "",
-    "email" : "",
-    "creator" :"" ,
 
-    "url":"",
-    "shortDescription" : "",	
-	"description" : "",
+//Display event start and end date depending on allDay params
+//Used on popup and right list on map
+function displayStartAndEndDate(event) {
+	var content = "";
+	//si on a bien les dates
+	if("undefined" != typeof event['startDate'] && "undefined" != typeof event['endDate']){
+		//var start = dateToStr(data['startDate'], "fr", true);
+		//var end = dateToStr(data['endDate'], "fr", true);
+		
+		var startDateMoment = moment(event['startDate']).local();
+		var endDateMoment = moment(event['endDate']).local();
 
-	"address" : {
-        "@type" : "PostalAddress",
-        "codeInsee" : "",
-        "addressCountry" : "",
-        "postalCode" : "",
-        "addressLocality" : "",
-        "streetAddress" : ""
-    },
-    "geo" : {
-        "@type" : "GeoCoordinates",
-        "latitude" : "-21",
-        "longitude" : "55"
-    },
-    "geoPosition" : {
-        "type" : "Point",
-        "coordinates" : [ 55,  -21]
-    },
+		startDate = startDateMoment.format("DD-MM-YYYY");
+		endDate = endDateMoment.format("DD-MM-YYYY");
 
-    "tags" : [],
-    "scopes" : [],
-
-    "profilImageUrl" : "",
-    "profilThumbImageUrl" : "",
-    "profilMarkerImageUrl" : "",
-    "profilMediumImageUrl" : "",
-
-    "isOpenData":"",
-
-    //generated
-    "updated" :"" ,
-    "modified" :"" ,
-    "created" :"",
-    
+		var hour1 = "Toute la journée";
+		var hour2 = "Toute la journée";
+		if(event["allDay"] == false || event["allDay"] == null) { 	
+			hour1 = startDateMoment.format("HH:mm");
+			hour2 = endDateMoment.format("HH:mm");
+		}
+		//si la date de debut == la date de fin
+		if( startDate == endDate) {
+			content += "<div class='info_item startDate_item_map_list double'><i class='fa fa-caret-right'></i> Le " + startDate;
+			
+			if(event["allDay"] == true) { 		
+				content += "</br><i class='fa fa-caret-right'></i> " + hour1;
+			} else {
+				content += "</br><i class='fa fa-caret-right'></i> " + hour1 + " - " + hour2;
+			}
+			content += "</div>";
+		} else {
+			content += "<div class='info_item startDate_item_map_list double'><i class='fa fa-caret-right'></i> Du " + 
+								startDate + " - " + hour1 +
+							"</div>" +
+				   		  	"<div class='info_item startDate_item_map_list double'><i class='fa fa-caret-right'></i> Au " + 
+				   		  		endDate +  " - " + hour2 +
+				   		  	"</div></br>";
+		}
+	}
+	return content;
 }
-
-organizationJson = {
-	"telephone":"",
-    "mobile":"",
-    "fixe":"",
-    "fax":"",
-    "type":"",
-}
-
-eventJson = {
-    "type" : "",
-    "allDay" : true,
-    "public" : true,
-    "startDate" : "",
-    "endDate" : "",
-}
-
-var projectJson = {
-    "startDate" : "",
-    "endDate" :"" 
-}
-
-*/
