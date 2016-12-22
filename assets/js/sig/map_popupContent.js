@@ -240,28 +240,32 @@
 					
 					//si on a bien les dates
 					if("undefined" != typeof data['startDate'] && "undefined" != typeof data['endDate']){
-						var start = dateToStr(data['startDate'], "fr", true);
-						var end = dateToStr(data['endDate'], "fr", true);
+						//var start = dateToStr(data['startDate'], "fr", true);
+						//var end = dateToStr(data['endDate'], "fr", true);
+						console.warn("Popup events ",data);
+						var startDateMoment = moment(data['startDate']).local();
+						var endDateMoment = moment(data['endDate']).local();
 
-						var startDate = start.substr(0, start.indexOf("-"));
-						var endDate = end.substr(0, end.indexOf("-"));
+						startDate = startDateMoment.format("DD-MM-YYYY");
+						endDate = endDateMoment.format("DD-MM-YYYY");
 
 						var hour1 = "Toute la journée";
 						var hour2 = "Toute la journée";
-						if(data["allDay"] == false) { 	
-							hour1 = start.substr(start.indexOf("-")+2, start.length);
-							hour2 = end.substr(end.indexOf("-")+2, end.length);
+						if(data["allDay"] == false || data["allDay"] == null) { 	
+							hour1 = startDateMoment.format("HH:mm");
+							hour2 = endDateMoment.format("HH:mm");
 						}
 						//si la date de debut == la date de fin
-						if( startDate == endDate ){
+						if( startDate == endDate) {
 							popupContent += "<div class='info_item startDate_item_map_list double'><i class='fa fa-caret-right'></i> Le " + startDate;
 							
-							if(data["allDay"] == true) 
-							{ 		popupContent += "</br><i class='fa fa-caret-right'></i> " + hour1;
-							} else  popupContent += "</br><i class='fa fa-caret-right'></i> " + hour1 + " - " + hour2;// + "|" + start + "|";
-
+							if(data["allDay"] == true) { 		
+								popupContent += "</br><i class='fa fa-caret-right'></i> " + hour1;
+							} else {
+								popupContent += "</br><i class='fa fa-caret-right'></i> " + hour1 + " - " + hour2;
+							}
 							popupContent += "</div>";
-						}else{
+						} else {
 							popupContent += "<div class='info_item startDate_item_map_list double'><i class='fa fa-caret-right'></i> Du " + 
 												startDate + " - " + hour1 +
 											"</div>" +
@@ -270,30 +274,6 @@
 								   		  	"</div></br>";
 						}
 					}
-
-					// if("undefined" != typeof data['startDate'] && "undefined" != typeof data['endDate']){
-					// 	var start = dateToStr(data['startDate'], "fr", true);
-					// 	var end = dateToStr(data['endDate'], "fr", true);
-
-					// 	//si la date de debut == la date de fin
-					// 	if( start.substr(0, start.indexOf("-")) == end.substr(0, end.indexOf("-"))){
-					// 		var date1 = start.substr(0, start.indexOf("-"));
-					// 		var hour1 = start.substr(start.indexOf("-")+2, start.length);
-					// 		var hour2 = end.substr(end.indexOf("-")+2, end.length);
-					// 		popupContent += "<div class='info_item startDate_item_map_list double'><i class='fa fa-caret-right'></i> Le " + date1;
-					// 		//mylog.log('hour1', hour1, "hour2", hour2);
-					// 		if(data["allDay"] == true) {
-					// 			popupContent += "</br><i class='fa fa-caret-right'></i> Toute la journée";
-					// 		}
-					// 		else
-					// 			popupContent += "</br><i class='fa fa-caret-right'></i> " + hour1 + " - " + hour2;// + "|" + start + "|";
-
-					// 		popupContent += "</div>";
-					// 	}else{
-					// 		popupContent += "<div class='info_item startDate_item_map_list double'><i class='fa fa-caret-right'></i> Du " + start + "</div>"
-					// 			   +  "<div class='info_item startDate_item_map_list double'><i class='fa fa-caret-right'></i> Au " + end + "</div></br>";
-					// 	}
-					// }
 				}
 				popupContent += '<div class="btn btn-sm btn-more col-md-12"><i class="fa fa-hand-pointer-o"></i> en savoir +</div>';
 				popupContent += '</a>';
