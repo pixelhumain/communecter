@@ -109,7 +109,7 @@ class CommunecterController extends Controller
     "collections" => array(
       "add"    => array("href" => "/ph/communecter/collections/add"),
       "list"    => array("href" => "/ph/communecter/collections/list"),
-      "new"    => array("href" => "/ph/communecter/collections/new"),
+      "crud"    => array("href" => "/ph/communecter/collections/crud"),
     ),
     "default" => array(
       "index"                => array("href" => "/ph/communecter/default/index", "public" => true),

@@ -269,14 +269,18 @@ if($('#breadcum').length)
 				                          <i class="fa fa-lightbulb-o"></i>
 				                        </a><br/><span class="discover-subtitle">Projet</span>
 				                    </div>
-
 				                </div>
-
 				              </div>
 				            </div>
-				           
 				        </div>
 				    </div>
+					
+					<?php if($type == Person::COLLECTION){ ?>
+				    <div class="panel panel-white no-padding margin-top-15 ">	
+						<?php $this->renderPartial('../pod/collections',array( 	"collections" => $element["collections"] )); ?>
+					</div>
+					<?php } ?>
+
 			    </div>
 		<?php 	} 
 			} ?>
@@ -402,6 +406,8 @@ if($('#breadcum').length)
 
 			</div>
 			<?php } ?>
+
+			
 		</div>
 
 		<div class="col-md-8 col-xs-12 no-padding pull-left">
