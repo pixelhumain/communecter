@@ -192,10 +192,6 @@
 </style>
 
 <div id="addMembers">
-	<?php if (@Yii::app()->params['betaTest'] && @$numberOfInvit) { 
-  			$nbOfInvit = empty($numberOfInvit) ? 0 : $numberOfInvit; ?>
-  			<div id="numberOfInvit" class="badge badge-danger pull-right tooltips" style="margin-top:5px; margin-right:5px;" data-count="<?php echo $nbOfInvit ?>" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("login","Number of invitations left"); ?>"><?php echo $nbOfInvit ?> invitation(s)</div>
-  	<?php } ?>
 	<input type="hidden" id="parentOrganisation" name="parentOrganisation" value="<?php echo $parentId; ?>"/>
 </div>
 
@@ -225,6 +221,12 @@
 		      <input class="member-email form-control text-left" placeholder="Son address@email.xxx" 
 		      		 autocomplete="off" id="memberEmail" name="memberEmail" value=""/>
 		    </div>
+		    <div class="input-group organization-type">
+		      <span class="input-group-addon" id="basic-addon1">
+		        <i class="fa fa-users text-dark searchIcon tooltips"></i>
+		      </span>
+		      <select class="member-organization-type form-control text-left" autocomplete="off" id="organizationType" name="organizationType" value=""/>
+		    </div>
 		    <div class="col-md-12 no-padding">
 		    	<span id='isAdminDiv' ><input type="checkbox" id="memberIsAdmin" value="true"> <i class="fa fa-user-secret"></i> Ajouter en tant qu'admin</span>
 		    	<button class="btn btn-primary pull-right" onclick="sendInvitationMailAddMember()">
@@ -243,6 +245,7 @@ var elementType = "<?php echo $type; ?>";
 var elementId = "<?php echo $parentId; ?>"
 var myContactsMembers = getFloopContacts(); //""; <?php //echo json_encode($myContacts) ?>
 var listContact = new Array();
+var newMemberInCommunity = false;
 
 var contactTypes = [{ name : "people", color: "yellow", icon:"user", label:"Citoyens" }];
 
@@ -257,7 +260,7 @@ var addLinkDynForm = {
   		"title1" : "Ajouter des membres ...",
   		"title2" : "Parmis mes contacts ...",
   		"title3" : "Autres ...",
-  		"btnCancelTitle" : "Annuler",
+  		"btnCancelTitle" : "Fermer",
   		"btnSaveTitle" : "Ajouter ces contacts",
   		"btnResetTitle" : "Annuler tout",
 
@@ -283,6 +286,10 @@ jQuery(document).ready(function() {
 		$("#search-contact").attr("placeholder", "Recherchez un nom ou une addresse e-mail...");
 		addLinkSearchMode = "all";
 		filterContact($("#search-contact").val());
+	});
+
+	$.each(organizationTypes, function(k, v) {
+   		$(".member-organization-type").append($("<option />").val(k).text(v));
 	});
 });
 
@@ -371,7 +378,9 @@ function bindEventScopeModal(){
 	});
 
 	$("#btn-cancel").click(function(){
-		//showStateScope("cancel");
+		if(newMemberInCommunity && (currentView=="detail" || currentView=="directory")) {
+			loadByHash(location.hash);
+		}
 	});
 	$("#btn-save").click(function(){
 		sendInvitation();
@@ -620,12 +629,15 @@ function autoCompleteEmailAddMember(searchValue){
         			$("#list-scroll-type").html(formInvite);
         			$("#memberName").val($("#search-contact").val());
         			$("#btn-save").addClass("hidden");
+        			$(".organization-type").hide();
         			$("input[name='memberType']").click(function(){
         				$("#fa-type-contact-mail").removeClass("fa-user").removeClass("fa-group").addClass("fa-"+$(this).data("fa"));
         				if ($(this).data('fa') == 'group') {
         					$("#isAdminDiv").hide();
+        					$(".organization-type").show();
         				} else {
         					$("#isAdminDiv").show();
+        					$(".organization-type").hide();
         				}
         			});
         			//$("#formSendMailInvite").removeClass("hidden");
@@ -722,8 +734,7 @@ function sendInvitation(){
         		$.unblockUI();
         		//checkIsLoggued();
         	}
-        	else
-        	{
+        	else {
         		toastr.success(data.msg);
         		mylog.log(data);
         		$.each(data.newMembers, function(k, newMember){
@@ -745,26 +756,6 @@ function sendInvitation(){
 					loadByHash(location.hash);
 				}
 				$.unblockUI();
-        	/*	if(typeof updateOrganisation != "undefined" && typeof updateOrganisation == "function")
-        			updateOrganisation( data.member,  $("#addMembers #memberType").val());
-               	setValidationTable();*/
-               	//Minus 1 on number of invit
-              /* 	if ($("#addMembers #memberId").val().length==0){
-	               	var count = parseInt($("#numberOfInvit").data("count")) - 1;
-					$("#numberOfInvit").html(count + ' invitation(s)');
-					$("#numberOfInvit").data("count", count);
-				}*/
-				/*$("#addMembers #memberId").val("");
-                $("#addMembers #memberType").val("");
-                $("#addMembers #memberName").val("");
-                $("#addMembers #memberEmail").val("");
-                $("#addMembers #memberIsAdmin").val("");
-                $('#addMembers #organizationType').val("");
-				$("#addMembers #memberIsAdmin").val("false");
-				$('#addMembers #memberEmail').parents().eq(1).show();
-				$("[name='my-checkbox']").bootstrapSwitch('state', false);*/
-				
-				//showSearch();
         	}
         	mylog.log(data.result);   
         },
@@ -783,7 +774,7 @@ function sendInvitationMailAddMember(){ mylog.log("sendInvitationMailAddMember")
 		"childId" : $("#addMembers #memberId").val(),
 		"childName" : $("#addMembers #memberName").val(),
 		"childEmail" : $("#addMembers #memberEmail").val(),
-		"childType" : $("#addMembers [name='memberType']").val(), 
+		"childType" : $("#addMembers [name='memberType']:checked").val(), 
 		"organizationType" : $("#addMembers #organizationType").val(),
 		"parentType" : "<?php echo $type;?>",
 		"parentId" : $("#addMembers #parentOrganisation").val(),
@@ -805,8 +796,7 @@ function sendInvitationMailAddMember(){ mylog.log("sendInvitationMailAddMember")
         		$("#loader-send-mail-invite").html('');
         		//checkIsLoggued();
         	}
-        	else
-        	{
+        	else {
         		toastr.success(data.msg);
         		mylog.log(data);
         		//if(typeof updateOrganisation != "undefined" && typeof updateOrganisation == "function")
@@ -839,6 +829,7 @@ function sendInvitationMailAddMember(){ mylog.log("sendInvitationMailAddMember")
 					if(typeof(mapUrl.directory.load) != "undefined" && mapUrl.directory.load)
 						mapUrl.directory.load = false;
 				}
+				newMemberInCommunity = true;
         	}
         	mylog.log(data.result);   
         },
