@@ -2029,8 +2029,8 @@ var typeObj = {
 		            				startDate = moment($('#ajaxFormModal #startDateInput').val(), "DD/MM/YYYY").format("DD/MM/YYYY HH:mm");
 									endDate = moment($('#ajaxFormModal #endDateInput').val(), "DD/MM/YYYY").format("DD/MM/YYYY HH:mm");
 		            			}
-							    $('#ajaxFormModal #startDateInput').val(startDate);
-								$('#ajaxFormModal #endDateInput').val(endDate);
+							    if (startDate != "Invalid date") $('#ajaxFormModal #startDateInput').val(startDate);
+								if (endDate != "Invalid date") $('#ajaxFormModal #endDateInput').val(endDate);
 		            		}
 		            	}
 		            },
