@@ -2002,6 +2002,8 @@ var typeObj = {
 		            		"labelText":"Toute la journée",
 		            		"onChange" : function(){
 		            			var allDay = $("#ajaxFormModal #allDay").is(':checked');
+		            			var startDate = "";
+		            			var endDate = "";
 		            			$("#ajaxFormModal #allDay").val($("#ajaxFormModal #allDay").is(':checked'));
 		            			if (allDay) {
 		            				$(".dateTimeInput").addClass("dateInput");
@@ -3089,8 +3091,8 @@ function displayStartAndEndDate(event) {
 		var startDateMoment = moment(event['startDate']).local();
 		var endDateMoment = moment(event['endDate']).local();
 
-		startDate = startDateMoment.format("DD-MM-YYYY");
-		endDate = endDateMoment.format("DD-MM-YYYY");
+		var startDate = startDateMoment.format("DD-MM-YYYY");
+		var endDate = endDateMoment.format("DD-MM-YYYY");
 
 		var hour1 = "Toute la journée";
 		var hour2 = "Toute la journée";
