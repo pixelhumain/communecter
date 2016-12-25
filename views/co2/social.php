@@ -9,10 +9,13 @@
 	//HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 
     $layoutPath = 'webroot.themes.'.Yii::app()->theme->name.'.views.layouts.';
+
+    $page = @$type=="events" ? "agenda" : "social";
+
     //header + menu
     $this->renderPartial($layoutPath.'header', 
                         array(  "layoutPath"=>$layoutPath ,
-                                "page" => "social") ); 
+                                "page" => $page) ); 
 ?>
 <style>
 	
@@ -43,7 +46,7 @@
 </style>
 
 
-<div class="col-md-12 col-sm-12 col-xs-12 bg-white no-padding shadow padding-top-50" style="min-height:700px;">
+<div class="col-md-12 col-sm-12 col-xs-12 bg-white no-padding shadow" style="min-height:700px;">
 	<div class="col-md-10 col-md-offset-1" id="page"></div>
 </div>
 

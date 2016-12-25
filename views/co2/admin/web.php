@@ -4,93 +4,126 @@
 	Section : <i class="fa fa-search letter-red"></i> 
 	<span class="font-blackoutM letter-red">web</span>
 </h5>
-
-<!-- <br>
+<!-- 
+<br>
 <hr>
 <br>
 
-<a href="http://www.la-nouvelle-caledonie.com/liens-utiles/">http://www.la-nouvelle-caledonie.com/liens-utiles/</a><br>
+<a href="http://www.skazy.nc/">http://www.skazy.nc/</a><br>
 <button class="btn btn-sm btn-default btn-superadmin" data-action="scanlinks" data-idres="#res-scan">
 	<i class="fa fa-terminal"></i> Scanner la page
 </button> 
 <i class="fa fa-check fa-2x letter-green"></i> 
 <hr>
-<div id="res-scan"></div> -->
-
+<div id="res-scan"></div>
+ -->
 <hr>
 
-<h3><i class="fa fa-terminal fa-2x"></i> Auto-scan</h3>
-<h4 class="letter-green"><?php echo sizeof($urlsLocked); ?> url <span class="letter-red">locked</span> in database</h4>
-<button class="btn btn-sm btn-default btn-start-scan" data-action="scanlinks" data-idres="#res-scan">
-	<i class="fa fa-terminal"></i> Run scan
-</button> 
-<button class="btn btn-sm btn-default btn-stop-scan" data-action="scanlinks" data-idres="#res-scan">
-	<i class="fa fa-square letter-red"></i> Stop scan
-</button>
+<style>
+	.c100 > span{
+		cursor:pointer;
+	}
 
-<br>
-<hr>
+</style>
 
-<div class="row" style="min-height:800px;" id="refStart">
-	<div class="col-md-6 pull-left">
-		<div class="col-md-12">
-			<div class="form-group">
-				<label id="lbl-url">
-					<i class="fa fa-circle"></i> URL
-				</label>
-			    <input type="text" class="form-control" placeholder="exemple : http://kgougle.nc" id="form-url"><br>
-			    <h5 class="letter-green pull-left" id="status-ref"></h5>             		
-			    <!-- <button class="btn btn-success pull-right btn-scroll" data-targetid="#formRef" id="btn-start-ref-url">
-			    	<i class="fa fa-binoculars"></i> Lancer la recherche d'information
-			    </button> -->
-			</div>
+<div class="">
+
+	<h3 class="letter-red"><i class="fa fa-bar-chart"></i> Stats</h3>
+	<h4>Total : <?php echo $urlsAllNb; ?></h4>
+
+	<div class="col-md-4 text-center">
+		<div class="c100 p<?php echo intval($urlsLockedNb*100/$urlsAllNb); ?> red small center">
+		  <span data-status="locked"><?php echo intval($urlsLockedNb*100/$urlsAllNb); ?>%</span>
+		  <div class="slice"> 
+		  	<div class="bar"></div> <div class="fill"></div>
+		  </div>
 		</div>
-		<div class="col-md-12 " id="refResult">
-			<label id="lbl-title">
-				<i class="fa fa-circle"></i> Nom de la page
-				<small class="pull-right text-light">
-					<code>&lttitle&gt&lt/title&gt</code>
-				</small>
-			</label>
-			<input type="text" class="form-control" placeholder="Nom de la page" id="form-title"><br>
+		<h5>locked<br><small><?php echo $urlsLockedNb; ?></small></h5>
+	</div>
 
-			<label id="lbl-description">
-				<i class="fa fa-circle"></i> Description
-				<small class="pull-right text-light">
-					<code>&ltmeta name="description"&gt</code>
-				</small>
-			</label>
-			<textarea class="form-control" placeholder="Description" id="form-description"></textarea><br>
+	<div class="col-md-4 text-center">
+		<div class="c100 p<?php echo intval($urlsUnreachableNb*100/$urlsAllNb); ?> red small center">
+		  <span data-status="unreachable"><?php echo intval($urlsUnreachableNb*100/$urlsAllNb); ?>%</span>
+		  <div class="slice"> 
+		  	<div class="bar"></div> <div class="fill"></div>
+		  </div>
+		</div>
+		<h5>unreachable<br><small><?php echo $urlsUnreachableNb; ?></small></h5>
+	</div>
 
-			<div class="col-md-12 no-padding">
-				<label id="lbl-keywords">
-					<i class="fa fa-circle"></i> Mots clés	      				
-					<small class="pull-right text-light">
-						<code>&ltmeta name="keywords"&gt</code>
-					</small><br>
-					<!-- <small class="text-light">
-						<i class="fa fa-info-circle"></i> Les mots clés servent à optimiser les résultats de recherche, choisissez les avec soins<br>
-						<i class="fa fa-signal fa-flip-horizontal"></i> Par ordre d'importance (1 > 2 > 3 > 4)</small><br><br> -->
-				</label>
-			</div>
-			<div class="col-md-3 padding-5">
-				<input type="text" class="form-control" placeholder="expression 1" id="form-keywords1"><br>
-			</div>
-			<div class="col-md-3 padding-5">
-				<input type="text" class="form-control" placeholder="expression 2" id="form-keywords2"><br>
-			</div>
-			<div class="col-md-3 padding-5">
-				<input type="text" class="form-control" placeholder="expression 3" id="form-keywords3"><br>
-			</div>
-			<div class="col-md-3 padding-5">
-				<input type="text" class="form-control" placeholder="expression 4" id="form-keywords4"><br>
-			</div>
+	<div class="col-md-4 text-center">
+		<div class="c100 p<?php echo intval($urlsUncompletNb*100/$urlsAllNb); ?> orange small center">
+		  <span data-status="uncomplet"><?php echo intval($urlsUncompletNb*100/$urlsAllNb); ?>%</span>
+		  <div class="slice"> 
+		  	<div class="bar"></div> <div class="fill"></div>
+		  </div>
+		</div>
+		<h5>uncomplet<br><small><?php echo $urlsUncompletNb; ?></small></h5>
+	</div>
+
+	<div class="col-md-4 text-center">
+		<div class="c100 p<?php echo intval($urlsValidatedNb*100/$urlsAllNb); ?> blue small center">
+		  <span data-status="validated"><?php echo intval($urlsValidatedNb*100/$urlsAllNb); ?>%</span>
+		  <div class="slice"> 
+		  	<div class="bar"></div> <div class="fill"></div>
+		  </div>
+		</div>
+		<h5>validated<br><small><?php echo $urlsValidatedNb; ?></small></h5>
+	</div>
+
+
+	<div class="col-md-4 text-center">
+		<div class="c100 p<?php echo intval($urlsActivatedNb*100/$urlsAllNb); ?> green small center">
+		  <span data-status="active"><?php echo intval($urlsActivatedNb*100/$urlsAllNb); ?>%</span>
+		  <div class="slice"> 
+		  	<div class="bar"></div> <div class="fill"></div>
+		  </div>
+		</div>
+		<h5>active<br><small><?php echo $urlsActivatedNb; ?></small></h5>
+	</div>
+
+	<div class="col-md-4 text-center">
+		<div class="c100 p<?php echo intval($urlsUncategorizedNb*100/$urlsAllNb); ?> yellow small center">
+		  <span><?php echo intval($urlsUncategorizedNb*100/$urlsAllNb); ?>%</span>
+		  <div class="slice"> 
+		  	<div class="bar"></div> <div class="fill"></div>
+		  </div>
+		</div>
+		<h5>uncategorized<br><small><?php echo $urlsUncategorizedNb; ?></small></h5>
+	</div>
+
+
+	
+
+	<div class="col-md-12">
+
+		<div class="hidden">
+			<h3><i class="fa fa-terminal fa-2x"></i> Auto-scan</h3>
+			<h4 class="letter-green"><?php echo sizeof($urlsLocked); ?> url <span class="letter-red">locked</span> in database</h4>
+			<button class="btn btn-sm btn-default btn-start-scan" data-action="scanlinks" data-idres="#res-scan">
+				<i class="fa fa-terminal"></i> Run scan
+			</button> 
+			<button class="btn btn-sm btn-default btn-stop-scan" data-action="scanlinks" data-idres="#res-scan">
+				<i class="fa fa-square letter-red"></i> Stop scan
+			</button>
+		</div>
+
+		<br>
+		<hr>
+
+		<div class="row" style="min-height:800px;" id="refStart">
+			<div class="col-md-12 pull-left" id="searchResults"><hr></div>
+			<div class="col-md-6 pull-right text-right" id="nb-auto-scan"></div>
+			<div class="col-md-6 pull-right" id="res-auto-scan"></div>
 		</div>
 	</div>
 
-	<div class="col-md-6 pull-right text-right" id="nb-auto-scan"></div>
-	<div class="col-md-6 pull-right" id="res-auto-scan"></div>
 </div>
+
+<?php 
+	//$layoutPath = 'webroot.themes.'.Yii::app()->theme->name.'.views.layouts.';
+	$this->renderPartial('admin/modalEditUrl',  array( ) ); 
+?>
 
 <script type="text/javascript">
 
@@ -114,6 +147,11 @@
 		});
 		$(".btn-stop-scan").click(function(){
 			autoScanProcessing = false;
+		});
+
+		$(".c100 > span").click(function(){
+			var status = $(this).data("status");
+			startWebSearch("", status);
 		});
 
 	});
@@ -312,65 +350,65 @@ function checkAllInfo(){
 }
 
 
-function sendReferencement(id){
-	console.log("start referencement");
+// function sendReferencement(id){
+// 	console.log("start referencement");
 
-	var hostname = (new URL(urlValidated)).hostname;
+// 	var hostname = (new URL(urlValidated)).hostname;
 
-	var title = $("#form-title").val();
-	var description = $("#form-description").val();
+// 	var title = $("#form-title").val();
+// 	var description = $("#form-description").val();
 
-	var keywords1 = $("#form-keywords1").val();
-	var keywords2 = $("#form-keywords2").val();
-	var keywords3 = $("#form-keywords3").val();
-	var keywords4 = $("#form-keywords4").val();
+// 	var keywords1 = $("#form-keywords1").val();
+// 	var keywords2 = $("#form-keywords2").val();
+// 	var keywords3 = $("#form-keywords3").val();
+// 	var keywords4 = $("#form-keywords4").val();
 
-	var keywords = new Array();
+// 	var keywords = new Array();
 
-	if(notEmpty(keywords1)) keywords.push(keywords1);
-	if(notEmpty(keywords2)) keywords.push(keywords2);
-	if(notEmpty(keywords3)) keywords.push(keywords3);
-	if(notEmpty(keywords4)) keywords.push(keywords4);
+// 	if(notEmpty(keywords1)) keywords.push(keywords1);
+// 	if(notEmpty(keywords2)) keywords.push(keywords2);
+// 	if(notEmpty(keywords3)) keywords.push(keywords3);
+// 	if(notEmpty(keywords4)) keywords.push(keywords4);
 	
-	//authorId *facultatif
-	//categoriesSelected
+// 	//authorId *facultatif
+// 	//categoriesSelected
 
-	//if(urlValidated != "" && title != "" && description != "" && keywords.length > 0&& categoriesSelected.length > 0){
+// 	//if(urlValidated != "" && title != "" && description != "" && keywords.length > 0&& categoriesSelected.length > 0){
 
-		var urlObj = {
-                //collection: "url",
-                //key: "url",
-        		//url: urlValidated, 
-        		//hostname: hostname, 
-        		title: title, 
-        		description: description,
-        		tags: keywords,
-        		//categories : categoriesSelected,
-                status: "uncomplet"
-        };
+// 		var urlObj = {
+//                 //collection: "url",
+//                 //key: "url",
+//         		//url: urlValidated, 
+//         		//hostname: hostname, 
+//         		title: title, 
+//         		description: description,
+//         		tags: keywords,
+//         		//categories : categoriesSelected,
+//                 status: "uncomplet"
+//         };
 
- 		console.log("UPDATE THIS URL DATA ?", urlObj, id);
-       // if(false)
-		$.ajax({
-	        type: "POST",
-	        url: baseUrl+"/"+moduleId+"/co2/superadmin/action/updateurlmetadata",
-	        data: { "id" : id,
-	        		"values" : urlObj },
-	       	dataType: "json",
-	    	success: function(data){
-	    		if(data.valid == true) toastr.success("Votre demande a bien été enregistrée");
-	    		//else toastr.error("Une erreur est survenue pendant le référencement");
-	    		console.log("save referencement success");
-	    	},
-	    	error: function(data){
-	    		toastr.error("Une erreur est survenue pendant l'envoi de votre demande", data);
-	    		console.log("save referencement error");
-	    	}
-	    });
-	//}else{
-	//	toastr.error("Merci de remplir toutes les options");
-	//}
-}
+//  		console.log("UPDATE THIS URL DATA ?", urlObj, id);
+//        // if(false)
+// 		$.ajax({
+// 	        type: "POST",
+// 	        url: baseUrl+"/"+moduleId+"/co2/superadmin/action/updateurlmetadata",
+// 	        data: { "id" : id,
+// 	        		"values" : urlObj },
+// 	       	dataType: "json",
+// 	    	success: function(data){
+// 	    		if(data.valid == true) toastr.success("Votre demande a bien été enregistrée");
+// 	    		//else toastr.error("Une erreur est survenue pendant le référencement");
+// 	    		console.log("save referencement success");
+// 	    	},
+// 	    	error: function(data){
+// 	    		toastr.error("Une erreur est survenue pendant l'envoi de votre demande", data);
+// 	    		console.log("save referencement error");
+// 	    	}
+// 	    });
+// 	//}else{
+// 	//	toastr.error("Merci de remplir toutes les options");
+// 	//}
+// }
 
 //states = locked - unreachable - uncomplet - locked
 
@@ -398,5 +436,40 @@ function setStateUnreachable(id){
 	    	}
 	    });
 }
+
+
+
+function startWebSearch(search, status){
+
+    $("#second-search-bar").val(search);
+    $("#searchResults").html("Recherche en cours. Merci de patienter quelques instants...");
+
+    var params = {
+        search:search,
+        status:status
+    };
+
+    $.ajax({ 
+        type: "POST",
+        url: baseUrl+"/"+moduleId+"/co2/websearch/",
+        data: params,
+        //dataType: "json",
+        success:
+            function(html) { 
+                $("#searchResults").html(html); 
+                $("#sectionSearchResults").removeClass("hidden");
+                KScrollTo("#searchResults");
+            },
+        error:function(xhr, status, error){
+            $("#searchResults").html("erreur");
+        },
+        statusCode:{
+                404: function(){
+                    $("#searchResults").html("not found");
+            }
+        }
+    });
+}
+
 
 </script>

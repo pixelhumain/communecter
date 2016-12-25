@@ -2,6 +2,11 @@
 
 	HtmlHelper::registerCssAndScriptsFiles( array('/js/default/formInMap.js') , $this->module->assetsUrl);
 
+    HtmlHelper::registerCssAndScriptsFiles( 
+        array(  '/css/referencement.css',) , 
+        Yii::app()->theme->baseUrl. '/assets');
+
+
     $layoutPath = 'webroot.themes.'.Yii::app()->theme->name.'.views.layouts.';
     //header + menu
     $this->renderPartial($layoutPath.'header', 
@@ -19,54 +24,14 @@
 	    font-size: 0.3em;
 	    margin-bottom: 22px;
 	}
-	#mainCategories{
-		padding: 30px;
-		background-color: white;
-		box-shadow: 0px 0px 5px -1px rgba(0,0,0,0.5);
-		-webkit-box-shadow: 0px 0px 5px -1px rgba(0,0,0,0.5);
-   		-moz-box-shadow: 0px 0px 5px -1px rgba(0,0,0,0.5);
-		margin-top: 10px;
-		margin-bottom: 30px;
-	}
-
-	#mainCategories section#portfolio{
-		padding:20px 0 0 0 !important;
-	}
-
-	button.btn-select-category{
-		background-color: transparent!important;
-		border:none!important;
-		color:#2C3E50;
-	}
-
-	.search-eco button.btn-select-category{
-		color:#34a853;
-	}
-
-	.portfolio-item.selected, .portfolio-item.selected:hover{
-		background-color: #2C3E50 !important;
-	}
-
-	.search-eco .portfolio-item.selected, .search-eco .portfolio-item.selected:hover{
-		background-color: #34a853!important;
-	}
 	
-	.portfolio-item.selected button{
-		color:white!important;
-	}
-	.portfolio-item{
-		border: white 2px solid;
-	}
-
-	.portfolio-link h3{
-		font-size:11px;
-	}
 </style>
 
 <div id="mainFormReferencement">
 	<section id="portfolio">
         <div class="container">
-            <div class="row">
+            <?php if(!isset(Yii::app()->session["userId"])){ ?>
+            <div class="row hidden">
                 <div class="col-lg-12 text-center">
                     <h2 class="text-blue">
                         <i class="fa fa-user-o"></i><br>
@@ -83,8 +48,7 @@
 	                			</small>
                 			</span>
 						</div>
-                	</div>
-                	
+                	</div>              	
                 </div>
                 <div class="col-md-4 col-md-offset-4 text-center"  style="margin-bottom:100px;">
                 	<h4>connexion<br><i class="fa fa-angle-down"></i></h4>
@@ -101,9 +65,9 @@
 				    </div>
        			</div>
             </div>
-
+            <?php } ?>
             
-            <div class="row hidden" style="min-height:800px;" id="refStart">
+            <div class="row" style="min-height:800px;" id="refStart">
             	<div class="col-lg-12 text-center">
                     <h2 class="text-blue" id="formRef">
                         <!-- <i class="fa fa-search"></i><br> -->
@@ -166,7 +130,7 @@
             			</div>
                 		
             			<div class="col-md-12 no-padding">
-	            			<button class="btn btn-default bg-green text-white pull-right" id="btn-validate-information">
+	            			<button class="btn btn-success text-white pull-right" id="btn-validate-information">
 						    	<i class="fa fa-check"></i> Valider ces informations
 						    </button>
                 		</div>
@@ -177,7 +141,7 @@
 		       				</label>
 	       					<div class="col-md-12" id="mainCategories"></div>
 
-		                	<div class="col-md-12 text-center margin-bottom-50" id="info-select-cat">
+		                	<div class="col-md-12 text-center margin-bottom-50 hidden" id="info-select-cat">
 		                		<h4 class='col-md-12 text-center'>
 									<i class='fa fa-hand-o-up fa-2x'></i>
 								</h4>
@@ -208,7 +172,7 @@
 
 						<input type="text" class="form-control" placeholder="addresse, rue" id="form-street"><br>
 
-						<button class="btn btn-default bg-green text-white" id="btn-find-position">
+						<button class="btn btn-default bg-green-k text-white" id="btn-find-position">
 							<i class="fa fa-map-marker"></i> Définir la position sur la carte
 						</button><br><br>
 						   
@@ -218,11 +182,13 @@
        		</div>
 		</div>
 	</section>
-	<section class="bg-green hidden" id="send-ref">
+	<section class="bg-green-k hidden" id="send-ref">
 		<div class="container">
             <div class="row">
                 <div class="col-md-4 col-md-offset-4 text-center" style="margin-bottom:50px;">
-                	<button class="btn bg-white text-green btn-lg" id="btn-send-ref"><i class="fa fa-send"></i> Envoyer ma demande de référencement</button><br><br>
+                	<button class="btn bg-white letter-green btn-lg" id="btn-send-ref">
+                        <i class="fa fa-send"></i> Envoyer ma demande de référencement
+                    </button><br><br>
                 	<label class="text-white">Demande anonyme</label>
                 	<label class="text-white">(soumis à l'approbation des administrateurs sous 7 jours)</label>
                 </div>
@@ -313,6 +279,9 @@ jQuery(document).ready(function() {
 	    	sendReferencement();
 	    });
     	KScrollTo("#refMainCategories");
+
+        $("#send-ref, #refLocalisation").removeClass("hidden");
+        $("#info-select-cat").addClass("hidden");
     });
 
     $(".btn-scope").click(function(){
@@ -328,7 +297,7 @@ jQuery(document).ready(function() {
 
     	coordinatesPreLoadedFormMap = [cityLat, cityLng];
 	    showMarkerNewElement();
-	    preLoadAddress(true, "NC", cityInsee, cityName, cityCp, cityLat, cityLng);
+	    preLoadAddress(true, "NC", cityInsee, cityName, cityCp, cityLat, cityLng, "");
 
 	    $("#btn-find-position").off().click(function(){
 	    	showMap(true);
@@ -362,7 +331,7 @@ function buildListCategoriesForm(){
                         '<div class="">'+
                             '<div class="row">'+
                                 '<div class="col-lg-12 text-center">'+
-                                    '<h4 class="text-'+params.color+'">'+
+                                    '<h4 class="letter-'+params.color+'">'+
                                         name+
                                     '</h4>'+
                                     '<hr class="angle-down">'+
@@ -404,13 +373,13 @@ function buildListCategoriesForm(){
     		$(this).parent().removeClass("selected");
     	}
 
-    	if(categoriesSelected.length > 0){
-    		$("#send-ref, #refLocalisation").removeClass("hidden");
-    		$("#info-select-cat").addClass("hidden");
-    	}else{
-    		$("#send-ref, #refLocalisation").addClass("hidden");
-    		$("#info-select-cat").removeClass("hidden");
-    	}
+    	// if(categoriesSelected.length > 0){
+    	// 	$("#send-ref, #refLocalisation").removeClass("hidden");
+    	// 	$("#info-select-cat").addClass("hidden");
+    	// }else{
+    	// 	$("#send-ref, #refLocalisation").addClass("hidden");
+    	// 	$("#info-select-cat").removeClass("hidden");
+    	// }
     	//console.log("categoriesSelected");
     	//console.dir(categoriesSelected);
     });
@@ -573,7 +542,7 @@ function sendReferencement(){
 	//authorId *facultatif
 	//categoriesSelected
 
-	if(urlValidated != "" && title != "" && description != "" && keywords.length > 0&& categoriesSelected.length > 0){
+	if(urlValidated != "" && title != "" && description != "" /*&& keywords.length > 0 && categoriesSelected.length > 0*/){
 
 		var address = getAddressObj(); //formInMap.js
 
@@ -587,7 +556,7 @@ function sendReferencement(){
         		description: description,
         		tags: keywords,
         		categories : categoriesSelected,
-                status: "active"
+                status: "locked"
         };
 
         if(address != false) {
@@ -603,7 +572,8 @@ function sendReferencement(){
 	        data: urlObj,
 	       	dataType: "json",
 	    	success: function(data){
-	    		if(data.valid == true) toastr.success("Votre demande a bien été enregistrée");
+	    		//if(data.valid == true) 
+                    toastr.success("Votre demande a bien été enregistrée");
 	    		//else toastr.error("Une erreur est survenue pendant le référencement");
 	    		console.log("save referencement success");
 	    	},

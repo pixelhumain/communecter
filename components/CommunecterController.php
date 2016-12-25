@@ -428,6 +428,7 @@ class CommunecterController extends Controller
       "mediacrawler"      => array('href' => "/ph/communecter/co2/mediacrawler",      "public" => false),
       "page"              => array('href' => "/ph/communecter/co2/page",              "public" => true),
       "social"            => array('href' => "/ph/communecter/co2/social",            "public" => true),
+      "agenda"             => array('href' => "/ph/communecter/co2/agenda",           "public" => true),
       "power"             => array('href' => "/ph/communecter/co2/power",             "public" => true),
       "superadmin"        => array('href' => "/ph/communecter/co2/superadmin",        "public" => false),
       ),

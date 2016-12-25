@@ -1,3 +1,10 @@
+<?php 
+	$cssAnsScriptFiles = array(
+		'/assets/css/circle.css',
+	);
+	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles, Yii::app()->theme->baseUrl);
+?>
+
 <h1 class="letter-"><i class="fa fa-grav letter-red"></i> Bonjour <span class="letter-red">Super Admin</span></h1>
 <h5 class="letter-">Quelle partie du site souhaitez-vous administrer ?</h5>
 

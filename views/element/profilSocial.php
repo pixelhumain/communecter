@@ -7,7 +7,8 @@
 				'/vendor/colorpicker/js/colorpicker.js',
 				'/vendor/colorpicker/css/colorpicker.css',
 				'/css/news/index.css',	
-				'/css/timeline2.css',	
+				'/css/timeline2.css',
+				'/css/circle.css',	
 			  ) , 
 		Yii::app()->theme->baseUrl. '/assets');
 
@@ -113,7 +114,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 	        <i class="fa fa-cog"></i>
 	    </button>
 	    <?php } ?>
-        <div class="col-md-6 col-md-offset-4 col-sm-7 col-sm-offset-3 col-lg-7 col-lg-offset-3 text-left margin-top-25">
+        <div class="col-md-6 col-md-offset-4 col-sm-7 col-sm-offset-4 col-lg-7 col-lg-offset-3 text-left margin-top-25">
         	
         	<div class="col-md-12 padding-5 margin-bottom-10">
 				<!-- <div class="link"><i class="fa fa-tag"></i> Tags</div> -->
@@ -153,7 +154,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
     </section>
 
     
-	<div class="col-xs-12 col-sm-3 col-md-4 col-lg-3 margin-top-70 profilSocial">        
+	<div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 margin-top-70 profilSocial">        
 	    <?php 
 	    	$this->renderPartial('../pod/ficheInfoElementCO2', 
                         array(  //"layoutPath"=>$layoutPath , 
@@ -168,7 +169,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 	    
 
     <section class="margin-top-15 padding-15">
-	    <div class="col-md-8 col-md-offset-4 col-sm-8 col-sm-offset-3 col-lg-9 col-lg-offset-3 sub-menu-social">
+	    <div class="col-md-8 col-md-offset-4 col-sm-8 col-sm-offset-4 col-lg-9 col-lg-offset-3 sub-menu-social">
 	    	
 	    	<div class="btn-group">
 			  <button type="button" class="btn btn-default bold" id="btn-start-newsstream"><i class="fa fa-rss"></i> Fil d'actu<span class="hidden-sm">alité</span>s</button>
@@ -200,16 +201,17 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 			  <button type="button" class="btn btn-default bold">
 			  	<i class="fa fa-user-secret"></i> <span class="hidden-xs hidden-sm hidden-md">Admin</span>
 			  </button>
+			  <?php if( Role::isSuperAdmin(Role::getRolesUserId(Yii::app()->session["userId"]) )) { ?>
 			  <button type="button" class="btn btn-default bold" id="btn-superadmin">
 			  	<i class="fa fa-grav letter-red"></i> <span class="hidden-xs hidden-sm hidden-md"></span>
 			  </button>
+			  <?php } ?>
 			</div>
 			
 		</div>
 
-		<div class="col-md-6 col-md-offset-4 col-sm-6 col-sm-offset-3 col-lg-6 col-lg-offset-3">
+		<div class="col-md-6 col-md-offset-4 col-sm-8 col-sm-offset-4 col-lg-6 col-lg-offset-3">
 			<div id="central-container"></div>
-	    	</ul>
 		</div>
 
 
@@ -223,7 +225,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 				margin-left:-5px;
 			}
 		</style>
-		<div class="col-md-2 col-sm-3 col-lg-3 notif-column margin-top-15">
+
+		<div class="col-md-2 col-sm-3 col-lg-3 hidden-sm hidden-xs notif-column margin-top-15">
 			<div class="alert alert-info">
 				<a href="#..."><i class="fa fa-times text-dark padding-5"></i></a> 
 				<span>

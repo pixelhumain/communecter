@@ -65,7 +65,7 @@ if($('#breadcum').length)
 	</style>
 <?php 
 	if($type != City::CONTROLLER && $type != Poi::COLLECTION && !@$_GET["renderPartial"])
-		$this->renderPartial('../pod/headerEntity', array("entity"=>$element, "type" => $type, "openEdition" => $openEdition, "edit" => $edit, "firstView" => "detail")); 
+		$this->renderPartial('../pod/headerEntity', array("entity"=>$element, "users" => $members, "type" => $type, "openEdition" => $openEdition, "edit" => $edit, "firstView" => "detail")); 
 		//End isset renderPartial
 ?>
 <div class="row" id="detailPad">

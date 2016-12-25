@@ -17,12 +17,17 @@
 	}
 </style>
 
-<div class="col-md-8 margin-bottom-15" style="">
+<div class="col-md-10 margin-bottom-15" style="">
 <?php  foreach ($siteurls as $key => $siteurl) { ?>
 	<div class="col-md-12 margin-bottom-15">
+		
+		<?php if( Role::isSuperAdmin(Role::getRolesUserId(Yii::app()->session["userId"]) )) { ?>
 		<br>
-		<button class="btn btn-xs btn-default btn-delete-url" data-url="<?php echo $siteurl['url']; ?>"><i class="fa fa-trash"></i></button> 
-		<button class="btn btn-xs btn-default btn-edit-url" data-idurl="<?php echo $key; ?>"><i class="fa fa-cog"></i></button> 
+		<button class="btn btn-xs btn-default btn-edit-url" data-target="#modalEditUrl" data-toggle="modal" data-idurl="<?php echo $key; ?>">
+			<i class="fa fa-cog"></i> Editer
+		</button> 
+		<?php } ?>
+
 		<br>
 		<a class="siteurl_title letter-blue" target="_blank" href="<?php echo $siteurl["url"]; ?>">
 			<?php echo $siteurl["title"]; ?>
@@ -69,27 +74,23 @@ jQuery(document).ready(function() {
 	    $("#form-keywords2").val(site.tags[1]);
 	    $("#form-keywords3").val(site.tags[2]);
 	    $("#form-keywords4").val(site.tags[3]);
-   });
 
+	    $("#form-status").val(site.status);
 
-   $(".btn-delete-url").click(function(){
-   		var url = $(this).data("url");
-   		$.ajax({
-	        type: "POST",
-	        url: baseUrl+"/"+moduleId+"/co2/superadmin/action/deleteUrl",
-	        data: { "url" : url },
-	       	dataType: "json",
-	    	success: function(data){
-	    		toastr.success("L'url a bien été supprimé");
-	    		//else toastr.error("Une erreur est survenue pendant le référencement");
-	    		console.log("delete url success");
-	    	},
-	    	error: function(data){
-	    		toastr.error("Une erreur est survenue pendant l'envoi de votre demande", data);
-	    		console.log("save referencement error");
-	    	}
+	    $(".portfolio-item").removeClass("selected");
+	    categoriesSelected = new Array();
+	    $.each(site.categories, function(key, val){
+	    	$(".portfolio-item.cat-"+val).addClass("selected");
+	    	console.log("cat", val);
+	    	categoriesSelected.push(val);
 	    });
+	    //categoriesSelected = site.categories;
+
+	    $("#sectionSearchResults").show();
    });
+
+
+   
 
 });
 
