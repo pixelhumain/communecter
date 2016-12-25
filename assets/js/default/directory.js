@@ -686,7 +686,7 @@ var directory = {
         var tagsT = [];
         var scopesT = [];
         $("#listTags").html("");
-        $("#listScopes").html("<h2 class='homestead'>Où <i class='fa fa-angle-down'></i></h2>");
+        $("#listScopes").html("<h2 class='homestead'>Où</h2>");
         $.each($(directory.elemClass),function(k,o){
           
           var oScope = $(o).find(".entityLocality").text();

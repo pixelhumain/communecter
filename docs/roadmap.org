@@ -125,7 +125,7 @@ Liste des notifications déjà lues => #370 #453
 
 ** @Tib 
   [X] Finance Transparente
-  [ ] add to favorite 
+  [ ] collections
     [X] favorites.{type}.id on persons data
     [X] increment element favoriteCount
     [X] add btn on elements
@@ -135,11 +135,17 @@ Liste des notifications déjà lues => #370 #453
     [X] moved favorites into collections.favorites
     [X] collection library viewer and connect to collections/list/col/surf
     [X] add new collection
-    [ ] rebuild collection list 
     [X] add to collection from contextMenu
-    [ ] delete a collection
-    wish list:
+    [X] delete a collection
+    [X] rebuild collection list 
+    [X] rename collection
+    [ ] wish list:
       [ ] view collection on map 
+      [ ] sub colections
+      [ ] collections on all elements
+      - must be admin of element
+      - what would we put inside ?
+      [ ] pod collection  
     [ ] bugs 
       [ ] add survey
       [ ] on my profile with loading directory.js
@@ -148,9 +154,10 @@ Liste des notifications déjà lues => #370 #453
       [ ] no crossing between location search and tags
       [ ] Remove from Favorite or a collection
       [ ] contextmenu on nowList
-  [ ] POI kanban viewer
-  [ ] my POIs
+  [ ] INTEGRATTE MARKDOWN wisiwig
   [ ] add photo
+  [ ] my POIs
+  [ ] collection kanban interface
   [ ] Count requests DB per page
   [ ] cut up communecter.js into sub files
   [ ] header du live ou dans en ce moment
@@ -159,16 +166,19 @@ Liste des notifications déjà lues => #370 #453
     [X] use runSlide()
     [ ] finish use cases scenario 
     [ ] activate pourquoi btn in header
-  [ ] interoperability : communecrter + wikidata +@CLEM 
+  [ ] interoperability : communecter + wikidata +@CLEM 
   [ ] Quick Add Bookmarklets
   [ ] Element Trombinoscope 
-  [ ] INTEGRATTE MARKDOWN wisiwig
-  [ ] new feature : film viewer
+  [new] film viewer
+    [ ] special POI with 3 questions
     [ ] a film is a collection of type webdocu+question
     [ ] each poi
       [ ] is part of the collection , poi.collection : zordi
       [ ] holds , 3 questions each question is connected to another poi 
       [ ] when the poi.type.video stops playing , ask the 3 questions 
+  [new] page pour reflechir 
+    une page qui pousse a l'action, qui fait reflechir, et utiliser les outils de la plateforme 
+  [ ] link counter : à chaque fois que je contact qlqun, +1 
   * DDA
   [ ] Quand la liste est vide , faire une page explication avec des kickers pour creer des espaces
   [ ] bug : sur archiver , persiste dans les listes 

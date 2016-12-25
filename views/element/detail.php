@@ -269,14 +269,18 @@ if($('#breadcum').length)
 				                          <i class="fa fa-lightbulb-o"></i>
 				                        </a><br/><span class="discover-subtitle">Projet</span>
 				                    </div>
-
 				                </div>
-
 				              </div>
 				            </div>
-				           
 				        </div>
 				    </div>
+					
+					<?php if($type == Person::COLLECTION){ ?>
+				    <div class="panel panel-white no-padding margin-top-15 ">	
+						<?php $this->renderPartial('../pod/collections',array( 	"collections" => $element["collections"] )); ?>
+					</div>
+					<?php } ?>
+
 			    </div>
 		<?php 	} 
 			} ?>
@@ -307,6 +311,23 @@ if($('#breadcum').length)
 				?>
 			</div>
 			<?php } ?>
+
+
+			<?php if (($type==Project::COLLECTION || $type==Organization::COLLECTION || $type==Event::COLLECTION)){ ?>
+				<div class="col-xs-12">
+					<?php 
+						$contacts = ( empty($element["contacts"]) ? array() : $element["contacts"] ) ;
+						$this->renderPartial('../pod/contactsList',array( 	"contacts" => $contacts, 
+																			"contextId" => (String) $element["_id"],
+																			"contextType" => $controller,
+																			"authorised" => $edit,
+																			"openEdition" => $openEdition
+																		  ));
+					?>						  
+				</div>
+			<?php } ?>
+
+
 	    	<?php if (($type==Project::COLLECTION || $type==Organization::COLLECTION || $type==Event::COLLECTION)){ ?>
 	    		<?php if(!@Yii::app()->params["front"] || (@Yii::app()->params["front"] && Yii::app()->params["front"]["event"]==true)){ ?>
 				<div class="col-xs-12">
@@ -385,6 +406,8 @@ if($('#breadcum').length)
 
 			</div>
 			<?php } ?>
+
+			
 		</div>
 
 		<div class="col-md-8 col-xs-12 no-padding pull-left">

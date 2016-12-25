@@ -32,7 +32,7 @@ $(document).ready(function() {
 		        	icon: "fa-folder-open-o", 
 		        	callback: function(key, opt){ 
 			        	if(userId ){
-				        	collection.new();
+				        	collection.crud();
 						}
 		        	}
 		    	};
@@ -1067,7 +1067,9 @@ var smallMenu = {
 			smallMenu.buildHeader( title,icon,color );
 			smallMenu.open( content );
 			if( data.count == 0 )
-				$(".titleSmallMenu").html(title+" vide <i class='fa "+icon+" text-"+color+"'></i>");
+				$(".titleSmallMenu").html("<a class='text-white' href='javascript:smallMenu.open();'> <i class='fa fa-th'></i></a> "+	
+						' <i class="fa fa-angle-right"></i> '+
+						title+" vide <i class='fa "+icon+" text-"+color+"'></i>");
 			else 
 				directory.buildList(data.list);
 			
@@ -1075,6 +1077,9 @@ var smallMenu = {
 		   	$('.searchSmallMenu').off().on("keyup",function() { 
 				directory.search ( ".favSection", $(this).val() );
 		   	});
+
+		   	buildCollectionMenu();
+
 	    } );
 	},
 	openSmall : function  (title,icon,color,searchBack) { 
@@ -1088,16 +1093,23 @@ var smallMenu = {
 			searchBack();
 	},
 	buildHeader : function (title,icon,color) { 
-		content = "<div class='hidden-xs col-sm-2'><h2 class='homestead'>filtres <i class='fa fa-angle-down'></i></h2>"+
+		content = "<div class='hidden-xs col-sm-2'>"+
+					"<h2 class='homestead'>filtres <i class='fa fa-angle-down'></i></h2>"+
 					"<a class='btn btn-dark-blue btn-xs favElBtn favAllBtn text-left' href='javascript:directory.toggleEmptyParentSection(\".favSection\",null,\".searchEntityContainer\",1)'> <i class='fa fa-tags'></i> Tout voir </a><br/>"+
+
 					"<div id='listTags'></div>"+
-					"<div id='listScopes'>"+
-						"<h2 class='homestead'>Où <i class='fa fa-angle-down'></i></h2>"+
-					"</div>"+
+					"<div id='listScopes'><h2 class='homestead'>Où</h2></div>"+
+					"<div id='listCollections'></div>"+
 				"</div> "+
 				"<div class='col-xs-12 col-sm-10 padding-5 center no-padding'>"+
-					"<a class='pull-right text-white text-extra-large' href='javascript:smallMenu.open();'> <i class='fa fa-th'></i></a>"+	
+						
+					//"<a class='pull-right btn btn-xs btn-default' href='javascript:collection.newChild(\""+title+"\");'> <i class='fa fa-sitemap'></i></a> "+
+					"<a class='pull-right btn btn-xs text-red' href='javascript:collection.crud(\"del\",\""+title+"\");'> <i class='fa fa-times'></i></a> "+
+					"<a class='pull-right btn btn-xs'  href='javascript:collection.crud(\"update\",\""+title+"\");'> <i class='fa fa-pencil'></i></a> "+
+					
 					"<div class='homestead titleSmallMenu' style='font-size:45px'> "+
+						"<a class='text-white' href='javascript:smallMenu.open();'> <i class='fa fa-th'></i></a> "+	
+						' <i class="fa fa-angle-right"></i> '+
 						title+" <i class='fa "+icon+" text-"+color+"'></i></div>"+
 						"<input name='searchSmallMenu' class='searchSmallMenu text-black' placeholder='vous cherchez quoi ?' style='margin-bottom:8px;width: 300px;font-size: x-large;'><br/>"+
 						"<span class='text-extra-small helvetica sectionFilters'>"+
@@ -2133,23 +2145,53 @@ function cityKeyPart(unikey, part){
 }
 
 var collection = {
-	new : function () { 
+	crud : function (action, name,type,id) { 
 		if(userId){
-			var name = prompt('Nom de la collection ?');
-			var params = {name : name};
+			var params = {};
+			var sure = true;
+			if(typeof type != "undefined")
+				params.type = type;
+			if(typeof id != "undefined")
+				params.id = id;
+			if(typeof action == "undefined")
+				action = "new";
+			if(action == "del"){
+				params.name = name;
+				sure = confirm("Vous êtes sûr ?");
+			}
+			else if(action == "new" || action == "update")
+				params.name = prompt('Nom de la collection ?',name);
+			if(action == "update")
+				params.oldname = name;
 			
-			ajaxPost(null,baseUrl+"/"+moduleId+"/collections/new",params,function(data) { 
-				console.warn(params.action);
-				if(data.result){
-					toastr.success(data.msg);
-					if(!userConnected.collections)
-						userConnected.collections = {};
-					if(!userConnected.collections[name])
-						userConnected.collections[name] = {};
-				}
-				else
-					toastr.error(data.msg);
-			}, "none");
+			if(sure)
+			{
+				ajaxPost(null,baseUrl+"/"+moduleId+"/collections/crud/action/"+action ,params,function(data) { 
+					console.warn(params.action);
+					if(data.result){
+						toastr.success(data.msg);
+						//if no type defined we are on user
+						//TODO : else add on the contextMap
+						buildCollectionList ();
+						if( typeof type == "undefined" && action == "new"){
+							if(!userConnected.collections)
+								userConnected.collections = {};
+							if(!userConnected.collections[params.name])
+								userConnected.collections[params.name] = {};
+						}else if(action == "update"){
+							smallMenu.openAjax(baseUrl+'/'+moduleId+'/collections/list/col/'+params.name,params.name,'fa-folder-open','yellow');
+							if(!userConnected.collections[params.name])
+								userConnected.collections[params.name] = userConnected.collections[ params.oldname ];
+							delete userConnected.collections[ params.oldname ];
+						}else if(action == "del"){
+							delete userConnected.collections[params.name];
+							smallMenu.open();
+						}
+					}
+					else
+						toastr.error(data.msg);
+				}, "none");
+			}
 		} else
 			toastr.error(trad.LoginFirst);
 	},
@@ -2164,7 +2206,7 @@ var collection = {
 	add2fav : function (what,id,col){
 		var collection = (typeof col == "undefined") ? "favorites" : col;
 		if(userId){
-			var params = {id : id, type : what, collection : collection};
+			var params = { id : id, type : what, collection : collection };
 			var el = ".star_"+what+"_"+id;
 			
 			ajaxPost(null,baseUrl+"/"+moduleId+"/collections/add",params,function(data) { 

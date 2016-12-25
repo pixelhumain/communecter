@@ -109,7 +109,7 @@ class CommunecterController extends Controller
     "collections" => array(
       "add"    => array("href" => "/ph/communecter/collections/add"),
       "list"    => array("href" => "/ph/communecter/collections/list"),
-      "new"    => array("href" => "/ph/communecter/collections/new"),
+      "crud"    => array("href" => "/ph/communecter/collections/crud"),
     ),
     "default" => array(
       "index"                => array("href" => "/ph/communecter/default/index", "public" => true),
@@ -148,6 +148,7 @@ class CommunecterController extends Controller
       'getinfoadressbyinsee'  => array("href" => "/ph/communecter/city/getinfoadressbyinsee"),
       'cityexists'          => array("href" => "/ph/communecter/city/cityexists"),
       'autocompletemultiscope'          => array("href" => "/ph/communecter/city/autocompletemultiscope"),
+      "save"               => array("href" => "/ph/communecter/city/save", "public" => true),
     ),
     "news"=> array(
       "index"   => array( "href" => "/ph/communecter/news/index", "public" => true,'title' => "Fil d'actualités - N.E.W.S", "subTitle"=>"Nord.Est.West.Sud","pageTitle"=>"Fil d'actualités - N.E.W.S"),
