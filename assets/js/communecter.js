@@ -3,43 +3,7 @@ $(document).ready(function() {
 	initSequence();
 	setTimeout( function () { checkPoll() }, 10000);
 	document.onkeyup = keyboardNav.checkKeycode;
-	$.contextMenu({
-	    selector: ".add2fav",
-        build: function($trigger, e) {
-        	if(userId){
-	        	var btns = {};
-	        	$.each(userConnected.collections,function (col,list) { 
-	        		btns[col] = { 
-			        	name: function($element, key, item){ 
-		        			var str = "Ajouter à "+col;
-		        			return str; 
-		        		},
-			        	icon: "fa-folder-open", 
-			        	callback: function(key, opt){ 
-				        	href = opt.$trigger[0].hash.split(".");
-				        	//alert(href);
-				        	if(userId && $.inArray(href[0],["#organization","#project","#event","#person","#element","#survey","#rooms"])){
-					        	var what = ( href[0] == "#element" ) ? href[3] : typeObj[ href[0].substring(1) ].col; 
-								var	id = ( href[0] == "#element" ) ? href[5] : href[3];
-								//alert( what+id );
-								collection.add2fav(what,id,col);
-							}
-			        	}
-			    	}
-	        	});
-	        	btns.newCollection =  { 
-		        	name: "Créer une nouvelle Collection",
-		        	icon: "fa-folder-open-o", 
-		        	callback: function(key, opt){ 
-			        	if(userId ){
-				        	collection.crud();
-						}
-		        	}
-		    	};
-	            return { items: btns }
-	        }
-        }
-	});
+	bindRightClicks()
 });
 
 var prevStep = 0;
@@ -92,6 +56,72 @@ function checkPoll(){
 		setTimeout( function () { checkPoll() }, 300000); //every5min
 		countPoll++;
 	}
+}
+function bindRightClicks() { 
+	$.contextMenu({
+	    selector: ".add2fav",
+        build: function($trigger, e) {
+        	if(userId){
+        		var validElems = ["#element","#organization","#project","#event","#person","#element","#survey","#rooms"];
+        		href = $trigger[0].hash.split(".");
+        		if($.inArray(href[0],validElems) >=0 ){
+		        	var what = ( href[0] == "#element" ) ? href[3] : typeObj[ href[0].substring(1) ].col; 
+					var	id = ( href[0] == "#element" ) ? href[5] : href[3];
+				}
+				//console.log(href,href[0],what,id);
+				var btns = {};
+	        	$.each( userConnected.collections, function (col,list) { 
+	        		btns[col] = { 
+			        	name: function($element, key, item){ 
+		        			var str = "Ajouter à "+col;
+		        			//console.log(col,what,id);
+		        			if( notNull( userConnected.collections[col]) && notNull( userConnected.collections[col][what] ) && notNull( userConnected.collections[col][what][id]) ) 
+		        				str = "Retirer de "+col;
+		        			return str; 
+		        		},
+			        	icon: "fa-folder-open", 
+			        	callback: function(key, opt){ 
+				        	if( notNull( what )&& notNull( id ) ){
+					        	collection.add2fav( what,id,col );
+							}
+			        	}
+			    	}
+	        	});
+	        	btns.newCollection =  { 
+		        	name: "Créer une nouvelle Collection",
+		        	icon: "fa-folder-open-o", 
+		        	callback: function(key, opt){ 
+			        	if(userId ){
+				        	collection.crud();
+						}
+		        	}
+		    	};
+	            return { items: btns }
+	        }
+        }
+	});
+	$.contextMenu({
+	    selector: ".tag",
+        build: function($trigger, e) {
+        	var tag = $trigger[0].dataset.tagValue;
+        	var btns = {};
+	        btns.filterTag =  { 
+	        	name: "Filtrer",
+	        	icon: "fa-filter", 
+	        	callback: function(key, opt){ 
+		        	directory.toggleEmptyParentSection(".favSection","."+slugify(tag),directory.elemClass,1);
+	        	}
+	    	};
+	    	btns.addToMultiTags =  { 
+	        	name: "Ajouter au tags préférés",
+	        	icon: "fa-tag", 
+	        	callback: function(key, opt){ 
+			        addTagToMultitag( tag );
+	        	}
+	    	};
+            return { items: btns }
+	    }
+	});
 }
 /* *************************** */
 /* instance du menu questionnaire*/
@@ -1059,12 +1089,19 @@ function activateHoverMenu () {
 
 var favTypes = [];
 var smallMenu = {
-	openAjax : function  (url,title,icon,color) { 
+	//smallMenu.openAjax(\''+baseUrl+'/'+moduleId+'/collections/list/col/'+obj.label+'\',\''+obj.label+'\',\'fa-folder-open\',\'yellow\')
+	//the url must return a list like userConnected.list
+	openAjax : function  (url,title,icon,color,title1,params,callback) { 
 		if( typeof showResultsDirectoryHtml == "undefined" )
 		    lazyLoad( moduleUrl+'/js/default/directory.js', null, null );
-	    	
-		getAjax( null , url , function(data){
-			smallMenu.buildHeader( title,icon,color );
+	    
+	    smallMenu.open( "<i class='fa fa-spin fa-spinner fa-4x'></i>" );	
+
+		ajaxPost( null , url, params , function(data)
+		{
+			if(!title1 && notNull(title1) && data.context && data.context.name)
+				title1 = data.context.name;
+			smallMenu.buildHeader( title,icon,color,title1 );
 			smallMenu.open( content );
 			if( data.count == 0 )
 				$(".titleSmallMenu").html("<a class='text-white' href='javascript:smallMenu.open();'> <i class='fa fa-th'></i></a> "+	
@@ -1078,21 +1115,25 @@ var smallMenu = {
 				directory.search ( ".favSection", $(this).val() );
 		   	});
 
-		   	buildCollectionMenu();
+		   	buildCollectionList( "linkList" ,"#listCollections",function(){ $("#listCollections").html("<h2 class='homestead'>Collections</h2>"); });
 
+		   	if (typeof callback == "function") 
+				callback();
 	    } );
 	},
-	openSmall : function  (title,icon,color,searchBack) { 
+	//ex : smallMenu.openSmall("Recherche","fa-search","green",function(){
+	openSmall : function  (title,icon,color,callback,title1) { 
 		if( typeof showResultsDirectoryHtml == "undefined" )
 		    lazyLoad( moduleUrl+'/js/default/directory.js', null, null );
 	    	
-		var content = smallMenu.buildHeader(title,icon,color);
+		var content = smallMenu.buildHeader(title,icon,color,title1);
 		smallMenu.open( content );
 
-		if (typeof searchBack == "function") 
-			searchBack();
+		if (typeof callback == "function") 
+			callback();
 	},
-	buildHeader : function (title,icon,color) { 
+	buildHeader : function (title,icon,color,title1) { 
+		title1 = (typeof title1 != "undefined" && notNull(title1)) ? title1 : "<a class='text-white' href='javascript:smallMenu.open();'> <i class='fa fa-th'></i></a> ";
 		content = "<div class='hidden-xs col-sm-2'>"+
 					"<h2 class='homestead'>filtres <i class='fa fa-angle-down'></i></h2>"+
 					"<a class='btn btn-dark-blue btn-xs favElBtn favAllBtn text-left' href='javascript:directory.toggleEmptyParentSection(\".favSection\",null,\".searchEntityContainer\",1)'> <i class='fa fa-tags'></i> Tout voir </a><br/>"+
@@ -1104,11 +1145,11 @@ var smallMenu = {
 				"<div class='col-xs-12 col-sm-10 padding-5 center no-padding'>"+
 						
 					//"<a class='pull-right btn btn-xs btn-default' href='javascript:collection.newChild(\""+title+"\");'> <i class='fa fa-sitemap'></i></a> "+
-					"<a class='pull-right btn btn-xs text-red' href='javascript:collection.crud(\"del\",\""+title+"\");'> <i class='fa fa-times'></i></a> "+
-					"<a class='pull-right btn btn-xs'  href='javascript:collection.crud(\"update\",\""+title+"\");'> <i class='fa fa-pencil'></i></a> "+
+					"<a class='pull-right btn btn-xs menuSmallTools hide text-red' href='javascript:collection.crud(\"del\",\""+title+"\");'> <i class='fa fa-times'></i></a> "+
+					"<a class='pull-right btn btn-xs menuSmallTools hide'  href='javascript:collection.crud(\"update\",\""+title+"\");'> <i class='fa fa-pencil'></i></a> "+
 					
 					"<div class='homestead titleSmallMenu' style='font-size:45px'> "+
-						"<a class='text-white' href='javascript:smallMenu.open();'> <i class='fa fa-th'></i></a> "+	
+						title1+	
 						' <i class="fa fa-angle-right"></i> '+
 						title+" <i class='fa "+icon+" text-"+color+"'></i></div>"+
 						"<input name='searchSmallMenu' class='searchSmallMenu text-black' placeholder='vous cherchez quoi ?' style='margin-bottom:8px;width: 300px;font-size: x-large;'><br/>"+
@@ -1158,12 +1199,14 @@ var smallMenu = {
 function searchFinder(name)
 {
   mylog.log("Finder",name);
+  	$(".titleSmallMenu .fa-search").addClass("fa-spin");
     $.ajax({
 		type: "POST",
         url: baseUrl+"/" + moduleId + "/search/globalautocomplete",
         data: {"name" : name},
         dataType: "json",
         success: function(data){
+        	$(".titleSmallMenu .fa-search").removeClass("fa-spin");
         	if(!data){
         		toastr.error(data.content);
         	}else{
@@ -1222,9 +1265,9 @@ function  bindTags() {
 			//$('#btn-modal-multi-tag').trigger("click");
 			//$('.tags-count').html( $(".item-tag-name").length );
 			if(addTagToMultitag(tag))
-				toastr.success("Le tag \""+tag+"\" ajouté à vos is");
+				toastr.success("Le tag \""+tag+"\" ajouté à vos tags préférés");
 			else
-				toastr.info("Le tag \""+tag+"\" est déjà dans vos tags is");
+				toastr.info("Le tag \""+tag+"\" est déjà dans vos tags");
 			
 		//} else {
 		//	toastr.error("must be loggued");
@@ -2172,7 +2215,6 @@ var collection = {
 						toastr.success(data.msg);
 						//if no type defined we are on user
 						//TODO : else add on the contextMap
-						buildCollectionList ();
 						if( typeof type == "undefined" && action == "new"){
 							if(!userConnected.collections)
 								userConnected.collections = {};
@@ -2187,6 +2229,7 @@ var collection = {
 							delete userConnected.collections[params.name];
 							smallMenu.open();
 						}
+						buildCollectionList("col_Link_Label_Count",".menuSmallBtns", function() { $(".collection").remove() })
 					}
 					else
 						toastr.error(data.msg);
@@ -2210,9 +2253,9 @@ var collection = {
 			var el = ".star_"+what+"_"+id;
 			
 			ajaxPost(null,baseUrl+"/"+moduleId+"/collections/add",params,function(data) { 
-				console.warn(params.action);
+				console.warn(params.action,collection,what,id);
 				if(data.result){
-					if(data.action == '$unset'){
+					if(data.list == '$unset'){
 						$(el).children("i").removeClass("fa-star text-red").addClass('fa-star-o');
 						delete userConnected.collections[collection][what][id];
 					}

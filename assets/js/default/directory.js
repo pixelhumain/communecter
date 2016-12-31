@@ -532,7 +532,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
                   }
 
 
-              if(updated != null)
+              if(updated != null && !useMinSize)
                 str += "<div class='dateUpdated'><i class='fa fa-flash'></i> <span class='hidden-xs'>actif </span>" + updated + "</div>";
 
               if(itemType!="city" && (typeof size == "undefined" || size == "max"))
@@ -564,7 +564,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
                           "</a>";
 
                 var iconFaReply = notEmpty(o.parent) ? "<i class='fa fa-reply fa-rotate-180'></i> " : "";
-                str += "<a href='"+url+"' class='entityName text-dark lbh add2fav'>"+
+                str += "<a  href='"+url+"' class='"+size+" entityName text-dark lbh add2fav'>"+
                           iconFaReply + name + 
                        "</a>";
                 
@@ -660,6 +660,10 @@ var directory = {
 
     elemClass : '.menuSmallBlockUI .searchEntityContainer ',
     path : 'div.menuSmallBlockUI div.favSection div.searchEntityContainer',
+    tagsT : [],
+    scopesT :[],
+    multiTagsT : [],
+    multiScopesT :[],
     //builds a small sized list
     buildList : function(list) {
       $(".favSectionBtnNew,.favSection").remove();
@@ -678,13 +682,14 @@ var directory = {
       });
       
       directory.filterList();
-      $(directory.elemClass).show()
+      $(directory.elemClass).show();
+      //bindTags();
     },
     //build list of unique tags based on a directory structure
     //on click hides empty parent sections
     filterList : function  (elClass,dest) { 
-        var tagsT = [];
-        var scopesT = [];
+        directory.tagsT = [];
+        directory.scopesT = [];
         $("#listTags").html("");
         $("#listScopes").html("<h2 class='homestead'>Où</h2>");
         $.each($(directory.elemClass),function(k,o){
@@ -693,20 +698,37 @@ var directory = {
           console.log("tags count",$(o).find(".btn-tag").length);
           $.each($(o).find(".btn-tag"),function(i,oT){
             var oTag = $(oT).data('tag-value');
-            if( notEmpty( oTag ) && !inArray( oTag,tagsT ) ){
-              tagsT.push(oTag);
+            if( notEmpty( oTag ) && !inArray( oTag,directory.tagsT ) ){
+              directory.tagsT.push(oTag);
               console.log(oTag);
               $("#listTags").append("<a class='btn btn-xs btn-link text-white text-left w100p favElBtn "+slugify(oTag)+"Btn' data-tag='"+slugify(oTag)+"' href='javascript:directory.toggleEmptyParentSection(\".favSection\",\"."+slugify(oTag)+"\",\""+directory.elemClass+"\",1)'><i class='fa fa-tag'></i> "+oTag+"</a><br/>");
             }
           });
-          if( notEmpty( oScope ) && !inArray( oScope,scopesT ) ){
-            scopesT.push(oScope);
+          if( notEmpty( oScope ) && !inArray( oScope,directory.scopesT ) ){
+            directory.scopesT.push(oScope);
             $("#listScopes").append("<a class='btn btn-xs btn-link text-white text-left w100p favElBtn "+slugify(oScope)+"Btn' href='javascript:directory.searchFor(\""+oScope+"\")'><i class='fa fa-map-marker'></i> "+oScope+"</a><br/>");
           }
         })
-        console.log("tags count",tagsT.length,scopesT.length);
+        console.log("tags count", directory.tagsT.length, directory.scopesT.length);
     },
-
+    addMultiTagsAndScope : function() { 
+      directory.multiTagsT = [];
+      directory.multiScopesT = [];
+      $.each(myMultiTags,function(oTag,oT){
+        if( notEmpty( oTag ) && !inArray( oTag,directory.multiTagsT ) ){
+          directory.multiTagsT.push(oTag);
+          console.log(oTag);
+          $("#listTags").append("<a class='btn btn-xs btn-link text-white text-left w100p favElBtn "+slugify(oTag)+"Btn' data-tag='"+slugify(oTag)+"' href='javascript:directory.searchFor(\"#"+oTag+"\")'><i class='fa fa-tag'></i> "+oTag+"</a><br/>");
+        }
+      });
+      $.each(myMultiScopes,function(oScope,oT){
+        var oScope = oT.name;
+        if( notEmpty( oScope ) && !inArray( oScope,directory.multiScopesT ) ){
+          directory.multiScopesT.push(oScope);
+          $("#listScopes").append("<a class='btn btn-xs btn-link text-white text-left w100p favElBtn "+slugify(oScope)+"Btn' data-tag='"+slugify(oScope)+"' href='javascript:directory.searchFor(\""+oScope+"\")'><i class='fa fa-tag'></i> "+oScope+"</a><br/>");
+        }
+      });
+    },
     //show hide parents when empty
     toggleEmptyParentSection : function ( parents ,tag ,children ) { 
         mylog.log("toggleEmptyParentSection ", parents, tag, children);

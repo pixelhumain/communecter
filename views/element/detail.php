@@ -277,7 +277,7 @@ if($('#breadcum').length)
 					
 					<?php if($type == Person::COLLECTION){ ?>
 				    <div class="panel panel-white no-padding margin-top-15 ">	
-						<?php $this->renderPartial('../pod/collections',array( 	"collections" => $element["collections"] )); ?>
+						<?php $this->renderPartial('../pod/collections',array( 	"collections" => @$element["collections"] )); ?>
 					</div>
 					<?php } ?>
 
