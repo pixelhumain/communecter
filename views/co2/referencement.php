@@ -79,7 +79,7 @@
                 	<div class="col-md-12">
                 		<div class="form-group">
                 			<label id="lbl-url">
-                				<i class="fa fa-circle"></i> Indiquez l'URL de votre page
+                				<i class="fa fa-circle"></i> Indiquez l'URL de la page
                 			</label>
 						    <input type="text" class="form-control" placeholder="exemple : http://kgougle.nc" id="form-url"><br>
 						    <h5 class="letter-green pull-left" id="status-ref"></h5>             		
@@ -98,7 +98,7 @@
             			<input type="text" class="form-control" placeholder="Nom de la page" id="form-title"><br>
 
                 		<label id="lbl-description">
-            				<i class="fa fa-circle"></i> Description de la page <small>(complétez si besoin) *</small>
+            				<i class="fa fa-circle"></i> Description de la page <small>(complétez si besoin)</small>
             				<small class="pull-right text-light">
             					<code>&ltmeta name="description"&gt</code>
             				</small>
@@ -139,7 +139,7 @@
 	            			<label id="lbl-keywords" class="margin-top-15">
 	            				<i class="fa fa-circle"></i> Choix des catégories
 		       				</label>
-	       					<div class="col-md-12" id="mainCategories"></div>
+	       					<div class="col-md-12" id="mainCategoriesEdit"></div>
 
 		                	<div class="col-md-12 text-center margin-bottom-50 hidden" id="info-select-cat">
 		                		<h4 class='col-md-12 text-center'>
@@ -156,7 +156,8 @@
                 	<div class="col-md-8 col-md-offset-2 hidden text-center" id="refLocalisation">
 						<h4 class='col-md-12 text-center'>
 							<i class='fa fa-angle-down'></i><br>Géolocalisation
-						</h4>
+						<br>
+                        <small>(facultatif)</small></h4><br>
 						<span>
 							Ajoutez une addresse si vous souhaitez que cette page apparaîsse aussi dans les résultats sur la carte.
 						</span><br><br>
@@ -189,8 +190,10 @@
                 	<button class="btn bg-white letter-green btn-lg" id="btn-send-ref">
                         <i class="fa fa-send"></i> Envoyer ma demande de référencement
                     </button><br><br>
-                	<label class="text-white">Demande anonyme</label>
                 	<label class="text-white">(soumis à l'approbation des administrateurs sous 7 jours)</label>
+                    <hr>
+                    <label class="text-white">Les informations fournies à propos de cette URL seront examinées par les administrateurs du réseau avant d'être publiées, afin d'éviter tout abus et de garantir la pertinance des résultats de recherches.</label>
+                    
                 </div>
             </div>
         </div>
@@ -319,7 +322,8 @@ jQuery(document).ready(function() {
 function buildListCategoriesForm(){
     //console.log(mainCategories);
 
-    var html = "<h4 class='col-md-12 text-center'><i class='fa fa-angle-down'></i><br>Sélectionner la ou les catégories<br>qui correspondent le mieux à votre page</h4><hr>"+
+    var html = "<h4 class='col-md-12 text-center'><i class='fa fa-angle-down'></i><br>"
+                    +"Sélectionner la ou les catégories<br>qui correspondent le mieux à cette page</h4><hr>"+
     			//"<center><label></label></center><br>"+
     			"<center><label>(cliquez pour sélectionner)</label></center>";
 
@@ -341,7 +345,7 @@ function buildListCategoriesForm(){
 
         $.each(params.items, function(keyC, val){
             //console.log(keyC, val);
-            html +=             '<div class="col-md-2 col-sm-4 col-xs-6 portfolio-item">'+
+            html +=             '<div class="col-md-3 col-sm-4 col-xs-6 portfolio-item">'+
                                     '<button class="portfolio-link btn-select-category" data-value="'+val.name+'">'+
                                         '<div class="caption">'+
                                             '<div class="caption-content">'+
@@ -359,7 +363,7 @@ function buildListCategoriesForm(){
 
     });
 
-    $("#mainCategories").html(html);
+    $("#mainCategoriesEdit").html(html);
 
     $(".btn-select-category").click(function(){
     	var val = $(this).data("value");
@@ -393,16 +397,16 @@ function refUrl(url){
 
 	urlValidated = "";
 
-	$.ajaxPrefilter( function (options) {
-	  if (options.crossDomain && jQuery.support.cors) {
-	    var http = (window.location.protocol === 'http:' ? 'http:' : 'https:');
-	    options.url = http + '//cors-anywhere.herokuapp.com/' + options.url;
-	    //options.url = "http://cors.corsproxy.io/url=" + options.url;
-	  }
-	});
+	// $.ajaxPrefilter( function (options) {
+	//   if (options.crossDomain && jQuery.support.cors) {
+	//     var http = (window.location.protocol === 'http:' ? 'http:' : 'https:');
+	//     options.url = http + '//cors-anywhere.herokuapp.com/' + options.url;
+	//     //options.url = "http://cors.corsproxy.io/url=" + options.url;
+	//   }
+	// });
 
     $.ajax({ 
-    	url: url, // 'http://google.fr', 
+    	url: "//cors-anywhere.herokuapp.com/" + url, // 'http://google.fr', 
     	//crossOrigin: true,
     	timeout:10000,
         success:
@@ -462,12 +466,12 @@ function refUrl(url){
 				else 							$("#lbl-title").removeClass("letter-green").addClass("letter-red");
 			   	
 			   	//color	
-				if($("#form-description").val() != "") $("#lbl-description").removeClass("letter-red").addClass("letter-green");
-				else 								   $("#lbl-description").removeClass("letter-green").addClass("letter-red");
+				if($("#form-description").val() != "") $("#lbl-description").removeClass("text-orange").addClass("letter-green");
+				else 								   $("#lbl-description").removeClass("letter-green").addClass("text-orange");
 			   		
 			   	//color	
-				if($("#form-keywords1").val() != "")   $("#lbl-keywords").removeClass("letter-red").addClass("letter-green");
-				else 								   $("#lbl-keywords").removeClass("letter-green").addClass("letter-red");
+				if($("#form-keywords1").val() != "")   $("#lbl-keywords").removeClass("text-orange").addClass("letter-green");
+				else 								   $("#lbl-keywords").removeClass("letter-green").addClass("text-orange");
 			   		
 			   	$("#form-title").off().keyup(function(){
 			   		if($(this).val()!="")$("#lbl-title").removeClass("letter-red").addClass("letter-green");
@@ -475,13 +479,13 @@ function refUrl(url){
 					checkAllInfo();
 			   	});
 			   	$("#form-description").off().keyup(function(){
-			   		if($(this).val()!="")$("#lbl-description").removeClass("letter-red").addClass("letter-green");
-					else 				 $("#lbl-description").removeClass("letter-green").addClass("letter-red");
+			   		if($(this).val()!="")$("#lbl-description").removeClass("text-orange").addClass("letter-green");
+					else 				 $("#lbl-description").removeClass("letter-green").addClass("text-orange");
 					checkAllInfo();
 			   	});
 			   	$("#form-keywords1").off().keyup(function(){
-			   		if($(this).val()!="")$("#lbl-keywords").removeClass("letter-red").addClass("letter-green");
-					else 				 $("#lbl-keywords").removeClass("letter-green").addClass("letter-red");
+			   		if($(this).val()!="")$("#lbl-keywords").removeClass("text-orange").addClass("letter-green");
+					else 				 $("#lbl-keywords").removeClass("letter-green").addClass("text-orange");
 					checkAllInfo();
 			   	});
 
@@ -511,8 +515,8 @@ function refUrl(url){
 
 function checkAllInfo(){
 	if(	urlValidated != "" &&
-		$("#form-keywords1").val() != "" && 
-		$("#form-description").val() != "" && 
+		//$("#form-keywords1").val() != "" && 
+		//$("#form-description").val() != "" && 
 		$("#form-title").val() != "") 
    			$("#btn-validate-information").removeClass("hidden");
    	else 	$("#btn-validate-information").addClass("hidden");
@@ -542,7 +546,7 @@ function sendReferencement(){
 	//authorId *facultatif
 	//categoriesSelected
 
-	if(urlValidated != "" && title != "" && description != "" /*&& keywords.length > 0 && categoriesSelected.length > 0*/){
+	if(urlValidated != "" && title != "" /*&& description != "" && keywords.length > 0 && categoriesSelected.length > 0*/){
 
 		var address = getAddressObj(); //formInMap.js
 
@@ -556,7 +560,7 @@ function sendReferencement(){
         		description: description,
         		tags: keywords,
         		categories : categoriesSelected,
-                status: "locked"
+                status: "validated"
         };
 
         if(address != false) {
@@ -574,6 +578,7 @@ function sendReferencement(){
 	    	success: function(data){
 	    		//if(data.valid == true) 
                     toastr.success("Votre demande a bien été enregistrée");
+                    loadByHash("#co2.referencement");
 	    		//else toastr.error("Une erreur est survenue pendant le référencement");
 	    		console.log("save referencement success");
 	    	},

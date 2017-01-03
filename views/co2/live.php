@@ -20,17 +20,17 @@
 
 <div class="col-md-12 col-sm-12 col-xs-12 bg-white no-padding">
 
-	<div class="col-md-12 col-sm-12 col-xs-12 no-padding row-radio" style="background-color: #f8f8f8;">
-		<?php $this->renderPartial($layoutPath.'radioplayer', array( "layoutPath"=>$layoutPath ) ); ?>  
-	</div>
+	<!-- <div class="col-md-12 col-sm-12 col-xs-12 no-padding row-radio" style="background-color: #f8f8f8;">
+		<?php //$this->renderPartial($layoutPath.'radioplayer', array( "layoutPath"=>$layoutPath ) ); ?>  
+	</div> -->
 
 	<div class="col-md-12 col-sm-12 inline page-header text-center margin-top-20">
 	    <h3 id="timeline"><i class="fa fa-newspaper-o"></i><br>L'Actu locale en direct<br><i class="fa fa-angle-down"></i></h3>
 	    <?php //if(!@$medias || sizeOf($medias) <= 0){ ?>
-	    	<div class="initStream">
+	    	<!-- <div class="initStream">
 		    	<button class="btn btn-success" id="btn-init-stream">Actualiser le fil d'actu</button></br>
 		    	<span>lancer le processus d'import de données</span>
-	    	</div>
+	    	</div> -->
 	    <?php //} ?>
 	</div>
 
@@ -124,32 +124,6 @@ function loadStream(indexMin, indexMax){ console.log("load stream LIVE");
     });
 }
 
-function initStream(){
-	processingBlockUi();
-	//toastr.info("Initialisation du LIVE en cours, merci de patienter quelques secondes.");
-	$.ajax({ 
-        type: "POST",
-        url: baseUrl+"/"+moduleId+"/co2/mediacrawler",
-        success:
-            function(html) {
-                //toastr.success("Initialisation terminée.");
-                //toastr.success("Chargement du LIVE");
-                $("#initStream").hide();
-                KScrollTo("#timeline-live");
-                loadStream(0, indexStep);
-                $.unblockUI();
-            },
-        error:function(xhr, status, error){
-            //toastr.error("Une erreur s'est produite pendant l'initialisation du LIVE");
-        },
-        statusCode:{
-                404: function(){
-                	loadingData = false;
-                    //toastr.success("404 : Impossible de trouver le script d'initialisation du LIVE");
-            }
-        }
-    });
-}
 
 //lance le chargement des commentaires pour une publication
 function showMediaComments(id){

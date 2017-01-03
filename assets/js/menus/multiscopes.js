@@ -236,7 +236,7 @@ function showMsgInfoMultiScope(msg, type){
 /**********************************************/
 
 function rebuildSearchScopeInput()
-{
+{ console.log("rebuildSearchScopeInput");
 	/*****************************************************************************************/
 	searchLocalityCITYKEYs = "";
 	$.each($('.item-scope-city'), function(key, value){

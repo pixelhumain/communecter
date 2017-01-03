@@ -158,7 +158,7 @@
 
 </style>
 <?php 
-  //$isLive = isset($_GET["isLive"]) ? true : false;
+  $isLive = isset($_GET["isLive"]) ? true : false;
   $contextName = "";
   $contextIcon = "bookmark fa-rotate-270";
   $contextTitle = "";

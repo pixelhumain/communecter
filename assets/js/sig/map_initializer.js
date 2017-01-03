@@ -318,7 +318,7 @@
 											"entry" 			: "entry-marker-default",
 											"action" 			: "action-marker-default",
 
-											"url" 			: "marker-place",
+											"url" 				: "url-marker-default",
 
 									  };
 

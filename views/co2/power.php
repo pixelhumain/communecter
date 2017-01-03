@@ -10,6 +10,6 @@
 <script>
 jQuery(document).ready(function() {
     initKInterface();
-    location.hash = "#k.power";
+    location.hash = "#co2.power";
 });
 </script>

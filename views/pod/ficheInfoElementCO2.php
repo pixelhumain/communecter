@@ -347,9 +347,6 @@
 			</li>
 
 		</ul>
-		
-
-
 
 <?php 
 	$element["type"] = $type;
@@ -360,15 +357,6 @@
 	var elementName = "<?php echo @$element["name"]; ?>";
     var contextType = "<?php echo @$type; ?>";
     
-	function loadNewsStream(){ 
-		var url = "news/index/type/<?php echo@$type; ?>/id/<?php echo (string)$element["_id"] ?>/isLive/true?isFirst=1&";
-		console.log("URL", url);
-		ajaxPost('#timeline-page', baseUrl+'/'+moduleId+'/'+url+"renderPartial=true&tpl=co2", 
-			null,
-			function(){ 
-				showFormBlock(false);
-		},"html");
-	}
 	
 	var contextData = <?php echo json_encode($element)?>;
 	var showLocality = (( "<?php echo @$showLocality; ?>" == "<?php echo false; ?>")?false:true);
@@ -429,7 +417,7 @@
 		bindAboutPodElement();
 		//favorite.applyColor(contextData.type,contextData.id);
 
-		loadNewsStream();
+		//loadNewsStream();
 
 		$("#small_profil").html($("#menu-name").html());
 		$("#menu-name").html("");

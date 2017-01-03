@@ -1,8 +1,8 @@
 <?php 
   $timezone = "";// @$timezone ? $timezone : 'Pacific/Noumea';
   $pair = @$pair ? $pair : false;
-  $nbCol = @$nbCol ? $nbCol : 1;
-
+  $nbCol = @$nbCol ? $nbCol : 2;
+ //echo $nbCol;
   if(sizeof($news)==0){
       echo "<div class='padding-15'><i class='fa fa-ban'></i>";
   }

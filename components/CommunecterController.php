@@ -425,6 +425,7 @@ class CommunecterController extends Controller
       "live"              => array('href' => "/ph/communecter/co2/live",              "public" => true),
       "referencement"     => array('href' => "/ph/communecter/co2/referencement",     "public" => true),
       "savereferencement" => array('href' => "/ph/communecter/co2/savereferencement", "public" => true),
+      "freedom"            => array('href' => "/ph/communecter/co2/freedom",            "public" => true),
       "agenda"            => array('href' => "/ph/communecter/co2/agenda",            "public" => true),
       "mediacrawler"      => array('href' => "/ph/communecter/co2/mediacrawler",      "public" => false),
       "page"              => array('href' => "/ph/communecter/co2/page",              "public" => true),

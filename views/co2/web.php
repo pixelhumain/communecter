@@ -23,7 +23,7 @@
 
 <style>
     #sectionSearchResults{
-        min-height:1000px;
+        min-height:700px;
         margin-left:80px;
         padding-bottom:50px;
     }
@@ -37,16 +37,19 @@
 
 
 <section class="padding-top-15 hidden" id="sectionSearchResults">
-        <div class="row">
-            <div class="col-md-8" id="searchResults"></div>
-        </div>
+    <div class="row">
+        <div class="col-md-8" id="searchResults"></div>
+    </div>
 </section>
 
-<div id="mainCategories" class="shadow"></div>
+<div id="mainCategories" class="shadow padding-bottom-50"></div>
 
 <?php $this->renderPartial($layoutPath.'footer',  array( "subdomain"=>"web" ) ); ?>
 
 <script>
+
+var currentCategory = "";
+
 jQuery(document).ready(function() {
     initKInterface();
     initWebInterface();
@@ -58,13 +61,13 @@ jQuery(document).ready(function() {
 function initWebInterface(){
     $("#main-btn-start-search, .menu-btn-start-search").click(function(){
         var search = $("#main-search-bar").val();
-        startWebSearch(search);
+        startWebSearch(search, currentCategory);
     });
     $(".menu-btn-back-category").click(function(){
         $("#mainCategories").show();
         $("#searchResults").html("");
         $("#sectionSearchResults").addClass("hidden");
-        KScrollTo("#mainCategories");
+        KScrollTo("#main-input-group");
     });
 
     $("#second-search-bar").keyup(function(e){
@@ -72,7 +75,7 @@ function initWebInterface(){
         $("#input-search-map").val($("#second-search-bar").val());
         if(e.keyCode == 13){
             var search = $(this).val();
-            startWebSearch(search);
+            startWebSearch(search, currentCategory);
          }
     });
     $("#main-search-bar").keyup(function(e){
@@ -80,7 +83,7 @@ function initWebInterface(){
         $("#input-search-map").val($("#main-search-bar").val());
         if(e.keyCode == 13){
             var search = $(this).val();
-            startWebSearch(search);
+            startWebSearch(search, currentCategory);
          }
     });
     $("#input-search-map").keyup(function(e){
@@ -88,7 +91,7 @@ function initWebInterface(){
         $("#main-search-bar").val($("#input-search-map").val());
         if(e.keyCode == 13){
             var search = $(this).val();
-            startWebSearch(search);
+            startWebSearch(search, currentCategory);
          }
     });
 
@@ -119,6 +122,9 @@ function startWebSearch(search, category){
             function(html) { 
                 $("#searchResults").html(html); 
                 $("#sectionSearchResults").removeClass("hidden");
+                // setTimeout(function(){ 
+                //     showMapLegende("crosshairs", "Site web géolocalisés ...");
+                // }, 1000);
                 KScrollTo("#sectionSearchResults");
             },
         error:function(xhr, status, error){
@@ -176,6 +182,8 @@ function buildListCategories(){
 
     $(".category-search-link").click(function(){
         var cat = $(this).data("category");
+        currentCategory = cat;
+        console.log("currentCategory", currentCategory);
         startWebSearch("", cat);
     });
 }

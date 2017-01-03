@@ -12,32 +12,6 @@
 			  ) , 
 		Yii::app()->theme->baseUrl. '/assets');
 
-	$cssAnsScriptFilesModule = array(
-  '/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css',
-  '/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysiwyg-color.css',
-  '/plugins/bootstrap-datetimepicker/css/datetimepicker.css',
-  '/plugins/x-editable/css/bootstrap-editable.css',
-  '/plugins/select2/select2.css',
-  //X-editable...
-  '/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js' , 
-  '/plugins/x-editable/js/bootstrap-editable.js' , 
-  '/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' , 
-  '/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , 
-  '/plugins/wysihtml5/wysihtml5.js',
-  '/plugins/jquery.scrollTo/jquery.scrollTo.min.js',
-  '/plugins/ScrollToFixed/jquery-scrolltofixed-min.js',
-  '/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js',
-  '/plugins/jquery.appear/jquery.appear.js',
-  '/plugins/jquery.elastic/elastic.js',
-  '/plugins/underscore-master/underscore.js',
-  '/plugins/jquery-mentions-input-master/jquery.mentionsInput.js',
-  '/plugins/jquery-mentions-input-master/jquery.mentionsInput.css',
-  '/plugins/jquery-mentions-input-master/lib/jquery.events.input.js',
-  
-);
-error_log("BasURL : ".Yii::app()->request->baseUrl);
-HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->request->baseUrl);
-
 
 	$imgDefault = $this->module->assetsUrl.'/images/thumbnail-default.jpg';
 	
@@ -267,8 +241,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 	
 
 	<?php 
-		$layoutPath = 'webroot.themes.'.Yii::app()->theme->name.'.views.layouts.';
-		$this->renderPartial($layoutPath.'footer',  array( "subdomain"=>"page" ) ); 
+		//$layoutPath = 'webroot.themes.'.Yii::app()->theme->name.'.views.layouts.';
+		//$this->renderPartial($layoutPath.'footer',  array( "subdomain"=>"page" ) ); 
 	?>
     
 

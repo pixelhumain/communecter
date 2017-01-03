@@ -4,20 +4,11 @@
 	Section : <i class="fa fa-search letter-red"></i> 
 	<span class="font-blackoutM letter-red">web</span>
 </h5>
-<!-- 
+
 <br>
 <hr>
 <br>
 
-<a href="http://www.skazy.nc/">http://www.skazy.nc/</a><br>
-<button class="btn btn-sm btn-default btn-superadmin" data-action="scanlinks" data-idres="#res-scan">
-	<i class="fa fa-terminal"></i> Scanner la page
-</button> 
-<i class="fa fa-check fa-2x letter-green"></i> 
-<hr>
-<div id="res-scan"></div>
- -->
-<hr>
 
 <style>
 	.c100 > span{
@@ -84,7 +75,7 @@
 
 	<div class="col-md-4 text-center">
 		<div class="c100 p<?php echo intval($urlsUncategorizedNb*100/$urlsAllNb); ?> yellow small center">
-		  <span><?php echo intval($urlsUncategorizedNb*100/$urlsAllNb); ?>%</span>
+		  <span data-status="uncategorized"><?php echo intval($urlsUncategorizedNb*100/$urlsAllNb); ?>%</span>
 		  <div class="slice"> 
 		  	<div class="bar"></div> <div class="fill"></div>
 		  </div>
@@ -97,7 +88,19 @@
 
 	<div class="col-md-12">
 
-		<div class="hidden">
+	<hr>
+
+		<a href="http://caledoweb.com/?page_id=14">http://caledoweb.com/?page_id=14</a><br>
+		<button class="btn btn-sm btn-default btn-superadmin" data-action="scanlinks" data-idres="#res-scan">
+			<i class="fa fa-terminal"></i> Scanner la page
+		</button> 
+		<i class="fa fa-check fa-2x letter-green"></i> 
+		<hr>
+		<div id="res-scan"></div>
+
+		<hr>
+
+		<div class="">
 			<h3><i class="fa fa-terminal fa-2x"></i> Auto-scan</h3>
 			<h4 class="letter-green"><?php echo sizeof($urlsLocked); ?> url <span class="letter-red">locked</span> in database</h4>
 			<button class="btn btn-sm btn-default btn-start-scan" data-action="scanlinks" data-idres="#res-scan">
@@ -173,10 +176,22 @@
 			
 			//if(typeof url.hostname != "undefined")
 			var path = (new URL(url)).pathname;
+			//console.log("path :", path);
+
+			if(path != "/")
 			url = url.replace(path, "");
+			
+				
+			pos = url.lastIndexOf("/");
+			//console.log("pos :", pos, "length", url.length-1);
+			if(pos == url.length-1){
+				url = url.substr(0 , pos);				
+			}
+
 			//if(typeof host != "undefined")
 			//	url = host;
-			console.log(url);// return false;
+			console.log("url :", url);
+			//return;
 
 			$("#form-url").val(url);
 			$("#status-ref").html("<span class='letter-blue'><i class='fa fa-spin fa-refresh'></i> recherche en cours</span>");
@@ -184,10 +199,10 @@
 			$("#send-ref").addClass("hidden");
 
 			urlValidated = "";
-
+			//return;
 		    $.ajax({ 
 		    	url: "//cors-anywhere.herokuapp.com/"+url, // 'http://google.fr', 
-		    	//crossOrigin: true,
+		    	crossOrigin: true,
 		    	timeout:10000,
 		        success:
 					function(data) {
@@ -281,15 +296,15 @@
 					    checkAllInfo();	
 
 					    console.log("sendReferencement");
-					    sendReferencement(key);
+					    sendReferencementAuto(key);
 
 					    total++;
 					    $("#nb-auto-scan").html("<span class='letter-green'>"+ total + " / " + toTotal+"</span><br>"+
 					    						"<span class='letter-red'>"+ totalEchec + " / " + toTotal+"</span>");
 					    $("#res-auto-scan").prepend("<div class='col-md-12 text-right margin-bottom-15'>"+
 					    							"<span class='siteurl_title letter-blue'>"+title+"</span><br>"+
-					    							"<span class='siteurl_hostname letter-green'>"+description+"</span><br>"+
-					    							"<span class='siteurl_desc letter-grey'>"+urlValidated+"</span><br>"+
+					    							"<span class='siteurl_desc letter-green'>"+urlValidated+"</span><br>"+
+					    							"<span class='siteurl_hostname letter-grey'>"+description+"</span><br>"+
 					    							"</div>");
 
 					    console.log("setTimeout autoScan");
@@ -350,65 +365,65 @@ function checkAllInfo(){
 }
 
 
-// function sendReferencement(id){
-// 	console.log("start referencement");
+function sendReferencementAuto(id){
+	console.log("start referencement");
 
-// 	var hostname = (new URL(urlValidated)).hostname;
+	var hostname = (new URL(urlValidated)).hostname;
 
-// 	var title = $("#form-title").val();
-// 	var description = $("#form-description").val();
+	var title = $("#form-title").val();
+	var description = $("#form-description").val();
 
-// 	var keywords1 = $("#form-keywords1").val();
-// 	var keywords2 = $("#form-keywords2").val();
-// 	var keywords3 = $("#form-keywords3").val();
-// 	var keywords4 = $("#form-keywords4").val();
+	var keywords1 = $("#form-keywords1").val();
+	var keywords2 = $("#form-keywords2").val();
+	var keywords3 = $("#form-keywords3").val();
+	var keywords4 = $("#form-keywords4").val();
 
-// 	var keywords = new Array();
+	var keywords = new Array();
 
-// 	if(notEmpty(keywords1)) keywords.push(keywords1);
-// 	if(notEmpty(keywords2)) keywords.push(keywords2);
-// 	if(notEmpty(keywords3)) keywords.push(keywords3);
-// 	if(notEmpty(keywords4)) keywords.push(keywords4);
+	if(notEmpty(keywords1)) keywords.push(keywords1);
+	if(notEmpty(keywords2)) keywords.push(keywords2);
+	if(notEmpty(keywords3)) keywords.push(keywords3);
+	if(notEmpty(keywords4)) keywords.push(keywords4);
 	
-// 	//authorId *facultatif
-// 	//categoriesSelected
+	//authorId *facultatif
+	//categoriesSelected
 
-// 	//if(urlValidated != "" && title != "" && description != "" && keywords.length > 0&& categoriesSelected.length > 0){
+	//if(urlValidated != "" && title != "" && description != "" && keywords.length > 0&& categoriesSelected.length > 0){
 
-// 		var urlObj = {
-//                 //collection: "url",
-//                 //key: "url",
-//         		//url: urlValidated, 
-//         		//hostname: hostname, 
-//         		title: title, 
-//         		description: description,
-//         		tags: keywords,
-//         		//categories : categoriesSelected,
-//                 status: "uncomplet"
-//         };
+		var urlObj = {
+                //collection: "url",
+                //key: "url",
+        		//url: urlValidated, 
+        		//hostname: hostname, 
+        		title: title, 
+        		description: description,
+        		tags: keywords,
+        		//categories : categoriesSelected,
+                status: "uncomplet"
+        };
 
-//  		console.log("UPDATE THIS URL DATA ?", urlObj, id);
-//        // if(false)
-// 		$.ajax({
-// 	        type: "POST",
-// 	        url: baseUrl+"/"+moduleId+"/co2/superadmin/action/updateurlmetadata",
-// 	        data: { "id" : id,
-// 	        		"values" : urlObj },
-// 	       	dataType: "json",
-// 	    	success: function(data){
-// 	    		if(data.valid == true) toastr.success("Votre demande a bien été enregistrée");
-// 	    		//else toastr.error("Une erreur est survenue pendant le référencement");
-// 	    		console.log("save referencement success");
-// 	    	},
-// 	    	error: function(data){
-// 	    		toastr.error("Une erreur est survenue pendant l'envoi de votre demande", data);
-// 	    		console.log("save referencement error");
-// 	    	}
-// 	    });
-// 	//}else{
-// 	//	toastr.error("Merci de remplir toutes les options");
-// 	//}
-// }
+ 		console.log("UPDATE THIS URL DATA ?", urlObj, id);
+       // if(false)
+		$.ajax({
+	        type: "POST",
+	        url: baseUrl+"/"+moduleId+"/co2/superadmin/action/updateurlmetadata",
+	        data: { "id" : id,
+	        		"values" : urlObj },
+	       	dataType: "json",
+	    	success: function(data){
+	    		if(data.valid == true) toastr.success("Votre demande a bien été enregistrée");
+	    		//else toastr.error("Une erreur est survenue pendant le référencement");
+	    		console.log("save referencement success");
+	    	},
+	    	error: function(data){
+	    		toastr.error("Une erreur est survenue pendant l'envoi de votre demande", data);
+	    		console.log("save referencement error");
+	    	}
+	    });
+	//}else{
+	//	toastr.error("Merci de remplir toutes les options");
+	//}
+}
 
 //states = locked - unreachable - uncomplet - locked
 

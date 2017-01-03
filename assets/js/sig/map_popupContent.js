@@ -12,7 +12,7 @@
 				return this.getPopupSimpleNews(data);
 			}else if(typeof(data.typeSig) != "undefined" && data.typeSig == "city"){
 				return this.getPopupSimpleCity(data);
-			}else if(typeof(data.typeSig) != "undefined" && data.typeSig == "siteurl"){
+			}else if(typeof(data.typeSig) != "undefined" && data.typeSig == "url"){
 				return this.getPopupSiteUrl(data);
 			}else{
 				return this.getPopupSimple(data);

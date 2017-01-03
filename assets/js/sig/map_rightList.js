@@ -172,7 +172,7 @@
 
 			var elemType = ("undefined" != typeof element['typeSig']) ? element['typeSig'] : "";
 
-			if(elemType == "siteurl") return this.createItemRigthListMapSiteurl(element, thisMarker, thisMap);
+			if(elemType == "url") return this.createItemRigthListMapSiteurl(element, thisMarker, thisMap);
 			//mylog.dir(element);
 
 			var thisSig = this;
