@@ -214,17 +214,19 @@
                     <div class="modal-body text-left">
                         <h2 class="text-red"><i class="fa fa-university fa-2x"></i><br>Sélectionner une commune</h2>
                         <hr>
-                        <?php foreach($cities as $city){ ?>
-                        	<div class="col-md-3">
-                        		<button class="btn btn-scope" data-dismiss="modal"
-                        				data-city-name="<?php echo $city["name"]; ?>"
-                        				data-city-insee="<?php echo $city["insee"]; ?>"
-                        				data-city-cp="<?php echo $city["postalCodes"][0]["postalCode"]; ?>"
-                        				data-city-lat="<?php echo $city["geo"]["latitude"]; ?>"
-                        				data-city-lng="<?php echo $city["geo"]["longitude"]; ?>">
-                        			<i class="fa fa-bullseye"></i> <?php echo $city["name"]; ?>
-                        		</button> 
-                        	</div>
+                        <?php foreach(array("GN", "Sud", "Nord", "Iles") as $province){ ?>
+                            <?php foreach($cities[$province] as $city){ ?>
+                            	<div class="col-md-3">
+                            		<button class="btn btn-scope" data-dismiss="modal"
+                            				data-city-name="<?php echo $city["name"]; ?>"
+                            				data-city-insee="<?php echo $city["insee"]; ?>"
+                            				data-city-cp="<?php echo $city["postalCodes"][0]["postalCode"]; ?>"
+                            				data-city-lat="<?php echo $city["geo"]["latitude"]; ?>"
+                            				data-city-lng="<?php echo $city["geo"]["longitude"]; ?>">
+                            			<i class="fa fa-bullseye"></i> <?php echo $city["name"]; ?>
+                            		</button> 
+                            	</div>
+                            <?php } ?>
                         <?php } ?>
                         <div class="col-md-12 text-center"><hr>
                         <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Annuler</button>
