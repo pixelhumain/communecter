@@ -1095,7 +1095,7 @@ var smallMenu = {
 		if( typeof showResultsDirectoryHtml == "undefined" )
 		    lazyLoad( moduleUrl+'/js/default/directory.js', null, null );
 	    
-	    smallMenu.open( "<i class='fa fa-spin fa-spinner fa-4x'></i>" );	
+	    processingBlockUi();
 
 		ajaxPost( null , url, params , function(data)
 		{
@@ -1114,12 +1114,22 @@ var smallMenu = {
 		   	$('.searchSmallMenu').off().on("keyup",function() { 
 				directory.search ( ".favSection", $(this).val() );
 		   	});
-
-		   	buildCollectionList( "linkList" ,"#listCollections",function(){ $("#listCollections").html("<h2 class='homestead'>Collections</h2>"); });
+		   	if( notNull(params) && notNull(params.otherCollectionList) && typeof params.otherCollectionList == "function" )
+		   		params.otherCollectionList();
+		   	else	
+		   		buildCollectionList( "linkList" ,"#listCollections",function(){ $("#listCollections").html("<h2 class='homestead'>Collections</h2>"); });
 
 		   	if (typeof callback == "function") 
 				callback();
 	    } );
+	},
+	build : function  (params,build_func,callback) { 
+		processingBlockUi();
+	   	if (typeof build_func == "function") 
+			content = build_func(params);
+		smallMenu.open( content );
+		if (typeof callback == "function") 
+			callback();
 	},
 	//ex : smallMenu.openSmall("Recherche","fa-search","green",function(){
 	openSmall : function  (title,icon,color,callback,title1) { 
@@ -1143,20 +1153,18 @@ var smallMenu = {
 					"<div id='listCollections'></div>"+
 				"</div> "+
 				"<div class='col-xs-12 col-sm-10 padding-5 center no-padding'>"+
-						
 					//"<a class='pull-right btn btn-xs btn-default' href='javascript:collection.newChild(\""+title+"\");'> <i class='fa fa-sitemap'></i></a> "+
 					"<a class='pull-right btn btn-xs menuSmallTools hide text-red' href='javascript:collection.crud(\"del\",\""+title+"\");'> <i class='fa fa-times'></i></a> "+
 					"<a class='pull-right btn btn-xs menuSmallTools hide'  href='javascript:collection.crud(\"update\",\""+title+"\");'> <i class='fa fa-pencil'></i></a> "+
 					
 					"<div class='homestead titleSmallMenu' style='font-size:45px'> "+
-						title1+	
-						' <i class="fa fa-angle-right"></i> '+
-						title+" <i class='fa "+icon+" text-"+color+"'></i></div>"+
-						"<input name='searchSmallMenu' class='searchSmallMenu text-black' placeholder='vous cherchez quoi ?' style='margin-bottom:8px;width: 300px;font-size: x-large;'><br/>"+
-						"<span class='text-extra-small helvetica sectionFilters'>"+
-							" <span class='btn btn-xs favSectionBtn btn-default'><a class='text-black helvetica ' href='javascript:directory.toggleEmptyParentSection(\".favSection\",null,\".searchEntityContainer\",1)'> Tout voir</a></span> </span>"+
-						" </span><br/>"+
-					"</div>";
+						title1+' <i class="fa fa-angle-right"></i> '+title+" <i class='fa "+icon+" text-"+color+"'></i>"+
+					"</div>"+
+					"<input name='searchSmallMenu' class='searchSmallMenu text-black' placeholder='vous cherchez quoi ?' style='margin-bottom:8px;width: 300px;font-size: x-large;'><br/>"+
+					"<span class='text-extra-small helvetica sectionFilters'>"+
+						" <span class='btn btn-xs favSectionBtn btn-default'><a class='text-black helvetica ' href='javascript:directory.toggleEmptyParentSection(\".favSection\",null,\".searchEntityContainer\",1)'> Tout voir</a></span> </span>"+
+					" </span><br/>"+
+				"</div>";
 		return content;
 	},
 	//openSmallMenuAjaxBuild("",baseUrl+"/"+moduleId+"/favorites/list/tpl/directory2","FAvoris")
