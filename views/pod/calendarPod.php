@@ -5,7 +5,7 @@
     //Full calendar
     '/plugins/fullcalendar/fullcalendar/fullcalendar.css',
     '/plugins/fullcalendar/fullcalendar/fullcalendar.min.js',
-    '/plugins/fullcalendar/fullcalendar/lang/fr.js'
+    '/plugins/fullcalendar/fullcalendar/locale/fr.js'
     );
 
   HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule,Yii::app()->request->baseUrl);
@@ -116,8 +116,8 @@ function buildCalObj(eventObj) {
       "title" : organizerName,
       "id" : eventObj['_id']['$id'],
       "content" : (eventObj.description && eventObj.description != "" ) ? eventObj.description : "",
-      "start" : startDate,
-      "end" : ( endDate ) ? endDate : startDate,
+      "start" : startDate.format(),
+      "end" : ( endDate ) ? endDate.format() : startDate.format(),
       "startDate" : eventObj.startDate,
       "endDate" : eventObj.endDate,
       "className": organiser,
@@ -125,7 +125,7 @@ function buildCalObj(eventObj) {
     }
     if(eventObj.allDay )
       taskCal.allDay = eventObj.allDay;
-    //mylog.log(taskCal);
+    mylog.log(taskCal);
   }
   return taskCal;
 }
@@ -143,7 +143,7 @@ function showCalendar() {
         calendar.push( eventCal );
     });
   }
- 
+  console.log(calendar);
   dateToShow = new Date();
   $('#calendar').fullCalendar({
     header : {
