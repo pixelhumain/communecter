@@ -1112,8 +1112,12 @@ class DatamigrationController extends CommunecterController {
 			$timezone = $timezoneArray[$elt["address"]["addressCountry"]];
 			if (isset($elt["startDate"]) && isset($elt["endDate"]) && (gettype($elt["startDate"]) == "object" && gettype($elt["endDate"]) == "object")) {
 				//Set TZ to UTC in order to be the same than Mongo
-				$startDate = $elt["startDate"]->toDateTime()->sub(new DateInterval("PT".$timezone."H"));
-				$endDate = $elt["endDate"]->toDateTime()->sub(new DateInterval("PT".$timezone."H"));
+				$startDate = new DateTime(date(DateTime::ISO8601, $elt["startDate"]->sec));
+				$startDate = $startDate->sub(new DateInterval("PT".$timezone."H"));
+				$endDate = new DateTime(date(DateTime::ISO8601, $elt["endDate"]->sec));
+				$endDate = $endDate->sub(new DateInterval("PT".$timezone."H"));
+				//$startDate = $elt["startDate"]->toDateTime()->sub(new DateInterval("PT".$timezone."H"));
+				//$endDate = $elt["endDate"]->toDateTime()->sub(new DateInterval("PT".$timezone."H"));
 				${'nbelement'.$elt["address"]["addressCountry"]}++;
 			//On en profite pour revoir les dates des événements qui sont en string ou sans date
 			} else {
