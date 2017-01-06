@@ -175,7 +175,6 @@ Liste des notifications déjà lues => #370 #453
       [ ] click on map-marker icon , shows the map of the content 
       [ ] menu predefined tags 
       [ ] cross with location
-      [ ] left menu list
     * wish list
       [ ] add element into a predefined tag
       [ ] propose related tags
@@ -227,6 +226,10 @@ Liste des notifications déjà lues => #370 #453
       [ ] on my profile with loading directory.js
       [ ] persisting location, 
       [ ] contextmenu on nowList
+  * bugs
+    [ ] city > click orga pas de résultat
+    [ ] elements count on city
+  [ ] notification à la création d'un dda
   [ ] INTEGRATTE MARKDOWN wisiwig
   [ ] add photo
   [ ] my POIs

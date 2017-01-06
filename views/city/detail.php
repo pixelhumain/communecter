@@ -36,10 +36,8 @@ $this->renderPartial('../default/panels/toolbar');
         return findOrgaRandImg($organizations, $try+1);
       }
     }
-?>
 
 
-<?php 
   $minCount = count($people);
   if(count($organizations) < $minCount) $minCount = count($organizations);
   if(count($projects) < $minCount) $minCount = count($projects);
@@ -47,7 +45,6 @@ $this->renderPartial('../default/panels/toolbar');
   $minCountOrga = $minCount;
 
   $countTotal = count($people) + count($organizations) + count($events);
-
 ?>
 
 <style type="text/css">
@@ -257,7 +254,7 @@ $this->renderPartial('../default/panels/toolbar');
                     */?>
                 </div>
                 <div class="space20"></div>
-                <a href="javascript:cityFinder()" class="btn btn-default">Filiaires locales</a> <a href="javascript:cityFinder()" class="btn btn-default">Filiaires régionales</a> 
+                <a href="javascript:cityFinder('city','<?php echo $city["name"];?>')" class="btn btn-default">Filiaires locales</a>  <a href="javascript:cityFinder('departement','<?php echo $city["depName"];?>')" class="btn btn-default">Filiaires département</a>  <a href="javascript:cityFinder('region','<?php echo $city["regionName"];?>')" class="btn btn-default">Filiaires région</a> 
         <!--       </div>
             </div>
            
@@ -346,6 +343,8 @@ $this->renderPartial('../default/panels/toolbar');
 
 //var contextMap = {};
 contextMap = <?php echo json_encode($contextMap) ?>;
+categs = <?php echo json_encode(OpenData::$categ) ?>;
+
 var city = <?php echo json_encode($city) ?>;
 //var cityKey = "<?php //echo City::getUnikey($city) ?>";
 var images = <?php echo json_encode($images) ?>;
@@ -592,30 +591,59 @@ var cityFinderObj = {
       {
       ?>
         "<?php echo @$value["name"]?>" : { label  : "<?php echo @$value["name"]?>", 
+                                            labelCount : 0,
                                             icon   : "<?php echo @$value["icon"]?>", 
                                             key : "<?php echo @$value["name"]?>", 
                                             //color : "dark",
+                                            classes : slugify("<?php echo @$value["name"]?>")+"Btn kickerBtn",
                                             action : "javascript:;",
-                                            click : function(){ 
-                                              cityFinderSearch( "<?php echo @$value["name"]?>", "<?php echo @$value["icon"]?>", <?php echo json_encode( @$value["tags"] );?> ) 
+                                            click : function(){
+                                                cityFinderSearch( scopeType, "<?php echo @$value["name"]?>", "<?php echo @$value["icon"]?>", <?php echo json_encode( @$value["tags"] );?> ) 
                                             }
-      },  
+      }, 
     <?php }
     } ?>
   }
 };
 
+function cityFinder(type,where)
+{
+    scopeType = type;
+    if( type == "region" ) 
+        scopeName = 'region : <?php echo $city["regionName"];?>';
+    else if( type == "departement" ) 
+        scopeName = 'dep : <?php echo $city["depName"];?>';
+    else 
+        scopeName = '<?php echo $city["name"];?>';
 
-function cityFinder(){
-  smallMenu.build( cityFinderObj, 
-                   function(params){
-                                    return js_templates.leftMenu_content(params);},
-                   function(){
-                    $(".kickerBtn").on("click",function() { 
-                      cityFinderObj.list[$(this).data('key')].click()  
+    cityFinderObj.title1 = "<i class='fa fa-map-marker text-yellow'></i> "+scopeName; 
+
+    smallMenu.build( cityFinderObj, 
+                    function(params){return js_templates.leftMenu_content(params);},
+                    function(){
+                        $(".labelCount").html('(0)');
+                        $.each(categs,function (i,c){c.count = 0;});
+                        $.each( contextMap,function(k,v){
+                          var tagList = [];
+                          $.each(v.tags,function (i,t){
+                            tagList.push( t.toLowerCase() );
+                          });
+                          $.each(categs,function (i,c)
+                          {
+                            var common = intersection_destructive(tagList, c.tags);
+                            var isIn = (common.length > 0) ? true : false;
+                            if(isIn){
+                              c.count++;
+                              $("."+slugify(c.name)+"Btn").addClass('bg-red');
+                              $("."+slugify(c.name)+"Btn .labelCount").html('('+c.count+')');
+                            }
+                          })
+                        });
+                        $(".kickerBtn").on("click",function() { 
+                          cityFinderObj.list[$(this).data('key')].click()  
+                        });
+                        $(".menuSmallLeftMenu").prepend("<h2 class='homestead'>Trier</h2>")
                     });
-                    $(".menuSmallLeftMenu").prepend("<h2 class='homestead'>Trier</h2>")
-                   });
 }
 
 <?php 
@@ -626,33 +654,49 @@ foreach ($city["postalCodes"] as $key => $value) {
 ?>
 
 var postalCodes = <?php echo json_encode( $cps);?>;
-function  cityFinderSearch( what,icon, tags ) { 
-  var params = {
-    name : "",
-    searchTag : tags,
-    searchBy : "CODE_POSTAL_INSEE",
-    //searchLocalityREGION : ["REUNION"],
-    searchLocalityCODE_POSTAL : postalCodes,
-    //searchLocalityDEPARTEMENT : "974",
-    indexMax : 200,
-    indexMin : 0,
-    searchType : ["events","projects","organizations"],
-    tpl : "list",
-    otherCollectionList : function() {
-      var strHTML = "<h2 class='homestead'>Thématiques</h2>"+
-            js_templates.loop( cityFinderObj.list,"linkList",{ classes : "menuThemeBtn" });
-      $("#listCollections").append(strHTML);
-      $(".menuThemeBtn").on("click",function() { 
-        cityFinderObj.list[ $(this).data('key') ].click();
-      }); 
+var cityRegion = "<?php echo $city["region"];?>";
+var cityDep = "<?php echo $city["dep"];?>";
+var scopeType = null;
+var scopeName = null;
+function  cityFinderSearch( type, what, icon, tags ) 
+{ 
+    searchTypes = ["events","projects","organizations"];
+    var params = {
+        name : "",
+        searchTag : tags,
+        searchBy : "CODE_POSTAL_INSEE",
+        indexMax : 200,
+        indexMin : 0,
+        searchType : searchTypes,
+        tpl : "list",
+        otherCollectionList : function() {
+          var strHTML = "<h2 class='homestead'>Thématiques</h2>"+
+                js_templates.loop( cityFinderObj.list,"linkList",{ classes : "menuThemeBtn" });
+          $("#listCollections").append(strHTML);
+          $(".menuThemeBtn").on("click",function() { 
+            cityFinderObj.list[ $(this).data('key') ].click();
+          }); 
+        }
+    };
+
+    delete params.searchLocalityCODE_POSTAL;
+    delete params.searchLocalityREGION;
+    delete params.searchLocalityDEPARTEMENT;
+    if( type == "region" ) {
+        params.searchLocalityREGION = ['<?php echo $city["regionName"];  ?>'];
     }
-  };
-  smallMenu.openAjax( baseUrl+'/'+moduleId+'/search/globalautocomplete',
-                   what,
-                   icon,
-                   'yellow',
-                   '<a href="javascript:cityFinder()"><i class="fa fa-th text-grey"></i></a> <i class="fa fa-angle-right"></i> <i class="fa fa-map-marker text-yellow"></i> <?php echo $city["name"];  ?>',
-                   params);
+    if( type == "departement" ) {
+        params.searchLocalityDEPARTEMENT = ['<?php echo $city["depName"];  ?>'];
+    }
+    else {
+        params.searchLocalityCODE_POSTAL = postalCodes;
+    }
+    
+    console.dir(params);
+    smallMenu.openAjax( baseUrl+'/'+moduleId+'/search/globalautocomplete',
+                   what, icon, 'yellow',
+                   '<a href="javascript:cityFinder(scopeType,scopeName)"><i class="fa fa-th text-grey"></i></a> <i class="fa fa-angle-right"></i> <i class="fa fa-map-marker text-yellow"></i> '+scopeName ,
+                   params );
 }
 
 </script>
