@@ -125,20 +125,21 @@ Liste des notifications déjà lues => #370 #453
 ** @Tib 
   [X] Finance Transparente
   [X] Finder
+    [ ] url direct sur le finder 
+    [ ] url open + recherche 
     [X] Ctrl+Alt+F : recherche type finder dans un design dashboard =>1257
     [X] connect with multi scope and tags
     [X] right click on tag, add to scope or activate filter
     * bugs 
       [ ] search : 974
       [ ] finder : no crossing between location search and tags
-      [ ] finder hide delete and edit tools
   [ ] City Finder - City Filiaire 
     [X] mono tag, multi types, multi cp
     smallMenu.openAjax( baseUrl+'/'+moduleId+'/search/globalautocomplete',
                    "Communs",
                    'fa-laptop',
                    'yellow',
-                   "La Reunion",
+                   "<i class='fa fa-map-marker text-yellow'></i> Nantes",
                    {
                      name:"#commun",
                      //searchTag:["informaticien","tic","digital","numerique"],
@@ -156,7 +157,7 @@ Liste des notifications déjà lues => #370 #453
                    "TIC",
                    'fa-laptop',
                    'yellow',
-                   "La Reunion",
+                   "<i class='fa fa-map-marker text-yellow'></i> La Reunion",
                    {
                      name:"",
                      searchTag:["informaticien","tic","digital","numerique"],
@@ -169,13 +170,17 @@ Liste des notifications déjà lues => #370 #453
                      indexMin : 0,
                      searchType : ["events","projects","organizations"]
                    })
-    [ ] scope finder reunion > TIC
-        - click 974, can change on region scope
-        - click TIC, can change tags
-    [ ] search predefined tags 
-    [ ] cross with location
+    * todo 
+      [ ] build not empty category lists
+      [ ] click on map-marker icon , shows the map of the content 
+      [ ] menu predefined tags 
+      [ ] cross with location
+      [ ] left menu list
     * wish list
+      [ ] add element into a predefined tag
       [ ] propose related tags
+      [ ] click 974, can change on region scope
+      [ ] click TIC, can change tags
   [X] Directories 
     [X] hide tools 
     [X] Mon repertoire 
