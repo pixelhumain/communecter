@@ -17,6 +17,7 @@ var formType = "";
 var updateLocality = false;
 var addressesIndex = false;
 var saveCities = new Array();
+var uncomplete = false;
 
 function showMarkerNewElement(){ mylog.log("showMarkerNewElement");
 
@@ -126,16 +127,31 @@ function bindEventFormSig(){
 			timeoutAddCity = setTimeout(function(){ autocompleteFormAddress("city", $('[name="newElement_city"]').val()); }, 500);
 		}
 	});
-	$('[name="newElement_cp"]').keyup(function(){ 
-		$("#dropdown-cp-found").show();
-		mylog.log("newElement_cp",$('[name="newElement_cp"]').val().length);
-		if($('[name="newElement_cp"]').val().length > 0){
+	$('[name="newElement_cp"]').keyup(function(){
+		mylog.log("uncomplete",uncomplete);
+		if(uncomplete == false){
+			$("#dropdown-cp-found").show();
 			mylog.log("newElement_cp",$('[name="newElement_cp"]').val().length);
-			NE_cp = $('[name="newElement_cp"]').val();
-			changeSelectCountrytim();
-			if(typeof timeoutAddCity != "undefined") clearTimeout(timeoutAddCity);
-			timeoutAddCity = setTimeout(function(){ autocompleteFormAddress("cp", $('[name="newElement_cp"]').val()); }, 500);
+			if($('[name="newElement_cp"]').val().length > 0){
+				mylog.log("newElement_cp",$('[name="newElement_cp"]').val().length);
+				NE_cp = $('[name="newElement_cp"]').val();
+				changeSelectCountrytim();
+				if(typeof timeoutAddCity != "undefined") clearTimeout(timeoutAddCity);
+				timeoutAddCity = setTimeout(function(){ autocompleteFormAddress("cp", $('[name="newElement_cp"]').val()); }, 500);
+			}
+		}else{
+			if($('[name="newElement_cp"]').val().length > 3){
+				NE_cp = $('[name="newElement_cp"]').val();
+				$("#newElement_btnValidateAddress").prop('disabled', false);
+				$('#divPostalCode').addClass("has-success");
+				$('#divPostalCode').removeClass("has-error");
+			}else{
+				$("#newElement_btnValidateAddress").prop('disabled', true);
+				$('#divPostalCode').addClass("has-error");
+				$('#divPostalCode').removeClass("has-success");
+			}
 		}
+		
 	});
 
 	$('[name="newElement_streetAddress"]').keyup(function(){ 
@@ -153,10 +169,12 @@ function bindEventFormSig(){
 	});
 
 	$('[name="newElement_cp"]').focus(function(){
-		$(".dropdown-menu").hide();
-		$("#dropdown-newElement_cp-found").show();
-		if($('[name="newElement_cp"]').val().length > 0){
-			autocompleteFormAddress("cp", $('[name="newElement_cp"]').val());
+		if(uncomplete == false){
+			$(".dropdown-menu").hide();
+			$("#dropdown-newElement_cp-found").show();
+			if($('[name="newElement_cp"]').val().length > 0){
+				autocompleteFormAddress("cp", $('[name="newElement_cp"]').val());
+			}
 		}
 	});
 	$('[name="newElement_city"]').focus(function(){
@@ -228,19 +246,38 @@ function bindEventFormSig(){
 	/* TODO TIB */
 	$("#newElement_btnValidateAddress").click(function(){
 		if(notEmpty(saveCities[NE_insee])){
-			saveCities[NE_insee]["geoShape"] = 1;
+			var obj = { city : saveCities[NE_insee] }
+			obj.city.geoShape = 1;
+			console.log(typeof obj.city.postalCodes);
+			console.dir(obj.city.postalCodes);
+			if(uncomplete == true){
+				var postalCode = {};
+				
+				postalCode.name = obj.city.name;
+				postalCode.postalCode = NE_cp;
+				postalCode.geo = obj.city.geo;
+				postalCode.geoPosition = obj.city.geoPosition;
+
+				mylog.log("saveCities", typeof obj.city.postalCodes, obj.city.postalCodes);
+
+				obj.city.postalCodes.push(postalCode);
+			}
+			console.log(typeof obj.city.postalCodes);
+			console.dir(obj.city.postalCodes);
 			$.ajax({
 		        type: "POST",
 		        url: baseUrl+"/"+moduleId+"/city/save",
-		        data: {
-		        		city: saveCities[NE_insee]
-		        },
+		        data: obj,
 		       	dataType: "json",
 		    	success: function(data){
+		    		console.dir(obj.city);
+		    		mylog.log("data", data);
 		    		if(data.result)
 		    			backToForm();
 		    	},
 				error: function(error){
+					mylog.log("error", error);
+
 		    		$("#dropdown-newElement_"+currentScopeType+"-found").html("error");
 					mylog.log("Une erreur est survenue pendant l'enregistrement de la commune");
 				}
@@ -279,25 +316,33 @@ function autocompleteFormAddress(currentScopeType, scopeValue){
     			var region = value.regionName;
     			if(notEmpty(value.save))
     				saveCities[insee] = value;
-    			
+
+    			if(notEmpty(value.geoShape))
+			    				inseeGeoSHapes[insee] = value.geoShape.coordinates[0];
+
     			if(currentScopeType == "city") { mylog.log("in scope city"); mylog.dir(value);
-    				$.each(value.postalCodes, function(key, valueCP){
-    					if(notEmpty(value.geoShape))
-		    				inseeGeoSHapes[insee] = value.geoShape.coordinates[0];
-	    				var val = valueCP.name; 
-	    				var lbl = valueCP.postalCode ;
-	    				var lat = valueCP.geo.latitude;
-	    				var lng = valueCP.geo.longitude;
-	    				var lblList = value.name + ", " + valueCP.name + ", " +valueCP.postalCode ;
-	    				html += "<li><a href='javascript:' data-type='"+currentScopeType+"' data-dep='"+dep+"' data-region='"+region+"' data-country='"+country+"' data-city='"+val+"' data-cp='"+lbl+"' data-lat='"+lat+"' data-lng='"+lng+"' data-insee='"+insee+"' class='item-city-found'>"+lblList+"</a></li>";
-	    			});
+    				if(value.postalCodes.length > 0){
+    					$.each(value.postalCodes, function(key, valueCP){
+		    				var val = valueCP.name; 
+		    				var lbl = valueCP.postalCode ;
+		    				var lat = valueCP.geo.latitude;
+		    				var lng = valueCP.geo.longitude;
+		    				var lblList = value.name + ", " + valueCP.name + ", " +valueCP.postalCode ;
+		    				html += "<li><a href='javascript:' data-type='"+currentScopeType+"' data-dep='"+dep+"' data-region='"+region+"' data-country='"+country+"' data-city='"+val+"' data-cp='"+lbl+"' data-lat='"+lat+"' data-lng='"+lng+"' data-insee='"+insee+"' class='item-city-found'>"+lblList+"</a></li>";
+		    			});
+    				}else{
+    					var val = value.name; 
+	    				var lat = value.geo.latitude;
+	    				var lng = value.geo.longitude;
+		    				var lblList = value.name ;
+    					html += "<li><a href='javascript:' data-type='"+currentScopeType+"' data-dep='"+dep+"' data-region='"+region+"' data-country='"+country+"' data-city='"+val+"' data-lat='"+lat+"' data-lng='"+lng+"' data-insee='"+insee+"' class='item-city-found-uncomplete'>"+lblList+"</a></li>";
+					}
+    				
     			}; 
     			if(currentScopeType == "cp") { 
     				$.each(value.postalCodes, function(key, valueCP){ mylog.log(allCities);
     					if($.inArray(valueCP.name, allCities)<0){ 
 	    					allCities.push(valueCP.name);
-		    				if(notEmpty(value.geoShape))
-		    					inseeGeoSHapes[insee] = value.geoShape.coordinates[0];
 		    				var val = valueCP.postalCode; 
 		    				var lbl = valueCP.name ;
 		    				var lblList = valueCP.name + ", " +valueCP.postalCode ;
@@ -314,8 +359,8 @@ function autocompleteFormAddress(currentScopeType, scopeValue){
     		$("#dropdown-newElement_"+currentScopeType+"-found").show();
 
     		$(".item-city-found, .item-cp-found").click(function(){
-
-    			$('[name="newElement_insee"]').val($(this).data("insee"));
+    			add(true, $(this), inseeGeoSHapes);
+    			/*$('[name="newElement_insee"]').val($(this).data("insee"));
 				$('[name="newElement_lat"]').val($(this).data("lat"));
 				$('[name="newElement_lng"]').val($(this).data("lng"));
 				$('[name="newElement_city"]').val($(this).data("city"));
@@ -353,16 +398,21 @@ function autocompleteFormAddress(currentScopeType, scopeValue){
 					// 						Sig.map.setZoom(14); 
 					// 						Sig.map.invalidateSize();*/
 					// 				}, 1500);
-				}
-				$("#dropdown-newElement_cp-found, #dropdown-newElement_city-found, #dropdown-newElement_streetAddress-found").hide();
+				//}
+				//$("#dropdown-newElement_cp-found, #dropdown-newElement_city-found, #dropdown-newElement_streetAddress-found").hide();
 
 				/*$("#info_insee_latlng").html(
 						"<span class='pull-left'><b>Insee : </b>" + NE_insee + "</span> " +
 						"<span class='pull-right'><b>lat : </b>" + NE_lat + " <b>lng : </b>" + NE_lng + "</span> "
 						);*/
-				updateHtmlInseeLatLon();
+				/*updateHtmlInseeLatLon();
 				$("#newElement_btnValidateAddress").prop('disabled', false);
-				$("#divStreetAddress").removeClass("hidden");
+				$("#divStreetAddress").removeClass("hidden");*/
+    		});
+
+    		$(".item-city-found-uncomplete").click(function(){
+
+    			add(false, $(this), inseeGeoSHapes);
     		});
 	    },
 		error: function(error){
@@ -372,6 +422,67 @@ function autocompleteFormAddress(currentScopeType, scopeValue){
 	});
 }
 
+function add(complete, data, inseeGeoSHapes){
+	console.log("add", complete);
+	$('[name="newElement_insee"]').val(data.data("insee"));
+	$('[name="newElement_lat"]').val(data.data("lat"));
+	$('[name="newElement_lng"]').val(data.data("lng"));
+	$('[name="newElement_city"]').val(data.data("city"));
+	$('[name="newElement_dep"]').val(data.data("dep"));
+	$('[name="newElement_region"]').val(data.data("region"));
+	
+	NE_insee = data.data("insee");
+	NE_lat = data.data("lat");
+	NE_lng = data.data("lng");
+	NE_city = data.data("city");
+	NE_country = data.data("country");
+	NE_dep = data.data("dep");
+	NE_region = data.data("region");
+
+	if(complete == true){
+		$('[name="newElement_cp"]').val(data.data("cp"));
+		NE_cp = data.data("cp");
+	}else{
+		uncomplete = true;
+		$('[name="newElement_cp"]').attr( "placeholder", "Vous devez ajouter un code postal" );
+		$('#divPostalCode').addClass("has-error");
+		
+	}
+	
+	Sig.markerFindPlace.setLatLng([data.data("lat"), data.data("lng")]);
+	Sig.map.panTo([data.data("lat"), data.data("lng")]);
+	
+	mylog.log("geoShape", inseeGeoSHapes);
+	if(notEmpty(inseeGeoSHapes[NE_insee])){
+		var shape = inseeGeoSHapes[NE_insee];
+		shape = Sig.inversePolygon(shape);
+		Sig.showPolygon(shape);
+		setTimeout(function(){
+			Sig.map.fitBounds(shape);
+			Sig.map.invalidateSize();
+		}, 1500);
+	}else{
+		Sig.centerPopupMarker([NE_lat, NE_lng], 12);
+		// timeoutAddCity = setTimeout(function(){ //alert("zoom centerrrrr");
+		// 						Sig.centerPopupMarker([NE_lat, NE_lng], 12);
+
+		// 						/*Sig.map.panTo([NE_lat, NE_lng]);
+		// 						Sig.map.setZoom(14); 
+		// 						Sig.map.invalidateSize();*/
+		// 				}, 1500);
+	}
+	$("#dropdown-newElement_cp-found, #dropdown-newElement_city-found, #dropdown-newElement_streetAddress-found").hide();
+
+	/*$("#info_insee_latlng").html(
+			"<span class='pull-left'><b>Insee : </b>" + NE_insee + "</span> " +
+			"<span class='pull-right'><b>lat : </b>" + NE_lat + " <b>lng : </b>" + NE_lng + "</span> "
+			);*/
+	updateHtmlInseeLatLon();
+	$("#newElement_btnValidateAddress").prop('disabled', (complete == true ? false : true));
+	$("#divStreetAddress").removeClass("hidden");
+	
+
+}
 
 function searchAdressNewElement(){ mylog.log("searchAdressNewElement");
 	var providerName = "";

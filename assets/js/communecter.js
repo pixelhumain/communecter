@@ -2351,8 +2351,7 @@ var typeObj = {
 		            },
 			    }
 			}
-		}
-	},
+		}},
 	"persons" : {col:"citoyens" , ctrl:"person"},
 	"citoyen" : {col:"citoyens" , ctrl:"person"},
 	"citoyens" : {col:"citoyens" , ctrl:"person",color:"yellow",icon:"user"},
@@ -3026,6 +3025,71 @@ var typeObj = {
 		} },
 	"city" : {col:"cities",ctrl:"city"},
 	"cities" : {col:"cities",ctrl:"city", titleClass : "bg-red", icon : "university",},
+	"citiesSimply" : { 	col:"cities",
+					ctrl:"city", 
+					titleClass : "bg-red", 
+					icon : "university",
+					dynForm : {
+						jsonSchema : {
+							title : "Ajouter une city",
+							icon : "university",
+							properties : {
+								info : {
+								"inputType" : "custom",
+								"html":"<p><i class='fa fa-info-circle'></i> Ajouter une ville</p>",
+								},
+								id :{
+								"inputType" : "hidden",
+								"value" : ""
+								},
+								"latitude" : {
+								"inputType" : "hidden",
+								"value" : ""
+								},
+								"longitude" : {
+								"inputType" : "hidden",
+								"value" : ""
+								},
+								"name" :{
+								"inputType" : "text",
+								"placeholder" : "Nom de la ville",
+								"rules" : { "required" : true }
+								},
+								postalCode :{
+								"inputType" : "text",
+								"placeholder" : "Code postal",
+								"rules" : { "required" : true }
+								},
+								country :{
+								"inputType" : "hidden",
+								"value" : "",
+								"rules" : { "required" : true }
+								},
+								insee :{
+								"inputType" : "hidden",
+								"value" : "",
+								"rules" : { "required" : true }
+								},
+								dep :{
+								"inputType" : "text",
+								"placeholder" : "Numéro du département"
+								},
+								depName :{
+								"inputType" : "text",
+								"placeholder" : "Nom du département"
+								},
+								region :{
+								"inputType" : "text",
+								"placeholder" : "Numéro de la région"
+								},
+								regionName :{
+								"inputType" : "text",
+								"placeholder" : "Nom de la région"
+								}
+							}
+						}
+					}
+},
 	"entry" : {
 		col:"surveys",
 		ctrl:"survey",
