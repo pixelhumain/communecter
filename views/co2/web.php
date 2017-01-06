@@ -24,9 +24,39 @@
 <style>
     #sectionSearchResults{
         min-height:700px;
-        margin-left:80px;
+        /*margin-left:80px;*/
         padding-bottom:50px;
     }
+
+    #list-keywords{
+        margin-top:180px;
+        text-align: right;
+    }
+
+    #list-keywords .btn{
+        background-color: #4285f4;
+        border-color: #4285f4;
+    }
+    #list-keywords .btn.active{
+        background-color: #fff;
+        color: #4285f4;
+    }
+    #list-keywords .btn:hover{
+        background-color: #1c6df5;
+        border-color: #4285f4;
+    }
+    #list-keywords .btn.active:hover{
+        background-color: #fff;
+        color: #4285f4;
+    }
+
+@media (max-width: 768px) {
+    #list-keywords{
+        margin-top:10px;
+        text-align: left;
+    }
+}
+
 </style>
 
 
@@ -38,7 +68,9 @@
 
 <section class="padding-top-15 hidden" id="sectionSearchResults">
     <div class="row">
-        <div class="col-md-8" id="searchResults"></div>
+
+        <div class="col-md-2 col-sm-2" id="list-keywords"></div>
+        <div class="col-md-8 col-sm-8" id="searchResults"></div>
     </div>
 </section>
 
@@ -62,12 +94,6 @@ function initWebInterface(){
     $("#main-btn-start-search, .menu-btn-start-search").click(function(){
         var search = $("#main-search-bar").val();
         startWebSearch(search, currentCategory);
-    });
-    $(".menu-btn-back-category").click(function(){
-        $("#mainCategories").show();
-        $("#searchResults").html("");
-        $("#sectionSearchResults").addClass("hidden");
-        KScrollTo("#main-input-group");
     });
 
     $("#second-search-bar").keyup(function(e){
@@ -101,12 +127,13 @@ function startWebSearch(search, category){
 
     if(!notEmpty(search) && !notEmpty(category)) {
         toastr.info("Champ de recherche vide !");
-        //return;
+        return;
     }
 
     $("#second-search-bar").val(search);
     $("#mainCategories").hide();
-    $("#searchResults").html("recherche en cours. Merci de patienter quelques instants...");
+    $("#sectionSearchResults").removeClass("hidden");
+    $("#searchResults").html("<i class='fa fa-spin fa-refresh'></i> recherche en cours. Merci de patienter quelques instants...");
 
     var params = {
         search:search,
@@ -121,7 +148,6 @@ function startWebSearch(search, category){
         success:
             function(html) { 
                 $("#searchResults").html(html); 
-                $("#sectionSearchResults").removeClass("hidden");
                 // setTimeout(function(){ 
                 //     showMapLegende("crosshairs", "Site web géolocalisés ...");
                 // }, 1000);
@@ -150,9 +176,9 @@ function buildListCategories(){
                         '<div class="container">'+
                             '<div class="row">'+
                                 '<div class="col-lg-12 text-center">'+
-                                    '<h2 class="letter-'+params.color+'">'+
+                                    '<h3 class="letter-'+params.color+'">'+
                                         'Recherche '+name+
-                                    '</h2>'+
+                                    '</h3>'+
                                     '<hr class="angle-down">'+
                                 '</div>'+
                             '</div>'+
@@ -167,7 +193,7 @@ function buildListCategories(){
                                             '</div>'+
                                         '</div>'+
                                         '<i class="fa fa-'+val.faIcon+' fa-2x"></i>'+
-                                        '<h3>'+val.name+'</h3>'+
+                                        '<h4>'+val.name+'</h4>'+
                                     '</button>'+
                                 '</div>'
         });

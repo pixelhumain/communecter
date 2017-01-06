@@ -127,6 +127,7 @@ $this->renderPartial('../default/panels/toolbar');
                 <a href="#city.detail.insee.<?php echo $city['insee']; ?>" class="lbh cityGlobal">
                   <?php echo $city["name"];  ?>
                 </a> 
+                
               </div>       
       <?php } 
           } ?>
@@ -255,7 +256,8 @@ $this->renderPartial('../default/panels/toolbar');
                     </div>
                     */?>
                 </div>
-
+                <div class="space20"></div>
+                <a href="javascript:cityFinder()" class="btn btn-default">Filiaires locales</a> <a href="javascript:cityFinder()" class="btn btn-default">Filiaires régionales</a> 
         <!--       </div>
             </div>
            
@@ -565,4 +567,92 @@ function getWiki(q){
         } 
     });
 }
+
+var cityFinderObj = {
+  title1 : "<i class='fa fa-map-marker text-yellow'></i> <?php echo $city["name"];?>",
+  title2 : "Thèmatique <i class='fa fa-asterisk text-yellow'></i> ",
+  menu : {
+    content : {
+        label  : "Contenu",
+        icon   : "fa-pencil-square-o",
+        action : "javascript:alert('Link')" },
+    followers : {
+        label  : "Popularité",
+        icon   : "fa-users",
+        action : "javascript:alert('Link')" },
+    latest : { 
+        label  : "Activité",
+        icon   : "fa-clock-o",
+        action : "javascript:alert('Link')" }
+  },
+  list : {
+    <?php foreach (OpenData::$categ as $key => $value) 
+    {
+      if( @$value["icon"] )
+      {
+      ?>
+        "<?php echo @$value["name"]?>" : { label  : "<?php echo @$value["name"]?>", 
+                                            icon   : "<?php echo @$value["icon"]?>", 
+                                            key : "<?php echo @$value["name"]?>", 
+                                            //color : "dark",
+                                            action : "javascript:;",
+                                            click : function(){ 
+                                              cityFinderSearch( "<?php echo @$value["name"]?>", "<?php echo @$value["icon"]?>", <?php echo json_encode( @$value["tags"] );?> ) 
+                                            }
+      },  
+    <?php }
+    } ?>
+  }
+};
+
+
+function cityFinder(){
+  smallMenu.build( cityFinderObj, 
+                   function(params){
+                                    return js_templates.leftMenu_content(params);},
+                   function(){
+                    $(".kickerBtn").on("click",function() { 
+                      cityFinderObj.list[$(this).data('key')].click()  
+                    });
+                    $(".menuSmallLeftMenu").prepend("<h2 class='homestead'>Trier</h2>")
+                   });
+}
+
+<?php 
+$cps = array();
+foreach ($city["postalCodes"] as $key => $value) {
+  $cps[] = $value["postalCode"];
+}
+?>
+
+var postalCodes = <?php echo json_encode( $cps);?>;
+function  cityFinderSearch( what,icon, tags ) { 
+  var params = {
+    name : "",
+    searchTag : tags,
+    searchBy : "CODE_POSTAL_INSEE",
+    //searchLocalityREGION : ["REUNION"],
+    searchLocalityCODE_POSTAL : postalCodes,
+    //searchLocalityDEPARTEMENT : "974",
+    indexMax : 200,
+    indexMin : 0,
+    searchType : ["events","projects","organizations"],
+    tpl : "list",
+    otherCollectionList : function() {
+      var strHTML = "<h2 class='homestead'>Thématiques</h2>"+
+            js_templates.loop( cityFinderObj.list,"linkList",{ classes : "menuThemeBtn" });
+      $("#listCollections").append(strHTML);
+      $(".menuThemeBtn").on("click",function() { 
+        cityFinderObj.list[ $(this).data('key') ].click();
+      }); 
+    }
+  };
+  smallMenu.openAjax( baseUrl+'/'+moduleId+'/search/globalautocomplete',
+                   what,
+                   icon,
+                   'yellow',
+                   '<a href="javascript:cityFinder()"><i class="fa fa-th text-grey"></i></a> <i class="fa fa-angle-right"></i> <i class="fa fa-map-marker text-yellow"></i> <?php echo $city["name"];  ?>',
+                   params);
+}
+
 </script>

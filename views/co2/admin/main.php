@@ -26,7 +26,7 @@
 
 <?php 
 	$visits = CO2Stat::getStatsByHash(); 
-	$days = array("Mon", "Tue", "Wen", "Thu", "Fri", "Sat", "Sun");
+	$days = array("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun");
 ?>
 <style>
 	.stat-week .col-md-1{
