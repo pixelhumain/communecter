@@ -1,10 +1,10 @@
 
-<button class="btn btn-default menu-btn-back-category btn-second margin-bottom-5" id="btn-new-search">
+<button class="btn btn-default menu-btn-back-category btn-second margin-bottom-5 margin-top-15" id="btn-new-search">
 	<i class="fa fa-undo"></i> Nouvelle recherche
 </button>
 
 <?php if(sizeof($siteurls) == 0){ ?>
-	<a class="btn btn-default btn-success margin-bottom-5 lbh" href="#co2.referencement">
+	<a class="btn btn-default btn-success margin-bottom-5 margin-top-15 lbh" href="#co2.referencement">
 		<i class="fa fa-plus-circle"></i> Ajouter une URL
 	</a><br>
 
@@ -19,13 +19,16 @@
 <hr>
 
 <h3 id="titleWebSearch" class="margin-bottom-20">
-	<?php echo @$category ? " <small class=''><i class='fa fa-cube'></i> ".@$category."</small><br>" : ""; ?>
-	<i class="fa fa-angle-down"></i> 
-	<?php echo sizeof($siteurls) > 0 ? sizeof($siteurls) : "aucun"; ?> 
-	résultat<?php echo sizeof($siteurls) > 1 ? "s" : ""; ?>
+	<?php echo @$category ? " <small class='letter-blue'><i class='fa' id='fa-category'></i> ".$category."</small>" : ""; ?>
+	<?php echo @$search ? " <small class='letter-blue'> <i class='fa fa-angle-right'></i> ".$search."</small><br>" : "<br>"; ?>
+	
+	<div class="margin-top-5">
+		<i class="fa fa-angle-down"></i> 
+		<?php echo sizeof($siteurls) > 0 ? sizeof($siteurls) : "aucun"; ?> 
+		résultat<?php echo sizeof($siteurls) > 1 ? "s" : ""; ?> 
+	</div>
 </h3>
 
-	
 
 <style>
 	.siteurl_title{
@@ -38,12 +41,36 @@
 		font-size:13px!important;
 		color:#606060;
 	}
+
+	.btn-favory{
+		margin-left:-30px; 
+		margin-right:13px;
+	}
+
+	.btn-favory .fa-star{
+		display: none;
+	}
+	.btn-favory:hover{
+		text-decoration: none;
+	}
+	.btn-favory:hover .fa-star-o{
+		display: none;
+	}
+	.btn-favory:hover .fa-star{
+		display: inline;
+	}
 </style>
 
 <div class="col-md-10 margin-bottom-15" style="">
 <?php  foreach ($siteurls as $key => $siteurl) { ?>
 	<div class="col-md-12 margin-bottom-15">
-		
+
+		<?php if(isset(Yii::app()->session["userId"])){ ?>
+		<a href="javascript:" class="btn-favory tooltips" data-placement="top" data-toggle="tooltip" title="Garder en favoris">
+			<i class="fa fa-star-o"></i><i class="fa fa-star letter-yellow"></i>
+		</a>
+		<?php } ?>
+
 		<a class="siteurl_title letter-blue" target="_blank" href="<?php echo $siteurl["url"]; ?>">
 			<?php echo $siteurl["title"]; ?>
 		</a><br>
@@ -80,20 +107,20 @@
 
 	$searchG = str_replace(" ", "+", $search);
 ?>
-<div class="col-md-12" style="">
+<div class="col-md-12" style="margin-top:50px;">
 	<hr>
-	<h5>
+	<h5 class="text-right">
 		<a href="https://www.google.com/search?q=<?php echo $searchG; ?>" target="_blank">
 			<i class="fa fa-fw fa-angle-right"></i> continuer la recherche sur 
-	    	<img src="<?php echo Yii::app()->theme->baseUrl; ?>/assets/img/google.png" height=50>
+	    	<img src="<?php echo Yii::app()->theme->baseUrl; ?>/assets/img/google.png" height=25>
     	</a>
 	</h5>
 </div>
 <?php } ?>
 
 <?php if(sizeof($siteurls) >= 1){ ?>
-<div class="col-md-12 margin-bottom-15" style="">
-	<hr>
+<div class="col-md-12 margin-bottom-15 text-right" style="">
+	<hr class="margin-top-5">
 	<span>
 		<small><b>
 		Le site que vous recherchez n'est pas référencé ?<br> 
@@ -109,6 +136,7 @@
 <script>
   
 var siteurls = <?php echo json_encode($siteurls); ?>;
+var search = "<?php echo $search; ?>";
 
 jQuery(document).ready(function() { 
    Sig.showMapElements(Sig.map, siteurls);
@@ -151,13 +179,18 @@ jQuery(document).ready(function() {
         $("#mainCategories").show();
         $("#searchResults").html("");
         $("#sectionSearchResults").addClass("hidden");
+        $("#main-search-bar").val("");
+        $("#second-search-bar").val("");
+        $("#input-search-map").val("");
         KScrollTo("#mainCategories");
         currentCategory = ""
     });
+   
+   $(".tooltips").tooltip();
 
    bindLBHLinks();
 
-   
+   initKeywords();
 
 });
 
@@ -185,5 +218,36 @@ function incNbClick(url){
             }
         }
     });
+}
+
+function initKeywords(){
+	var html = "";
+    $.each(mainCategories, function(name, params){
+    	$.each(params.items, function(keyC, val){
+    		if(val.name == currentCategory){
+	    		$("#fa-category").addClass("fa-"+val.faIcon);
+		    	if(typeof val.keywords != "undefined"){
+	    			$.each(val.keywords, function(keyK, keyword){
+	    				var classe="";
+	    				if(search==keyword) classe="active";
+		    			html += '<button class="btn btn-success btn-sm margin-bottom-5 margin-left-10 btn-keyword '+classe+'" data-keyword="'+keyword+'">'+
+		    						keyword+
+		    					'</button><br class="hidden-xs">';
+		    		});
+		    	}
+	    	}
+	    });
+	});
+	$("#list-keywords").html(html);
+
+	$(".btn-keyword").click(function(){
+		var key = $(this).data("keyword");
+		$("#main-search-bar").val(key);
+		$("#second-search-bar").val(key);
+		startWebSearch(key, currentCategory);
+
+		$(".btn-keyword").removeClass("active");
+		$(this).addClass("active");
+	});
 }
 </script>

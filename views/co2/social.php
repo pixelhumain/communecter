@@ -60,27 +60,28 @@
     border-radius: 0 50%;
 }*/
 .main-btn-scopes {
-    position: absolute;
-    top: -20px;
-    left: 49%;
+    margin-top: -37px;
     z-index: 10;
-    border-radius: 0 50%;
-    -ms-transform: rotate(7deg);
+    border-radius: 50%;
+    padding:3px;
+    border: 3px solid transparent!important;
+    -webkit-box-shadow: 0px 0px 9px -1px rgba(0,0,0,0.5);
+    -moz-box-shadow: 0px 0px 9px -1px rgba(0,0,0,0.5);
+    box-shadow: 0px 0px 6px -1px rgba(0,0,0,0.5);
+    /*-ms-transform: rotate(7deg);
     -webkit-transform: rotate(7deg);
-    transform: rotate(-45deg);
+    transform: rotate(-45deg);*/
 }
 
 .main-btn-scopes:hover{
     background-color: white!important;
     color:#ea4335!important;
-    border: 2px solid #ea4335!important;
+    border: 3px solid #ea4335!important;
 
 }
 
 .btn-create-page{
-    position: absolute;
-    top: 0px;
-    left: 49%;
+    margin-top:0px;
     z-index: 10;
     border-radius: 0 50%;
     -ms-transform: rotate(7deg);
@@ -103,6 +104,10 @@
     z-index: 10;
     border-radius: 0 50%;
 }
+
+.links-create-element .btn-create-elem{
+    margin-top:25px;
+}
 </style>
 
 
@@ -110,25 +115,30 @@
 
 <div class="col-md-12 col-sm-12 col-xs-12 bg-white no-padding shadow" style="min-height:700px;">
 
-    <button class="btn btn-default btn-circle-1 main-btn-scopes bg-red text-white tooltips" 
+    <h5 class="text-center letter-red">
+        <button class="btn btn-default main-btn-scopes text-white tooltips margin-bottom-5" 
             data-target="#modalScopes" data-toggle="modal"
             data-toggle="tooltip" data-placement="top" 
                                 title="Sélectionner des lieux de recherche">
-            <i class="fa fa-bullseye" style="font-size:18px;"></i>
-    </button><br>
-    <h5 class="text-center letter-red">où ?</h5>
+            <!-- <i class="fa fa-bullseye" style="font-size:18px;"></i> -->
+            <img src="<?php echo Yii::app()->theme->baseUrl; ?>/assets/img/cible3.png" height=42>
+        </button><br>
+        recherche ciblée
+    </h5>
     <br>
     <div class="scope-min-header list_tags_scopes hidden-xs hidden-sm">
     </div>
 
 	<div class="col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 padding-top-50" id="page"></div>
 
-    <div class="ol-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 ">
-        <hr>
+    <div class="col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 text-center">
+        <hr style="margin-bottom:-20px;">
+        <!-- data-target="#modalScopes" data-toggle="modal" -->
+        
         <button class="btn btn-default btn-circle-1 btn-create-page bg-green-k text-white tooltips" 
-                data-target="#modalScopes" data-toggle="modal"
-                data-toggle="tooltip" data-placement="top" 
-                                    title="Créer une nouvelle page">
+            data-target="#dash-create-modal" data-toggle="modal"
+            data-toggle="tooltip" data-placement="top" 
+                                title="Créer une nouvelle page">
                 <i class="fa fa-times" style="font-size:18px;"></i>
         </button>
         <h5 class="text-center letter-green margin-top-25">Créer une page</h5>
@@ -145,6 +155,135 @@
 </div>
 
 
+<div class="portfolio-modal modal fade" id="dash-create-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-content padding-top-15">
+        <div class="close-modal" data-dismiss="modal">
+            <div class="lr">
+                <div class="rl">
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/assets/img/KGOUGLE-logo.png" height="50" class="inline margin-top-25 margin-bottom-5"><br>
+                    
+                    <h3 class="letter-red no-margin hidden-xs">
+                        <small class="text-dark">Un réseau social <span class="letter-red">citoyen</span>, au service du <span class="letter-red">bien commun</span></small>
+                    </h3><br>
+                    <h3 class="letter-red no-margin hidden-xs">
+                        <i class="fa fa-plus-circle"></i> Créer une page<br>
+                    </h3>
+                   <!-- <hr> -->
+                </div>               
+            </div>
+            <div class="row links-create-element">
+                <div class="col-lg-12">
+                    <div class="modal-header text-dark">
+                       <label class="label label-lg bg-green-k padding-5"><i class="fa fa-check"></i> Partage de messages</label> 
+                       <label class="label label-lg bg-green-k padding-5"><i class="fa fa-check"></i> Partage d'événements</label> 
+                       <label class="label label-lg bg-green-k padding-5"><i class="fa fa-check"></i> Gestion de contacts</label>  
+                       <label class="label label-lg bg-green-k padding-5"><i class="fa fa-check"></i> Messagerie privées</label>  
+                       <label class="label label-lg bg-green-k padding-5"><i class="fa fa-check"></i> Notifications</label> 
+                    </div>
+                    
+                    <div id="" class="modal-body">
+                        <div class="col-md-12 hidden">
+                            
+                        </div>
+                         <h4 class="modal-title text-center hidden">
+                            Choisissez le type de page qui vous correspond le mieux
+                            <hr>
+                        </h4>
+                        <a href="javascript:" class="btn-create-elem col-lg-6 col-sm-6 col-xs-6" data-ktype="NGO" data-type="organization"
+                            date-target="#modalMainMenu" data-dismiss="modal">
+                            <div class="modal-body text-left">
+                                <h2 class="text-green"><i class="fa fa-group padding-bottom-10"></i><br>
+                                    <span class="font-blackoutT"> Association</span>
+                                </h2>
+                                
+                                <div class="col-md-12 no-padding text-center hidden-xs">
+                                    <h5>Resserrer les liens du tissu associatif
+                                        <small class="hidden-xs"><br>
+                                            Le monde associatif est basé sur l'entraide et la solidarité.<br>
+                                            Plus que jamais, les associations ont besoin de se relier entre-elles,<br> 
+                                            pour faire plus et mieux, ensemble.
+                                        </small>
+                                    </h5>
+                                    <button class="btn btn-default text-green margin-bottom-15"><i class="fa fa-plus-circle"></i> Créer ma page</button>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="javascript:" class="btn-create-elem col-lg-6 col-sm-6 col-xs-6" data-ktype="LocalBusiness" data-type="organization"
+                            date-target="#modalMainMenu" data-dismiss="modal">
+                            <div class="modal-body text-left">
+                                <h2 class="text-azure"><i class="fa fa-industry padding-bottom-10"></i><br>
+                                    <span class="font-blackoutT"> Entreprise</span>
+                                </h2>
+                                
+                                <div class="col-md-12 no-padding text-center hidden-xs">
+                                    <h5>Dynamiser le monde de l'entreprise
+                                        <small class="hidden-xs"><br>
+                                            Rester connecté à vos contacts, vos clients, vos fournisseurs...<br>
+                                            Le réseau vous apportera une visibilité incomparable<br>
+                                            auprès de tous les internautes Calédoniens.
+                                        </small>
+                                    </h5>
+                                    <button class="btn btn-default text-azure margin-bottom-15"><i class="fa fa-plus-circle"></i> Créer ma page</button>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="javascript:" class="btn-create-elem col-lg-6 col-sm-6 col-xs-6" data-ktype="Group" data-type="organization"
+                            date-target="#modalMainMenu" data-dismiss="modal">
+                            <div class="modal-body text-left">
+                                <h2 class="text-turq"><i class="fa fa-circle-o padding-bottom-10"></i><br>
+                                    <span class="font-blackoutT"> Groupe</span>
+                                </h2>
+                                
+                                <div class="col-md-12 no-padding text-center hidden-xs">
+                                    <h5>Mettre en valeur les liens humains
+                                        <small class="hidden-xs"><br>
+                                            La vie c'est des rencontres, des amitiés, des liens qui nous unissent<br>
+                                            à travers nos activités, nos centres d'intérêts, nos plaisirs.<br>
+                                            Les vivres c'est bien, les partager c'est encore mieux !
+                                        </small>
+                                    </h5>
+                                    <button class="btn btn-default text-turq margin-bottom-15"><i class="fa fa-plus-circle"></i> Créer ma page</button>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="javascript:" class="btn-create-elem col-lg-6 col-sm-6 col-xs-6" data-ktype="project" data-type="project"
+                            date-target="#modalMainMenu" data-dismiss="modal">
+                            <div class="modal-body text-left">
+                                <h2 class="text-purple"><i class="fa fa-lightbulb-o padding-bottom-10"></i><br>
+                                    <span class="font-blackoutT"> Projet</span>
+                                </h2>
+                                
+                                <div class="col-md-12 no-padding text-center hidden-xs">
+                                    <h5>Ce sont les petites initiatives<br>qui donnent naissance aux projets hors du commun
+                                        <small class="hidden-xs"><br>
+                                            N'hésitez jamais à faire connaître vos envies, vos projets, vos rêves.<br>
+                                            C'est comme ça qu'ils grandissent !
+                                        </small>
+                                    </h5>
+                                    <button class="btn btn-default text-purple margin-bottom-15"><i class="fa fa-plus-circle"></i> Créer ma page</button>
+                                </div>
+                            </div>
+                        </a>
+
+                        <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+                            <hr>
+                            <a href="javascript:" style="font-size: 13px;" type="button" class="" data-dismiss="modal"><i class="fa fa-times"></i> Retour</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <?php $this->renderPartial($layoutPath.'footer', array("subdomain"=>"social")); ?>
 
 
@@ -155,6 +294,7 @@ var type = "<?php echo @$type ? $type : 'persons'; ?>";
 
 var TPL = "kgougle";
 
+var currentKFormType = "";
 
 jQuery(document).ready(function() {
 	initKInterface();
@@ -184,7 +324,19 @@ jQuery(document).ready(function() {
             $("#searchBarText").val($(this).val());
         });
 
+        $(".btn-create-elem").click(function(){
+            currentKFormType = $(this).data("ktype");
+            var type = $(this).data("type");
+            setTimeout(function(){
+                        openForm(type);
+                     },500);
+            
+        });
+
         $(".tooltips").tooltip();
+
+        //currentKFormType = "Group";
+        //openForm ("organization");
     });
 
 </script>

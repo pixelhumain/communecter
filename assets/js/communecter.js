@@ -1635,7 +1635,7 @@ function openForm (type, afterLoad,data) {
 	  	data = ( notNull(data) ) ? data : {};
 	  	buildDynForm(specs, afterLoad, data);
 	} else 
-		toastr.error("Ce type ou ce formulaire n'est pas déclaré");
+		toastr.error("Vous devez être connecté pour afficher les formulaires de création");
 }
 
 function buildDynForm(elementObj, afterLoad,data) { 
@@ -2279,6 +2279,7 @@ var collection = {
 	}
 };
 
+
 var contextData = null;
 var typeObj = {
 	"person" : {
@@ -2565,13 +2566,13 @@ var typeObj = {
 							creator : trad.justCitizen
 		            	}
 		            },
-		            location : {
-		                inputType : "location"
-		            },
 		            tags :{
 		              "inputType" : "tags",
 		              "placeholder" : "Tags ou Types de l'organisation",
 		              "values" : tagsList
+		            },
+		            location : {
+		                inputType : "location"
 		            },
 		            formshowers : {
 		                "inputType" : "custom",
@@ -2708,6 +2709,7 @@ var typeObj = {
 		            },
 		            name : {
 			        	placeholder : "Nom",
+			        	labelText:"Nom",
 			            "inputType" : "text",
 			            "rules" : { "required" : true },
 			            init : function(){
@@ -2970,7 +2972,7 @@ var typeObj = {
 		            },
 		            formshowers : {
 		                "inputType" : "custom",
-		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".descriptionwysiwyg,.urltext\").slideToggle();activateSummernote(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (desc, urls)</a>",
+		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".descriptionwysiwyg,.urltext\").slideToggle();activateSummernote(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (description, urls)</a>",
 		            },
 			        description : {
 		                "inputType" : "wysiwyg",
