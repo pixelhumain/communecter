@@ -421,6 +421,7 @@ class CommunecterController extends Controller
       "delete"              => array("href" => "/ph/communecter/element/delete"),
     ),
     "co2" => array(
+      "index"             => array('href' => "/ph/communecter/co2/index",               "public" => true),
       "web"               => array('href' => "/ph/communecter/co2/web",               "public" => true),
       "websearch"         => array('href' => "/ph/communecter/co2/websearch",         "public" => true),
       "live"              => array('href' => "/ph/communecter/co2/live",              "public" => true),

@@ -17,6 +17,7 @@ class Co2Controller extends CommunecterController {
 	public function actions()
 	{
 	    return array(
+	        'index'     	=> 'citizenToolKit.controllers.co2.IndexAction',
 	        'web'     		=> 'citizenToolKit.controllers.co2.WebAction',
 	        'websearch'     => 'citizenToolKit.controllers.co2.WebSearchAction',
 	        'live'    		=> 'citizenToolKit.controllers.co2.LiveAction',

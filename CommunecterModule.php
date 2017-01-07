@@ -76,6 +76,7 @@ class CommunecterModule extends CWebModule
 		} else if (empty(Yii::app()->theme)) {
 			$theme = "ph-dori";
 			//$theme = "kgougle";
+
 		}
 
 		if(@$_GET["tpl"] == "iframesig"){ $theme = $_GET["tpl"]; }
