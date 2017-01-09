@@ -540,7 +540,7 @@ $controler = Element::getControlerByCollection($type);
 	</div><!-- /.modal -->
 </div>
 <?php 
-Menu::element($entity,$type);
+Menu::element($entity,$type, @$menuConfig);
 $this->renderPartial('../default/panels/toolbar');
 
 $emptyAddress = (empty($entity["address"]["codeInsee"])?true:false);

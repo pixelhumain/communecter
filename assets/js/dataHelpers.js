@@ -139,7 +139,7 @@ function addCustomValidators() {
 
     jQuery.validator.addMethod("greaterThan", function(value, element, params) {    
 	    if (!/Invalid|NaN/.test(new Date(value))) {
-	        return new Date(value) >= new Date($(params[0]).val());
+	        return moment(value, "DD/MM/YYYY HH:mm").isAfter(moment($(params[0]).val(), "DD/MM/YYYY HH:mm"));
 	    }    
 	    return isNaN(value) && isNaN($(params[0]).val()) || (Number(value) > Number($(params[0]).val())); 
 	},'Doit ètre aprés {1}.');
@@ -151,10 +151,13 @@ function addCustomValidators() {
 
 	jQuery.validator.addMethod("duringDates", function(value, element, params) {  
 		if( $(params[0]).val() && $(params[1]).val() ){
-	    return  ( new Date(value) >= new Date( $(params[0]).val() ) && new Date(value) <= new Date($(params[1]).val()) );
+			//console.warn(moment(value, "DD/MM/YYYY HH:mm"),moment($(params[0]).val()),moment($(params[1]).val()));
+	    	return (moment(value, "DD/MM/YYYY HH:mm").isSameOrAfter(moment($(params[0]).val())) 
+	    		&& moment(value, "DD/MM/YYYY HH:mm").isSameOrBefore(moment($(params[1]).val())));
+	    	//return  ( new Date(value) >= new Date( $(params[0]).val() ) && new Date(value) <= new Date($(params[1]).val()) );
 		} 
 		return true;
-	},"Cette date exterieur à l'évènement parent.");
+	},"Cette date est exterieure à l'évènement parent.");
 }
 
 

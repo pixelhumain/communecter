@@ -59,15 +59,31 @@ class CommunecterModule extends CWebModule
 	    return $this->_assetsUrl;
 	}
 
+	/**
+	 * Retourne le theme d'affichage de communecter.
+	 * Si option "theme" dans paramsConfig.php : 
+	 * Si aucune option n'est précisée, le thème par défaut est "ph-dori"
+	 * Si option 'tpl' fixée dans l'URL avec la valeur "iframesig" => le theme devient iframesig
+	 * Si option "network" fixée dans l'URL : theme est à network et la valeur du parametres fixe les filtres d'affichage
+	 * @return type
+	 */
 	public function getTheme() {
-		$theme = "notragora";
+
+		$theme = "ph-dori";
+		//$theme = "kgougle";
 		if (!empty(Yii::app()->params['theme'])) {
 			$theme = Yii::app()->params['theme'];
 		} else if (empty(Yii::app()->theme)) {
-			$theme = "notragora";
+			$theme = "ph-dori";
+			//$theme = "kgougle";
 		}
 
 		if(@$_GET["tpl"] == "iframesig"){ $theme = $_GET["tpl"]; }
+
+		if(@$_GET["network"]) {
+            $theme = "network";
+            Yii::app()->params['networkParams'] = $_GET["network"];
+        }
 		return $theme;
 	}
 }

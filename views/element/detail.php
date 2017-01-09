@@ -36,7 +36,12 @@ $cssAnsScriptFilesModule = array(
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 
-
+// Initialize $front array()
+// - Define which element is visible following current theme (communecter, network, notragora)
+if(@Yii::app()->params["front"]) $front = Yii::app()->params["front"];
+else if(@$networkJson && @$networkJson["skin"]["front"]) $front = $networkJson["skin"]["front"];
+if(@Yii::app()->params["menu"]) $menuConfig = Yii::app()->params["menu"];
+else if(@$networkJson && @$networkJson["skin"]["menu"]) $menuConfig = $networkJson["skin"]["menu"];
 ?>
 
 <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet" />
@@ -65,7 +70,8 @@ if($('#breadcum').length)
 	</style>
 <?php 
 	if($type != City::CONTROLLER && $type != Poi::COLLECTION && !@$_GET["renderPartial"])
-		$this->renderPartial('../pod/headerEntity', array("entity"=>$element, "users" => $members, "type" => $type, "openEdition" => $openEdition, "edit" => $edit, "firstView" => "detail")); 
+
+		$this->renderPartial('../pod/headerEntity', array("entity"=>$element, "type" => $type, "openEdition" => $openEdition, "edit" => $edit, "firstView" => "detail","menuConfig"=>@$menuConfig, "users" => $members)); 
 		//End isset renderPartial
 ?>
 <div class="row" id="detailPad">
@@ -257,7 +263,7 @@ if($('#breadcum').length)
 				                        </a>
 				                        <br/><span class="discover-subtitle">Organisation</span>
 				                    </div>
-									<?php if(!@Yii::app()->params["front"] || (@Yii::app()->params["front"] && Yii::app()->params["front"]["event"])){ ?>
+									<?php if(!@$front || (@$front && $front["event"])){ ?>
 				                    <div class="col-xs-6  center text-orange btnSubTitle">
 				                        <a href="javascript:openForm('event')" class="btn btn-discover bg-orange">
 				                          <i class="fa fa-calendar"></i>
@@ -329,7 +335,7 @@ if($('#breadcum').length)
 
 
 	    	<?php if (($type==Project::COLLECTION || $type==Organization::COLLECTION || $type==Event::COLLECTION)){ ?>
-	    		<?php if(!@Yii::app()->params["front"] || (@Yii::app()->params["front"] && Yii::app()->params["front"]["event"]==true)){ ?>
+	    		<?php if(!@$front || (@$front && $front["event"]==true)){ ?>
 				<div class="col-xs-12">
 					<?php 
 						$organizerImg=false;
@@ -372,7 +378,7 @@ if($('#breadcum').length)
 
 
 			<?php if ($type==Organization::COLLECTION){ 
-				if(!@Yii::app()->params["front"] || (@Yii::app()->params["front"] && Yii::app()->params["front"]["project"]))					{ 
+				if(!@$front || (@$front && $front["project"]))					{ 
 			?>
 			<div class="col-xs-12">
 	 			<?php $this->renderPartial('../pod/projectsList',array( "projects" => @$projects, 
@@ -385,7 +391,7 @@ if($('#breadcum').length)
 			<?php }
 			} ?>
 			<?php if($type==Project::COLLECTION || $type==Organization::COLLECTION || $type==Event::COLLECTION){ 
-				if(!@Yii::app()->params["front"] || (@Yii::app()->params["front"] && Yii::app()->params["front"]["poi"]))					{ 
+				if(!@$front || (@$front && $front["poi"]))					{ 
 			?> 
 			<div class="col-xs-12">
 				<?php   $pois = PHDB::find(Poi::COLLECTION,array("parentId"=>(String) $element["_id"],"parentType"=>$type));
@@ -394,7 +400,7 @@ if($('#breadcum').length)
 	    	</div>	
 	    	<?php }
 		    } ?>
-	    	<?php if( !$type==Event::COLLECTION && ( !@Yii::app()->params["front"] || (@Yii::app()->params["front"] && Yii::app()->params["front"]["need"]==true))){ ?>
+	    	<?php if( !$type==Event::COLLECTION && ( !@$front || (@$front && $front["need"]==true))){ ?>
 	    	<div class="col-xs-12 needsPod">	
 				<?php $this->renderPartial('../pod/needsList',array( 	"needs" => @$needs, 
 																		"parentId" => (String) $element["_id"],
@@ -414,7 +420,7 @@ if($('#breadcum').length)
 			<?php if($type==Project::COLLECTION || $type==Organization::COLLECTION){ ?> 
 			
 			<?php 
-				if(!@Yii::app()->params["front"] || (@Yii::app()->params["front"] && Yii::app()->params["front"]["dda"]==true)){ 
+				if(!@$front || (@$front && $front["dda"]==true)){ 
 				$rooms = ActionRoom::getAllRoomsActivityByTypeId($type, (string)$element["_id"]);	
 				$this->renderPartial('../pod/activityList2',array(    
 	   					"parent" => $element, 

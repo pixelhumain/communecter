@@ -494,10 +494,10 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
    
           //mylog.dir(o);
           //mylog.log(typeof o.startDate);
-
-          var startDate = notEmpty(o.startDate) ? dateToStr(o.startDate, "fr", true, true) : null;
-          var endDate   = notEmpty(o.endDate) ? dateToStr(o.endDate, "fr", true, true)   : null;
-          if(endDate == null) endDate = notEmpty(o.dateEnd) ? dateToStr(o.dateEnd, "fr", true, true)   : null;
+          console.log("/////////////////////////// directory.js",o);
+          //moment.locale("fr");
+          var startDate = notEmpty(o.startDate) ? moment(o.startDate).local().locale("fr").format("DD MMMM YYYY - HH:mm") : null;
+          var endDate   = notEmpty(o.endDate) ? moment(o.endDate).local().locale("fr").format("DD MMMM YYYY - HH:mm") : null;
           
           if(type!="surveys" && type!="actions"){
             startDate = notEmpty(startDate) ? "Du " + startDate : startDate;

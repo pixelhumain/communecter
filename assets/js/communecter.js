@@ -717,7 +717,7 @@ function loadByHash( hash , back ) {
 	// 			location.hash.indexOf("#default.directory"), CoAllReadyLoad);
 	if(typeof globalTheme != "undefined" && globalTheme=="network"){
 		if( hash.indexOf("#network.simplydirectory") >= 0 &&
-			location.hash.indexOf("#network.simplydirectory") >= 0 ){ 
+			location.hash.indexOf("#network.simplydirectory") >= 0 || hash=="#" || hash==""){ 
 		}
 		else{
 			count=$(".breadcrumAnchor").length;
@@ -1513,7 +1513,15 @@ function formatData(formData, collection,ctrl) {
 			formData.medias.push(mediaObject);
 		}
 	});
-	
+	if( typeof formData.source != "undefined" && formData.source != "" ){
+		formData.source = { insertOrign : "network",
+							keys : [ 
+								formData.source
+							],
+							key : formData.source
+						}
+	}
+									
 	if( typeof formData.tags != "undefined" && formData.tags != "" )
 		formData.tags = formData.tags.split(",");
 	removeEmptyAttr(formData);
@@ -1690,7 +1698,6 @@ function buildDynForm(elementObj, afterLoad,data) {
 		alert('Vous devez etre loggué');
 }
 
-
 function  firstOptions() { 
 	var res = {
 		"dontKnow":"Je ne sais pas",
@@ -1794,6 +1801,7 @@ function globalSearch(searchValue,types,autre){
 				//bindLBHLinks();
 			} else {
 				$("#listSameName").html("<span class='txt-green'><i class='fa fa-thumbs-up text-green'></i> Aucun élément avec ce nom.</span>");
+
 			}
 
 			
@@ -2693,8 +2701,8 @@ var typeObj = {
 			    			if(contextData.startDate && contextData.endDate ){
 			    				$("#ajaxFormModal").after("<input type='hidden' id='startDateParent' value='"+contextData.startDate+"'/>"+
 			    										  "<input type='hidden' id='endDateParent' value='"+contextData.endDate+"'/>");
-			    				$("#ajaxFormModal #startDate").after("<span id='parentstartDate'><i class='fa fa-warning'></i> date début du parent : "+moment( contextData.startDate).format('YYYY/MM/DD HH:mm')+"</span>");
-			    				$("#ajaxFormModal #endDate").after("<span id='parentendDate'><i class='fa fa-warning'></i> date de fin du parent : "+moment( contextData.endDate).format('YYYY/MM/DD HH:mm')+"</span>");
+			    				$("#ajaxFormModal #startDate").after("<span id='parentstartDate'><i class='fa fa-warning'></i> date début du parent : "+moment( contextData.startDate).format('DD/MM/YYYY HH:mm')+"</span>");
+			    				$("#ajaxFormModal #endDate").after("<span id='parentendDate'><i class='fa fa-warning'></i> date de fin du parent : "+moment( contextData.endDate).format('DD/MM/YYYY HH:mm')+"</span>");
 			    			}
 			    			//alert($("#ajaxFormModal #parentId").val() +" | "+$("#ajaxFormModal #parentType").val());
 			    		}
@@ -2716,10 +2724,16 @@ var typeObj = {
 			    		$("#ajaxFormModal #allDay").val(false);
 			    	if( typeof $("#ajaxFormModal #description").code === 'function' )
 			    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
-			    	mylog.log($("#ajaxFormModal #startDate").val(),moment( $("#ajaxFormModal #startDate").val()).format('YYYY/MM/DD HH:mm'));
-			    	//$("#ajaxFormModal #startDate").val( moment( $("#ajaxFormModal #startDate").val()).format('YYYY/MM/DD HH:mm'));
-					//$("#ajaxFormModal #startDate").val( moment( $("#ajaxFormModal #endDate").val()).format('YYYY/MM/DD HH:mm'));
-					mylog.log($("#ajaxFormModal #startDate").val());
+			    	//mylog.log($("#ajaxFormModal #startDate").val(),moment( $("#ajaxFormModal #startDate").val()).format('YYYY/MM/DD HH:mm'));
+			    	
+			    	//Transform datetime before sending
+			    	var allDay = $("#ajaxFormModal #allDay").is(':checked');
+			    	var dateformat = "DD/MM/YYYY";
+			    	if (! allDay) 
+			    		var dateformat = "DD/MM/YYYY HH:mm"
+			    	$("#ajaxFormModal #startDate").val( moment( $("#ajaxFormModal #startDateInput").val(), dateformat).format());
+					$("#ajaxFormModal #endDate").val( moment( $("#ajaxFormModal #endDateInput").val(), dateformat).format());
+					//mylog.log($("#ajaxFormModal #startDate").val());
 			    },
 			    properties : {
 			    	info : {
@@ -2778,19 +2792,224 @@ var typeObj = {
 		            	"groupOptions" : myAdminList( ["events"] ),
 		            	init : function(){
 			            	$("#ajaxFormModal #parentId ").off().on("change",function(){
-			            		
+
 			            		parentId = $(this).val();
+			            		startDateParent = "2000/01/01 00:00";
+			            		endDateParent = "2100/01/01 00:00";
 			            		if( parentId != "" ){
-			            			if(typeof myContacts != "undefined")
-			            			$.each(myContacts.events,function (i,evObj) { 
-			            				//mylog.log("event : ",evObj["_id"]["$id"]);
-			            				if( evObj["_id"]["$id"] == parentId){
-			            					mylog.warn("event found : ",evObj.startDate+"|"+evObj.endDate);
-				            				$("#parentstartDate").html("<i class='fa fa-warning'></i> date début du parent : "+moment( evObj.startDate ).format('YYYY/MM/DD HH:mm'));
-				    						$("#parentendDate").html("<i class='fa fa-warning'></i> date de fin du parent : "+moment( evObj.endDate).format('YYYY/MM/DD HH:mm'));
-				    					}
-			            			});
+			            			//Search in the current context
+			            			if (typeof contextData != "undefined") {
+			            				if (contextData.type == "events" && contextData.id == parentId) {
+			            					mylog.warn("event found in contextData : ",contextData.startDate+"|"+contextData.endDate);
+				            				startDateParent = contextData.startDate;
+				            				endDateParent = contextData.endDate
+			            				}
+			            			}
+			            			//Search in my contacts list
+			            			if(typeof myContacts != "undefined") {
+				            			$.each(myContacts.events,function (i,evObj) { 
+				            				if( evObj["_id"]["$id"] == parentId){
+				            					mylog.warn("event found in my contact list: ",evObj.startDate+"|"+evObj.endDate);
+				            					startDateParent = evObj.startDate;
+				            					endDateParent = evObj.endDate
+					    					}
+				            			});
+				            		}
+				            		$("#startDateParent").val(startDateParent);
+				            		$("#endDateParent").val(endDateParent);
+				            		$("#parentstartDate").html("<i class='fa fa-warning'></i> Date de début de l'événement parent : "+moment( startDateParent ).format('DD/MM/YYYY HH:mm'));
+					    			$("#parentendDate").html("<i class='fa fa-warning'></i> Date de fin de l'événement parent : "+moment( endDateParent ).format('DD/MM/YYYY HH:mm'));
 			            		}
+			            	});
+			            }
+		            },
+		            parentType : {
+			            "inputType" : "hidden"
+			        },
+			        type :{
+		            	"inputType" : "select",
+		            	"placeholder" : "Type d\'évènement",
+		            	"options" : eventTypes,
+		            	"rules" : { "required" : true },
+		            },
+		            allDay : {
+		            	"inputType" : "checkbox",
+		            	init : function(){
+			            	$("#ajaxFormModal #allDay").off().on("switchChange.bootstrapSwitch",function (e, data) {
+			            		mylog.log("toto",$("#ajaxFormModal #allDay").val());
+			            	})
+			            },
+		            	"switch" : {
+		            		"onText" : "Oui",
+		            		"offText" : "Non",
+		            		"labelText":"Toute la journée",
+		            		"onChange" : function(){
+		            			var allDay = $("#ajaxFormModal #allDay").is(':checked');
+		            			var startDate = "";
+		            			var endDate = "";
+		            			$("#ajaxFormModal #allDay").val($("#ajaxFormModal #allDay").is(':checked'));
+		            			if (allDay) {
+		            				$(".dateTimeInput").addClass("dateInput");
+		            				$(".dateTimeInput").removeClass("dateTimeInput");
+		            				$('.dateInput').datetimepicker('destroy');
+		            				$(".dateInput").datetimepicker({ 
+								        autoclose: true,
+								        lang: "fr",
+								        format: "d/m/Y",
+								        timepicker:false
+								    });
+								    startDate = moment($('#ajaxFormModal #startDateInput').val(), "DD/MM/YYYY HH:mm").format("DD/MM/YYYY");
+								    endDate = moment($('#ajaxFormModal #endDateInput').val(), "DD/MM/YYYY HH:mm").format("DD/MM/YYYY");
+		            			} else {
+		            				$(".dateInput").addClass("dateTimeInput");
+		            				$(".dateInput").removeClass("dateInput");
+		            				$('.dateTimeInput').datetimepicker('destroy');
+		            				$(".dateTimeInput").datetimepicker({ 
+					       				weekStart: 1,
+										step: 15,
+										lang: 'fr',
+										format: 'd/m/Y H:i'
+								    });
+								    
+		            				startDate = moment($('#ajaxFormModal #startDateInput').val(), "DD/MM/YYYY").format("DD/MM/YYYY HH:mm");
+									endDate = moment($('#ajaxFormModal #endDateInput').val(), "DD/MM/YYYY").format("DD/MM/YYYY HH:mm");
+		            			}
+							    if (startDate != "Invalid date") $('#ajaxFormModal #startDateInput').val(startDate);
+								if (endDate != "Invalid date") $('#ajaxFormModal #endDateInput').val(endDate);
+		            		}
+		            	}
+		            },
+		            startDateInput : {
+		                "inputType" : "datetime",
+		                "placeholder": "Date de début",
+			            "rules" : { 
+			            	required : true,
+			            	duringDates: ["#startDateParent","#endDateParent","La date de début"]
+			        	}
+		            },
+		            endDateInput : {
+		                "inputType" : "datetime",
+		                "placeholder": "Date de fin",
+			            "rules" : { 
+			            	required : true,
+			            	greaterThan: ["#ajaxFormModal #startDateInput","la date de début"],
+			            	duringDates: ["#startDateParent","#endDateParent","La date de fin"]
+					    }
+		            },
+		            /*public : {
+		            	"inputType" : "hidden",
+		            	"switch" : {
+		            		"onText" : "Privé",
+		            		"offText" : "Public",
+		            		"labelText":"Type"
+		            	}
+		            },*/
+		            location : {
+		                inputType : "location"
+		            },
+		            tags :{
+		              "inputType" : "tags",
+		              "placeholder" : "Tags de l\'événement",
+		              "values" : tagsList
+		            },
+		            formshowers : {
+		                "inputType" : "custom",
+		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".descriptionwysiwyg,.urltext\").slideToggle();activateSummernote(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (desc, urls)</a>",
+		            },
+			        
+			        description : {
+		                "inputType" : "wysiwyg",
+	            		"placeholder" : "Décrire c'est partager",
+			            init : function(){
+			            	$(".descriptionwysiwyg").css("display","none");
+			            }
+		            },
+		            url : {
+		                "inputType" :"text",
+		                "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
+		                "placeholder" : "url, lien, adresse web",
+		                init:function(){
+				            getMediaFromUrlContent("#url", ".resultGetUrl0",0);
+				            $(".urltext").css("display","none");
+			            }
+		            },
+		            /*urls : {
+			        	placeholder : "url",
+			            "inputType" : "array",
+			            "value" : [],
+			            init:function(){
+				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
+			            	$(".urlsarray").css("display","none");	
+			            }
+			        },*/
+		            "preferences[publicFields]" : {
+		                inputType : "hidden",
+		                value : []
+		            },
+		            "preferences[privateFields]" : {
+		                inputType : "hidden",
+		                value : []
+		            },
+		            "preferences[isOpenData]" : {
+		                inputType : "hidden",
+		                value : true
+		            },
+		            "preferences[isOpenEdition]" : {
+		                inputType : "hidden",
+		                value : true
+		            },
+		            "startDate" : {
+		            	inputType : "hidden"
+		            },
+		            "endDate" : {
+		            	inputType : "hidden"
+		            }
+			    }
+			}
+		}
+		/*form : {
+			url:"/"+moduleId+"/event/eventsv",
+			title : "Ajouter un évènement"
+		}*/	},
+	"events" : {col:"events",ctrl:"event"},
+	"projects" : {col:"projects",ctrl:"project"},
+	"project" : {
+		col:"projects",
+		ctrl:"project",
+		icon : "lightbulb-o",
+		titleClass : "bg-purple",
+		bgClass : "bgProject",
+		dynForm : {
+		    jsonSchema : {
+			    title : trad.addProject,
+			    icon : "lightbulb-o",
+			    type : "object",
+			    onLoads : {
+			    	//pour creer un subevnt depuis un event existant
+			    	"sub" : function(){
+			    			$("#ajaxFormModal #parentId").val( contextData.id );
+			    		 	$("#ajaxFormModal #parentType").val( contextData.type ); 
+			    		 	$("#ajax-modal-modal-title").html($("#ajax-modal-modal-title").html()+" sur "+contextData.name );
+			    	}
+			    },beforeSave : function(){
+			    	if( typeof $("#ajaxFormModal #description").code === 'function' ) 
+			    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
+			    },
+			    properties : {
+			    	info : {
+		                "inputType" : "custom",
+		                "html":"<p><i class='fa fa-info-circle'></i> Si vous voulez créer un nouveau projet de façon à le rendre plus visible : c'est le bon endroit !!<br>Vous pouvez ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
+		            },
+			        name : {
+			        	placeholder : "Nom",
+			            "inputType" : "text",
+			            "rules" : {
+			                "required" : true
+			            },
+			            init : function(){
+			            	$("#ajaxFormModal #name ").off().on("blur",function(){
+			            		if($("#ajaxFormModal #name ").val().length > 3 )
+			            			globalSearch($(this).val(),["projects"]);
 			            	});
 			            }
 		            },
@@ -2936,115 +3155,6 @@ var typeObj = {
 		}*/	},
 	"events" : {col:"events",ctrl:"event",color:"orange"},
 	"projects" : {col:"projects",ctrl:"project",color:"purple",icon:"lightbulb-o"},
-	"project" : {
-		col:"projects",
-		ctrl:"project",
-		icon : "lightbulb-o",
-		titleClass : "bg-purple",
-		color:"purple",
-		bgClass : "bgProject",
-		dynForm : {
-		    jsonSchema : {
-			    title : trad.addProject,
-			    icon : "lightbulb-o",
-			    type : "object",
-			    onLoads : {
-			    	//pour creer un subevnt depuis un event existant
-			    	"sub" : function(){
-			    			$("#ajaxFormModal #parentId").val( contextData.id );
-			    		 	$("#ajaxFormModal #parentType").val( contextData.type ); 
-			    		 	$("#ajax-modal-modal-title").html($("#ajax-modal-modal-title").html()+" sur "+contextData.name );
-			    	}
-			    },beforeSave : function(){
-			    	if( typeof $("#ajaxFormModal #description").code === 'function' ) 
-			    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
-			    },
-			    properties : {
-			    	info : {
-		                "inputType" : "custom",
-		                "html":"<p><i class='fa fa-info-circle'></i> Si vous voulez créer un nouveau projet de façon à le rendre plus visible : c'est le bon endroit !!<br>Vous pouvez ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
-		            },
-			        name : {
-			        	placeholder : "Nom",
-			            "inputType" : "text",
-			            "rules" : {
-			                "required" : true
-			            },
-			            init : function(){
-			            	$("#ajaxFormModal #name ").off().on("blur",function(){
-			            		if($("#ajaxFormModal #name ").val().length > 3 )
-			            			globalSearch($(this).val(),["projects"]);
-			            	});
-			            }
-			        },
-			        similarLink : {
-		                "inputType" : "custom",
-		                "html":"<div id='similarLink'><div id='listSameName'></div></div><div id='space20'></div>",
-		            },
-		            location : {
-		                inputType : "location"
-		            },
-		            tags :{
-		              "inputType" : "tags",
-		              "placeholder" : "Tags ou Types de l'organisation",
-		              "values" : tagsList
-		            },
-		            formshowers : {
-		                "inputType" : "custom",
-		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".descriptionwysiwyg,.urltext\").slideToggle();activateSummernote(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (description, urls)</a>",
-		            },
-			        description : {
-		                "inputType" : "wysiwyg",
-	            		"placeholder" : "Décrire c'est partager",
-			            init : function(){
-			            	$(".descriptionwysiwyg").css("display","none");
-			            }
-		            },
-		            url : {
-		                "inputType" :"text",
-		                "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
-		                "placeholder" : "url, lien, adresse web",
-		                init:function(){
-				            getMediaFromUrlContent("#url", ".resultGetUrl0",0);
-				            $(".urltext").css("display","none");
-			            }
-		            },
-		            /*urls : {
-			        	placeholder : "url",
-			            "inputType" : "array",
-			            "value" : [],
-			            init:function(){
-				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
-			            	$(".urlsarray").css("display","none");	
-			            }
-			        },*/
-		            "preferences[publicFields]" : {
-		                inputType : "hidden",
-		                value : []
-		            },
-		            "preferences[privateFields]" : {
-		                inputType : "hidden",
-		                value : []
-		            },
-		            "preferences[isOpenData]" : {
-		                inputType : "hidden",
-		                value : true
-		            },
-		            "preferences[isOpenEdition]" : {
-		                inputType : "hidden",
-		                value : true
-		            },
-		            parentId :{
-		            	"inputType" : "hidden",
-		            	value : userId	
-		            },
-		            parentType : {
-			            "inputType" : "hidden",
-			            value : "citoyens"
-			        },
-			    }
-			}
-		} },
 	"city" : {col:"cities",ctrl:"city"},
 	"cities" : {col:"cities",ctrl:"city", titleClass : "bg-red", icon : "university",},
 	"citiesSimply" : { 	col:"cities",
@@ -3492,4 +3602,75 @@ var keyboardNav = {
 			keyboardNav.keyMap[keycode]();
 		}
 	}
-};
+}
+
+
+function cityKeyPart(unikey, part){
+	var s = unikey.indexOf("_");
+	var e = unikey.indexOf("-");
+	var len = unikey.length;
+	if(e < 0) e = len;
+	if(part == "insee") return unikey.substr(s+1, e - s-1);
+	if(part == "cp" && unikey.indexOf("-") < 0) return "";
+	if(part == "cp") return unikey.substr(e+1, len);
+	if(part == "country") return unikey.substr(e+1, len);
+}
+
+//*********************************************************************************
+// Utility for events date
+//*********************************************************************************
+function manageTimestampOnDate() {
+	$.each($(".date2format"), function(k, v) { 
+		var dates = "";
+		var dateFormat = "DD-MM-YYYY HH:mm";
+		if ($(this).data("allday") == true) {
+			dateFormat = "DD-MM-YYYY";
+		}
+		dates = moment($(this).data("startdate")).local().format(dateFormat);
+		dates += "</br>"+moment($(this).data("enddate")).local().format(dateFormat);
+		$(this).html(dates);
+	})
+}
+
+//Display event start and end date depending on allDay params
+//Used on popup and right list on map
+function displayStartAndEndDate(event) {
+	var content = "";
+	//si on a bien les dates
+	if("undefined" != typeof event['startDate'] && "undefined" != typeof event['endDate']){
+		//var start = dateToStr(data['startDate'], "fr", true);
+		//var end = dateToStr(data['endDate'], "fr", true);
+		
+		var startDateMoment = moment(event['startDate']).local();
+		var endDateMoment = moment(event['endDate']).local();
+
+		var startDate = startDateMoment.format("DD-MM-YYYY");
+		var endDate = endDateMoment.format("DD-MM-YYYY");
+
+		var hour1 = "Toute la journée";
+		var hour2 = "Toute la journée";
+		if(event["allDay"] == false || event["allDay"] == null) { 	
+			hour1 = startDateMoment.format("HH:mm");
+			hour2 = endDateMoment.format("HH:mm");
+		}
+		//si la date de debut == la date de fin
+		if( startDate == endDate) {
+			content += "<div class='info_item startDate_item_map_list double'><i class='fa fa-caret-right'></i> Le " + startDate;
+			
+			if(event["allDay"] == true) { 		
+				content += "</br><i class='fa fa-caret-right'></i> " + hour1;
+			} else {
+				content += "</br><i class='fa fa-caret-right'></i> " + hour1 + " - " + hour2;
+			}
+			content += "</div>";
+		} else {
+			content += "<div class='info_item startDate_item_map_list double'><i class='fa fa-caret-right'></i> Du " + 
+								startDate + " - " + hour1 +
+							"</div>" +
+				   		  	"<div class='info_item startDate_item_map_list double'><i class='fa fa-caret-right'></i> Au " + 
+				   		  		endDate +  " - " + hour2 +
+				   		  	"</div></br>";
+		}
+	}
+	return content;
+}
