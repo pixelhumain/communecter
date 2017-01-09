@@ -229,8 +229,10 @@ Liste des notifications déjà lues => #370 #453
   * bugs
     [ ] city > click orga pas de résultat
     [ ] elements count on city
-  [ ] API : push Thing push 
-  [ ] API : Basic authentcation using username or email + pwd
+  [X] API : push Thing push 
+  [X] API : Basic authentcation using username or email + pwd
+    * todo 
+    [ ] encrypt username and pwd when giving out token accesses
   [ ] notification à la création d'un dda
   [ ] INTEGRATTE MARKDOWN wisiwig
   [ ] my POIs
