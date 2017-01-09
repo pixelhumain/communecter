@@ -101,6 +101,7 @@ class CommunecterController extends Controller
       "downloadfile" => array("href" => "/ph/communecter/admin/downloadfile"),
       "createfile" => array("href" => "/ph/communecter/admin/createfile"),
       "mailerrordashboard" => array("href" => "/ph/communecter/admin/mailerrordashboard"),
+      "cities" => array("href" => "/ph/communecter/admin/cities"),
     ),
     
     "adminpublic" => array(
