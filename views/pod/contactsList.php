@@ -13,7 +13,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->reque
 	</div>
 	<div class="panel-tools">
 		<?php if(( @$authorised || @$openEdition) && !isset($noAddLink) && isset(Yii::app()->session["userId"]) ) { ?>
-			<a class="tooltips btn btn-xs btn-light-blue " data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("common","Add",null,Yii::app()->controller->module->id) ?>" href="javascript:;" onclick="openForm ( 'common','contact' )">
+			<a class="tooltips btn btn-xs btn-light-blue " data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("common","Add",null,Yii::app()->controller->module->id) ?>" href="javascript:;" onclick="openForm ( 'contactPoint','contact')">
 	    		<i class="fa fa-plus"></i> <?php echo Yii::t("common","Add") ?>
 	    	</a>
 		<?php } ?>
@@ -101,10 +101,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->reque
 								
 							</td>
 							<td>
-								<a class="tooltips btn btn-xs btn-light-blue " data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("common","Update",null,Yii::app()->controller->module->id) ?>" href="javascript:;" onclick="">
+								<?php $json = json_encode($contact); ?>
+								<a class="tooltips btn btn-xs btn-light-blue " data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("common","Update",null,Yii::app()->controller->module->id) ?>" href="javascript:;" onclick='updateContact("<?php echo $keyContact; ?>");'>
 						    		<i class="fa fa-pencil"></i>
 						    	</a>
-						    	<a class="tooltips btn btn-xs btn-light-blue " data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("common","Remove",null,Yii::app()->controller->module->id) ?>" href="javascript:;" onclick="">
+						    	<a class="tooltips btn btn-xs btn-light-blue " data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("common","Remove",null,Yii::app()->controller->module->id) ?>" href="javascript:;" onclick='remove("<?php echo $keyContact; ?>")'>
 						    		<i class="fa fa-trash"></i>
 						    	</a>
 								
@@ -137,6 +138,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->reque
 
 <script type="text/javascript">
 	var nbOldEvents = <?php echo (String) @$nbOldEvents;?>;
+	var contacts = <?php echo json_encode($contacts);?>;
 	jQuery(document).ready(function() {	 
 		if (nbOldEvents == 0) $("#showHideOldEvent").hide();
 
@@ -164,6 +166,51 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->reque
 	function toogleOldEvent() {
 		$(".oldEvent").toggle("slow");
 		$("#infoLastButNotNew").toggle("slow");
+	}
+
+	function updateContact(ind) {
+		contact = contacts[ind] ;
+		dataUpdate = { index : ind } ;
+
+		if(typeof contact.name !="undefined")
+			dataUpdate.name = contact.name;
+		if(typeof contact.email !="undefined")
+			dataUpdate.email = contact.email;
+		if(typeof contact.role !="undefined")
+			dataUpdate.role = contact.role;
+		if(typeof contact.telephone !="undefined"){
+			var string = "";
+			
+			$.each(contact.telephone, function (i,num) { 
+	        	if(i > 0)
+	        		string += ", ";
+	        	string += num;
+	        });
+	        dataUpdate.phone = string;
+		}
+		
+		console.dir(dataUpdate);
+		openForm ( 'contactPoint','contact', dataUpdate);
+	}
+	function remove(ind) {
+		param = new Object;
+    	param.name = "contacts";
+    	param.value = {index : ind};
+    	param.pk = contextData.id;
+		param.type = contextData.type;
+		$.ajax({
+	        type: "POST",
+	        url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
+	        data: param,
+	       	dataType: "json",
+	    	success: function(data){
+	    		mylog.log("data", data);
+		    	if(data.result){
+					toastr.success(data.msg);
+					loadByHash("#"+contextData.controller+".detail.id."+contextData.id);
+		    	}
+		    }
+		});
 	}
 
 </script>

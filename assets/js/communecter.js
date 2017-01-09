@@ -1623,6 +1623,7 @@ function openForm (type, afterLoad,data) {
     centerLocation = null;
     updateLocality = false;
     formType = type;
+    console.log(type);
     specs = typeObj[type];
     if(userId)
 	{
@@ -1723,10 +1724,13 @@ function myAdminList (ctypes) {
 	}
 	return myList;
 }
+function addHidden(nameHidden,value){
+	$("#"+nameHidden).val(value);
+}
 
-function globalSearch(searchValue,types){
+function globalSearch(searchValue,types,autre){
 	
-	searchType = (types) ? types : ["organizations", "projects", "events", "needs"];
+	searchType = (types) ? types : ["organizations", "projects", "events", "needs", "citoyens"];
 
 	var data = { 	 
 		"name" : searchValue,
@@ -1770,9 +1774,17 @@ function globalSearch(searchValue,types){
 				if("undefined" != typeof elem.profilImageUrl && elem.profilImageUrl != ""){
 					var htmlIco= "<img width='30' height='30' alt='image' class='img-circle' src='"+baseUrl+elem.profilThumbImageUrl+"'/>";
 				}
-				str += 	"<a target='_blank' href='#"+ elem.type +".detail.id."+ elem.id +"' class='btn btn-xs btn-default w50p text-left padding-5 text-blue' >"+
+
+				if(autre == true){
+					str += 	"<a target='_blank' href='javascript:addHidden(\'userID\',"+elem.id+");' class='autre btn btn-xs btn-default w50p text-left padding-5 text-blue' >"+
 							"<span>"+ htmlIco +"</span> <span> " + elem.name+"</br>"+where+ "</span>"
 						"</a>";
+				}else{
+					str += 	"<a target='_blank' href='#"+ elem.type +".detail.id."+ elem.id +"' class='btn btn-xs btn-default w50p text-left padding-5 text-blue' >"+
+							"<span>"+ htmlIco +"</span> <span> " + elem.name+"</br>"+where+ "</span>"
+						"</a>";
+				}
+				
 				compt++;
   				//str += "<li class='li-dropdown-scope'><a href='javascript:initAddMeAsMemberOrganizationForm(\""+key+"\")'><i class='fa "+mapIconTop[value.type]+"'></i> " + value.name + "</a></li>";
   			});
@@ -3098,8 +3110,7 @@ var typeObj = {
 								}
 							}
 						}
-					}
-},
+					}},
 	"entry" : {
 		col:"surveys",
 		ctrl:"survey",
@@ -3230,7 +3241,7 @@ var typeObj = {
 		            }
 			    }
 			}
-		}},
+		} },
 	"vote" : {col:"actionRooms",ctrl:"survey"},
 	"survey" : {col:"actionRooms",ctrl:"survey",color:"lightblue2",icon:"cog"},
 	"action" : {
@@ -3365,7 +3376,75 @@ var typeObj = {
 		} },
 	"actions" : {col:"actions",color:"azure",ctrl:"room",icon:"cog"},
 	"rooms" : {col:"actions",ctrl:"room",color:"azure",icon:"gavel"},
-	"discuss" : {col:"actionRooms",ctrl:"room"}
+	"discuss" : {col:"actionRooms",ctrl:"room"},
+	"contactPoint" : {
+		col : "contact" , 
+		ctrl : "person",
+		titleClass : "bg-blue",
+		bgClass : "bgPerson",
+		color:"blue",
+		icon:"user",
+		lbh : "#person.invite",
+		saveUrl : baseUrl+"/" + moduleId + "/element/saveContact",
+		dynForm : {
+		    jsonSchema : {
+			    title : "Ajouter un contact",
+			    icon : "user",
+			    type : "object",
+			    onLoads : {
+			    	//pour creer un contact depuis un element existant
+			    	"contact" : function(){
+			    		if( contextData && contextData.id )
+	    					$("#ajaxFormModal #parentId").val( contextData.id );
+		    			if( contextData && contextData.type )
+		    				$("#ajaxFormModal #parentType").val( contextData.type ); 
+					}
+			    },
+			    properties : {
+			    	info : {
+		                "inputType" : "custom",
+		                "html":"<p><i class='fa fa-info-circle'></i> Si vous voulez ajouter un nouveau contact de façon a facilité les échanges</p>",
+		            },
+		            name : {
+			        	placeholder : "Nom",
+			        	labelText:"Nom",
+			            "inputType" : "text",
+			            "rules" : { "required" : true },
+			            init : function(){
+			            	$("#ajaxFormModal #name ").off().on("blur",function(){
+			            		if($("#ajaxFormModal #name ").val().length > 3 )
+			            			globalSearch($(this).val(),["persons"],true);
+			            	});
+			            }
+			        },
+			        email :{
+		              "inputType" : "text",
+		              "placeholder" : "Email du contact"
+		            },
+			        role :{
+		              "inputType" : "text",
+		              "placeholder" : "Role du contact"
+		            },
+			        phone :{
+		              "inputType" : "text",
+		              "placeholder" : "téléphone du contact"
+		            },
+		            userId : {
+		                inputType : "hidden",
+		                value : ""
+		            },
+		            parentId :{
+		            	"inputType" : "hidden"
+		            },
+		            parentType : {
+			            "inputType" : "hidden"
+			        },
+			        index : {
+			            "inputType" : "hidden"
+			        }
+			    }
+			}
+		}}
 };
 
 /* ************************************
