@@ -224,12 +224,13 @@ Liste des notifications déjà lues => #370 #453
       [ ] group add : list to collection  
       [ ] open from url 
     * bugs 
-      [ ] on my profile with loading directory.js
       [ ] persisting location, 
       [ ] contextmenu on nowList
   * bugs
     [ ] city > click orga pas de résultat
     [ ] elements count on city
+  [ ] API : push Thing push 
+  [ ] API : Basic authentcation using username or email + pwd
   [ ] notification à la création d'un dda
   [ ] INTEGRATTE MARKDOWN wisiwig
   [ ] my POIs
