@@ -175,7 +175,7 @@ Liste des notifications déjà lues => #370 #453
       [ ] click on map-marker icon , shows the map of the content 
       [ ] menu predefined tags 
       [ ] cross with location
-      [ ] left menu list
+      [ ] manage large cities, with many elements 
     * wish list
       [ ] add element into a predefined tag
       [ ] propose related tags
@@ -215,7 +215,7 @@ Liste des notifications déjà lues => #370 #453
     [X] in directory click droit tag add to multi tag
     [X] template engine prototype with menuSmall Collections
     [X] switch title add/remove
-    * wish list:
+    * wish list: 
       [ ] view collection on map 
       [ ] sub colections
       [ ] collections on all elements
@@ -227,11 +227,22 @@ Liste des notifications déjà lues => #370 #453
       [ ] on my profile with loading directory.js
       [ ] persisting location, 
       [ ] contextmenu on nowList
+  * bugs
+    [ ] city > click orga pas de résultat
+    [ ] elements count on city
+  [ ] notification à la création d'un dda
   [ ] INTEGRATTE MARKDOWN wisiwig
-  [ ] add photo
   [ ] my POIs
+  [ ] my calendar
+    [ ] my created events
+    [ ] events I participate in 
+    [ ] events : right click, add to my calendar
+    * wishlist
+      [ ] show all events of my links, with posibility to choose to hide anyone of them 
+      [ ] add automatically any events from this organization or project to my calendar
+  [ ] add photo
+  [ ] Count requests DB per page 
   [ ] collection kanban interface
-  [ ] Count requests DB per page
   [ ] cut up communecter.js into sub files
   [ ] header du live ou dans en ce moment
     - les events favoris du territoire
@@ -256,7 +267,6 @@ Liste des notifications déjà lues => #370 #453
   [new] page pour reflechir 
     une page qui pousse a l'action, qui fait reflechir, et utiliser les outils de la plateforme 
   [new] connecter les POI à des source ousite externe ex : randopitons.re
-  [ ] link counter : à chaque fois que je contact qlqun, +1 
   * DDA
   [ ] Quand la liste est vide , faire une page explication avec des kickers pour creer des espaces
   [ ] bug : sur archiver , persiste dans les listes 
@@ -341,7 +351,6 @@ Liste des notifications déjà lues => #370 #453
   [X] page admin avec les erreurs de mails
 [ ] Stocker les images en S3
 [X] passer configDB en externe configdb.example.php
-[ ] mon calendar 
 [ ] filtrer par type d'event
 [ ] event modifier l'organisateur
 [ ] améliorer la verification d'existence d'elements
