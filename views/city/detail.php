@@ -682,15 +682,12 @@ function  cityFinderSearch( type, what, icon, tags )
     delete params.searchLocalityCODE_POSTAL;
     delete params.searchLocalityREGION;
     delete params.searchLocalityDEPARTEMENT;
-    if( type == "region" ) {
+    if( type == "region" ) 
         params.searchLocalityREGION = ['<?php echo $city["regionName"];  ?>'];
-    }
-    if( type == "departement" ) {
+    if( type == "departement" ) 
         params.searchLocalityDEPARTEMENT = ['<?php echo $city["depName"];  ?>'];
-    }
-    else {
+    else 
         params.searchLocalityCODE_POSTAL = postalCodes;
-    }
     
     console.dir(params);
     smallMenu.openAjax( baseUrl+'/'+moduleId+'/search/globalautocomplete',
