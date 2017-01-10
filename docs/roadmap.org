@@ -233,12 +233,14 @@ Liste des notifications déjà lues => #370 #453
   [X] API : Basic authentcation using username or email + pwd
     * todo 
     [ ] encrypt username and pwd when giving out token accesses
+  [ ] API : extract time 
   [ ] notification à la création d'un dda
   [ ] INTEGRATTE MARKDOWN wisiwig
   [ ] my POIs
   [ ] my calendar
-    [ ] my created events
-    [ ] events I participate in 
+    [[http://127.0.0.1/ph/#event.calendarview.id.585bdfdaf6ca47b6118b4583.type.person]]
+    [X] my created events
+    [X] events I participate in 
     [ ] events : right click, add to my calendar
     * wishlist
       [ ] show all events of my links, with posibility to choose to hide anyone of them 
