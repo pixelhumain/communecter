@@ -41,8 +41,8 @@ $tabCommons = array(	"0" => "Ne souhaite pas",
 		</div>
 		<?php 
 			if(!empty($properties)){
-				if(@$properties["free"])
-					$propertiesFree=$properties["free"];
+				if(@$properties["open"])
+					$propertiesOpen=$properties["open"];
 				else if(@$properties["commons"])
 					$propertiesCommons=$properties["commons"];
 			}
@@ -78,13 +78,13 @@ $tabCommons = array(	"0" => "Ne souhaite pas",
 			 ?>
 			</div>
 		</div>
-		<div class="panel-body no-padding contentChartFree <?php if(!@$propertiesFree || @$propertiesCommons) echo "hide" ?>">
+		<div class="panel-body no-padding contentChartFree <?php if(!@$propertiesOpen || @$propertiesCommons) echo "hide" ?>">
 			<canvas id="myChartFree" width="" height=""></canvas>
 			<div class="col-md-12 col-sm-12 col-xs-12">
 			<?php
-				if(@$propertiesFree){
+				if(@$propertiesOpen){
 					$inc=0; 
-					foreach($propertiesFree as $key => $value){ ?>
+					foreach($propertiesOpen as $key => $value){ ?>
 					
 					<?php 
 						if(gettype ($value) == "array" && $value["value"] != ""){
@@ -120,10 +120,10 @@ $tabCommons = array(	"0" => "Ne souhaite pas",
 
 <script type="text/javascript">
 var propertiesCommons=<?php echo json_encode(@$propertiesCommons); ?> ;
-var propertiesFree=<?php echo json_encode(@$propertiesFree); ?> ;
+var propertiesOpen=<?php echo json_encode(@$propertiesOpen); ?> ;
 console.log(propertiesCommons);
 var countPropertiesCommons=numAttrs(propertiesCommons);
-var countPropertiesFree=numAttrs(propertiesFree);
+var countPropertiesOpen=numAttrs(propertiesOpen);
 jQuery(document).ready(function() {
 	Chart.defaults.global = {
 			// Boolean - Whether to animate the chart
@@ -210,13 +210,13 @@ jQuery(document).ready(function() {
 		    // Function - Will fire on animation completion.
 		    onAnimationComplete: function(){}
 		}
-	if ((countPropertiesCommons+countPropertiesFree) > 0){
+	if ((countPropertiesCommons+countPropertiesOpen) > 0){
 		//setTimeout(function(){
 		if(typeof chartToLoad == "undefined"){
 			if(countPropertiesCommons > 0)
 				chartInit(propertiesCommons,"myChartCommons");
-			if(countPropertiesFree > 0)
-				chartInit(propertiesFree,"myChartFree");
+			if(countPropertiesOpen > 0)
+				chartInit(propertiesOpen,"myChartOpen");
 		}
 		//}, 0);
 	}
