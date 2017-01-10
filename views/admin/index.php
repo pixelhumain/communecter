@@ -22,20 +22,18 @@ $cs = Yii::app()->getClientScript();
               
             </div>
           </li>
-          <li class="list-group-item text-purple col-md-4 col-sm-6 link-to-directory">
+          <!--<li class="list-group-item text-purple col-md-4 col-sm-6 link-to-directory">
             <div class="" style="cursor:pointer;" onclick="loadByHash('#admin.importdata')">
               <i class="fa fa-upload fa-2x"></i>
                 
-              <?php echo Yii::t("admin", "IMPORT DATA", null, Yii::app()->controller->module->id); ?>
+              
               
             </div>
-          </li>
+          </li>-->
           <li class="list-group-item text-purple col-md-4 col-sm-6 link-to-directory">
             <div class="" style="cursor:pointer;" onclick="loadByHash('#admin.createfile')">
-              <i class="fa fa-upload fa-2x"></i>
-                
-              Refactor Import
-              
+              <i class="fa fa-upload fa-2x"></i> 
+              <?php echo Yii::t("admin", "IMPORT DATA", null, Yii::app()->controller->module->id); ?>
             </div>
           </li>
           <li class="list-group-item text-red col-md-4 col-sm-6 link-to-directory">

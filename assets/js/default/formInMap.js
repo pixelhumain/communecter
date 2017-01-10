@@ -678,19 +678,19 @@ function updateLocalityElement(){
 	if(addressesIndex)
 		locality["addressesIndex"] = addressesIndex ;
 	
-	
-	currentScopeType = "city";
-	addScopeToMultiscope(unikey, locality.address.addressLocality);
-	
-	currentScopeType = "cp";
-	addScopeToMultiscope(locality.address.postalCode, locality.address.postalCode);
-	
-	currentScopeType = "dep";
-	addScopeToMultiscope(locality.address.depName, locality.address.depName);
-	
-	currentScopeType = "region";
-	addScopeToMultiscope(locality.address.regionName, locality.address.regionName);
-
+	if(typeof globalTheme == "undefined" || globalTheme != "network"){
+		currentScopeType = "city";
+		addScopeToMultiscope(unikey, locality.address.addressLocality);
+		
+		currentScopeType = "cp";
+		addScopeToMultiscope(locality.address.postalCode, locality.address.postalCode);
+		
+		currentScopeType = "dep";
+		addScopeToMultiscope(locality.address.depName, locality.address.depName);
+		
+		currentScopeType = "region";
+		addScopeToMultiscope(locality.address.regionName, locality.address.regionName);
+	}
 	params = new Object;
 	params.name = ((addressesIndex)?"addresses":"locality");
 	params.value = locality;

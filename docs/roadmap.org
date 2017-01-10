@@ -224,12 +224,15 @@ Liste des notifications déjà lues => #370 #453
       [ ] group add : list to collection  
       [ ] open from url 
     * bugs 
-      [ ] on my profile with loading directory.js
       [ ] persisting location, 
       [ ] contextmenu on nowList
   * bugs
     [ ] city > click orga pas de résultat
     [ ] elements count on city
+  [X] API : push Thing push 
+  [X] API : Basic authentcation using username or email + pwd
+    * todo 
+    [ ] encrypt username and pwd when giving out token accesses
   [ ] notification à la création d'un dda
   [ ] INTEGRATTE MARKDOWN wisiwig
   [ ] my POIs
@@ -281,6 +284,7 @@ Liste des notifications déjà lues => #370 #453
 
   [ ] GET
     [ ] Checker : Person, Orga, Event, Projet.
+      [ ] All element, mettre seulement name, url communecter et api 
     [ ] A faire : News, City, DDA, POI.
   [ ] POST
     [ ] Implémenter les tokens

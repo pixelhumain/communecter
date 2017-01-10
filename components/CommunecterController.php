@@ -470,8 +470,14 @@ class CommunecterController extends Controller
       //if (strpos("http://".$host, $_SERVER["HTTP_ORIGIN"]) >= 0 || strpos("https://".$host, $_SERVER["HTTP_ORIGIN"]) >= 0 ){
     if( isset( $_POST["X-Auth-Token"]) && Authorisation::isMeteorConnected( $_POST["X-Auth-Token"] ) ){
       $prepareData = false;
+      //once the token is check => remove the token from the post
+      unset($_POST["X-Auth-Token"]);
+    } 
+    //Api access through REST 
+    //no need to prepare interface data
+    else if (!Yii::app()->session[ "userId" ] &&  isset($_SERVER['PHP_AUTH_USER']) && Authorisation::isValidUser($_SERVER['PHP_AUTH_USER'],$_SERVER['PHP_AUTH_PW'])) {
+      $prepareData = false;
     }
-      //} 
     //}
     else if( (!isset( $page["public"] ) ) && (!isset( $page["json"] ))
       && !in_array(Yii::app()->controller->id."/".Yii::app()->controller->action->id, $pagesWithoutLogin)
@@ -482,6 +488,7 @@ class CommunecterController extends Controller
           //echo "<script type='text/javascript'> checkIsLoggued('".Yii::app()->session['userId']."'); </script>";
          
     }
+    
     if( isset( $_GET["backUrl"] ) )
       Yii::app()->session["requestedUrl"] = $_GET["backUrl"];
     /*if( !isset(Yii::app()->session['logguedIntoApp']) || Yii::app()->session['logguedIntoApp'] != $this->module->id)

@@ -1027,5 +1027,124 @@ class DatamigrationController extends CommunecterController {
 		echo  "NB Element mis à jours: " .$nbelement."<br>" ;
 	}
 
+
+	public function actionRefactorSource(){
+		$types = array(Person::COLLECTION, Organization::COLLECTION, Project::COLLECTION, Event::COLLECTION);
+		$nbelement = 0 ;
+		foreach ($types as $keyType => $type) {
+			$elements = PHDB::find($type, array("source" => array('$exists' => 1)));
+
+			if(!empty($elements)){
+				foreach (@$elements as $keyElt => $elt) {
+					if(!empty($elt["source"])){
+						$newsource = array();
+						if(!empty($elt["source"]["key"]) && empty($elt["source"]["keys"])){
+							$newsource["insertOrign"] = "import" ;
+							$newsource["key"] = $elt["source"]["key"];
+							$newsource["keys"][] = $elt["source"]["key"];
+
+							if(!empty($elt["source"]["url"]))
+								$newsource["url"] = $elt["source"]["url"];
+							if(!empty($elt["source"]["id"])){
+								if(!empty($elt["source"]["id"]['$numberLong']))
+									$newsource["id"] = $elt["source"]["id"]['$numberLong'];
+								else
+									$newsource["id"] = $elt["source"]["id"];
+							}
+							if(!empty($elt["source"]["update"]))
+								$newsource["update"] = $elt["source"]["update"];
+							
+							$nbelement ++ ;
+							$elt["modifiedByBatch"][] = array("RefactorSource" => new MongoDate(time()));
+							try {
+								$res = PHDB::update( $type, 
+							  		array("_id"=>new MongoId($keyElt)),
+		                        	array('$set' => array(	"source" => $newsource,
+		                        							"modifiedByBatch" => $elt["modifiedByBatch"])));
+							} catch (MongoWriteConcernException $e) {
+								echo("Erreur à la mise à jour de l'élément ".$type." avec l'id ".$keyElt);
+								die();
+							}
+							echo "Elt mis a jour : ".$type." et l'id ".$keyElt."<br>" ;
+
+						}
+					}
+				}
+			}
+		}		
+		echo  "NB Element mis à jours: " .$nbelement."<br>" ;
+	}
+
+	/**
+	 * Refactor events with no timezone depending on country
+	 * Must be launch only once !
+	 */
+	public function actionAddTZOnEventDates(){
+		$nbelement = 0 ;
+		$nbelementPassed = 0 ;
+		$nbelementRE = 0 ;
+		$nbelementBE = 0 ;
+		$nbelementFR = 0 ;
+		$nbelementNC = 0 ;
+		$nbelementUnknown = 0 ;
+		$nbelementDateString = 0 ;
+		$timezoneArray = array("RE" => 4, "FR" => 1, "NC" => 11, "BE" => 1);
+
+		$elements = PHDB::find(Event::COLLECTION, array());
+		foreach (@$elements as $keyElt => $elt) {
+			if (isset($elt["modifiedByBatch"])) {
+				$alreadyUpdated = false;
+				foreach ($elt["modifiedByBatch"] as $value) {
+					if (isset($value["addTZOnEventDates"])) {
+						$nbelementPassed++;
+						$alreadyUpdated = true;
+						break;
+					}
+				}
+				if ($alreadyUpdated) continue;
+			}
+			if(empty($elt["address"]["addressCountry"]) || 
+			   empty($timezoneArray[$elt["address"]["addressCountry"]])) {
+				echo "Pas de country ou country inconnu pour l'événement : ".$keyElt."</br>";
+				$nbelementUnknown++;
+				continue;
+			}
+			$timezone = $timezoneArray[$elt["address"]["addressCountry"]];
+			if (isset($elt["startDate"]) && isset($elt["endDate"]) && (gettype($elt["startDate"]) == "object" && gettype($elt["endDate"]) == "object")) {
+				//Set TZ to UTC in order to be the same than Mongo
+				$startDate = new DateTime(date(DateTime::ISO8601, $elt["startDate"]->sec));
+				$startDate = $startDate->sub(new DateInterval("PT".$timezone."H"));
+				$endDate = new DateTime(date(DateTime::ISO8601, $elt["endDate"]->sec));
+				$endDate = $endDate->sub(new DateInterval("PT".$timezone."H"));
+				//$startDate = $elt["startDate"]->toDateTime()->sub(new DateInterval("PT".$timezone."H"));
+				//$endDate = $elt["endDate"]->toDateTime()->sub(new DateInterval("PT".$timezone."H"));
+				${'nbelement'.$elt["address"]["addressCountry"]}++;
+			//On en profite pour revoir les dates des événements qui sont en string ou sans date
+			} else {
+				$nbelementDateString++;
+				$startDate = new DateTime();
+				$startDate->sub(new DateInterval("P1D"));
+				$endDate = new DateTime();
+				$endDate->sub(new DateInterval("P2D"));
+			}
+			//update the event
+			$elt["modifiedByBatch"][] = array("addTZOnEventDates" => new MongoDate(time()));
+			PHDB::update( Event::COLLECTION, array("_id" => new MongoId($keyElt)), 
+		                          array('$set' => array(
+		                          		"startDate" => new MongoDate($startDate->getTimestamp()), 
+		                          		"endDate" => new MongoDate($endDate->getTimestamp()),
+		                        		"modifiedByBatch" => $elt["modifiedByBatch"])));
+			$nbelement++;
+		}
+				
+		echo  "Event Reunion mis à jours: " .$nbelementRE."<br>" ;
+		echo  "Event France mis à jours: " .$nbelementFR."<br>" ;
+		echo  "Event Belgique mis à jours: " .$nbelementBE."<br>" ;
+		echo  "Event NC mis à jours: " .$nbelementNC."<br>" ;
+		echo  "NB Element mis à jours: " .$nbelement."<br>" ;
+		echo  "NB Element passé : " .$nbelementPassed."<br>" ;
+		echo  "NB Element inconnu : " .$nbelementUnknown."<br>" ;
+		echo  "NB Element date en string : " .$nbelementDateString."<br>" ;
+	}
 }
 

@@ -5,7 +5,7 @@
     //Full calendar
     '/plugins/fullcalendar/fullcalendar/fullcalendar.css',
     '/plugins/fullcalendar/fullcalendar/fullcalendar.min.js',
-    '/plugins/fullcalendar/fullcalendar/lang/fr.js'
+    '/plugins/fullcalendar/fullcalendar/locale/fr.js'
     );
 
   HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule,Yii::app()->request->baseUrl);
@@ -72,12 +72,10 @@
 
   jQuery(document).ready(function() {
       showCalendar();
-      initLastsEvents();
 
       $(window).on('resize', function(){
   			$('#calendar').fullCalendar('destroy');
   			showCalendar();
-  			initLastsEvents();
   		});
       $(".fc-button").on("click", function(e){
       	setCategoryColor(tabOrganiser);
@@ -86,43 +84,19 @@
   })
 
 //creates fullCalendar
-function buildCalObj(eventObj)
-{
-  //mylog.log("addTasks2CAlendar","task",taskId,eventObj);
+function buildCalObj(eventObj) {
   //entries for the calendar
   var taskCal = null;
-  var prioClass = 'event-job';
-  switch( eventObj.priority ){
-    case "urgent" : prioClass = 'event-todo'; break;
-    case "high" : prioClass = 'event-offsite'; break;
-    case "normal" : prioClass = ''; break;
-    case "low" : prioClass = 'event-generic'; break;
-    default : prioClass = 'event-job'; 
-  }
-  if(eventObj.startDate && eventObj.startDate != "")
-  {
-    //mylog.log("eventObj", eventObj, eventObj.startDate);
-    var sd = eventObj.startDate.split(" ")[0];
-    var sh = eventObj.startDate.split(" ")[1];
-    var sdv = sd.split("-");
-    var shv = sh.split(":");
-    var startDate = new Date(sdv[0],parseInt(sdv[1])-1,sdv[2], shv[0], shv[1]);
 
+  if(eventObj.startDate && eventObj.startDate != "") {
+    var startDate = moment(eventObj.startDate).local();
     var endDate = null;
-    if(eventObj.endDate && eventObj.endDate != "" )
-    {
-      var ed = eventObj.endDate.split(" ")[0];
-      var eh = eventObj.endDate.split(" ")[1];
-      var edv = ed.split("-");
-      var ehv = eh.split(":");
-      endDate = new Date(edv[0],parseInt(edv[1])-1,parseInt(edv[2])+1, ehv[0], ehv[1]); //year month day hour sec
-
-     }
-     //alert(startDate+" | "+endDate);
-     //mylog.log("taskCalObj",eventObj['_id']['$id']);
-    var organiser = "";
+    if(eventObj.endDate && eventObj.endDate != "" ) {
+      endDate = moment(eventObj.endDate).local();
+    }
+    console.log("Start Date = "+startDate+" // End Date = "+endDate);
     
-
+    var organiser = "";
     if("undefined" != typeof eventObj["links"] && "undefined" != typeof eventObj.links["organizer"]){
       $.each(eventObj.links["organizer"], function(k, v){
       	if($.inArray(k, tabOrganiser)==-1){
@@ -130,7 +104,6 @@ function buildCalObj(eventObj)
       	}
         organiser = k;
       })
-      
     }
 
     var organizerName = eventObj.name;
@@ -142,9 +115,9 @@ function buildCalObj(eventObj)
     taskCal = {
       "title" : organizerName,
       "id" : eventObj['_id']['$id'],
-      "content" : (eventObj.description && eventObj.description != "" ) ? new Date(eventObj.description) : "",
-      "start" : startDate,
-      "end" : ( endDate ) ? endDate : startDate,
+      "content" : (eventObj.description && eventObj.description != "" ) ? eventObj.description : "",
+      "start" : startDate.format(),
+      "end" : ( endDate ) ? endDate.format() : startDate.format(),
       "startDate" : eventObj.startDate,
       "endDate" : eventObj.endDate,
       "className": organiser,
@@ -152,7 +125,7 @@ function buildCalObj(eventObj)
     }
     if(eventObj.allDay )
       taskCal.allDay = eventObj.allDay;
-    //mylog.log(taskCal);
+    mylog.log(taskCal);
   }
   return taskCal;
 }
@@ -170,7 +143,7 @@ function showCalendar() {
         calendar.push( eventCal );
     });
   }
- 
+  console.log(calendar);
   dateToShow = new Date();
   $('#calendar').fullCalendar({
     header : {
@@ -185,6 +158,7 @@ function showCalendar() {
     editable : false,
     events : calendar,
     eventLimit: true,
+    timezone : 'local',
     //allDaySlot : false,
     <?php if(@$defaultDate){?>
       defaultDate: '<?php echo $defaultDate?>',
@@ -204,134 +178,6 @@ function showCalendar() {
   setCategoryColor(tabOrganiser);
   dateToShow = new Date();
 };
-
-  function getLastsEvent(events){
-    var today = new Date();
-    var eventsSelected = [];
-    $.each(events, function(k,v){
-      mylog.log("current event : ", v);
-      
-      var date = null;
-      if("undefined" != typeof v.endDate && v.endDate.split("-")[2]){
-        var endSplit = v.endDate.split("-");
-        date = new Date( endSplit[0], parseInt(endSplit[1])-1, endSplit[2].split(" ")[0]);
-      }
-      if(today<=date)
-      {
-        var startSplit = v.startDate.split("-");
-        var date = new Date(startSplit[0], parseInt(startSplit[1])-1, startSplit[2].split(" ")[0]);
-        if(eventsSelected.length>=3){
-          for(var i = 0; i<eventsSelected.length;i++){
-            mylog.log("for", eventsSelected);
-            var date2 = new Date(eventsSelected[i].startDate.split("-")[0], parseInt(eventsSelected[i].startDate.split("-")[1])-1, eventsSelected[i].startDate.split("-")[2].split(" ")[0]);
-            //mylog.log(date, date2);
-            if(date2>=date){
-              eventsSelected.splice(i, 0, v);
-              eventsSelected.pop();
-              i=eventsSelected.length;
-            }
-          }
-        }else if(eventsSelected.length<1){
-          eventsSelected.push(v);
-        }else if(eventsSelected.length==1){
-          var date2 = new Date(eventsSelected[0].startDate.split("-")[0], parseInt(eventsSelected[0].startDate.split("-")[1])-1, eventsSelected[0].startDate.split("-")[2].split(" ")[0]);
-          if(date2>date){
-            eventsSelected.splice(0,0, v);
-          }else{
-            eventsSelected.push(v);
-          }
-        }else if(eventsSelected.length==2){
-          
-          var date2 = new Date(eventsSelected[0].startDate.split("-")[0], parseInt(eventsSelected[0].startDate.split("-")[1])-1, eventsSelected[0].startDate.split("-")[2].split(" ")[0]);
-          var date3 = new Date(eventsSelected[1].startDate.split("-")[0], parseInt(eventsSelected[1].startDate.split("-")[1])-1, eventsSelected[1].startDate.split("-")[2].split(" ")[0]);
-          if(date2>date){
-            eventsSelected.splice(0,0, v);
-          }else if(date3>date){
-            eventsSelected.splice(1,0,v);
-          }else{
-            eventsSelected.push(v);
-          }
-        }
-      }
-    })
-    return eventsSelected;
-  }
-
-  function initLastsEvents(){
-    var DEFAULT_IMAGE_EVENT = "";
-    if("undefined" != typeof events ){
-      mylog.log("OK initLastsEvents");
-      var tabEvents = getLastsEvent(events);
-      mylog.dir(tabEvents);
-      var htmlRes = "";
-
-      for(var i=0; i<tabEvents.length; i++ ){
-        var currentEvent = tabEvents[i];
-        var imageUrl = "";
-        var period = getStringPeriodValue(currentEvent.startDate, currentEvent.endDate);
-
-        if ("undefined" == typeof currentEvent.imageUrl || currentEvent.imageUrl == "") {
-          imageUrl = "";
-          baliseImg = '<div class="center"></br><i class="fa fa-calendar fa-5x text-blue" ></i></div>';
-        } else {
-          imageUrl = baseUrl+currentEvent.imageUrl;
-          baliseImg = '<img src="'+imageUrl+'"></img>';
-        }
-        htmlRes +='<div class="col-md-4">'+
-        			'<div class="panel panel-white lastEventPadding">'+
-	                    '<div class="panel-body no-padding center">'+
-		                      	'<div class="imgEvent">'+baliseImg+'</div>'+
-		                  	'<div class="nextEventInfo"><h3>'+period+'</h3><br>'+currentEvent.name+'</div>'+
-		                '</div>'+
-	                	'<div class="partition">'+
-							'<a class="btn btn-green btn-block radius-bottomRightLeft lbh" href="#event.detail.id.'+currentEvent["_id"]["$id"]+'">'+
-								'En savoir + >'+
-							'</a>'+
-						'</div>'+
-					'</div>'+
-				'</div>'
-
-      }
-    }else{
-      htlmRes = "<h1>Aucun evenement à venir</h1>";
-    }
-    $("#lastEvent").html(htmlRes);
-  }
-  
-  function getStringPeriodValue(d, f){
-    var mapMonth = {"01":"JANV.", "02": "FEVR.", "03":"MARS", "04":"AVRIL", "05":"MAI", "06":"JUIN", "07":"JUIL.", "08":"AOUT", "09":"SEPT.", "10":"OCTO.", "11":"NOVE.", "12":"DECE."};
-    var strPeriod = "";
-    var dTab = [];
-    var fTab = [];
-    var dHour = d.split(" ")[1];
-    var dDay = d.split(" ")[0].split("-");
-    
-    for(var i=0; i<dDay.length; i++){
-      dTab.push(dDay[i]);
-    }
-
-    var fHour = f.split(" ")[1];
-    var fDay = f.split(" ")[0].split("-");
-    for(var i=0; i<fDay.length; i++){
-      fTab.push(fDay[i]);
-    }
-    
-    if(dTab[0] == fTab[0]){
-      if(dTab[1] == fTab[1]){
-        if(dTab[2]== fTab[2]){
-          strPeriod += parseInt(fTab[2])+" "+mapMonth[fTab[1]]+" "+fTab[0]+"<br><h4> de "+dHour+" à "+fHour+"</h4>";
-        }else{
-          strPeriod += parseInt(dTab[2])+" au "+ parseInt(fTab[2])+" "+mapMonth[fTab[1]]+" "+fTab[0];
-        }
-      }else{
-        strPeriod += parseInt(dTab[2])+" "+mapMonth[dTab[1]]+" au "+ parseInt(fTab[2])+" "+mapMonth[fTab[1]]+" "+fTab[0];
-      }
-    }else{
-      strPeriod += parseInt(dTab[2])+" "+mapMonth[dTab[1]]+" "+dTab[0]+" au "+ parseInt(fTab[2])+" "+mapMonth[fTab[1]]+" "+fTab[0];
-    }
-    return strPeriod;
-  }
-
 
 	function setCategoryColor(tab){
 		$(".fc-content").css("color", "white");
