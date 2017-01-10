@@ -31,10 +31,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);*/
 			<table class="table table-striped table-bordered table-hover  directoryTable">
 				<thead>
 					<tr>
+						<th>Type</th>
 						<th>Name</th>
 						<th>Département</th>
 						<th>Région</th>
 						<th>Pays</th>
+						<th>Errors</th>
 						<th>Action</th>
 					</tr>
 				</thead>
@@ -54,22 +56,22 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);*/
 					{ 
 						foreach ($goods as $e) 
 						{ 
-							buildDirectoryLine($e, City::COLLECTION, City::CONTROLLER, City::ICON, $this->module->id,$tags,$scopes);
+							buildDirectoryLine($e, City::COLLECTION, City::CONTROLLER, City::ICON, $this->module->id,$tags,$scopes, "goods");
 						};
 					}
 
 					/* ********** PEOPLE ****************** */
-					if(isset($people)) 
+					if(isset($errors)) 
 					{ 
-						foreach ($people as $e) 
+						foreach ($errors as $e) 
 						{ 
-							buildDirectoryLine($e, City::COLLECTION, City::CONTROLLER, City::ICON, $this->module->id,$tags,$scopes);
+							buildDirectoryLine($e, City::COLLECTION, City::CONTROLLER, City::ICON, $this->module->id,$tags,$scopes, "errors");
 						}
 					}
 
 					
 
-					function buildDirectoryLine( $e, $collection, $type, $icon, $moduleId, &$tags, &$scopes ){
+					function buildDirectoryLine( $e, $collection, $type, $icon, $moduleId, &$tags, &$scopes, $goodsOrNot ){
 							
 							if(!isset( $e['_id'] ) || !isset( $e["name"]) || $e["name"] == "" )
 								return;
@@ -82,43 +84,34 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);*/
 							***************************************** */
 							if( Yii::app()->session["userIsAdmin"] )
 							{
-								if($type == Person::CONTROLLER){
-									//Activated
-									if( @$e["roles"]["tobeactivated"] )
-									{
-										$classes .= "tobeactivated";
-										$actions .= '<li><a href="javascript:;" data-id="'.$id.'" data-type="'.$type.'" class="margin-right-5 validateThisBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-1x stack-right-bottom text-danger"></i></span> Validate </a></li>';
-									}
-									//Beta Test
-									if (@Yii::app()->params['betaTest']) {
-										if( @$e["roles"]["betaTester"] ) {
-											$classes .= "betaTester";
-											$actions .= '<li><a href="javascript:;" data-id="'.$id.'" data-type="'.$type.'" class="margin-right-5 revokeBetaTesterBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-1x stack-right-bottom text-danger"></i></span> Revoke this beta tester </a></li>';
-										} else {
-											$actions .= '<li><a href="javascript:;" data-id="'.$id.'" data-type="'.$type.'" class="margin-right-5 addBetaTesterBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-1x stack-right-bottom text-danger"></i></span> Add this beta tester </a></li>';
-										}
-									}
-									//Super Admin
-									if( @$e["roles"]["superAdmin"] ) {
-										$classes .= "superAdmin";
-										$actions .= '<li><a href="javascript:;" data-id="'.$id.'" data-type="'.$type.'" class="margin-right-5 revokeSuperAdminBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-1x stack-right-bottom text-danger"></i></span> Revoke this super admin </a></li>';
-									} else {
-										$actions .= '<li><a href="javascript:;" data-id="'.$id.'" data-type="'.$type.'" class="margin-right-5 addSuperAdminBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-1x stack-right-bottom text-danger"></i></span> Add this super admin </a></li>';
-									}
+								
+									$actions .= '<li>'.
+													'<a href="javascript:;" onclick="updateCities(\''.$id.'\', \''.$goodsOrNot.'\');" data-id="'.$id.'" data-type="'.$type.'" class="margin-right-5 validateThisBtn">'.
+														'<span class="fa-stack">'.
+															'<i class="fa fa-university fa-stack-1x"></i>'.
+															'<i class="fa fa-pencil fa-stack-1x stack-right-bottom text-danger"></i>'.
+														'</span> Update '.
+													'</a>'.
+												'</li>';
 
-									$actions .= '<li><a href="javascript:;" data-id="'.$id.'" class="margin-right-5 switch2UserThisBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-eye fa-stack-1x stack-right-bottom text-danger"></i></span> Switch to this user</a> </li>';
-
-									$actions .= '<li><a href="javascript:;" data-id="'.$id.'" data-type="'.$type.'" class="margin-right-5 deleteThisBtn"><i class="fa fa-times text-red"></i>Delete</a> </li>';
-									//TODO
-									$actions .= '<li><a href="javascript:;" data-id="'.$id.'" data-type="'.$type.'" class="margin-right-5 banThisBtn"><i class="fa fa-times text-red"></i> TODO : Ban</a> </li>';
-									
-								}
+									$actions .= '<li>'.
+													'<a href="javascript:;" data-id="'.$id.'" data-type="'.$type.'" class="margin-right-5 validateThisBtn">'.
+														'<span class="fa-stack">'.
+															'<i class="fa fa-university fa-stack-1x"></i>'.
+															'<i class="fa fa-trash fa-stack-1x stack-right-bottom text-danger"></i>'.
+														'</span> Delete '.
+													'</a>'.
+												'</li>';								
+								
 							}
 
 							/* **************************************
 							* TYPE + ICON
 							***************************************** */
 						$strHTML = '<tr id="'.(string)$id.'">' ;
+							$strHTML = '<td class="'.$collection.'Line '.$classes.'">';
+											$strHTML .= '<i class="fa '.$icon.' fa-2x"></i> '.$goodsOrNot.'';
+									$strHTML .= '</td>';
 							
 							/* **************************************
 							* NAME
@@ -128,9 +121,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);*/
 							/* **************************************
 							* EMAIL for admin use only
 							***************************************** */
-							$strHTML .= '<td>'.((isset($e["dep"]))? $e["depName"]:"").'/td>';
-							$strHTML .= '<td>'.((isset($e["regionName"]))? $e["regionName"]:"").'/td>';
+							$strHTML .= '<td>'.((isset($e["depName"]))? $e["depName"]:"").'</td>';
+							$strHTML .= '<td>'.((isset($e["regionName"]))? $e["regionName"]:"").'</td>';
 							$strHTML .= '<td>'.((isset($e["country"]))? $e["country"]:"").'</td>';
+							$strHTML .= '<td>'.((isset($e["msgErrors"]))? $e["msgErrors"]:"").'</td>';
 
 							/* **************************************
 							* ACTIONS
@@ -159,3 +153,143 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);*/
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+var openingFilter = "<?php echo ( isset($_GET['type']) ) ? $_GET['type'] : '' ?>";
+var goods = <?php echo ( isset($goods) ) ? json_encode($goods) : '' ?>;
+var errors = <?php echo ( isset($errors) ) ? json_encode($errors) : '' ?>;
+var directoryTable = null;
+var contextMap = {
+	"tags" : <?php echo json_encode($tags) ?>,
+	"scopes" : <?php echo json_encode($scopes) ?>,
+};
+
+jQuery(document).ready(function() {
+	setTitle("Espace administrateur : Répertoire","cog");
+	bindAdminBtnEvents();
+	resetDirectoryTable();
+	if(openingFilter != "")
+		$('.filter'+openingFilter).trigger("click");
+});	
+
+function resetDirectoryTable() 
+{ 
+	mylog.log("resetDirectoryTable");
+
+	if( !$('.directoryTable').hasClass("dataTable") )
+	{
+		directoryTable = $('.directoryTable').dataTable({
+			"aoColumnDefs" : [{
+				"aTargets" : [0]
+			}],
+			"oLanguage" : {
+				"sLengthMenu" : "Show _MENU_ Rows",
+				"sSearch" : "",
+				"oPaginate" : {
+					"sPrevious" : "",
+					"sNext" : ""
+				}
+			},
+			"aaSorting" : [[1, 'asc']],
+			"aLengthMenu" : [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"] // change per page values here
+			],
+			// set the initial value
+			"iDisplayLength" : 10,
+		});
+	} 
+	else 
+	{
+		if( $(".directoryLines").children('tr').length > 0 )
+		{
+			directoryTable.dataTable().fnDestroy();
+			directoryTable.dataTable().fnDraw();
+		} else {
+			mylog.log(" directoryTable fnClearTable");
+			directoryTable.dataTable().fnClearTable();
+		}
+	}
+}
+
+function applyStateFilter(str)
+{
+	mylog.log("applyStateFilter",str);
+	directoryTable.DataTable().column( 0 ).search( str , true , false ).draw();
+}
+function clearAllFilters(str){ 
+	directoryTable.DataTable().column( 0 ).search( str , true , false ).draw();
+	directoryTable.DataTable().column( 2 ).search( str , true , false ).draw();
+	directoryTable.DataTable().column( 3 ).search( str , true , false ).draw();
+}
+function applyTagFilter(str)
+{
+	mylog.log("applyTagFilter",str);
+	if(!str){
+		str = "";
+		sep = "";
+		$.each($(".btn-tag.active"), function() { 
+			mylog.log("applyTagFilter",$(this).data("id"));
+			str += sep+$(this).data("id");
+			sep = "|";
+		});
+	} else 
+		clearAllFilters("");
+	mylog.log("applyTagFilter",str);
+	directoryTable.DataTable().column( 2 ).search( str , true , false ).draw();
+	return $('.directoryLines tr').length;
+}
+
+function applyScopeFilter(str)
+{
+	//mylog.log("applyScopeFilter",$(".btn-context-scope.active").length);
+	if(!str){
+		str = "";
+		sep = "";
+		$.each( $(".btn-context-scope.active"), function() { 
+			mylog.log("applyScopeFilter",$(this).data("val"));
+			str += sep+$(this).data("val");
+			sep = "|";
+		});
+	} else 
+		clearAllFilters("");
+	mylog.log("applyScopeFilter",str);
+	directoryTable.DataTable().column( 3 ).search( str , true , false ).draw();
+	return $('.directoryLines tr').length;
+}
+
+function bindAdminBtnEvents(){
+	mylog.log("bindAdminBtnEvents");
+
+}
+
+
+function updateCities(id, goodsOrNot) {
+	var city = {};
+	if(goodsOrNot == "goods")
+		city = generateDataForDynForm(goods[id]);
+	else
+		city = generateDataForDynForm(errors[id]);
+
+	openForm ('cities', null, city);
+}
+
+function generateDataForDynForm(city) {
+	var data = {
+		name : city.name,
+		alternateName : city.alternateName,
+		insee : city.insee,
+		country : city.country,
+		dep : city.dep,
+		depName : city.depName,
+		region : city.region,
+		regionName : city.regionName,
+		osmId : city.osmId,
+		wikidataId : city.wikidataId,
+		latitude : city.geo.latitude,
+		longitude : city.geo.longitude,
+		geoShape : city.geoShape
+
+	};
+
+	return data ;
+}
+
+</script>

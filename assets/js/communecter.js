@@ -3157,48 +3157,34 @@ var typeObj = {
 	"events" : {col:"events",ctrl:"event",color:"orange"},
 	"projects" : {col:"projects",ctrl:"project",color:"purple",icon:"lightbulb-o"},
 	"city" : {col:"cities",ctrl:"city"},
-	"cities" : {col:"cities",ctrl:"city", titleClass : "bg-red", icon : "university",},
-	"citiesSimply" : { 	col:"cities",
+	"cities" : {	col:"cities",
 					ctrl:"city", 
 					titleClass : "bg-red", 
 					icon : "university",
 					dynForm : {
 						jsonSchema : {
-							title : "Ajouter une city",
+							title : "Modifier une ville",
 							icon : "university",
 							properties : {
 								info : {
 								"inputType" : "custom",
-								"html":"<p><i class='fa fa-info-circle'></i> Ajouter une ville</p>",
+								"html":"<p><i class='fa fa-info-circle'></i> Modifier une ville</p>",
 								},
 								id :{
 								"inputType" : "hidden",
 								"value" : ""
 								},
-								"latitude" : {
+								insee :{
 								"inputType" : "hidden",
-								"value" : ""
-								},
-								"longitude" : {
-								"inputType" : "hidden",
-								"value" : ""
+								"value" : "",
+								"rules" : { "required" : true }
 								},
 								"name" :{
 								"inputType" : "text",
 								"placeholder" : "Nom de la ville",
 								"rules" : { "required" : true }
 								},
-								postalCode :{
-								"inputType" : "text",
-								"placeholder" : "Code postal",
-								"rules" : { "required" : true }
-								},
 								country :{
-								"inputType" : "hidden",
-								"value" : "",
-								"rules" : { "required" : true }
-								},
-								insee :{
 								"inputType" : "hidden",
 								"value" : "",
 								"rules" : { "required" : true }
@@ -3218,10 +3204,27 @@ var typeObj = {
 								regionName :{
 								"inputType" : "text",
 								"placeholder" : "Nom de la région"
+								},
+								"latitude" : {
+								"inputType" : "text",
+								"placeholder" : "Nom de la région"
+								},
+								"longitude" : {
+								"inputType" : "text",
+								"placeholder" : "Nom de la région"
+								},
+								osmid :{
+								"inputType" : "text",
+								"placeholder" : "OSM id"
+								},
+								wikidata :{
+								"inputType" : "text",
+								"placeholder" : "wikidata"
 								}
 							}
 						}
-					}},
+					}
+				},
 	"entry" : {
 		col:"surveys",
 		ctrl:"survey",
