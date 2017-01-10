@@ -72,11 +72,55 @@
 		display: block;
 	}
 
+	.element-name{
+		font-size:18px;
+		padding:10px 20px;
+		font-weight: 700;
+		height:50px;
+		margin-top:-50px;
+		background-color: rgba(255, 255, 255, 0.8);
+	}
+	.btn-follow{
+		font-weight: 700;
+		font-size:13px;
+		border-radius:40px;
+		border:none;
+	}
+	.menubar{
+		-webkit-box-shadow: 0px 5px -5px rgba(50, 50, 50, 0.75);
+		-moz-box-shadow: 0px 5px -5px rgba(50, 50, 50, 0.75);
+		box-shadow: 0px 5px 5px -5px rgba(50, 50, 50, 0.75);
+		margin-bottom: 40px;
+	}
+	.btn-menubar{
+		font-weight: 700;
+		font-size: 12px;
+		border-radius: 40px;
+		border: none;
+		background-color: white;
+		padding: 13px 20px;
+	}
+
+	.btn-menubar:hover{
+		background-color: #4a4a4a;
+		color:white;
+		-webkit-box-shadow: 0px 0px 5px -1px rgba(50, 50, 50, 0.75);
+		-moz-box-shadow: 0px 0px 5px -1px rgba(50, 50, 50, 0.75);
+		box-shadow: 0px 0px 5px -1px rgba(50, 50, 50, 0.75);
+	}
 </style>
 	<div class="col-lg-10 col-md-10 col-sm-9 no-padding" id="onepage">
 		<div class="img-header"></div>
-		<div class="element-name"></div>
+		<div class="element-name text-dark">
+			<?php echo @$element["name"]; ?>
+			<button class="btn btn-default btn-follow"><i class="fa fa-star"></i> SUIVRE</button>
+		</div>
 
+		<div class="col-md-12 padding-15 menubar">
+			<button class="btn btn-default btn-menubar">A PROPOS</button>
+			<button class="btn btn-default btn-menubar">CARNET DE BORD</button>
+			<button class="btn btn-default btn-menubar">PRODUCTIONS</button>
+		</div>
 		<?php   
 
     		$desc = array( array("shortDescription"=>@$element["description"]),
