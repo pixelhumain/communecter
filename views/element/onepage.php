@@ -355,8 +355,8 @@
 	*/
 	?>
 
-	<section id="timeline" class="bg-white inline-block">
-		<div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
+	<section id="timeline" class="bg-white inline-block col-md-12">
+		<div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
 			<ul class="timeline inline-block" id="timeline-page">
 		</ul>
 	</section>
@@ -538,7 +538,7 @@
 		//showElementPad('news');
 		var url = "news/index/type/citoyens/id/<?php echo (string)$element["_id"] ?>?isFirst=1&";
 		console.log("URL", url);
-		ajaxPost('#timeline-page', baseUrl+'/'+moduleId+'/'+url+"renderPartial=true&tpl=co2", 
+		ajaxPost('#timeline-page', baseUrl+'/'+moduleId+'/'+url+"renderPartial=true&tpl=co2&nbCol=2", 
 			null,
 			function(){ 
 				
