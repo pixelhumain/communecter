@@ -650,8 +650,8 @@ var mapUrl = {
 		},
 	"addchart":
 		{
-			"url"  : "project/addchartsv/id/<?php echo (string)$entity["_id"] ?>?", 
-			"hash" : "project.addchartsv.id.<?php echo (string)$entity["_id"] ?>",
+			"url"  : "chart/addchartsv/type/<?php echo $type ?>/id/<?php echo (string)$entity["_id"] ?>?", 
+			"hash" : "chart.addchartsv.type.<?php echo $type ?>.id.<?php echo (string)$entity["_id"] ?>",
 			"data" : null
 	
 		},
