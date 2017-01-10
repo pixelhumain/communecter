@@ -41,24 +41,6 @@
 		font-size:13px!important;
 		color:#606060;
 	}
-
-	.btn-favory{
-		margin-left:-30px; 
-		margin-right:13px;
-	}
-
-	.btn-favory .fa-star{
-		display: none;
-	}
-	.btn-favory:hover{
-		text-decoration: none;
-	}
-	.btn-favory:hover .fa-star-o{
-		display: none;
-	}
-	.btn-favory:hover .fa-star{
-		display: inline;
-	}
 </style>
 
 <div class="col-md-10 margin-bottom-15" style="">
@@ -238,7 +220,7 @@ function initKeywords(){
 	    	}
 	    });
 	});
-	$("#list-keywords").html(html);
+	$("#sub-menu-left").html(html);
 
 	$(".btn-keyword").click(function(){
 		var key = $(this).data("keyword");

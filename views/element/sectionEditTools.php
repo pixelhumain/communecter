@@ -182,7 +182,9 @@
 				          $files = glob($path.'*.{jpg,jpeg,png}', GLOB_BRACE);
 				        } ;
 				    ?>
-			    	<?php foreach ($files as $i => $img) { ?>
+			    	<?php
+			    		 if(isset($files))
+			    		 foreach ($files as $i => $img) { ?>
 			    			<button class="btn btn-default col-md-4 col-sm-4 btn-bgimg-section padding-5"
 			    			data-repeat="<?php echo $sec["repeat"] ? "true" : "false"; ?>"
 			    			data-url="<?php echo $img; ?>"

@@ -32,11 +32,12 @@ jQuery(document).ready(function() {
 
 	var tpl = "onepage";
 	//if(type=="citoyens") 
-		tpl = "profilSocial";
+		tpl = '<?php echo @$_GET["tpl"] ? $_GET["tpl"] : "profilSocial"; ?>';
 	
+
 	//location.hash = location.hash + "?tpl="+tpl;
 
-	getAjax('#onepage' ,baseUrl+'/'+moduleId+"/element/detail/type/"+type+"/id/"+id+"?tpl=profilSocial",function(){ 
+	getAjax('#onepage' ,baseUrl+'/'+moduleId+"/element/detail/type/"+type+"/id/"+id+"?tpl="+tpl,function(){ 
 				
 			},"html");
 });

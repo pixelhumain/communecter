@@ -19,28 +19,76 @@
 ?>
 <style>
 	
-.main-btn-scopes {
-    position: absolute;
-    top: -40px;
-    left: 49%;
+.btn-create-news{
+    margin-top:0px;
     z-index: 10;
     border-radius: 0 50%;
     -ms-transform: rotate(7deg);
     -webkit-transform: rotate(7deg);
     transform: rotate(-45deg);
 }
-
-.main-btn-scopes:hover{
+.btn-create-news:hover{
     background-color: white!important;
-    color:#ea4335!important;
-    border: 2px solid #ea4335!important;
+    color:#34a853!important;
+    border: 2px solid #34a853!important;
 
 }
 
+.main-btn-scopes {
+    margin-top: -57px;
+}
+
+#formCreateNewsTemp{
+	display: none!important;
+}
 #formCreateNewsTemp .form-create-news-container, #formActivity{
     max-width: 60%;
     margin-left:20%;
 }
+#sub-menu-left{
+    margin-top:1px;
+    /*text-align: left;*/
+}
+#sub-menu-left .btn{
+    background-color: #4285f4;
+    border-color: #4285f4;
+	color:white;
+    /*border-radius:80px;*/
+    font-weight: 700;
+}
+#sub-menu-left .btn.active{
+    background-color: #fff;
+    color: #4285f4;
+}
+#sub-menu-left .btn:hover{
+    background-color: #1c6df5;
+    border-color: #4285f4;
+}
+#sub-menu-left .btn.active:hover{
+    background-color: #fff;
+    color: #4285f4;
+}
+#sub-menu-left .btn.bg-yellow{
+	border-color: transparent;
+}
+
+
+#sub-menu-left.subsub .btn{
+	width:100%;    
+	text-align: left;
+	background-color: white;
+    border-color: white;
+	color:#4285f4;
+}
+#sub-menu-left.subsub{
+	min-width: 180px;
+}
+
+.btn-menu-left-add{
+	background-color: transparent !important;
+    border-color: transparent !important;
+}
+
 </style>
 
 <div class="col-md-12 col-sm-12 col-xs-12 bg-white no-padding">
@@ -56,24 +104,86 @@
 	    	</div> -->
 	    <?php //} ?>
 
-	    <button class="btn btn-default btn-circle-1 main-btn-scopes bg-red text-white tooltips" 
+
+	    <h5 class="text-center letter-red">
+	        <button class="btn btn-default main-btn-scopes text-white tooltips margin-bottom-5" 
 	            data-target="#modalScopes" data-toggle="modal"
 	            data-toggle="tooltip" data-placement="top" 
 	                                title="Sélectionner des lieux de recherche">
-	            <i class="fa fa-bullseye" style="font-size:18px;"></i>
-	    </button>
+	            <!-- <i class="fa fa-bullseye" style="font-size:18px;"></i> -->
+	            <img src="<?php echo Yii::app()->theme->baseUrl; ?>/assets/img/cible3.png" height=42>
+	        </button><br>
+	        recherche ciblée
+	    </h5>
 	    <!-- <h5 class="text-center letter-red">choisir des sources</h5> -->
 
 	    <br>
-	    <div class="scope-min-header list_tags_scopes hidden-xs hidden-sm margin-bottom-25"></div>
+	    <div class="scope-min-header list_tags_scopes hidden-xs hidden-sm"></div>
 	    
+	<div class="col-md-12 col-sm-12 col-xs-12 padding text-center hidden" id="sub-menu-left">
+		<hr>
+	    <h5 class="letter-blue">Catégories<br><i class="fa fa-angle-down"></i></h5>
+	    <div class="col-md-4 col-sm-4 text-right">
+		    <button class="btn btn-default margin-bottom-5 margin-left-5"><i class="fa fa-money hidden-xs"></i> Je vends</button> 
+			<button class="btn btn-default margin-bottom-5 margin-left-5"><i class="fa fa-gift hidden-xs"></i> Je donne</button> 
+			<button class="btn btn-default margin-bottom-5 margin-left-5"><i class="fa fa-eye hidden-xs"></i> Je cherche</button> 
+		</div>
+		<div class="col-md-4 col-sm-4 no-padding">
+			<div class="col-md-6 text-right no-padding">
+				<button class="btn btn-default margin-bottom-5 margin-left-25"><i class="fa fa-heartbeat hidden-xs"></i> Coup de coeur</button> 
+			</div>
+			<div class="col-md-6 text-left no-padding">
+				<button class="btn btn-default margin-bottom-5 margin-left-5"><i class="fa fa-thumbs-o-down hidden-xs"></i> Coup de gueule</button> 
+			</div>
+		</div>
+		<div class="col-md-4 col-sm-4 text-left"> 
+			<button class="btn btn-default margin-bottom-5 margin-left-25"><i class="fa fa-file-text-o hidden-xs "></i> Annonces publiques</button> 
+			<button class="btn btn-default margin-bottom-5 margin-left-5"><i class="fa fa-exclamation-triangle hidden-xs"></i> Urgence</button> 
+		</div>
 	</div>
 
-	<div class="col-md-2 col-sm-1 hidden-xs no-padding">
 	</div>
 
+	<div class="col-lg-2 col-md-3 col-sm-3 col-xs-12 padding-25 text-right" id="sub-menu-left">
+		<button href="#co2.referencement" class="lbh btn btn-default letter-green hidden-xs btn-menu-left-add">
+			<i class="fa fa-plus"></i> Publier une annonce
+		</button>
+		<hr>
+		<button class="btn btn-default margin-bottom-5 margin-left-5"><i class="fa fa-circle-o hidden-xs"></i> Tout</button><br>
+		<hr>
+		<button class="btn btn-default margin-bottom-5 margin-left-5 active"><i class="fa fa-money hidden-xs"></i> Vente</button><br>
+		<button class="btn btn-default margin-bottom-5 margin-left-5"><i class="fa fa-external-link hidden-xs"></i> Location</button><br>
+		<button class="btn btn-default margin-bottom-5 margin-left-5"><i class="fa fa-gift hidden-xs"></i> Dons</button><br>
+		<button class="btn btn-default margin-bottom-5 margin-left-5"><i class="fa fa-exchange  hidden-xs"></i> Partage</button><br>
+		<button class="btn btn-default margin-bottom-5 margin-left-5"><i class="fa fa-eye hidden-xs"></i> Recherche</button><br>
+		<hr>
+		<button class="btn btn-default margin-bottom-5 margin-left-5"><i class="fa fa-heartbeat hidden-xs"></i> Coup de coeur</button><br>
+		<button class="btn btn-default margin-bottom-5 margin-left-5"><i class="fa fa-thumbs-o-down hidden-xs"></i> Coup de gueule</button><br>
+		<hr>
+		<button class="btn btn-default margin-bottom-5 margin-left-5"><i class="fa fa-briefcase hidden-xs"></i> Offre d'emplois</button><br>
+		<hr>
+		<button class="btn btn-default margin-bottom-5 margin-left-5"><i class="fa fa-comment hidden-xs"></i> Annonces publiques</button><br>
+		<button class="btn btn-default margin-bottom-5 margin-left-5"><i class="fa fa-exclamation-triangle hidden-xs"></i> Urgence</button><br>
+	</div>
 
-	<div class="col-md-8 col-sm-10 no-padding" id="newsstream">
+	<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 padding-25 text-left subsub" id="sub-menu-left" style="margin-top:160px; padding-left:0px!important;">
+		<?php $categories = CO2::getAnnounceCategories();
+			  foreach ($categories as $key => $cat) {
+		?>
+				<?php if(is_array($cat)) { ?>
+					<button class="btn btn-default margin-bottom-5 margin-left-5">
+						<i class="fa fa-chevron-circle-down hidden-xs"></i> <?php echo $key; ?>
+					</button><br>
+					<?php foreach ($cat as $key2 => $cat2) { ?>
+						<button class="btn btn-default margin-bottom-5 margin-left-25">
+							<?php echo $cat2; ?>
+						</button><br>
+					<?php } ?>
+				<?php } ?>
+			</button>
+		<?php } ?>
+	</div>
+	<div class="col-lg-5 col-md-6 col-sm-6 no-padding" id="newsstream">
 	
 		<?php  
 			//if(@$medias && sizeOf($medias) > 0)
@@ -86,7 +196,7 @@
 
 
 
-<?php //$this->renderPartial($layoutPath.'footer', array("subdomain"=>"freedom")); ?>
+<?php $this->renderPartial($layoutPath.'footer', array("subdomain"=>"freedom")); ?>
 
 <script>
 
@@ -115,8 +225,9 @@ var liveScopeType = "global";
 var loadContent = '<?php echo @$_GET["content"]; ?>';
 jQuery(document).ready(function() {
 
-	initKInterface({"affixTop":250});
-
+	//initKInterface({"affixTop":250});
+	initKInterface();
+    
 	//$("#falseInput").on('load',function(){
 			//});
 	var liveType = "<?php echo (@$type && !empty($type)) ? $type : ''; ?>";
@@ -194,7 +305,7 @@ function loadStream(indexMin, indexMax){ console.log("LOAD STREAM FREEDOM");
 	currentIndexMax = indexMax;
 
 	//isLive = isLiveBool==true ? "/isLive/true" : "";
-	var url = "news/index/type/city/isLive/true/date/"+dateLimit+"?tpl=co2&renderPartial=true&nbCol=2";
+	var url = "news/index/type/city/isLive/true/date/"+dateLimit+"?tpl=co2&renderPartial=true&nbCol=1";
 	$.ajax({ 
         type: "POST",
         url: baseUrl+"/"+moduleId+'/'+url,
@@ -283,7 +394,7 @@ function showNewsStream(isFirst){ mylog.log("showNewsStream freedom");
 	scrollEnd = false;
 
 	var isFirstParam = isFirst ? "?isFirst=1&tpl=co2" : "?tpl=co2";
-	isFirstParam += "&nbCol=2";
+	isFirstParam += "&nbCol=1";
 	var tagSearch = $('#searchTags').val().split(',');; //$('#searchBarText').val();
 	var levelCommunexionName = { 1 : "CITYKEY",
 	                             2 : "CODE_POSTAL",
