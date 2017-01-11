@@ -3,7 +3,7 @@ $(document).ready(function() {
 	initSequence();
 	setTimeout( function () { checkPoll() }, 10000);
 	document.onkeyup = keyboardNav.checkKeycode;
-	bindRightClicks()
+	bindRightClicks();
 });
 
 var prevStep = 0;

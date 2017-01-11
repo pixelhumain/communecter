@@ -84,6 +84,12 @@
 		left:20px;
 		top:<?php echo (int)$mapTop+30; ?>px;
 	}
+	.<?php echo $moduleName; ?>
+	.input-search-place{
+		left:30%!important;
+		bottom:25px;
+		top:unset!important;
+	}
 	
 
 	.<?php echo $moduleName; ?>
