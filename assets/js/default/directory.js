@@ -458,7 +458,6 @@ var directory = {
               if(typeof TPL != "undefined")
                 if(TPL == "kgougle") url = '#co2.page.type.'+type+'.id.' + id;
 
-
               //else if(type == "poi")    url = '#element.detail.type.poi.id.' + id;
               else if(type == "cities") url = "#city.detail.insee."+o.insee+".postalCode."+o.cp;
               else if(type == "surveys") url = "#survey.entry.id."+id;
@@ -718,10 +717,15 @@ var directory = {
         //mylog.log("tags count", directory.tagsT.length, directory.scopesT.length);
     },
     //todo add count on each tag
-    filterTags : function () 
+    filterTags : function (withSearch) 
     { 
         directory.tagsT = [];
-        $("#listTags").html("<h2 class='homestead'>tri Mots Clefs</h2>");
+        $("#listTags").html('');
+        if(withSearch){
+            $("#listTags").append("<h2 class='homestead'><i class='fa fa-search'></i> #tag ou texte</h2>");
+            $("#listTags").append('<input id="searchBarTextJS" data-searchPage="true" type="text" class="input-search form-control">');
+        }
+        $("#listTags").append("<h2 class='homestead'>trier <i class='fa fa-tags'></i></h2>");
         $("#listTags").append("<a class='btn btn-dark-blue btn-xs favElBtn favAllBtn text-left' href='javascript:directory.toggleEmptyParentSection(\".favSection\",null,\".searchEntityContainer\",1)'> <i class='fa fa-tags'></i> Tout voir </a><br/>");
         $.each( $(directory.elemClass),function(k,o){
             $.each($(o).find(".btn-tag"),function(i,oT){

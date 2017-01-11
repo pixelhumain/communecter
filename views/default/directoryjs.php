@@ -26,18 +26,7 @@
       </h2>
      <?php } ?>
 
-<div class="row headerDirectory bg-white padding-15">
-	<div class="col-md-12 no-padding pull-left" id="bar-tools-search" style="margin-top:0px; width:100%;">
-	  <?php $placeholder = ($typeSelected != "cities") ? "rechercher par #tag ou mots clés..." : "rechercher une ville, un code postal..."; ?> 
-	    <div class="input-group margin-bottom-10 col-md-8 col-sm-8 col-xs-8 pull-left">
-	    	<input id="searchBarTextJS" data-searchPage="true" type="text" placeholder="<?php echo $placeholder; ?>" class="input-search form-control">
-	    </div>
-	</div>
-</div>
- 
   <div class="container-result-search">
-
-        
 
 	  	<div class="col-md-12 padding-10 margin-bottom-5 lbl-info-search">
 		    <div class="lbl-info lbl-info-vote lbl-info-actions pull-left hidden col-xs-9 no-padding margin-bottom-10">
@@ -135,12 +124,9 @@ var typeSelected = <?php echo (@$_GET['type']) ? "'".$_GET['type']."'" : "null" 
 
 jQuery(document).ready(function() {
 
-	directory.elemClass = '.searchEntityContainer ';
+	
 	currentTypeSearchSend = "search";
 
-    $("#searchBarTextJS").off().on("keyup",function() { 
-		directory.search ( null, $(this).val() );
-   	});
 
   $("#btn-slidup-scopetags").click(function(){
     slidupScopetagsMin();
@@ -202,8 +188,12 @@ jQuery(document).ready(function() {
 });
 
 function searchCallback() { 
-  directory.filterTags();
-  $(".btn-tag").off().on("click",function(){ directory.toggleEmptyParentSection(null,"."+$(this).data("tag-value"),".searchEntityContainer",1)})
+  directory.elemClass = '.searchEntityContainer ';
+  directory.filterTags(true);
+  $(".btn-tag").off().on("click",function(){ directory.toggleEmptyParentSection(null,"."+$(this).data("tag-value"),".searchEntityContainer",1)});
+  $("#searchBarTextJS").off().on("keyup",function() { 
+    directory.search ( null, $(this).val() );
+  });
 }
 
 </script>
