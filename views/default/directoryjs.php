@@ -32,39 +32,40 @@
 	    <div class="input-group margin-bottom-10 col-md-8 col-sm-8 col-xs-8 pull-left">
 	    	<input id="searchBarTextJS" data-searchPage="true" type="text" placeholder="<?php echo $placeholder; ?>" class="input-search form-control">
 	    </div>
-	    <span class="input-group-btn">
-            <button class="btn btn-success tooltips" onclick="directory.filterTags()" id="btn-open-tags" data-toggle="tooltip" data-placement="top" title="Filtrer par mots clefs" style="height:40px">
-				<i class="fa fa-tags"></i>
-            </button>
-      	</span>
 	</div>
 </div>
  
   <div class="container-result-search">
-      <div class="col-md-12 padding-10 margin-bottom-5 lbl-info-search">
-        <div class="lbl-info lbl-info-vote lbl-info-actions pull-left hidden col-xs-9 no-padding margin-bottom-10">
-          <i class="fa fa-chevron-down"></i> 
-          <i class="fa fa-info-circle"></i> 
-          <b>Seuls les résultats auxquels vous avez accès sont affichés</b> <br>
-          (issus de vos <span class="text-green"><b>organisations</b></span>, 
-          vos <span class="text-purple"><b>projets</b></span> ou votre <span class="text-red"><b>conseil citoyen</b></span>)
-        </div>
-        <div class="lbl-info lbl-info-organizations lbl-info-projects lbl-info-persons pull-left hidden col-xs-9 no-padding margin-bottom-10">
-          <i class="fa fa-chevron-down"></i> 
-          <i class="fa fa-info-circle"></i> 
-          <b>Résultats triés en fonction de l'activité la plus récente des éléments recherchés</b> 
-        </div>
-        <div class="lbl-info lbl-info-cities pull-left hidden col-xs-9 no-padding margin-bottom-10">
-          <i class="fa fa-info-circle"></i> Indiquez le nom d'une commune, ou un code postal, pour lancer la recherche
-        </div> 
-        <button class="btn btn-default pull-right text-azure" onclick="showMap(true)" style="margin-bottom: -15px;margin-top: -10px;">
-          <i class="fa fa-map-marker"></i>
-          <span class="hidden-xs"> Afficher <span class="hidden-sm hidden-xs">sur</span> la carte</span>
-        </button>
-      </div>
 
-      	<div id="listTags" class="hide list_tags_scopes inline-block"></div>
+        
+
+	  	<div class="col-md-12 padding-10 margin-bottom-5 lbl-info-search">
+		    <div class="lbl-info lbl-info-vote lbl-info-actions pull-left hidden col-xs-9 no-padding margin-bottom-10">
+		      <i class="fa fa-chevron-down"></i> 
+		      <i class="fa fa-info-circle"></i> 
+		      <b>Seuls les résultats auxquels vous avez accès sont affichés</b> <br>
+		      (issus de vos <span class="text-green"><b>organisations</b></span>, 
+		      vos <span class="text-purple"><b>projets</b></span> ou votre <span class="text-red"><b>conseil citoyen</b></span>)
+		    </div>
+
+		    <div class="lbl-info lbl-info-organizations lbl-info-projects lbl-info-persons pull-left hidden col-xs-9 no-padding margin-bottom-10">
+		      <i class="fa fa-chevron-down"></i> 
+		      <i class="fa fa-info-circle"></i> 
+		      <b>Résultats triés en fonction de l'activité la plus récente des éléments recherchés</b> 
+		    </div>
+
+		    <div class="lbl-info lbl-info-cities pull-left hidden col-xs-9 no-padding margin-bottom-10">
+		      <i class="fa fa-info-circle"></i> Indiquez le nom d'une commune, ou un code postal, pour lancer la recherche
+		    </div> 
+
+		    <button class="btn btn-default pull-right text-azure" onclick="showMap(true)" style="margin-bottom: -15px;margin-top: -10px;">
+		      <i class="fa fa-map-marker"></i>
+		      <span class="hidden-xs"> Afficher <span class="hidden-sm hidden-xs">sur</span> la carte</span>
+		    </button>
+	  	</div>
+		<div id="listTags" class="hide col-sm-2"></div>
 		<div style="" class="row no-padding" id="dropdown_search"></div>
+
   </div>
 
 <?php //$this->renderPartial(@$path."first_step_directory"); ?> 
@@ -182,7 +183,7 @@ jQuery(document).ready(function() {
           var heightWindow = $(window).height();
           if( ($(this).scrollTop() + heightWindow) >= heightContainer-150){
             mylog.log("scroll MAX");
-            startSearch(currentIndexMin+indexStep, currentIndexMax+indexStep);
+            startSearch(currentIndexMin+indexStep, currentIndexMax+indexStep,searchCallback);
           }
         } 
     }
@@ -196,12 +197,12 @@ jQuery(document).ready(function() {
 
 
   //initBtnScopeList();
-  startSearch(0, 300);
+  indexStepInit = 100;
+  startSearch(0, indexStepInit, searchCallback);
 });
 
 function searchCallback() { 
-  mylog.log("searchCallback");
-  //startSearch(0, indexStepInit);
+  directory.filterTags();
 }
 
 </script>

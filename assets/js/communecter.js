@@ -728,6 +728,7 @@ function loadByHash( hash , back ) {
 		}
 		return;
 	}
+
 	if( hash.indexOf("#default.directory") >= 0 &&
 		location.hash.indexOf("#default.directory") >= 0 && CoAllReadyLoad==true){ 
 		var n = hash.indexOf("type=")+5;
@@ -736,7 +737,7 @@ function loadByHash( hash , back ) {
 		searchType = [type];
 		setHeaderDirectory(type);
 		loadingData = false;
-		startSearch(0, indexStepInit);
+		startSearch(0, indexStepInit, ( notNull(searchCallback) ) ? searchCallback : null );
 		location.hash = hash;
 		return;
 	}
@@ -1092,7 +1093,7 @@ var smallMenu = {
 	//smallMenu.openAjax(\''+baseUrl+'/'+moduleId+'/collections/list/col/'+obj.label+'\',\''+obj.label+'\',\'fa-folder-open\',\'yellow\')
 	//the url must return a list like userConnected.list
 	openAjax : function  (url,title,icon,color,title1,params,callback) { 
-		if( typeof showResultsDirectoryHtml == "undefined" )
+		if( typeof directory == "undefined" )
 		    lazyLoad( moduleUrl+'/js/default/directory.js', null, null );
 	    
 	    processingBlockUi();
@@ -1133,7 +1134,7 @@ var smallMenu = {
 	},
 	//ex : smallMenu.openSmall("Recherche","fa-search","green",function(){
 	openSmall : function  (title,icon,color,callback,title1) { 
-		if( typeof showResultsDirectoryHtml == "undefined" )
+		if( typeof directory == "undefined" )
 		    lazyLoad( moduleUrl+'/js/default/directory.js', null, null );
 	    	
 		var content = smallMenu.buildHeader(title,icon,color,title1);
