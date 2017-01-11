@@ -1630,6 +1630,31 @@ function editElement(type,id){
 			delete data.map["_id"];
 			mylog.dir(data);
 			console.log(data);
+			if(globalTheme=="notragora"){
+				if(type=="poi"){
+					if(typeof data.map["tags"] != "undefined" && data.map["tags"].length > 0){
+				  		$.each(data.map["tags"], function(i,e){
+					  		if(jQuery.inArray( e, collectionsType ) >= 0){
+						   		 data.map["collections"]=[];
+						   		 data.map["collections"].push(e);
+						   		 var i = data.map["tags"].indexOf(e);
+								if(i != -1) {
+									data.map["tags"].splice(i, 1);
+								}
+							}
+							if(jQuery.inArray( e, genresType ) >= 0){
+						   		 data.map["genres"]=[];
+						   		 data.map["genres"].push(e);
+						   		 var i = data.map["tags"].indexOf(e);
+								if(i != -1) {
+									data.map["tags"].splice(i, 1);
+								}
+							}
+
+				  		});
+		  			}
+	  			}
+			}
 			openForm(type,null, data.map);
         } else {
            toastr.error("something went wrong!! please try again.");
@@ -1686,7 +1711,7 @@ function buildDynForm(elementObj, afterLoad,data) {
 		        if( notNull(afterLoad) && elementObj.dynForm.jsonSchema.onLoads 
 		        	&& elementObj.dynForm.jsonSchema.onLoads[afterLoad] 
 		        	&& typeof elementObj.dynForm.jsonSchema.onLoads[afterLoad] == "function" )
-		        	elementObj.dynForm.jsonSchema.onLoads[ afterLoad](data);
+		        	elementObj.dynForm.jsonSchema.onLoads[afterLoad](data);
 		        //incase we need a second global post process
 		        if( notNull(afterLoad) && elementObj.dynForm.jsonSchema.onLoads 
 		        	&& elementObj.dynForm.jsonSchema.onLoads[afterLoad] 

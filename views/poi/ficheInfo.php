@@ -205,7 +205,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 	</div>
 	<div class="panel-body border-light panelDetails" id="contentGeneralInfos">				
 		<div class="col-xs-12 col-md-12 no-padding margin-top-10">
-					<?php  echo (!empty($element["description"])) ? $element["description"] : ""; ?>
+			<?php  echo (!empty($element["description"])) ? $element["description"] : ""; ?>
 		</div>
 		<div id="divTags" class="col-md-12 no-padding" >
 			<?php if(isset($element["tags"])){ ?>
