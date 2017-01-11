@@ -2454,6 +2454,11 @@ var typeObj = {
 			    		$("#ajaxFormModal #parentType").val( data.parentType ); 
 				    },*/
 			    },
+			    beforeSave : function(){
+			    	
+			    	if( typeof $("#ajaxFormModal #description").code === 'function' )  
+			    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
+			    },
 			    properties : {
 			    	info : {
 		                "inputType" : "custom",
