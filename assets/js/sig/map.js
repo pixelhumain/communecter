@@ -668,7 +668,7 @@
 			this.Sig.showMapElements = function(thisMap, data)
 			{
 				mylog.warn("--------------- showMapElements ---------------------");
-				//mylog.log(data);
+				mylog.log(data);
 				if(data == null) return;
 
 				var filterPanelValue = "citoyens";
