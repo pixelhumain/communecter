@@ -203,6 +203,7 @@ jQuery(document).ready(function() {
 
 function searchCallback() { 
   directory.filterTags();
+  $(".btn-tag").off().on("click",function(){ directory.toggleEmptyParentSection(null,"."+$(this).data("tag-value"),".searchEntityContainer",1)})
 }
 
 </script>

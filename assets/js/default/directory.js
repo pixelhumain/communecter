@@ -389,7 +389,7 @@ var directory = {
     multiTagsT : [],
     multiScopesT :[],
 
-    showResultsDirectoryHtml : function (data,contentType, size){ //size == null || min || max
+    showResultsDirectoryHtml : function ( data, contentType, size ){ //size == null || min || max
 
         var str = "";
         $.each(data, function(i, o) {
@@ -484,7 +484,7 @@ var directory = {
               if(typeof o.tags != "undefined" && o.tags != null){
                 $.each(o.tags, function(key, value){
                   if(value != ""){
-                    tags +=   "<a href='javascript:' class='badge bg-transparent text-red btn-tag tag' data-tag-value='"+value+"'>#" + value + "</a> ";
+                    tags +=   "<a href='javascript:' class='badge bg-transparent text-red btn-tag tag' data-tag-value='"+slugify(value)+"'>#" + value + "</a> ";
                     elTagsList += slugify(value)+" ";
                   }
 
@@ -676,7 +676,7 @@ var directory = {
 
       $.each( list, function(key,list)
       {
-        var subContent = showResultsDirectoryHtml ( list, key, "min" );
+        var subContent = directory.showResultsDirectoryHtml ( list, key, "min" );
         if( notEmpty(subContent) ){
           favTypes.push(key);
           $(".menuSmallBlockUI").append("<div class='"+key+"fav favSection '><div class=' col-xs-12 col-sm-10 padding-15'><h2 class='homestead'> "+key+" <i class='fa fa-angle-down'></i> </h2>"+
