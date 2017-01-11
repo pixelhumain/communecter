@@ -1524,6 +1524,21 @@ function formatData(formData, collection,ctrl) {
 									
 	if( typeof formData.tags != "undefined" && formData.tags != "" )
 		formData.tags = formData.tags.split(",");
+	// Add collections and genres of notragora in tags
+	if( typeof formData.collections != "undefined" && formData.collections != "" ){
+		collectionsTagsSave=formData.collections.split(",");
+		$.each(collectionsTagsSave, function(i, e) {
+			formData.tags.push(e);
+		});
+		delete formData['collections'];
+	}
+	if( typeof formData.genres != "undefined" && formData.genres != "" ){
+		genresTagsSave=formData.genres.split(",");
+		$.each(genresTagsSave, function(i, e) {
+			formData.tags.push(e);
+		});
+		delete formData['genres'];
+	}
 	removeEmptyAttr(formData);
 
 	mylog.dir(formData);
@@ -1613,7 +1628,8 @@ function editElement(type,id){
 			//will be sued in the dynform  as update 
 			data.map.id = data.map["_id"]["$id"];
 			delete data.map["_id"];
-			//mylog.dir(data);
+			mylog.dir(data);
+			console.log(data);
 			openForm(type,null, data.map);
         } else {
            toastr.error("something went wrong!! please try again.");
