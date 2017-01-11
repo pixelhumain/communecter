@@ -272,6 +272,8 @@ Liste des notifications déjà lues => #370 #453
   [new] page pour reflechir 
     une page qui pousse a l'action, qui fait reflechir, et utiliser les outils de la plateforme 
   [new] connecter les POI à des source ousite externe ex : randopitons.re
+  [ ] expliquer ce qu'est un commun
+  [ ] test a light mobile version
   * DDA
   [ ] Quand la liste est vide , faire une page explication avec des kickers pour creer des espaces
   [ ] bug : sur archiver , persiste dans les listes 

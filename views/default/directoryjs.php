@@ -32,11 +32,12 @@
 	    <div class="input-group margin-bottom-10 col-md-8 col-sm-8 col-xs-8 pull-left">
 	    	<input id="searchBarTextJS" data-searchPage="true" type="text" placeholder="<?php echo $placeholder; ?>" class="input-search form-control">
 	    </div>
-	    <div class="col-md-12 col-sm-12 col-xs-12 no-padding" style="margin-bottom: 20px;">
-		    <div id="listTags" class="hidden-xs list_tags_scopes inline-block"></div>
-		</div>
+	    <span class="input-group-btn">
+            <button class="btn btn-success tooltips" onclick="directory.filterTags()" id="btn-open-tags" data-toggle="tooltip" data-placement="top" title="Filtrer par mots clefs" style="height:40px">
+				<i class="fa fa-tags"></i>
+            </button>
+      	</span>
 	</div>
-
 </div>
  
   <div class="container-result-search">
@@ -61,7 +62,9 @@
           <span class="hidden-xs"> Afficher <span class="hidden-sm hidden-xs">sur</span> la carte</span>
         </button>
       </div>
-      <div style="" class="row no-padding" id="dropdown_search"></div>
+
+      	<div id="listTags" class="hide list_tags_scopes inline-block"></div>
+		<div style="" class="row no-padding" id="dropdown_search"></div>
   </div>
 
 <?php //$this->renderPartial(@$path."first_step_directory"); ?> 
@@ -181,7 +184,7 @@ jQuery(document).ready(function() {
             mylog.log("scroll MAX");
             startSearch(currentIndexMin+indexStep, currentIndexMax+indexStep);
           }
-        }
+        } 
     }
   });
 
@@ -193,13 +196,12 @@ jQuery(document).ready(function() {
 
 
   //initBtnScopeList();
-  startSearch(0, 1000);
+  startSearch(0, 300);
 });
 
 function searchCallback() { 
   mylog.log("searchCallback");
   //startSearch(0, indexStepInit);
-  directory.filterTags();
 }
 
 </script>

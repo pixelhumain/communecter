@@ -695,12 +695,12 @@ var directory = {
         $.each($(directory.elemClass),function(k,o){
           
           var oScope = $(o).find(".entityLocality").text();
-          console.log("tags count",$(o).find(".btn-tag").length);
+          //mylog.log("tags count",$(o).find(".btn-tag").length);
           $.each($(o).find(".btn-tag"),function(i,oT){
             var oTag = $(oT).data('tag-value');
             if( notEmpty( oTag ) && !inArray( oTag,directory.tagsT ) ){
               directory.tagsT.push(oTag);
-              console.log(oTag);
+              //mylog.log(oTag);
               $("#listTags").append("<a class='btn btn-xs btn-link text-white text-left w100p favElBtn "+slugify(oTag)+"Btn' data-tag='"+slugify(oTag)+"' href='javascript:directory.toggleEmptyParentSection(\".favSection\",\"."+slugify(oTag)+"\",\""+directory.elemClass+"\",1)'><i class='fa fa-tag'></i> "+oTag+"</a><br/>");
             }
           });
@@ -709,22 +709,24 @@ var directory = {
             $("#listScopes").append("<a class='btn btn-xs btn-link text-white text-left w100p favElBtn "+slugify(oScope)+"Btn' href='javascript:directory.searchFor(\""+oScope+"\")'><i class='fa fa-map-marker'></i> "+oScope+"</a><br/>");
           }
         })
-        console.log("tags count", directory.tagsT.length, directory.scopesT.length);
+        //mylog.log("tags count", directory.tagsT.length, directory.scopesT.length);
     },
-    filterTags : function () { 
-      $.each($(directory.elemClass),function(k,o){
-          
-          var oScope = $(o).find(".entityLocality").text();
-          console.log("tags count",$(o).find(".btn-tag").length);
-          $.each($(o).find(".btn-tag"),function(i,oT){
-            var oTag = $(oT).data('tag-value');
-            if( notEmpty( oTag ) && !inArray( oTag.lowercase(),directory.tagsT ) ){
-              directory.tagsT.push(oTag);
-              console.log(oTag);
-              $("#listTags").append("<a class='btn btn-xs btn-link favElBtn "+slugify(oTag)+"Btn' data-tag='"+slugify(oTag)+"' href='javascript:directory.toggleEmptyParentSection(\".favSection\",\"."+slugify(oTag)+"\",\""+directory.elemClass+"\",1)'><i class='fa fa-tag'></i> "+oTag+"</a> ");
-            }
-          });
-      })
+    //todo add count on each tag
+    filterTags : function () 
+    { 
+        $("#listTags").append("");
+        $.each( $(directory.elemClass),function(k,o){
+            $.each($(o).find(".btn-tag"),function(i,oT){
+                var oTag = $(oT).data('tag-value').toLowerCase();
+                if( notEmpty( oTag ) && !inArray( oTag,directory.tagsT ) ){
+                  directory.tagsT.push(oTag);
+                  //mylog.log(oTag);
+                  $("#listTags").append("<a class='btn btn-xs btn-link favElBtn "+slugify(oTag)+"Btn' data-tag='"+slugify(oTag)+"' href='javascript:directory.toggleEmptyParentSection(\".favSection\",\"."+slugify(oTag)+"\",\""+directory.elemClass+"\",1)'><i class='fa fa-tag'></i> "+oTag+"</a> ");
+                }
+            });
+        });
+        $("#listTags").append("<br/><br/>").removeClass("hide");
+        //$("#btn-open-tags").append("("+$(".favElBtn").length+")");
     },
     addMultiTagsAndScope : function() { 
       directory.multiTagsT = [];
@@ -732,7 +734,7 @@ var directory = {
       $.each(myMultiTags,function(oTag,oT){
         if( notEmpty( oTag ) && !inArray( oTag,directory.multiTagsT ) ){
           directory.multiTagsT.push(oTag);
-          console.log(oTag);
+          //mylog.log(oTag);
           $("#listTags").append("<a class='btn btn-xs btn-link text-white text-left w100p favElBtn "+slugify(oTag)+"Btn' data-tag='"+slugify(oTag)+"' href='javascript:directory.searchFor(\"#"+oTag+"\")'><i class='fa fa-tag'></i> "+oTag+"</a><br/>");
         }
       });
@@ -771,10 +773,12 @@ var directory = {
         if(showAll)
           directory.showAll(parents,children);
     },
-    showAll: function(parents,children,path) 
+    showAll: function(parents,children,path,color) 
     {
       //show all
-      $(".favElBtn").removeClass("active btn-dark-blue").addClass("btn-link text-white ");
+      if(!color)
+        color = "text-white";
+      $(".favElBtn").removeClass("active btn-dark-blue").addClass("btn-link ");//+color+" ");
       $(".favAllBtn").addClass("btn-dark-blue");
       $(parents).removeClass('hide');
       $(children).removeClass('hide');
