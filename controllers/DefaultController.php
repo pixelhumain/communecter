@@ -22,9 +22,16 @@ class DefaultController extends CommunecterController {
     /**
      * Home page
      */
-    public function actionIndex() {   
-        $this->render("index");
-    }
+
+	public function actionIndex() 
+	{
+    	Yii::app()->theme = "ph-dori"; //"ph-dori";      
+	    if(@$_GET["network"]){
+	      Yii::app()->theme = "network";
+	      Yii::app()->params['networkParams'] = $_GET["network"];
+	    }
+	    $this->render("index");
+  }
 
   public function actionTwoStepRegister() 
   {
@@ -74,6 +81,11 @@ class DefaultController extends CommunecterController {
   public function actionDirectory() 
   {
     $this->renderPartial("directory");
+  }
+
+  public function actionDirectoryjs() 
+  {
+    $this->renderPartial("directoryjs");
   }
 
   public function actionLang() 

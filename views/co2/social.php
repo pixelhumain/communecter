@@ -59,26 +59,6 @@
     z-index: 10;
     border-radius: 0 50%;
 }*/
-.main-btn-scopes {
-    margin-top: -37px;
-    z-index: 10;
-    border-radius: 50%;
-    padding:3px;
-    border: 3px solid transparent!important;
-    -webkit-box-shadow: 0px 0px 9px -1px rgba(0,0,0,0.5);
-    -moz-box-shadow: 0px 0px 9px -1px rgba(0,0,0,0.5);
-    box-shadow: 0px 0px 6px -1px rgba(0,0,0,0.5);
-    /*-ms-transform: rotate(7deg);
-    -webkit-transform: rotate(7deg);
-    transform: rotate(-45deg);*/
-}
-
-.main-btn-scopes:hover{
-    background-color: white!important;
-    color:#ea4335!important;
-    border: 3px solid #ea4335!important;
-
-}
 
 .btn-create-page{
     margin-top:0px;

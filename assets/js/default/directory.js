@@ -711,6 +711,21 @@ var directory = {
         })
         console.log("tags count", directory.tagsT.length, directory.scopesT.length);
     },
+    filterTags : function () { 
+      $.each($(directory.elemClass),function(k,o){
+          
+          var oScope = $(o).find(".entityLocality").text();
+          console.log("tags count",$(o).find(".btn-tag").length);
+          $.each($(o).find(".btn-tag"),function(i,oT){
+            var oTag = $(oT).data('tag-value');
+            if( notEmpty( oTag ) && !inArray( oTag.lowercase(),directory.tagsT ) ){
+              directory.tagsT.push(oTag);
+              console.log(oTag);
+              $("#listTags").append("<a class='btn btn-xs btn-link favElBtn "+slugify(oTag)+"Btn' data-tag='"+slugify(oTag)+"' href='javascript:directory.toggleEmptyParentSection(\".favSection\",\"."+slugify(oTag)+"\",\""+directory.elemClass+"\",1)'><i class='fa fa-tag'></i> "+oTag+"</a> ");
+            }
+          });
+      })
+    },
     addMultiTagsAndScope : function() { 
       directory.multiTagsT = [];
       directory.multiScopesT = [];

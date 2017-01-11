@@ -115,6 +115,7 @@ class CommunecterController extends Controller
     "default" => array(
       "index"                => array("href" => "/ph/communecter/default/index", "public" => true),
       "directory"            => array("href" => "/ph/communecter/default/directory", "public" => true),
+      "directoryjs"            => array("href" => "/ph/communecter/default/directoryjs", "public" => true),
       "agenda"               => array("href" => "/ph/communecter/default/agenda", "public" => true),
       "news"                 => array("href" => "/ph/communecter/default/news", "public" => true),
       "home"                 => array("href" => "/ph/communecter/default/home", "public" => true),
@@ -422,6 +423,7 @@ class CommunecterController extends Controller
       "delete"              => array("href" => "/ph/communecter/element/delete"),
     ),
     "co2" => array(
+      "index"             => array('href' => "/ph/communecter/co2/index",               "public" => true),
       "web"               => array('href' => "/ph/communecter/co2/web",               "public" => true),
       "websearch"         => array('href' => "/ph/communecter/co2/websearch",         "public" => true),
       "live"              => array('href' => "/ph/communecter/co2/live",              "public" => true),

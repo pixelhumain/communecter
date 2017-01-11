@@ -9,8 +9,22 @@ $cssAnsScriptFilesModule = array(
 
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule,Yii::app()->request->baseUrl);
 
-if(!@$_GET["renderPartial"])
-	$this->renderPartial('../pod/headerEntity', array("entity"=>$event, "type" => Event::COLLECTION, "openEdition" => $openEdition, "edit" => $edit, "firstView" => "calendarview")); 
+if(@$event){
+  $element = $event;
+  $type = Event::COLLECTION;
+}
+else if(@$person){
+  $element = $person;
+  $type = Person::COLLECTION;
+}
+else if(@$organization){
+  $element = $organization;
+  $type = Organization::COLLECTION;
+}
+
+if(!@$_GET["renderPartial"] )
+	$this->renderPartial('../pod/headerEntity', array("entity"=>$element, "type" => $type, "openEdition" => $openEdition, "edit" => $edit, "firstView" => "calendarview")); 
+
 ?>
 
 <style>
@@ -131,7 +145,9 @@ if(!@$_GET["renderPartial"])
   var tabOrganiser = [];
 
   jQuery(document).ready(function() {
-      setTitle("<?php echo Yii::t("event","EVENT",null,Yii::app()->controller->module->id)?> : <?php echo $event['name']?>","calendar");
+      <?php if(@$event){ ?>
+        setTitle("<?php echo Yii::t("event","EVENT",null,Yii::app()->controller->module->id)?> : <?php echo $event['name'] ?>","calendar");
+      <?php } ?>
       showCalendar();
       initLastsEvents();
 	  activeMenuElement("calendar");
