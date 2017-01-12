@@ -104,7 +104,7 @@ jQuery(document).ready(function() {
 
   //showMap(true);
 	if(notEmpty(elementsMap)){ 
-      var str = showResultsDirectoryHtml(elementsMap);
+      var str = directory.showResultsDirectoryHtml(elementsMap);
       $("#grid_around").html(str);
       initBtnLink();
       refreshUIAroundMe(elementsMap); 
@@ -216,7 +216,7 @@ function refreshAroundMe(radius){
         window.history.replaceState( {} , "", new_URL );
 
         setTimeout(function(){ 
-          var str = showResultsDirectoryHtml(data.all);
+          var str = directory.showResultsDirectoryHtml(data.all);
           $("#grid_around").html(str);
           initBtnLink();
           refreshUIAroundMe(data.all); 
