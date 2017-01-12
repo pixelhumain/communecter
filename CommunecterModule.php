@@ -62,7 +62,7 @@ class CommunecterModule extends CWebModule
 	/**
 	 * Retourne le theme d'affichage de communecter.
 	 * Si option "theme" dans paramsConfig.php : 
-	 * Si aucune option n'est précisée, le thème par défaut est "notragora"
+	 * Si aucune option n'est précisée, le thème par défaut est "ph-dori"
 	 * Si option 'tpl' fixée dans l'URL avec la valeur "iframesig" => le theme devient iframesig
 	 * Si option "network" fixée dans l'URL : theme est à network et la valeur du parametres fixe les filtres d'affichage
 	 * @return type

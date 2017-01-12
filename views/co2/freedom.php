@@ -1,6 +1,7 @@
 <?php 
 
-	HtmlHelper::registerCssAndScriptsFiles( array('/css/timeline2.css',
+	HtmlHelper::registerCssAndScriptsFiles( array('/css/timeline2.css','/css/news/index.css',
+		
 											) , Yii::app()->theme->baseUrl. '/assets');
 
 
@@ -41,9 +42,12 @@
 #formCreateNewsTemp{
 	display: none!important;
 }
+#modal-create-anc #formCreateNewsTemp{
+	display: block!important;
+}
 #formCreateNewsTemp .form-create-news-container, #formActivity{
     max-width: 60%;
-    margin-left:20%;
+    /*margin-left:20%;*/
 }
 #sub-menu-left{
     margin-top:1px;
@@ -72,9 +76,18 @@
 	border-color: transparent;
 }
 
+.keycat:hover,
+.keycat.active,
+.btn-select-category-1:hover,
+.btn-select-category-1.active{
+	background-color: #2C3E50!important;
+    color: #fff!important;
+    border-color:transparent!important;
+}
+
 
 #sub-menu-left.subsub .btn{
-	width:100%;    
+	width:95%;    
 	text-align: left;
 	background-color: white;
     border-color: white;
@@ -87,6 +100,14 @@
 .btn-menu-left-add{
 	background-color: transparent !important;
     border-color: transparent !important;
+}
+
+#photoAddNews{
+	text-align: right;
+}
+
+.tagstags, .form-actions{
+	display: none!important;
 }
 
 </style>
@@ -121,6 +142,9 @@
 	    <div class="scope-min-header list_tags_scopes hidden-xs hidden-sm"></div>
 	    
 	<div class="col-md-12 col-sm-12 col-xs-12 padding text-center hidden" id="sub-menu-left">
+
+		
+
 		<hr>
 	    <h5 class="letter-blue">Catégories<br><i class="fa fa-angle-down"></i></h5>
 	    <div class="col-md-4 col-sm-4 text-right">
@@ -144,63 +168,71 @@
 
 	</div>
 
-	<div class="col-lg-2 col-md-3 col-sm-3 col-xs-12 padding-25 text-right" id="sub-menu-left">
-		<button href="#co2.referencement" class="lbh btn btn-default letter-green hidden-xs btn-menu-left-add">
+	<div class="col-lg-2 col-md-3 col-sm-3 col-xs-12 padding-20 text-right" id="sub-menu-left">
+		<button class="btn btn-default letter-green hidden-xs btn-menu-left-add margin-top-5" 
+				data-target="#modal-create-anc" data-toggle="modal">
 			<i class="fa fa-plus"></i> Publier une annonce
-		</button>
-		<hr>
-		<button class="btn btn-default margin-bottom-5 margin-left-5"><i class="fa fa-circle-o hidden-xs"></i> Tout</button><br>
-		<hr>
-		<button class="btn btn-default margin-bottom-5 margin-left-5 active"><i class="fa fa-money hidden-xs"></i> Vente</button><br>
-		<button class="btn btn-default margin-bottom-5 margin-left-5"><i class="fa fa-external-link hidden-xs"></i> Location</button><br>
-		<button class="btn btn-default margin-bottom-5 margin-left-5"><i class="fa fa-gift hidden-xs"></i> Dons</button><br>
-		<button class="btn btn-default margin-bottom-5 margin-left-5"><i class="fa fa-exchange  hidden-xs"></i> Partage</button><br>
-		<button class="btn btn-default margin-bottom-5 margin-left-5"><i class="fa fa-eye hidden-xs"></i> Recherche</button><br>
-		<hr>
-		<button class="btn btn-default margin-bottom-5 margin-left-5"><i class="fa fa-heartbeat hidden-xs"></i> Coup de coeur</button><br>
-		<button class="btn btn-default margin-bottom-5 margin-left-5"><i class="fa fa-thumbs-o-down hidden-xs"></i> Coup de gueule</button><br>
-		<hr>
-		<button class="btn btn-default margin-bottom-5 margin-left-5"><i class="fa fa-briefcase hidden-xs"></i> Offre d'emplois</button><br>
-		<hr>
-		<button class="btn btn-default margin-bottom-5 margin-left-5"><i class="fa fa-comment hidden-xs"></i> Annonces publiques</button><br>
-		<button class="btn btn-default margin-bottom-5 margin-left-5"><i class="fa fa-exclamation-triangle hidden-xs"></i> Urgence</button><br>
+		</button><hr>
+		<?php 
+				$freedomTags = CO2::getFreedomTags();
+				$currentSection = 1;
+				foreach ($freedomTags as $key => $tag) { ?>
+					<?php if($tag["section"] > $currentSection){ $currentSection++; ?>
+					<hr>
+					<?php } ?>
+					<button class="btn btn-default margin-bottom-5 margin-left-5 btn-select-type-anc" data-type-anc="<?php echo @$tag["key"]; ?>">
+						<i class="fa fa-<?php echo @$tag["icon"]; ?> hidden-xs"></i> <?php echo @$tag["label"]; ?>
+					</button><br>	
+		<?php } ?>
+		
 	</div>
 
-	<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 padding-25 text-left subsub" id="sub-menu-left" style="margin-top:160px; padding-left:0px!important;">
+	<div class="col-lg-2 col-md-2 col-sm-3 col-xs-12 margin-top-25 text-left subsub" id="sub-menu-left">
+		<h4 class="text-dark padding-bottom-5"><i class="fa fa-angle-down"></i> Catégories</h4>
+		<hr>
+		<h4 class="padding-top-10 padding-bottom-10 letter-blue label-category" id="title-sub-menu-category">
+			<i class="fa fa-money"></i> A vendre
+		</h4>
+		<hr>
 		<?php $categories = CO2::getAnnounceCategories();
 			  foreach ($categories as $key => $cat) {
 		?>
 				<?php if(is_array($cat)) { ?>
-					<button class="btn btn-default margin-bottom-5 margin-left-5">
+					<button class="btn btn-default text-dark margin-bottom-5 btn-select-category-1" style="margin-left:-5px;" data-keycat="<?php echo $key; ?>">
 						<i class="fa fa-chevron-circle-down hidden-xs"></i> <?php echo $key; ?>
 					</button><br>
 					<?php foreach ($cat as $key2 => $cat2) { ?>
-						<button class="btn btn-default margin-bottom-5 margin-left-25">
-							<?php echo $cat2; ?>
-						</button><br>
+						<button class="btn btn-default text-dark margin-bottom-5 margin-left-15 hidden keycat keycat-<?php echo $key; ?>">
+							<i class="fa fa-angle-right"></i> <?php echo $cat2; ?>
+						</button><br class="hidden">
 					<?php } ?>
 				<?php } ?>
 			</button>
 		<?php } ?>
 	</div>
-	<div class="col-lg-5 col-md-6 col-sm-6 no-padding" id="newsstream">
-	
-		<?php  
-			//if(@$medias && sizeOf($medias) > 0)
-			//$this->renderPartial('liveStream', array("medias"=>$medias)); 
-		?>
-	</div>
+
+	<div class="col-lg-5 col-md-6 col-sm-5 no-padding margin-top-10">
+		<h4 class="text-dark padding-bottom-5 margin-top-25">
+			<i class="fa fa-angle-down"></i> Les annonces
+			<i class="fa fa-angle-right"></i> <span class="letter-blue label-category"><i class="fa fa-money"></i> A vendre</span>
+		</h4>
+		<hr>
+		<div id="newsstream"></div>
+	</div>	
 
 
 </div>
 
 
 
+<?php $this->renderPartial('../news/modalCreateAnc'); ?>
+
 <?php $this->renderPartial($layoutPath.'footer', array("subdomain"=>"freedom")); ?>
 
 <script>
 
 <?php  $parent = Person::getById(@Yii::app()->session["userId"]); ?>
+
 
 var indexStepInit = 5;
 var searchType = ["organizations", "projects", "events", "needs"];
@@ -225,11 +257,8 @@ var liveScopeType = "global";
 var loadContent = '<?php echo @$_GET["content"]; ?>';
 jQuery(document).ready(function() {
 
-	//initKInterface({"affixTop":250});
-	initKInterface();
-    
-	//$("#falseInput").on('load',function(){
-			//});
+	$(".subsub").hide();
+
 	var liveType = "<?php echo (@$type && !empty($type)) ? $type : ''; ?>";
 	if(typeof liveTypeName[liveType] != "undefined") 
 		 liveType = " > "+liveTypeName[liveType];
@@ -264,6 +293,7 @@ jQuery(document).ready(function() {
 	    else addSearchType(type);
   	});
 
+	
 	//initSelectTypeNews();
 	/*$(".searchIcon").removeClass("fa-search").addClass("fa-file-text-o");
 	$(".searchIcon").attr("title","Mode Recherche ciblé (ne concerne que cette page)");*/
@@ -276,15 +306,61 @@ jQuery(document).ready(function() {
     $(window).off().bind("scroll",function(){ 
 	    if(!loadingData && !scrollEnd){
 	          var heightWindow = $("html").height() - $("body").height();
-	          //console.log(heightWindow);
+	          console.log(heightWindow);
 	          if( $(this).scrollTop() >= heightWindow - 400){
-	            loadStream(currentIndexMin+indexStep, currentIndexMax+indexStep);
+	            //loadStream(currentIndexMin+indexStep, currentIndexMax+indexStep);
+	            showNewsStream(false);
 	          }
 	    }
 	});
 
+    initKInterface();
+    initFreedomInterface();
+
+    KScrollTo(".main-btn-scopes");
+
+	
 });
 
+var freedomCategories = <?php echo json_encode($freedomTags); ?>
+
+function initFreedomInterface(){
+	$(".btn-select-type-anc").click(function(){
+
+	  $(".btn-select-type-anc").removeClass("active");
+	  $(this).addClass("active");
+
+      var typeAnc = $(this).data("type-anc");
+      if(typeAnc == "forsale" || typeAnc == "location" || typeAnc == "donation" || 
+      	typeAnc == "sharing" || typeAnc == "lookingfor"){
+      	$(".subsub").show(300);
+      }else{
+      	$(".subsub").hide(300);
+      }
+
+      if(typeof freedomCategories[typeAnc] != "undefined")
+      		$(".label-category").html("<i class='fa fa-"+ freedomCategories[typeAnc]["icon"] + "'></i> " + freedomCategories[typeAnc]["label"]);
+
+      KScrollTo(".sub-menu-left");
+      
+    });
+
+    $(".btn-select-category-1").click(function(){
+    	$(".btn-select-category-1").removeClass("active");
+	  	$(this).addClass("active");
+
+    	var keycat = $(this).data("keycat");
+    	$(".keycat").addClass("hidden");
+    	$(".keycat-"+keycat).removeClass("hidden");    	
+    });
+
+    $(".keycat").click(function(){
+    	$(".keycat").removeClass("active");
+	  	$(this).addClass("active");
+	});
+
+	initFormImages();
+}
 
 var timeout;
 function startSearch(isFirst){
@@ -305,6 +381,8 @@ function loadStream(indexMin, indexMax){ console.log("LOAD STREAM FREEDOM");
 	currentIndexMax = indexMax;
 
 	//isLive = isLiveBool==true ? "/isLive/true" : "";
+	//var url = "news/index/type/citoyens/id/<?php echo @Yii::app()->session["userId"]; ?>"+isLive+"/date/"+dateLimit+"?isFirst=1&tpl=co2&renderPartial=true";
+		
 	var url = "news/index/type/city/isLive/true/date/"+dateLimit+"?tpl=co2&renderPartial=true&nbCol=1";
 	$.ajax({ 
         type: "POST",
@@ -361,33 +439,7 @@ function loadLiveNow () {
         else
         	$('.titleNowEvents').removeClass("hidden");
      } , "html" );
-
-    /*searchParams.searchType = ["<?php echo Project::COLLECTION?>"];
-    ajaxPost( "#nowListprojects", baseUrl+"/"+moduleId+'/search/globalautocomplete' , searchParams, function() { 
-        bindLBHLinks();
-        if( !$(".titleNowDDA").length ){
-            $("#nowListprojects").prepend('<h3 class="text-red homestead pull-left titleNowProject"><i class="fa fa-clock-o"></i> En ce moment : projets</h3>');
-            $("#nowListprojects").append('<a href="#project.projectsv" class="lbh btn btn-sm btn-default">Vous créez localement ?</a>');
-        }
-     } , "html" );
-
-    searchParams.searchType = ["<?php echo Organization::COLLECTION?>"];
-    ajaxPost( "#nowListorga", baseUrl+"/"+moduleId+'/search/globalautocomplete' , searchParams, function() { 
-        bindLBHLinks();
-        if( !$(".titleNowDDA").length ){
-            $("#nowListorga").prepend('<h3 class="text-red homestead pull-left titleNowOrga"><i class="fa fa-clock-o"></i> En ce moment : organisations</h3>');
-            $("#nowListorga").append('<a href="#organization.addorganizationform" class="lbh btn btn-sm btn-default">Vous agissez localement ?</a>');
-        }
-     } , "html" );
-
-    searchParams.searchType = ["<?php echo ActionRoom::COLLECTION?>"];
-    ajaxPost( "#nowListDDA", baseUrl+"/"+moduleId+'/search/globalautocomplete' , searchParams, function() { 
-        bindLBHLinks();
-        if( !$(".titleNowDDA").length )
-            $("#nowListDDA").prepend('<h3 class="text-red homestead pull-left titleNowDDA"><i class="fa fa-clock-o"></i> En ce moment : D.D.A</h3>');
-     } , "html" );*/
 }
-
 
 function showNewsStream(isFirst){ mylog.log("showNewsStream freedom");
 
@@ -406,14 +458,14 @@ function showNewsStream(isFirst){ mylog.log("showNewsStream freedom");
 	var urlCtrl = ""
 	if(liveScopeType == "global") {
 		thisType = "city";
-		urlCtrl = "/news/index/type/city";
+		urlCtrl = "/news/index/type/city/isLive/true";
 	}
-	<?php if(@Yii::app()->session["userId"]){ ?>
+	/*<?php if(@Yii::app()->session["userId"]){ ?>
 	else if(liveScopeType == "community"){
 		thisType = "citoyens";
 		urlCtrl = "/news/index/type/citoyens/id/<?php echo @Yii::app()->session["userId"]; ?>/isLive/true";
 	}
-	<?php } ?>
+	<?php } ?>*/
 	
 	var dataNewsSearch = {};
 	if(liveScopeType == "global")
@@ -427,7 +479,7 @@ function showNewsStream(isFirst){ mylog.log("showNewsStream freedom");
 
     dataNewsSearch.tagSearch = tagSearch;
     dataNewsSearch.searchType = searchType; 
-    dataNewsSearch.textSearch = $('#searchBarText').val();
+    dataNewsSearch.textSearch = $('#main-search-bar').val();
        
     //dataNewsSearch.type = thisType;
     //var myParent = <?php echo json_encode(@$parent)?>;
@@ -452,6 +504,7 @@ function showNewsStream(isFirst){ mylog.log("showNewsStream freedom");
 						loadContent = loadContent.replace("%hash%", "#");
 					$("#get_url").val(loadContent);
 					$("#get_url").trigger("input");
+
 				}
 				else {
 					toastr.error('you must be loggued to post on communecter!');
@@ -459,8 +512,15 @@ function showNewsStream(isFirst){ mylog.log("showNewsStream freedom");
 			}
 			else
 				showFormBlock(false);
+
 			bindTags();
-			//$("#newLiveFeedForm").hide();
+
+			$("#formCreateNewsTemp").appendTo("#modal-create-anc #formCreateNews");
+			$("#info-write-msg").html("Conseil : donnez un maximum de détails");
+			$("#info-write-msg").html("Conseil : donnez un maximum de détails");
+			showFormBlock(true);
+			//$("#formCreateNewsTemp").html("");
+
 	 	},"html");
 	}else{ //data JSON for load next
 		dateLimit=0;currentMonth = null;
@@ -483,17 +543,6 @@ function showNewsStream(isFirst){ mylog.log("showNewsStream freedom");
 							dateLimit=data.limitDate.created;
 					}
 					loadingData = false;
-					// $(".my-main-container").bind('scroll', function(){ mylog.log("in linve", loadingData, scrollEnd);
-					//     if(!loadingData && !scrollEnd){
-					//           var heightContainer = $("#timeline").height(); mylog.log("heightContainer", heightContainer);
-					//           var heightWindow = $(window).height();
-					//           if( ($(this).scrollTop() + heightWindow) >= heightContainer - 200){
-					//             mylog.log("scroll in news/index MAX");
-					//             loadStream(currentIndexMin+indexStep, currentIndexMax+indexStep);
-					        	
-					//           }
-					//     }
-					// });
 				},
 				error: function(){
 					loadingData = false;
@@ -503,7 +552,6 @@ function showNewsStream(isFirst){ mylog.log("showNewsStream freedom");
 	$("#dropdown_search").hide(300);
 	
 }
-
 
 function addSearchType(type){
   var index = searchType.indexOf(type);
@@ -523,7 +571,6 @@ function removeSearchType(type){
   }
   mylog.log(searchType);
 }
-
 
 function hideNewLiveFeedForm(){
 	//$("#newLiveFeedForm").hide(200);
