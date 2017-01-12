@@ -98,9 +98,12 @@ function showMarkerNewElement(){ mylog.log("showMarkerNewElement");
 		$('[name="newElement_dep"]').val(NE_dep);
 		$('[name="newElement_region"]').val(NE_region);
 		$('[name="newElement_country"]').val(NE_country);
-		$("#newElement_btnValidateAddress").prop('disabled', (NE_country==""?true:false));
+		$("#newElement_btnValidateAddress").prop('disabled', (NE_insee==""?true:false));
 		if(NE_insee != ""){
 			$("#divStreetAddress").removeClass("hidden");
+			$("#divPostalCode").removeClass("hidden");
+			$("#divCity").removeClass("hidden");
+		}else if(NE_country != ""){
 			$("#divPostalCode").removeClass("hidden");
 			$("#divCity").removeClass("hidden");
 		}
