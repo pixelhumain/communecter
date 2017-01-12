@@ -308,7 +308,7 @@ jQuery(document).ready(function() {
             currentKFormType = $(this).data("ktype");
             var type = $(this).data("type");
             setTimeout(function(){
-                        openForm(type);
+                        elementLib.openForm(type);
                      },500);
             
         });
@@ -316,7 +316,7 @@ jQuery(document).ready(function() {
         $(".tooltips").tooltip();
 
         //currentKFormType = "Group";
-        //openForm ("organization");
+        //elementLib.openForm ("organization");
     });
 
 </script>
