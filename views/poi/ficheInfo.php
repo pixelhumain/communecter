@@ -350,7 +350,6 @@ if($showOdesc == true){
 	//var publics = <?php echo json_encode($publics) ?>;
 
 	jQuery(document).ready(function() {
-		addParentInLeftMenu(parent,poi);
 		getAjax('#commentContent',baseUrl+'/'+moduleId+"/comment/index/type/"+contextType+"/id/"+contextData.id,function(){ 
 				
 			},"html");

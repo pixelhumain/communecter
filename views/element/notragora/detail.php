@@ -110,18 +110,44 @@
 	}
 </style>
 	<div class="col-lg-10 col-md-10 col-sm-9 no-padding" id="onepage">
-		<div class="img-header"></div>
-		<div class="element-name text-dark">
-			<?php echo @$element["name"]; ?>
-			<button class="btn btn-default btn-follow"><i class="fa fa-star"></i> SUIVRE</button>
-		</div>
+		<?php if ($type == "poi"){ ?>
+			<?php if($element["type"]=="video" && @$element["medias"]){ 
+				$videoLink=str_replace ( "autoplay=1" , "autoplay=0" , @$element["medias"][0]["content"]["videoLink"]  );
+			?>
+				<div class="col-xs-12">
+					<div class="embed-responsive embed-responsive-16by9">
+						<iframe class="embed-responsive-item" src="<?php echo @$videoLink ?>"></iframe>
+					</div>
+				</div>
+				<div class="col-md-12 col-sm-12 col-xs-12 text-dark center">
+					<h1 class="center"> 
+						<?php echo $element['name']; ?>
+					</h1>
+					<?php if(@Yii::app()->session["userId"]){ ?> 
+						<?php if ($edit==true || ($openEdition == true )) { ?>
+							<a href="javascript:;" class="btn btn-xs text-dark editThisBtn"  data-type="poi" data-id="<?php echo (string)$element["_id"] ?>" ><i class="fa fa-pencil-square-o"></i> <?php echo Yii::t("common","Edit") ?></a>
+							<a href="javascript:;" class="btn btn-xs text-red deleteThisBtn" data-type="poi" data-id="<?php echo (string)$element["_id"] ?>" ><i class="fa fa-trash"></i> <?php echo Yii::t("common","Delete") ?></a> 
+							<div class="space1"></div>
+						<?php } ?>
+					<?php } ?>
+				</div>
 
-		<div class="col-md-12 padding-15 menubar">
-			<button class="btn btn-default btn-menubar">A PROPOS</button>
-			<button class="btn btn-default btn-menubar">CARNET DE BORD</button>
-			<button class="btn btn-default btn-menubar">PRODUCTIONS</button>
-		</div>
-		<?php   
+			<?php }
+			} else { ?>
+			<div class="img-header"></div>
+			<div class="element-name text-dark">
+				<?php echo @$element["name"]; ?>
+				<button class="btn btn-default btn-follow"><i class="fa fa-star"></i> SUIVRE</button>
+			</div>
+	
+			<div class="col-md-12 padding-15 menubar">
+				<button class="btn btn-default btn-menubar">A PROPOS</button>
+				<button class="btn btn-default btn-menubar">CARNET DE BORD</button>
+				<button class="btn btn-default btn-menubar">PRODUCTIONS</button>
+			</div>
+
+		<?php } ?> 
+				<?php   
 
     		$desc = array( array("shortDescription"=>@$element["description"]),
     					);
@@ -143,14 +169,37 @@
 															  		"fontScale"=>3),
 											));
     	?>
-
-    	<section id="timeline" class="bg-white inline-block col-md-12">
+		<?php if ($type == "poi"){ ?>
+		<div id="divTags" class="col-md-12 col-sm-12 col-xs-12">
+			<?php if(@$element["tags"]){ ?>
+				<?php 
+					$i=0; 
+					foreach($element["tags"] as $tag){ 
+						if($i<6) { 
+							$i++;?>
+							<div class="tag label label-default" data-val="<?php echo  $tag; ?>">
+								<i class="fa fa-tag"></i> <?php echo  $tag; ?>
+							</div>
+			<?php 		}
+					} 
+			} ?>		
+		</div>
+		<section id="timeline" class="inline-block col-md-12"  style="background-color: #f8f6f6;">
+    		<h2 class="section-title text-dark">Commentaires</h2>
+			<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1">
+				<ul class="inline-block" id="comment-page">
+				</ul>
+			</div>
+		</section>
+		<?php } else { ?>
+    	<section id="timeline" class="bg-white inline-block col-md-12"  style="background-color: #f8f6f6;">
     		<h2 class="section-title text-dark">Historique</h2>
 			<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1">
 				<ul class="timeline inline-block" id="timeline-page">
 				</ul>
 			</div>
 		</section>
+		<?php } ?>
 
 	</div>
 
@@ -164,7 +213,7 @@
 		<?php 
 			//var_dump($members);
 			$nbAdmin = 0;
-			if(!empty(@$members)) {
+			if(@$members && !empty($members)) {
 				foreach($members as $key => $member){ 
 					if(@$member["isAdmin"] == true){ $nbAdmin++;
 					$profilThumbImageUrl = Element::getImgProfil($member, "profilThumbImageUrl", $this->module->assetsUrl);
@@ -183,7 +232,7 @@
 		<?php 
 			//var_dump($members);
 			$nbMember = 0;
-			if(!empty(@$members)) {
+			if(@$members && !empty($members)) {
 				foreach($members as $key => $member){ 
 					if(!isset($member["isAdmin"]) || @$member["isAdmin"]==false){ $nbMember++;
 					$profilThumbImageUrl = Element::getImgProfil($member, "profilThumbImageUrl", $this->module->assetsUrl);
@@ -203,7 +252,9 @@
 
   	var nbMember = <?php echo $nbMember; ?>;
   	var nbAdmin = <?php echo $nbAdmin; ?>;
-
+  	var contextType = "<?php echo $type ?>";
+  	var contextId = "<?php echo (string)$element["_id"] ?>";
+  	
 	jQuery(document).ready(function() {
 	
 		$(".btn-full-desc").click(function(){
@@ -221,13 +272,21 @@
 		$("#nbMember").html(nbMember);
 		$("#nbMemberTotal").html(nbAdmin+nbMember);
 
-		var url = "news/index/type/citoyens/id/<?php echo (string)$element["_id"] ?>?isFirst=1&";
+		var url = "news/index/type/"+contextType+"/id/"+contextId+"?isFirst=1&";
 		console.log("URL", url);
-		ajaxPost('#timeline-page', baseUrl+'/'+moduleId+'/'+url+"renderPartial=true&tpl=co2&nbCol=2", 
-			null,
-			function(){ 
-				
-		},"html");
+		if(contextType=="projects"){
+			ajaxPost('#timeline-page', baseUrl+'/'+moduleId+'/'+url+"renderPartial=true&tpl=co2&nbCol=2", 
+				null,
+				function(){ 
+					
+			},"html");
+		}
+		if(contextType=="poi"){
+			getAjax('#comment-page',baseUrl+'/'+moduleId+"/comment/index/type/"+contextType+"/id/"+contextId,function(){ 
+					
+			},"html");
+		}
+
 	});
 
 </script>
