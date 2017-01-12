@@ -113,45 +113,55 @@
 		<div class="img-header"></div>
 		<div class="element-name text-dark">
 			<?php echo @$element["name"]; ?>
-			<button class="btn btn-default btn-follow"><i class="fa fa-star"></i> SUIVRE</button>
+			<!-- <button class="btn btn-default btn-follow"><i class="fa fa-star"></i> SUIVRE</button> -->
 		</div>
 
 		<div class="col-md-12 padding-15 menubar">
-			<button class="btn btn-default btn-menubar">A PROPOS</button>
-			<button class="btn btn-default btn-menubar">CARNET DE BORD</button>
-			<button class="btn btn-default btn-menubar">PRODUCTIONS</button>
+			<button class="btn btn-default btn-menubar" id="btn-menu-home">A PROPOS</button>
+			<button class="btn btn-default btn-menubar" id="btn-menu-stream">CARNET DE BORD</button>
+			<button class="btn btn-default btn-menubar" id="btn-menu-directory-poi">PRODUCTIONS</button>
 		</div>
-		<?php   
 
-    		$desc = array( array("shortDescription"=>@$element["description"]),
-    					);
+		<div id="section-home">
+			<?php   
+				var_dump(@$poi);
+	    		$desc = array( array("shortDescription"=>@$element["description"]),
+	    					);
 
-    		if(@$desc && sizeOf(@$desc)>0)
-    		$this->renderPartial('../pod/sectionElements', 
-    								array(  "items" => $desc,
-											"sectionKey" => "description",
-											"sectionTitle" => "Présentation",
-											"sectionShadow" => true,
-											"msgNoItem" => "Aucune description",
-											"imgShape" => "square",
-											"useImg" => false,
-											"fullWidth" => true, //only for 1 element
-											"useBorderElement"=>false,
+	    		if(@$desc && sizeOf(@$desc)>0)
+	    		$this->renderPartial('../pod/sectionElements', 
+	    								array(  "items" => $desc,
+												"sectionKey" => "description",
+												"sectionTitle" => "Présentation",
+												"sectionShadow" => true,
+												"msgNoItem" => "Aucune description",
+												"imgShape" => "square",
+												"useImg" => false,
+												"fullWidth" => true, //only for 1 element
+												"useBorderElement"=>false,
 
-											"styleParams" => array(	"bgColor"=>"#FFF",
-															  		"textBright"=>"dark",
-															  		"fontScale"=>3),
-											));
-    	?>
+												"styleParams" => array(	"bgColor"=>"#FFF",
+																  		"textBright"=>"dark",
+																  		"fontScale"=>3),
+												));
+	    	?>
 
-    	<section id="timeline" class="bg-white inline-block col-md-12">
-    		<h2 class="section-title text-dark">Historique</h2>
-			<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1">
-				<ul class="timeline inline-block" id="timeline-page">
-				</ul>
-			</div>
-		</section>
+	    	<section id="timeline" class="bg-white inline-block col-md-12">
+	    		<h2 class="section-title text-dark">Historique</h2>
+				<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1">
+					<ul class="timeline inline-block" id="timeline-page">
+					</ul>
+				</div>
+			</section>
+		</div>
 
+		<div id="section-stream" class="col-md-12">
+			
+		</div>
+
+		<div id="section-directory" class="col-md-12">
+		
+		</div>
 	</div>
 
 
@@ -228,6 +238,46 @@
 			function(){ 
 				
 		},"html");
+
+		initMenuDetail();
 	});
 
+
+	function initMenuDetail(){
+		$("#btn-menu-home").click(function(){
+        	hideAllSections();
+        	$("#section-home").show();
+        });
+
+        $("#btn-menu-stream").click(function(){
+        	hideAllSections();
+        	$("#section-stream").show();
+        	var url = "news/index/type/citoyens/id/<?php echo (string)$element["_id"] ?>?isFirst=1&";
+			console.log("URL", url);
+			ajaxPost('#section-stream', baseUrl+'/'+moduleId+'/'+url+"renderPartial=true&tpl=co2&nbCol=1", 
+				null,
+				function(){ 
+					
+			},"html");
+        });
+
+        $("#btn-menu-directory-poi").click(function(){
+        	hideAllSections();
+        	$("#section-directory").show();
+
+ 		// 	var type = "?type=poi";
+	  //   	ajaxPost('#section-directory', baseUrl+'/'+moduleId+"/default/directory"+type, 
+			// 	null,
+			// 	function(){ 
+					
+			// },"html");
+        });
+	}
+
+
+	function hideAllSections(){
+		$("#section-home").hide();
+		$("#section-stream").hide();
+		$("#section-directory").hide();
+	}
 </script>
