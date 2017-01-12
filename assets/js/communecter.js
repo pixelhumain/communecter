@@ -1484,6 +1484,11 @@ function formatData(formData, collection,ctrl) {
 			formData.addresses = elementLocations;
 		}
 	}
+	if(elementPostalCodes.length > 0){
+		//formData.multiscopes = elementLocation;
+		formData.postalCodes = elementPostalCodes;
+		
+	}
 	
 	formData.medias = [];
 	$(".resultGetUrl").each(function(){
@@ -3240,84 +3245,85 @@ var typeObj = {
 	"events" : {col:"events",ctrl:"event",color:"orange"},
 	"projects" : {col:"projects",ctrl:"project",color:"purple",icon:"lightbulb-o"},
 	"city" : {col:"cities",ctrl:"city"},
-	"cities" : {	col:"cities",
-					ctrl:"city", 
-					titleClass : "bg-red", 
-					icon : "university",
-					dynForm : {
-						jsonSchema : {
-							title : "Modifier une ville",
-							icon : "university",
-							/*onLoads : {
-					    	//pour creer un subevnt depuis un event existant
-						    	"sub" : function(){
-						    		$("#ajaxFormModal #room").val( contextData.id );
-					    		 	$("#ajax-modal-modal-title").html($("#ajax-modal-modal-title").html()+" sur "+contextData.name );
-						    	}
-						    },*/
-							properties : {
-								info : {
-								"inputType" : "custom",
-								"html":"<p><i class='fa fa-info-circle'></i> Modifier une ville</p>",
-								},
-								id :{
-								"inputType" : "hidden",
-								"value" : ""
-								},
-								insee :{
-								"inputType" : "hidden",
-								"value" : "",
-								"rules" : { "required" : true }
-								},
-								"name" :{
-								"inputType" : "text",
-								"placeholder" : "Nom de la ville",
-								"rules" : { "required" : true }
-								},
-								country :{
-								"inputType" : "hidden",
-								"value" : "",
-								"rules" : { "required" : true }
-								},
-								dep :{
-								"inputType" : "text",
-								"placeholder" : "Numéro du département"
-								},
-								depName :{
-								"inputType" : "text",
-								"placeholder" : "Nom du département"
-								},
-								region :{
-								"inputType" : "text",
-								"placeholder" : "Numéro de la région"
-								},
-								regionName :{
-								"inputType" : "text",
-								"placeholder" : "Nom de la région"
-								},
-								"latitude" : {
-								"inputType" : "text",
-								"placeholder" : "Nom de la région"
-								},
-								"longitude" : {
-								"inputType" : "text",
-								"placeholder" : "Nom de la région"
-								},
-								postalcode : {
-					                inputType : "postalcode"
-					            },
-								osmid :{
-								"inputType" : "text",
-								"placeholder" : "OSM id"
-								},
-								wikidata :{
-								"inputType" : "text",
-								"placeholder" : "wikidata"
-								}
-							}
-						}
+	"cities" : {
+		col:"cities",
+		ctrl:"city", 
+		titleClass : "bg-red", 
+		icon : "university",
+		dynForm : {
+			jsonSchema : {
+				title : "Modifier une ville",
+				icon : "university",
+				/*onLoads : {
+		    	//pour creer un subevnt depuis un event existant
+			    	"sub" : function(){
+			    		$("#ajaxFormModal #room").val( contextData.id );
+		    		 	$("#ajax-modal-modal-title").html($("#ajax-modal-modal-title").html()+" sur "+contextData.name );
+			    	}
+			    },*/
+				properties : {
+					info : {
+					"inputType" : "custom",
+					"html":"<p><i class='fa fa-info-circle'></i> Modifier une ville</p>",
+					},
+					id :{
+					"inputType" : "hidden",
+					"value" : ""
+					},
+					insee :{
+					"inputType" : "hidden",
+					"value" : "",
+					"rules" : { "required" : true }
+					},
+					"name" :{
+					"inputType" : "text",
+					"placeholder" : "Nom de la ville",
+					"rules" : { "required" : true }
+					},
+					country :{
+					"inputType" : "hidden",
+					"value" : "",
+					"rules" : { "required" : true }
+					},
+					dep :{
+					"inputType" : "text",
+					"placeholder" : "Numéro du département"
+					},
+					depName :{
+					"inputType" : "text",
+					"placeholder" : "Nom du département"
+					},
+					region :{
+					"inputType" : "text",
+					"placeholder" : "Numéro de la région"
+					},
+					regionName :{
+					"inputType" : "text",
+					"placeholder" : "Nom de la région"
+					},
+					"latitude" : {
+					"inputType" : "text",
+					"placeholder" : "Nom de la région"
+					},
+					"longitude" : {
+					"inputType" : "text",
+					"placeholder" : "Nom de la région"
+					},
+					postalcode : {
+						inputType : "postalcode"
+					},
+					osmid :{
+					"inputType" : "text",
+					"placeholder" : "OSM id"
+					},
+					wikidata :{
+					"inputType" : "text",
+					"placeholder" : "wikidata"
 					}
-				},
+				}
+			}
+		}
+	},
 	"entry" : {
 		col:"surveys",
 		ctrl:"survey",

@@ -272,7 +272,9 @@ function updateCities(id, goodsOrNot) {
 }
 
 function generateDataForDynForm(city) {
+	mylog.log("city", city);
 	var data = {
+		id : city._id.$id,
 		name : city.name,
 		alternateName : city.alternateName,
 		insee : city.insee,
