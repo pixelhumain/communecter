@@ -232,8 +232,7 @@ Liste des notifications déjà lues => #370 #453
   [X] API : push Thing push 
   [X] API : Basic authentcation using username or email + pwd
     * todo 
-    [ ] encrypt username and pwd when giving out token accesses
-  [ ] API : extract time 
+    [ ] encrypt username and pwd when giving out token accesses 
   [ ] notification à la création d'un dda
   [ ] INTEGRATTE MARKDOWN wisiwig
   [ ] my POIs
@@ -249,6 +248,7 @@ Liste des notifications déjà lues => #370 #453
   [ ] Count requests DB per page 
   [ ] collection kanban interface
   [ ] cut up communecter.js into sub files
+  [ ] cacher des sections sont mon element 
   [ ] header du live ou dans en ce moment
     - les events favoris du territoire
   [ ] PPT explication des 25 use cases
@@ -258,6 +258,27 @@ Liste des notifications déjà lues => #370 #453
   [ ] interoperability : communecter + wikidata +@CLEM 
   [ ] Quick Add Bookmarklets
   [ ] Element Trombinoscope 
+  [new] section pro 
+    [ ] ajouter une annonce (besoin , proposition)
+      [ ] organisation / professionel : santé, TIC, BTP
+        [ ] api pole emploi
+        [ ] remplacement 
+        [ ] emploi
+        [ ] cession
+        [ ] stagiaire 
+        [ ] assistanat
+        [ ] collaborateur 
+        [ ] mission humanitaire
+      [ ] immobilier 
+        [ ] location 
+        [ ] vente
+      [ ] person : status personnel 
+        [ ] cherche travail 
+        [ ] cherche/propose formation 
+        [ ] charche partenariat
+        [ ] cherche/propose benevolat 
+        [ ] aimerait apprendre 
+    [ ] abonnement a des alerts
   [new] url builder url.get(type,what,id)
   [new] follow un tag : envoie de notif si nouvel element 
   [new] linky / Connect / INTEResting CONNECTions

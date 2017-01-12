@@ -157,7 +157,7 @@ if (isset(Yii::app()->session['userId']) && !empty($me)) {
 					<?php if(!@Yii::app()->params["front"] || (@Yii::app()->params["front"] && Yii::app()->params["front"]["person"]==true)){ ?>
 					<div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
 
-						<a href="javascript:openForm('person')" class="btn bg-yellow">
+						<a href="javascript:elementLib.openForm('person')" class="btn bg-yellow">
 
 							<i class="fa fa-user"></i><br>
 							<span class="lbl-btn-menu-name-add">Quelqu'un</span>
@@ -167,7 +167,7 @@ if (isset(Yii::app()->session['userId']) && !empty($me)) {
 					<?php if(!@Yii::app()->params["front"] || (@Yii::app()->params["front"] && Yii::app()->params["front"]["organization"])){ ?>
 					<div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
 
-						<a href="javascript:openForm('organization')" class="btn bg-green">
+						<a href="javascript:elementLib.openForm('organization')" class="btn bg-green">
 
 							<i class="fa fa-group"></i><br>
 							<span class="lbl-btn-menu-name-add">
@@ -179,7 +179,7 @@ if (isset(Yii::app()->session['userId']) && !empty($me)) {
 					<?php if(!@Yii::app()->params["front"] || (@Yii::app()->params["front"] && Yii::app()->params["front"]["project"])){ ?>
 					<div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
 
-						<a href="javascript:openForm('project')" class="btn bg-purple">
+						<a href="javascript:elementLib.openForm('project')" class="btn bg-purple">
 
 							<i class="fa fa-lightbulb-o"></i><br>
 							<span class="lbl-btn-menu-name-add">
@@ -191,7 +191,7 @@ if (isset(Yii::app()->session['userId']) && !empty($me)) {
 					<?php if(!@Yii::app()->params["front"] || (@Yii::app()->params["front"] && Yii::app()->params["front"]["event"])){ ?>
 					<div class="col-xs-6 col-sm-6 col-md-6 center padding-5">
 
-						<a href="javascript:openForm('event')" class="btn bg-orange">
+						<a href="javascript:elementLib.openForm('event')" class="btn bg-orange">
 
 							<i class="fa fa-calendar"></i><br>
 							<span class="lbl-btn-menu-name-add">
