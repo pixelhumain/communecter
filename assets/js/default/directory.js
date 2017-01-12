@@ -269,7 +269,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
   function initBtnLink(){
     $('.tooltips').tooltip();
   	//parcours tous les boutons link pour vérifier si l'entité est déjà dans mon répertoire
-  	$.each($(".followBtn"), function(index, value){
+  	$.each( $(".followBtn"), function(index, value){
     	var id = $(value).attr("data-id");
    		var type = $(value).attr("data-type");
       mylog.log("error type :", type);
@@ -669,6 +669,7 @@ var directory = {
         }); //end each
         return str;
     },
+
     //builds a small sized list
     buildList : function(list) {
       $(".favSectionBtnNew,.favSection").remove();
@@ -690,6 +691,7 @@ var directory = {
       $(directory.elemClass).show();
       //bindTags();
     },
+
     //build list of unique tags based on a directory structure
     //on click hides empty parent sections
     filterList : function  (elClass,dest) { 
@@ -716,6 +718,7 @@ var directory = {
         })
         //mylog.log("tags count", directory.tagsT.length, directory.scopesT.length);
     },
+
     //todo add count on each tag
     filterTags : function (withSearch) 
     { 
@@ -725,7 +728,7 @@ var directory = {
             $("#listTags").append("<h2 class='homestead'><i class='fa fa-search'></i> #tag ou texte</h2>");
             $("#listTags").append('<input id="searchBarTextJS" data-searchPage="true" type="text" class="input-search form-control">');
         }
-        $("#listTags").append("<h2 class='homestead'>trier <i class='fa fa-tags'></i></h2>");
+        $("#listTags").append("<h2 class='homestead'> <i class='fa fa-tags'></i> trier </h2>");
         $("#listTags").append("<a class='btn btn-dark-blue btn-xs favElBtn favAllBtn text-left' href='javascript:directory.toggleEmptyParentSection(\".favSection\",null,\".searchEntityContainer\",1)'> <i class='fa fa-tags'></i> Tout voir </a><br/>");
         $.each( $(directory.elemClass),function(k,o){
             $.each($(o).find(".btn-tag"),function(i,oT){
@@ -741,6 +744,7 @@ var directory = {
             $("#listTags").removeClass("hide");
         //$("#btn-open-tags").append("("+$(".favElBtn").length+")");
     },
+
     addMultiTagsAndScope : function() { 
       directory.multiTagsT = [];
       directory.multiScopesT = [];
@@ -759,6 +763,7 @@ var directory = {
         }
       });
     },
+
     //show hide parents when empty
     toggleEmptyParentSection : function ( parents ,tag ,children ) { 
         mylog.log("toggleEmptyParentSection ", parents, tag, children);
@@ -786,6 +791,7 @@ var directory = {
         if(showAll)
           directory.showAll(parents,children);
     },
+
     showAll: function(parents,children,path,color) 
     {
       //show all
@@ -796,6 +802,7 @@ var directory = {
       $(parents).removeClass('hide');
       $(children).removeClass('hide');
     },
+
     toggleParents : function (path) { 
         //mylog.log("toggleParents",parents,children);
         $.each( favTypes, function(i,k)
@@ -806,6 +813,7 @@ var directory = {
             $('.'+k+'fav').removeClass('hide');
         });
     },
+
     //fait de la recherche client dans les champs demandé
     search : function(parentClass, searchVal) { 
         console.log("searchDir searchVal",searchVal);           
@@ -829,6 +837,7 @@ var directory = {
         } else
             directory.toggleEmptyParentSection(parentClass,null, directory.elemClass ,1);
     },
+
     searchFor : function (str) { 
       $(".searchSmallMenu").val(str).trigger("keyup");
      }
