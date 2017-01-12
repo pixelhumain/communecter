@@ -79,7 +79,6 @@ if($('#breadcum').length)
 		<div class="col-xs-12 col-md-12">
 			<?php if ($type == "poi"){ ?>
 			<?php if($element["type"]=="video" && @$element["medias"]){ 
-				
 				$videoLink=str_replace ( "autoplay=1" , "autoplay=0" , @$element["medias"][0]["content"]["videoLink"]  );
 			?>
 				<div class="col-xs-12">

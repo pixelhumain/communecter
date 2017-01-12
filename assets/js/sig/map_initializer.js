@@ -320,6 +320,8 @@
 
 											"url" 				: "url-marker-default",
 
+											"address" 			: "MARKER",
+
 									  };
 
 			this.icoMarkersTypes = { 		"default" 			: { ico : "circle", color : "yellow" 	},
@@ -361,6 +363,8 @@
 											"action" 			: { ico : "cogs", color : "lightblue2" 	},
 
 											"url" 				: { ico : "desktop", color : "blue" 	},
+
+											"address" 			: { ico : "map-marker", color : "red" 	},
 
 									  };
 

@@ -3,7 +3,7 @@ $(document).ready(function() {
 	initSequence();
 	setTimeout( function () { checkPoll() }, 10000);
 	document.onkeyup = keyboardNav.checkKeycode;
-	bindRightClicks()
+	bindRightClicks();
 });
 
 var prevStep = 0;
@@ -729,6 +729,7 @@ function loadByHash( hash , back ) {
 		}
 		return;
 	}
+
 	if( hash.indexOf("#default.directory") >= 0 &&
 		location.hash.indexOf("#default.directory") >= 0 && CoAllReadyLoad==true){ 
 		var n = hash.indexOf("type=")+5;
@@ -737,7 +738,7 @@ function loadByHash( hash , back ) {
 		searchType = [type];
 		setHeaderDirectory(type);
 		loadingData = false;
-		startSearch(0, indexStepInit);
+		startSearch(0, indexStepInit, ( notNull(searchCallback) ) ? searchCallback : null );
 		location.hash = hash;
 		return;
 	}
@@ -1093,7 +1094,7 @@ var smallMenu = {
 	//smallMenu.openAjax(\''+baseUrl+'/'+moduleId+'/collections/list/col/'+obj.label+'\',\''+obj.label+'\',\'fa-folder-open\',\'yellow\')
 	//the url must return a list like userConnected.list
 	openAjax : function  (url,title,icon,color,title1,params,callback) { 
-		if( typeof showResultsDirectoryHtml == "undefined" )
+		if( typeof directory == "undefined" )
 		    lazyLoad( moduleUrl+'/js/default/directory.js', null, null );
 	    
 	    processingBlockUi();
@@ -1134,7 +1135,7 @@ var smallMenu = {
 	},
 	//ex : smallMenu.openSmall("Recherche","fa-search","green",function(){
 	openSmall : function  (title,icon,color,callback,title1) { 
-		if( typeof showResultsDirectoryHtml == "undefined" )
+		if( typeof directory == "undefined" )
 		    lazyLoad( moduleUrl+'/js/default/directory.js', null, null );
 	    	
 		var content = smallMenu.buildHeader(title,icon,color,title1);
@@ -1525,6 +1526,21 @@ function formatData(formData, collection,ctrl) {
 									
 	if( typeof formData.tags != "undefined" && formData.tags != "" )
 		formData.tags = formData.tags.split(",");
+	// Add collections and genres of notragora in tags
+	if( typeof formData.collections != "undefined" && formData.collections != "" ){
+		collectionsTagsSave=formData.collections.split(",");
+		$.each(collectionsTagsSave, function(i, e) {
+			formData.tags.push(e);
+		});
+		delete formData['collections'];
+	}
+	if( typeof formData.genres != "undefined" && formData.genres != "" ){
+		genresTagsSave=formData.genres.split(",");
+		$.each(genresTagsSave, function(i, e) {
+			formData.tags.push(e);
+		});
+		delete formData['genres'];
+	}
 	removeEmptyAttr(formData);
 
 	mylog.dir(formData);
@@ -1614,7 +1630,33 @@ function editElement(type,id){
 			//will be sued in the dynform  as update 
 			data.map.id = data.map["_id"]["$id"];
 			delete data.map["_id"];
-			//mylog.dir(data);
+			mylog.dir(data);
+			console.log(data);
+			if(globalTheme=="notragora"){
+				if(type=="poi"){
+					if(typeof data.map["tags"] != "undefined" && data.map["tags"].length > 0){
+				  		$.each(data.map["tags"], function(i,e){
+					  		if(jQuery.inArray( e, collectionsType ) >= 0){
+						   		 data.map["collections"]=[];
+						   		 data.map["collections"].push(e);
+						   		 var i = data.map["tags"].indexOf(e);
+								if(i != -1) {
+									data.map["tags"].splice(i, 1);
+								}
+							}
+							if(jQuery.inArray( e, genresType ) >= 0){
+						   		 data.map["genres"]=[];
+						   		 data.map["genres"].push(e);
+						   		 var i = data.map["tags"].indexOf(e);
+								if(i != -1) {
+									data.map["tags"].splice(i, 1);
+								}
+							}
+
+				  		});
+		  			}
+	  			}
+			}
 			openForm(type,null, data.map);
         } else {
            toastr.error("something went wrong!! please try again.");
@@ -1673,7 +1715,7 @@ function buildDynForm(elementObj, afterLoad,data) {
 		        if( notNull(afterLoad) && elementObj.dynForm.jsonSchema.onLoads 
 		        	&& elementObj.dynForm.jsonSchema.onLoads[afterLoad] 
 		        	&& typeof elementObj.dynForm.jsonSchema.onLoads[afterLoad] == "function" )
-		        	elementObj.dynForm.jsonSchema.onLoads[ afterLoad](data);
+		        	elementObj.dynForm.jsonSchema.onLoads[afterLoad](data);
 		        //incase we need a second global post process
 		        if( notNull(afterLoad) && elementObj.dynForm.jsonSchema.onLoads 
 		        	&& elementObj.dynForm.jsonSchema.onLoads[afterLoad] 
@@ -2449,6 +2491,11 @@ var typeObj = {
 				    	$('#ajaxFormModal #parentId').val(data.parentId);
 			    		$("#ajaxFormModal #parentType").val( data.parentType ); 
 				    },*/
+			    },
+			    beforeSave : function(){
+			    	
+			    	if( typeof $("#ajaxFormModal #description").code === 'function' )  
+			    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
 			    },
 			    properties : {
 			    	info : {
