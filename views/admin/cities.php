@@ -285,10 +285,22 @@ function generateDataForDynForm(city) {
 		wikidataId : city.wikidataId,
 		latitude : city.geo.latitude,
 		longitude : city.geo.longitude,
-		geoShape : city.geoShape
-
+		geoShape : city.geoShape,
+		postalCodes : []
 	};
 
+	$.each(city.postalCodes,function(key,pc){
+		mylog.log("city.postalCodes");
+		console.dir(pc);
+		var newPC = {
+			postalCode : pc.postalCode,
+			name : pc.name,
+			latitude : pc.geo.latitude,
+			longitude : pc.geo.longitude,
+		}
+		data.postalCodes.push(newPC);		
+	});
+	mylog.log("data", data);
 	return data ;
 }
 

@@ -12,6 +12,11 @@ var NE_country = "";
 var NE_dep = "";
 var NE_region = "";
 
+var PC_postalCode = "";
+var	PC_name = "";
+var	PC_latitude = "";
+var	PC_longitude = "";
+
 var typeSearchInternational = "";
 var formType = "";
 var updateLocality = false;
@@ -19,16 +24,23 @@ var addressesIndex = false;
 var saveCities = new Array();
 var uncomplete = false;
 
-function showMarkerNewElement(){ mylog.log("showMarkerNewElement");
+var modePostalCode = false;
 
+function showMarkerNewElement(modePC){
+	var contentSig = Sig.getPopupConfigAddress();
+	if(typeof modePC != "undefined" ){
+		modePostalCode = true;
+		contentSig = Sig.getPopupConfigPostalCode();
+	} 
+	mylog.log("showMarkerNewElement");
 	Sig.clearMap();
-	//$("#newElement_btnValidateAddress").prop('disabled', true);
+
 	if(typeof Sig.myMarker != "undefined") 
 		Sig.map.removeLayer(Sig.myMarker);
 	mylog.log("formType", formType);
 	var options = {  id : 0,
 					 icon : Sig.getIcoMarkerMap({'type' : formType}),
-					 content : Sig.getPopupConfigAddress()
+					 content : contentSig
 				  };
 	mylog.log(options);
 
@@ -285,7 +297,83 @@ function bindEventFormSig(){
 		}else
 			backToForm();
 	});
+
+
+	$('[name="newPC_postalCode"]').keyup(function(){
+		if($('[name="newPC_postalCode"]').val().length > 3){
+			PC_postalCode = $('[name="newElement_cp"]').val();
+			checkDataPostalCode();
+			$('#divPostalCode').addClass("has-success");
+			$('#divPostalCode').removeClass("has-error");
+		}else{
+			PC_postalCode = "";
+			checkDataPostalCode();
+			$('#divPostalCode').addClass("has-error");
+			$('#divPostalCode').removeClass("has-success");
+		}
+	});
+
+	$('[name="newPC_name"]').keyup(function(){
+		mylog.log("uncomplete",uncomplete);
+		if($('[name="newPC_name"]').val().length > 2){
+			PC_name = $('[name="newPC_name"]').val();
+			checkDataPostalCode();
+			$('#divCity').addClass("has-success");
+			$('#divCity').removeClass("has-error");
+		}else{
+			PC_name = "";
+			checkDataPostalCode();
+			$('#divCity').addClass("has-error");
+			$('#divCity').removeClass("has-success");
+		}
+	});
+
+	$('[name="newPC_lat"]').keyup(function(){
+		if(parseFloat($('[name="newPC_lat"]').val()) > -90 && parseFloat($('[name="newPC_lat"]').val()) < 90){
+			// -180 and +180 
+			PC_latitude = $('[name="newPC_lat"]').val();
+			checkDataPostalCode();
+			$('#divCity').addClass("has-success");
+			$('#divCity').removeClass("has-error");
+		}else{
+			PC_latitude = "";
+			checkDataPostalCode();
+			$('#divCity').addClass("has-error");
+			$('#divCity').removeClass("has-success");
+		}
+	});
+
+	$('[name="newPC_lon"]').keyup(function(){
+		if(parseFloat($('[name="newPC_lon"]').val()) > -180 && parseFloat($('[name="newPC_lon"]').val()) < 180){
+			PC_longitude = $('[name="newPC_lon"]').val();
+			checkDataPostalCode();
+			$('#divCity').addClass("has-success");
+			$('#divCity').removeClass("has-error");
+		}else{
+			PC_longitude = "";
+			checkDataPostalCode();
+			$('#divCity').addClass("has-error");
+			$('#divCity').removeClass("has-success");
+		}
+	});
+
+	$("#newPC_btnValidatePC").click(function(){
+		PC_postalCode : $("[name='newPC_postalCode']").val();
+		PC_name = $("[name='newPC_name']").val();
+		PC_latitude = $("[name='newPC_lat']").val();
+		PC_longitude = $("[name='newPC_lng']").val();
+		backToForm();
+		$('#divCity').append("<a href=");
+	});
 }
+
+function checkDataPostalCode(){
+	if(PC_postalCode != "" && PC_name != "" && PC_latitude != "" && PC_longitude != "")
+		$("#newPC_btnValidatePC").prop('disabled', false);
+	else
+		$("#newPC_btnValidatePC").prop('disabled', true);
+}
+
 
 function autocompleteFormAddress(currentScopeType, scopeValue){
 	//var scopeValue = $('[name="newElement_city"]').val();
@@ -569,44 +657,60 @@ function searchAdressNewElement(){ mylog.log("searchAdressNewElement");
 
 function backToForm(cancel){
 	mylog.log("backToForm");
-	if(updateLocality == false ){
-		if(notEmpty($("[name='newElement_lat']").val())){
-			locationObj = {
-				address : {
-					"@type" : "PostalAddress",
-					addressCountry : $("[name='newElement_country']").val(),
-					streetAddress : $("[name='newElement_streetAddress']").val(),
-					addressLocality : $("[name='newElement_city']").val(),
-					postalCode : $("[name='newElement_cp']").val(),
-					codeInsee : $("[name='newElement_insee']").val(),
-					depName : $("[name='newElement_dep']").val(),
-					regionName : $("[name='newElement_region']").val()
-				},
-				geo : {
-					"@type" : "GeoCoordinates",
-					latitude : $("[name='newElement_lat']").val(),
-					longitude : $("[name='newElement_lng']").val()
-				},
-				geoPosition : {
-					"type" : "Point",
-					"coordinates" : [ parseFloat($("[name='newElement_lng']").val()), parseFloat($("[name='newElement_lat']").val()) ]
-				}
-			};
-			copyMapForm2Dynform(locationObj);
-			addLocationToForm(locationObj);
-		}
-		$("#form-street").val($("[name='newElement_streetAddress']").val());
-		showMap(false);
-		Sig.clearMap();
-		$('#ajax-modal').modal("show");
+	if(modePostalCode == false ){
+		if(updateLocality == false ){
+			if(notEmpty($("[name='newElement_lat']").val())){
+				locationObj = {
+					address : {
+						"@type" : "PostalAddress",
+						addressCountry : $("[name='newElement_country']").val(),
+						streetAddress : $("[name='newElement_streetAddress']").val(),
+						addressLocality : $("[name='newElement_city']").val(),
+						postalCode : $("[name='newElement_cp']").val(),
+						codeInsee : $("[name='newElement_insee']").val(),
+						depName : $("[name='newElement_dep']").val(),
+						regionName : $("[name='newElement_region']").val()
+					},
+					geo : {
+						"@type" : "GeoCoordinates",
+						latitude : $("[name='newElement_lat']").val(),
+						longitude : $("[name='newElement_lng']").val()
+					},
+					geoPosition : {
+						"type" : "Point",
+						"coordinates" : [ parseFloat($("[name='newElement_lng']").val()), parseFloat($("[name='newElement_lat']").val()) ]
+					}
+				};
+				copyMapForm2Dynform(locationObj);
+				addLocationToForm(locationObj);
+			}
+			$("#form-street").val($("[name='newElement_streetAddress']").val());
+			showMap(false);
+			Sig.clearMap();
+			$('#ajax-modal').modal("show");
+		}else{
+			if(typeof cancel == "undefined" || cancel == false)
+				updateLocalityElement();
+			showMap(false);
+			if(typeof contextMap != "undefined")
+				Sig.showMapElements(Sig.map, contextMap);
+		}	
 	}else{
-		if(typeof cancel == "undefined" || cancel == false)
-			updateLocalityElement();
-		showMap(false);
-		if(typeof contextMap != "undefined")
-			Sig.showMapElements(Sig.map, contextMap);
+		if(notEmpty($("[name='newPC_lat']").val())){
+				postalCodeObj = {
+					postalCode : $("[name='newPC_postalCode']").val(),
+					name : $("[name='newPC_name']").val(),
+					latitude : $("[name='newPC_lat']").val(),
+					longitude : $("[name='newPC_lon']").val()
+				};
+				copyPCForm2Dynform(postalCodeObj);
+				addPostalCodeToForm(postalCodeObj);
+			}
+			showMap(false);
+			Sig.clearMap();
+			$('#ajax-modal').modal("show");
 	}
-	
+
 
 }
 

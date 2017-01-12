@@ -1631,6 +1631,8 @@ function openForm (type, afterLoad,data) {
     elementLocations = [];
     centerLocation = null;
     updateLocality = false;
+    elementPostalCode = null;
+    elementPostalCodes = [];
     formType = type;
     console.log(type);
     specs = typeObj[type];
@@ -1814,7 +1816,10 @@ function globalSearch(searchValue,types,autre){
 var elementLocation = null;
 var centerLocation = null;
 var elementLocations = [];
+var elementPostalCode = null;
+var elementPostalCodes = [];
 var countLocation = 0;
+var countPostalCode = 0;
 function copyMapForm2Dynform(locationObj) { 
 	//if(!elementLocation)
 	//	elementLocation = [];
@@ -1856,6 +1861,37 @@ function addLocationToForm(locationObj)
 			  "<a href='javascript:setAsCenter("+countLocation+")' class='centers center"+countLocation+" locationEl"+countLocation+" btn btn-xs "+btnSuccess+"'> <i class='fa fa-map-marker'></i>"+locCenter+"</a> <br/>";
 	$(".locationlocation").prepend(strHTML);
 	countLocation++;
+}
+
+function copyPCForm2Dynform(postalCodeObj) { 
+	mylog.warn("---------------copyPCForm2Dynform----------------");
+	mylog.log("postalCodeObj", postalCodeObj);
+	elementPostalCode = postalCodeObj;
+	mylog.log("elementPostalCode", elementPostalCode);
+	elementPostalCodes.push(elementPostalCode);
+	mylog.log("elementPostalCodes", elementPostalCodes);
+	mylog.dir(elementPostalCodes);
+	//elementPostalCode.push(positionObj);
+}
+
+function addPostalCodeToForm(postalCodeObj)
+{
+	mylog.warn("---------------addPostalCodeToForm----------------");
+	mylog.dir(postalCodeObj);
+	var strHTML = "";
+	if( postalCodeObj.postalCode)
+		strHTML += postalCodeObj.postalCode;
+	if( postalCodeObj.name)
+		strHTML += " ,"+postalCodeObj.name;
+	if( postalCodeObj.latitude)
+		strHTML += " ,("+postalCodeObj.latitude;
+	if( postalCodeObj.longitude)
+		strHTML += " / "+postalCodeObj.longitude+")";
+	
+	strHTML = "<a href='javascript:removeLocation("+countPostalCode+")' class=' locationEl"+countPostalCode+" btn'> <i class='text-red fa fa-times'></i></a>"+
+			  "<span class='locationEl"+countPostalCode+" locel text-azure'>"+strHTML+"</span> <br/>";
+	$(".postalcodepostalcode").prepend(strHTML);
+	countPostalCode++;
 }
 
 
@@ -3165,6 +3201,13 @@ var typeObj = {
 						jsonSchema : {
 							title : "Modifier une ville",
 							icon : "university",
+							/*onLoads : {
+					    	//pour creer un subevnt depuis un event existant
+						    	"sub" : function(){
+						    		$("#ajaxFormModal #room").val( contextData.id );
+					    		 	$("#ajax-modal-modal-title").html($("#ajax-modal-modal-title").html()+" sur "+contextData.name );
+						    	}
+						    },*/
 							properties : {
 								info : {
 								"inputType" : "custom",
@@ -3213,6 +3256,9 @@ var typeObj = {
 								"inputType" : "text",
 								"placeholder" : "Nom de la région"
 								},
+								postalcode : {
+					                inputType : "postalcode"
+					            },
 								osmid :{
 								"inputType" : "text",
 								"placeholder" : "OSM id"
