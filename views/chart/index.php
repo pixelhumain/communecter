@@ -43,7 +43,7 @@ $tabCommons = array(	"0" => "Ne souhaite pas",
 			if(!empty($properties)){
 				if(@$properties["open"])
 					$propertiesOpen=$properties["open"];
-				else if(@$properties["commons"])
+				if(@$properties["commons"])
 					$propertiesCommons=$properties["commons"];
 			}
 			
@@ -78,8 +78,8 @@ $tabCommons = array(	"0" => "Ne souhaite pas",
 			 ?>
 			</div>
 		</div>
-		<div class="panel-body no-padding contentChartFree <?php if(!@$propertiesOpen || @$propertiesCommons) echo "hide" ?>">
-			<canvas id="myChartFree" width="" height=""></canvas>
+		<div class="panel-body no-padding contentChartOpen <?php if(!@$propertiesOpen) echo "hide" ?>">
+			<canvas id="myChartOpen" width="" height=""></canvas>
 			<div class="col-md-12 col-sm-12 col-xs-12">
 			<?php
 				if(@$propertiesOpen){
@@ -260,7 +260,7 @@ function chartInit(dataProperties, id){
 	}
 	console.log(labelProperties);
 	console.log(valueProperties);
-	Chart.defaults.global = {
+	/*Chart.defaults.global = {
 		// Boolean - Whether to animate the chart
 		animation: true,
 	    // Number - Number of animation steps
@@ -344,7 +344,7 @@ function chartInit(dataProperties, id){
 	    onAnimationProgress: function(){},
 	    // Function - Will fire on animation completion.
 	    onAnimationComplete: function(){}
-}
+}*/
 var data = {
     labels : labelProperties,
     datasets: [
@@ -366,6 +366,7 @@ var options;
 var ctx = $("#"+id).get(0).getContext("2d");
 
 // This will get the first returned node in the jQuery collection.
+if(id=="myChartOpen"){
 myNewChart = new Chart(ctx).Radar(data, options);
 console.log(myNewChart);
 document.getElementById(id).onclick = function(evt){
@@ -381,6 +382,23 @@ document.getElementById(id).onclick = function(evt){
         /* process your url ... */
     }
 };
+}else{
+myNewChartCommons = new Chart(ctx).Radar(data, options);
+console.log(myNewChartCommons);
+document.getElementById(id).onclick = function(evt){
+    var activePoints = myNewChartCommons.getPointsAtEvent(evt);
+    /* this is where we check if event has keys which means is not empty space */       
+    if(Object.keys(activePoints).length > 0)
+    {
+        var label = activePoints[0]["label"];
+        var value = activePoints[0]["value"];
+        $(".descriptionLabel").addClass("hide");
+        $(".description"+label).removeClass("hide");
+        //var url = "http://example.com/?label=" + label + "&value=" + value
+        /* process your url ... */
+    }
+};
+}
 	///////////// LAST ON DEVELOPMENT //////////////
 	/*var data = {
 	    labels : labelProperties,

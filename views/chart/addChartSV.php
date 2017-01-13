@@ -90,8 +90,8 @@ if(!@$_GET["renderPartial"])
 							<?php echo Yii::t("project","Degree of project's openness (0% = very closed, 100% = very opened)",null,Yii::app()->controller->module->id) ?>			
 						</label>
 						<div class="col-md-12 no-padding">
-						<?php if (isset($properties["free"]) && !empty($properties["free"])){
-							foreach ($properties["free"] as $key => $val){ 
+						<?php if (isset($properties["open"]) && !empty($properties["open"])){
+							foreach ($properties["open"] as $key => $val){ 
 						?>
 							<div class="col-md-12 form-property">
 								<div class="removeProperty hide"><span class="glyphicon glyphicon-remove"></span></div>
@@ -414,6 +414,7 @@ jQuery(document).ready(function() {
         onSave : function(params) {
 			//console.dir( $(params.surveyId).serializeFormJSON() );
 			var result = {};
+			result["commons"]={};
 			console.log(params.surveyObj);
 			$.each( params.surveyObj,function(section,sectionObj) { 
 				result["commons"][sectionObj.key] = {};
@@ -421,6 +422,7 @@ jQuery(document).ready(function() {
 				$.each( sectionObj.dynForm.jsonSchema.properties,function(field,fieldObj) { 
 					console.log(sectionObj.key+"."+field, $("#"+section+" #"+field).val() );
 					if( fieldObj.inputType ){
+						result["commons"][sectionObj.key][field] = {};
 						result["commons"][sectionObj.key][field] = $("#"+section+" #"+field).val();
 					}
 				});
