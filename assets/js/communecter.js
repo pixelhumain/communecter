@@ -3648,22 +3648,41 @@ var typeObj = {
 		            location : {
 		               inputType : "location"
 		            },
-		            type :{
-		               inputType : "select",
+		            typeBtn :{
+		               inputType : "tagList",
 		                placeholder : "Type d'annonce",
-		                options : classifiedTypes,
+		                list : classifiedTypes,
 		                init : function(){
-			            	$("#ajaxFormModal #type").off().on("change",function(){
-			            		$("#ajaxFormModal #subtype").html('');
-								$.each( classifiedSubTypes[ $("#ajaxFormModal #type").val() ].subType , function(i,v) { 
-									$("#ajaxFormModal #subtype").append( "<option value='"+v+"'>"+v+"</option>" );
+			            	$(".typeBtn").off().on("click",function()
+			            	{
+			            		$(".typeBtn").removeClass("active btn-dark-blue text-white");
+			            		$( "."+$(this).data('tag')+"Btn" ).toggleClass("active btn-dark-blue text-white");
+			            		$("#ajaxFormModal #type").val( ( $(this).hasClass('active') ) ? $(this).data('tag') : "" );
+
+			            		$("#ajaxFormModal #subtype").val("");
+			            		fieldHTML = "";
+			            		$.each(classifiedSubTypes[ $(this).data('tag') ].subType, function(k,v) { 
+			            			fieldHTML += '<a class="btn btn-link tagListEl subtypeBtn '+k+'Btn " data-tag="'+k+'" href="javascript:;">'+v+'</a>';
+			            		});
+			            		$(".subtypeSection").html(fieldHTML);
+
+			            		$(".subtypeBtn").off().on("click",function()
+				            	{
+				            		$( "."+$(this).data('tag')+"Btn" ).toggleClass("btn-link text-white").toggleClass("active  btn-dark-blue text-white");
+				            		$("#ajaxFormModal #subtype").val( ( $(this).hasClass('active') ) ? $(this).data('tag') : "" );
 								});
 			            	});
 			            }
 		            },
+		            type :{
+		                inputType : "hidden"
+		            },
+		            subtypeSection : {
+		                inputType : "custom",
+		                html:"<div class='subtypeSection'></div>",
+		            },
 		            subtype :{
-		               inputType : "select",
-		                placeholder : "Sous Type"
+		               inputType : "hidden"
 		            },
 		            tags :{
 		                inputType : "tags",
