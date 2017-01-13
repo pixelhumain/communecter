@@ -147,11 +147,7 @@
 	}
 </style>
 	<div class="col-lg-10 col-md-10 col-sm-9 no-padding" id="onepage">
-		<div class="img-header"></div>
-		<div class="element-name text-dark">
-			<?php echo @$element["name"]; ?>
-			<!-- <button class="btn btn-default btn-follow"><i class="fa fa-star"></i> SUIVRE</button> -->
-		</div>
+
 		<?php if ($type == "poi"){ ?>
 			<?php if($element["type"]=="video" && @$element["medias"]){ 
 				$videoLink=str_replace ( "autoplay=1" , "autoplay=0" , @$element["medias"][0]["content"]["videoLink"]  );
@@ -175,13 +171,18 @@
 					<?php } ?>
 				</div>
 		<?php } ?>
-		<?php } ?>
+		<?php }else{ ?>
+				<div class="img-header"></div>
+		<div class="element-name text-dark">
+			<?php echo @$element["name"]; ?>
+			<!-- <button class="btn btn-default btn-follow"><i class="fa fa-star"></i> SUIVRE</button> -->
+		</div>
 		<div class="col-md-12 padding-15 menubar">
 			<button class="btn btn-default btn-menubar" id="btn-menu-home">A PROPOS</button>
 			<button class="btn btn-default btn-menubar" id="btn-menu-stream">CARNET DE BORD</button>
 			<button class="btn btn-default btn-menubar" id="btn-menu-directory-poi">PRODUCTIONS</button>
 		</div>
-
+		<?php } ?>
 		<div id="section-home">
 			<?php   
 				$desc = array( array("shortDescription"=>@$element["description"]),
@@ -325,8 +326,8 @@
   	var nbAdmin = 0;
 
   	if(contextType=="projects"){
-		nbMember = <?php echo @$nbMember; ?>;
-		nbAdmin = <?php echo @$nbAdmin; ?>;
+		nbMember = "<?php echo @$nbMember; ?>";
+		nbAdmin = "<?php echo @$nbAdmin; ?>";
   	}
   	
   	<?php $pois = PHDB::find(Poi::COLLECTION,array("parentId"=>(String) $element["_id"],"parentType"=>$type)); ?>
