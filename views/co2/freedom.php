@@ -103,13 +103,17 @@
 }
 
 #photoAddNews{
-	text-align: right;
+	text-align: left;
 }
 
 .tagstags, .form-actions{
 	display: none!important;
 }
 
+/*
+.elemt_name, .elemt_date{
+	display: none;
+}*/
 </style>
 
 <div class="col-md-12 col-sm-12 col-xs-12 bg-white no-padding">
@@ -220,7 +224,9 @@
 		<div id="newsstream"></div>
 	</div>	
 
-
+	<div class="pull-right col-lg-3 col-md-3 col-sm-4 hidden-xs padding-20 margin-top-50" id="nowList">
+	
+	</div>
 </div>
 
 
@@ -360,6 +366,8 @@ function initFreedomInterface(){
 	});
 
 	initFormImages();
+
+	//loadLiveNow();
 }
 
 var timeout;
@@ -417,7 +425,7 @@ function loadStream(indexMin, indexMax){ console.log("LOAD STREAM FREEDOM");
 function loadLiveNow () { 
 
     var searchParams = {
-      "name":$('.input-global-search').val(),
+      "name":"",
       "tpl":"/pod/nowList",
       "latest" : true,
       "searchType" : ["<?php echo Event::COLLECTION?>","<?php echo Project::COLLECTION?>",

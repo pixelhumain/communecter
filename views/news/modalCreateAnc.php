@@ -1,4 +1,3 @@
-MODAL
 <div class="portfolio-modal modal fade" id="modal-create-anc" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-content padding-top-15">
         <div class="close-modal" data-dismiss="modal">
@@ -10,15 +9,23 @@ MODAL
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/assets/img/KGOUGLE-logo.png" height="50" class="inline margin-top-25 margin-bottom-5"><br>
-                    
+
+                <?php if(Yii::app()->params["CO2DomainName"] == "CO2"){ ?>
+                    <img src="<?php echo Yii::app()->theme->baseUrl; ?>/assets/img/CO2r.png" height="100" class="inline margin-bottom-15"><br>
+                 <?php }else if(Yii::app()->params["CO2DomainName"] == "kgougle"){ ?>
+                     <img src="<?php echo Yii::app()->theme->baseUrl; ?>/assets/img/KGOUGLE-logo.png" height="50" class="inline margin-top-25 margin-bottom-5"><br>
+                 <?php } ?>
+
                     <h3 class="letter-red no-margin hidden">
                         <small class="text-dark">Un espace de <span class="letter-red">communication local</span>, au service du <span class="letter-red">bien commun</span></small>
                     </h3><br>
                     <h3 class="letter-red no-margin hidden-xs">
                         <i class="fa fa-plus-circle"></i> Publier une annonce<br>
-                    </h3>
-                   
+                    </h3><br>
+                    <!-- <button class="btn btn-default margin-bottom-5 margin-left-5 btn-select-type-anc" style="width:40%; margin-left:30%;"  
+                            data-type-anc="cassifieds">
+                        <i class="fa fa-credit-card hidden-xs"></i> Annonce sponsorisée
+                    </button> -->
                 </div>               
             </div>
             <div class="row links-create-element">
@@ -31,7 +38,7 @@ MODAL
                         
                         <div class="col-md-12 col-sm-12" id="sub-menu-left">
                             <h4 class="text-dark no-margin hidden-xs">
-                                <i class="fa fa-angle-down"></i> Choisissez une catégorie pour votre annonce<br><br>
+                                <i class="fa fa-angle-down"></i> Sélectionnez un type d'annonce<br><br>
                             </h4>
                             <div class="col-md-1 padding-5"></div>
                             <div class="col-md-2 text-center padding-5">
@@ -56,6 +63,7 @@ MODAL
                                         <?php   }else{ $currentSection++; } ?>
                             <?php   } ?>
                             </div>
+                            
                            <br>
                            <div class="col-md-12 col-sm-12 ">
                            <hr>
@@ -64,7 +72,7 @@ MODAL
                         
                         <div class="col-md-12 col-sm-12 subsub text-center" id="sub-menu-left">
                             <h4 class="text-dark no-margin hidden-xs">
-                                <i class="fa fa-angle-down"></i> Sélectionner une catégorie<br><br>
+                                <i class="fa fa-angle-down"></i> Sélectionnez une catégorie<br><br>
                             </h4>
                             <div class="col-md-2 text-<?php $align="left"; echo $align; ?> padding-5 hidden">
                             <?php $categories = CO2::getAnnounceCategories();
