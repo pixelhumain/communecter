@@ -130,13 +130,14 @@
 					</h1>
 					<?php if(@Yii::app()->session["userId"]){ ?> 
 						<?php if ($edit==true || ($openEdition == true )) { ?>
-							<a href="javascript:;" class="btn btn-xs text-dark editThisBtn"  data-type="poi" data-id="<?php echo (string)$element["_id"] ?>" ><i class="fa fa-pencil-square-o"></i> <?php echo Yii::t("common","Edit") ?></a>
+							<a href="javascript:;" class="btn btn-xs text-dark editThisBtn"  data-type="poi" data-id="<?php echo (string)$element["_id"] ?>" ><i class="fa fa-pencil-square-o"></i> <?php echo Yii::t("common","Edit") ?></a>.
 							<a href="javascript:;" class="btn btn-xs text-red deleteThisBtn" data-type="poi" data-id="<?php echo (string)$element["_id"] ?>" ><i class="fa fa-trash"></i> <?php echo Yii::t("common","Delete") ?></a> 
 							<div class="space1"></div>
 						<?php } ?>
 					<?php } ?>
 				</div>
-
+		<?php } ?>
+		<?php } ?>
 		<div class="col-md-12 padding-15 menubar">
 			<button class="btn btn-default btn-menubar" id="btn-menu-home">A PROPOS</button>
 			<button class="btn btn-default btn-menubar" id="btn-menu-stream">CARNET DE BORD</button>
@@ -145,8 +146,7 @@
 
 		<div id="section-home">
 			<?php   
-				var_dump(@$poi);
-	    		$desc = array( array("shortDescription"=>@$element["description"]),
+				$desc = array( array("shortDescription"=>@$element["description"]),
 	    					);
 
 	    		if(@$desc && sizeOf(@$desc)>0)
@@ -165,40 +165,46 @@
 															  		"textBright"=>"dark",
 															  		"fontScale"=>3),
 											));
-    	?>
-		<?php if ($type == "poi"){ ?>
-		<div id="divTags" class="col-md-12 col-sm-12 col-xs-12">
-			<?php if(@$element["tags"]){ ?>
-				<?php 
-					$i=0; 
-					foreach($element["tags"] as $tag){ 
-						if($i<6) { 
-							$i++;?>
-							<div class="tag label label-default" data-val="<?php echo  $tag; ?>">
-								<i class="fa fa-tag"></i> <?php echo  $tag; ?>
-							</div>
-			<?php 		}
-					} 
-			} ?>		
-		</div>
-		<section id="timeline" class="inline-block col-md-12"  style="background-color: #f8f6f6;">
-    		<h2 class="section-title text-dark">Commentaires</h2>
-			<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1">
-				<ul class="inline-block" id="comment-page">
-				</ul>
-			</div>
-		</section>
-		<?php } else { ?>
-    	<section id="timeline" class="bg-white inline-block col-md-12"  style="background-color: #f8f6f6;">
-    		<h2 class="section-title text-dark">Historique</h2>
-			<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1">
-				<ul class="timeline inline-block" id="timeline-page">
-				</ul>
-			</div>
-		</section>
-		<?php } ?>
+	    	?>
+	    	
 
-		<div id="section-stream" class="col-md-12">
+			<?php if ($type == "poi"){ ?>
+				<div id="divTags" class="col-md-12 col-sm-12 col-xs-12">
+					<?php if(@$element["tags"]){ ?>
+						<?php 
+							$i=0; 
+							foreach($element["tags"] as $tag){ 
+								if($i<6) { 
+									$i++;?>
+									<div class="tag label label-default" data-val="<?php echo  $tag; ?>">
+										<i class="fa fa-tag"></i> <?php echo  $tag; ?>
+									</div>
+					<?php 		}
+							} 
+					} ?>		
+				</div>
+			
+				<section id="timeline" class="inline-block col-md-12"  style="background-color: #f8f6f6;">
+		    		<h2 class="section-title text-dark">Commentaires</h2>
+					<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1">
+						<ul class="inline-block" id="comment-page">
+						</ul>
+					</div>
+				</section>
+			<?php } else { ?>
+	    
+				<section id="timeline" class="bg-white inline-block col-md-12"  style="background-color: #f8f6f6;">
+		    		<h2 class="section-title text-dark">Historique</h2>
+					<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1">
+						<ul class="timeline inline-block" id="timeline-page">
+						</ul>
+					</div>
+				</section>
+
+			<?php } ?>
+		</div>
+
+		<div id="section-stream" class="col-md-6 col-md-offset-1">
 			
 		</div>
 
@@ -259,6 +265,10 @@
   	var contextType = "<?php echo $type ?>";
   	var contextId = "<?php echo (string)$element["_id"] ?>";
   	
+  	<?php $pois = PHDB::find(Poi::COLLECTION,array("parentId"=>(String) $element["_id"],"parentType"=>$type)); ?>
+
+  	var pois = <?php json_encode($pois); ?>
+
 	jQuery(document).ready(function() {
 	
 		$(".btn-full-desc").click(function(){
@@ -278,7 +288,7 @@
 
 		var url = "news/index/type/"+contextType+"/id/"+contextId+"?isFirst=1&";
 		console.log("URL", url);
-		if(contextType=="projects"){
+		if(contextType=="projects" || contextType=="citoyens"){
 			ajaxPost('#timeline-page', baseUrl+'/'+moduleId+'/'+url+"renderPartial=true&tpl=co2&nbCol=2", 
 				null,
 				function(){ 
@@ -291,6 +301,7 @@
 			},"html");
 		}
 
+		initMenuDetail();
 	});
 
 
@@ -303,7 +314,7 @@
         $("#btn-menu-stream").click(function(){
         	hideAllSections();
         	$("#section-stream").show();
-        	var url = "news/index/type/citoyens/id/<?php echo (string)$element["_id"] ?>?isFirst=1&";
+        	var url = "news/index/type/"+contextType+"/id/"+contextId+"?isFirst=1&";
 			console.log("URL", url);
 			ajaxPost('#section-stream', baseUrl+'/'+moduleId+'/'+url+"renderPartial=true&tpl=co2&nbCol=1", 
 				null,
@@ -316,6 +327,8 @@
         	hideAllSections();
         	$("#section-directory").show();
 
+        	var poisHtml = directory.showResultsDirectoryHtml(pois, "poi");
+        	$("#section-directory").html(poisHtml);
  		// 	var type = "?type=poi";
 	  //   	ajaxPost('#section-directory', baseUrl+'/'+moduleId+"/default/directory"+type, 
 			// 	null,
@@ -328,7 +341,7 @@
 
 	function hideAllSections(){
 		$("#section-home").hide();
-		$("#section-stream").hide();
+		$("#section-stream").hide().html("");
 		$("#section-directory").hide();
 	}
 </script>
