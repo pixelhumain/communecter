@@ -3615,10 +3615,10 @@ var typeObj = {
 			    },
 			    beforeSave : function(){
 			    	var tagAndTypes = $("#ajaxFormModal #tags").val();
-			    	if( $("#ajaxFormModal #type option:selected").text() )
-			    		tagAndTypes += ","+$("#ajaxFormModal #type option:selected").text();
-			    	if( $("#ajaxFormModal #subtype option:selected").text() )
-			    		tagAndTypes += ","+$("#ajaxFormModal #subtype option:selected").text();
+			    	if( $("#ajaxFormModal #type").val() )
+			    		tagAndTypes += ","+$("#ajaxFormModal #type").val();
+			    	if( $("#ajaxFormModal #subtype").val() )
+			    		tagAndTypes += ","+$("#ajaxFormModal #subtype").val();
 			    	$("#ajaxFormModal #tags").val( tagAndTypes );
 			    	
 			    	if( typeof $("#ajaxFormModal #description").code === 'function' )  
