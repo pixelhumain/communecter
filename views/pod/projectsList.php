@@ -21,7 +21,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->reque
 	</div>
 	<div class="panel-tools">
 		<?php if( @$authorised || $openEdition && isset(Yii::app()->session["userId"]) ) { ?>
-			<a href="javascript:openForm('project','sub')" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add a project" alt="Add a project"><i class="fa fa-plus"></i> Créer un nouveau projet</a>
+			<a href="javascript:elementLib.openForm('project','sub')" class="btn btn-xs btn-light-blue tooltips" data-toggle="tooltip" data-placement="top" title="Add a project" alt="Add a project"><i class="fa fa-plus"></i> Créer un nouveau projet</a>
 		<?php  } ?>
 			<a id="showHideOldProject" class="tooltips btn btn-xs btn-light-blue" href="javascript:;" data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("project","Display/Hide old projects",null,Yii::app()->controller->module->id) ?>" onclick="toogleOldProject()">
 	    		

@@ -1,9 +1,9 @@
 
 <?php
-  if($type != City::CONTROLLER && $type != "pixels" && !@$_GET["renderPartial"])
-    $this->renderPartial('../pod/headerEntity', 
-      array("entity"=>$parent, "type" => $type, "viewer" => @$viewer, 
-          "firstView" => @$firstView, "openEdition" => @$openEdition, "edit" => $edit)); 
+  // if($type != City::CONTROLLER && $type != "pixels" && !@$_GET["renderPartial"])
+  //   $this->renderPartial('../pod/headerEntity', 
+  //     array("entity"=>$parent, "type" => $type, "viewer" => @$viewer, 
+  //         "firstView" => @$firstView, "openEdition" => @$openEdition, "edit" => $edit)); 
 ?>
 <style>
   .tools_bar{
@@ -326,7 +326,8 @@
       <?php if((@$canManageNews && $canManageNews==true) || (@$isLive && $isLive == true)){ ?>
       <div class="user-image-buttons">
         <form method="post" id="photoAddNews" enctype="multipart/form-data">
-          <span class="btn btn-white btn-file fileupload-new btn-sm"  <?php if (!$authorizedToStock){ ?> onclick="addMoreSpace();" <?php } ?>><span class="fileupload-new"><i class="fa fa-picture-o fa-x"></i> </span>
+          <span class="btn btn-white btn-file fileupload-new btn-sm"  <?php if (!$authorizedToStock){ ?> onclick="addMoreSpace();" <?php } ?>>
+          <span class="fileupload-new"><i class="fa fa-picture-o fa-x"></i> </span>
             <?php if ($authorizedToStock){ ?>
               <input type="file" accept=".gif, .jpg, .png" name="newsImage" id="addImage" onchange="showMyImage(this);">
             <?php } ?>

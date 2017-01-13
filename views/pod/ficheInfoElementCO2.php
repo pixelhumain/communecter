@@ -111,6 +111,16 @@
 									data-emptytext="<?php echo Yii::t("person","Enter your name"); ?>" class="editable-context editable editable-click">
 
 									<?php if(isset($element["name"])) echo $element["name"]; else echo ""; ?>
+
+									<?php 
+									// function clean($string) {
+									//    $string = str_replace(' ', '', $string); // Replaces all spaces with hyphens.
+									//    $string = str_replace('-', '', $string); // Replaces all spaces with hyphens.
+
+									//    return preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
+									// }
+									// echo clean("Jean-MichelL@p#'(ez");
+									?>
 								</a>
 							</li>
 					<?php } ?>

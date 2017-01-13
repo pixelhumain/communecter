@@ -147,6 +147,11 @@
 	}
 </style>
 	<div class="col-lg-10 col-md-10 col-sm-9 no-padding" id="onepage">
+		<div class="img-header"></div>
+		<div class="element-name text-dark">
+			<?php echo @$element["name"]; ?>
+			<!-- <button class="btn btn-default btn-follow"><i class="fa fa-star"></i> SUIVRE</button> -->
+		</div>
 		<?php if ($type == "poi"){ ?>
 			<?php if($element["type"]=="video" && @$element["medias"]){ 
 				$videoLink=str_replace ( "autoplay=1" , "autoplay=0" , @$element["medias"][0]["content"]["videoLink"]  );
@@ -163,82 +168,87 @@
 					</h1>
 					<?php if(@Yii::app()->session["userId"]){ ?> 
 						<?php if ($edit==true || ($openEdition == true )) { ?>
-							<a href="javascript:;" class="btn btn-xs text-dark editThisBtn"  data-type="poi" data-id="<?php echo (string)$element["_id"] ?>" ><i class="fa fa-pencil-square-o"></i> <?php echo Yii::t("common","Edit") ?></a>
+							<a href="javascript:;" class="btn btn-xs text-dark editThisBtn"  data-type="poi" data-id="<?php echo (string)$element["_id"] ?>" ><i class="fa fa-pencil-square-o"></i> <?php echo Yii::t("common","Edit") ?></a>.
 							<a href="javascript:;" class="btn btn-xs text-red deleteThisBtn" data-type="poi" data-id="<?php echo (string)$element["_id"] ?>" ><i class="fa fa-trash"></i> <?php echo Yii::t("common","Delete") ?></a> 
 							<div class="space1"></div>
 						<?php } ?>
 					<?php } ?>
 				</div>
+		<?php } ?>
+		<?php } ?>
+		<div class="col-md-12 padding-15 menubar">
+			<button class="btn btn-default btn-menubar" id="btn-menu-home">A PROPOS</button>
+			<button class="btn btn-default btn-menubar" id="btn-menu-stream">CARNET DE BORD</button>
+			<button class="btn btn-default btn-menubar" id="btn-menu-directory-poi">PRODUCTIONS</button>
+		</div>
 
-			<?php }
-			} else { ?>
-			<div class="img-header"></div>
-			<div class="element-name text-dark">
-				<?php echo @$element["name"]; ?>
-				<button class="btn btn-default btn-follow"><i class="fa fa-star"></i> SUIVRE</button>
-			</div>
-	
-			<div class="col-md-12 padding-15 menubar">
-				<button class="btn btn-default btn-menubar">A PROPOS</button>
-				<button class="btn btn-default btn-menubar">CARNET DE BORD</button>
-				<button class="btn btn-default btn-menubar">PRODUCTIONS</button>
-			</div>
+		<div id="section-home">
+			<?php   
+				$desc = array( array("shortDescription"=>@$element["description"]),
+	    					);
 
-		<?php } ?> 
-				<?php   
-
-    		$desc = array( array("shortDescription"=>@$element["description"]),
-    					);
-
-    		if(@$desc && sizeOf(@$desc)>0)
-    		$this->renderPartial('../pod/sectionElements', 
-    								array(  "items" => $desc,
-											"sectionKey" => "description",
-											"sectionTitle" => "Présentation",
-											"sectionShadow" => true,
-											"msgNoItem" => "Aucune description",
-											"imgShape" => "square",
-											"useImg" => false,
-											"fullWidth" => true, //only for 1 element
-											"useBorderElement"=>false,
+	    		if(@$desc && sizeOf(@$desc)>0)
+	    		$this->renderPartial('../pod/sectionElements', 
+	    								array(  "items" => $desc,
+												"sectionKey" => "description",
+												"sectionTitle" => "Présentation",
+												"sectionShadow" => true,
+												"msgNoItem" => "Aucune description",
+												"imgShape" => "square",
+												"useImg" => false,
+												"fullWidth" => true, //only for 1 element
+												"useBorderElement"=>false,
 
 											"styleParams" => array(	"bgColor"=>"#FFF",
 															  		"textBright"=>"dark",
 															  		"fontScale"=>3),
 											));
-    	?>
-		<?php if ($type == "poi"){ ?>
-		<div id="divTags" class="col-md-12 col-sm-12 col-xs-12 padding-10">
-			<?php if(@$element["tags"]){ ?>
-				<?php 
-					$i=0; 
-					foreach($element["tags"] as $tag){ 
-						if($i<6) { 
-							$i++;?>
-							<div class="tag label label-default" data-val="<?php echo  $tag; ?>" style="margin:5px;">
-								<i class="fa fa-tag"></i> <?php echo  $tag; ?>
-							</div>
-			<?php 		}
-					} 
-			} ?>		
-		</div>
-		<section id="timeline" class="inline-block col-md-12"  style="background-color: #f8f6f6;">
-    		<h2 class="section-title text-dark">Commentaires</h2>
-			<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1">
-				<ul class="inline-block" id="comment-page">
-				</ul>
-			</div>
-		</section>
-		<?php } else { ?>
-    	<section id="timeline" class="bg-white inline-block col-md-12"  style="background-color: #f8f6f6;">
-    		<h2 class="section-title text-dark">Historique</h2>
-			<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1">
-				<ul class="timeline inline-block" id="timeline-page">
-				</ul>
-			</div>
-		</section>
-		<?php } ?>
+	    	?>
+	    	
 
+			<?php if ($type == "poi"){ ?>
+				<div id="divTags" class="col-md-12 col-sm-12 col-xs-12 padding-10">
+					<?php if(@$element["tags"]){ ?>
+						<?php 
+							$i=0; 
+							foreach($element["tags"] as $tag){ 
+								if($i<6) { 
+									$i++;?>
+									<div class="tag label label-default" data-val="<?php echo  $tag; ?>" style="margin:5px;">
+										<i class="fa fa-tag"></i> <?php echo  $tag; ?>
+									</div>
+					<?php 		}
+							} 
+					} ?>		
+				</div>
+			
+				<section id="timeline" class="inline-block col-md-12"  style="background-color: #f8f6f6;">
+		    		<h2 class="section-title text-dark">Commentaires</h2>
+					<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1">
+						<ul class="inline-block" id="comment-page">
+						</ul>
+					</div>
+				</section>
+			<?php } else { ?>
+	    
+				<section id="timeline" class="bg-white inline-block col-md-12"  style="background-color: #f8f6f6;">
+		    		<h2 class="section-title text-dark">Historique</h2>
+					<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1">
+						<ul class="timeline inline-block" id="timeline-page">
+						</ul>
+					</div>
+				</section>
+
+			<?php } ?>
+		</div>
+
+		<div id="section-stream" class="col-md-6 col-md-offset-1">
+			
+		</div>
+
+		<div id="section-directory" class="col-md-12">
+		
+		</div>
 	</div>
 
 
@@ -319,6 +329,10 @@
 		nbAdmin = <?php echo @$nbAdmin; ?>;
   	}
   	
+  	<?php $pois = PHDB::find(Poi::COLLECTION,array("parentId"=>(String) $element["_id"],"parentType"=>$type)); ?>
+
+  	var pois = <?php json_encode($pois); ?>
+
 	jQuery(document).ready(function() {
 	
 		$(".btn-full-desc").click(function(){
@@ -338,7 +352,7 @@
 
 		var url = "news/index/type/"+contextType+"/id/"+contextId+"?isFirst=1&";
 		console.log("URL", url);
-		if(contextType=="projects"){
+		if(contextType=="projects" || contextType=="citoyens"){
 			ajaxPost('#timeline-page', baseUrl+'/'+moduleId+'/'+url+"renderPartial=true&tpl=co2&nbCol=2", 
 				null,
 				function(){ 
@@ -393,6 +407,7 @@
 	        editElement(type,id);
 		});
 
+		initMenuDetail();
 	});
 	function requestFullScreen(element) {
     // Supports most browsers and their versions.
@@ -412,5 +427,45 @@ function makeFullScreen() {
     document.getElementsByTagName("iframe")[0].className = "fullScreen";
     var elem = document.body;
     requestFullScreen(elem);
+}
+
+function initMenuDetail(){
+	$("#btn-menu-home").click(function(){
+    	hideAllSections();
+    	$("#section-home").show();
+    });
+
+    $("#btn-menu-stream").click(function(){
+    	hideAllSections();
+    	$("#section-stream").show();
+    	var url = "news/index/type/"+contextType+"/id/"+contextId+"?isFirst=1&";
+		console.log("URL", url);
+		ajaxPost('#section-stream', baseUrl+'/'+moduleId+'/'+url+"renderPartial=true&tpl=co2&nbCol=1", 
+			null,
+			function(){ 
+				
+		},"html");
+    });
+
+    $("#btn-menu-directory-poi").click(function(){
+    	hideAllSections();
+    	$("#section-directory").show();
+
+    	var poisHtml = directory.showResultsDirectoryHtml(pois, "poi");
+    	$("#section-directory").html(poisHtml);
+		// 	var type = "?type=poi";
+  //   	ajaxPost('#section-directory', baseUrl+'/'+moduleId+"/default/directory"+type, 
+		// 	null,
+		// 	function(){ 
+				
+		// },"html");
+    });
+}
+
+
+function hideAllSections(){
+	$("#section-home").hide();
+	$("#section-stream").hide().html("");
+	$("#section-directory").hide();
 }
 </script>
