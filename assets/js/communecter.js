@@ -547,6 +547,8 @@ var loadableUrls = {
 	"#default.twostepregister" : {title:'TWO STEP REGISTER', icon : 'home', "menu":"homeShortcuts"},
 	"#default.view.page" : {title:'FINANCEMENT PARTICIPATIF ', icon : 'euro'},
 	
+	"#datatools.index" : {title:'OPEN DATA FOR ALL', icon : 'fa-folder-open-o'},
+
 	//"#home" : {"alias":"#default.home"},
     "#stat.chartglobal" : {title:'STATISTICS ', icon : 'bar-chart'},
     "#stat.chartlogs" : {title:'STATISTICS ', icon : 'bar-chart'},

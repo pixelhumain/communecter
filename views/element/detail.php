@@ -195,8 +195,7 @@ if($('#breadcum').length)
 				if(Yii::app()->session["userId"] && (string)$element["_id"] == Yii::app()->session["userId"] ){ ?>
 				<div id="div-discover" class="col-md-4 pull-right">
 					<div class="panel panel-white no-padding">
-			            
-						<div class="panel-heading text-center border-light">
+			            <div class="panel-heading text-center border-light">
 			                <h3 class="panel-title text-blue"> <i class="fa fa-cogs"></i> Paramètres</h3>
 			            </div>
 				        <div class="padding-10 text-left">

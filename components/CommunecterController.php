@@ -164,6 +164,10 @@ class CommunecterController extends Controller
       "simplydirectory"    => array("href" => "/ph/communecter/network/simplydirectory")
     ),
 
+    "datatools" => array(
+      "index"    => array("href" => "/ph/communecter/datatools/index")
+    ),
+
     "rooms"=> array(
       "index"    => array("href" => "/ph/communecter/rooms/index"),
       "saveroom" => array("href" => "/ph/communecter/rooms/saveroom"),
