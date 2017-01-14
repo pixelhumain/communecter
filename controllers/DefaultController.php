@@ -25,7 +25,7 @@ class DefaultController extends CommunecterController {
 
 	public function actionIndex() 
 	{
-    	Yii::app()->theme = "CO2"; //"ph-dori";      
+    	Yii::app()->theme = "ph-dori"; //"ph-dori";      
       //Yii::app()->theme = "notragora";
 	    if(@$_GET["network"]){
 	      Yii::app()->theme = "network";
@@ -103,21 +103,6 @@ class DefaultController extends CommunecterController {
    // $tpl=(@$_GET["tpl"]) ? $_GET["tpl"]: "home";
     $this->renderPartial($tpl, array("stats"=>$stats));
   }
-  public function actionApropos() 
-  {
-    //$this->layout = "//layouts/mainSearch";
-
-    //Get the last global statistics
-   // $stats = Stat::getWhere(array(),null,1);
-    //if(is_array($stats)) $stats = array_pop($stats);
-    $tpl = "apropos";
-    if(Yii::app()->theme != "ph-dori")
-    	$tpl = "//layouts/default/apropos";
-
-   // $tpl=(@$_GET["tpl"]) ? $_GET["tpl"]: "home";
-    $this->renderPartial($tpl);
-  }
-
   public function actionLogin() 
   {
     $this->layout = "//layouts/mainSearch";
