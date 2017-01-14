@@ -145,29 +145,55 @@
 	/*display: none!important;*/
 }
 
-
-@media (max-width: 768px) {
-	.btn-select-type-anc.col-xs-5{
-		width:48%!important;
-	}
-}
-
-  @media screen and (min-width: 768px) and (max-width: 1024px) {
-    .btn-select-type-anc.col-xs-5{
-		font-size:0.8em;
-	}
-  }
-
 /*
 .elemt_name, .elemt_date{
 	display: none;
 }*/
 </style>
 
-<div class="col-md-12 col-sm-12 col-xs-12 bg-white top-page no-padding" id="" style="padding-top:0px!important;">
+<div class="col-md-12 col-sm-12 col-xs-12 bg-white no-padding" style="padding-top:0px!important;">
 
-	<div class="col-lg-1  hidden-md col-sm-1 hidden-xs"></div>
-	<div class="col-lg-2 col-md-3 hidden-sm col-xs-12 padding-20 text-right hidden-xs" id="sub-menu-left">
+	<div class="col-md-12 col-sm-12 inline page-header text-center margin-top-20">
+
+
+	    <!-- <h3 id="timeline"><i class="fa fa-newspaper-o"></i><br>Le fil d'actu commun<br><i class="fa fa-angle-down"></i></h3> -->
+	    <?php //if(!@$medias || sizeOf($medias) <= 0){ ?>
+	    	<!-- <div class="initStream">
+		    	<button class="btn btn-success" id="btn-init-stream">Actualiser le fil d'actu</button></br>
+		    	<span>lancer le processus d'import de données</span>
+	    	</div> -->
+	    <?php //} ?>
+
+
+	    
+	<div class="col-md-12 col-sm-12 col-xs-12 padding text-center hidden" id="sub-menu-left">
+
+		
+
+		<hr>
+	    <h5 class="letter-blue">Catégories<br><i class="fa fa-angle-down"></i></h5>
+	    <div class="col-md-4 col-sm-4 text-right">
+		    <button class="btn btn-default margin-bottom-5 margin-left-5"><i class="fa fa-money hidden-xs"></i> Je vends</button> 
+			<button class="btn btn-default margin-bottom-5 margin-left-5"><i class="fa fa-gift hidden-xs"></i> Je donne</button> 
+			<button class="btn btn-default margin-bottom-5 margin-left-5"><i class="fa fa-eye hidden-xs"></i> Je cherche</button> 
+		</div>
+		<div class="col-md-4 col-sm-4 no-padding">
+			<div class="col-md-6 text-right no-padding">
+				<button class="btn btn-default margin-bottom-5 margin-left-25"><i class="fa fa-heartbeat hidden-xs"></i> Coup de coeur</button> 
+			</div>
+			<div class="col-md-6 text-left no-padding">
+				<button class="btn btn-default margin-bottom-5 margin-left-5"><i class="fa fa-thumbs-o-down hidden-xs"></i> Coup de gueule</button> 
+			</div>
+		</div>
+		<div class="col-md-4 col-sm-4 text-left"> 
+			<button class="btn btn-default margin-bottom-5 margin-left-25"><i class="fa fa-file-text-o hidden-xs "></i> Annonces publiques</button> 
+			<button class="btn btn-default margin-bottom-5 margin-left-5"><i class="fa fa-exclamation-triangle hidden-xs"></i> Urgence</button> 
+		</div>
+	</div>
+
+	</div>
+
+	<div class="col-lg-2 col-md-3 col-sm-3 col-xs-12 padding-20 text-right" id="sub-menu-left">
 		<button class="btn btn-default letter-green hidden-xs btn-menu-left-add margin-top-5" 
 				data-target="#modal-create-anc" data-toggle="modal">
 			<i class="fa fa-plus"></i> Publier une annonce
@@ -212,7 +238,7 @@
 		<?php } ?>
 	</div>
 
-	<div class="col-lg-6 col-md-6 col-sm-6 no-padding margin-top-10">
+	<div class="col-lg-5 col-md-6 col-sm-5 no-padding margin-top-10">
 		<h4 class="text-dark padding-bottom-5 margin-top-25 text-center">
 			<i class="fa fa-angle-down"></i> Les annonces
 			<i class="fa fa-angle-right hidden fa-title-list"></i> <span class="letter-blue label-category"><i class="fa fa-"></i> </span>
@@ -362,7 +388,8 @@ function initFreedomInterface(){
       		$(".label-category").html("<i class='fa fa-"+ freedomCategories[typeAnc]["icon"] + "'></i> " + freedomCategories[typeAnc]["label"]);
       		$(".label-category").removeClass("letter-blue letter-red letter-green letter-yellow").addClass("letter-"+freedomCategories[typeAnc]["color"])
 		    $(".fa-title-list").removeClass("hidden");
-		    KScrollTo(".top-page");
+		    KScrollTo(".sub-menu-left");
+      
     });
 
     $(".btn-select-category-1").click(function(){
@@ -371,7 +398,7 @@ function initFreedomInterface(){
 
     	var keycat = $(this).data("keycat");
     	$(".keycat").addClass("hidden");
-    	$(".keycat-"+keycat).removeClass("hidden");   	
+    	$(".keycat-"+keycat).removeClass("hidden");    	
     });
 
     $(".keycat").click(function(){

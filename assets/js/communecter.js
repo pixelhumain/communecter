@@ -3593,7 +3593,7 @@ var typeObj = {
 
 		dynForm : {
 		    jsonSchema : {
-			    title : "Formaulaire d'annonce",
+			    title : "Publier une annonce",
 			    icon : "bullhorn",
 			    type : "object",
 			    
@@ -3632,16 +3632,18 @@ var typeObj = {
 			    properties : {
 			    	info : {
 		                inputType : "custom",
-		                html:"<p><i class='fa fa-info-circle'></i> Une Annonce est un élément assez libre qui peut etre géolocalisé ou pas, qui peut etre rataché à tous les éléments.</p>",
+		                html:"",//<p><i class='fa fa-info-circle'></i> Une Annonce est un élément assez libre qui peut etre géolocalisé ou pas, qui peut etre rataché à tous les éléments.</p>",
 		            },
 			        name : {
-			        	placeholder : "Nom",
+			        	placeholder : "Titre",
+			        	label : "Titre de votre annonce",
 			            inputType : "text",
 			            rules : { required : true }
 			        },
 		            description : {
 		                inputType : "wysiwyg",
-	            		placeholder : "Décrire c'est partager",
+	            		label : "Rédigez votre annonce",
+			            placeholder : "Votre annonce...",
 	            		init:function(){
 				      		activateSummernote("#ajaxFormModal #description");
 			            }
@@ -3685,11 +3687,11 @@ var typeObj = {
 		            subtype :{
 		               inputType : "hidden"
 		            },
-		            tags :{
-		                inputType : "tags",
-		                placeholder : "Mots clefs",
-		                values : tagsList
-		            },
+		            // tags :{
+		            //     inputType : "tags",
+		            //     placeholder : "Mots clefs",
+		            //     values : tagsList
+		            // },
 		            formshowers : {
 		                inputType : "custom",
 		                html: "<a class='btn btn-default text-dark w100p' href='javascript:;' onclick='$(\".urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options (urls)</a>",

@@ -55,7 +55,7 @@
                                             </div>
                                             <div class="col-md-2 text-<?php echo $align; ?> padding-5">
                                             <?php } ?>
-                                            <button class="btn btn-default margin-bottom-5 margin-left-5 btn-select-type-anc" style="width:100%;"  
+                                            <button class="btn btn-default margin-bottom-5 margin-left-5 btn-select-type-anc btn-anc-color-<?php echo @$tag["color"]; ?>" style="width:100%;"  
                                                     data-type-anc="<?php echo @$tag["key"]; ?>">
                                                 <i class="fa fa-<?php echo @$tag["icon"]; ?> hidden-xs"></i> <?php echo @$tag["label"]; ?>
                                             </button><br>
