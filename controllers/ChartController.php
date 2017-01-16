@@ -18,6 +18,7 @@ class ChartController extends CommunecterController {
 	        'index'       		=> 'citizenToolKit.controllers.chart.IndexAction',
 			'addchartsv'       => 'citizenToolKit.controllers.chart.AddChartSvAction',
 			'editchart'       => 'citizenToolKit.controllers.chart.EditChartAction',
+			'get'       => 'citizenToolKit.controllers.chart.GetJsonAction',
 	    );
 	}
 }
