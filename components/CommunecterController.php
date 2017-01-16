@@ -109,6 +109,8 @@ class CommunecterController extends Controller
       "adddata"    => array("href" => "/ph/communecter/adminpublic/adddata"),
       "adddataindb"    => array("href" => "/ph/communecter/adminpublic/adddataindb"),
       "createfile" => array("href" => "/ph/communecter/adminpublic/createfile"),
+      "sourceadmin" => array("href" => "/ph/communecter/adminpublic/sourceadmin"),
+      
     ),
     "collections" => array(
       "add"    => array("href" => "/ph/communecter/collections/add"),

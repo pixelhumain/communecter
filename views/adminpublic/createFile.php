@@ -309,7 +309,7 @@ function bindCreateFile(){
   		typeElement = $("#chooseElement").val();
 
   		if(typeSource == "url"){
-			/*nameFile = "JSON_URL";
+			nameFile = "JSON_URL";
   			typeFile = "json";			
 			$.ajax({
 				url: baseUrl+'/communecter/admin/getdatabyurl/',
@@ -318,10 +318,10 @@ function bindCreateFile(){
 				data:{ url : $("#textUrl").val() },
 				async : false,
 				success: function (obj){
-					console.log('success');
+					mylog.log('success' , obj);
 					file.push(obj.data) ;
-
-					$.ajax({
+					stepTwo();
+					/*$.ajax({
 				        type: 'POST',
 				        data: {
 				        		nameFile : nameF,
@@ -346,12 +346,12 @@ function bindCreateFile(){
 				        	}
 
 				        }
-					});
+					});*/
 				},
 				error: function (error) {
 					console.log('error', error);
 				}
-			});*/
+			});
 		}	
 		else if(typeSource == "file"){
 			stepTwo();
@@ -539,12 +539,13 @@ function preStep2(){
 		}
 }
 
-function stepTwo(idMapping){
-	
+function stepTwo(){
+	mylog.log("stepTwo", typeFile, typeElement);
 	var params = {
 		typeElement : typeElement,
 		typeFile : typeFile,
-		idMapping : $("#chooseMapping").val()
+		idMapping : $("#chooseMapping").val(),
+		path : $("#pathElement").val()
 	};
 
 	if(typeFile == "json" || typeFile == "js" || typeFile == "geojson")
