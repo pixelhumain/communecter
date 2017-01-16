@@ -12,27 +12,32 @@
     //header + menu
     $this->renderPartial($layoutPath.'header', 
                         array(  "layoutPath"=>$layoutPath , 
-                                "subdomain"=>$subdomain,
-                                "mainTitle"=>$mainTitle,
-                                "placeholderMainSearch"=>$placeholderMainSearch) ); 
+                                "page" => "page.type") ); 
 ?>
 
 
-<div class="col-md-12 col-sm-12 col-xs-12 bg-white no-padding">
-	<div class="container" style="margin-top:90px;" id="page"></div>
+<div class="col-md-12 col-sm-12 col-xs-12 no-padding social-main-container">
+	<div class="" id="onepage"></div>
 </div>
 
-<?php $this->renderPartial($layoutPath.'footer', array("subdomain"=>$subdomain)); ?>
 
 <script>
 
 var type = "<?php echo $type; ?>";
 var id = "<?php echo $id; ?>";
-
+    
 jQuery(document).ready(function() {
-	initKInterface();
+	
+	initKInterface({"affixTop":250});
 
-	getAjax('#page' ,baseUrl+'/'+moduleId+"/element/detail/type/"+type+"/id/"+id,function(){ 
+	var tpl = "onepage";
+	//if(type=="citoyens") 
+		tpl = '<?php echo @$_GET["tpl"] ? $_GET["tpl"] : "profilSocial"; ?>';
+	
+
+	//location.hash = location.hash + "?tpl="+tpl;
+
+	getAjax('#onepage' ,baseUrl+'/'+moduleId+"/element/detail/type/"+type+"/id/"+id+"?tpl="+tpl,function(){ 
 				
 			},"html");
 });

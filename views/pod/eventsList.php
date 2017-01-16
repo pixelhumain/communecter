@@ -13,7 +13,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->reque
 	</div>
 	<div class="panel-tools">
 		<?php if(( @$authorised || @$openEdition) && !isset($noAddLink) && isset(Yii::app()->session["userId"]) ) { ?>
-			<a class="tooltips btn btn-xs btn-light-blue " data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("event","Add new event",null,Yii::app()->controller->module->id) ?>" href="javascript:;" onclick="openForm ( 'event','subEvent' )">
+			<a class="tooltips btn btn-xs btn-light-blue " data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("event","Add new event",null,Yii::app()->controller->module->id) ?>" href="javascript:;" onclick="elementLib.openForm ( 'event','subEvent' )">
 	    		<i class="fa fa-plus"></i> <?php echo Yii::t("common","Add") ?>
 	    	</a>
 	    	<a id="showHideOldEvent" class="tooltips btn btn-xs btn-light-blue" href="javascript:;" data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("event","Display/Hide old events",null,Yii::app()->controller->module->id) ?>" onclick="toogleOldEvent()">
@@ -94,11 +94,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->reque
 									<?php 
 									if(@$e["name"]) echo $e["name"];
 									if(@$e["links"]["subEvents"]) echo "(".count($e["links"]["subEvents"]).")";
-									$startDate = (@$e["startDate"]) ? date("d/m/y H:i",(isset($e["startDate"]->sec))  ? $e["startDate"]->sec : strtotime($e["startDate"]) ) : "";
-			        				$endDate = (@$e["endDate"]) ? "<br/>".date("d/m/y H:i",(isset($e["endDate"]->sec))  ? $e["endDate"]->sec : strtotime($e["endDate"]) ) : "";
-			        				$dates = $startDate.$endDate;
+									$startDate = (@$e["startDate"]) ? date(DateTime::ISO8601,(isset($e["startDate"]->sec))  ? $e["startDate"]->sec : strtotime($e["startDate"]) ) : "";
+			        				$endDate = (@$e["endDate"]) ? date(DateTime::ISO8601,(isset($e["endDate"]->sec))  ? $e["endDate"]->sec : strtotime($e["endDate"]) ) : "";
+			        				$allDay = (@$e["allDay"]) ? "true" : "false";
+			        				$dates = $startDate."<br/>".$endDate;
 									?>
-									<br/><span class="text-extra-small"><?php echo $dates;?></span>
+									<br/><span class="text-extra-small date2format" data-startDate="<?php echo $startDate;?>" data-endDate="<?php echo $endDate;?>" data-allDay="<?php echo $allDay;?>"></span>
 								</a>
 							</td>
 							<td><?php if(isset($e["type"])) echo Yii::t("event",$e["type"],null,Yii::app()->controller->module->id);?></td>
@@ -148,6 +149,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->reque
 	var nbOldEvents = <?php echo (String) @$nbOldEvents;?>;
 	jQuery(document).ready(function() {	 
 		if (nbOldEvents == 0) $("#showHideOldEvent").hide();
+		manageTimestampOnDate();
 
 		var itemId = '<?php echo @$contextId;?>';
 		$('.init-event').off().on("click", function(){

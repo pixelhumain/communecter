@@ -55,9 +55,16 @@ var trad = {"areyousuretodelete" : "<?php echo Yii::t("common", "Are you sure yo
 		"addEvent" : "<?php echo Yii::t("common","Add an Event") ?>",
 		"addOrganization" : "<?php echo Yii::t("common","Add an Organization") ?>",
 		"chooseCountry" : "<?php echo Yii::t("common","Choose a country") ?>",
+		"LoginFirst" : "<?php echo Yii::t("common","Please Login First") ?>",
 		"mustacceptCGU" : "<?php echo Yii::t("login","You must validate the CGU to sign up.") ?>",
 		"usernamenotunique" : "<?php echo Yii::t("login","The user name is not unique : please change it.")?>",
 		"somethingwentwrong" : "<?php echo Yii::t("login","Something went really bad : contact your administrator !")?>",
+
+		"suredeletelocality" : "<?php echo Yii::t("common","Are you sure you want to delete the locality")?>",
+		
+		"udpateorganizer" : "<?php echo Yii::t("event","Update the organizer") ?>",
+		"emptymsg" : "<?php echo Yii::t("news","Please write something") ?>",
+
 };
 
 var tradCountry = {

@@ -2,13 +2,17 @@
 
 	HtmlHelper::registerCssAndScriptsFiles( array('/js/default/formInMap.js') , $this->module->assetsUrl);
 
+    HtmlHelper::registerCssAndScriptsFiles( 
+        array(  '/css/referencement.css',) , 
+        Yii::app()->theme->baseUrl. '/assets');
+
+
     $layoutPath = 'webroot.themes.'.Yii::app()->theme->name.'.views.layouts.';
     //header + menu
     $this->renderPartial($layoutPath.'header', 
                         array(  "layoutPath"=>$layoutPath , 
-                                "subdomain"=>$subdomain,
-                                "mainTitle"=>$mainTitle,
-                                "placeholderMainSearch"=>$placeholderMainSearch) ); 
+                                "page" => "referencement",
+                                 )); 
 ?>
 
 <style>
@@ -20,54 +24,14 @@
 	    font-size: 0.3em;
 	    margin-bottom: 22px;
 	}
-	#mainCategories{
-		padding: 30px;
-		background-color: white;
-		box-shadow: 0px 0px 5px -1px rgba(0,0,0,0.5);
-		-webkit-box-shadow: 0px 0px 5px -1px rgba(0,0,0,0.5);
-   		-moz-box-shadow: 0px 0px 5px -1px rgba(0,0,0,0.5);
-		margin-top: 10px;
-		margin-bottom: 30px;
-	}
-
-	#mainCategories section#portfolio{
-		padding:20px 0 0 0 !important;
-	}
-
-	button.btn-select-category{
-		background-color: transparent!important;
-		border:none!important;
-		color:#2C3E50;
-	}
-
-	.search-eco button.btn-select-category{
-		color:#34a853;
-	}
-
-	.portfolio-item.selected, .portfolio-item.selected:hover{
-		background-color: #2C3E50 !important;
-	}
-
-	.search-eco .portfolio-item.selected, .search-eco .portfolio-item.selected:hover{
-		background-color: #34a853!important;
-	}
 	
-	.portfolio-item.selected button{
-		color:white!important;
-	}
-	.portfolio-item{
-		border: white 2px solid;
-	}
-
-	.portfolio-link h3{
-		font-size:11px;
-	}
 </style>
 
 <div id="mainFormReferencement">
 	<section id="portfolio">
         <div class="container">
-            <div class="row">
+            <?php if(!isset(Yii::app()->session["userId"])){ ?>
+            <div class="row hidden">
                 <div class="col-lg-12 text-center">
                     <h2 class="text-blue">
                         <i class="fa fa-user-o"></i><br>
@@ -84,8 +48,7 @@
 	                			</small>
                 			</span>
 						</div>
-                	</div>
-                	
+                	</div>              	
                 </div>
                 <div class="col-md-4 col-md-offset-4 text-center"  style="margin-bottom:100px;">
                 	<h4>connexion<br><i class="fa fa-angle-down"></i></h4>
@@ -102,9 +65,9 @@
 				    </div>
        			</div>
             </div>
-
+            <?php } ?>
             
-            <div class="row hidden" style="min-height:800px;" id="refStart">
+            <div class="row" style="min-height:800px;" id="refStart">
             	<div class="col-lg-12 text-center">
                     <h2 class="text-blue" id="formRef">
                         <!-- <i class="fa fa-search"></i><br> -->
@@ -116,7 +79,7 @@
                 	<div class="col-md-12">
                 		<div class="form-group">
                 			<label id="lbl-url">
-                				<i class="fa fa-circle"></i> Indiquez l'URL de votre page
+                				<i class="fa fa-circle"></i> Indiquez l'URL de la page
                 			</label>
 						    <input type="text" class="form-control" placeholder="exemple : http://kgougle.nc" id="form-url"><br>
 						    <h5 class="letter-green pull-left" id="status-ref"></h5>             		
@@ -135,7 +98,7 @@
             			<input type="text" class="form-control" placeholder="Nom de la page" id="form-title"><br>
 
                 		<label id="lbl-description">
-            				<i class="fa fa-circle"></i> Description de la page <small>(complétez si besoin) *</small>
+            				<i class="fa fa-circle"></i> Description de la page <small>(complétez si besoin)</small>
             				<small class="pull-right text-light">
             					<code>&ltmeta name="description"&gt</code>
             				</small>
@@ -167,7 +130,7 @@
             			</div>
                 		
             			<div class="col-md-12 no-padding">
-	            			<button class="btn btn-default bg-green text-white pull-right" id="btn-validate-information">
+	            			<button class="btn btn-success text-white pull-right" id="btn-validate-information">
 						    	<i class="fa fa-check"></i> Valider ces informations
 						    </button>
                 		</div>
@@ -176,9 +139,9 @@
 	            			<label id="lbl-keywords" class="margin-top-15">
 	            				<i class="fa fa-circle"></i> Choix des catégories
 		       				</label>
-	       					<div class="col-md-12" id="mainCategories"></div>
+	       					<div class="col-md-12" id="mainCategoriesEdit"></div>
 
-		                	<div class="col-md-12 text-center margin-bottom-50" id="info-select-cat">
+		                	<div class="col-md-12 text-center margin-bottom-50 hidden" id="info-select-cat">
 		                		<h4 class='col-md-12 text-center'>
 									<i class='fa fa-hand-o-up fa-2x'></i>
 								</h4>
@@ -193,7 +156,8 @@
                 	<div class="col-md-8 col-md-offset-2 hidden text-center" id="refLocalisation">
 						<h4 class='col-md-12 text-center'>
 							<i class='fa fa-angle-down'></i><br>Géolocalisation
-						</h4>
+						<br>
+                        <small>(facultatif)</small></h4><br>
 						<span>
 							Ajoutez une addresse si vous souhaitez que cette page apparaîsse aussi dans les résultats sur la carte.
 						</span><br><br>
@@ -209,7 +173,7 @@
 
 						<input type="text" class="form-control" placeholder="addresse, rue" id="form-street"><br>
 
-						<button class="btn btn-default bg-green text-white" id="btn-find-position">
+						<button class="btn btn-default bg-green-k text-white" id="btn-find-position">
 							<i class="fa fa-map-marker"></i> Définir la position sur la carte
 						</button><br><br>
 						   
@@ -219,13 +183,17 @@
        		</div>
 		</div>
 	</section>
-	<section class="bg-green hidden" id="send-ref">
+	<section class="bg-green-k hidden" id="send-ref">
 		<div class="container">
             <div class="row">
                 <div class="col-md-4 col-md-offset-4 text-center" style="margin-bottom:50px;">
-                	<button class="btn bg-white text-green btn-lg" id="btn-send-ref"><i class="fa fa-send"></i> Envoyer ma demande de référencement</button><br><br>
-                	<label class="text-white">Demande anonyme</label>
+                	<button class="btn bg-white letter-green btn-lg" id="btn-send-ref">
+                        <i class="fa fa-send"></i> Envoyer ma demande de référencement
+                    </button><br><br>
                 	<label class="text-white">(soumis à l'approbation des administrateurs sous 7 jours)</label>
+                    <hr>
+                    <label class="text-white">Les informations fournies à propos de cette URL seront examinées par les administrateurs du réseau avant d'être publiées, afin d'éviter tout abus et de garantir la pertinance des résultats de recherches.</label>
+                    
                 </div>
             </div>
         </div>
@@ -246,17 +214,19 @@
                     <div class="modal-body text-left">
                         <h2 class="text-red"><i class="fa fa-university fa-2x"></i><br>Sélectionner une commune</h2>
                         <hr>
-                        <?php foreach($cities as $city){ ?>
-                        	<div class="col-md-3">
-                        		<button class="btn btn-scope" data-dismiss="modal"
-                        				data-city-name="<?php echo $city["name"]; ?>"
-                        				data-city-insee="<?php echo $city["insee"]; ?>"
-                        				data-city-cp="<?php echo $city["postalCodes"][0]["postalCode"]; ?>"
-                        				data-city-lat="<?php echo $city["geo"]["latitude"]; ?>"
-                        				data-city-lng="<?php echo $city["geo"]["longitude"]; ?>">
-                        			<i class="fa fa-bullseye"></i> <?php echo $city["name"]; ?>
-                        		</button> 
-                        	</div>
+                        <?php foreach(array("GN", "Sud", "Nord", "Iles") as $province){ ?>
+                            <?php foreach($cities[$province] as $city){ ?>
+                            	<div class="col-md-3">
+                            		<button class="btn btn-scope" data-dismiss="modal"
+                            				data-city-name="<?php echo $city["name"]; ?>"
+                            				data-city-insee="<?php echo $city["insee"]; ?>"
+                            				data-city-cp="<?php echo $city["postalCodes"][0]["postalCode"]; ?>"
+                            				data-city-lat="<?php echo $city["geo"]["latitude"]; ?>"
+                            				data-city-lng="<?php echo $city["geo"]["longitude"]; ?>">
+                            			<i class="fa fa-bullseye"></i> <?php echo $city["name"]; ?>
+                            		</button> 
+                            	</div>
+                            <?php } ?>
                         <?php } ?>
                         <div class="col-md-12 text-center"><hr>
                         <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Annuler</button>
@@ -283,7 +253,6 @@ console.log("CITIES", cities);
 jQuery(document).ready(function() {
     initKInterface();
     buildListCategoriesForm();
-    //openForm ("siteurl");
 
     $('#form-url').val("https://fr.wikipedia.org");//"https://www.bci.nc/");//" http://groupe-vocal-nc.net/");
 
@@ -315,6 +284,9 @@ jQuery(document).ready(function() {
 	    	sendReferencement();
 	    });
     	KScrollTo("#refMainCategories");
+
+        $("#send-ref, #refLocalisation").removeClass("hidden");
+        $("#info-select-cat").addClass("hidden");
     });
 
     $(".btn-scope").click(function(){
@@ -330,7 +302,7 @@ jQuery(document).ready(function() {
 
     	coordinatesPreLoadedFormMap = [cityLat, cityLng];
 	    showMarkerNewElement();
-	    preLoadAddress(true, "NC", cityInsee, cityName, cityCp, cityLat, cityLng);
+	    preLoadAddress(true, "NC", cityInsee, cityName, cityCp, cityLat, cityLng, "");
 
 	    $("#btn-find-position").off().click(function(){
 	    	showMap(true);
@@ -352,7 +324,8 @@ jQuery(document).ready(function() {
 function buildListCategoriesForm(){
     //console.log(mainCategories);
 
-    var html = "<h4 class='col-md-12 text-center'><i class='fa fa-angle-down'></i><br>Sélectionner la ou les catégories<br>qui correspondent le mieux à votre page</h4><hr>"+
+    var html = "<h4 class='col-md-12 text-center'><i class='fa fa-angle-down'></i><br>"
+                    +"Sélectionner la ou les catégories<br>qui correspondent le mieux à cette page</h4><hr>"+
     			//"<center><label></label></center><br>"+
     			"<center><label>(cliquez pour sélectionner)</label></center>";
 
@@ -364,7 +337,7 @@ function buildListCategoriesForm(){
                         '<div class="">'+
                             '<div class="row">'+
                                 '<div class="col-lg-12 text-center">'+
-                                    '<h4 class="text-'+params.color+'">'+
+                                    '<h4 class="letter-'+params.color+'">'+
                                         name+
                                     '</h4>'+
                                     '<hr class="angle-down">'+
@@ -374,7 +347,7 @@ function buildListCategoriesForm(){
 
         $.each(params.items, function(keyC, val){
             //console.log(keyC, val);
-            html +=             '<div class="col-md-2 col-sm-4 col-xs-6 portfolio-item">'+
+            html +=             '<div class="col-md-3 col-sm-4 col-xs-6 portfolio-item">'+
                                     '<button class="portfolio-link btn-select-category" data-value="'+val.name+'">'+
                                         '<div class="caption">'+
                                             '<div class="caption-content">'+
@@ -392,7 +365,7 @@ function buildListCategoriesForm(){
 
     });
 
-    $("#mainCategories").html(html);
+    $("#mainCategoriesEdit").html(html);
 
     $(".btn-select-category").click(function(){
     	var val = $(this).data("value");
@@ -406,20 +379,19 @@ function buildListCategoriesForm(){
     		$(this).parent().removeClass("selected");
     	}
 
-    	if(categoriesSelected.length > 0){
-    		$("#send-ref, #refLocalisation").removeClass("hidden");
-    		$("#info-select-cat").addClass("hidden");
-    	}else{
-    		$("#send-ref, #refLocalisation").addClass("hidden");
-    		$("#info-select-cat").removeClass("hidden");
-    	}
+    	// if(categoriesSelected.length > 0){
+    	// 	$("#send-ref, #refLocalisation").removeClass("hidden");
+    	// 	$("#info-select-cat").addClass("hidden");
+    	// }else{
+    	// 	$("#send-ref, #refLocalisation").addClass("hidden");
+    	// 	$("#info-select-cat").removeClass("hidden");
+    	// }
     	//console.log("categoriesSelected");
     	//console.dir(categoriesSelected);
     });
 }
 
-
-function refUrl(siteurl){
+function refUrl(url){
 
 	$("#status-ref").html("<span class='letter-blue'><i class='fa fa-spin fa-refresh'></i> recherche en cours</span>");
 	$("#refResult").addClass("hidden");
@@ -427,16 +399,16 @@ function refUrl(siteurl){
 
 	urlValidated = "";
 
-	$.ajaxPrefilter( function (options) {
-	  if (options.crossDomain && jQuery.support.cors) {
-	    var http = (window.location.protocol === 'http:' ? 'http:' : 'https:');
-	    options.url = http + '//cors-anywhere.herokuapp.com/' + options.url;
-	    //options.url = "http://cors.corsproxy.io/url=" + options.url;
-	  }
-	});
+	// $.ajaxPrefilter( function (options) {
+	//   if (options.crossDomain && jQuery.support.cors) {
+	//     var http = (window.location.protocol === 'http:' ? 'http:' : 'https:');
+	//     options.url = http + '//cors-anywhere.herokuapp.com/' + options.url;
+	//     //options.url = "http://cors.corsproxy.io/url=" + options.url;
+	//   }
+	// });
 
     $.ajax({ 
-    	url: siteurl, // 'http://google.fr', 
+    	url: "//cors-anywhere.herokuapp.com/" + url, // 'http://google.fr', 
     	//crossOrigin: true,
     	timeout:10000,
         success:
@@ -496,12 +468,12 @@ function refUrl(siteurl){
 				else 							$("#lbl-title").removeClass("letter-green").addClass("letter-red");
 			   	
 			   	//color	
-				if($("#form-description").val() != "") $("#lbl-description").removeClass("letter-red").addClass("letter-green");
-				else 								   $("#lbl-description").removeClass("letter-green").addClass("letter-red");
+				if($("#form-description").val() != "") $("#lbl-description").removeClass("text-orange").addClass("letter-green");
+				else 								   $("#lbl-description").removeClass("letter-green").addClass("text-orange");
 			   		
 			   	//color	
-				if($("#form-keywords1").val() != "")   $("#lbl-keywords").removeClass("letter-red").addClass("letter-green");
-				else 								   $("#lbl-keywords").removeClass("letter-green").addClass("letter-red");
+				if($("#form-keywords1").val() != "")   $("#lbl-keywords").removeClass("text-orange").addClass("letter-green");
+				else 								   $("#lbl-keywords").removeClass("letter-green").addClass("text-orange");
 			   		
 			   	$("#form-title").off().keyup(function(){
 			   		if($(this).val()!="")$("#lbl-title").removeClass("letter-red").addClass("letter-green");
@@ -509,13 +481,13 @@ function refUrl(siteurl){
 					checkAllInfo();
 			   	});
 			   	$("#form-description").off().keyup(function(){
-			   		if($(this).val()!="")$("#lbl-description").removeClass("letter-red").addClass("letter-green");
-					else 				 $("#lbl-description").removeClass("letter-green").addClass("letter-red");
+			   		if($(this).val()!="")$("#lbl-description").removeClass("text-orange").addClass("letter-green");
+					else 				 $("#lbl-description").removeClass("letter-green").addClass("text-orange");
 					checkAllInfo();
 			   	});
 			   	$("#form-keywords1").off().keyup(function(){
-			   		if($(this).val()!="")$("#lbl-keywords").removeClass("letter-red").addClass("letter-green");
-					else 				 $("#lbl-keywords").removeClass("letter-green").addClass("letter-red");
+			   		if($(this).val()!="")$("#lbl-keywords").removeClass("text-orange").addClass("letter-green");
+					else 				 $("#lbl-keywords").removeClass("letter-green").addClass("text-orange");
 					checkAllInfo();
 			   	});
 
@@ -523,7 +495,7 @@ function refUrl(siteurl){
     			$("#refResult").removeClass("hidden");
 			   
 			   	$("#lbl-url").removeClass("letter-red").addClass("letter-green");
-			   	urlValidated = siteurl;
+			   	urlValidated = url;
 
 			    $('<output>').remove();
 			    tempDom = "";
@@ -545,8 +517,8 @@ function refUrl(siteurl){
 
 function checkAllInfo(){
 	if(	urlValidated != "" &&
-		$("#form-keywords1").val() != "" && 
-		$("#form-description").val() != "" && 
+		//$("#form-keywords1").val() != "" && 
+		//$("#form-description").val() != "" && 
 		$("#form-title").val() != "") 
    			$("#btn-validate-information").removeClass("hidden");
    	else 	$("#btn-validate-information").addClass("hidden");
@@ -576,34 +548,40 @@ function sendReferencement(){
 	//authorId *facultatif
 	//categoriesSelected
 
-	if(urlValidated != "" && title != "" && description != "" && keywords.length > 0&& categoriesSelected.length > 0){
+	if(urlValidated != "" && title != "" /*&& description != "" && keywords.length > 0 && categoriesSelected.length > 0*/){
 
 		var address = getAddressObj(); //formInMap.js
 
-		var siteUrlObj = {
+
+		var urlObj = {
+                collection: "url",
+                key: "url",
         		url: urlValidated, 
         		hostname: hostname, 
         		title: title, 
         		description: description,
-        		keywords: keywords,
-        		categories : categoriesSelected
+        		tags: keywords,
+        		categories : categoriesSelected,
+                status: "validated"
         };
 
         if(address != false) {
-        	siteUrlObj["address"] = address.address;
-        	siteUrlObj["geo"] = address.geo;
-        	siteUrlObj["geoPosition"] = address.geoPosition;
+        	urlObj["address"] = address.address;
+        	urlObj["geo"] = address.geo;
+        	urlObj["geoPosition"] = address.geoPosition;
         }
         console.log("address", address);
 
 		$.ajax({
 	        type: "POST",
-	        url: baseUrl+"/"+moduleId+"/k/savereferencement",
-	        data: siteUrlObj,
+	        url: baseUrl+"/"+moduleId+"/element/save",
+	        data: urlObj,
 	       	dataType: "json",
 	    	success: function(data){
-	    		if(data.valid == true) toastr.success("Votre demande a bien été enregistrée");
-	    		else toastr.error("Une erreur est survenue pendant le référencement");
+	    		//if(data.valid == true) 
+                    toastr.success("Votre demande a bien été enregistrée");
+                    loadByHash("#co2.referencement");
+	    		//else toastr.error("Une erreur est survenue pendant le référencement");
 	    		console.log("save referencement success");
 	    	},
 	    	error: function(data){

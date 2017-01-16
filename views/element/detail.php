@@ -70,7 +70,8 @@ if($('#breadcum').length)
 	</style>
 <?php 
 	if($type != City::CONTROLLER && $type != Poi::COLLECTION && !@$_GET["renderPartial"])
-		$this->renderPartial('../pod/headerEntity', array("entity"=>$element, "type" => $type, "openEdition" => $openEdition, "edit" => $edit, "firstView" => "detail","menuConfig"=>@$menuConfig)); 
+
+		$this->renderPartial('../pod/headerEntity', array("entity"=>$element, "type" => $type, "openEdition" => $openEdition, "edit" => $edit, "firstView" => "detail","menuConfig"=>@$menuConfig, "users" => $members)); 
 		//End isset renderPartial
 ?>
 <div class="row" id="detailPad">
@@ -78,7 +79,6 @@ if($('#breadcum').length)
 		<div class="col-xs-12 col-md-12">
 			<?php if ($type == "poi"){ ?>
 			<?php if($element["type"]=="video" && @$element["medias"]){ 
-				
 				$videoLink=str_replace ( "autoplay=1" , "autoplay=0" , @$element["medias"][0]["content"]["videoLink"]  );
 			?>
 				<div class="col-xs-12">
@@ -250,38 +250,42 @@ if($('#breadcum').length)
 				                <div class="col-md-12 no-padding" style="margin-top:20px">
 
 				                    <div class="col-xs-6  center text-yellow btnSubTitle">
-				                        <a href="javascript:openForm('person')" class="btn btn-discover bg-yellow">
+				                        <a href="javascript:elementLib.openForm('person')" class="btn btn-discover bg-yellow">
 
 				                          <i class="fa fa-user"></i>
 				                        </a><br/><span class="discover-subtitle">Une personne</span>
 				                    </div>
 				                    
 				                    <div class="col-xs-6  center text-green btnSubTitle">
-				                        <a href="javascript:openForm('organization')" class="btn btn-discover bg-green">
+				                        <a href="javascript:elementLib.openForm('organization')" class="btn btn-discover bg-green">
 				                          <i class="fa fa-group"></i>
 				                        </a>
 				                        <br/><span class="discover-subtitle">Organisation</span>
 				                    </div>
 									<?php if(!@$front || (@$front && $front["event"])){ ?>
 				                    <div class="col-xs-6  center text-orange btnSubTitle">
-				                        <a href="javascript:openForm('event')" class="btn btn-discover bg-orange">
+				                        <a href="javascript:elementLib.openForm('event')" class="btn btn-discover bg-orange">
 				                          <i class="fa fa-calendar"></i>
 				                        </a><br/><span class="discover-subtitle">Évènement</span>
 				                    </div>
 				                    <?php } ?>
 				                    <div class="col-xs-6  center text-purple btnSubTitle">
-				                        <a href="javascript:openForm('project')" class="btn btn-discover bg-purple">
+				                        <a href="javascript:elementLib.openForm('project')" class="btn btn-discover bg-purple">
 				                          <i class="fa fa-lightbulb-o"></i>
 				                        </a><br/><span class="discover-subtitle">Projet</span>
 				                    </div>
-
 				                </div>
-
 				              </div>
 				            </div>
-				           
 				        </div>
 				    </div>
+					
+					<?php if($type == Person::COLLECTION){ ?>
+				    <div class="panel panel-white no-padding margin-top-15 ">	
+						<?php $this->renderPartial('../pod/collections',array( 	"collections" => @$element["collections"] )); ?>
+					</div>
+					<?php } ?>
+
 			    </div>
 		<?php 	} 
 			} ?>
@@ -312,6 +316,23 @@ if($('#breadcum').length)
 				?>
 			</div>
 			<?php } ?>
+
+
+			<?php if (($type==Project::COLLECTION || $type==Organization::COLLECTION || $type==Event::COLLECTION)){ ?>
+				<div class="col-xs-12">
+					<?php 
+						$contacts = ( empty($element["contacts"]) ? array() : $element["contacts"] ) ;
+						$this->renderPartial('../pod/contactsList',array( 	"contacts" => $contacts, 
+																			"contextId" => (String) $element["_id"],
+																			"contextType" => $controller,
+																			"authorised" => $edit,
+																			"openEdition" => $openEdition
+																		  ));
+					?>						  
+				</div>
+			<?php } ?>
+
+
 	    	<?php if (($type==Project::COLLECTION || $type==Organization::COLLECTION || $type==Event::COLLECTION)){ ?>
 	    		<?php if(!@$front || (@$front && $front["event"]==true)){ ?>
 				<div class="col-xs-12">
@@ -369,15 +390,24 @@ if($('#breadcum').length)
 			</div>
 			<?php }
 			} ?>
-			<?php if($type==Project::COLLECTION || $type==Organization::COLLECTION || $type==Event::COLLECTION){ 
+			<?php if($type==Project::COLLECTION || $type==Organization::COLLECTION || $type==Event::COLLECTION  || $type==Person::COLLECTION ){ 
 				if(!@$front || (@$front && $front["poi"]))					{ 
 			?> 
 			<div class="col-xs-12">
-				<?php   $pois = PHDB::find(Poi::COLLECTION,array("parentId"=>(String) $element["_id"],"parentType"=>$type));
-						$this->renderPartial('../pod/POIList', array( "pois"=>$pois));
+				<?php   
+				$pois = PHDB::find(Poi::COLLECTION,array("parentId"=>(String) $element["_id"],"parentType"=>$type));
+				$this->renderPartial('../pod/POIList', array( "pois"=>$pois));
+				?>
+	    	</div>	
+	    	
+			<div class="col-xs-12">
+				<?php 
+				//$classifieds = PHDB::find( Classified::COLLECTION,array("parentId"=>(String) $element["_id"],"parentType"=>$type));
+				//$this->renderPartial('../pod/classifieds', array( "pois"=>$classifieds));
 				?>
 	    	</div>	
 	    	<?php }
+
 		    } ?>
 	    	<?php if( !$type==Event::COLLECTION && ( !@$front || (@$front && $front["need"]==true))){ ?>
 	    	<div class="col-xs-12 needsPod">	
@@ -391,6 +421,8 @@ if($('#breadcum').length)
 
 			</div>
 			<?php } ?>
+
+			
 		</div>
 
 		<div class="col-md-8 col-xs-12 no-padding pull-left">

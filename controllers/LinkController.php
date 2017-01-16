@@ -25,6 +25,7 @@ class LinkController extends CommunecterController {
 			'multiconnect' 			=> 'citizenToolKit.controllers.link.MultiConnectAction',
 			'follow' 			=> 'citizenToolKit.controllers.link.FollowAction',
 			'validate' 			=> 'citizenToolKit.controllers.link.ValidateAction',
+			'favorite' 			=> 'citizenToolKit.controllers.link.FavoriteAction',
 	    );
 	}
 }

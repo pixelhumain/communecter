@@ -4,13 +4,27 @@ $cssAnsScriptFilesModule = array(
   //Full calendar
   '/plugins/fullcalendar/fullcalendar/fullcalendar.css',
   '/plugins/fullcalendar/fullcalendar/fullcalendar.min.js',
-  '/plugins/fullcalendar/fullcalendar/lang/fr.js'
+  '/plugins/fullcalendar/fullcalendar/locale/fr.js'
 );
 
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule,Yii::app()->request->baseUrl);
 
-if(!@$_GET["renderPartial"])
-	$this->renderPartial('../pod/headerEntity', array("entity"=>$event, "type" => Event::COLLECTION, "openEdition" => $openEdition, "edit" => $edit, "firstView" => "calendarview")); 
+if(@$event){
+  $element = $event;
+  $type = Event::COLLECTION;
+}
+else if(@$person){
+  $element = $person;
+  $type = Person::COLLECTION;
+}
+else if(@$organization){
+  $element = $organization;
+  $type = Organization::COLLECTION;
+}
+
+if(!@$_GET["renderPartial"] )
+	$this->renderPartial('../pod/headerEntity', array("entity"=>$element, "type" => $type, "openEdition" => $openEdition, "edit" => $edit, "firstView" => "calendarview")); 
+
 ?>
 
 <style>
@@ -126,13 +140,14 @@ if(!@$_GET["renderPartial"])
   var templateColor = ["#93be3d", "#eb4124", "#0073b0", "#ed553b", "#df01a5", "#b45f04", "#2e2e2e"];
   var events = <?php echo json_encode($events) ?>;
   var dateToShow, calendar, $eventDetail, eventClass, eventCategory;
-  var widgetNotes = $('#notes .e-slider'), sliderNotes = $('#readNote .e-slider'), $note;
   var oTable, contributors;
   var subViewElement, subViewContent, subViewIndex;
   var tabOrganiser = [];
 
   jQuery(document).ready(function() {
-      setTitle("<?php echo Yii::t("event","EVENT",null,Yii::app()->controller->module->id)?> : <?php echo $event['name']?>","calendar");
+      <?php if(@$event){ ?>
+        setTitle("<?php echo Yii::t("event","EVENT",null,Yii::app()->controller->module->id)?> : <?php echo $event['name'] ?>","calendar");
+      <?php } ?>
       showCalendar();
       initLastsEvents();
 	  activeMenuElement("calendar");
@@ -161,24 +176,13 @@ function buildCalObj(eventObj)
     case "low" : prioClass = 'event-generic'; break;
     default : prioClass = 'event-job'; 
   }
-  if(eventObj.startDate && eventObj.startDate != "")
-  {
-    //mylog.log("eventObj", eventObj, eventObj.startDate);
-    var sd = eventObj.startDate.split(" ")[0];
-    var sh = eventObj.startDate.split(" ")[1];
-    var sdv = sd.split("-");
-    var shv = sh.split(":");
-    var startDate = new Date(sdv[0],parseInt(sdv[1])-1,sdv[2], shv[0], shv[1]);
+
+  if(eventObj.startDate && eventObj.startDate != "") {
+    var startDate = moment(eventObj.startDate).local();
     var endDate = null;
-    if(eventObj.endDate && eventObj.endDate != "" )
-    {
-      var ed = eventObj.endDate.split(" ")[0];
-      var eh = eventObj.endDate.split(" ")[1];
-      var edv = ed.split("-");
-      var ehv = eh.split(":");
-      endDate = new Date(edv[0],parseInt(edv[1])-1,edv[2], ehv[0], ehv[1]);
-     }
-     //mylog.log("taskCalObj",eventObj['_id']['$id']);
+    if(eventObj.endDate && eventObj.endDate != "" ) {
+      endDate = moment(eventObj.startDate).local();
+    }
     var organiser = "";
     
 

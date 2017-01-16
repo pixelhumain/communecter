@@ -22,7 +22,6 @@ $cssAnsScriptFilesModule = array(
 	'/plugins/jquery-mentions-input-master/lib/jquery.events.input.js',
 	
 );
-error_log("BasURL : ".Yii::app()->request->baseUrl);
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->request->baseUrl);
 
 $cssAnsScriptFilesModule = array(
@@ -309,6 +308,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
     margin: 0 0 10px 0 !important;
     display: block;
 }
+
 </style>
 <!--<textarea class="mention"></textarea>-->
 
@@ -610,6 +610,7 @@ foreach($news as $key => $oneNews){
 
 <?php if (@$news && !empty($news)){ ?>
 var news = <?php echo json_encode(@$news)?>;
+console.log("NEWSSS", news);
 <?php }else { ?>
 var news = "";
 <?php } ?>

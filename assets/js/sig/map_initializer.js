@@ -318,7 +318,9 @@
 											"entry" 			: "entry-marker-default",
 											"action" 			: "action-marker-default",
 
-											"siteurl" 			: "marker-place",
+											"url" 				: "url-marker-default",
+
+											"address" 			: "MARKER",
 
 									  };
 
@@ -360,7 +362,9 @@
 											"entry" 			: { ico : "gavel", color : "azure" 	},
 											"action" 			: { ico : "cogs", color : "lightblue2" 	},
 
-											"siteurl" 			: { ico : "desktop", color : "blue" 	},
+											"url" 				: { ico : "desktop", color : "blue" 	},
+
+											"address" 			: { ico : "map-marker", color : "red" 	},
 
 									  };
 

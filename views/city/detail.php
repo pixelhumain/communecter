@@ -36,10 +36,8 @@ $this->renderPartial('../default/panels/toolbar');
         return findOrgaRandImg($organizations, $try+1);
       }
     }
-?>
 
 
-<?php 
   $minCount = count($people);
   if(count($organizations) < $minCount) $minCount = count($organizations);
   if(count($projects) < $minCount) $minCount = count($projects);
@@ -47,7 +45,6 @@ $this->renderPartial('../default/panels/toolbar');
   $minCountOrga = $minCount;
 
   $countTotal = count($people) + count($organizations) + count($events);
-
 ?>
 
 <style type="text/css">
@@ -107,9 +104,12 @@ $this->renderPartial('../default/panels/toolbar');
     </a>
   <?php } ?>
   <div class="col-xs-12 col-md-12" style="margin-bottom:-10px;">
+
       <h1 class="homestead text-red text-center cityName-header">
         <span class="margin-bottom-10" style="">
-
+        <a href="javascript:getWiki('<?php echo $city["wikidataID"]; ?>')" class="pull-right">
+          <img width=50 src="<?php echo $this->module->assetsUrl; ?>/images/logos/Wikipedia-logo-en-big.png">
+        </a>
         <i class="fa fa-university"></i><br>
         <?php if($cityGlobal == false) echo $city["cp"]; ?> 
         <?php
@@ -124,6 +124,7 @@ $this->renderPartial('../default/panels/toolbar');
                 <a href="#city.detail.insee.<?php echo $city['insee']; ?>" class="lbh cityGlobal">
                   <?php echo $city["name"];  ?>
                 </a> 
+                
               </div>       
       <?php } 
           } ?>
@@ -252,7 +253,8 @@ $this->renderPartial('../default/panels/toolbar');
                     </div>
                     */?>
                 </div>
-
+                <div class="space20"></div>
+                <a href="javascript:cityFinder('city','<?php echo $city["name"];?>')" class="btn btn-default">Filiaires locales</a>  <a href="javascript:cityFinder('departement','<?php echo $city["depName"];?>')" class="btn btn-default">Filiaires département</a>  <a href="javascript:cityFinder('region','<?php echo $city["regionName"];?>')" class="btn btn-default">Filiaires région</a> 
         <!--       </div>
             </div>
            
@@ -341,6 +343,8 @@ $this->renderPartial('../default/panels/toolbar');
 
 //var contextMap = {};
 contextMap = <?php echo json_encode($contextMap) ?>;
+categs = <?php echo json_encode(OpenData::$categ) ?>;
+
 var city = <?php echo json_encode($city) ?>;
 //var cityKey = "<?php //echo City::getUnikey($city) ?>";
 var images = <?php echo json_encode($images) ?>;
@@ -349,9 +353,6 @@ var events = <?php echo json_encode($events) ?>;
 var liveScopeType = "global";
 
 jQuery(document).ready(function() {
-
-  
-  
 
   $(".main-col-search").addClass("cityHeadSection");
 
@@ -514,11 +515,13 @@ function initCityMap(){
   Sig.allowMouseoverMaker = true;
 }
 
+
 //wget("https://wikidata.org/w/api.php?action=wbgetclaims&format=json&entity=Q90&property=P18") 
 // https://wikidata.org/w/api.php?action=wbgetentities&format=json&ids=Q90&props=claims&languages=fr 
 // https://wikidata.org/w/api.php?action=wbgetclaims&format=json&entity=Q90&property=P18
 var wikidata = null;
-function wget(url){
+function getWiki(q){
+  url = "https://wikidata.org/w/api.php?action=wbgetentities&format=json&ids="+q+"&props=claims&languages=fr"; 
   $.ajax({
         url:url,
         type:"GET",
@@ -530,9 +533,32 @@ function wget(url){
         success:function(data) {
           if( notNull(data) ){
             wikidata = data;
-            imgName = wikidata.entities.Q90.claims.P18[0].mainsnak.datavalue.value;
-            var hash = md5(imgName);
-            console.log(hash[0]+"/"+hash[0]+hash[1]+"/"+imgName);
+            name = wikidata.entities[q].claims.P373[0].mainsnak.datavalue.value;
+            imgName = wikidata.entities[q].claims.P18[0].mainsnak.datavalue.value;
+            /*$.ajax({
+                url:"https://www.wikidata.org/w/api.php?action=query&prop=imageinfo&iiprop=url&titles=File:"+imgName,
+                type:"GET",
+                dataType: "jsonp",
+                success:function(data) {
+                  console.dir(data)
+                },
+                error:function (xhr, ajaxOptions, thrownError){
+                  alert("error 2");
+                } 
+            });*/
+            $("#ajax-modal-modal-title").html("<img width=40 src='<?php echo $this->module->assetsUrl; ?>/images/logos/Wikipedia-logo-en-big.png'> "+name);
+              $("#ajax-modal-modal-body").html( "<div class='row bg-white'>"+
+                                "<div class='col-sm-10 col-sm-offset-1'>"+
+                                      "<div id='P18'>image : "+wikidata.entities[q].claims.P18[0].mainsnak.datavalue.value+"</div>"+
+                                      "<div id='P94'>coat of arms image : "+wikidata.entities[q].claims.P94[0].mainsnak.datavalue.value+"</div>"+
+                                      "<div id='P94'>located in time zone : "+wikidata.entities[q].claims.P421[0].mainsnak.datavalue.value+"</div>"+
+                                      "<div id='P94'>area : "+wikidata.entities[q].claims.P2046[0].mainsnak.datavalue.value+"</div>"+
+                                      "<div id='P94'>shared borders : "+wikidata.entities[q].claims.P47[0].mainsnak.datavalue.value+"</div>"+
+                                      "<div id='P94'>lien insee : "+wikidata.entities[q].claims.P374[0].mainsnak.datavalue.value+"</div>"+
+                                      "</div>"+
+                                    "</div>");
+              $('.modal-footer').show();
+              $('#ajax-modal').modal("show");
           }
         },
         error:function (xhr, ajaxOptions, thrownError){
@@ -540,4 +566,134 @@ function wget(url){
         } 
     });
 }
+
+var cityFinderObj = {
+  title1 : "<i class='fa fa-map-marker text-yellow'></i> <?php echo $city["name"];?>",
+  title2 : "Thèmatique <i class='fa fa-asterisk text-yellow'></i> ",
+  menu : {
+    content : {
+        label  : "Contenu",
+        icon   : "fa-pencil-square-o",
+        action : "javascript:alert('Link')" },
+    followers : {
+        label  : "Popularité",
+        icon   : "fa-users",
+        action : "javascript:alert('Link')" },
+    latest : { 
+        label  : "Activité",
+        icon   : "fa-clock-o",
+        action : "javascript:alert('Link')" }
+  },
+  list : {
+    <?php foreach (OpenData::$categ as $key => $value) 
+    {
+      if( @$value["icon"] )
+      {
+      ?>
+        "<?php echo @$value["name"]?>" : { label  : "<?php echo @$value["name"]?>", 
+                                            labelCount : 0,
+                                            icon   : "<?php echo @$value["icon"]?>", 
+                                            key : "<?php echo @$value["name"]?>", 
+                                            //color : "dark",
+                                            classes : slugify("<?php echo @$value["name"]?>")+"Btn kickerBtn",
+                                            action : "javascript:;",
+                                            click : function(){
+                                                cityFinderSearch( scopeType, "<?php echo @$value["name"]?>", "<?php echo @$value["icon"]?>", <?php echo json_encode( @$value["tags"] );?> ) 
+                                            }
+      }, 
+    <?php }
+    } ?>
+  }
+};
+
+function cityFinder(type,where)
+{
+    scopeType = type;
+    if( type == "region" ) 
+        scopeName = 'region : <?php echo $city["regionName"];?>';
+    else if( type == "departement" ) 
+        scopeName = 'dep : <?php echo $city["depName"];?>';
+    else 
+        scopeName = '<?php echo $city["name"];?>';
+
+    cityFinderObj.title1 = "<i class='fa fa-map-marker text-yellow'></i> "+scopeName; 
+
+    smallMenu.build( cityFinderObj, 
+                    function(params){return js_templates.leftMenu_content(params);},
+                    function(){
+                        $(".labelCount").html('(0)');
+                        $.each(categs,function (i,c){c.count = 0;});
+                        $.each( contextMap,function(k,v){
+                          var tagList = [];
+                          $.each(v.tags,function (i,t){
+                            tagList.push( t.toLowerCase() );
+                          });
+                          $.each(categs,function (i,c)
+                          {
+                            var common = intersection_destructive(tagList, c.tags);
+                            var isIn = (common.length > 0) ? true : false;
+                            if(isIn){
+                              c.count++;
+                              $("."+slugify(c.name)+"Btn").addClass('bg-red');
+                              $("."+slugify(c.name)+"Btn .labelCount").html('('+c.count+')');
+                            }
+                          })
+                        });
+                        $(".kickerBtn").on("click",function() { 
+                          cityFinderObj.list[$(this).data('key')].click()  
+                        });
+                        $(".menuSmallLeftMenu").prepend("<h2 class='homestead'>Trier</h2>")
+                    });
+}
+
+<?php 
+$cps = array();
+foreach ($city["postalCodes"] as $key => $value) {
+  $cps[] = $value["postalCode"];
+}
+?>
+
+var postalCodes = <?php echo json_encode( $cps);?>;
+var cityRegion = "<?php echo $city["region"];?>";
+var cityDep = "<?php echo $city["dep"];?>";
+var scopeType = null;
+var scopeName = null;
+function  cityFinderSearch( type, what, icon, tags ) 
+{ 
+    searchTypes = ["events","projects","organizations"];
+    var params = {
+        name : "",
+        searchTag : tags,
+        searchBy : "CODE_POSTAL_INSEE",
+        indexMax : 200,
+        indexMin : 0,
+        searchType : searchTypes,
+        tpl : "list",
+        otherCollectionList : function() {
+          var strHTML = "<h2 class='homestead'>Thématiques</h2>"+
+                js_templates.loop( cityFinderObj.list,"linkList",{ classes : "menuThemeBtn" });
+          $("#listCollections").append(strHTML);
+          $(".menuThemeBtn").on("click",function() { 
+            cityFinderObj.list[ $(this).data('key') ].click();
+          }); 
+        }
+    };
+
+    delete params.searchLocalityCODE_POSTAL;
+    delete params.searchLocalityREGION;
+    delete params.searchLocalityDEPARTEMENT;
+    if( type == "region" ) 
+        params.searchLocalityREGION = ['<?php echo $city["regionName"];  ?>'];
+    if( type == "departement" ) 
+        params.searchLocalityDEPARTEMENT = ['<?php echo $city["depName"];  ?>'];
+    else 
+        params.searchLocalityCODE_POSTAL = postalCodes;
+    
+    console.dir(params);
+    smallMenu.openAjax( baseUrl+'/'+moduleId+'/search/globalautocomplete',
+                   what, icon, 'yellow',
+                   '<a href="javascript:cityFinder(scopeType,scopeName)"><i class="fa fa-th text-grey"></i></a> <i class="fa fa-angle-right"></i> <i class="fa fa-map-marker text-yellow"></i> '+scopeName ,
+                   params );
+}
+
 </script>

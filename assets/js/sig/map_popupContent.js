@@ -12,8 +12,10 @@
 				return this.getPopupSimpleNews(data);
 			}else if(typeof(data.typeSig) != "undefined" && data.typeSig == "city"){
 				return this.getPopupSimpleCity(data);
-			}else if(typeof(data.typeSig) != "undefined" && data.typeSig == "siteurl"){
+			}else if(typeof(data.typeSig) != "undefined" && data.typeSig == "url"){
 				return this.getPopupSiteUrl(data);
+			}else if(typeof(data.typeSig) != "undefined" && data.typeSig == "address"){
+				return this.getPopupAddress(data);
 			}else{
 				return this.getPopupSimple(data);
 			}
@@ -237,63 +239,7 @@
 				var dataType = ("undefined" != typeof data['typeSig']) ? data['typeSig'] : "";
 
 				if(dataType == "event" || dataType == "events"){				
-					
-					//si on a bien les dates
-					if("undefined" != typeof data['startDate'] && "undefined" != typeof data['endDate']){
-						var start = dateToStr(data['startDate'], "fr", true);
-						var end = dateToStr(data['endDate'], "fr", true);
-
-						var startDate = start.substr(0, start.indexOf("-"));
-						var endDate = end.substr(0, end.indexOf("-"));
-
-						var hour1 = "Toute la journée";
-						var hour2 = "Toute la journée";
-						if(data["allDay"] == false) { 	
-							hour1 = start.substr(start.indexOf("-")+2, start.length);
-							hour2 = end.substr(end.indexOf("-")+2, end.length);
-						}
-						//si la date de debut == la date de fin
-						if( startDate == endDate ){
-							popupContent += "<div class='info_item startDate_item_map_list double'><i class='fa fa-caret-right'></i> Le " + startDate;
-							
-							if(data["allDay"] == true) 
-							{ 		popupContent += "</br><i class='fa fa-caret-right'></i> " + hour1;
-							} else  popupContent += "</br><i class='fa fa-caret-right'></i> " + hour1 + " - " + hour2;// + "|" + start + "|";
-
-							popupContent += "</div>";
-						}else{
-							popupContent += "<div class='info_item startDate_item_map_list double'><i class='fa fa-caret-right'></i> Du " + 
-												startDate + " - " + hour1 +
-											"</div>" +
-								   		  	"<div class='info_item startDate_item_map_list double'><i class='fa fa-caret-right'></i> Au " + 
-								   		  		endDate +  " - " + hour2 +
-								   		  	"</div></br>";
-						}
-					}
-
-					// if("undefined" != typeof data['startDate'] && "undefined" != typeof data['endDate']){
-					// 	var start = dateToStr(data['startDate'], "fr", true);
-					// 	var end = dateToStr(data['endDate'], "fr", true);
-
-					// 	//si la date de debut == la date de fin
-					// 	if( start.substr(0, start.indexOf("-")) == end.substr(0, end.indexOf("-"))){
-					// 		var date1 = start.substr(0, start.indexOf("-"));
-					// 		var hour1 = start.substr(start.indexOf("-")+2, start.length);
-					// 		var hour2 = end.substr(end.indexOf("-")+2, end.length);
-					// 		popupContent += "<div class='info_item startDate_item_map_list double'><i class='fa fa-caret-right'></i> Le " + date1;
-					// 		//mylog.log('hour1', hour1, "hour2", hour2);
-					// 		if(data["allDay"] == true) {
-					// 			popupContent += "</br><i class='fa fa-caret-right'></i> Toute la journée";
-					// 		}
-					// 		else
-					// 			popupContent += "</br><i class='fa fa-caret-right'></i> " + hour1 + " - " + hour2;// + "|" + start + "|";
-
-					// 		popupContent += "</div>";
-					// 	}else{
-					// 		popupContent += "<div class='info_item startDate_item_map_list double'><i class='fa fa-caret-right'></i> Du " + start + "</div>"
-					// 			   +  "<div class='info_item startDate_item_map_list double'><i class='fa fa-caret-right'></i> Au " + end + "</div></br>";
-					// 	}
-					// }
+					popupContent += displayStartAndEndDate(data);
 				}
 				popupContent += '<div class="btn btn-sm btn-more col-md-12"><i class="fa fa-hand-pointer-o"></i> en savoir +</div>';
 				popupContent += '</a>';
@@ -698,14 +644,32 @@
 				var nbCpByInsee = data["countCpByInsee"];
 				var cityInsee = data["cityInsee"];
 			}
+
+			//rassemble le nom de la ville au CP
+			var place = "";
+			if(data['streetNumber'] != null) place += "<span class='letter-blue'>"+data['streetNumber']+"</span>";
+			
+			if(data['street'] != null) {
+				if(place!="") place += " ";
+				place += '<b>'+ data['street']+'</b>';
+			}
+
+			if(data['cityName'] != null) {
+				if(place=="") //place += " ";
+				place +=  "<span class='letter-red'>"+data['cityName']+"</span>";
+			}
+
+			if(data['postalCode'] != null) {
+				//if(place!="") place += " ";
+				//place +=  "<span class='letter-'>"+data['postalCode']+"</span>";
+			}
+
+
 			var popupContent = '<div class="pod-local-actors" style="display:inline-block; width:100%;">' +
-									"<div class='panel-title text-dark center'>"+
-										"<i class='fa fa-map-marker'></i> "+city+
-									"</div>" + 
-									"<button class='btn btn-success btn-communecter-city btn-sm col-md-12 bold' cp-com='" + cp + "'";					
-				popupContent += 		">"+
-										"<i class='fa fa-check'></i> "+ label +
-									"</button>";
+									"<div class='panel-title text-dark text-center'>"+
+										//"<i class='fa fa-map-marker fa-2x text-red'></i> "+
+										place+
+									"</div>";
 
 			popupContent +=		'</div>';
 			return popupContent;
@@ -825,6 +789,41 @@
 									"<button class='col-md-8 btn btn-success pull-right' type='text' id='newElement_btnValidateAddress' disabled='disabled'><i class='fa fa-check'></i> Valider <span class='hidden-xs'>l'adresse et la position</span></button>"+
 									"<button class='col-md-3 btn btn-danger pull-right' type='text' id='newElement_btnCancelAddress' style='margin-right:5px;'><i class='fa fa-times'></i> Annuler</button>"+
 									
+								"</div>";
+
+			return popupContent;
+		};
+
+
+		Sig.getPopupConfigPostalCode = function(){
+			var allCountries = getCountries("select2");
+			countries ="";
+			$.each(allCountries, function(key, country){
+				mylog.log(country.id, country.text);
+			 	countries += "<option value='"+country.id+"'>"+country.text+"</option>";
+			});
+			var popupContent = 	"<style>@media screen and (min-width: 768px) {.leaflet-popup-content{width:400px!important;}}" +
+								"</style>"+
+								"<div class='form-group inline-block padding-15 form-in-map'>"+
+									"<h3 class='margin-top-5'><i class='fa fa-angle-down'></i> <i class='fa fa-home'></i> Postal Code</h3>"+
+									"<div class='text-dark margin-top-5 hidden-xs'><i class='fa fa-circle'></i> Indiquez un code postal pour une commune</div>"+
+									"<div class='text-dark margin-top-5 hidden-xs'><i class='fa fa-circle'></i> Déplacez l'icon avec la souris pour un placement plus précis</div>"+
+									"<hr class='col-md-12'>"+
+									"<div id='divPostalCode' class=' dropdown pull-left col-md-12 col-xs-12 no-padding'> " +
+								  		"<input class='form-group col-md-12 col-xs-12' type='text' name='newPC_postalCode' placeholder='Code postal'>"+
+							  		"</div>" +
+							  		"<div id='divCity' class=' dropdown pull-left col-md-12 col-xs-12 no-padding'> " +
+								  		"<input class='form-group col-md-12 col-xs-12' type='text' name='newPC_name' placeholder='Ville, village, commune, quartier'>"+
+							  		"</div>" +
+							  		"<div id='divLat' class=' dropdown pull-left col-md-12 col-xs-12 no-padding'> " +
+								  		"<input class='form-group col-md-12 col-xs-12' type='text' name='newPC_lat' placeholder='Latitude du code postal'>"+
+							  		"</div>" +
+							  		"<div id='divLat' class=' dropdown pull-left col-md-12 col-xs-12 no-padding'> " +
+								  		"<input class='form-group col-md-12 col-xs-12' type='text' name='newPC_lon' placeholder='Longitude du code postal'>"+
+							  		"</div>" +
+									"<hr class='col-md-12 col-xs-12'>"+
+									"<button class='col-md-8 btn btn-success pull-right' type='text' id='newPC_btnValidatePC' disabled='disabled'><i class='fa fa-check'></i> Valider <span class='hidden-xs'>le code postal et la position</span></button>"+
+									"<button class='col-md-3 btn btn-danger pull-right' type='text' id='newPC_btnCancelPC' style='margin-right:5px;'><i class='fa fa-times'></i> Annuler</button>"+
 								"</div>";
 
 			return popupContent;

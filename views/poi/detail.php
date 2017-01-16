@@ -224,27 +224,27 @@ if($('#breadcum').length)
 				                <div class="col-md-12 no-padding" style="margin-top:20px">
 
 				                    <div class="col-xs-6  center text-yellow btnSubTitle">
-				                        <a href="javascript:openForm('person')" class="btn btn-discover bg-yellow">
+				                        <a href="javascript:elementLib.openForm('person')" class="btn btn-discover bg-yellow">
 
 				                          <i class="fa fa-user"></i>
 				                        </a><br/><span class="discover-subtitle">Une personne</span>
 				                    </div>
 				                    
 				                    <div class="col-xs-6  center text-green btnSubTitle">
-				                        <a href="javascript:openForm('organization')" class="btn btn-discover bg-green">
+				                        <a href="javascript:elementLib.openForm('organization')" class="btn btn-discover bg-green">
 				                          <i class="fa fa-group"></i>
 				                        </a>
 				                        <br/><span class="discover-subtitle">Organisation</span>
 				                    </div>
 
 				                    <div class="col-xs-6  center text-orange btnSubTitle">
-				                        <a href="javascript:openForm('event')" class="btn btn-discover bg-orange">
+				                        <a href="javascript:elementLib.openForm('event')" class="btn btn-discover bg-orange">
 				                          <i class="fa fa-calendar"></i>
 				                        </a><br/><span class="discover-subtitle">Évènement</span>
 				                    </div>
 				                    
 				                    <div class="col-xs-6  center text-purple btnSubTitle">
-				                        <a href="javascript:openForm('project')" class="btn btn-discover bg-purple">
+				                        <a href="javascript:elementLib.openForm('project')" class="btn btn-discover bg-purple">
 				                          <i class="fa fa-lightbulb-o"></i>
 				                        </a><br/><span class="discover-subtitle">Projet</span>
 				                    </div>
