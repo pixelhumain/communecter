@@ -34,6 +34,8 @@ $tabCommons = array(	"0" => "Ne souhaite pas",
 		</a>
 		<?php } ?>
 	</div>
+		<div id="switchChart">
+		</div>
 		<div id="infoPodChart" class="padding-10 <?php if(!empty($properties)) echo "hide" ?>">
 			<blockquote> 
 				<?php echo Yii::t("project","Create Chart<br/>Opening<br/>Values<br/>Governance<br/>To explain the aim and draw project conduct",null,Yii::app()->controller->module->id) ?>
@@ -48,7 +50,7 @@ $tabCommons = array(	"0" => "Ne souhaite pas",
 			}
 			
 		?>
-		<div class="panel-body no-padding contentChartCommons <?php if(!@$propertiesCommons) echo "hide" ?>">
+		<div class="panel-body no-padding contentChartCommons charts <?php if(!@$propertiesCommons) echo "hide" ?>">
 			<canvas id="myChartCommons" width="" height=""></canvas>
 			<div class="col-md-12 col-sm-12 col-xs-12">
 			<?php
@@ -78,7 +80,7 @@ $tabCommons = array(	"0" => "Ne souhaite pas",
 			 ?>
 			</div>
 		</div>
-		<div class="panel-body no-padding contentChartOpen <?php if(!@$propertiesOpen) echo "hide" ?>">
+		<div class="panel-body no-padding contentChartOpen charts <?php if(!@$propertiesOpen) echo "hide" ?>">
 			<canvas id="myChartOpen" width="" height=""></canvas>
 			<div class="col-md-12 col-sm-12 col-xs-12">
 			<?php
@@ -217,6 +219,21 @@ jQuery(document).ready(function() {
 				chartInit(propertiesCommons,"myChartCommons");
 			if(countPropertiesOpen > 0)
 				chartInit(propertiesOpen,"myChartOpen");
+			if(countPropertiesCommons > 0 && countPropertiesOpen > 0){
+				switcher="<select id='switchChart'>"+
+							"<option class='switcherChart' value='Commons'><?php echo Yii::t("chart","Commons") ?></option>"+
+							"<option class='switcherChart' value='Open'><?php echo Yii::t("chart","Open") ?></option>"+
+						"</select>";
+				$("#switchChart").append(switcher).show();
+				$(".contentChartOpen").hide();
+				$('#switchChart').change(function(){ 
+					val=$(this).find(":selected").val();	
+					$(".charts").hide();
+					$(".contentChart"+val).show();	
+			//		alert( this.value );
+				});
+
+			}
 		}
 		//}, 0);
 	}
