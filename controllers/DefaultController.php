@@ -107,6 +107,16 @@ class DefaultController extends CommunecterController {
    // $tpl=(@$_GET["tpl"]) ? $_GET["tpl"]: "home";
     $this->renderPartial($tpl, array("stats"=>$stats));
   }
+  public function actionApropos() 
+  {
+    //$this->layout = "//layouts/mainSearch";
+    $tpl = "apropos";
+    if(Yii::app()->theme != "ph-dori")
+      $tpl = "//layouts/default/apropos";
+
+   // $tpl=(@$_GET["tpl"]) ? $_GET["tpl"]: "home";
+    $this->renderPartial($tpl);
+  }
   public function actionLogin() 
   {
     $this->layout = "//layouts/mainSearch";
