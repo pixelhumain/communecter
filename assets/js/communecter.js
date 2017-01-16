@@ -1,11 +1,4 @@
 var countPoll = 0;
-$(document).ready(function() { 
-	initSequence();
-	setTimeout( function () { checkPoll() }, 10000);
-	document.onkeyup = keyboardNav.checkKeycode;
-	bindRightClicks();
-});
-
 var prevStep = 0;
 var steps = ["explain1","live","explain2","event","explain3","orga","explain4","project","explain5","person"];
 var slides = {
@@ -3917,3 +3910,10 @@ function displayStartAndEndDate(event) {
 	}
 	return content;
 }
+
+$(document).ready(function() { 
+	initSequence();
+	setTimeout( function () { checkPoll() }, 10000);
+	document.onkeyup = keyboardNav.checkKeycode;
+	bindRightClicks();
+});
