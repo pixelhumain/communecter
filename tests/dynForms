@@ -23,7 +23,7 @@
 </tr>
 <tr>
 	<td>runScript</td>
-	<td>openForm('event')</td>
+	<td>elementLib.openForm('event')</td>
 	<td></td>
 </tr>
 <tr>
@@ -73,7 +73,7 @@
 </tr>
 <tr>
 	<td>runScript</td>
-	<td>openForm('event')</td>
+	<td>elementLib.openForm('event')</td>
 	<td></td>
 </tr>
 <tr>
@@ -128,7 +128,7 @@
 </tr>
 <tr>
 	<td>runScript</td>
-	<td>openForm('event')</td>
+	<td>elementLib.openForm('event')</td>
 	<td></td>
 </tr>
 <tr>
@@ -193,7 +193,7 @@
 </tr>
 <tr>
 	<td>runScript</td>
-	<td>openForm('event','subEvent')</td>
+	<td>elementLib.openForm('event','subEvent')</td>
 	<td></td>
 </tr>
 <tr>
@@ -253,7 +253,7 @@
 </tr>
 <tr>
 	<td>runScript</td>
-	<td>openForm('project','sub')</td>
+	<td>elementLib.openForm('project','sub')</td>
 	<td></td>
 </tr>
 <tr>
@@ -298,7 +298,7 @@
 </tr>
 <tr>
 	<td>runScript</td>
-	<td>openForm('poi','subPoi')</td>
+	<td>elementLib.openForm('poi','subPoi')</td>
 	<td></td>
 </tr>
 <tr>
@@ -348,7 +348,7 @@
 </tr>
 <tr>
 	<td>runScript</td>
-	<td>openForm('poi','subPoi')</td>
+	<td>elementLib.openForm('poi','subPoi')</td>
 	<td></td>
 </tr>
 <tr>
@@ -413,7 +413,7 @@
 </tr>
 <tr>
 	<td>runScript</td>
-	<td>openForm('poi','subPoi')</td>
+	<td>elementLib.openForm('poi','subPoi')</td>
 	<td></td>
 </tr>
 <tr>
@@ -498,7 +498,7 @@
 </tr>
 <tr>
 	<td>runScript</td>
-	<td>openForm('organization')</td>
+	<td>elementLib.openForm('organization')</td>
 	<td></td>
 </tr>
 <tr>
@@ -573,7 +573,7 @@
 </tr>
 <tr>
 	<td>runScript</td>
-	<td>openForm('person')</td>
+	<td>elementLib.openForm('person')</td>
 	<td></td>
 </tr>
 <tr>
@@ -608,7 +608,7 @@
 </tr>
 <tr>
 	<td>runScript</td>
-	<td>openForm('project')</td>
+	<td>elementLib.openForm('project')</td>
 	<td></td>
 </tr>
 <tr>
@@ -658,7 +658,7 @@
 </tr>
 <tr>
 	<td>runScript</td>
-	<td>openForm('action')</td>
+	<td>elementLib.openForm('action')</td>
 	<td></td>
 </tr>
 <tr>
@@ -708,7 +708,7 @@
 </tr>
 <tr>
 	<td>runScript</td>
-	<td>openForm('entry')</td>
+	<td>elementLib.openForm('entry')</td>
 	<td></td>
 </tr>
 <tr>

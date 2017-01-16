@@ -1,6 +1,5 @@
 <?php 
  $cssAnsScriptFilesModule = array(
-    '/css/default/directory.css',
     '/js/default/directory.js',
   );
   HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);

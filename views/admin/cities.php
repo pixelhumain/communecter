@@ -2,32 +2,25 @@
 echo CHtml::scriptFile(Yii::app()->request->baseUrl. '/plugins/DataTables/media/js/jquery.dataTables.min.1.10.4.js');
 echo CHtml::cssFile(Yii::app()->request->baseUrl. '/plugins/DataTables/media/css/DT_bootstrap.css');
 echo CHtml::scriptFile(Yii::app()->request->baseUrl. '/plugins/DataTables/media/js/DT_bootstrap.js');
-/*
-TKA : doesn't work , produces empty /ph urls causing issues
 
-$cssAnsScriptFilesModule = array(
-	'/plugins/DataTables/media/css/DT_bootstrap.css',
-	'/plugins/DataTables/media/js/jquery.dataTables.min.1.10.4.js',
-	'/plugins/DataTables/media/js/DT_bootstrap.js'
-);
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);*/
 ?>
 
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
-		<h4 class="panel-title"><i class="fa fa-globe fa-2x text-green"></i> 
-			<a href="javascript:;" onclick="applyStateFilter('goods')" class="filtergood btn btn-xs btn-default"> Goods <span class="badge badge-warning"> <?php echo count(@$goods) ?></span></a>
+		<h4 class="panel-title">
+			<a href="javascript:;" onclick="applyStateFilter('goods')" class="filtergood btn btn-xs btn-default"><i class="fa fa-check fa-1x text-success"></i>Goods <span class="badge badge-warning"> <?php echo count(@$goods) ?></span></a>
 
-			<a href="javascript:;" onclick="applyStateFilter('errors')" class="filtererror btn btn-xs btn-default"> Errors <span class="badge badge-warning"> <?php echo count(@$errors) ?></span></a>
+			<a href="javascript:;" onclick="applyStateFilter('errors')" class="filtererror btn btn-xs btn-default"><i class="fa fa-close fa-1x text-danger"></i> Errors <span class="badge badge-warning"><?php echo count(@$errors) ?></span></a>
 
-			<a href="javascript:;" onclick="clearAllFilters('')" class="btn btn-xs btn-default"> All</a></h4>
+			<a href="javascript:;" onclick="applyStateFilter('news')" class="filtererror btn btn-xs btn-default"><i class="fa fa-warning fa-1x text-warning"></i> News <span class="badge badge-warning"> <?php echo count(@$news) ?></span></a>
+
+			<a href="javascript:;" onclick="clearAllFilters('')" class="btn btn-xs btn-default"><i class="fa fa-university fa-1x text-primary"></i> All</a></h4>
 	</div>
 	<div class="panel-tools">
 		<a href="javascript:;" onclick="openSubView('Add an city', '/'+moduleId+'/organization/addorganizationform',null)" class="btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="Add an city"><i class="fa fa-plus"></i> <i class="fa fa-group"></i> </a>
 	</div>
 	<div class="panel-body">
-		<div>	
-			<?php //var_dump($projects) ?>
+		<div>
 			<table class="table table-striped table-bordered table-hover  directoryTable">
 				<thead>
 					<tr>
@@ -51,7 +44,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);*/
 						"region"=>array(),
 					);
 					
-					/* ************ ORGANIZATIONS ********************** */
 					if(isset($goods)) 
 					{ 
 						foreach ($goods as $e) 
@@ -60,12 +52,19 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);*/
 						};
 					}
 
-					/* ********** PEOPLE ****************** */
 					if(isset($errors)) 
 					{ 
 						foreach ($errors as $e) 
 						{ 
 							buildDirectoryLine($e, City::COLLECTION, City::CONTROLLER, City::ICON, $this->module->id,$tags,$scopes, "errors");
+						}
+					}
+
+					if(isset($news)) 
+					{ 
+						foreach ($news as $e) 
+						{ 
+							buildDirectoryLine($e, City::COLLECTION, City::CONTROLLER, City::ICON, $this->module->id,$tags,$scopes, "news");
 						}
 					}
 
@@ -82,27 +81,23 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);*/
 							/* **************************************
 							* ADMIN STUFF
 							***************************************** */
-							if( Yii::app()->session["userIsAdmin"] )
-							{
-								
-									$actions .= '<li>'.
-													'<a href="javascript:;" onclick="updateCities(\''.$id.'\', \''.$goodsOrNot.'\');" data-id="'.$id.'" data-type="'.$type.'" class="margin-right-5 validateThisBtn">'.
-														'<span class="fa-stack">'.
-															'<i class="fa fa-university fa-stack-1x"></i>'.
-															'<i class="fa fa-pencil fa-stack-1x stack-right-bottom text-danger"></i>'.
-														'</span> Update '.
-													'</a>'.
-												'</li>';
-
-									$actions .= '<li>'.
-													'<a href="javascript:;" data-id="'.$id.'" data-type="'.$type.'" class="margin-right-5 validateThisBtn">'.
-														'<span class="fa-stack">'.
-															'<i class="fa fa-university fa-stack-1x"></i>'.
-															'<i class="fa fa-trash fa-stack-1x stack-right-bottom text-danger"></i>'.
-														'</span> Delete '.
-													'</a>'.
-												'</li>';								
-								
+							if( Yii::app()->session["userIsAdmin"] ){
+								$actions .= '<li>'.
+												'<a href="javascript:;" onclick="updateCities(\''.$id.'\', \''.$goodsOrNot.'\');" data-id="'.$id.'" data-type="'.$type.'" class="margin-right-5 validateThisBtn">'.
+													'<span class="fa-stack">'.
+														'<i class="fa fa-university fa-stack-1x"></i>'.
+														'<i class="fa fa-pencil fa-stack-1x stack-right-bottom text-danger"></i>'.
+													'</span> Update '.
+												'</a>'.
+											'</li>';
+								$actions .= '<li>'.
+												'<a href="javascript:;" data-id="'.$id.'" data-type="'.$type.'" class="margin-right-5 validateThisBtn">'.
+													'<span class="fa-stack">'.
+														'<i class="fa fa-university fa-stack-1x"></i>'.
+														'<i class="fa fa-trash fa-stack-1x stack-right-bottom text-danger"></i>'.
+													'</span> Delete '.
+												'</a>'.
+											'</li>';								
 							}
 
 							/* **************************************
@@ -110,7 +105,14 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);*/
 							***************************************** */
 						$strHTML = '<tr id="'.(string)$id.'">' ;
 							$strHTML = '<td class="'.$collection.'Line '.$classes.'">';
-											$strHTML .= '<i class="fa '.$icon.' fa-2x"></i> '.$goodsOrNot.'';
+											$strHTML .= '<span class="fa-stack"><i class="fa '.$icon.' fa-stack-2x"></i>';
+											if($goodsOrNot == "goods")
+												$strHTML .= '<i class="fa fa-check fa-stack-2x stack-right-bottom text-success"></i>';
+											else if($goodsOrNot == "errors")
+												$strHTML .= '<i class="fa fa-close fa-stack-2x stack-right-bottom text-danger"></i>';
+											else if($goodsOrNot == "news")
+												$strHTML .= '<i class="fa fa-warning fa-stack-2x stack-right-bottom text-warning"></i>';
+											$strHTML .= '</span><span class="hidden">'.$goodsOrNot.'</span>';
 									$strHTML .= '</td>';
 							
 							/* **************************************
@@ -157,11 +159,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);*/
 var openingFilter = "<?php echo ( isset($_GET['type']) ) ? $_GET['type'] : '' ?>";
 var goods = <?php echo ( isset($goods) ) ? json_encode($goods) : '' ?>;
 var errors = <?php echo ( isset($errors) ) ? json_encode($errors) : '' ?>;
+var news = <?php echo ( isset($news) ) ? json_encode($news) : '' ?>;
 var directoryTable = null;
-var contextMap = {
+/*var contextMap = {
 	"tags" : <?php echo json_encode($tags) ?>,
 	"scopes" : <?php echo json_encode($scopes) ?>,
-};
+};*/
 
 jQuery(document).ready(function() {
 	setTitle("Espace administrateur : Répertoire","cog");

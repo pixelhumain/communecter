@@ -645,7 +645,7 @@ function showFormBlock(bool){
 	}
 }
 
-function getUrlContent(){
+function getUrlContent(){ console.log("getUrlContent getUrlContent");
     //user clicks previous thumbail
     $("body").on("click","#thumb_prev", function(e){        
         if(img_arr_pos>0) 

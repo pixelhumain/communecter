@@ -83,7 +83,6 @@ class DefaultController extends CommunecterController {
   {
     $this->renderPartial("directory");
   }
-
   public function actionDirectoryjs() 
   {
     $this->renderPartial("directoryjs");

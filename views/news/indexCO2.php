@@ -157,7 +157,7 @@ jQuery(document).ready(function() {
 
 });
 
-function initForm(){
+function initForm(){ console.log("initForm initForm");
   getMediaFromUrlContent(".get_url_input",".results",1);
   
   setTimeout(function(){

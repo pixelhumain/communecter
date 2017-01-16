@@ -104,21 +104,21 @@ input.form-control.input-search{
   </div>
 
 <div class="hidden">
-  <button class="btn btn-default  tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Point d'interet" data-type="poi" onclick="openForm ( 'poi' );" >
+  <button class="btn btn-default  tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Point d'interet" data-type="poi" onclick="elementLib.openForm ( 'poi' );" >
       <i class="fa fa-map-marker search_needs hidden"></i> <i class="fa fa-map-marker"></i> 
       <span class="hidden-xs hidden-sm hidden-md">POI</span>
     </button>
-    <button class="btn btn-default  tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Organisation" data-type="organization" onclick="openForm ( 'organization' );" >
+    <button class="btn btn-default  tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Organisation" data-type="organization" onclick="elementLib.openForm ( 'organization' );" >
       <i class="fa fa-map-marker search_needs hidden"></i> <i class="fa fa-group"></i> 
       <span class="hidden-xs hidden-sm hidden-md">Organisation</span>
     </button>
 
-    <button class="btn btn-default  tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Évènement" data-type="event" onclick="openForm ( 'event' );" >
+    <button class="btn btn-default  tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Évènement" data-type="event" onclick="elementLib.openForm ( 'event' );" >
       <i class="fa fa-map-marker search_needs hidden"></i> <i class="fa fa-calendar"></i> 
       <span class="hidden-xs hidden-sm hidden-md">Evenement</span>
     </button>
 
-    <button class="btn btn-default  tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Projet" data-type="project" onclick="openForm ( 'project' );" >
+    <button class="btn btn-default  tooltips text-dark" data-toggle="tooltip" data-placement="top" title="Projet" data-type="project" onclick="elementLib.openForm ( 'project' );" >
       <i class="fa fa-map-marker search_needs hidden"></i> <i class="fa fa-lightbulb-o"></i> 
       <span class="hidden-xs hidden-sm hidden-md">Projet</span>
     </button>

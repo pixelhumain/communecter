@@ -52,7 +52,7 @@
 		      <span class="hidden-xs"> Afficher <span class="hidden-sm hidden-xs">sur</span> la carte</span>
 		    </button>
 	  	</div>
-		<div id="listTags" class="hide col-sm-2"></div>
+		<div id="listTags" class="hide col-sm-2 hide"></div>
 		<div style="" class="row no-padding" id="dropdown_search"></div>
 
   </div>
@@ -80,6 +80,7 @@ var headerParams = {
   "actions"       : { color: "lightblue2",    icon: "cogs",   name: "actions" },
   "cities"        : { color: "red",     icon: "university",   name: "communes" },
   "poi"       	  :	{ color: "black",   icon: "map-marker",   name: "points d'intérêts" },
+  "classified"    : { color: "lightblue2",   icon: "bullhorn",   name: "Annonces" },
 }
 function setHeaderDirectory(type){
  
@@ -89,6 +90,7 @@ function setHeaderDirectory(type){
   $(".subtitle-search").html('<span class="text-'+params.color+' homestead">'+
                                 '<i class="fa fa-angle-down"></i> <i class="fa fa-'+params.icon+'"></i> '+
                                 params.name+
+                                " <i class='fa fa-angle-right'></i> <a href='javascript:directory.showFilters()' class='btn btn-default'> <i class='fa fa-search'></i> <i class='fa fa-tags'></i> </a>"+
                               '</span>');
 
   $(".lbl-info-search .lbl-info").addClass("hidden");

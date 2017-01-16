@@ -1,78 +1,55 @@
-<div class="panel panel-white">
-	<div class="panel-heading text-center border-light">
-		<h3 class="panel-title text-red"><i class="fa fa-map-marker"></i>   <?php echo Yii::t("common", "SOURCE ADMIN"); ?></h3>
-	</div>
-	<div class="panel-body">
-		<h4 class="panel-title"><span id="nbWarnings"></span> Eléments </h4>
-		<br/>
-		<div></div>
-		<table id="tableEntity" class="col-xs-12 table table-striped">
-			<tr>
-				<th>Name</th>
-				<th>Warnings</th>
-			</tr>
-			<?php
-				$nb = 0 ;
-				$chaine = "";
-				//var_dump($entitiesSourceAdmin);
-				foreach ($entitiesSourceAdmin as $typeEntities => $entities) {
-					$nb += count($entities);
-					foreach ($entities as $key => $entity) {
-						//var_dump($entity);
-						if(count($entity) > 0){
-							if(Person::CONTROLLER == $typeEntities){
-		                        $contextIcon = "user text-yellow";
-		                    }
-		                    else if(Organization::CONTROLLER == $typeEntities){
-		                        $contextIcon = "users text-green";
-		                    }
-		                    else if(Event::CONTROLLER == $typeEntities){
-		                        $contextIcon = "calendar text-orange";
-		                    }
-		                    else if(Project::CONTROLLER == $typeEntities){
-		                        $contextIcon = "lightbulb-o text-purple";
-		                    } 
-							?>
-							<tr>
-								<td>
-									<i class='fa fa-<?php echo $contextIcon;?> '></i> 
+<?php
+$cs = Yii::app()->getClientScript();
 
-									<a  href='javascript:;' onclick='loadByHash("#<?php echo $typeEntities ; ?>.detail.id.<?php echo $entity['id'] ; ?>")' class=''>
-										<?php echo $entity["name"]; ?> 
-									</a>
-								</td>
-								<td> 
-									<?php echo (empty($entity["warnings"])?"": Import::getMessagesWarnings($entity["warnings"])) ; ?>
-								</td>
-							</tr>
-							<?php
-						}
-					}
-				}
-			?>
+?>
+<!-- start: PAGE CONTENT -->
+<div class="col-xs-12" id="">
+  <div class="panel panel-white">
+      <div class="panel-heading text-center border-light">
+        <h3 class="panel-title text-blue"><i class="fa fa-connectdevelop"></i> Admin </h3>
 
-		</table>
-	</div>
+      </div>
+
+      <div class="panel-body no-padding center">
+        <ul class="list-group text-left no-margin">
+
+          <li class="list-group-item text-purple col-md-4 col-sm-6 link-to-directory">
+            <div class="" style="cursor:pointer;" onclick="loadByHash('#admin.createfile')">
+              <i class="fa fa-upload fa-2x"></i> 
+              <?php echo Yii::t("admin", "IMPORT DATA", null, Yii::app()->controller->module->id); ?>
+            </div>
+          </li>
+          <li class="list-group-item text-red col-md-4 col-sm-6 link-to-directory">
+            <div class="" style="cursor:pointer;" onclick="loadByHash('#admin.adddata')">
+              <i class="fa fa-plus fa-2x"></i>
+                
+              <?php echo Yii::t("admin", "ADD DATA", null, Yii::app()->controller->module->id); ?>
+
+            </div>
+          </li>
+          <?php if( Role::isSourceAdmin(Role::getRolesUserId(Yii::app()->session["userId"]) ) ){ ?>
+             <li class="list-group-item text-red col-md-4 col-sm-6 link-to-directory">
+              <div class="" style="cursor:pointer;" onclick="loadByHash('#stat.chart')">
+                <i class="fa fa-plus fa-2x"></i>
+                  
+                <?php echo Yii::t("admin", "SOURCE ADMIN", null, Yii::app()->controller->module->id); ?>
+                
+              </div>
+            </li>
+          <?php 
+            }
+          ?>
+        </ul>
+      </div>
+  </div>
 </div>
+</div>-->
+<!-- end: PAGE CONTENT-->
+<script>
 
-<script type="text/javascript">
-var mapData = <?php echo json_encode($contextMap) ?>;
-jQuery(document).ready(function() {
-	setTitle("Espace administrateur : Import de données","cog");
-	var nbWarnings = "<?php echo $nb ?>" ;
-	mylog.log(nbWarnings);
-	$("#nbWarnings").html(nbWarnings);
-	bindCheckGeo();
-	mylog.log("herrerer");
-	mylog.dir(mapData);
-	Sig.restartMap();
-	Sig.showMapElements(Sig.map, mapData);
-});
-
-function bindCheckGeo(){
-	
-
-
-}
+  jQuery(document).ready(function() {
+    setTitle("Espace administrateur","cog");
+   //Index.init();
+  });
 
 </script>

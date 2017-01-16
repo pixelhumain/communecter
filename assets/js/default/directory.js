@@ -256,7 +256,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
             if(typeof showResultInCalendar != "undefined")
               showResultInCalendar(mapElements);
             //affiche les éléments sur la carte
-            //Sig.showMapElements(Sig.map, mapElements);
+            Sig.showMapElements(Sig.map, mapElements);
 
             if(typeof callBack == "function")
                 callBack();
@@ -721,7 +721,7 @@ var directory = {
     },
 
     //todo add count on each tag
-    filterTags : function (withSearch) 
+    filterTags : function (withSearch,open) 
     { 
         directory.tagsT = [];
         $("#listTags").html('');
@@ -741,11 +741,13 @@ var directory = {
                 }
             });
         });
-        if( directory.tagsT.length )
+        if( directory.tagsT.length && open )
             $("#listTags").removeClass("hide");
         //$("#btn-open-tags").append("("+$(".favElBtn").length+")");
     },
-
+    showFilters : function () { 
+        $("#listTags").toggleClass("hide");
+    },
     addMultiTagsAndScope : function() { 
       directory.multiTagsT = [];
       directory.multiScopesT = [];

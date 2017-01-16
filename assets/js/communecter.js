@@ -184,7 +184,7 @@ function updateField(type,id,name,value,reload){
 	$.ajax({
 	  type: "POST",
 	  url: baseUrl+"/"+moduleId+"/"+type+"/updatefield", 
-	  data: { "pk" : id ,"name" : name, "value" : value },
+	  data: { "pk" : id ,"name" : name, value : value },
 	  success: function(data){
 		if(data.result) {
         	toastr.success(data.msg);
@@ -290,34 +290,6 @@ function connectPerson(connectUserId, callback)
 }
 
 
-/*function disconnectPerson(idToDisconnect, typeToDisconnect, nameToDisconnect, callback) 
-{
-
-	bootbox.confirm(trad.areyousure+" <span class='text-red'>"+nameToDisconnect+"</span> "+trad.connection+" ?", 
-		function(result) {
-			if (!result) {
-				return;
-			}
-			var urlToSend = baseUrl+"/"+moduleId+"/person/disconnect/id/"+idToDisconnect+"/type/"+typeToDisconnect+"/ownerLink/knows";
-			$.ajax({
-				type: "POST",
-				url: urlToSend,
-				dataType: "json",
-				success: function(data){
-					if ( data && data.result ) {               
-						toastr.info("You are not following this person anymore.");
-						if (typeof callback == "function") callback(idToDisconnect, typeToDisconnect, nameToDisconnect);
-					} else {
-						toastr.error(data.msg);
-					}
-				},
-				error: function(data) {
-					toastr.error("Something went really bad !");
-				}
-			});
-		}
-	);
-}*/
 
 function disconnectTo(parentType,parentId,childId,childType,connectType, callback) {
 	var messageBox = trad["removeconnection"];
@@ -612,6 +584,7 @@ var loadableUrls = {
     "#default.news" : {title:'COMMUNECTED NEWS ', icon : 'rss', menuId:"menu-btn-news" },
     "#default.agenda" : {title:'COMMUNECTED AGENDA ', icon : 'calendar', menuId:"menu-btn-agenda"},
 	"#default.home" : {title:'COMMUNECTED HOME ', icon : 'home',"menu":"homeShortcuts"},
+	"#default.apropos" : {title:'COMMUNECTED HOME ', icon : 'star',"menu":"homeShortcuts"},
 	"#default.twostepregister" : {title:'TWO STEP REGISTER', icon : 'home', "menu":"homeShortcuts"},
 	"#default.view.page" : {title:'FINANCEMENT PARTICIPATIF ', icon : 'euro'},
 	
@@ -1196,7 +1169,7 @@ var smallMenu = {
 		});
 		$(".blockPage").addClass("menuSmallBlockUI");
 		// If network, check width of menu small
-		if(typeof globalTheme != "undefined" && globalTheme == "network"){
+		if( typeof globalTheme != "undefined" && globalTheme == "network" ) {
 			if($("#ficheInfoDetail").is(":visible"))
 				$(".menuSmallBlockUI").css("cssText", "width: 100% !important;left: 0% !important;");
 			else
@@ -1458,294 +1431,6 @@ function activateSummernote(elem) {
 				]
 		});
 	}
-}
-
-
-/* *********************************
-			ELEMENTS
-********************************** */
-
-
-function formatData(formData, collection,ctrl) { 
-	mylog.warn("formatData");
-	formData.collection = collection;
-	formData.key = ctrl;
-	
-	if(elementLocation){
-		//formData.multiscopes = elementLocation;
-		formData.address = centerLocation.address;
-		formData.geo = centerLocation.geo;
-		formData.geoPosition = centerLocation.geoPosition;
-		if( elementLocations.length ){
-			$.each( elementLocations,function (i,v) { 
-				if( notNull(v) && notNull(v.center) )
-					elementLocations.splice(i, 1);
-			});
-			formData.addresses = elementLocations;
-		}
-	}
-	if(elementPostalCodes.length > 0){
-		//formData.multiscopes = elementLocation;
-		formData.postalCodes = elementPostalCodes;
-		
-	}
-	
-	formData.medias = [];
-	$(".resultGetUrl").each(function(){
-		if($(this).html() != ""){
-			mediaObject=new Object;	
-			if($(this).find(".type").val()=="url_content"){
-				mediaObject.type=$(this).find(".type").val();
-				if($(this).find(".name").length)
-					mediaObject.name=$(this).find(".name").val();
-				if($(this).find(".description").length)
-					mediaObject.description=$(this).find(".description").val();
-				mediaObject.content=new Object;
-				mediaObject.content.type=$(this).find(".media_type").val(),
-				mediaObject.content.url=$(this).find(".url").val(),
-				mediaObject.content.image=$(this).find(".img_link").val();
-				if($(this).find(".size_img").length)
-					mediaObject.content.imageSize=$(this).find(".size_img").val();
-				if($("#form-news #results .video_link_value").length)
-					mediaObject.content.videoLink=$(this).find(".video_link_value").val();
-			}
-			else{
-				mediaObject.type=$(this).find(".type").val(),
-				mediaObject.countImages=$(this).find(".count_images").val(),
-				mediaObject.images=[];
-				$(".imagesNews").each(function(){
-					mediaObject.images.push($(this).val());	
-				});
-			}
-			formData.medias.push(mediaObject);
-		}
-	});
-	if( typeof formData.source != "undefined" && formData.source != "" ){
-		formData.source = { insertOrign : "network",
-							keys : [ 
-								formData.source
-							],
-							key : formData.source
-						}
-	}
-									
-	if( typeof formData.tags != "undefined" && formData.tags != "" )
-		formData.tags = formData.tags.split(",");
-	// Add collections and genres of notragora in tags
-	if( typeof formData.collections != "undefined" && formData.collections != "" ){
-		collectionsTagsSave=formData.collections.split(",");
-		$.each(collectionsTagsSave, function(i, e) {
-			formData.tags.push(e);
-		});
-		delete formData['collections'];
-	}
-	if( typeof formData.genres != "undefined" && formData.genres != "" ){
-		genresTagsSave=formData.genres.split(",");
-		$.each(genresTagsSave, function(i, e) {
-			formData.tags.push(e);
-		});
-		delete formData['genres'];
-	}
-	removeEmptyAttr(formData);
-
-	mylog.dir(formData);
-	return formData;
-}
-
-function saveElement ( formId,collection,ctrl,saveUrl ) 
-{ 
-	mylog.warn("saveElement",formId,collection);
-	formData = $(formId).serializeFormJSON();
-	mylog.log("before",formData);
-	formData = formatData(formData,collection,ctrl);
-	formData.medias = [];
-	$(".resultGetUrl").each(function(){
-		if($(this).html() != ""){
-			mediaObject=new Object;	
-			if($(this).find(".type").val()=="url_content"){
-				mediaObject.type=$(this).find(".type").val();
-				if($(this).find(".name").length)
-					mediaObject.name=$(this).find(".name").val();
-				if($(this).find(".description").length)
-					mediaObject.description=$(this).find(".description").val();
-				mediaObject.content=new Object;
-				mediaObject.content.type=$(this).find(".media_type").val(),
-				mediaObject.content.url=$(this).find(".url").val(),
-				mediaObject.content.image=$(this).find(".img_link").val();
-				if($(this).find(".size_img").length)
-					mediaObject.content.imageSize=$(this).find(".size_img").val();
-				if($(this).find(".video_link_value").length)
-					mediaObject.content.videoLink=$(this).find(".video_link_value").val();
-			}
-			else{
-				mediaObject.type=$(this).find(".type").val(),
-				mediaObject.countImages=$(this).find(".count_images").val(),
-				mediaObject.images=[];
-				$(".imagesNews").each(function(){
-					mediaObject.images.push($(this).val());	
-				});
-			}
-			formData.medias.push(mediaObject);
-		}
-	});
-	$.ajax( {
-    	type: "POST",
-    	url: (saveUrl) ? saveUrl : baseUrl+"/"+moduleId+"/element/save",
-    	data: formData,
-    	dataType: "json",
-    	success: function(data){
-    		mylog.warn("saveElement ajax result");
-    		mylog.dir(data);
-			if(data.result == false){
-                toastr.error(data.msg);
-                //reset save btn 
-                $("#btn-submit-form").html('Valider <i class="fa fa-arrow-circle-right"></i>').prop("disabled",false).one(function() { 
-					$( settings.formId ).submit();	        	
-		        });
-           	}
-            else { 
-                toastr.success(data.msg);
-                $('#ajax-modal').modal("hide");
-                //clear the unecessary DOM 
-                $("#ajaxFormModal").html('');
-                if(data.url)
-                	loadByHash( data.url );
-                else if(data.id)
-	        		loadByHash( '#'+ctrl+'.detail.id.'+data.id )
-	        	if(data.map && $.inArray(collection, ["events","organizations","projects","citoyens"] ) !== -1)
-	        		addFloopEntity(data.id, collection, data.map);
-            }
-    	}
-    });
-}
-
-function editElement(type,id){
-	mylog.warn("--------------- editElement "+type+" ---------------------",id);
-	//get ajax of the elemetn content
-	$.ajax({
-        type: "GET",
-        url: baseUrl+"/"+moduleId+"/element/get/type/"+type+"/id/"+id,
-        dataType : "json"
-    })
-    .done(function (data) {
-        if ( data && data.result ) {
-        	//toastr.info(type+" found");
-        	
-			//onLoad fill inputs
-			//will be sued in the dynform  as update 
-			data.map.id = data.map["_id"]["$id"];
-			delete data.map["_id"];
-			mylog.dir(data);
-			console.log(data);
-			if(globalTheme=="notragora"){
-				if(type=="poi"){
-					if(typeof data.map["tags"] != "undefined" && data.map["tags"].length > 0){
-				  		$.each(data.map["tags"], function(i,e){
-					  		if(jQuery.inArray( e, collectionsType ) >= 0){
-						   		 data.map["collections"]=[];
-						   		 data.map["collections"].push(e);
-						   		 var i = data.map["tags"].indexOf(e);
-								if(i != -1) {
-									data.map["tags"].splice(i, 1);
-								}
-							}
-							if(jQuery.inArray( e, genresType ) >= 0){
-						   		 data.map["genres"]=[];
-						   		 data.map["genres"].push(e);
-						   		 var i = data.map["tags"].indexOf(e);
-								if(i != -1) {
-									data.map["tags"].splice(i, 1);
-								}
-							}
-
-				  		});
-		  			}
-	  			}
-			}
-			openForm(type,null, data.map);
-        } else {
-           toastr.error("something went wrong!! please try again.");
-        }
-    });
-}
-
-function openForm (type, afterLoad,data) { 
-    //mylog.clear();
-    $.unblockUI();
-    mylog.warn("--------------- Open Form "+type+" ---------------------",data);
-    mylog.dir(data);
-    elementLocation = null;
-    elementLocations = [];
-    centerLocation = null;
-    updateLocality = false;
-    elementPostalCode = null;
-    elementPostalCodes = [];
-    formType = type;
-    console.log(type);
-    specs = typeObj[type];
-    if(userId)
-	{
-		mylog.dir(specs);
-		$("#ajax-modal").removeClass("bgEvent bgOrga bgProject bgPerson bgDDA").addClass(specs.bgClass);
-		$("#ajax-modal-modal-title").html("<i class='fa fa-refresh fa-spin'></i> Chargement en cours. Merci de patienter.");
-		$(".modal-header").removeClass("bg-purple bg-green bg-orange bg-yellow bg-lightblue ").addClass(specs.titleClass);
-	  	$("#ajax-modal-modal-body").html( "<div class='row bg-white'>"+
-	  										"<div class='col-sm-10 col-sm-offset-1'>"+
-							              	"<div class='space20'></div>"+
-							              	//"<h1 id='proposerloiFormLabel' >Faire une proposition</h1>"+
-							              	"<form id='ajaxFormModal' enctype='multipart/form-data'></form>"+
-							              	"</div>"+
-							              "</div>");
-	  	$('.modal-footer').hide();
-	  	$('#ajax-modal').modal("show");
-	  	afterLoad = ( notNull(afterLoad) ) ? afterLoad : null;
-	  	data = ( notNull(data) ) ? data : {};
-	  	buildDynForm(specs, afterLoad, data);
-	} else 
-		toastr.error("Vous devez être connecté pour afficher les formulaires de création");
-}
-
-function buildDynForm(elementObj, afterLoad,data) { 
-	mylog.warn("--------------- buildDynForm", elementObj, afterLoad,data);
-	if(userId)
-	{
-		var form = $.dynForm({
-		      formId : "#ajax-modal-modal-body #ajaxFormModal",
-		      formObj : elementObj.dynForm,
-		      formValues : data,
-		      onLoad : function  () {
-		        $("#ajax-modal-modal-title").html("<i class='fa fa-"+elementObj.dynForm.jsonSchema.icon+"'></i> "+elementObj.dynForm.jsonSchema.title);
-		        $("#ajax-modal-modal-body").append("<div class='space20'></div>");
-		        //alert(afterLoad+"|"+typeof elementObj.dynForm.jsonSchema.onLoads[afterLoad]);
-		        if( notNull(afterLoad) && elementObj.dynForm.jsonSchema.onLoads 
-		        	&& elementObj.dynForm.jsonSchema.onLoads[afterLoad] 
-		        	&& typeof elementObj.dynForm.jsonSchema.onLoads[afterLoad] == "function" )
-		        	elementObj.dynForm.jsonSchema.onLoads[afterLoad](data);
-		        //incase we need a second global post process
-		        if( notNull(afterLoad) && elementObj.dynForm.jsonSchema.onLoads 
-		        	&& elementObj.dynForm.jsonSchema.onLoads[afterLoad] 
-		        	&& typeof elementObj.dynForm.jsonSchema.onLoads.onload == "function" )
-		        	elementObj.dynForm.jsonSchema.onLoads.onload();
-		        bindLBHLinks();
-		      },
-		      onSave : function(){
-
-		      	if( elementObj.dynForm.jsonSchema.beforeSave && typeof elementObj.dynForm.jsonSchema.beforeSave == "function")
-		        	elementObj.dynForm.jsonSchema.beforeSave();
-
-		        if( elementObj.save )
-		        	elementObj.save("#ajaxFormModal");
-		        else if(elementObj.saveUrl)
-		        	saveElement("#ajaxFormModal",elementObj.col,elementObj.ctrl,elementObj.saveUrl);
-		        else
-		        	saveElement("#ajaxFormModal",elementObj.col,elementObj.ctrl);
-
-		        return false;
-		    }
-		});
-		mylog.dir(form);
-	} else 
-		alert('Vous devez etre loggué');
 }
 
 function  firstOptions() { 
@@ -2094,6 +1779,7 @@ function getMediaFromUrlContent(className, appendClassName,nbParent){
         }
     }); 
 }
+
 function getMediaCommonHtml(data,action,id){
 	if(typeof(data.images)!="undefined"){
 		extracted_images = data.images;
@@ -2391,9 +2077,321 @@ var collection = {
 	}
 };
 
+/* *********************************
+			ELEMENTS
+********************************** */
 
+var elementLib = {
+	formatData : function (formData, collection,ctrl) { 
+		mylog.warn("formatData");
+		formData.collection = collection;
+		formData.key = ctrl;
+		
+		if(elementLocation){
+			//formData.multiscopes = elementLocation;
+			formData.address = centerLocation.address;
+			formData.geo = centerLocation.geo;
+			formData.geoPosition = centerLocation.geoPosition;
+			if( elementLocations.length ){
+				$.each( elementLocations,function (i,v) { 
+					if( notNull(v) && notNull(v.center) )
+						elementLocations.splice(i, 1);
+				});
+				formData.addresses = elementLocations;
+			}
+		}
+		
+		formData.medias = [];
+		$(".resultGetUrl").each(function(){
+			if($(this).html() != ""){
+				mediaObject=new Object;	
+				if($(this).find(".type").val()=="url_content"){
+					mediaObject.type=$(this).find(".type").val();
+					if($(this).find(".name").length)
+						mediaObject.name=$(this).find(".name").val();
+					if($(this).find(".description").length)
+						mediaObject.description=$(this).find(".description").val();
+					mediaObject.content=new Object;
+					mediaObject.content.type=$(this).find(".media_type").val(),
+					mediaObject.content.url=$(this).find(".url").val(),
+					mediaObject.content.image=$(this).find(".img_link").val();
+					if($(this).find(".size_img").length)
+						mediaObject.content.imageSize=$(this).find(".size_img").val();
+					if($("#form-news #results .video_link_value").length)
+						mediaObject.content.videoLink=$(this).find(".video_link_value").val();
+				}
+				else{
+					mediaObject.type=$(this).find(".type").val(),
+					mediaObject.countImages=$(this).find(".count_images").val(),
+					mediaObject.images=[];
+					$(".imagesNews").each(function(){
+						mediaObject.images.push($(this).val());	
+					});
+				}
+				formData.medias.push(mediaObject);
+			}
+		});
+		if( typeof formData.source != "undefined" && formData.source != "" ){
+			formData.source = { insertOrign : "network",
+								keys : [ 
+									formData.source
+								],
+								key : formData.source
+							}
+		}
+										
+		if( typeof formData.tags != "undefined" && formData.tags != "" )
+			formData.tags = formData.tags.split(",");
+		// Add collections and genres of notragora in tags
+		if( typeof formData.collections != "undefined" && formData.collections != "" ){
+			collectionsTagsSave=formData.collections.split(",");
+			$.each(collectionsTagsSave, function(i, e) {
+				formData.tags.push(e);
+			});
+			delete formData['collections'];
+		}
+		if( typeof formData.genres != "undefined" && formData.genres != "" ){
+			genresTagsSave=formData.genres.split(",");
+			$.each(genresTagsSave, function(i, e) {
+				formData.tags.push(e);
+			});
+			delete formData['genres'];
+		}
+		removeEmptyAttr(formData);
+
+		mylog.dir(formData);
+		return formData;
+	},
+
+	saveElement : function  ( formId,collection,ctrl,saveUrl ) 
+	{ 
+		mylog.warn("saveElement",formId,collection);
+		formData = $(formId).serializeFormJSON();
+		mylog.log("before",formData);
+		formData = elementLib.formatData(formData,collection,ctrl);
+		formData.medias = [];
+		$(".resultGetUrl").each(function(){
+			if($(this).html() != ""){
+				mediaObject=new Object;	
+				if($(this).find(".type").val()=="url_content"){
+					mediaObject.type=$(this).find(".type").val();
+					if($(this).find(".name").length)
+						mediaObject.name=$(this).find(".name").val();
+					if($(this).find(".description").length)
+						mediaObject.description=$(this).find(".description").val();
+					mediaObject.content=new Object;
+					mediaObject.content.type=$(this).find(".media_type").val(),
+					mediaObject.content.url=$(this).find(".url").val(),
+					mediaObject.content.image=$(this).find(".img_link").val();
+					if($(this).find(".size_img").length)
+						mediaObject.content.imageSize=$(this).find(".size_img").val();
+					if($(this).find(".video_link_value").length)
+						mediaObject.content.videoLink=$(this).find(".video_link_value").val();
+				}
+				else{
+					mediaObject.type=$(this).find(".type").val(),
+					mediaObject.countImages=$(this).find(".count_images").val(),
+					mediaObject.images=[];
+					$(".imagesNews").each(function(){
+						mediaObject.images.push($(this).val());	
+					});
+				}
+				formData.medias.push(mediaObject);
+			}
+		});
+		$.ajax( {
+	    	type: "POST",
+	    	url: (saveUrl) ? saveUrl : baseUrl+"/"+moduleId+"/element/save",
+	    	data: formData,
+	    	dataType: "json",
+	    	success: function(data){
+	    		mylog.warn("saveElement ajax result");
+	    		mylog.dir(data);
+				if(data.result == false){
+	                toastr.error(data.msg);
+	                //reset save btn 
+	                $("#btn-submit-form").html('Valider <i class="fa fa-arrow-circle-right"></i>').prop("disabled",false).one(function() { 
+						$( settings.formId ).submit();	        	
+			        });
+	           	}
+	            else { 
+	                toastr.success(data.msg);
+	                $('#ajax-modal').modal("hide");
+	                //clear the unecessary DOM 
+	                $("#ajaxFormModal").html('');
+	                if(data.url)
+	                	loadByHash( data.url );
+	                else if(data.id)
+		        		loadByHash( '#'+ctrl+'.detail.id.'+data.id )
+		        	if(data.map && $.inArray(collection, ["events","organizations","projects","citoyens"] ) !== -1)
+		        		addFloopEntity(data.id, collection, data.map);
+	            }
+	    	}
+	    });
+	},
+
+
+	editElement : function (type,id)
+		{
+		mylog.warn("--------------- editElement "+type+" ---------------------",id);
+		//get ajax of the elemetn content
+		$.ajax({
+	        type: "GET",
+	        url: baseUrl+"/"+moduleId+"/element/get/type/"+type+"/id/"+id,
+	        dataType : "json"
+	    })
+	    .done(function (data) {
+	        if ( data && data.result ) {
+	        	//toastr.info(type+" found");
+	        	
+				//onLoad fill inputs
+				//will be sued in the dynform  as update 
+				data.map.id = data.map["_id"]["$id"];
+				delete data.map["_id"];
+				mylog.dir(data);
+				console.log(data);
+				if( notNull(globalTheme) && globalTheme=="notragora"){
+					if(type=="poi"){
+						if(typeof data.map["tags"] != "undefined" && data.map["tags"].length > 0){
+					  		$.each(data.map["tags"], function(i,e){
+						  		if(jQuery.inArray( e, collectionsType ) >= 0){
+							   		 data.map["collections"]=[];
+							   		 data.map["collections"].push(e);
+							   		 var i = data.map["tags"].indexOf(e);
+									if(i != -1) {
+										data.map["tags"].splice(i, 1);
+									}
+								}
+								if(jQuery.inArray( e, genresType ) >= 0){
+							   		 data.map["genres"]=[];
+							   		 data.map["genres"].push(e);
+							   		 var i = data.map["tags"].indexOf(e);
+									if(i != -1) {
+										data.map["tags"].splice(i, 1);
+									}
+								}
+
+					  		});
+			  			}
+		  			}
+				}
+				elementLib.openForm(type,null, data.map);
+	        } else {
+	           toastr.error("something went wrong!! please try again.");
+	        }
+	    });
+	},
+
+	openForm : function  (type, afterLoad,data) { 
+	    //mylog.clear();
+	    $.unblockUI();
+	    mylog.warn("--------------- Open Form "+type+" ---------------------",data);
+	    mylog.dir(data);
+	    elementLocation = null;
+	    elementLocations = [];
+	    centerLocation = null;
+	    updateLocality = false;
+	    formType = type;
+	    console.log(type);
+	    specs = typeObj[type];
+	    if(userId)
+		{
+			mylog.dir(specs);
+			$("#ajax-modal").removeClass("bgEvent bgOrga bgProject bgPerson bgDDA").addClass(specs.bgClass);
+			$("#ajax-modal-modal-title").html("<i class='fa fa-refresh fa-spin'></i> Chargement en cours. Merci de patienter.");
+			$(".modal-header").removeClass("bg-purple bg-green bg-orange bg-yellow bg-lightblue ").addClass(specs.titleClass);
+		  	$("#ajax-modal-modal-body").html( "<div class='row bg-white'>"+
+		  										"<div class='col-sm-10 col-sm-offset-1'>"+
+								              	"<div class='space20'></div>"+
+								              	//"<h1 id='proposerloiFormLabel' >Faire une proposition</h1>"+
+								              	"<form id='ajaxFormModal' enctype='multipart/form-data'></form>"+
+								              	"</div>"+
+								              "</div>");
+		  	$('.modal-footer').hide();
+		  	$('#ajax-modal').modal("show");
+		  	afterLoad = ( notNull(afterLoad) ) ? afterLoad : null;
+		  	data = ( notNull(data) ) ? data : {};
+		  	elementLib.buildDynForm(specs, afterLoad, data);
+		} else 
+			toastr.error("Vous devez être connecté pour afficher les formulaires de création");
+	},
+
+	buildDynForm : function (elementObj, afterLoad,data) { 
+		mylog.warn("--------------- buildDynForm", elementObj, afterLoad,data);
+		if(userId)
+		{
+			var form = $.dynForm({
+			      formId : "#ajax-modal-modal-body #ajaxFormModal",
+			      formObj : elementObj.dynForm,
+			      formValues : data,
+			      onLoad : function  () {
+			        $("#ajax-modal-modal-title").html("<i class='fa fa-"+elementObj.dynForm.jsonSchema.icon+"'></i> "+elementObj.dynForm.jsonSchema.title);
+			        $("#ajax-modal-modal-body").append("<div class='space20'></div>");
+			        //alert(afterLoad+"|"+typeof elementObj.dynForm.jsonSchema.onLoads[afterLoad]);
+			        if( notNull(afterLoad) && elementObj.dynForm.jsonSchema.onLoads 
+			        	&& elementObj.dynForm.jsonSchema.onLoads[afterLoad] 
+			        	&& typeof elementObj.dynForm.jsonSchema.onLoads[afterLoad] == "function" )
+			        	elementObj.dynForm.jsonSchema.onLoads[afterLoad](data);
+			        //incase we need a second global post process
+			        if( notNull(afterLoad) && elementObj.dynForm.jsonSchema.onLoads 
+			        	&& elementObj.dynForm.jsonSchema.onLoads[afterLoad] 
+			        	&& typeof elementObj.dynForm.jsonSchema.onLoads.onload == "function" )
+			        	elementObj.dynForm.jsonSchema.onLoads.onload();
+			        bindLBHLinks();
+			      },
+			      onSave : function(){
+
+			      	if( elementObj.dynForm.jsonSchema.beforeSave && typeof elementObj.dynForm.jsonSchema.beforeSave == "function")
+			        	elementObj.dynForm.jsonSchema.beforeSave();
+
+			        if( elementObj.save )
+			        	elementObj.save("#ajaxFormModal");
+			        else if(elementObj.saveUrl)
+			        	elementLib.saveElement("#ajaxFormModal",elementObj.col,elementObj.ctrl,elementObj.saveUrl);
+			        else
+			        	elementLib.saveElement("#ajaxFormModal",elementObj.col,elementObj.ctrl);
+
+			        return false;
+			    }
+			});
+			mylog.dir(form);
+		} else 
+			alert('Vous devez etre loggué');
+	}
+}
+
+/* *********************************
+			DYNFORM SPEC TYPE OBJ
+********************************** */
 var contextData = null;
 var typeObj = {
+	"addElement":{ 
+		dynForm : {
+		    jsonSchema : {
+			    title : "Ajouter un élément ?",
+			    icon : "question-cirecle-o",
+			    noSubmitBtns : true,
+			    properties : {
+			    	custom :{
+		            	inputType : "custom",
+		            	html : function() { 
+		            		return "<div class='menuSmallMenu'>"+js_templates.loop( [ 
+			            		{ label : "event", classes:"bg-"+typeObj["event"].color, icon:"fa-"+typeObj["event"].icon, action : "javascript:elementLib.openForm('event')"},
+			            		{ label : "organization", classes:"bg-"+typeObj["organization"].color, icon:"fa-"+typeObj["organization"].icon, action : "javascript:elementLib.openForm('organization')"},
+			            		{ label : "project", classes:"bg-"+typeObj["project"].color, icon:"fa-"+typeObj["project"].icon, action : "javascript:elementLib.openForm('project')"},
+			            		{ label : "poi", classes:"bg-"+typeObj["poi"].color, icon:"fa-"+typeObj["poi"].icon, action : "javascript:elementLib.openForm('poi')"},
+			            		{ label : "entry", classes:"bg-"+typeObj["entry"].color, icon:"fa-"+typeObj["entry"].icon, action : "javascript:elementLib.openForm('entry')"},
+			            		{ label : "action", classes:"bg-"+typeObj["action"].color, icon:"fa-"+typeObj["action"].icon, action : "javascript:elementLib.openForm('action')"},
+			            		{ label : "classified", classes:"bg-"+typeObj["classified"].color, icon:"fa-"+typeObj["classified"].icon, action : "javascript:elementLib.openForm('classified')"},
+			            		{ label : "Documentation", classes:"bg-grey lbh", icon:"fa-book", action : "#default.view.page.index.dir.docs"},
+			            		{ label : "Signaler un bug", classes:"bg-grey lbh", icon:"fa-bug", action : "#news.index.type.pixels"},
+		            		], "col_Link_Label_Count", { classes : "bg-red kickerBtn", parentClass : "col-xs-12 col-sm-4 "} )+"</div>";
+		            	}
+		            }
+			    }
+			}
+		}
+	},
 	"person" : {
 		col : "citoyens" , 
 		ctrl : "person",
@@ -2409,14 +2407,14 @@ var typeObj = {
 			    type : "object",
 			    properties : {
 			    	info : {
-		                "inputType" : "custom",
-		                "html":"<p><i class='fa fa-info-circle'></i> Si vous voulez créer un nouveau projet de façon à le rendre plus visible : c'est le bon endroit !!<br>Vous pouvez ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
+		                inputType : "custom",
+		                html:"<p><i class='fa fa-info-circle'></i> Si vous voulez créer un nouveau projet de façon à le rendre plus visible : c'est le bon endroit !!<br>Vous pouvez ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
 		            },
 		            inviteSearch : {
 		            	placeholder : " Nom ou Email",
-			            "inputType" : "text",
-			            "rules" : {
-			                "required" : true
+			            inputType : "text",
+			            rules : {
+			                required : true
 			            },
 			            init : function(){
 			            	$("#ajaxFormModal #inviteSearch ").keyup(function(e){
@@ -2432,9 +2430,9 @@ var typeObj = {
 		            },
 			        invitedUserName : {
 			        	placeholder : "Nom",
-			            "inputType" : "text",
-			            "rules" : {
-			                "required" : true
+			            inputType : "text",
+			            rules : {
+			                required : true
 			            },
 			            init : function(){
 			            	$(".invitedUserNametext").css("display","none");	
@@ -2442,24 +2440,24 @@ var typeObj = {
 			        },
 			        invitedUserEmail : {
 			        	placeholder : "Email",
-			            "inputType" : "text",
-			            "rules" : {
-			                "required" : true
+			            inputType : "text",
+			            rules : {
+			                required : true
 			            },
 			            init:function(){
 			            	$(".invitedUserEmailtext").css("display","none");	 
 			            }
 			        },
 			        "preferences[publicFields]" : {
-		                inputType : "hidden",
+		               inputType : "hidden",
 		                value : []
 		            },
 		            "preferences[privateFields]" : {
-		                inputType : "hidden",
+		               inputType : "hidden",
 		                value : []
 		            },
 		            "preferences[isOpenData]" : {
-		                inputType : "hidden",
+		               inputType : "hidden",
 		                value : false
 		            },
 			    }
@@ -2476,7 +2474,7 @@ var typeObj = {
 
 		dynForm : {
 		    jsonSchema : {
-			    title : "Point of interest Form",
+			    title : "Formulaire Point d'interet",
 			    icon : "map-marker",
 			    type : "object",
 			    
@@ -2501,60 +2499,64 @@ var typeObj = {
 			    	
 			    	if( typeof $("#ajaxFormModal #description").code === 'function' )  
 			    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
+			    	if($('#ajaxFormModal #parentId').val() == "" && $('#ajaxFormModal #parentType').val() ){
+				    	$('#ajaxFormModal #parentId').val(userId);
+				    	$("#ajaxFormModal #parentType").val( "citoyens" ); 
+				    }
 			    },
 			    properties : {
 			    	info : {
-		                "inputType" : "custom",
-		                "html":"<p><i class='fa fa-info-circle'></i> Un Point d'interet est un élément assez libre qui peut etre géolocalisé ou pas, qui peut etre rataché à une organisation, un projet ou un évènement.</p>",
+		                inputType : "custom",
+		                html:"<p><i class='fa fa-info-circle'></i> Un Point d'interet est un élément assez libre qui peut etre géolocalisé ou pas, qui peut etre rataché à une organisation, un projet ou un évènement.</p>",
 		            },
 		            type :{
-		            	"inputType" : "select",
-		            	"placeholder" : "Type du point d'intérêt",
-		            	"options" : poiTypes
+		            	inputType : "select",
+		            	placeholder : "Type du point d'intérêt",
+		            	options : poiTypes
 		            },
 			        name : {
 			        	placeholder : "Nom",
-			            "inputType" : "text",
-			            "rules" : { "required" : true }
+			            inputType : "text",
+			            rules : { required : true }
 			        },
 		            description : {
-		                "inputType" : "wysiwyg",
-	            		"placeholder" : "Décrire c'est partager",
+		                inputType : "wysiwyg",
+	            		placeholder : "Décrire c'est partager",
 	            		init:function(){
 				      		activateSummernote("#ajaxFormModal #description");
 			            }
 		            },
 		            location : {
-		                inputType : "location"
+		               inputType : "location"
 		            },
 		            tags :{
-		                "inputType" : "tags",
-		                "placeholder" : "Tags ou Types de point d'interet",
-		                "values" : tagsList
+		                inputType : "tags",
+		                placeholder : "Tags ou Types de point d'interet",
+		                values : tagsList
 		            },
 		            formshowers : {
-		                "inputType" : "custom",
-		                "html": "<a class='btn btn-default text-dark w100p' href='javascript:;' onclick='$(\".urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options (urls)</a>",
+		                inputType : "custom",
+		                html: "<a class='btn btn-default text-dark w100p' href='javascript:;' onclick='$(\".urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options (urls)</a>",
 		            },
 		            urls : {
 			        	placeholder : "url",
-			            "inputType" : "array",
-			            "value" : [],
+			            inputType : "array",
+			            value : [],
 			            init:function(){
 				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
 			            	$(".urlsarray").css("display","none");	
 			            }
 			        },
 		            parentId :{
-		            	"inputType" : "hidden"
+		            	inputType : "hidden"
 		            },
 		            parentType : {
-			            "inputType" : "hidden"
+			            inputType : "hidden"
 			        },
 			    }
 			}
 		}},
-		"siteurl":{ 
+	"siteurl":{ 
 		col:"siteurl",
 		ctrl:"siteurl",
 		dynForm : {
@@ -2582,49 +2584,49 @@ var typeObj = {
 			    },
 			    properties : {
 			    	info : {
-		                "inputType" : "custom",
-		                "html":"<p><i class='fa fa-info-circle'></i> Une url.</p>",
+		                inputType : "custom",
+		                html:"<p><i class='fa fa-info-circle'></i> Une url.</p>",
 		            },
 		            urls : {
 			        	placeholder : "url",
-			            "inputType" : "array",
-			            "value" : [],
+			            inputType : "array",
+			            value : [],
 			            init:function(){
 				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
 			            	//$(".urlsarray").css("display","none");	
 			            }
 			        },
 		            type :{
-		            	"inputType" : "select",
-		            	"placeholder" : "Type du point d'intérêt",
-		            	"options" : poiTypes
+		            	inputType : "select",
+		            	placeholder : "Type du point d'intérêt",
+		            	options : poiTypes
 		            },
 			        name : {
 			        	placeholder : "Nom",
-			            "inputType" : "text",
-			            "rules" : { "required" : true }
+			            inputType : "text",
+			            rules : { required : true }
 			        },
 		            description : {
-		                "inputType" : "wysiwyg",
-	            		"placeholder" : "Décrire c'est partager",
+		                inputType : "wysiwyg",
+	            		placeholder : "Décrire c'est partager",
 	            		init:function(){
 				      		activateSummernote("#ajaxFormModal #description");
 			            }
 		            },
 		            location : {
-		                inputType : "location"
+		               inputType : "location"
 		            },
 		            tags :{
-		                "inputType" : "tags",
-		                "placeholder" : "Tags ou Types de point d'interet",
-		                "values" : tagsList
+		                inputType : "tags",
+		                placeholder : "Tags ou Types de point d'interet",
+		                values : tagsList
 		            },
 		            
 		            parentId :{
-		            	"inputType" : "hidden"
+		            	inputType : "hidden"
 		            },
 		            parentType : {
-			            "inputType" : "hidden"
+			            inputType : "hidden"
 			        },
 			    }
 			}
@@ -2647,13 +2649,13 @@ var typeObj = {
 			    },
 			    properties : {
 			    	info : {
-		                "inputType" : "custom",
-		                "html":"<p><i class='fa fa-info-circle'></i> Si vous voulez créer une nouvelle organisation de façon à le rendre plus visible : c'est le bon endroit !!<br>Vous pouvez ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
+		                inputType : "custom",
+		                html:"<p><i class='fa fa-info-circle'></i> Si vous voulez créer une nouvelle organisation de façon à le rendre plus visible : c'est le bon endroit !!<br>Vous pouvez ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
 		            },
 			        name : {
 			        	placeholder : "Nom",
-			            "inputType" : "text",
-			            "rules" : { "required" : true },
+			            inputType : "text",
+			            rules : { required : true },
 			            init : function(){
 			            	$("#ajaxFormModal #name ").off().on("blur",function(){
 			            		if($("#ajaxFormModal #name ").val().length > 3 )
@@ -2662,58 +2664,58 @@ var typeObj = {
 			            }
 			        },
 			        similarLink : {
-		                "inputType" : "custom",
-		                "html":"<div id='similarLink'><div id='listSameName'></div></div>",
+		                inputType : "custom",
+		                html:"<div id='similarLink'><div id='listSameName'></div></div>",
 		            },
 			        type :{
-		            	"inputType" : "select",
-		            	"placeholder" : "Type d'organisation",
-		            	"rules" : { "required" : true },
-		            	"options" : organizationTypes
+		            	inputType : "select",
+		            	placeholder : "Type d'organisation",
+		            	rules : { required : true },
+		            	options : organizationTypes
 		            },
 		            role :{
-		            	"inputType" : "select",
-		            	"placeholder" : "Quel est votre rôle dans cette organisation ?",
-		            	"rules" : { "required" : true },
+		            	inputType : "select",
+		            	placeholder : "Quel est votre rôle dans cette organisation ?",
+		            	rules : { required : true },
 		            	//value : "admin",
-		            	"options" : {
+		            	options : {
 		            		admin : trad.administrator,
 							member : trad.member,
 							creator : trad.justCitizen
 		            	}
 		            },
 		            tags :{
-		              "inputType" : "tags",
-		              "placeholder" : "Tags ou Types de l'organisation",
-		              "values" : tagsList
+		              inputType : "tags",
+		              placeholder : "Tags ou Types de l'organisation",
+		              values : tagsList
 		            },
 		            location : {
-		                inputType : "location"
+		               inputType : "location"
 		            },
 		            formshowers : {
-		                "inputType" : "custom",
-		                "html":
+		                inputType : "custom",
+		                html:
 						"<a class='btn btn-default text-dark w100p' href='javascript:;' onclick='$(\".emailtext,.descriptionwysiwyg,.urltext\").slideToggle();activateSummernote(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (email, desc, urls, telephone)</a>",
 		            },
 		            email : {
 			        	placeholder : "Email du responsable",
-			            "inputType" : "text",
+			            inputType : "text",
 			            init : function(){
 			            	$(".emailtext").css("display","none");
 			            }
 			        },
 			        
 			        description : {
-		                "inputType" : "wysiwyg",
-	            		"placeholder" : "Décrire c'est partager",
+		                inputType : "wysiwyg",
+	            		placeholder : "Décrire c'est partager",
 			            init : function(){
 			            	$(".descriptionwysiwyg").css("display","none");
 			            }
 		            },
 		            url : {
-		                "inputType" :"text",
+		                inputType :"text",
 		                "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
-		                "placeholder" : "url, lien, adresse web",
+		                placeholder : "url, lien, adresse web",
 		                init:function(){
 				            getMediaFromUrlContent("#url", ".resultGetUrl0",0);
 				            $(".urltext").css("display","none");
@@ -2721,8 +2723,8 @@ var typeObj = {
 		            },
 		            /*urls : {
 			        	placeholder : "URL du site web",
-			            "inputType" : "array",
-			            "value" : [],
+			            inputType : "array",
+			            value : [],
 			            init:function(){
 				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
 			            	$(".urlsarray").css("display","none");	
@@ -2730,25 +2732,25 @@ var typeObj = {
 			        },*/
 			        telephone : {
 			        	placeholder : "Téléphne",
-			            "inputType" : "text",
+			            inputType : "text",
 			            init : function(){
 			            	$(".telephonetext").css("display","none");
 			            }
 			        },
 		            "preferences[publicFields]" : {
-		                inputType : "hidden",
+		               inputType : "hidden",
 		                value : []
 		            },
 		            "preferences[privateFields]" : {
-		                inputType : "hidden",
+		               inputType : "hidden",
 		                value : []
 		            },
 		            "preferences[isOpenData]" : {
-		                inputType : "hidden",
+		               inputType : "hidden",
 		                value : true
 		            },
 		            "preferences[isOpenEdition]" : {
-		                inputType : "hidden",
+		               inputType : "hidden",
 		                value : true
 		            }
 			    }
@@ -2826,14 +2828,14 @@ var typeObj = {
 			    },
 			    properties : {
 			    	info : {
-		                "inputType" : "custom",
-		                "html":"<p><i class='fa fa-info-circle'></i> Si vous voulez créer un nouvel évènement de façon à le rendre plus visible : c'est le bon endroit !!<br>Vous pouvez inviter des participants, planifier des sous évènements, publier des actus lors de l'évènement...</p>",
+		                inputType : "custom",
+		                html:"<p><i class='fa fa-info-circle'></i> Si vous voulez créer un nouvel évènement de façon à le rendre plus visible : c'est le bon endroit !!<br>Vous pouvez inviter des participants, planifier des sous évènements, publier des actus lors de l'évènement...</p>",
 		            },
 		            name : {
 			        	placeholder : "Nom",
 			        	labelText:"Nom",
-			            "inputType" : "text",
-			            "rules" : { "required" : true },
+			            inputType : "text",
+			            rules : { required : true },
 			            init : function(){
 			            	$("#ajaxFormModal #name ").off().on("blur",function(){
 			            		if($("#ajaxFormModal #name ").val().length > 3 )
@@ -2842,15 +2844,15 @@ var typeObj = {
 			            }
 			        },
 			        similarLink : {
-		                "inputType" : "custom",
-		                "html":"<div id='similarLink'><div id='listSameName'></div></div>",
+		                inputType : "custom",
+		                html:"<div id='similarLink'><div id='listSameName'></div></div>",
 		            },
 			        organizerId :{
-			        	"rules" : { "required" : true },
-		            	"inputType" : "select",
-		            	"placeholder" : "Qui organise ?",
-		            	"rules" : { "required" : true },
-		            	"options" : firstOptions(),
+			        	rules : { required : true },
+		            	inputType : "select",
+		            	placeholder : "Qui organise ?",
+		            	rules : { required : true },
+		            	options : firstOptions(),
 		            	"groupOptions" : myAdminList( ["organizations","projects"] ),
 			            init : function(){
 			            	$("#ajaxFormModal #organizerId").off().on("change",function(){
@@ -2869,13 +2871,13 @@ var typeObj = {
 			            }
 		            },
 			        organizerType : {
-			            "inputType" : "hidden"
+			            inputType : "hidden"
 			        },
 			        parentId :{
-		            	"inputType" : "select",
+		            	inputType : "select",
 		            	"class" : "hidden",
-		            	"placeholder" : "Fait parti d'un évènement ?",
-		            	"options" : {
+		            	placeholder : "Fait parti d'un évènement ?",
+		            	options : {
 		            		"":"Pas de Parent"
 		            	},
 		            	"groupOptions" : myAdminList( ["events"] ),
@@ -2913,16 +2915,16 @@ var typeObj = {
 			            }
 		            },
 		            parentType : {
-			            "inputType" : "hidden"
+			            inputType : "hidden"
 			        },
 			        type :{
-		            	"inputType" : "select",
-		            	"placeholder" : "Type d\'évènement",
-		            	"options" : eventTypes,
-		            	"rules" : { "required" : true },
+		            	inputType : "select",
+		            	placeholder : "Type d\'évènement",
+		            	options : eventTypes,
+		            	rules : { required : true },
 		            },
 		            allDay : {
-		            	"inputType" : "checkbox",
+		            	inputType : "checkbox",
 		            	init : function(){
 			            	$("#ajaxFormModal #allDay").off().on("switchChange.bootstrapSwitch",function (e, data) {
 			            		mylog.log("toto",$("#ajaxFormModal #allDay").val());
@@ -2969,24 +2971,24 @@ var typeObj = {
 		            	}
 		            },
 		            startDateInput : {
-		                "inputType" : "datetime",
-		                "placeholder": "Date de début",
-			            "rules" : { 
+		                inputType : "datetime",
+		                placeholder: "Date de début",
+			            rules : { 
 			            	required : true,
 			            	duringDates: ["#startDateParent","#endDateParent","La date de début"]
 			        	}
 		            },
 		            endDateInput : {
-		                "inputType" : "datetime",
-		                "placeholder": "Date de fin",
-			            "rules" : { 
+		                inputType : "datetime",
+		                placeholder: "Date de fin",
+			            rules : { 
 			            	required : true,
 			            	greaterThan: ["#ajaxFormModal #startDateInput","la date de début"],
 			            	duringDates: ["#startDateParent","#endDateParent","La date de fin"]
 					    }
 		            },
 		            /*public : {
-		            	"inputType" : "hidden",
+		            	inputType : "hidden",
 		            	"switch" : {
 		            		"onText" : "Privé",
 		            		"offText" : "Public",
@@ -2994,29 +2996,29 @@ var typeObj = {
 		            	}
 		            },*/
 		            location : {
-		                inputType : "location"
+		               inputType : "location"
 		            },
 		            tags :{
-		              "inputType" : "tags",
-		              "placeholder" : "Tags de l\'événement",
-		              "values" : tagsList
+		              inputType : "tags",
+		              placeholder : "Tags de l\'événement",
+		              values : tagsList
 		            },
 		            formshowers : {
-		                "inputType" : "custom",
-		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".descriptionwysiwyg,.urltext\").slideToggle();activateSummernote(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (desc, urls)</a>",
+		                inputType : "custom",
+		                html:"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".descriptionwysiwyg,.urltext\").slideToggle();activateSummernote(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (desc, urls)</a>",
 		            },
 			        
 			        description : {
-		                "inputType" : "wysiwyg",
-	            		"placeholder" : "Décrire c'est partager",
+		                inputType : "wysiwyg",
+	            		placeholder : "Décrire c'est partager",
 			            init : function(){
 			            	$(".descriptionwysiwyg").css("display","none");
 			            }
 		            },
 		            url : {
-		                "inputType" :"text",
+		                inputType :"text",
 		                "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
-		                "placeholder" : "url, lien, adresse web",
+		                placeholder : "url, lien, adresse web",
 		                init:function(){
 				            getMediaFromUrlContent("#url", ".resultGetUrl0",0);
 				            $(".urltext").css("display","none");
@@ -3024,27 +3026,27 @@ var typeObj = {
 		            },
 		            /*urls : {
 			        	placeholder : "url",
-			            "inputType" : "array",
-			            "value" : [],
+			            inputType : "array",
+			            value : [],
 			            init:function(){
 				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
 			            	$(".urlsarray").css("display","none");	
 			            }
 			        },*/
 		            "preferences[publicFields]" : {
-		                inputType : "hidden",
+		               inputType : "hidden",
 		                value : []
 		            },
 		            "preferences[privateFields]" : {
-		                inputType : "hidden",
+		               inputType : "hidden",
 		                value : []
 		            },
 		            "preferences[isOpenData]" : {
-		                inputType : "hidden",
+		               inputType : "hidden",
 		                value : true
 		            },
 		            "preferences[isOpenEdition]" : {
-		                inputType : "hidden",
+		               inputType : "hidden",
 		                value : true
 		            },
 		            "startDate" : {
@@ -3066,6 +3068,7 @@ var typeObj = {
 		col:"projects",
 		ctrl:"project",
 		icon : "lightbulb-o",
+		color : "purple",
 		titleClass : "bg-purple",
 		bgClass : "bgProject",
 		dynForm : {
@@ -3086,14 +3089,14 @@ var typeObj = {
 			    },
 			    properties : {
 			    	info : {
-		                "inputType" : "custom",
-		                "html":"<p><i class='fa fa-info-circle'></i> Si vous voulez créer un nouveau projet de façon à le rendre plus visible : c'est le bon endroit !!<br>Vous pouvez ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
+		                inputType : "custom",
+		                html:"<p><i class='fa fa-info-circle'></i> Si vous voulez créer un nouveau projet de façon à le rendre plus visible : c'est le bon endroit !!<br>Vous pouvez ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
 		            },
 			        name : {
 			        	placeholder : "Nom",
-			            "inputType" : "text",
-			            "rules" : {
-			                "required" : true
+			            inputType : "text",
+			            rules : {
+			                required : true
 			            },
 			            init : function(){
 			            	$("#ajaxFormModal #name ").off().on("blur",function(){
@@ -3103,16 +3106,16 @@ var typeObj = {
 			            }
 		            },
 		            parentType : {
-			            "inputType" : "hidden"
+			            inputType : "hidden"
 			        },
 			        type :{
-		            	"inputType" : "select",
-		            	"placeholder" : "Type d\'évènement",
-		            	"options" : eventTypes,
-		            	"rules" : { "required" : true },
+		            	inputType : "select",
+		            	placeholder : "Type d\'évènement",
+		            	options : eventTypes,
+		            	rules : { required : true },
 		            },
-		            allDay : {
-		            	"inputType" : "checkbox",
+		            /*allDay : {
+		            	inputType : "checkbox",
 		            	init : function(){
 			            	$("#ajaxFormModal #allDay").off().on("switchChange.bootstrapSwitch",function (e, data) {
 			            		mylog.log("toto",$("#ajaxFormModal #allDay").val());
@@ -3157,24 +3160,24 @@ var typeObj = {
 		            	}
 		            },
 		            startDate : {
-		                "inputType" : "datetime",
-		                "placeholder":"Date de début",
-			            "rules" : { 
+		                inputType : "datetime",
+		                placeholder:"Date de début",
+			            rules : { 
 			            	required : true,
 			            	duringDates: ["#startDateParent","#endDateParent","la date de début"]
 			        	}
 		            },
 		            endDate : {
-		                "inputType" : "datetime",
-		                "placeholder":"Date de fin",
-			            "rules" : { 
+		                inputType : "datetime",
+		                placeholder:"Date de fin",
+			            rules : { 
 			            	required : true,
 			            	greaterThan: ["#ajaxFormModal #startDate","la date de début"],
 			            	duringDates: ["#ajaxFormModal #startDateParent","#ajaxFormModal #endDateParent","la date de fin"]
 					    }
-		            },
+		            },*/
 		            /*public : {
-		            	"inputType" : "hidden",
+		            	inputType : "hidden",
 		            	"switch" : {
 		            		"onText" : "Privé",
 		            		"offText" : "Public",
@@ -3182,29 +3185,29 @@ var typeObj = {
 		            	}
 		            },*/
 		            location : {
-		                inputType : "location"
+		               inputType : "location"
 		            },
 		            tags :{
-		              "inputType" : "tags",
-		              "placeholder" : "Tags de l\'événement",
-		              "values" : tagsList
+		              inputType : "tags",
+		              placeholder : "Tags de l\'événement",
+		              values : tagsList
 		            },
 		            formshowers : {
-		                "inputType" : "custom",
-		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".descriptionwysiwyg,.urltext\").slideToggle();activateSummernote(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (desc, urls)</a>",
+		                inputType : "custom",
+		                html:"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".descriptionwysiwyg,.urltext\").slideToggle();activateSummernote(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (desc, urls)</a>",
 		            },
 			        
 			        description : {
-		                "inputType" : "wysiwyg",
-	            		"placeholder" : "Décrire c'est partager",
+		                inputType : "wysiwyg",
+	            		placeholder : "Décrire c'est partager",
 			            init : function(){
 			            	$(".descriptionwysiwyg").css("display","none");
 			            }
 		            },
 		            url : {
-		                "inputType" :"text",
+		                inputType :"text",
 		                "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
-		                "placeholder" : "url, lien, adresse web",
+		                placeholder : "url, lien, adresse web",
 		                init:function(){
 				            getMediaFromUrlContent("#url", ".resultGetUrl0",0);
 				            $(".urltext").css("display","none");
@@ -3212,27 +3215,27 @@ var typeObj = {
 		            },
 		            /*urls : {
 			        	placeholder : "url",
-			            "inputType" : "array",
-			            "value" : [],
+			            inputType : "array",
+			            value : [],
 			            init:function(){
 				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
 			            	$(".urlsarray").css("display","none");	
 			            }
 			        },*/
 		            "preferences[publicFields]" : {
-		                inputType : "hidden",
+		               inputType : "hidden",
 		                value : []
 		            },
 		            "preferences[privateFields]" : {
-		                inputType : "hidden",
+		               inputType : "hidden",
 		                value : []
 		            },
 		            "preferences[isOpenData]" : {
-		                inputType : "hidden",
+		               inputType : "hidden",
 		                value : true
 		            },
 		            "preferences[isOpenEdition]" : {
-		                inputType : "hidden",
+		               inputType : "hidden",
 		                value : true
 		            }
 			    }
@@ -3245,6 +3248,7 @@ var typeObj = {
 	"events" : {col:"events",ctrl:"event",color:"orange"},
 	"projects" : {col:"projects",ctrl:"project",color:"purple",icon:"lightbulb-o"},
 	"city" : {col:"cities",ctrl:"city"},
+<<<<<<< HEAD
 	"cities" : {
 		col:"cities",
 		ctrl:"city", 
@@ -3324,12 +3328,80 @@ var typeObj = {
 			}
 		}
 	},
+=======
+	"cities" : {col:"cities",ctrl:"city", titleClass : "bg-red", icon : "university",},
+	"citiesSimply" : { 	col:"cities",
+					ctrl:"city", 
+					titleClass : "bg-red", 
+					icon : "university",
+					dynForm : {
+						jsonSchema : {
+							title : "Ajouter une city",
+							icon : "university",
+							properties : {
+								info : {
+									inputType : "custom",
+									html:"<p><i class='fa fa-info-circle'></i> Ajouter une ville</p>",
+								},
+								id :{
+									inputType : "hidden",
+									value : ""
+								},
+								latitude : {
+									inputType : "hidden",
+									value : ""
+								},
+								longitude : {
+									inputType : "hidden",
+									value : ""
+								},
+								name :{
+									inputType : "text",
+									placeholder : "Nom de la ville",
+									rules : { required : true }
+								},
+								postalCode :{
+									inputType : "text",
+									placeholder : "Code postal",
+									rules : { required : true }
+								},
+								country :{
+									inputType : "hidden",
+									value : "",
+									rules : { required : true }
+								},
+								insee :{
+									inputType : "hidden",
+									value : "",
+									rules : { required : true }
+								},
+								dep :{
+									inputType : "text",
+									placeholder : "Numéro du département"
+								},
+								depName :{
+									inputType : "text",
+									placeholder : "Nom du département"
+								},
+								region :{
+									inputType : "text",
+									placeholder : "Numéro de la région"
+								},
+								regionName :{
+									inputType : "text",
+									placeholder : "Nom de la région"
+								}
+							}
+						}
+					}},
+>>>>>>> 8a1bd736dd82611bfb2d28bcabab590dd876ffa2
 	"entry" : {
 		col:"surveys",
 		ctrl:"survey",
 		titleClass : "bg-lightblue",
 		bgClass : "bgDDA",
 		icon : "gavel",
+		color : "azure",
 		saveUrl : baseUrl+"/" + moduleId + "/survey/saveSession",
 		dynForm : {
 		    jsonSchema : {
@@ -3350,12 +3422,12 @@ var typeObj = {
 			    },
 			    properties : {
 			    	info : {
-		                "inputType" : "custom",
-		                "html":"<p><i class='fa fa-info-circle'></i> Une proposition sert à discuter et demander l'avis d'une communauté sur une idée ou une question donnée</p>",
+		                inputType : "custom",
+		                html:"<p><i class='fa fa-info-circle'></i> Une proposition sert à discuter et demander l'avis d'une communauté sur une idée ou une question donnée</p>",
 		            },
 			        id :{
-		              "inputType" : "hidden",
-		              "value" : ""
+		              inputType : "hidden",
+		              value : ""
 		            },
 		            survey :{
 		            	inputType : "select",
@@ -3401,40 +3473,40 @@ var typeObj = {
 		            	custom : "<br/><span class='text-small'>Une thématique est un espace de décision lié à une ville, une organisation ou un projet <br/>Vous pouvez créer des espaces coopératifs sur votre commune, organisation et projet</span>"
 		            },
 		            name :{
-		              "inputType" : "text",
-		              "placeholder" : "Titre de la proposition",
-		              "rules" : { "required" : true }
+		              inputType : "text",
+		              placeholder : "Titre de la proposition",
+		              rules : { required : true }
 		            },
 		            message :{
-		              "inputType" : "wysiwyg",
-		              "placeholder" : "Texte de la proposition",
-		              "rules" : { "required" : true },
+		              inputType : "wysiwyg",
+		              placeholder : "Texte de la proposition",
+		              rules : { required : true },
 		              init:function(){
 				      	activateSummernote("#ajaxFormModal #message");
 			            }
 		              
 		            },
 		            dateEnd :{
-		              "inputType" : "date",
-		              "placeholder" : "Fin de la période de vote",
-		              "rules" : { 
+		              inputType : "date",
+		              placeholder : "Fin de la période de vote",
+		              rules : { 
 		              	required : true,
 		              	greaterThanNow : ["DD/MM/YYYY"]
 		              }
 		            },
 		            tags :{
-		                "inputType" : "tags",
-		                "placeholder" : "Tags",
-		                "values" : tagsList
+		                inputType : "tags",
+		                placeholder : "Tags",
+		                values : tagsList
 		            },
 		            formshowers : {
-		                "inputType" : "custom",
-		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options ( urls)</a>",
+		                inputType : "custom",
+		                html:"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options ( urls)</a>",
 		            },
 		            urls : {
-		                "inputType" : "array",
-		                "placeholder" : "url, informations supplémentaires, actions à faire, etc",
-		                "value" : [],
+		                inputType : "array",
+		                placeholder : "url, informations supplémentaires, actions à faire, etc",
+		                value : [],
 			            init:function(){
 				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
 			            	$(".urlsarray").css("display","none");	
@@ -3463,6 +3535,7 @@ var typeObj = {
 		titleClass : "bg-lightblue",
 		bgClass : "bgDDA",
 		icon : "cogs",
+		color : "lightblue2",
 		saveUrl : baseUrl+"/" + moduleId + "/rooms/saveaction",
 		dynForm : {
 		    jsonSchema : {
@@ -3482,12 +3555,12 @@ var typeObj = {
 			    },
 			    properties : {
 			    	info : {
-		                "inputType" : "custom",
-		                "html":"<p><i class='fa fa-info-circle'></i> Une Action permet de faire avancer votre projet ou le fonctionnement de votre association</p>",
+		                inputType : "custom",
+		                html:"<p><i class='fa fa-info-circle'></i> Une Action permet de faire avancer votre projet ou le fonctionnement de votre association</p>",
 		            },
 			        id :{
-		              "inputType" : "hidden",
-		              "value" : ""
+		              inputType : "hidden",
+		              value : ""
 		            },
 		            room :{
 		            	inputType : "select",
@@ -3525,40 +3598,40 @@ var typeObj = {
 		            	custom : "<br/><span class='text-small'>Choisir l'espace où s'ajoutera votre action parmi vos organisations et projets<br/>Vous pouvez créer des espaces coopératifs sur votre commune, organisation et projet  </span>"
 		            },
 		            name :{
-		              "inputType" : "text",
-		              "placeholder" : "Titre de la l'action",
-		              "rules" : { "required" : true }
+		              inputType : "text",
+		              placeholder : "Titre de la l'action",
+		              rules : { required : true }
 		            },
 		            message :{
-		              "inputType" : "wysiwyg",
-		              "placeholder" : "Description de l'action'",
-		              "rules" : { "required" : true },
+		              inputType : "wysiwyg",
+		              placeholder : "Description de l'action'",
+		              rules : { required : true },
 		              init:function(){
 				      	activateSummernote("#ajaxFormModal #message");
 			            }
 		            },
 		            startDate :{
-		              "inputType" : "date",
-		              "placeholder" : "Date de début"
+		              inputType : "date",
+		              placeholder : "Date de début"
 		            },
 		            dateEnd :{
-		              "inputType" : "date",
-		              "placeholder" : "Date de fin"
+		              inputType : "date",
+		              placeholder : "Date de fin"
 		            },
 
 		         	tags :{
-		                "inputType" : "tags",
-		                "placeholder" : "Tags",
-		                "values" : tagsList
+		                inputType : "tags",
+		                placeholder : "Tags",
+		                values : tagsList
 		            },
 		            formshowers : {
-		                "inputType" : "custom",
-		                "html":"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options (urls)</a>",
+		                inputType : "custom",
+		                html:"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options (urls)</a>",
 		            },
 		            urls : {
-		                "inputType" : "array",
-		                "placeholder" : "url",
-		                "value" : [],
+		                inputType : "array",
+		                placeholder : "url",
+		                value : [],
 			            init:function(){
 				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
 			            	$(".urlsarray").css("display","none");	
@@ -3577,11 +3650,11 @@ var typeObj = {
 		            	value : "action"
 		            },
 		            parentId :{
-		            	"inputType" : "hidden",
+		            	inputType : "hidden",
 		            	value : userId	
 		            },
 		            parentType : {
-			            "inputType" : "hidden",
+			            inputType : "hidden",
 			            value : "citoyens"
 			        },
 			    }
@@ -3615,14 +3688,14 @@ var typeObj = {
 			    },
 			    properties : {
 			    	info : {
-		                "inputType" : "custom",
-		                "html":"<p><i class='fa fa-info-circle'></i> Si vous voulez ajouter un nouveau contact de façon a facilité les échanges</p>",
+		                inputType : "custom",
+		                html:"<p><i class='fa fa-info-circle'></i> Si vous voulez ajouter un nouveau contact de façon a facilité les échanges</p>",
 		            },
 		            name : {
 			        	placeholder : "Nom",
 			        	labelText:"Nom",
-			            "inputType" : "text",
-			            "rules" : { "required" : true },
+			            inputType : "text",
+			            rules : { required : true },
 			            init : function(){
 			            	$("#ajaxFormModal #name ").off().on("blur",function(){
 			            		if($("#ajaxFormModal #name ").val().length > 3 )
@@ -3631,30 +3704,159 @@ var typeObj = {
 			            }
 			        },
 			        email :{
-		              "inputType" : "text",
-		              "placeholder" : "Email du contact"
+		              inputType : "text",
+		              placeholder : "Email du contact"
 		            },
 			        role :{
-		              "inputType" : "text",
-		              "placeholder" : "Role du contact"
+		              inputType : "text",
+		              placeholder : "Role du contact"
 		            },
 			        phone :{
-		              "inputType" : "text",
-		              "placeholder" : "téléphone du contact"
+		              inputType : "text",
+		              placeholder : "téléphone du contact"
 		            },
 		            userId : {
-		                inputType : "hidden",
+		               inputType : "hidden",
 		                value : ""
 		            },
 		            parentId :{
-		            	"inputType" : "hidden"
+		            	inputType : "hidden"
 		            },
 		            parentType : {
-			            "inputType" : "hidden"
+			            inputType : "hidden"
 			        },
 			        index : {
-			            "inputType" : "hidden"
+			            inputType : "hidden"
 			        }
+			    }
+			}
+		}},
+	"classified":{ 
+		col:"classified",
+		ctrl:"classified",
+		color:"azure",
+		icon:"bullhorn",
+
+		dynForm : {
+		    jsonSchema : {
+			    title : "Publier une annonce",
+			    icon : "bullhorn",
+			    type : "object",
+			    
+			    onLoads : {
+			    	//pour creer un subevnt depuis un event existant
+			    	subPoi : function(){
+			    		if(contextData.type && contextData.id ){
+		    				$('#ajaxFormModal #parentId').val(contextData.id);
+			    			$("#ajaxFormModal #parentType").val( contextData.type ); 
+			    		}
+			    		
+			    	}/*,
+			    	loadData : function(data){
+				    	mylog.warn("--------------- loadData ---------------------",data);
+				    	$('#ajaxFormModal #name').val(data.name);
+				    	$('#ajaxFormModal #type').val(data.type);
+				    	$('#ajaxFormModal #parentId').val(data.parentId);
+			    		$("#ajaxFormModal #parentType").val( data.parentType ); 
+				    },*/
+			    },
+			    beforeSave : function(){
+			    	var tagAndTypes = $("#ajaxFormModal #tags").val();
+			    	if( $("#ajaxFormModal #type").val() )
+			    		tagAndTypes += ","+$("#ajaxFormModal #type").val();
+			    	if( $("#ajaxFormModal #subtype").val() )
+			    		tagAndTypes += ","+$("#ajaxFormModal #subtype").val();
+			    	$("#ajaxFormModal #tags").val( tagAndTypes );
+			    	
+			    	if( typeof $("#ajaxFormModal #description").code === 'function' )  
+			    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
+			    	if($('#ajaxFormModal #parentId').val() == "" && $('#ajaxFormModal #parentType').val() ){
+				    	$('#ajaxFormModal #parentId').val(userId);
+				    	$("#ajaxFormModal #parentType").val( "citoyens" ); 
+				    }
+			    },
+			    properties : {
+			    	info : {
+		                inputType : "custom",
+		                html:"",//<p><i class='fa fa-info-circle'></i> Une Annonce est un élément assez libre qui peut etre géolocalisé ou pas, qui peut etre rataché à tous les éléments.</p>",
+		            },
+			        name : {
+			        	placeholder : "Titre",
+			        	label : "Titre de votre annonce",
+			            inputType : "text",
+			            rules : { required : true }
+			        },
+		            description : {
+		                inputType : "wysiwyg",
+	            		label : "Rédigez votre annonce",
+			            placeholder : "Votre annonce...",
+	            		init:function(){
+				      		activateSummernote("#ajaxFormModal #description");
+			            }
+		            },
+		            location : {
+		               inputType : "location"
+		            },
+		            typeBtn :{
+		               inputType : "tagList",
+		                placeholder : "Type d'annonce",
+		                list : classifiedTypes,
+		                init : function(){
+			            	$(".typeBtn").off().on("click",function()
+			            	{
+			            		$(".typeBtn").removeClass("active btn-dark-blue text-white");
+			            		$( "."+$(this).data('tag')+"Btn" ).toggleClass("active btn-dark-blue text-white");
+			            		$("#ajaxFormModal #type").val( ( $(this).hasClass('active') ) ? $(this).data('tag') : "" );
+
+			            		$("#ajaxFormModal #subtype").val("");
+			            		fieldHTML = "";
+			            		$.each(classifiedSubTypes[ $(this).data('tag') ].subType, function(k,v) { 
+			            			fieldHTML += '<a class="btn btn-link tagListEl subtypeBtn '+k+'Btn " data-tag="'+k+'" href="javascript:;">'+v+'</a>';
+			            		});
+			            		$(".subtypeSection").html(fieldHTML);
+
+			            		$(".subtypeBtn").off().on("click",function()
+				            	{
+				            		$( "."+$(this).data('tag')+"Btn" ).toggleClass("btn-link text-white").toggleClass("active  btn-dark-blue text-white");
+				            		$("#ajaxFormModal #subtype").val( ( $(this).hasClass('active') ) ? $(this).data('tag') : "" );
+								});
+			            	});
+			            }
+		            },
+		            type :{
+		                inputType : "hidden"
+		            },
+		            subtypeSection : {
+		                inputType : "custom",
+		                html:"<div class='subtypeSection'></div>",
+		            },
+		            subtype :{
+		               inputType : "hidden"
+		            },
+		            // tags :{
+		            //     inputType : "tags",
+		            //     placeholder : "Mots clefs",
+		            //     values : tagsList
+		            // },
+		            formshowers : {
+		                inputType : "custom",
+		                html: "<a class='btn btn-default text-dark w100p' href='javascript:;' onclick='$(\".urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options (urls)</a>",
+		            },
+		            urls : {
+			        	placeholder : "url",
+			            inputType : "array",
+			            value : [],
+			            init:function(){
+				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
+			            	$(".urlsarray").css("display","none");	
+			            }
+			        },
+		            parentId :{
+		            	inputType : "hidden"
+		            },
+		            parentType : {
+			            inputType : "hidden"
+			        },
 			    }
 			}
 		}}
@@ -3680,15 +3882,18 @@ var keyboardNav = {
 		"117" : function(){ console.clear();loadByHash(location.hash) },//f6
 	},
 	keyMapCombo : {
-		"69" : function(){openForm('event')}, //e : event
-		"79" : function(){openForm('organization')},//o : orga
-		"80" : function(){openForm('project')},//p : project
-		"73" : function(){openForm('person')},//i : invite
-		"65" : function(){openForm('action')},//a : actions
-		"86" : function(){openForm('entry')},//v : votes
-		"70" : function(){ $(".searchIcon").trigger("click") },//f : find
+		"13" : function(){elementLib.openForm('addElement')},//enter : aadd elemetn
+		"65" : function(){elementLib.openForm('action')},//a : actions
 		"66" : function(){ smallMenu.openAjax(baseUrl+'/'+moduleId+'/collections/list','Mes Favoris','fa-star','yellow') },//b best : favoris
-		"82" : function(){smallMenu.openAjax(baseUrl+'/'+moduleId+'/person/directory?tpl=json','Mon répertoire','fa-book','red')}//r : annuaire
+		"67" : function(){elementLib.openForm('classified')},//c : classified
+		"69" : function(){elementLib.openForm('event')}, //e : event
+		"70" : function(){ $(".searchIcon").trigger("click") },//f : find
+		"73" : function(){elementLib.openForm('person')},//i : invite
+		"79" : function(){elementLib.openForm('organization')},//o : orga
+		"80" : function(){elementLib.openForm('project')},//p : project
+		"82" : function(){smallMenu.openAjax(baseUrl+'/'+moduleId+'/person/directory?tpl=json','Mon répertoire','fa-book','red')},//r : annuaire
+		"86" : function(){elementLib.openForm('entry')},//v : votes
+		
 	},
 	checkKeycode : function(e) {
 		e.preventDefault();
