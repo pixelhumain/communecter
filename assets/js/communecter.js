@@ -2331,6 +2331,33 @@ var elementLib = {
 ********************************** */
 var contextData = null;
 var typeObj = {
+	"addElement":{ 
+		dynForm : {
+		    jsonSchema : {
+			    title : "Ajouter un élément ?",
+			    icon : "question-cirecle-o",
+			    noSubmitBtns : true,
+			    properties : {
+			    	custom :{
+		            	inputType : "custom",
+		            	html : function() { 
+		            		return "<div class='menuSmallMenu'>"+js_templates.loop( [ 
+			            		{ label : "event", classes:"bg-"+typeObj["event"].color, icon:"fa-"+typeObj["event"].icon, action : "javascript:elementLib.openForm('event')"},
+			            		{ label : "organization", classes:"bg-"+typeObj["organization"].color, icon:"fa-"+typeObj["organization"].icon, action : "javascript:elementLib.openForm('organization')"},
+			            		{ label : "project", classes:"bg-"+typeObj["project"].color, icon:"fa-"+typeObj["project"].icon, action : "javascript:elementLib.openForm('project')"},
+			            		{ label : "poi", classes:"bg-"+typeObj["poi"].color, icon:"fa-"+typeObj["poi"].icon, action : "javascript:elementLib.openForm('poi')"},
+			            		{ label : "entry", classes:"bg-"+typeObj["entry"].color, icon:"fa-"+typeObj["entry"].icon, action : "javascript:elementLib.openForm('entry')"},
+			            		{ label : "action", classes:"bg-"+typeObj["action"].color, icon:"fa-"+typeObj["action"].icon, action : "javascript:elementLib.openForm('action')"},
+			            		{ label : "classified", classes:"bg-"+typeObj["classified"].color, icon:"fa-"+typeObj["classified"].icon, action : "javascript:elementLib.openForm('classified')"},
+			            		{ label : "Documentation", classes:"bg-grey lbh", icon:"fa-book", action : "#default.view.page.index.dir.docs"},
+			            		{ label : "Signaler un bug", classes:"bg-grey lbh", icon:"fa-bug", action : "#news.index.type.pixels"},
+		            		], "col_Link_Label_Count", { classes : "bg-red kickerBtn", parentClass : "col-xs-12 col-sm-4 "} )+"</div>";
+		            	}
+		            }
+			    }
+			}
+		}
+	},
 	"person" : {
 		col : "citoyens" , 
 		ctrl : "person",
@@ -3007,6 +3034,7 @@ var typeObj = {
 		col:"projects",
 		ctrl:"project",
 		icon : "lightbulb-o",
+		color : "purple",
 		titleClass : "bg-purple",
 		bgClass : "bgProject",
 		dynForm : {
@@ -3052,7 +3080,7 @@ var typeObj = {
 		            	options : eventTypes,
 		            	rules : { required : true },
 		            },
-		            allDay : {
+		            /*allDay : {
 		            	inputType : "checkbox",
 		            	init : function(){
 			            	$("#ajaxFormModal #allDay").off().on("switchChange.bootstrapSwitch",function (e, data) {
@@ -3113,7 +3141,7 @@ var typeObj = {
 			            	greaterThan: ["#ajaxFormModal #startDate","la date de début"],
 			            	duringDates: ["#ajaxFormModal #startDateParent","#ajaxFormModal #endDateParent","la date de fin"]
 					    }
-		            },
+		            },*/
 		            /*public : {
 		            	inputType : "hidden",
 		            	"switch" : {
@@ -3257,6 +3285,7 @@ var typeObj = {
 		titleClass : "bg-lightblue",
 		bgClass : "bgDDA",
 		icon : "gavel",
+		color : "azure",
 		saveUrl : baseUrl+"/" + moduleId + "/survey/saveSession",
 		dynForm : {
 		    jsonSchema : {
@@ -3390,6 +3419,7 @@ var typeObj = {
 		titleClass : "bg-lightblue",
 		bgClass : "bgDDA",
 		icon : "cogs",
+		color : "lightblue2",
 		saveUrl : baseUrl+"/" + moduleId + "/rooms/saveaction",
 		dynForm : {
 		    jsonSchema : {
@@ -3736,15 +3766,18 @@ var keyboardNav = {
 		"117" : function(){ console.clear();loadByHash(location.hash) },//f6
 	},
 	keyMapCombo : {
+		"13" : function(){elementLib.openForm('addElement')},//enter : aadd elemetn
+		"65" : function(){elementLib.openForm('action')},//a : actions
+		"66" : function(){ smallMenu.openAjax(baseUrl+'/'+moduleId+'/collections/list','Mes Favoris','fa-star','yellow') },//b best : favoris
+		"67" : function(){elementLib.openForm('classified')},//c : classified
 		"69" : function(){elementLib.openForm('event')}, //e : event
+		"70" : function(){ $(".searchIcon").trigger("click") },//f : find
+		"73" : function(){elementLib.openForm('person')},//i : invite
 		"79" : function(){elementLib.openForm('organization')},//o : orga
 		"80" : function(){elementLib.openForm('project')},//p : project
-		"73" : function(){elementLib.openForm('person')},//i : invite
-		"65" : function(){elementLib.openForm('action')},//a : actions
+		"82" : function(){smallMenu.openAjax(baseUrl+'/'+moduleId+'/person/directory?tpl=json','Mon répertoire','fa-book','red')},//r : annuaire
 		"86" : function(){elementLib.openForm('entry')},//v : votes
-		"70" : function(){ $(".searchIcon").trigger("click") },//f : find
-		"66" : function(){ smallMenu.openAjax(baseUrl+'/'+moduleId+'/collections/list','Mes Favoris','fa-star','yellow') },//b best : favoris
-		"82" : function(){smallMenu.openAjax(baseUrl+'/'+moduleId+'/person/directory?tpl=json','Mon répertoire','fa-book','red')}//r : annuaire
+		
 	},
 	checkKeycode : function(e) {
 		e.preventDefault();
