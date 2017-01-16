@@ -1033,9 +1033,9 @@ class DatamigrationController extends CommunecterController {
 		$nbelement = 0 ;
 		foreach ($types as $keyType => $type) {
 			$elements = PHDB::find($type, array("source" => array('$exists' => 1)));
-
 			if(!empty($elements)){
 				foreach (@$elements as $keyElt => $elt) {
+
 					if(!empty($elt["source"])){
 						$newsource = array();
 						if(!empty($elt["source"]["key"]) && empty($elt["source"]["keys"])){
@@ -1047,7 +1047,9 @@ class DatamigrationController extends CommunecterController {
 								$newsource["url"] = $elt["source"]["url"];
 							if(!empty($elt["source"]["id"])){
 								if(!empty($elt["source"]["id"]['$numberLong']))
+
 									$newsource["id"] = $elt["source"]["id"]['$numberLong'];
+
 								else
 									$newsource["id"] = $elt["source"]["id"];
 							}
@@ -1056,6 +1058,7 @@ class DatamigrationController extends CommunecterController {
 							
 							$nbelement ++ ;
 							$elt["modifiedByBatch"][] = array("RefactorSource" => new MongoDate(time()));
+
 							try {
 								$res = PHDB::update( $type, 
 							  		array("_id"=>new MongoId($keyElt)),
@@ -1066,6 +1069,7 @@ class DatamigrationController extends CommunecterController {
 								die();
 							}
 							echo "Elt mis a jour : ".$type." et l'id ".$keyElt."<br>" ;
+
 
 						}
 					}
