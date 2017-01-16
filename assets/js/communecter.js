@@ -580,6 +580,8 @@ var loadableUrls = {
     "#admin.createfile" : {title:'IMPORT DATA', icon : 'download'},
 	"#log.monitoring" : {title:'LOG MONITORING ', icon : 'plus'},
     "#adminpublic.index" : {title:'SOURCE ADMIN', icon : 'download'},
+    "#adminpublic.createfile" : {title:'IMPORT DATA', icon : 'download'},
+    "#adminpublic.adddata" : {title:'ADDDATA ', icon : 'download'},
     "#default.directory" : {title:'COMMUNECTED DIRECTORY', icon : 'connectdevelop', menuId:"menu-btn-directory"},
     "#default.news" : {title:'COMMUNECTED NEWS ', icon : 'rss', menuId:"menu-btn-news" },
     "#default.agenda" : {title:'COMMUNECTED AGENDA ', icon : 'calendar', menuId:"menu-btn-agenda"},
@@ -3248,7 +3250,6 @@ var typeObj = {
 	"events" : {col:"events",ctrl:"event",color:"orange"},
 	"projects" : {col:"projects",ctrl:"project",color:"purple",icon:"lightbulb-o"},
 	"city" : {col:"cities",ctrl:"city"},
-<<<<<<< HEAD
 	"cities" : {
 		col:"cities",
 		ctrl:"city", 
@@ -3328,73 +3329,6 @@ var typeObj = {
 			}
 		}
 	},
-=======
-	"cities" : {col:"cities",ctrl:"city", titleClass : "bg-red", icon : "university",},
-	"citiesSimply" : { 	col:"cities",
-					ctrl:"city", 
-					titleClass : "bg-red", 
-					icon : "university",
-					dynForm : {
-						jsonSchema : {
-							title : "Ajouter une city",
-							icon : "university",
-							properties : {
-								info : {
-									inputType : "custom",
-									html:"<p><i class='fa fa-info-circle'></i> Ajouter une ville</p>",
-								},
-								id :{
-									inputType : "hidden",
-									value : ""
-								},
-								latitude : {
-									inputType : "hidden",
-									value : ""
-								},
-								longitude : {
-									inputType : "hidden",
-									value : ""
-								},
-								name :{
-									inputType : "text",
-									placeholder : "Nom de la ville",
-									rules : { required : true }
-								},
-								postalCode :{
-									inputType : "text",
-									placeholder : "Code postal",
-									rules : { required : true }
-								},
-								country :{
-									inputType : "hidden",
-									value : "",
-									rules : { required : true }
-								},
-								insee :{
-									inputType : "hidden",
-									value : "",
-									rules : { required : true }
-								},
-								dep :{
-									inputType : "text",
-									placeholder : "Numéro du département"
-								},
-								depName :{
-									inputType : "text",
-									placeholder : "Nom du département"
-								},
-								region :{
-									inputType : "text",
-									placeholder : "Numéro de la région"
-								},
-								regionName :{
-									inputType : "text",
-									placeholder : "Nom de la région"
-								}
-							}
-						}
-					}},
->>>>>>> 8a1bd736dd82611bfb2d28bcabab590dd876ffa2
 	"entry" : {
 		col:"surveys",
 		ctrl:"survey",
