@@ -70,6 +70,10 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
       [ ] POST
     [ ] refaire le design
 
+** @Bouboule 
+  *** Chart
+  [X] Create common and open Chart for project and organization
+  [X] Bash de reprise des données sur project dans properties.chart
 * ************************************************************    
 * Version 0.16 (début oct) : en PROD
 * ************************************************************    

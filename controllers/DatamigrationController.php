@@ -961,7 +961,29 @@ class DatamigrationController extends CommunecterController {
 		}		
 		echo  "NB Element mis à jours: " .$nbelement."<br>" ;
 	}
+	public function actionRefactorChartProjectData(){
+		$projects = PHDB::find(Project::COLLECTION, array("properties.chart" => array('$exists' => 1)));
+		foreach($projects as $data){
+			echo "////////// <br/>";
+			echo (string)$data["_id"]."<br/>";
+			$chart=array();
+			$chart["open"]=array();
+			foreach($data["properties"]["chart"] as $key => $value){
+				$values=array("description"=>"", "value" => $value);
+				$chart["open"][$key]=array();
+				$chart["open"][$key]=$values;
+				//echo $value."<br/>";
+			}
+			echo "NEW OBJECT<br/>";
+			print_r($chart);
+			PHDB::update(Project::COLLECTION,
+				array("_id" => new MongoId((string)$data["_id"])),
+				array('$set' => array("properties.chart"=> $chart))
+			);
 
+			echo "////////// <br/>";
+		}
+	}
 
 	public function actionFixBugCoutryReunion(){
 		$nbelement = 0 ;
