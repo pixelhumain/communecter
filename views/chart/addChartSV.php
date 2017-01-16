@@ -62,6 +62,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
     z-index: 2;
     margin-right: 5px;
 }
+.chooseTypeForm .btn{
+	font-variant:small-caps;
+	font-size: 20px;
+}
+.chooseTypeForm{
+	margin-left:45px;
+}
 </style>
 <?php
 if(!@$_GET["renderPartial"])
@@ -69,16 +76,18 @@ if(!@$_GET["renderPartial"])
 ?>
 <div id="editProjectChart">
 	<div class="noteWrap col-md-8 col-sm-12 col-xs-12 col-md-offset-2">
+		<button class="btn btn-primary escapeForm"><i class="fa fa-sign-out"></i>Sortir des formulaires</button>
 		<h3 style="font-variant:small-caps;"><span class="stepFormChart">1</span><?php echo Yii::t("chart","Choose which kind of form to complete") ?></h3>
-		<div class="btn-group ">
-			<a id="btncommons" href="javascript:;" onclick="switchTypeChart('commons')" class="btn">
-				<i class="fa fa-check-circle-o"></i> <?php echo Yii::t("chart","Commons") ?>
+		<span style="font-style:italic; margin-left:45px;">Indicatif : <i class="fa fa-circle text-green"></i> <span class="text-green">Actif</span>   <i class="fa fa-circle text-orange"></i> <span class="text-orange">A modifier</span>    <i class="fa fa-circle"></i> Non rempli</span><br/>
+		<div class="btn-group chooseTypeForm">
+			<a id="btncommons" href="javascript:;" onclick="switchTypeChart('commons')" class="btn <?php if (isset($properties["open"]) && !empty($properties["open"])) echo "text-orange" ?>">
+				<i class="fa fa-circle"></i> <?php echo Yii::t("chart","Commons") ?>
 			</a>
-			<a id="btnopen" href="javascript:;" onclick="switchTypeChart('open')" class="btn btn-optgroup">
-				<i class="fa fa-circle-thin"></i> <?php echo Yii::t("chart","Open") ?>
+			<a id="btnopen" href="javascript:;" onclick="switchTypeChart('open')" class="btn <?php if (isset($properties["commons"]) && !empty($properties["commons"])) echo "text-orange" ?>">
+				<i class="fa fa-circle"></i> <?php echo Yii::t("chart","Open") ?>
 			</a>
 		</div>
-		<div id="commonsChart" class="formChart">
+		<div id="commonsChart" class="formChart" style="display:none;">
 			<h3 style="font-variant:small-caps;"><span class="stepFormChart">2</span><?php echo Yii::t("chart","Evaluate your ".substr($parentType,0,-1)." as commons") ?></h3>
 			<form id="opendata"></form>
 		</div>
@@ -215,239 +224,16 @@ var properties = <?php echo json_encode($properties); ?>;
 propertiesCommons={};
 if(typeof(properties.commons) != "undefined")
 	propertiesCommons=properties.commons;
+propertiesOpen={};
+if(typeof(properties.open) != "undefined")
+	propertiesOpen=properties.open;
+
 console.log(properties);
-var form1 = {
-        "jsonSchema" : {
-            "title" : "Partage",
-            "type" : "object",
-            "properties" : {
-                "separator1":{
-                    "title":" Quels sont les communs proches ou similaires ? Ont il été contactés pour essayer de mutualiser avec eux ? Comment le commun est travaillé pour favoriser sa réplication, sa diffusion ?"
-                },
-                "description" : {
-                    "inputType" : "textarea",
-                    "placeholder" : "Description",
-                    "class" : "description1"
-                },
-                "value" : {
-                    "inputType" : "select",
-                    "placeholder" : "evaluate",
-                    "options":{
-	                    "0":"Ne souhaite pas",
-	                    "20":"Pas applicable",
-	                    "40":"Souhait mais pas démarré",
-						"60":"Démarré",
-						"80":"En progression",
-						"100":"Réalisé",
-                    }
-                }
-            },
-        },
-        "collection":"partage"
-    };
-
-var form2 = {
-         "jsonSchema" : {
-            "title" : "Gouvernance",
-            "type" : "object",
-            "properties" : {
-                "separator1":{
-                    "title":"Comment est pensée la gouvernance pour permettre à tous de s'approprier le commun sans pour autant réduire l'initiative individuelle ?"
-                },
-                "description" : {
-                    "inputType" : "textarea",
-                    "placeholder" : "Description",
-                    "class" : "description2"
-                },
-                "value" : {
-                    "inputType" : "select",
-                    "placeholder" : "evaluate",
-                    "options":{
-	                    "0":"Ne souhaite pas",
-	                    "20":"Pas applicable",
-	                    "40":"Souhait mais pas démarré",
-						"60":"Démarré",
-						"80":"En progression",
-						"100":"Réalisé",
-                    }
-                }
-            }
-        }
-    };
-
-var form3 = {
-         "jsonSchema" : {
-            "title" : "Partenaires",
-            "type" : "object",
-            "properties" : {
-                "separator1":{
-                    "title":"Quelle manière le commun a t'il de nouer des partenariats avec des acteurs privés et publics ? Quelles approches utilisées ?"
-                },
-                "description" : {
-                    "inputType" : "textarea",
-                    "placeholder" : "Description",
-                    "class" : "description3"
-                },
-                "value" : {
-                    "inputType" : "select",
-                    "placeholder" : "evaluate",
-                    "options":{
-	                    "0":"Ne souhaite pas",
-	                    "20":"Pas applicable",
-	                    "40":"Souhait mais pas démarré",
-						"60":"Démarré",
-						"80":"En progression",
-						"100":"Réalisé",
-                    }
-				}
-            }
-        }
-};
-var form4 = {
-         "jsonSchema" : {
-            "title" : "Juridique",
-            "type" : "object",
-            "properties" : {
-                "separator1":{
-                    "title":"Quels choix juridique pour protéger le caractère commun du projet ?"
-                },
-                "description" : {
-                    "inputType" : "textarea",
-                    "placeholder" : "Description",
-                    "class" : "description4"
-                },
-                "value" : {
-                    "inputType" : "select",
-                    "placeholder" : "evaluate",
-                    "options":{
-	                    "0":"Ne souhaite pas",
-	                    "20":"Pas applicable",
-	                    "40":"Souhait mais pas démarré",
-						"60":"Démarré",
-						"80":"En progression",
-						"100":"Réalisé",
-                    }
-                }
-            }
-        }
-};
-var form5 = {
-         "jsonSchema" : {
-            "title" : "Financement",
-            "type" : "object",
-            "properties" : {
-                "separator1":{
-                    "title":"Quelle logique de financement par les usagers et partenaires ainsi que de redistribution financière dans le commun ?"
-                },
-                "description" : {
-                    "inputType" : "textarea",
-                    "placeholder" : "Description",
-                    "class" : "description5"
-                },
-                "value" : {
-                    "inputType" : "select",
-                    "placeholder" : "evaluate",
-                    "options":{
-	                    "0":"Ne souhaite pas",
-	                    "20":"Pas applicable",
-	                    "40":"Souhait mais pas démarré",
-						"60":"Démarré",
-						"80":"En progression",
-						"100":"Réalisé",
-                    }
-                }
-            }
-        }
-};
-var form6 = {
-         "jsonSchema" : {
-            "title" : "Contribution",
-            "type" : "object",
-            "properties" : {
-                "separator1":{
-                    "title":"Comment le projet permet il la contribution à tous et sur le long terme ? Quels moyens pour rendre visibles les actions ?"
-                },
-                "description" : {
-                    "inputType" : "textarea",
-                    "placeholder" : "Description",
-                    "class" : "description6"
-                },
-                "value" : {
-                    "inputType" : "select",
-                    "placeholder" : "evaluate",
-                    "options":{
-	                    "0":"Ne souhaite pas",
-	                    "20":"Pas applicable",
-	                    "40":"Souhait mais pas démarré",
-						"60":"Démarré",
-						"80":"En progression",
-						"100":"Réalisé",
-                    }
-                }
-            }
-        }
-};
+var formAlreadyLoad=[];
 
 jQuery(document).ready(function() {
 	(function(){var e;!function(t,l){return t.fn.autogrow=function(i){return null==i&&(i={}),null==i.horizontal&&(i.horizontal=!0),null==i.vertical&&(i.vertical=!0),null==i.debugx&&(i.debugx=-1e4),null==i.debugy&&(i.debugy=-1e4),null==i.debugcolor&&(i.debugcolor="yellow"),null==i.flickering&&(i.flickering=!0),null==i.postGrowCallback&&(i.postGrowCallback=function(){}),null==i.verticalScrollbarWidth&&(i.verticalScrollbarWidth=e()),i.horizontal!==!1||i.vertical!==!1?this.filter("textarea").each(function(){var e,n,r,o,a,c,d;return e=t(this),e.data("autogrow-enabled")?void 0:(e.data("autogrow-enabled"),a=e.height(),c=e.width(),o=1*e.css("lineHeight")||0,e.hasVerticalScrollBar=function(){return e[0].clientHeight<e[0].scrollHeight},n=t('<div class="autogrow-shadow"></div>').css({position:"absolute",display:"inline-block","background-color":i.debugcolor,top:i.debugy,left:i.debugx,"max-width":e.css("max-width"),padding:e.css("padding"),fontSize:e.css("fontSize"),fontFamily:e.css("fontFamily"),fontWeight:e.css("fontWeight"),lineHeight:e.css("lineHeight"),resize:"none","word-wrap":"break-word"}).appendTo(document.body),i.horizontal===!1?n.css({width:e.width()}):(r=e.css("font-size"),n.css("padding-right","+="+r),n.normalPaddingRight=n.css("padding-right")),d=function(t){return function(l){var r,d,s;return d=t.value.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\n /g,"<br/>&nbsp;").replace(/"/g,"&quot;").replace(/'/g,"&#39;").replace(/\n$/,"<br/>&nbsp;").replace(/\n/g,"<br/>").replace(/ {2,}/g,function(e){return Array(e.length-1).join("&nbsp;")+" "}),/(\n|\r)/.test(t.value)&&(d+="<br />",i.flickering===!1&&(d+="<br />")),n.html(d),i.vertical===!0&&(r=Math.max(n.height()+o,a),e.height(r)),i.horizontal===!0&&(n.css("padding-right",n.normalPaddingRight),i.vertical===!1&&e.hasVerticalScrollBar()&&n.css("padding-right","+="+i.verticalScrollbarWidth+"px"),s=Math.max(n.outerWidth(),c),e.width(s)),i.postGrowCallback(e)}}(this),e.change(d).keyup(d).keydown(d),t(l).resize(d),d())}):void 0}}(window.jQuery,window),e=function(){var e,t,l,i;return e=document.createElement("p"),e.style.width="100%",e.style.height="200px",t=document.createElement("div"),t.style.position="absolute",t.style.top="0px",t.style.left="0px",t.style.visibility="hidden",t.style.width="200px",t.style.height="150px",t.style.overflow="hidden",t.appendChild(e),document.body.appendChild(t),l=e.offsetWidth,t.style.overflow="scroll",i=e.offsetWidth,l===i&&(i=t.clientWidth),document.body.removeChild(t),l-i}}).call(this);
-    /* **************************************
-    *   Using the dynForm
-    - declare a destination point
-    - a formDefinition
-    - the onLoad method
-    - the onSave method
-    ***************************************** */
-    var form = $.dynSurvey({
-        surveyId : "#opendata",
-        surveyObj : { 
-            "section1":{dynForm : form1, key : "partage" },
-            "section2":{dynForm : form2, key : "gouvernance" },
-            "section3":{dynForm : form3, key : "partenaires" },
-            "section4":{dynForm : form4, key : "finance" },
-            "section5":{dynForm : form5, key : "juridique" },
-			"section6":{dynForm : form6, key : "contribution" }
-        },
-        surveyValues : propertiesCommons,
-        onLoad : function(){
-	        $(".description1, .description2, .description3, .description4, .description5, .description6").focus().autogrow({vertical: true, horizontal: false});
-        },
-        onSave : function(params) {
-			//console.dir( $(params.surveyId).serializeFormJSON() );
-			var result = {};
-			result["commons"]={};
-			console.log(params.surveyObj);
-			$.each( params.surveyObj,function(section,sectionObj) { 
-				result["commons"][sectionObj.key] = {};
-				console.log(sectionObj.dynForm.jsonSchema.properties);
-				$.each( sectionObj.dynForm.jsonSchema.properties,function(field,fieldObj) { 
-					console.log(sectionObj.key+"."+field, $("#"+section+" #"+field).val() );
-					if( fieldObj.inputType ){
-						result["commons"][sectionObj.key][field] = {};
-						result["commons"][sectionObj.key][field] = $("#"+section+" #"+field).val();
-					}
-				});
-			});
-			console.dir( result );
-			$.ajax({
-        	  type: "POST",
-        	  url: params.savePath,
-        	  data: {properties:result, id: parentId, type: parentType},
-              dataType: "json"
-        	}).done( function(data){
-                toastr.success("Project chart well updated");
-                loadByHash("#element.detail.type."+parentType+".id."+parentId);
-               // if( afterDynBuildSave && typeof afterDynBuildSave == "function" )
-                 //   afterDynBuildSave(data.map,data.id);
-                console.info('saved successfully !');
-
-        	});
-		},
-        collection : "commonsChart",
-	    key : "SCSurvey",
-		savePath : baseUrl+"/"+moduleId+"/chart/editchart"
-		
-
-    });
+   
 	$(".moduleLabel").html("<span style='font-size:20px;'>Charte, valeurs, code social</span>");
 	knobInit();
     $(".addProperties").click(function(){
@@ -459,6 +245,9 @@ jQuery(document).ready(function() {
 	bindprojectSubViewchart();
 	runChartFormValidation();
 	removeChartProperty();
+	$(".escapeForm").click(function(){
+		loadByHash("#element.detail.type.<?php echo $parentType ?>.id.<?php echo $parentId ?>");
+	});
 	/*!
 	  Non-Sucking Autogrow 1.1.1
 	  license: MIT
@@ -561,9 +350,9 @@ function runChartFormValidation() {
 		    .done(function (data,myNewChart) 
 		    {
 			   if (data.result==true) {   
-		        	toastr.success('Project properties succesfully update');
-		        	$.unblockUI();
-		        	loadByHash("#element.detail.type.<?php echo $parentType ?>.id.<?php echo $parentId ?>");
+		        	toastr.success("<?php echo Yii::t("chart",substr($parentType,0,-1).'\'s properties succesfully update') ?>");
+		        	//$.unblockUI();
+		        	//loadByHash("#element.detail.type.<?php echo $parentType ?>.id.<?php echo $parentId ?>");
 //					openMainPanelFromPanel( '/project/detail/id/'+projectId, 'Project : <?php if(@$projectName) echo addslashes($projectName) ?>',"fa-lightbulb-o", projectId );
 	//////// LAST FROM DEVELOPMENT ////////////////
 		        	/*var chartToLoad=true;
@@ -695,12 +484,85 @@ function knobInit(){
     });
 }
 	function switchTypeChart(str){
-		$(".btn-group i").removeClass("fa-check-circle-o");
-		$(".btn-group i").addClass("fa-circle-thin");
-		$("#btn"+str+" i").removeClass("fa-circle-thin");
-		$("#btn"+str+" i").addClass("fa-check-circle-o");
+		//$(".btn-group i").removeClass("fa-check-circle-o");
+		//$(".btn-group i").addClass("fa-circle-thin");
+		$(".chooseTypeForm .btn").removeClass("text-green");
+		$(".chooseTypeForm #btn"+str).addClass("text-green");
 		$(".formChart").hide();
 		$("#"+str+"Chart").show( 700 );
+		var str = str;
+		console.log("alreadyLoad",formAlreadyLoad);
+		if(str != "open" && formAlreadyLoad.indexOf(str) < 0){
+			$.ajax({
+				url : baseUrl+"/"+moduleId+"/chart/get",
+				type : 'POST',
+				data: {json : str},
+				success : function(data, statut){ // success est toujours en place, bien sûr !
+					/* **************************************
+				    *   Using the dynForm
+				    - declare a destination point
+				    - a formDefinition
+				    - the onLoad method
+				    - the onSave method
+				    ***************************************** */
+				    console.log(data);
+				    surveyObj={};
+				    i=1;
+				    $.each(data, function(e,form){
+					    sectionObject = {dynForm : form, key : e};
+					    surveyObj["section"+i]={};
+					    surveyObj["section"+i]=sectionObject;
+					    i++;
+				    });
+				    var form = $.dynSurvey({
+				        surveyId : "#opendata",
+				        surveyObj : surveyObj,
+				        surveyValues : propertiesCommons,
+				        onLoad : function(){
+					        $(".description1, .description2, .description3, .description4, .description5, .description6").focus().autogrow({vertical: true, horizontal: false});
+				        },
+				        onSave : function(params) {
+							//console.dir( $(params.surveyId).serializeFormJSON() );
+							var result = {};
+							result[str]={};
+							console.log(params.surveyObj);
+							$.each( params.surveyObj,function(section,sectionObj) { 
+								result[str][sectionObj.key] = {};
+								console.log(sectionObj.dynForm.jsonSchema.properties);
+								$.each( sectionObj.dynForm.jsonSchema.properties,function(field,fieldObj) { 
+									console.log(sectionObj.key+"."+field, $("#"+section+" #"+field).val() );
+									if( fieldObj.inputType ){
+										result[str][sectionObj.key][field] = {};
+										result[str][sectionObj.key][field] = $("#"+section+" #"+field).val();
+									}
+								});
+							});
+							console.dir( result );
+							$.ajax({
+				        	  type: "POST",
+				        	  url: params.savePath,
+				        	  data: {properties:result, id: parentId, type: parentType},
+				              dataType: "json"
+				        	}).done( function(data){
+				                toastr.success("<?php echo Yii::t("chart", "Project chart well updated") ?>");
+				                //loadByHash("#element.detail.type."+parentType+".id."+parentId);
+				               // if( afterDynBuildSave && typeof afterDynBuildSave == "function" )
+				                 //   afterDynBuildSave(data.map,data.id);
+				                console.info('saved successfully !');
+				
+				        	});
+						},
+				        collection : "commonsChart",
+					    key : "SCSurvey",
+						savePath : baseUrl+"/"+moduleId+"/chart/editchart"
+				    });
+					formAlreadyLoad.push(str);
+	       		},
+		   		error : function(data, statut, erreur){
+	
+	       		}
+    		});
+		}
 	}
 
 </script>
