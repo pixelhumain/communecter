@@ -80,10 +80,10 @@ if(!@$_GET["renderPartial"])
 		<h3 style="font-variant:small-caps;"><span class="stepFormChart">1</span><?php echo Yii::t("chart","Choose which kind of form to complete") ?></h3>
 		<span style="font-style:italic; margin-left:45px;">Indicatif : <i class="fa fa-circle text-green"></i> <span class="text-green">Actif</span>   <i class="fa fa-circle text-orange"></i> <span class="text-orange">A modifier</span>    <i class="fa fa-circle"></i> Non rempli</span><br/>
 		<div class="btn-group chooseTypeForm">
-			<a id="btncommons" href="javascript:;" onclick="switchTypeChart('commons')" class="btn <?php if (isset($properties["open"]) && !empty($properties["open"])) echo "text-orange" ?>">
+			<a id="btncommons" href="javascript:;" onclick="switchTypeChart('commons')" class="btn <?php if (isset($properties["commons"]) && !empty($properties["commons"])) echo "text-orange" ?>">
 				<i class="fa fa-circle"></i> <?php echo Yii::t("chart","Commons") ?>
 			</a>
-			<a id="btnopen" href="javascript:;" onclick="switchTypeChart('open')" class="btn <?php if (isset($properties["commons"]) && !empty($properties["commons"])) echo "text-orange" ?>">
+			<a id="btnopen" href="javascript:;" onclick="switchTypeChart('open')" class="btn <?php if (isset($properties["open"]) && !empty($properties["open"])) echo "text-orange" ?>">
 				<i class="fa fa-circle"></i> <?php echo Yii::t("chart","Open") ?>
 			</a>
 		</div>
@@ -351,7 +351,7 @@ function runChartFormValidation() {
 		    {
 			   if (data.result==true) {   
 		        	toastr.success("<?php echo Yii::t("chart",substr($parentType,0,-1).'\'s properties succesfully update') ?>");
-		        	//$.unblockUI();
+		        	$.unblockUI();
 		        	//loadByHash("#element.detail.type.<?php echo $parentType ?>.id.<?php echo $parentId ?>");
 //					openMainPanelFromPanel( '/project/detail/id/'+projectId, 'Project : <?php if(@$projectName) echo addslashes($projectName) ?>',"fa-lightbulb-o", projectId );
 	//////// LAST FROM DEVELOPMENT ////////////////
