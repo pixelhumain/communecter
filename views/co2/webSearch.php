@@ -54,7 +54,9 @@
 		<?php } ?>
 
 		<a class="siteurl_title letter-blue" target="_blank" href="<?php echo $siteurl["url"]; ?>">
-			<?php if(@$siteurl["favicon"]){ ?><img src='<?php echo $siteurl["favicon"]; ?>' height=17 class="margin-right-5" style="margin-top:-3px;" alt=""><?php } ?> 
+			<?php if(@$siteurl["favicon"]){ ?>
+				<img src='<?php echo $siteurl["favicon"]; ?>' height=17 class="margin-right-5" style="margin-top:-3px;" alt="">
+			<?php } ?> 
 			<?php echo $siteurl["title"]; ?>
 		</a><br>
 		<span class="siteurl_hostname letter-green"><?php echo $siteurl["url"]; ?></span><br>
