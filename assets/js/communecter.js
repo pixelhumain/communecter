@@ -2368,6 +2368,29 @@ var elementLib = {
 ********************************** */
 var contextData = null;
 var typeObj = {
+	"themes":{ 
+		dynForm : {
+		    jsonSchema : {
+			    title : "Theme Switcher ?",
+			    icon : "question-cirecle-o",
+			    noSubmitBtns : true,
+			    properties : {
+			    	custom :{
+		            	inputType : "custom",
+		            	html : function() { 
+		            		return "<div class='menuSmallMenu'>"+js_templates.loop( [ 
+			            		{ label : "ph dori", classes:"bg-dark", icon:"fa-bullseye", action : "javascript:window.location.href = moduleId+'/default/index/theme/ph-dori'"},
+			            		{ label : "notragora", classes:"bg-grey", icon:"fa-video-camera ", action : "javascript:window.location.href = moduleId+'/default/index/theme/notragora'"},
+			            		{ label : "C02", classes:"bg-red", icon:"fa-search", action : "javascript:window.location.href = moduleId+'/co2/index/theme/CO2'"},
+			            		{ label : "network", classes:"bg-orange", icon:"fa-bars", action : "javascript:window.location.href = moduleId+'/default/index/theme/network'"},
+			            		
+		            		], "col_Link_Label_Count", { classes : "bg-red kickerBtn", parentClass : "col-xs-12 col-sm-4 "} )+"</div>";
+		            	}
+		            }
+			    }
+			}
+		}
+	},
 	"addElement":{ 
 		dynForm : {
 		    jsonSchema : {
@@ -2390,6 +2413,22 @@ var typeObj = {
 			            		{ label : "Signaler un bug", classes:"bg-grey lbh", icon:"fa-bug", action : "#news.index.type.pixels"},
 		            		], "col_Link_Label_Count", { classes : "bg-red kickerBtn", parentClass : "col-xs-12 col-sm-4 "} )+"</div>";
 		            	}
+		            }
+			    }
+			}
+		}
+	},
+	"addPhoto":{ 
+		dynForm : {
+		    jsonSchema : {
+			    title : "Uploader une image ?",
+			    icon : "question-cirecle-o",
+			    noSubmitBtns : true,
+			    properties : {
+			    	image :{
+		            	inputType : "image",
+		            	contextType : "citoyens",
+		            	contextId : "585bdfdaf6ca47b6118b4583"
 		            }
 			    }
 			}
@@ -3828,6 +3867,7 @@ var keyboardNav = {
 		"79" : function(){elementLib.openForm('organization')},//o : orga
 		"80" : function(){elementLib.openForm('project')},//p : project
 		"82" : function(){smallMenu.openAjax(baseUrl+'/'+moduleId+'/person/directory?tpl=json','Mon répertoire','fa-book','red')},//r : annuaire
+		"84" : function(){elementLib.openForm('themes')},//t : theme switcher
 		"86" : function(){elementLib.openForm('entry')},//v : votes
 		
 	},
