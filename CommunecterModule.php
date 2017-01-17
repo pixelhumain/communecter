@@ -78,7 +78,6 @@ class CommunecterModule extends CWebModule
 		}
 
 		if(@$_GET["tpl"] == "iframesig"){ $theme = $_GET["tpl"]; }
-		if(@$_GET["tpl"] == "datatools"){ $theme = $_GET["tpl"]; }
 
 		if(@$_GET["network"]) {
             $theme = "network";
