@@ -38,9 +38,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->reque
 								//$url = '#element.detail.type.'.Event::COLLECTION.'.id.'.$e["_id"]; 
 								if(!empty($contact["id"])){
 									$url = '#person.detail.id.'.$contact["id"];
-
-								
-
 									$id = $contact["id"];
 									$o = Element::getInfos(Person::COLLECTION, $id);
 									
@@ -118,20 +115,6 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->reque
 						</tbody>
 					</table>
 					<?php } ?>
-		<?php if( $nbEventVisible == 0 && $nbOldEvents== 0) { ?>
-			<div id="infoEventPod" class="padding-10" >
-				<blockquote> 
-					<?php 
-						if($contextType==Event::CONTROLLER)
-							$explain="Create sub-events to show the event's program.<br/>And Organize the event's sequence";
-						else
-							$explain="Publiez les événements que vous organisez";
-						echo Yii::t("event",$explain); 
-					?>
-				</blockquote>
-			</div>
-		<?php } ?>
-
 		</div>
 	</div>
 </div>
@@ -192,6 +175,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->reque
 		console.dir(dataUpdate);
 		elementLib.openForm ( 'contactPoint','contact', dataUpdate);
 	}
+
 	function remove(ind) {
 		param = new Object;
     	param.name = "contacts";

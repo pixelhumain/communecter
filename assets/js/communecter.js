@@ -1461,8 +1461,11 @@ function myAdminList (ctypes) {
 	}
 	return myList;
 }
-function addHidden(nameHidden,value){
-	$("#"+nameHidden).val(value);
+
+function addContact(id, name){
+	$("#idContact").val(id);
+	$("#listSameName").html("<i class='fa fa-check text-success'></i> Vous avez sélectionner : "+ name);
+	$("#name").val(name);
 }
 
 function globalSearch(searchValue,types,autre){
@@ -1491,6 +1494,7 @@ function globalSearch(searchValue,types,autre){
           success: function(data){
             var str = "";
  			var compt = 0;
+ 			var msg = "Verifiez si cet élément n'existe pas déjà";
  			$("#btn-submit-form").html('Valider <i class="fa fa-arrow-circle-right"></i>').prop("disabled",false);
  			$.each(data, function(id, elem) {
   				mylog.log(elem);
@@ -1511,11 +1515,12 @@ function globalSearch(searchValue,types,autre){
 				if("undefined" != typeof elem.profilImageUrl && elem.profilImageUrl != ""){
 					var htmlIco= "<img width='30' height='30' alt='image' class='img-circle' src='"+baseUrl+elem.profilThumbImageUrl+"'/>";
 				}
-
+				
 				if(autre == true){
-					str += 	"<a target='_blank' href='javascript:addHidden(\'userID\',"+elem.id+");' class='autre btn btn-xs btn-default w50p text-left padding-5 text-blue' >"+
-							"<span>"+ htmlIco +"</span> <span> " + elem.name+"</br>"+where+ "</span>"
-						"</a>";
+					str += 	"<a href='javascript:;' onclick='addContact( \""+elem.id+"\",\""+elem.name+"\" );' class='autre btn btn-xs btn-default w50p text-left padding-5 text-blue' >"+
+								"<span>"+ htmlIco +"</span> <span> " + elem.name+"</br>"+where+ "</span>"
+							"</a>";
+					msg = "Verifiez si le contact est dans Communecter";
 				}else{
 					str += 	"<a target='_blank' href='#"+ elem.type +".detail.id."+ elem.id +"' class='btn btn-xs btn-default w50p text-left padding-5 text-blue' >"+
 							"<span>"+ htmlIco +"</span> <span> " + elem.name+"</br>"+where+ "</span>"
@@ -1527,7 +1532,7 @@ function globalSearch(searchValue,types,autre){
   			});
 			
 			if (compt > 0) {
-				$("#listSameName").html("<div class='col-sm-12 light-border text-red'> <i class='fa fa-eye'></i> Verifiez si cet élément n'existe pas déjà : </div>"+str);
+				$("#listSameName").html("<div class='col-sm-12 light-border text-red'> <i class='fa fa-eye'></i> "+msg+" : </div>"+str);
 				//bindLBHLinks();
 			} else {
 				$("#listSameName").html("<span class='txt-green'><i class='fa fa-thumbs-up text-green'></i> Aucun élément avec ce nom.</span>");
@@ -2346,6 +2351,9 @@ var elementLib = {
 			        else
 			        	elementLib.saveElement("#ajaxFormModal",elementObj.col,elementObj.ctrl);
 
+			        if( elementObj.dynForm.jsonSchema.afterSave && typeof elementObj.dynForm.jsonSchema.afterSave == "function")
+			        	elementObj.dynForm.jsonSchema.afterSave();
+
 			        return false;
 			    }
 			});
@@ -3057,8 +3065,7 @@ var typeObj = {
 			url:"/"+moduleId+"/event/eventsv",
 			title : "Ajouter un évènement"
 		}*/	},
-	"events" : {col:"events",ctrl:"event"},
-	"projects" : {col:"projects",ctrl:"project"},
+	"events" : {col:"events",ctrl:"event",color:"orange"},
 	"project" : {
 		col:"projects",
 		ctrl:"project",
@@ -3240,7 +3247,6 @@ var typeObj = {
 			url:"/"+moduleId+"/event/eventsv",
 			title : "Ajouter un évènement"
 		}*/	},
-	"events" : {col:"events",ctrl:"event",color:"orange"},
 	"projects" : {col:"projects",ctrl:"project",color:"purple",icon:"lightbulb-o"},
 	"city" : {col:"cities",ctrl:"city"},
 	"cities" : {
@@ -3613,6 +3619,9 @@ var typeObj = {
 		    				$("#ajaxFormModal #parentType").val( contextData.type ); 
 					}
 			    },
+			    afterSave : function(){
+			    	loadByHash(location.hash);
+			    },
 			    properties : {
 			    	info : {
 		                inputType : "custom",
@@ -3630,6 +3639,10 @@ var typeObj = {
 			            	});
 			            }
 			        },
+			        similarLink : {
+		                inputType : "custom",
+		                html:"<div id='similarLink'><div id='listSameName'></div></div>",
+		            },
 			        email :{
 		              inputType : "text",
 		              placeholder : "Email du contact"
@@ -3642,9 +3655,9 @@ var typeObj = {
 		              inputType : "text",
 		              placeholder : "téléphone du contact"
 		            },
-		            userId : {
-		               inputType : "hidden",
-		                value : ""
+		            idContact : {
+		            	inputType : "hidden",
+		            	value : ""
 		            },
 		            parentId :{
 		            	inputType : "hidden"
