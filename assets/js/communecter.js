@@ -583,7 +583,6 @@ var loadableUrls = {
 	"#default.apropos" : {title:'COMMUNECTED HOME ', icon : 'star',"menu":"homeShortcuts"},
 	"#default.twostepregister" : {title:'TWO STEP REGISTER', icon : 'home', "menu":"homeShortcuts"},
 	"#default.view.page" : {title:'FINANCEMENT PARTICIPATIF ', icon : 'euro'},
-	
 	//"#home" : {"alias":"#default.home"},
     "#stat.chartglobal" : {title:'STATISTICS ', icon : 'bar-chart'},
     "#stat.chartlogs" : {title:'STATISTICS ', icon : 'bar-chart'},
