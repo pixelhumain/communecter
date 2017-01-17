@@ -41,6 +41,7 @@
                             </small>
                         </label>
                         <input type="text" class="form-control" placeholder="Nom de la page" id="form-title"><br>
+                        <input type="hidden" id="form-favicon">
 
                         <label id="lbl-description">
                             <i class="fa fa-circle"></i> Description

@@ -23,10 +23,11 @@ class DefaultController extends CommunecterController {
      * Home page
      */
 
-	public function actionIndex() 
+	public function actionIndex($theme="ph-dori") 
 	{
-    	Yii::app()->theme = "ph-dori"; //"ph-dori";      
+    	//Yii::app()->theme = $theme;    
       //Yii::app()->theme = "notragora";
+      //Yii::app()->theme = "CO2";
 	    if(@$_GET["network"]){
 	      Yii::app()->theme = "network";
 	      Yii::app()->params['networkParams'] = $_GET["network"];
@@ -106,6 +107,16 @@ class DefaultController extends CommunecterController {
 
    // $tpl=(@$_GET["tpl"]) ? $_GET["tpl"]: "home";
     $this->renderPartial($tpl, array("stats"=>$stats));
+  }
+  public function actionApropos() 
+  {
+    //$this->layout = "//layouts/mainSearch";
+    $tpl = "apropos";
+    if(Yii::app()->theme != "ph-dori")
+      $tpl = "//layouts/default/apropos";
+
+   // $tpl=(@$_GET["tpl"]) ? $_GET["tpl"]: "home";
+    $this->renderPartial($tpl);
   }
   public function actionLogin() 
   {

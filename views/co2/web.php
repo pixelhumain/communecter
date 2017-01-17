@@ -27,6 +27,42 @@
         /*margin-left:80px;*/
         padding-bottom:50px;
     }
+    
+<?php 
+    $btnAnc = array("blue"      =>array("color1"=>"#4285f4", 
+                                        "color2"=>"#1c6df5"),
+
+//                     "green"     =>array("color1"=>"#34a853", 
+//                                         "color2"=>"#2b8f45"),
+
+//                     "red"       =>array("color1"=>"#ea4335", 
+//                                         "color2"=>"#cc392d"),
+
+//                     "yellow"    =>array("color1"=>"#fbbc05", 
+//                                         "color2"=>"#e3a800"),
+                    );
+?>
+
+<?php foreach($btnAnc as $color => $params){ ?>
+.btn-anc-color-<?php echo $color; ?>{
+    background-color: <?php echo $params["color1"]; ?>;
+    border-color: <?php echo $params["color1"]; ?>!important;
+    color: #fff!important;
+}
+
+.btn-anc-color-<?php echo $color; ?>:hover{
+    background-color: <?php echo $params["color2"]; ?>!important;
+    border-color: <?php echo $params["color1"]; ?>!important;
+}
+.btn-anc-color-<?php echo $color; ?>.active{ 
+    background-color:#fff!important;
+    color:<?php echo $params["color1"]; ?>!important;
+}
+.btn-anc-color-<?php echo $color; ?>.active:hover{
+    background-color: #fff;
+    color: <?php echo $params["color1"]; ?>;
+}
+<?php } ?>
 </style>
 
 

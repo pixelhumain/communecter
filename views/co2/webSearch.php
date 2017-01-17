@@ -10,7 +10,7 @@
 
 	<span>
 		<small><b>
-		Le site que vous recherchez n'est pas référencé ?<br> 
+		Vous connaissez un site qui n'est pas référencé ?<br> 
 		Ajoutez le <span class="letter-green">gratuitement</span> dans la base de données, et faites-en profiter tout le monde !
 		</b></small>
 	</span>
@@ -54,6 +54,9 @@
 		<?php } ?>
 
 		<a class="siteurl_title letter-blue" target="_blank" href="<?php echo $siteurl["url"]; ?>">
+			<?php if(@$siteurl["favicon"]){ ?>
+				<img src='<?php echo $siteurl["favicon"]; ?>' height=17 class="margin-right-5" style="margin-top:-3px;" alt="">
+			<?php } ?> 
 			<?php echo $siteurl["title"]; ?>
 		</a><br>
 		<span class="siteurl_hostname letter-green"><?php echo $siteurl["url"]; ?></span><br>
@@ -74,7 +77,7 @@
 			</b>
 		</span>
 
-		<?php if( Role::isSuperAdmin(Role::getRolesUserId(Yii::app()->session["userId"]) ) ) { ?>
+		<?php if(false && Role::isSuperAdmin(Role::getRolesUserId(Yii::app()->session["userId"]) ) ) { ?>
 		<button class="btn btn-xs btn-edit-url" data-target="#modalEditUrl" data-toggle="modal" data-idurl="<?php echo $key; ?>">
 			<i class="fa fa-cog"></i> Editer
 		</button> 
@@ -85,27 +88,12 @@
 </div>
 
 
-<?php if(sizeof($siteurls) < 3){ 
-
-	$searchG = str_replace(" ", "+", $search);
-?>
-<div class="col-md-12" style="margin-top:50px;">
-	<hr>
-	<h5 class="text-right">
-		<a href="https://www.google.com/search?q=<?php echo $searchG; ?>" target="_blank">
-			<i class="fa fa-fw fa-angle-right"></i> continuer la recherche sur 
-	    	<img src="<?php echo Yii::app()->theme->baseUrl; ?>/assets/img/google.png" height=25>
-    	</a>
-	</h5>
-</div>
-<?php } ?>
-
 <?php if(sizeof($siteurls) >= 1){ ?>
 <div class="col-md-12 margin-bottom-15 text-right" style="">
 	<hr class="margin-top-5">
 	<span>
 		<small><b>
-		Le site que vous recherchez n'est pas référencé ?<br> 
+		Vous connaissez un site qui n'est pas référencé ?<br> 
 		Ajoutez le <span class="letter-green">gratuitement</span> dans la base de données, et faites-en profiter tout le monde !
 		</b></small>
 	</span><br><br>
@@ -114,6 +102,30 @@
 	</a>
 </div>
 <?php } ?>
+
+
+
+<?php //if(sizeof($siteurls) < 3){ 
+
+	$searchG = str_replace(" ", "+", $search);
+?>
+<div class="col-md-12" style="margin-top:0px;">
+	<hr>
+	<h5 class="text-right">
+		<a href="https://www.google.com/search?q=<?php echo $searchG; ?>" target="_blank">
+			<i class="fa fa-fw fa-angle-right"></i> continuer la recherche sur 
+	    	<img style="margin-top:-10px;" src="<?php echo Yii::app()->theme->baseUrl; ?>/assets/img/ecosia_logo.png" height=60>
+    	</a>
+	</h5>
+	<hr>
+	<h5 class="text-right">
+		<a href="https://www.google.com/search?q=<?php echo $searchG; ?>" target="_blank">
+			<i class="fa fa-fw fa-angle-right"></i> continuer la recherche sur 
+	    	<img src="<?php echo Yii::app()->theme->baseUrl; ?>/assets/img/google.png" height=25>
+    	</a>
+	</h5>
+</div>
+<?php //} ?>
 
 <script>
   
@@ -212,7 +224,7 @@ function initKeywords(){
 	    			$.each(val.keywords, function(keyK, keyword){
 	    				var classe="";
 	    				if(search==keyword) classe="active";
-		    			html += '<button class="btn btn-success btn-sm margin-bottom-5 margin-left-10 btn-keyword '+classe+'" data-keyword="'+keyword+'">'+
+		    			html += '<button class="btn btn-success btn-sm margin-bottom-5 margin-left-10 btn-keyword btn-anc-color-blue '+classe+'" data-keyword="'+keyword+'">'+
 		    						keyword+
 		    					'</button><br class="hidden-xs">';
 		    		});

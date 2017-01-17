@@ -68,13 +68,14 @@ class CommunecterModule extends CWebModule
 	 * @return type
 	 */
 	public function getTheme() {
+		$theme = "CO2";
 		//$theme = "ph-dori";
-		$theme = "ph-dori";
 		//$theme = "notragora";
 		if (!empty(Yii::app()->params['theme'])) {
 			$theme = Yii::app()->params['theme'];
 		} else if (empty(Yii::app()->theme)) {
-			$theme = "ph-dori";
+			//$theme = "ph-dori";
+			$theme = "CO2";
 			//$theme = "notragora";
 		}
 

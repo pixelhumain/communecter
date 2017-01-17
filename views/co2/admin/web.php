@@ -102,7 +102,7 @@
 
 		<div class="">
 			<h3><i class="fa fa-terminal fa-2x"></i> Auto-scan</h3>
-			<h4 class="letter-green"><?php echo sizeof($urlsLocked); ?> url <span class="letter-red">locked</span> in database</h4>
+			<h4 class="letter-green"><?php echo sizeof($urlsNoFavicon); ?> url <span class="letter-red">no favicon</span> in database</h4>
 			<button class="btn btn-sm btn-default btn-start-scan" data-action="scanlinks" data-idres="#res-scan">
 				<i class="fa fa-terminal"></i> Run scan
 			</button> 
@@ -130,7 +130,10 @@
 
 <script type="text/javascript">
 
-	var urlsLocked = <?php echo json_encode($urlsLocked); ?>;
+	var urlsLocked = <?php echo json_encode($urlsNoFavicon); ?>;
+	console.log("urlsNoFavicon", urlsLocked);
+	alert("stop");
+	//var urlsValidated = <?php //echo json_encode($urlsValidated); ?>;
 
 	var autoScanProcessing = false;
 
@@ -230,6 +233,13 @@
 						if(title=="" || title=="undefined")
 					   		title = stitle;
 
+					   	var favicon = $("link[rel*='icon']", tempDom).attr("href");
+		                var hostname = (new URL(url)).origin;
+		                var faviconSrc = "";
+		                if(typeof favicon != "undefined"){
+			                var faviconSrc = hostname+favicon;
+			                if(favicon.indexOf("http")>=0) faviconSrc = favicon;
+			            }
 						var description = $(tempDom).find('meta[name=description]').attr("content");
 
 						var keywords = $(tempDom).find('meta[name=keywords]').attr("content");
@@ -253,7 +263,8 @@
 
 						
 						$("#form-title").val(title);
-						$("#form-description").val(description);
+						$("#form-favicon").val(faviconSrc);
+						$("#form-description").val(faviconSrc);
 						
 
 						//color
@@ -284,7 +295,7 @@
 							checkAllInfo();
 					   	});
 
-					   	$("#status-ref").html("<span class='letter-green'><i class='fa fa-check'></i> Nous avons trouvé votre page</span>");
+					   	$("#status-ref").html("<span class='letter-green'><img src='"+faviconSrc+"' height=30> <i class='fa fa-check'></i> Nous avons trouvé votre page</span>");
 		    			$("#refResult").removeClass("hidden");
 					   
 					   	$("#lbl-url").removeClass("letter-red").addClass("letter-green");
@@ -301,8 +312,8 @@
 					    total++;
 					    $("#nb-auto-scan").html("<span class='letter-green'>"+ total + " / " + toTotal+"</span><br>"+
 					    						"<span class='letter-red'>"+ totalEchec + " / " + toTotal+"</span>");
-					    $("#res-auto-scan").prepend("<div class='col-md-12 text-right margin-bottom-15'>"+
-					    							"<span class='siteurl_title letter-blue'>"+title+"</span><br>"+
+					    $("#res-auto-scan").prepend("<div class='col-md-12 text-left margin-bottom-15'>"+
+					    							"<span class='siteurl_title letter-blue'><img src='"+faviconSrc+"' height=30> "+title+"</span><br>"+
 					    							"<span class='siteurl_desc letter-green'>"+urlValidated+"</span><br>"+
 					    							"<span class='siteurl_hostname letter-grey'>"+description+"</span><br>"+
 					    							"</div>");
@@ -371,6 +382,7 @@ function sendReferencementAuto(id){
 	var hostname = (new URL(urlValidated)).hostname;
 
 	var title = $("#form-title").val();
+	var favicon = $("#form-favicon").val();
 	var description = $("#form-description").val();
 
 	var keywords1 = $("#form-keywords1").val();
@@ -395,15 +407,17 @@ function sendReferencementAuto(id){
                 //key: "url",
         		//url: urlValidated, 
         		//hostname: hostname, 
-        		title: title, 
-        		description: description,
-        		tags: keywords,
+        		//title: title, 
+        		//description: description,
+        		//tags: keywords,
         		//categories : categoriesSelected,
-                status: "uncomplet"
+                //status: "uncomplet",
+                favicon: favicon
         };
 
  		console.log("UPDATE THIS URL DATA ?", urlObj, id);
-       // if(false)
+ 		//alert("stop");
+        if(favicon!="")
 		$.ajax({
 	        type: "POST",
 	        url: baseUrl+"/"+moduleId+"/co2/superadmin/action/updateurlmetadata",
