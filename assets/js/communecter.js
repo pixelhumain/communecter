@@ -549,6 +549,7 @@ var loadableUrls = {
     "#poi.detail" : {aliasParam: "#element.detail.type.poi.id.$id", params: ["id"],title:'EVENT DETAIL ', icon : 'calendar' },
     "#project.detail" : {aliasParam: "#element.detail.type.projects.id.$id", params: ["id"], title:'PROJECT DETAIL ', icon : 'lightbulb-o' },
     "#project.addchartsv" : {title:'EDIT CHART ', icon : 'puzzle-piece' },
+    "#chart.addchartsv" : {title:'EDIT CHART ', icon : 'puzzle-piece' },
     "#gantt.addtimesheetsv" : {title:'EDIT TIMELINE ', icon : 'tasks' },
     "#news.detail" : {title:'NEWS DETAIL ', icon : 'rss' },
     "#news.index.type" : {title:'NEWS INDEX ', icon : 'rss', menuId:"menu-btn-news-network","urlExtraParam":"isFirst=1" },
@@ -571,6 +572,7 @@ var loadableUrls = {
     "#admin.adddata" : {title:'ADDDATA ', icon : 'download'},
     "#admin.importdata" : {title:'IMPORT DATA ', icon : 'download'},
     "#admin.index" : {title:'IMPORT DATA ', icon : 'download'},
+    "#admin.cities" : {title:'CITIES ', icon : 'university'},
     "#admin.sourceadmin" : {title:'SOURCE ADMIN', icon : 'download'},
     "#admin.checkcities" : {title:'SOURCE ADMIN', icon : 'download'},
     "#admin.directory" : {title:'IMPORT DATA ', icon : 'download'},
@@ -579,6 +581,8 @@ var loadableUrls = {
     "#admin.createfile" : {title:'IMPORT DATA', icon : 'download'},
 	"#log.monitoring" : {title:'LOG MONITORING ', icon : 'plus'},
     "#adminpublic.index" : {title:'SOURCE ADMIN', icon : 'download'},
+    "#adminpublic.createfile" : {title:'IMPORT DATA', icon : 'download'},
+    "#adminpublic.adddata" : {title:'ADDDATA ', icon : 'download'},
     "#default.directory" : {title:'COMMUNECTED DIRECTORY', icon : 'connectdevelop', menuId:"menu-btn-directory"},
     "#default.news" : {title:'COMMUNECTED NEWS ', icon : 'rss', menuId:"menu-btn-news" },
     "#default.agenda" : {title:'COMMUNECTED AGENDA ', icon : 'calendar', menuId:"menu-btn-agenda"},
@@ -1432,7 +1436,6 @@ function activateSummernote(elem) {
 	}
 }
 
-
 function  firstOptions() { 
 	var res = {
 		"dontKnow":"Je ne sais pas",
@@ -1548,7 +1551,10 @@ function globalSearch(searchValue,types,autre){
 var elementLocation = null;
 var centerLocation = null;
 var elementLocations = [];
+var elementPostalCode = null;
+var elementPostalCodes = [];
 var countLocation = 0;
+var countPostalCode = 0;
 function copyMapForm2Dynform(locationObj) { 
 	//if(!elementLocation)
 	//	elementLocation = [];
@@ -1590,6 +1596,37 @@ function addLocationToForm(locationObj)
 			  "<a href='javascript:setAsCenter("+countLocation+")' class='centers center"+countLocation+" locationEl"+countLocation+" btn btn-xs "+btnSuccess+"'> <i class='fa fa-map-marker'></i>"+locCenter+"</a> <br/>";
 	$(".locationlocation").prepend(strHTML);
 	countLocation++;
+}
+
+function copyPCForm2Dynform(postalCodeObj) { 
+	mylog.warn("---------------copyPCForm2Dynform----------------");
+	mylog.log("postalCodeObj", postalCodeObj);
+	elementPostalCode = postalCodeObj;
+	mylog.log("elementPostalCode", elementPostalCode);
+	elementPostalCodes.push(elementPostalCode);
+	mylog.log("elementPostalCodes", elementPostalCodes);
+	mylog.dir(elementPostalCodes);
+	//elementPostalCode.push(positionObj);
+}
+
+function addPostalCodeToForm(postalCodeObj)
+{
+	mylog.warn("---------------addPostalCodeToForm----------------");
+	mylog.dir(postalCodeObj);
+	var strHTML = "";
+	if( postalCodeObj.postalCode)
+		strHTML += postalCodeObj.postalCode;
+	if( postalCodeObj.name)
+		strHTML += " ,"+postalCodeObj.name;
+	if( postalCodeObj.latitude)
+		strHTML += " ,("+postalCodeObj.latitude;
+	if( postalCodeObj.longitude)
+		strHTML += " / "+postalCodeObj.longitude+")";
+	
+	strHTML = "<a href='javascript:removeLocation("+countPostalCode+")' class=' locationEl"+countPostalCode+" btn'> <i class='text-red fa fa-times'></i></a>"+
+			  "<span class='locationEl"+countPostalCode+" locel text-azure'>"+strHTML+"</span> <br/>";
+	$(".postalcodepostalcode").prepend(strHTML);
+	countPostalCode++;
 }
 
 
@@ -2331,6 +2368,33 @@ var elementLib = {
 ********************************** */
 var contextData = null;
 var typeObj = {
+	"addElement":{ 
+		dynForm : {
+		    jsonSchema : {
+			    title : "Ajouter un élément ?",
+			    icon : "question-cirecle-o",
+			    noSubmitBtns : true,
+			    properties : {
+			    	custom :{
+		            	inputType : "custom",
+		            	html : function() { 
+		            		return "<div class='menuSmallMenu'>"+js_templates.loop( [ 
+			            		{ label : "event", classes:"bg-"+typeObj["event"].color, icon:"fa-"+typeObj["event"].icon, action : "javascript:elementLib.openForm('event')"},
+			            		{ label : "organization", classes:"bg-"+typeObj["organization"].color, icon:"fa-"+typeObj["organization"].icon, action : "javascript:elementLib.openForm('organization')"},
+			            		{ label : "project", classes:"bg-"+typeObj["project"].color, icon:"fa-"+typeObj["project"].icon, action : "javascript:elementLib.openForm('project')"},
+			            		{ label : "poi", classes:"bg-"+typeObj["poi"].color, icon:"fa-"+typeObj["poi"].icon, action : "javascript:elementLib.openForm('poi')"},
+			            		{ label : "entry", classes:"bg-"+typeObj["entry"].color, icon:"fa-"+typeObj["entry"].icon, action : "javascript:elementLib.openForm('entry')"},
+			            		{ label : "action", classes:"bg-"+typeObj["action"].color, icon:"fa-"+typeObj["action"].icon, action : "javascript:elementLib.openForm('action')"},
+			            		{ label : "classified", classes:"bg-"+typeObj["classified"].color, icon:"fa-"+typeObj["classified"].icon, action : "javascript:elementLib.openForm('classified')"},
+			            		{ label : "Documentation", classes:"bg-grey lbh", icon:"fa-book", action : "#default.view.page.index.dir.docs"},
+			            		{ label : "Signaler un bug", classes:"bg-grey lbh", icon:"fa-bug", action : "#news.index.type.pixels"},
+		            		], "col_Link_Label_Count", { classes : "bg-red kickerBtn", parentClass : "col-xs-12 col-sm-4 "} )+"</div>";
+		            	}
+		            }
+			    }
+			}
+		}
+	},
 	"person" : {
 		col : "citoyens" , 
 		ctrl : "person",
@@ -3007,6 +3071,7 @@ var typeObj = {
 		col:"projects",
 		ctrl:"project",
 		icon : "lightbulb-o",
+		color : "purple",
 		titleClass : "bg-purple",
 		bgClass : "bgProject",
 		dynForm : {
@@ -3052,7 +3117,7 @@ var typeObj = {
 		            	options : eventTypes,
 		            	rules : { required : true },
 		            },
-		            allDay : {
+		            /*allDay : {
 		            	inputType : "checkbox",
 		            	init : function(){
 			            	$("#ajaxFormModal #allDay").off().on("switchChange.bootstrapSwitch",function (e, data) {
@@ -3113,7 +3178,7 @@ var typeObj = {
 			            	greaterThan: ["#ajaxFormModal #startDate","la date de début"],
 			            	duringDates: ["#ajaxFormModal #startDateParent","#ajaxFormModal #endDateParent","la date de fin"]
 					    }
-		            },
+		            },*/
 		            /*public : {
 		            	inputType : "hidden",
 		            	"switch" : {
@@ -3186,77 +3251,92 @@ var typeObj = {
 	"events" : {col:"events",ctrl:"event",color:"orange"},
 	"projects" : {col:"projects",ctrl:"project",color:"purple",icon:"lightbulb-o"},
 	"city" : {col:"cities",ctrl:"city"},
-	"cities" : {col:"cities",ctrl:"city", titleClass : "bg-red", icon : "university",},
-	"citiesSimply" : { 	col:"cities",
-					ctrl:"city", 
-					titleClass : "bg-red", 
-					icon : "university",
-					dynForm : {
-						jsonSchema : {
-							title : "Ajouter une city",
-							icon : "university",
-							properties : {
-								info : {
-									inputType : "custom",
-									html:"<p><i class='fa fa-info-circle'></i> Ajouter une ville</p>",
-								},
-								id :{
-									inputType : "hidden",
-									value : ""
-								},
-								latitude : {
-									inputType : "hidden",
-									value : ""
-								},
-								longitude : {
-									inputType : "hidden",
-									value : ""
-								},
-								name :{
-									inputType : "text",
-									placeholder : "Nom de la ville",
-									rules : { required : true }
-								},
-								postalCode :{
-									inputType : "text",
-									placeholder : "Code postal",
-									rules : { required : true }
-								},
-								country :{
-									inputType : "hidden",
-									value : "",
-									rules : { required : true }
-								},
-								insee :{
-									inputType : "hidden",
-									value : "",
-									rules : { required : true }
-								},
-								dep :{
-									inputType : "text",
-									placeholder : "Numéro du département"
-								},
-								depName :{
-									inputType : "text",
-									placeholder : "Nom du département"
-								},
-								region :{
-									inputType : "text",
-									placeholder : "Numéro de la région"
-								},
-								regionName :{
-									inputType : "text",
-									placeholder : "Nom de la région"
-								}
-							}
-						}
-					}},
+	"cities" : {
+		col:"cities",
+		ctrl:"city", 
+		titleClass : "bg-red", 
+		icon : "university",
+		dynForm : {
+			jsonSchema : {
+				title : "Modifier une ville",
+				icon : "university",
+				/*onLoads : {
+		    	//pour creer un subevnt depuis un event existant
+			    	"sub" : function(){
+			    		$("#ajaxFormModal #room").val( contextData.id );
+		    		 	$("#ajax-modal-modal-title").html($("#ajax-modal-modal-title").html()+" sur "+contextData.name );
+			    	}
+			    },*/
+				properties : {
+					info : {
+					"inputType" : "custom",
+					"html":"<p><i class='fa fa-info-circle'></i> Modifier une ville</p>",
+					},
+					id :{
+					"inputType" : "hidden",
+					"value" : ""
+					},
+					insee :{
+					"inputType" : "hidden",
+					"value" : "",
+					"rules" : { "required" : true }
+					},
+					"name" :{
+					"inputType" : "text",
+					"placeholder" : "Nom de la ville",
+					"rules" : { "required" : true }
+					},
+					country :{
+					"inputType" : "hidden",
+					"value" : "",
+					"rules" : { "required" : true }
+					},
+					dep :{
+					"inputType" : "text",
+					"placeholder" : "Numéro du département"
+					},
+					depName :{
+					"inputType" : "text",
+					"placeholder" : "Nom du département"
+					},
+					region :{
+					"inputType" : "text",
+					"placeholder" : "Numéro de la région"
+					},
+					regionName :{
+					"inputType" : "text",
+					"placeholder" : "Nom de la région"
+					},
+					"latitude" : {
+					"inputType" : "text",
+					"placeholder" : "Nom de la région"
+					},
+					"longitude" : {
+					"inputType" : "text",
+					"placeholder" : "Nom de la région"
+					},
+					postalcode : {
+						inputType : "postalcode"
+					},
+					osmid :{
+					"inputType" : "text",
+					"placeholder" : "OSM id"
+					},
+					wikidata :{
+					"inputType" : "text",
+					"placeholder" : "wikidata"
+					}
+				}
+			}
+		}
+	},
 	"entry" : {
 		col:"surveys",
 		ctrl:"survey",
 		titleClass : "bg-lightblue",
 		bgClass : "bgDDA",
 		icon : "gavel",
+		color : "azure",
 		saveUrl : baseUrl+"/" + moduleId + "/survey/saveSession",
 		dynForm : {
 		    jsonSchema : {
@@ -3390,6 +3470,7 @@ var typeObj = {
 		titleClass : "bg-lightblue",
 		bgClass : "bgDDA",
 		icon : "cogs",
+		color : "lightblue2",
 		saveUrl : baseUrl+"/" + moduleId + "/rooms/saveaction",
 		dynForm : {
 		    jsonSchema : {
@@ -3737,15 +3818,18 @@ var keyboardNav = {
 		"117" : function(){ console.clear();loadByHash(location.hash) },//f6
 	},
 	keyMapCombo : {
+		"13" : function(){elementLib.openForm('addElement')},//enter : aadd elemetn
+		"65" : function(){elementLib.openForm('action')},//a : actions
+		"66" : function(){ smallMenu.openAjax(baseUrl+'/'+moduleId+'/collections/list','Mes Favoris','fa-star','yellow') },//b best : favoris
+		"67" : function(){elementLib.openForm('classified')},//c : classified
 		"69" : function(){elementLib.openForm('event')}, //e : event
+		"70" : function(){ $(".searchIcon").trigger("click") },//f : find
+		"73" : function(){elementLib.openForm('person')},//i : invite
 		"79" : function(){elementLib.openForm('organization')},//o : orga
 		"80" : function(){elementLib.openForm('project')},//p : project
-		"73" : function(){elementLib.openForm('person')},//i : invite
-		"65" : function(){elementLib.openForm('action')},//a : actions
+		"82" : function(){smallMenu.openAjax(baseUrl+'/'+moduleId+'/person/directory?tpl=json','Mon répertoire','fa-book','red')},//r : annuaire
 		"86" : function(){elementLib.openForm('entry')},//v : votes
-		"70" : function(){ $(".searchIcon").trigger("click") },//f : find
-		"66" : function(){ smallMenu.openAjax(baseUrl+'/'+moduleId+'/collections/list','Mes Favoris','fa-star','yellow') },//b best : favoris
-		"82" : function(){smallMenu.openAjax(baseUrl+'/'+moduleId+'/person/directory?tpl=json','Mon répertoire','fa-book','red')}//r : annuaire
+		
 	},
 	checkKeycode : function(e) {
 		e.preventDefault();

@@ -101,10 +101,16 @@ class CommunecterController extends Controller
       "downloadfile" => array("href" => "/ph/communecter/admin/downloadfile"),
       "createfile" => array("href" => "/ph/communecter/admin/createfile"),
       "mailerrordashboard" => array("href" => "/ph/communecter/admin/mailerrordashboard"),
+      "cities" => array("href" => "/ph/communecter/admin/cities"),
     ),
     
     "adminpublic" => array(
       "index"    => array("href" => "/ph/communecter/adminpublic/index"),
+      "adddata"    => array("href" => "/ph/communecter/adminpublic/adddata"),
+      "adddataindb"    => array("href" => "/ph/communecter/adminpublic/adddataindb"),
+      "createfile" => array("href" => "/ph/communecter/adminpublic/createfile"),
+      "sourceadmin" => array("href" => "/ph/communecter/adminpublic/sourceadmin"),
+      
     ),
     "collections" => array(
       "add"    => array("href" => "/ph/communecter/collections/add"),
@@ -316,6 +322,12 @@ class CommunecterController extends Controller
       "addchartsv"      => array("href" => "/ph/communecter/project/addchartsv"),
       "directory"       => array("href"=>"/ph/communecter/project/directory", "public" => true),
       "updatesettings"  => array('href'=>"/ph/communecter/project/updatesettings"),
+    ),
+    "chart" => array(
+	    "addchartsv"      => array("href" => "/ph/communecter/chart/addchartsv"),
+		"index"      => array("href" => "/ph/communecter/chart/index"),
+		"editchart"       => array("href" => "/ph/communecter/chart/editchart"),
+		"get"       => array("href" => "/ph/communecter/chart/get"),
     ),
     "job"=> array(
       "edit"    => array("href" => "/ph/communecter/job/edit"),

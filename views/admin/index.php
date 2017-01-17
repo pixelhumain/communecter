@@ -31,7 +31,7 @@ $cs = Yii::app()->getClientScript();
             </div>
           </li>-->
           <li class="list-group-item text-purple col-md-4 col-sm-6 link-to-directory">
-            <div class="" style="cursor:pointer;" onclick="loadByHash('#admin.createfile')">
+            <div class="" style="cursor:pointer;" onclick="loadByHash('#adminpublic.createfile')">
               <i class="fa fa-upload fa-2x"></i> 
               <?php echo Yii::t("admin", "IMPORT DATA", null, Yii::app()->controller->module->id); ?>
             </div>
@@ -53,7 +53,7 @@ $cs = Yii::app()->getClientScript();
             </div>
           </li>
           <li class="list-group-item text-red col-md-4 col-sm-6 link-to-directory">
-            <div class="" style="cursor:pointer;" onclick="loadByHash('#admin.adddata')">
+            <div class="" style="cursor:pointer;" onclick="loadByHash('#adminpublic.adddata')">
               <i class="fa fa-plus fa-2x"></i>
                 
               <?php echo Yii::t("admin", "ADD DATA", null, Yii::app()->controller->module->id); ?>
@@ -101,6 +101,14 @@ $cs = Yii::app()->getClientScript();
               <i class="fa fa-envelope fa-2x"></i>
                 
               <?php echo Yii::t("admin", "MAILERROR", null, Yii::app()->controller->module->id); ?>
+              
+            </div>
+          </li>
+           <li class="list-group-item text-yellow col-md-4 col-sm-6 link-to-directory">
+            <div class="" style="cursor:pointer;" onclick="loadByHash('#admin.cities')">
+              <i class="fa fa-university fa-2x"></i>
+                
+              <?php echo Yii::t("admin", "CITIES", null, Yii::app()->controller->module->id); ?>
               
             </div>
           </li>

@@ -961,7 +961,29 @@ class DatamigrationController extends CommunecterController {
 		}		
 		echo  "NB Element mis à jours: " .$nbelement."<br>" ;
 	}
+	public function actionRefactorChartProjectData(){
+		$projects = PHDB::find(Project::COLLECTION, array("properties.chart" => array('$exists' => 1)));
+		foreach($projects as $data){
+			echo "////////// <br/>";
+			echo (string)$data["_id"]."<br/>";
+			$chart=array();
+			$chart["open"]=array();
+			foreach($data["properties"]["chart"] as $key => $value){
+				$values=array("description"=>"", "value" => $value);
+				$chart["open"][$key]=array();
+				$chart["open"][$key]=$values;
+				//echo $value."<br/>";
+			}
+			echo "NEW OBJECT<br/>";
+			print_r($chart);
+			PHDB::update(Project::COLLECTION,
+				array("_id" => new MongoId((string)$data["_id"])),
+				array('$set' => array("properties.chart"=> $chart))
+			);
 
+			echo "////////// <br/>";
+		}
+	}
 
 	public function actionFixBugCoutryReunion(){
 		$nbelement = 0 ;
@@ -1033,9 +1055,9 @@ class DatamigrationController extends CommunecterController {
 		$nbelement = 0 ;
 		foreach ($types as $keyType => $type) {
 			$elements = PHDB::find($type, array("source" => array('$exists' => 1)));
-
 			if(!empty($elements)){
 				foreach (@$elements as $keyElt => $elt) {
+
 					if(!empty($elt["source"])){
 						$newsource = array();
 						if(!empty($elt["source"]["key"]) && empty($elt["source"]["keys"])){
@@ -1047,7 +1069,9 @@ class DatamigrationController extends CommunecterController {
 								$newsource["url"] = $elt["source"]["url"];
 							if(!empty($elt["source"]["id"])){
 								if(!empty($elt["source"]["id"]['$numberLong']))
+
 									$newsource["id"] = $elt["source"]["id"]['$numberLong'];
+
 								else
 									$newsource["id"] = $elt["source"]["id"];
 							}
@@ -1056,6 +1080,7 @@ class DatamigrationController extends CommunecterController {
 							
 							$nbelement ++ ;
 							$elt["modifiedByBatch"][] = array("RefactorSource" => new MongoDate(time()));
+
 							try {
 								$res = PHDB::update( $type, 
 							  		array("_id"=>new MongoId($keyElt)),
@@ -1066,6 +1091,7 @@ class DatamigrationController extends CommunecterController {
 								die();
 							}
 							echo "Elt mis a jour : ".$type." et l'id ".$keyElt."<br>" ;
+
 
 						}
 					}

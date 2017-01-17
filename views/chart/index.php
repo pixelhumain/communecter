@@ -1,6 +1,6 @@
 <?php 
 $cssAnsScriptFilesModule = array(
-	'/plugins/Chart.js/Chart.min.js'
+	//'/plugins/Chart.js/Chart.min.js'
 );
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->request->baseUrl);
 
@@ -21,7 +21,6 @@ $tabCommons = array(	"0" => "Ne souhaite pas",
 
 </style>
 
-<?php if(!isset($chartAlone)) { ?>
 <div class="panel panel-white">
 
 	<div class="panel-heading border-light bg-dark">
@@ -35,36 +34,80 @@ $tabCommons = array(	"0" => "Ne souhaite pas",
 		</a>
 		<?php } ?>
 	</div>
+		<div id="switchChart">
+		</div>
 		<div id="infoPodChart" class="padding-10 <?php if(!empty($properties)) echo "hide" ?>">
 			<blockquote> 
 				<?php echo Yii::t("project","Create Chart<br/>Opening<br/>Values<br/>Governance<br/>To explain the aim and draw project conduct",null,Yii::app()->controller->module->id) ?>
 			</blockquote>
 		</div>
-		<div class="panel-body no-padding contentChart <?php if(empty($properties)) echo "hide" ?>">
-			<canvas id="myChart" width="" height=""></canvas>
+		<?php 
+			if(!empty($properties)){
+				if(@$properties["open"])
+					$propertiesOpen=$properties["open"];
+				if(@$properties["commons"])
+					$propertiesCommons=$properties["commons"];
+			}
+			
+		?>
+		<div class="panel-body no-padding contentChartCommons charts <?php if(!@$propertiesCommons) echo "hide" ?>">
+			<canvas id="myChartCommons" width="" height=""></canvas>
 			<div class="col-md-12 col-sm-12 col-xs-12">
 			<?php
-				$inc=0; 
-				foreach($properties as $key => $value){ ?>
-				
+				if(@$propertiesCommons){
+					$inc=0; 
+					foreach($propertiesCommons as $key => $value){ ?>
+					
+					<?php 
+						if(gettype ($value) == "array" && $value["value"] != ""){
+						//if($value["value"] || !empty($value["description"])){ ?>
+					<div class="col-md-12 col-sm-12 col-xs-12 no-padding descriptionLabel description<?php echo $key ?> <?php if ($inc > 0) echo 'hide'; ?>">
+						<div class="col-md-12 col-sm-12 col-xs-12 no-padding">
+						<h2 class="text-large text-dark text-bold light-text timeline_title no-margin pull-left">
+							<?php echo ucfirst($key) ?>
+						</h2>
+						</div><br/>
+						<div class="col-md-12 col-sm-12 col-xs-12 no-padding"><span class="text-red light-text timeline_title pull-left"><?php echo $tabCommons[@$value["value"]]; ?></span></div><br/>
+						<div class="col-md-12 col-sm-12 col-xs-12 no-padding">
+						<span><?php echo @$value["description"]; ?></span></div>
+					</div> 
 				<?php 
-					if(gettype ($value) == "array"){
-					//if($value["value"] || !empty($value["description"])){ ?>
-				<div class="col-md-12 col-sm-12 col-xs-12 no-padding descriptionLabel description<?php echo $key ?> <?php if ($inc > 0) echo 'hide'; ?>">
-					<div class="col-md-12 col-sm-12 col-xs-12 no-padding">
-					<h2 class="text-large text-dark text-bold light-text timeline_title no-margin pull-left">
-						<?php echo ucfirst($key) ?>
-					</h2>
-					</div><br/>
-					<div class="col-md-12 col-sm-12 col-xs-12 no-padding"><span class="text-red light-text timeline_title pull-left"><?php echo $tabCommons[$value["value"]]; ?></span></div><br/>
-					<div class="col-md-12 col-sm-12 col-xs-12 no-padding">
-					<span><?php echo $value["description"]; ?></span></div>
-				</div> 
-			<?php 
-					$inc++;
-					//}
-					 }
-				} ?>
+						$inc++;
+						//}
+						 }
+					}
+				}
+			 ?>
+			</div>
+		</div>
+		<div class="panel-body no-padding contentChartOpen charts <?php if(!@$propertiesOpen) echo "hide" ?>">
+			<canvas id="myChartOpen" width="" height=""></canvas>
+			<div class="col-md-12 col-sm-12 col-xs-12">
+			<?php
+				if(@$propertiesOpen){
+					$inc=0; 
+					foreach($propertiesOpen as $key => $value){ ?>
+					
+					<?php 
+						if(gettype ($value) == "array" && $value["value"] != ""){
+						//if($value["value"] || !empty($value["description"])){ ?>
+					<div class="col-md-12 col-sm-12 col-xs-12 no-padding descriptionLabel description<?php echo $key ?> <?php if ($inc > 0) echo 'hide'; ?>">
+						<div class="col-md-12 col-sm-12 col-xs-12 no-padding">
+						<h2 class="text-large text-dark text-bold light-text timeline_title no-margin pull-left">
+							<?php echo ucfirst($key) ?>
+						</h2>
+						</div><br/>
+						<div class="col-md-12 col-sm-12 col-xs-12 no-padding"><span class="text-red light-text timeline_title pull-left"><?php echo @$value["value"]; ?></span></div><br/>
+						<div class="col-md-12 col-sm-12 col-xs-12 no-padding">
+						<span><?php echo @$value["description"]; ?></span></div>
+					</div> 
+				<?php 
+						$inc++;
+						//}
+						 }
+					}
+				} 
+			?>
 			</div>
 		</div>
 	<!--	<div id="infoPodChart" class="padding-10">
@@ -76,14 +119,13 @@ $tabCommons = array(	"0" => "Ne souhaite pas",
 			<canvas id="myChart" width="" height=""></canvas>
 		</div>-->
 </div>
-<?php }else if($chartAlone == true){ ?>
-	<canvas id="myChart" width="" height=""></canvas>
-<?php } ?>
 
 <script type="text/javascript">
-var properties=<?php echo json_encode($properties); ?> ;
-mylog.log(properties);
-var countProperties=numAttrs(properties);
+var propertiesCommons=<?php echo json_encode(@$propertiesCommons); ?> ;
+var propertiesOpen=<?php echo json_encode(@$propertiesOpen); ?> ;
+console.log(propertiesCommons);
+var countPropertiesCommons=numAttrs(propertiesCommons);
+var countPropertiesOpen=numAttrs(propertiesOpen);
 jQuery(document).ready(function() {
 	Chart.defaults.global = {
 			// Boolean - Whether to animate the chart
@@ -104,7 +146,7 @@ jQuery(document).ready(function() {
 		    // Number - The scale starting value
 		    scaleStartValue: null,
 		    // String - Colour of the scale line
-		    scaleLineColor: "rgba(0,0,0,.3)",
+		    scaleLineColor: "rgba(0,0,0,.1)",
 		    // Number - Pixel width of the scale line
 		    scaleLineWidth: 1,
 		    // Boolean - Whether to show labels on the scale
@@ -170,10 +212,28 @@ jQuery(document).ready(function() {
 		    // Function - Will fire on animation completion.
 		    onAnimationComplete: function(){}
 		}
-	if (countProperties > 0){
+	if ((countPropertiesCommons+countPropertiesOpen) > 0){
 		//setTimeout(function(){
 		if(typeof chartToLoad == "undefined"){
-			chartInit(properties);
+			if(countPropertiesCommons > 0)
+				chartInit(propertiesCommons,"myChartCommons");
+			if(countPropertiesOpen > 0)
+				chartInit(propertiesOpen,"myChartOpen");
+			if(countPropertiesCommons > 0 && countPropertiesOpen > 0){
+				switcher="<select id='switchChart'>"+
+							"<option class='switcherChart' value='Commons'><?php echo Yii::t("chart","Commons") ?></option>"+
+							"<option class='switcherChart' value='Open'><?php echo Yii::t("chart","Open") ?></option>"+
+						"</select>";
+				$("#switchChart").append(switcher).show();
+				$(".contentChartOpen").hide();
+				$('#switchChart').change(function(){ 
+					val=$(this).find(":selected").val();	
+					$(".charts").hide();
+					$(".contentChart"+val).show();	
+			//		alert( this.value );
+				});
+
+			}
 		}
 		//}, 0);
 	}
@@ -207,18 +267,17 @@ function updateChart(data, nbProperties){
 	}
 }
 
-function chartInit(dataProperties){
-	mylog.log(dataProperties);
+function chartInit(dataProperties, id){
+	console.log(dataProperties);
 	var labelProperties=[];
 	var valueProperties=[];
 	for (var label in dataProperties){
 		labelProperties.push(label);
 		valueProperties.push(dataProperties[label]["value"]);
 	}
-<<<<<<< HEAD
 	console.log(labelProperties);
 	console.log(valueProperties);
-	Chart.defaults.global = {
+	/*Chart.defaults.global = {
 		// Boolean - Whether to animate the chart
 		animation: true,
 	    // Number - Number of animation steps
@@ -302,7 +361,7 @@ function chartInit(dataProperties){
 	    onAnimationProgress: function(){},
 	    // Function - Will fire on animation completion.
 	    onAnimationComplete: function(){}
-}
+}*/
 var data = {
     labels : labelProperties,
     datasets: [
@@ -321,12 +380,13 @@ var data = {
 };
 
 var options;
-var ctx = $("#myChart").get(0).getContext("2d");
+var ctx = $("#"+id).get(0).getContext("2d");
 
 // This will get the first returned node in the jQuery collection.
+if(id=="myChartOpen"){
 myNewChart = new Chart(ctx).Radar(data, options);
 console.log(myNewChart);
-document.getElementById("myChart").onclick = function(evt){
+document.getElementById(id).onclick = function(evt){
     var activePoints = myNewChart.getPointsAtEvent(evt);
     /* this is where we check if event has keys which means is not empty space */       
     if(Object.keys(activePoints).length > 0)
@@ -339,14 +399,25 @@ document.getElementById("myChart").onclick = function(evt){
         /* process your url ... */
     }
 };
+}else{
+myNewChartCommons = new Chart(ctx).Radar(data, options);
+console.log(myNewChartCommons);
+document.getElementById(id).onclick = function(evt){
+    var activePoints = myNewChartCommons.getPointsAtEvent(evt);
+    /* this is where we check if event has keys which means is not empty space */       
+    if(Object.keys(activePoints).length > 0)
+    {
+        var label = activePoints[0]["label"];
+        var value = activePoints[0]["value"];
+        $(".descriptionLabel").addClass("hide");
+        $(".description"+label).removeClass("hide");
+        //var url = "http://example.com/?label=" + label + "&value=" + value
+        /* process your url ... */
+    }
+};
+}
 	///////////// LAST ON DEVELOPMENT //////////////
 	/*var data = {
-=======
-	mylog.log(labelProperties);
-	mylog.log(valueProperties);
-	
-	var data = {
->>>>>>> origin/master
 	    labels : labelProperties,
 	    datasets: [
 	        {
@@ -369,7 +440,6 @@ document.getElementById("myChart").onclick = function(evt){
 	// This will get the first returned node in the jQuery collection.
 	myNewChart = new Chart(ctx).Radar(data, options);
 	console.log(myNewChart);*/
-
 }
 
 function numAttrs(obj) {

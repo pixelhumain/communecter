@@ -7,7 +7,8 @@ var scrollEnd = false;
 var totalData = 0;
 
 var timeout = null;
-var searchType = "";
+var searchType = '';
+
 function startSearch(indexMin, indexMax, callBack){
     console.log("startSearch", typeof callBack, callBack);
     if(loadingData) return;

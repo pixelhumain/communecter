@@ -244,6 +244,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);*/
 </div>
 <script type="text/javascript">
 var openingFilter = "<?php echo ( isset($_GET['type']) ) ? $_GET['type'] : '' ?>";
+var directoryTable = null;
+var contextMap = {
+	"tags" : <?php echo json_encode($tags) ?>,
+	"scopes" : <?php echo json_encode($scopes) ?>,
+};
+
 jQuery(document).ready(function() {
 	setTitle("Espace administrateur : Répertoire","cog");
 	bindAdminBtnEvents();
@@ -252,11 +258,7 @@ jQuery(document).ready(function() {
 		$('.filter'+openingFilter).trigger("click");
 });	
 
-var directoryTable = null;
-var contextMap = {
-	"tags" : <?php echo json_encode($tags) ?>,
-	"scopes" : <?php echo json_encode($scopes) ?>,
-};
+
 function resetDirectoryTable() 
 { 
 	mylog.log("resetDirectoryTable");
