@@ -40,7 +40,7 @@
                             <h4 class="text-dark no-margin hidden-xs">
                                 <i class="fa fa-angle-down"></i> Sélectionnez un type d'annonce<br><br>
                             </h4>
-                            <div class="col-md-1 padding-5"></div>
+                            <div class="col-md-2 padding-5"></div>
                             <div class="col-md-2 text-center padding-5">
                             <?php 
                                     $freedomTags = CO2::getFreedomTags();

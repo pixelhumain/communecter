@@ -3652,7 +3652,8 @@ var typeObj = {
 		               inputType : "location"
 		            },
 		            typeBtn :{
-		               inputType : "tagList",
+		                label : "Type d'annonce",
+			            inputType : "tagList",
 		                placeholder : "Type d'annonce",
 		                list : classifiedTypes,
 		                init : function(){

@@ -96,6 +96,7 @@
             				</small>
             			</label>
             			<input type="text" class="form-control" placeholder="Nom de la page" id="form-title"><br>
+                        <input type="hidden" id="form-favicon">
 
                 		<label id="lbl-description">
             				<i class="fa fa-circle"></i> Description de la page <small>(complétez si besoin)</small>
@@ -437,6 +438,12 @@ function refUrl(url){
 				if(title=="" || title=="undefined")
 			   		title = stitle;
 
+                var favicon = $("link[rel*='icon']", tempDom).attr("href");
+                var hostname = (new URL(url)).origin;
+                var faviconSrc = hostname+favicon;
+
+                if(favicon.indexOf("http")>=0) faviconSrc = favicon;
+
 				var description = $(tempDom).find('meta[name=description]').attr("content");
 
 				var keywords = $(tempDom).find('meta[name=keywords]').attr("content");
@@ -460,7 +467,8 @@ function refUrl(url){
 
 				
 				$("#form-title").val(title);
-				$("#form-description").val(description);
+                $("#form-favicon").val(faviconSrc);
+                $("#form-description").val(description);
 				
 
 				//color
@@ -491,7 +499,7 @@ function refUrl(url){
 					checkAllInfo();
 			   	});
 
-			   	$("#status-ref").html("<span class='letter-green'><i class='fa fa-check'></i> Nous avons trouvé votre page</span>");
+			   	$("#status-ref").html("<span class='letter-green'><img src='"+faviconSrc+"' height=30> <i class='fa fa-check'></i> Nous avons trouvé votre page</span>");
     			$("#refResult").removeClass("hidden");
 			   
 			   	$("#lbl-url").removeClass("letter-red").addClass("letter-green");
@@ -531,7 +539,8 @@ function sendReferencement(){
 	var hostname = (new URL(urlValidated)).hostname;
 
 	var title = $("#form-title").val();
-	var description = $("#form-description").val();
+    var favicon = $("#form-favicon").val();
+    var description = $("#form-description").val();
 
 	var keywords1 = $("#form-keywords1").val();
 	var keywords2 = $("#form-keywords2").val();
@@ -559,6 +568,7 @@ function sendReferencement(){
         		url: urlValidated, 
         		hostname: hostname, 
         		title: title, 
+                favicon: favicon,
         		description: description,
         		tags: keywords,
         		categories : categoriesSelected,
