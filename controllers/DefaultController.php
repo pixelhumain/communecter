@@ -25,7 +25,7 @@ class DefaultController extends CommunecterController {
 
 	public function actionIndex($theme="ph-dori") 
 	{
-    	Yii::app()->theme = $theme;    
+    	//Yii::app()->theme = $theme;    
       //Yii::app()->theme = "notragora";
       //Yii::app()->theme = "CO2";
 	    if(@$_GET["network"]){
