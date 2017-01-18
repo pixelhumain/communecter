@@ -13,6 +13,7 @@ var slides = {
 	explain5 : function() { showDefinition("explainProxicity")},
 	person : function() { loadByHash("#person.detail.id.54eda798f6b95cb404000903")} 
 };
+
 function runslide(cmd)
 {
 	if(cmd == 0){
@@ -3642,7 +3643,6 @@ var typeObj = {
 		bgClass : "bgPerson",
 		color:"blue",
 		icon:"user",
-		lbh : "#person.invite",
 		saveUrl : baseUrl+"/" + moduleId + "/element/saveContact",
 		dynForm : {
 		    jsonSchema : {
@@ -3670,7 +3670,6 @@ var typeObj = {
 			        	placeholder : "Nom",
 			        	labelText:"Nom",
 			            inputType : "text",
-			            rules : { required : true },
 			            init : function(){
 			            	$("#ajaxFormModal #name ").off().on("blur",function(){
 			            		if($("#ajaxFormModal #name ").val().length > 3 )
@@ -3839,7 +3838,65 @@ var typeObj = {
 			        },
 			    }
 			}
-		}}
+		}},
+	"url" : {
+		col : "url" , 
+		ctrl : "url",
+		titleClass : "bg-blue",
+		bgClass : "bgPerson",
+		color:"blue",
+		icon:"user",
+		saveUrl : baseUrl+"/" + moduleId + "/element/saveurl",
+		dynForm : {
+		    jsonSchema : {
+			    title : "Ajouter une url",
+			    icon : "user",
+			    type : "object",
+			    onLoads : {
+			    	//pour creer un contact depuis un element existant
+			    	"parentUrl" : function(){
+			    		if( contextData && contextData.id )
+	    					$("#ajaxFormModal #parentId").val( contextData.id );
+		    			if( contextData && contextData.type )
+		    				$("#ajaxFormModal #parentType").val( contextData.type ); 
+					}
+			    },
+			    afterSave : function(){
+			    	loadByHash(location.hash);
+			    },
+			    properties : {
+			    	info : {
+		                inputType : "custom",
+		                html:"<p><i class='fa fa-info-circle'></i> Si vous voulez ajouter un nouveau contact de façon a facilité les échanges</p>",
+		            },
+		            titre : {
+			        	placeholder : "Titre de l'URL",
+			        	labelText:"Nom",
+			            inputType : "text",
+		            	rules : { required : true },
+			        },
+			        url :{
+		              	inputType : "text",
+		              	placeholder : "URL du lien",
+		            	rules : { required : true },
+		            },
+		            type :{
+		            	inputType : "select",
+		            	placeholder : "Type de l'URL",
+		            	options : urlTypes,
+		            	rules : { required : true },
+		            },
+		            parentId :{
+		            	inputType : "hidden",
+		            	rules : { required : true },
+		            },
+		            parentType : {
+			            inputType : "hidden",
+		            	rules : { required : true },
+			        }
+			    }
+			}
+		}},
 };
 
 /* ************************************

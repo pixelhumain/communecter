@@ -102,7 +102,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->reque
 								<a class="tooltips btn btn-xs btn-light-blue " data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("common","Update",null,Yii::app()->controller->module->id) ?>" href="javascript:;" onclick='updateContact("<?php echo $keyContact; ?>");'>
 						    		<i class="fa fa-pencil"></i>
 						    	</a>
-						    	<a class="tooltips btn btn-xs btn-light-blue " data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("common","Remove",null,Yii::app()->controller->module->id) ?>" href="javascript:;" onclick='remove("<?php echo $keyContact; ?>")'>
+						    	<a class="tooltips btn btn-xs btn-light-blue " data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("common","Remove",null,Yii::app()->controller->module->id) ?>" href="javascript:;" onclick='removeContact("<?php echo $keyContact; ?>")'>
 						    		<i class="fa fa-trash"></i>
 						    	</a>
 								
@@ -176,7 +176,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->reque
 		elementLib.openForm ( 'contactPoint','contact', dataUpdate);
 	}
 
-	function remove(ind) {
+	function removeContact(ind) {
 		param = new Object;
     	param.name = "contacts";
     	param.value = {index : ind};

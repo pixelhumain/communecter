@@ -430,6 +430,7 @@ class CommunecterController extends Controller
       "aroundme"            => array("href" => "/ph/communecter/element/aroundme"),
       "save"                => array("href" => "/ph/communecter/element/save"),
       "savecontact"         => array("href" => "/ph/communecter/element/savecontact"),
+      "saveurl"         => array("href" => "/ph/communecter/element/saveurl"),
       "get"                 => array("href" => "/ph/communecter/element/get"),
       "delete"              => array("href" => "/ph/communecter/element/delete"),
     ),

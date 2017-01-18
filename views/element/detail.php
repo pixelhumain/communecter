@@ -315,7 +315,16 @@ if($('#breadcum').length)
 				?>
 			</div>
 			<?php } ?>
-
+			<div class="col-xs-12">
+				<?php 
+					$urls = ( empty($element["urls"]) ? array() : $element["urls"] ) ;
+					$this->renderPartial('../pod/urlsList',array( 	"urls" => $urls, 
+																	"contextId" => (String) $element["_id"],
+																	"contextType" => $controller,
+																	"authorised" => $edit,
+																	"openEdition" => $openEdition));
+				?>						  
+			</div>
 
 			<?php if (($type==Project::COLLECTION || $type==Organization::COLLECTION || $type==Event::COLLECTION)){ ?>
 				<div class="col-xs-12">
@@ -330,6 +339,9 @@ if($('#breadcum').length)
 					?>						  
 				</div>
 			<?php } ?>
+
+
+			
 
 
 	    	<?php if (($type==Project::COLLECTION || $type==Organization::COLLECTION || $type==Event::COLLECTION)){ ?>
