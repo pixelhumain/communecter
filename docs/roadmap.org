@@ -78,6 +78,10 @@ Report Abuse on element
 
 ** POI
   [.2] affiché sur la carte un type geoJson 
+  [.2] import POIs from : 
+    [ ] geojson, ex umap 
+    [ ] csv ...
+    [ ] xml
 
 * City 
 [.2] city bread crumb ( cp, insee, agglo, departement, region)  
@@ -123,6 +127,11 @@ Liste des notifications déjà lues => #370 #453
 
 
 ** @Tib 
+  [ ] INTEGRATTE MARKDOWN wisiwig
+  [ ] add photo  
+  [ ] notification à la création d'un dda
+  [ ] Count requests DB per page 
+  [X] network source from gist served by gitraw
   [X] Finance Transparente
   [X] Finder
     [ ] url direct sur le finder 
@@ -243,10 +252,6 @@ Liste des notifications déjà lues => #370 #453
     * wishlist
         [ ] show all events of my links, with posibility to choose to hide anyone of them 
         [ ] add automatically any events from this organization or project to my calendar
-  [ ] INTEGRATTE MARKDOWN wisiwig
-  [ ] add photo  
-  [ ] notification à la création d'un dda
-  [ ] Count requests DB per page 
 
   [ ] cut up communecter.js into sub files
   [ ] cacher des sections sont mon element 
@@ -294,6 +299,9 @@ Liste des notifications déjà lues => #370 #453
   [new] page pour reflechir 
     une page qui pousse a l'action, qui fait reflechir, et utiliser les outils de la plateforme 
   [new] connecter les POI à des source ousite externe ex : randopitons.re
+  [new] from siteweb to element 
+    [ ] from json : oceatoon.json
+    [ ] openatlas.org
   [ ] expliquer ce qu'est un commun
   [ ] test a light mobile version
   * DDA
