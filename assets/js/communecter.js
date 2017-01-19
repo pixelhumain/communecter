@@ -2291,10 +2291,16 @@ var elementLib = {
 	    elementLocation = null;
 	    elementLocations = [];
 	    centerLocation = null;
+
 	    updateLocality = false;
-	    formType = type;
-	    console.log(type);
-	    specs = typeObj[type];
+	    if(typeof type == "object"){
+	    	specs = type;
+	    }else{
+		    formType = type;
+		    console.log(type);
+		    specs = typeObj[type];
+	    }
+
 	    if(userId)
 		{
 			mylog.dir(specs);
@@ -3294,6 +3300,7 @@ var typeObj = {
 		ctrl:"city", 
 		titleClass : "bg-red", 
 		icon : "university",
+		color:"red",
 		dynForm : {
 			jsonSchema : {
 				title : "Modifier une ville",
