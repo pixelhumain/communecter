@@ -77,7 +77,7 @@
 			</b>
 		</span>
 
-		<?php if(false && Role::isSuperAdmin(Role::getRolesUserId(Yii::app()->session["userId"]) ) ) { ?>
+		<?php if(Role::isSuperAdmin(Role::getRolesUserId(Yii::app()->session["userId"]) ) ) { ?>
 		<button class="btn btn-xs btn-edit-url" data-target="#modalEditUrl" data-toggle="modal" data-idurl="<?php echo $key; ?>">
 			<i class="fa fa-cog"></i> Editer
 		</button> 

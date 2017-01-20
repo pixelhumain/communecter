@@ -676,7 +676,7 @@
 				this.dataMap = data;
 				//alert("datas : " + JSON.stringify(this.dataMap));
 				//efface les elements de la carte si elle n'est pas vide
-				if(this.markersLayer != "") this.clearMap(thisMap);
+				if(this.markersLayer != "") this.clearMap(thisMap, false);
 
 				//conteneur de marker cluster
 				this.markersLayer = new L.MarkerClusterGroup({"maxClusterRadius" : 40});

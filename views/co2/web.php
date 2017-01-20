@@ -5,11 +5,6 @@
     $this->renderPartial($layoutPath.'header', 
                         array(  "layoutPath"=>$layoutPath , 
                                 "page" => "web",
-                                // "subdomain"=>$subdomain,
-                                // "subdomainName" => $subdomainName,
-                                // "icon" => $icon, 
-                                // "mainTitle"=>$mainTitle,
-                                // "placeholderMainSearch"=>$placeholderMainSearch) 
                             )
                         );
     $cssAnsScriptFiles = array(
