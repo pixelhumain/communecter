@@ -107,7 +107,7 @@ $this->renderPartial('../default/panels/toolbar');
 
       <h1 class="homestead text-red text-center cityName-header">
         <span class="margin-bottom-10" style="">
-        <a href="javascript:getWiki('<?php echo $city["wikidataID"]; ?>')" class="pull-right">
+        <a href="javascript:getWiki('<?php echo @$city["wikidataID"]; ?>')" class="pull-right">
           <img width=50 src="<?php echo $this->module->assetsUrl; ?>/images/logos/Wikipedia-logo-en-big.png">
         </a>
         <i class="fa fa-university"></i><br>
@@ -254,6 +254,7 @@ $this->renderPartial('../default/panels/toolbar');
                     */?>
                 </div>
                 <div class="space20"></div>
+                <a href="javascript:elementLib.openForm(zonesDynForm)" class="btn btn-default">Zones</a>
                 <a href="javascript:cityFinder('city','<?php echo $city["name"];?>')" class="btn btn-default">Filiaires locales</a>  <a href="javascript:cityFinder('departement','<?php echo $city["depName"];?>')" class="btn btn-default">Filiaires département</a>  <a href="javascript:cityFinder('region','<?php echo $city["regionName"];?>')" class="btn btn-default">Filiaires région</a> 
         <!--       </div>
             </div>
@@ -339,7 +340,34 @@ $this->renderPartial('../default/panels/toolbar');
 
 <script>
 
+var zones =  <?php echo json_encode($zones) ?>;
+var postalCodesDynForm =  <?php echo json_encode($postalCodes) ?>;
+mylog.log("zones");
+mylog.dir(zones);
 
+mylog.log("postalCodesDynForm");
+mylog.dir(postalCodesDynForm);
+
+var currentCityZones =  [];
+var currentCityPC =  [];
+
+var zonesDynForm = { 
+    dynForm : {
+        jsonSchema : {
+          title : "Zones",
+          icon : "question-cirecle-o",
+          noSubmitBtns : true,
+          properties : {
+            custom :{
+                  inputType : "custom",
+                  html : function() { 
+                    return "<div class='menuSmallMenu'><h1>Code postaux</h1>"+js_templates.loop( currentCityPC, "linkList", { classes : "bg-red kickerBtn", parentClass : "col-xs-12 col-sm-4 "} )+"<h1>Quartiers</h1>"+js_templates.loop( currentCityZones, "linkList", { classes : "bg-red kickerBtn", parentClass : "col-xs-12 col-sm-4 "} )+"</div>";
+                  }
+                }
+          }
+      }
+    }
+  }
 
 //var contextMap = {};
 contextMap = <?php echo json_encode($contextMap) ?>;
@@ -351,7 +379,7 @@ var images = <?php echo json_encode($images) ?>;
 var contentKeyBase = "<?php echo $contentKeyBase ?>";
 var events = <?php echo json_encode($events) ?>;
 var liveScopeType = "global";
-
+initCurrentCityZones();
 jQuery(document).ready(function() {
 
   $(".main-col-search").addClass("cityHeadSection");
@@ -429,6 +457,7 @@ jQuery(document).ready(function() {
       loadByHash($('#selectRoom').val());
       
   });
+  
    // $("#podCooparativeSpace").html("<i class='fa fa-spin fa-refresh text-azure'></i>");
    //  var id = "<?php echo $city['country']."_".$city['insee']."-".$city['cp']; ?>";
    //    getAjax('#podCooparativeSpace',baseUrl+'/'+moduleId+"/rooms/index/type/cities/id/"+id+"/view/pod",
@@ -729,6 +758,30 @@ function  cityFinderSearch( type, what, icon, tags )
                    what, icon, 'yellow',
                    '<a href="javascript:cityFinder(scopeType,scopeName)"><i class="fa fa-th text-grey"></i></a> <i class="fa fa-angle-right"></i> <i class="fa fa-map-marker text-yellow"></i> '+scopeName ,
                    params );
+}
+
+function  initCurrentCityZones() { 
+    $.each(postalCodesDynForm,function (i,c){
+        if(typeof c.complement == "undefined"){
+          var pc = {
+              label : c.postalCode + " - " +c.name,
+              classes:"bg-"+typeObj["cities"].color,
+              icon:"fa-"+typeObj["cities"].icon,
+              action : "#city.detail.insee."+city["insee"]+".postalCode."+c.postalCode
+          }
+          currentCityPC.push(pc);
+        }
+        
+    });
+    $.each(zones,function (i,z){
+        var zone = {
+            label : z.name,
+            classes:"bg-"+typeObj["event"].color,
+            icon:"fa-map",
+            action : "" 
+        }
+        currentCityZones.push(zone);
+    });
 }
 
 </script>

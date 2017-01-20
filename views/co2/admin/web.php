@@ -132,10 +132,12 @@
 
 	var urlsLocked = <?php echo json_encode($urlsNoFavicon); ?>;
 	console.log("urlsNoFavicon", urlsLocked);
-	alert("stop");
+	//alert("stop");
 	//var urlsValidated = <?php //echo json_encode($urlsValidated); ?>;
 
 	var autoScanProcessing = false;
+
+	var currentCategory = "";
 
 	jQuery(document).ready(function() {
 		$(".btn-superadmin").off().click(function(){
