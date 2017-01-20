@@ -30,7 +30,8 @@ class Co2Controller extends CommunecterController {
 	        'social' 		=> 'citizenToolKit.controllers.co2.SocialAction',
 	        'agenda' 		=> 'citizenToolKit.controllers.co2.AgendaAction',
 	        'power' 		=> 'citizenToolKit.controllers.co2.PowerAction',
-	        'superadmin' 	=> 'citizenToolKit.controllers.co2.SuperAdminAction'
+	        'superadmin' 	=> 'citizenToolKit.controllers.co2.SuperAdminAction',
+	        'info' 			=> 'citizenToolKit.controllers.co2.InfoAction'
 	    );
 	}
 }

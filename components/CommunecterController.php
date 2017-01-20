@@ -435,13 +435,13 @@ class CommunecterController extends Controller
       "delete"              => array("href" => "/ph/communecter/element/delete"),
     ),
     "co2" => array(
-      "index"             => array('href' => "/ph/communecter/co2/index",               "public" => true),
+      "index"             => array('href' => "/ph/communecter/co2/index",             "public" => true),
       "web"               => array('href' => "/ph/communecter/co2/web",               "public" => true),
       "websearch"         => array('href' => "/ph/communecter/co2/websearch",         "public" => true),
       "live"              => array('href' => "/ph/communecter/co2/live",              "public" => true),
       "referencement"     => array('href' => "/ph/communecter/co2/referencement",     "public" => true),
       "savereferencement" => array('href' => "/ph/communecter/co2/savereferencement", "public" => true),
-      "freedom"            => array('href' => "/ph/communecter/co2/freedom",            "public" => true),
+      "freedom"            => array('href' => "/ph/communecter/co2/freedom",          "public" => true),
       "agenda"            => array('href' => "/ph/communecter/co2/agenda",            "public" => true),
       "mediacrawler"      => array('href' => "/ph/communecter/co2/mediacrawler",      "public" => false),
       "page"              => array('href' => "/ph/communecter/co2/page",              "public" => true),
@@ -449,6 +449,7 @@ class CommunecterController extends Controller
       "agenda"             => array('href' => "/ph/communecter/co2/agenda",           "public" => true),
       "power"             => array('href' => "/ph/communecter/co2/power",             "public" => true),
       "superadmin"        => array('href' => "/ph/communecter/co2/superadmin",        "public" => false),
+      "info"              => array('href' => "/ph/communecter/co2/info",              "public" => false),
       ),
     "siteurl" => array(
       "incnbclick"        => array('href' => "ph/communecter/siteurl/incnbclick")
