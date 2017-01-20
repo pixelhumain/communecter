@@ -520,12 +520,14 @@ function initCityMap(){
 // https://wikidata.org/w/api.php?action=wbgetentities&format=json&ids=Q90&props=claims&languages=fr 
 // https://wikidata.org/w/api.php?action=wbgetclaims&format=json&entity=Q90&property=P18
 var wikidata = null;
+var data_dbpedia = null;
 function getWiki(q){
-  url = "https://wikidata.org/w/api.php?action=wbgetentities&format=json&ids="+q+"&props=claims&languages=fr"; 
+  //url = "https://wikidata.org/w/api.php?action=wbgetentities&format=json&ids="+q+"&props=claims&languages=fr";
+  url ="https://www.wikidata.org/wiki/Special:EntityData/"+q+".json" 
   $.ajax({
         url:url,
         type:"GET",
-        dataType: "jsonp",
+        dataType: "json",
         /*data: {
             q: "select title,abstract,url from search.news where query=\"cat\"",
             format: "json"
@@ -533,8 +535,8 @@ function getWiki(q){
         success:function(data) {
           if( notNull(data) ){
             wikidata = data;
-            name = wikidata.entities[q].claims.P373[0].mainsnak.datavalue.value;
-            imgName = wikidata.entities[q].claims.P18[0].mainsnak.datavalue.value;
+            //name = wikidata.entities[q].claims.P373[0].mainsnak.datavalue.value;
+            //imgName = wikidata.entities[q].claims.P18[0].mainsnak.datavalue.value;
             /*$.ajax({
                 url:"https://www.wikidata.org/w/api.php?action=query&prop=imageinfo&iiprop=url&titles=File:"+imgName,
                 type:"GET",
@@ -546,15 +548,48 @@ function getWiki(q){
                   alert("error 2");
                 } 
             });*/
-            $("#ajax-modal-modal-title").html("<img width=40 src='<?php echo $this->module->assetsUrl; ?>/images/logos/Wikipedia-logo-en-big.png'> "+name);
+
+            label_dbpedia = wikidata.entities[q].sitelinks.frwiki.title;
+
+            $.ajax({
+                url:"http://fr.dbpedia.org/sparql?default-graph-uri=&query=prefix+dbo%3A+%3Chttp%3A%2F%2Fdbpedia.org%2Fontology%2F%3E%0D%0Aprefix+dbr%3A+%3Chttp%3A%2F%2Ffr.dbpedia.org%2Fresource%2F%3E%0D%0APREFIX+wikidb%3A+%3Chttp%3A%2F%2Fwikidata.dbpedia.org%2Fresource%2F%3E%0D%0APREFIX+dbp%3A+%3Chttp%3A%2F%2Ffr.dbpedia.org%2Fproperty%2F%3E%0D%0A%0D%0A+SELECT+DISTINCT+*+where+%7B%0D%0A%0D%0A++%0D%0A++%3Fitem+a+dbo%3ASettlement+.+%0D%0A++%3Fitem+rdfs%3Alabel+%22"+label_dbpedia+"%22%40fr.%0D%0A++%3Fitem+dbo%3Aabstract+%3Fabstract+.%0D%0A++%3Fitem+rdfs%3Alabel+%3Flabel+.%0D%0A%0D%0AFILTER%28LANG%28%3Fabstract%29+%3D+%22fr%22%29%0D%0AFILTER%28LANG%28%3Flabel%29+%3D+%22fr%22%29%0D%0A%0D%0A%0D%0A++%0D%0A+%7D&format=application%2Fsparql-results%2Bjson&timeout=0&debug=on",
+                type:"GET",
+                dataType: "jsonp",
+                success:function(data) {
+                  console.dir(data)
+                  data_dbpedia = data;
+                },
+                error:function (xhr, ajaxOptions, thrownError){
+                  alert("error 2");
+                } 
+            });
+
+
+
+            $("#ajax-modal-modal-title").html("<img width=40 src='<?php echo $this->module->assetsUrl; ?>/images/logos/Wikipedia-logo-en-big.png'> "+label_dbpedia);
               $("#ajax-modal-modal-body").html( "<div class='row bg-white'>"+
+
                                 "<div class='col-sm-10 col-sm-offset-1'>"+
-                                      "<div id='P18'>image : "+wikidata.entities[q].claims.P18[0].mainsnak.datavalue.value+"</div>"+
-                                      "<div id='P94'>coat of arms image : "+wikidata.entities[q].claims.P94[0].mainsnak.datavalue.value+"</div>"+
-                                      "<div id='P94'>located in time zone : "+wikidata.entities[q].claims.P421[0].mainsnak.datavalue.value+"</div>"+
-                                      "<div id='P94'>area : "+wikidata.entities[q].claims.P2046[0].mainsnak.datavalue.value+"</div>"+
-                                      "<div id='P94'>shared borders : "+wikidata.entities[q].claims.P47[0].mainsnak.datavalue.value+"</div>"+
-                                      "<div id='P94'>lien insee : "+wikidata.entities[q].claims.P374[0].mainsnak.datavalue.value+"</div>"+
+                                      //"<div id='P18'>image : "+wikidata.entities[q].claims.P18[0].mainsnak.datavalue.value+"</div>"+
+
+                                      "<div id='abstract'>Abstract Wikipédia : "+data_dbpedia.results.bindings[0].abstract.value+"</div>"+
+
+
+                                      //"<div id='P94'>coat of arms image : "+wikidata.entities[q].claims.P94[0].mainsnak.datavalue.value+"</div>"+
+
+
+                                      //"<div id='P94'>located in time zone : "+wikidata.entities[q].claims.P421[0].mainsnak.datavalue.value+"</div>"+
+
+
+                                      //"<div id='P94'>area : "+wikidata.entities[q].claims.P2046[0].mainsnak.datavalue.value+"</div>"+
+
+
+                                      //"<div id='P94'>shared borders : "+wikidata.entities[q].claims.P47[0].mainsnak.datavalue.value+"</div>"+
+
+
+                                      //"<div id='P94'>lien insee : "+wikidata.entities[q].claims.P374[0].mainsnak.datavalue.value+"</div>"+
+
+
                                       "</div>"+
                                     "</div>");
               $('.modal-footer').show();
