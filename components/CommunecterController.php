@@ -134,6 +134,7 @@ class CommunecterController extends Controller
     ),
     "city"=> array(
       "index"               => array("href" => "/ph/communecter/city/index", "public" => true),
+      "detailold"              => array("href" => "/ph/communecter/city/detail", "public" => true),
       "detail"              => array("href" => "/ph/communecter/city/detail", "public" => true),
       "dashboard"           => array("href" => "/ph/communecter/city/dashboard", "public" => true), 
       "directory"           => array("href" => "/ph/communecter/city/directory", "public" => true, 

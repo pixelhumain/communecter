@@ -19,6 +19,7 @@ class CityController extends CommunecterController {
 	    return array(
 	        'index'       			=> 'citizenToolKit.controllers.city.IndexAction',
 	        'detail'                => 'citizenToolKit.controllers.city.DetailAction',
+	        'detailold'                => 'citizenToolKit.controllers.city.DetailoldAction',
 	        'directory'    		 	=> 'citizenToolKit.controllers.city.DirectoryAction',
 	        'calendar'      		=> 'citizenToolKit.controllers.city.CalendarAction',
 	        'statisticpopulation' 	=> 'citizenToolKit.controllers.city.StatisticPopulationAction',

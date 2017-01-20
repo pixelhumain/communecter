@@ -320,6 +320,33 @@ function lockScopeOnCityKey(cityKey, cityName){ //mylog.log("lockScopeOnCityKey"
 	});
 }
 
+function lockScopeOnCityId(city){ //mylog.log("lockScopeOnCityKey", cityKey);
+	$("#searchLocalityCITYKEY").val(city._id.$id);
+	$("#searchLocalityCODE_POSTAL").val("");
+	$("#searchLocalityDEPARTEMENT").val("");
+	$("#searchLocalityREGION").val("");
+	$(".list_tags_scopes").addClass("tagOnly");
+
+	var insee = city.insee;
+	var cp = city.cp;
+	var url = "#city.detail.id." + city._id.$id;
+	if(cp != "" && typeof cp != "undefined") url += ".postalCode." + city.cp;
+	
+	$(".city-name-locked").html("<a href='javascript:' class='text-red'>"+
+									"<i class='fa fa-lock tooltips' id='cadenas' data-toggle='tooltip' data-placement='top' title='Débloquer'></i>"+
+								"</a> <a href='"+url+"' class='lbh homestead text-red tooltips' data-toggle='tooltip' data-placement='top' title='Retourner sur la page'>"+ city.name + "</a>" );
+
+	$(".city-name-locked").click(function(){
+		rebuildSearchScopeInput();
+	});
+	$("#cadenas").mouseover(function(){
+		$("#cadenas").removeClass("fa-lock").addClass("fa-unlock");
+	});
+	$("#cadenas").mouseout(function(){
+		$("#cadenas").addClass("fa-lock").removeClass("fa-unlock");
+	});
+}
+
 function openDropdownMultiscope(){
 	if(!$("#dropdown-content-multi-scope").hasClass('open'))
 	setTimeout(function(){ $("#dropdown-content-multi-scope").addClass('open'); }, 300);

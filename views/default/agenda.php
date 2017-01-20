@@ -135,10 +135,11 @@
 
 <div style="" class="col-xs-12 no-padding no-margin" id="dropdown_search"></div>
 
-<?php //$this->renderPartial(@$path."first_step_directory"); ?> 
-<?php  $city = @$_GET['lockCityKey'] ? City::getByUnikey($_GET['lockCityKey']) : null; 
+<?php //$this->renderPartial(@$path."first_step_directory"); 
+        //$city = @$_GET['lockCityKey'] ? City::getByUnikey($_GET['lockCityKey']) : null;
+      $city = (@$_GET['id'] ? City::getById($_GET['id']) : null); 
        //$cityName = ($city!=null) ? $city["name"].", ".$city["cp"] : "";
-       $cityName = (($city!=null) ? $city["name"]. (@$city["cp"]? ", ".$city["cp"] : "") : "");
+      $cityName = (($city!=null) ? $city["name"]. (@$city["cp"]? ", ".$city["cp"] : "") : "");
 ?> 
 
 <script type="text/javascript">
@@ -147,7 +148,9 @@ var searchType = [ "events" ];
 var allSearchType = [ "events" ];
 var personCOLLECTION = "<?php echo Person::COLLECTION ?>";
 var userId = '<?php echo isset( Yii::app()->session["userId"] ) ? Yii::app() -> session["userId"] : null; ?>';
-var lockCityKey = <?php echo (@$_GET['lockCityKey']) ? "'".$_GET['lockCityKey']."'" : "null" ?>;
+//var lockCityKey = <?php //echo (@$_GET['lockCityKey']) ? "'".$_GET['lockCityKey']."'" : "null" ?>;
+var zoneId = <?php echo (@$_GET['id']) ? "'".$_GET['id']."'" : "null" ?>;
+var zone =  <?php echo json_encode($city) ?>;
 var cityNameLocked = "<?php echo $cityName; ?>";
 
 jQuery(document).ready(function() {
@@ -185,8 +188,10 @@ jQuery(document).ready(function() {
 
   showTagsScopesMin("#scopeListContainer");
   
-  if(lockCityKey != null){
-    lockScopeOnCityKey(lockCityKey, cityNameLocked);
+  //if(lockCityKey != null){
+    //lockScopeOnCityKey(lockCityKey, cityNameLocked);
+  if(zoneId != null){
+    lockScopeOnCityId(zone);
   }else{
     rebuildSearchScopeInput();
   }
