@@ -1,11 +1,4 @@
 var countPoll = 0;
-$(document).ready(function() { 
-	initSequence();
-	setTimeout( function () { checkPoll() }, 10000);
-	document.onkeyup = keyboardNav.checkKeycode;
-	bindRightClicks();
-});
-
 var prevStep = 0;
 var steps = ["explain1","live","explain2","event","explain3","orga","explain4","project","explain5","person"];
 var slides = {
@@ -20,6 +13,7 @@ var slides = {
 	explain5 : function() { showDefinition("explainProxicity")},
 	person : function() { loadByHash("#person.detail.id.54eda798f6b95cb404000903")} 
 };
+
 function runslide(cmd)
 {
 	if(cmd == 0){
@@ -590,7 +584,6 @@ var loadableUrls = {
 	"#default.apropos" : {title:'COMMUNECTED HOME ', icon : 'star',"menu":"homeShortcuts"},
 	"#default.twostepregister" : {title:'TWO STEP REGISTER', icon : 'home', "menu":"homeShortcuts"},
 	"#default.view.page" : {title:'FINANCEMENT PARTICIPATIF ', icon : 'euro'},
-	
 	//"#home" : {"alias":"#default.home"},
     "#stat.chartglobal" : {title:'STATISTICS ', icon : 'bar-chart'},
     "#stat.chartlogs" : {title:'STATISTICS ', icon : 'bar-chart'},
@@ -1469,8 +1462,11 @@ function myAdminList (ctypes) {
 	}
 	return myList;
 }
-function addHidden(nameHidden,value){
-	$("#"+nameHidden).val(value);
+
+function addContact(id, name){
+	$("#idContact").val(id);
+	$("#listSameName").html("<i class='fa fa-check text-success'></i> Vous avez sélectionner : "+ name);
+	$("#name").val(name);
 }
 
 function globalSearch(searchValue,types,autre){
@@ -1499,6 +1495,7 @@ function globalSearch(searchValue,types,autre){
           success: function(data){
             var str = "";
  			var compt = 0;
+ 			var msg = "Verifiez si cet élément n'existe pas déjà";
  			$("#btn-submit-form").html('Valider <i class="fa fa-arrow-circle-right"></i>').prop("disabled",false);
  			$.each(data, function(id, elem) {
   				mylog.log(elem);
@@ -1519,11 +1516,12 @@ function globalSearch(searchValue,types,autre){
 				if("undefined" != typeof elem.profilImageUrl && elem.profilImageUrl != ""){
 					var htmlIco= "<img width='30' height='30' alt='image' class='img-circle' src='"+baseUrl+elem.profilThumbImageUrl+"'/>";
 				}
-
+				
 				if(autre == true){
-					str += 	"<a target='_blank' href='javascript:addHidden(\'userID\',"+elem.id+");' class='autre btn btn-xs btn-default w50p text-left padding-5 text-blue' >"+
-							"<span>"+ htmlIco +"</span> <span> " + elem.name+"</br>"+where+ "</span>"
-						"</a>";
+					str += 	"<a href='javascript:;' onclick='addContact( \""+elem.id+"\",\""+elem.name+"\" );' class='autre btn btn-xs btn-default w50p text-left padding-5 text-blue' >"+
+								"<span>"+ htmlIco +"</span> <span> " + elem.name+"</br>"+where+ "</span>"
+							"</a>";
+					msg = "Verifiez si le contact est dans Communecter";
 				}else{
 					str += 	"<a target='_blank' href='#"+ elem.type +".detail.id."+ elem.id +"' class='btn btn-xs btn-default w50p text-left padding-5 text-blue' >"+
 							"<span>"+ htmlIco +"</span> <span> " + elem.name+"</br>"+where+ "</span>"
@@ -1535,7 +1533,7 @@ function globalSearch(searchValue,types,autre){
   			});
 			
 			if (compt > 0) {
-				$("#listSameName").html("<div class='col-sm-12 light-border text-red'> <i class='fa fa-eye'></i> Verifiez si cet élément n'existe pas déjà : </div>"+str);
+				$("#listSameName").html("<div class='col-sm-12 light-border text-red'> <i class='fa fa-eye'></i> "+msg+" : </div>"+str);
 				//bindLBHLinks();
 			} else {
 				$("#listSameName").html("<span class='txt-green'><i class='fa fa-thumbs-up text-green'></i> Aucun élément avec ce nom.</span>");
@@ -2354,6 +2352,9 @@ var elementLib = {
 			        else
 			        	elementLib.saveElement("#ajaxFormModal",elementObj.col,elementObj.ctrl);
 
+			        if( elementObj.dynForm.jsonSchema.afterSave && typeof elementObj.dynForm.jsonSchema.afterSave == "function")
+			        	elementObj.dynForm.jsonSchema.afterSave();
+
 			        return false;
 			    }
 			});
@@ -2368,6 +2369,29 @@ var elementLib = {
 ********************************** */
 var contextData = null;
 var typeObj = {
+	"themes":{ 
+		dynForm : {
+		    jsonSchema : {
+			    title : "Theme Switcher ?",
+			    icon : "question-cirecle-o",
+			    noSubmitBtns : true,
+			    properties : {
+			    	custom :{
+		            	inputType : "custom",
+		            	html : function() { 
+		            		return "<div class='menuSmallMenu'>"+js_templates.loop( [ 
+			            		{ label : "ph dori", classes:"bg-dark", icon:"fa-bullseye", action : "javascript:window.location.href = moduleId+'/default/index/theme/ph-dori'"},
+			            		{ label : "notragora", classes:"bg-grey", icon:"fa-video-camera ", action : "javascript:window.location.href = moduleId+'/default/index/theme/notragora'"},
+			            		{ label : "C02", classes:"bg-red", icon:"fa-search", action : "javascript:window.location.href = moduleId+'/co2/index/theme/CO2'"},
+			            		{ label : "network", classes:"bg-orange", icon:"fa-bars", action : "javascript:window.location.href = moduleId+'/default/index/theme/network'"},
+			            		
+		            		], "col_Link_Label_Count", { classes : "bg-red kickerBtn", parentClass : "col-xs-12 col-sm-4 "} )+"</div>";
+		            	}
+		            }
+			    }
+			}
+		}
+	},
 	"addElement":{ 
 		dynForm : {
 		    jsonSchema : {
@@ -2390,6 +2414,22 @@ var typeObj = {
 			            		{ label : "Signaler un bug", classes:"bg-grey lbh", icon:"fa-bug", action : "#news.index.type.pixels"},
 		            		], "col_Link_Label_Count", { classes : "bg-red kickerBtn", parentClass : "col-xs-12 col-sm-4 "} )+"</div>";
 		            	}
+		            }
+			    }
+			}
+		}
+	},
+	"addPhoto":{ 
+		dynForm : {
+		    jsonSchema : {
+			    title : "Uploader une image ?",
+			    icon : "question-cirecle-o",
+			    noSubmitBtns : true,
+			    properties : {
+			    	image :{
+		            	inputType : "image",
+		            	contextType : "citoyens",
+		            	contextId : "585bdfdaf6ca47b6118b4583"
 		            }
 			    }
 			}
@@ -3065,8 +3105,7 @@ var typeObj = {
 			url:"/"+moduleId+"/event/eventsv",
 			title : "Ajouter un évènement"
 		}*/	},
-	"events" : {col:"events",ctrl:"event"},
-	"projects" : {col:"projects",ctrl:"project"},
+	"events" : {col:"events",ctrl:"event",color:"orange"},
 	"project" : {
 		col:"projects",
 		ctrl:"project",
@@ -3248,7 +3287,6 @@ var typeObj = {
 			url:"/"+moduleId+"/event/eventsv",
 			title : "Ajouter un évènement"
 		}*/	},
-	"events" : {col:"events",ctrl:"event",color:"orange"},
 	"projects" : {col:"projects",ctrl:"project",color:"purple",icon:"lightbulb-o"},
 	"city" : {col:"cities",ctrl:"city"},
 	"cities" : {
@@ -3605,7 +3643,6 @@ var typeObj = {
 		bgClass : "bgPerson",
 		color:"blue",
 		icon:"user",
-		lbh : "#person.invite",
 		saveUrl : baseUrl+"/" + moduleId + "/element/saveContact",
 		dynForm : {
 		    jsonSchema : {
@@ -3621,6 +3658,9 @@ var typeObj = {
 		    				$("#ajaxFormModal #parentType").val( contextData.type ); 
 					}
 			    },
+			    afterSave : function(){
+			    	loadByHash(location.hash);
+			    },
 			    properties : {
 			    	info : {
 		                inputType : "custom",
@@ -3630,7 +3670,6 @@ var typeObj = {
 			        	placeholder : "Nom",
 			        	labelText:"Nom",
 			            inputType : "text",
-			            rules : { required : true },
 			            init : function(){
 			            	$("#ajaxFormModal #name ").off().on("blur",function(){
 			            		if($("#ajaxFormModal #name ").val().length > 3 )
@@ -3638,6 +3677,10 @@ var typeObj = {
 			            	});
 			            }
 			        },
+			        similarLink : {
+		                inputType : "custom",
+		                html:"<div id='similarLink'><div id='listSameName'></div></div>",
+		            },
 			        email :{
 		              inputType : "text",
 		              placeholder : "Email du contact"
@@ -3650,9 +3693,9 @@ var typeObj = {
 		              inputType : "text",
 		              placeholder : "téléphone du contact"
 		            },
-		            userId : {
-		               inputType : "hidden",
-		                value : ""
+		            idContact : {
+		            	inputType : "hidden",
+		            	value : ""
 		            },
 		            parentId :{
 		            	inputType : "hidden"
@@ -3795,7 +3838,65 @@ var typeObj = {
 			        },
 			    }
 			}
-		}}
+		}},
+	"url" : {
+		col : "url" , 
+		ctrl : "url",
+		titleClass : "bg-blue",
+		bgClass : "bgPerson",
+		color:"blue",
+		icon:"user",
+		saveUrl : baseUrl+"/" + moduleId + "/element/saveurl",
+		dynForm : {
+		    jsonSchema : {
+			    title : "Ajouter une url",
+			    icon : "user",
+			    type : "object",
+			    onLoads : {
+			    	//pour creer un contact depuis un element existant
+			    	"parentUrl" : function(){
+			    		if( contextData && contextData.id )
+	    					$("#ajaxFormModal #parentId").val( contextData.id );
+		    			if( contextData && contextData.type )
+		    				$("#ajaxFormModal #parentType").val( contextData.type ); 
+					}
+			    },
+			    afterSave : function(){
+			    	loadByHash(location.hash);
+			    },
+			    properties : {
+			    	info : {
+		                inputType : "custom",
+		                html:"<p><i class='fa fa-info-circle'></i> Si vous voulez ajouter un nouveau contact de façon a facilité les échanges</p>",
+		            },
+		            titre : {
+			        	placeholder : "Titre de l'URL",
+			        	labelText:"Nom",
+			            inputType : "text",
+		            	rules : { required : true },
+			        },
+			        url :{
+		              	inputType : "text",
+		              	placeholder : "URL du lien",
+		            	rules : { required : true },
+		            },
+		            type :{
+		            	inputType : "select",
+		            	placeholder : "Type de l'URL",
+		            	options : urlTypes,
+		            	rules : { required : true },
+		            },
+		            parentId :{
+		            	inputType : "hidden",
+		            	rules : { required : true },
+		            },
+		            parentType : {
+			            inputType : "hidden",
+		            	rules : { required : true },
+			        }
+			    }
+			}
+		}},
 };
 
 /* ************************************
@@ -3828,6 +3929,7 @@ var keyboardNav = {
 		"79" : function(){elementLib.openForm('organization')},//o : orga
 		"80" : function(){elementLib.openForm('project')},//p : project
 		"82" : function(){smallMenu.openAjax(baseUrl+'/'+moduleId+'/person/directory?tpl=json','Mon répertoire','fa-book','red')},//r : annuaire
+		"84" : function(){elementLib.openForm('themes')},//t : theme switcher
 		"86" : function(){elementLib.openForm('entry')},//v : votes
 		
 	},
@@ -3918,3 +4020,10 @@ function displayStartAndEndDate(event) {
 	}
 	return content;
 }
+
+$(document).ready(function() { 
+	initSequence();
+	setTimeout( function () { checkPoll() }, 10000);
+	document.onkeyup = keyboardNav.checkKeycode;
+	bindRightClicks();
+});

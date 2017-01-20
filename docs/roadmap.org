@@ -101,7 +101,7 @@ Liste des notifications déjà lues => #370 #453
 ** @Rapha 
   [.2] connecter a des sources events externes (RSS)  => #523, #986
   [.2] globaliser le system de Tokens et utilisation API Communecter =>#341 (Auth) + #1262
-  [.2] page city : ajouter quartier isis , maison et conseil de quartier =>#1258, #277
+  [.2] page city : ajouter quartier isis, qpv , maison et conseil de quartier =>#1258, #277
   [.2] finir la belgique => #1259
   * Import / Export 
   [.2] RSS (Personne, Orga, Projet, event, city, region, thematique, tags) => #523
@@ -216,6 +216,7 @@ Liste des notifications déjà lues => #370 #453
     [X] template engine prototype with menuSmall Collections
     [X] switch title add/remove
     * wish list: 
+      [ ] collection kanban interface
       [ ] view collection on map 
       [ ] sub colections
       [ ] collections on all elements
@@ -233,20 +234,20 @@ Liste des notifications déjà lues => #370 #453
   [X] API : Basic authentcation using username or email + pwd
     * todo 
     [ ] encrypt username and pwd when giving out token accesses 
-  [ ] notification à la création d'un dda
-  [ ] INTEGRATTE MARKDOWN wisiwig
-  [ ] my POIs
+  [X] my POIs
   [ ] my calendar
     [[http://127.0.0.1/ph/#event.calendarview.id.585bdfdaf6ca47b6118b4583.type.person]]
     [X] my created events
     [X] events I participate in 
-    [ ] events : right click, add to my calendar
+    [ ] events : right click, participate to event
     * wishlist
-      [ ] show all events of my links, with posibility to choose to hide anyone of them 
-      [ ] add automatically any events from this organization or project to my calendar
-  [ ] add photo
+        [ ] show all events of my links, with posibility to choose to hide anyone of them 
+        [ ] add automatically any events from this organization or project to my calendar
+  [ ] INTEGRATTE MARKDOWN wisiwig
+  [ ] add photo  
+  [ ] notification à la création d'un dda
   [ ] Count requests DB per page 
-  [ ] collection kanban interface
+
   [ ] cut up communecter.js into sub files
   [ ] cacher des sections sont mon element 
   [ ] header du live ou dans en ce moment

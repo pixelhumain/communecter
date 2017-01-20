@@ -177,7 +177,6 @@ class CommunecterController extends Controller
     "network" => array(
       "simplydirectory"    => array("href" => "/ph/communecter/network/simplydirectory")
     ),
-
     "rooms"=> array(
       "index"    => array("href" => "/ph/communecter/rooms/index"),
       "saveroom" => array("href" => "/ph/communecter/rooms/saveroom"),
@@ -431,6 +430,7 @@ class CommunecterController extends Controller
       "aroundme"            => array("href" => "/ph/communecter/element/aroundme"),
       "save"                => array("href" => "/ph/communecter/element/save"),
       "savecontact"         => array("href" => "/ph/communecter/element/savecontact"),
+      "saveurl"         => array("href" => "/ph/communecter/element/saveurl"),
       "get"                 => array("href" => "/ph/communecter/element/get"),
       "delete"              => array("href" => "/ph/communecter/element/delete"),
     ),

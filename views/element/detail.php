@@ -195,8 +195,7 @@ if($('#breadcum').length)
 				if(Yii::app()->session["userId"] && (string)$element["_id"] == Yii::app()->session["userId"] ){ ?>
 				<div id="div-discover" class="col-md-4 pull-right">
 					<div class="panel panel-white no-padding">
-			            
-						<div class="panel-heading text-center border-light">
+			            <div class="panel-heading text-center border-light">
 			                <h3 class="panel-title text-blue"> <i class="fa fa-cogs"></i> Paramètres</h3>
 			            </div>
 				        <div class="padding-10 text-left">
@@ -316,7 +315,16 @@ if($('#breadcum').length)
 				?>
 			</div>
 			<?php } ?>
-
+			<div class="col-xs-12">
+				<?php 
+					$urls = ( empty($element["urls"]) ? array() : $element["urls"] ) ;
+					$this->renderPartial('../pod/urlsList',array( 	"urls" => $urls, 
+																	"contextId" => (String) $element["_id"],
+																	"contextType" => $controller,
+																	"authorised" => $edit,
+																	"openEdition" => $openEdition));
+				?>						  
+			</div>
 
 			<?php if (($type==Project::COLLECTION || $type==Organization::COLLECTION || $type==Event::COLLECTION)){ ?>
 				<div class="col-xs-12">
@@ -331,6 +339,9 @@ if($('#breadcum').length)
 					?>						  
 				</div>
 			<?php } ?>
+
+
+			
 
 
 	    	<?php if (($type==Project::COLLECTION || $type==Organization::COLLECTION || $type==Event::COLLECTION)){ ?>
