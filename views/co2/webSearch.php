@@ -114,7 +114,7 @@
 <div class="col-md-12" style="margin-top:0px;">
 	<hr>
 	<h5 class="text-right">
-		<a href="https://www.google.com/search?q=<?php echo $searchG; ?>" target="_blank">
+		<a href="https://www.ecosia.org/search?q=<?php echo $searchG; ?>" target="_blank">
 			<i class="fa fa-fw fa-angle-right"></i> continuer la recherche sur 
 	    	<img style="margin-top:-10px;" src="<?php echo Yii::app()->theme->baseUrl; ?>/assets/img/ecosia_logo.png" height=60>
     	</a>
