@@ -97,7 +97,18 @@
     <div class="row">
 
         <div class="col-md-2 col-sm-2 text-right" id="sub-menu-left"></div>
-        <div class="col-md-8 col-sm-8" id="searchResults"></div>
+        <div class="col-md-7 col-sm-7" id="searchResults"></div>
+        <div class="col-md-2 col-sm-2 text-left" id="sub-menu-left">
+            <a href="https://github.com/pixelhumain" target="_blank">
+                <img src="<?php echo Yii::app()->theme->baseUrl; ?>/assets/img/pib.png" height=70>
+            </a><br><br>
+            <a href="https://github.com/pixelhumain" target="_blank">
+                <img src="<?php echo Yii::app()->theme->baseUrl; ?>/assets/img/sortir.png" height=70>
+            </a><br><br>
+            <a href="https://github.com/pixelhumain" target="_blank">
+                <img src="<?php echo Yii::app()->theme->baseUrl; ?>/assets/img/resto.png" height=70>
+            </a><br><br>
+        </div>
     </div>
 </section>
 
@@ -313,30 +324,35 @@ function addToFavorites(id){ //utilise les cookies
 
     if(typeof myFavorites == "undefined"){
         myFavorites = new Array(id);
+        $("#modalFavorites #listFav").html("");
+        showInFavory(myFavorites, id)
     }else{
-        myFavorites = myFavorites.split(",");
+        if(myFavorites != ""){
+            myFavorites = myFavorites.split(",");
+        }else{
+            myFavorites = new Array(id);
+            $("#modalFavorites #listFav").html("");
+            showInFavory(myFavorites, id)
+        }
         if(myFavorites.indexOf(id)==-1){
             myFavorites.push(id);
+            showInFavory(myFavorites, id)
         }
     }
+
     console.log("myFavorites", myFavorites);
 
     var path = location.pathname;
     $.cookie('webFavorites', myFavorites,   { expires: 365, path: path });
 
-    var htmlFav = $(".url-"+id+" .addToFavInfo").html();
-
-    htmlFav = '<div class="col-md-6 div-fav margin-bottom-15 text-left" id="fav'+id+'">'+htmlFav+"</div>";
-
-    $("#modalFavorites #listFav").append(htmlFav);
-    $("#modalFavorites .tooltip.fade.in").remove();
+    
 
     toastr.success("Ajouté à vos favoris");
 }
 function deleteFavorites(id){ //utilise les cookies
 
     var myFavorites = $.cookie('webFavorites');
-    console.log("myFavorites", myFavorites);
+    console.log("deleteFavorites1", myFavorites);
 
     if(typeof myFavorites != "undefined"){
         myFavorites = myFavorites.split(",");
@@ -344,12 +360,27 @@ function deleteFavorites(id){ //utilise les cookies
             myFavorites.splice(myFavorites.indexOf(id),1);
         }
     }
-    console.log("myFavorites", myFavorites);
+    console.log("deleteFavorites2", myFavorites, myFavorites.length);
 
     var path = location.pathname;
     $.cookie('webFavorites', myFavorites,   { expires: 365, path: path });
+    
     $("#fav"+id).remove();
-    //toastr.success("deleteFavorites : "+id);
+    toastr.success("deleteFavorites : "+id);
+}
+
+function showInFavory(myFavorites, id){
+    var htmlFav = $(".url-"+id+" .addToFavInfo").html();
+
+    htmlFav = '<div class="col-md-6 div-fav margin-bottom-15 text-left" id="fav'+id+'">'+htmlFav+"</div>";
+
+    $("#modalFavorites #listFav").append(htmlFav);
+    $("#modalFavorites .tooltip.fade.in").remove();
+
+    $("#modalFavorites .btn-favory").off().click(function(){
+        var id = $(this).data("idfav");
+        deleteFavorites(id);
+    });
 }
 
 </script>
