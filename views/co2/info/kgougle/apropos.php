@@ -22,44 +22,7 @@
 		padding-top:20px;
 	}
 
-	#btn-onepage-main-menu{
-		position: fixed;
-		top:85px;
-		left:20px;
-		border-radius: 1px;
-		letter-spacing: 2px;
-	}
-
-	.dropdown .dropdown-onepage-main-menu{
-		display:none;
-	}
-	.dropdown.open .dropdown-onepage-main-menu{
-		display:block;
-	}
-
-	.dropdown-onepage-main-menu{
-		position: fixed;
-		top:130px;
-		left:20px;
-		max-height:400px;
-		/*width:200px;*/
-		background-color:transparent;
-		z-index:5;
-	}
-
-	.dropdown-onepage-main-menu .dropdown-menu{
-		margin:0px;
-		border:none;
-		display: inline;
-		-webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3) ;
-	    -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3) ;
-	    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.3);
-	}
-
-	.dropdown-onepage-main-menu .dropdown-menu li a {
-		text-transform: uppercase;
-		font-size:16px;
-	}
+	
 
 	.arrow_box:after, .arrow_box:before {
 		left: 19px;
@@ -144,18 +107,28 @@
         	</p>
 
         	<hr>
-        	<h3 class="letter-blue"><i class="fa fa-map fa-2x"></i> <i class="fa fa-angle-rigt"></i> Un outil de cartographie</h3>
+        	<h3 class="letter-blue">
+        		<i class="fa fa-map fa-2x"></i> <i class="fa fa-angle-rigt"></i> Un outil de cartographie 
+        	</h3>
         	<h4>Pour se repérer facilement sur le Caillou...</h4>
 			<p>
 				Grâce à la section "Mes favoris", gardez à portée de main les sites que vous fréquentez le plus, et ne les cherchez plus !
         	</p>
+        	<button class="btn btn-link letter-blue btn-show-map">
+        		<i class="fa fa-arrow-circle-right"></i> Afficher la carte
+        	</button>
 
         	<hr>
-        	<h3 class="letter-blue"><i class="fa fa-microphone fa-2x"></i> <i class="fa fa-angle-rigt"></i> Un poste de radio</h3>
+        	<h3 class="letter-blue">
+        		<i class="fa fa-microphone fa-2x"></i> <i class="fa fa-angle-rigt"></i> Un poste de radio 
+        	</h3>
         	<h4>Pour rester en contact permanent avec le reste du pays...</h4>
 			<p>
 				Retrouver à tout moment les radios locales, suivre l’actualité, se divertir, ou simplement écouter de la musique.
         	</p>
+        	<button class="btn btn-link letter-blue" data-target="#modalRadioTool" data-toggle="modal">
+        		<i class="fa fa-arrow-circle-right"></i> Afficher la radio
+        	</button>
 
 
 
@@ -188,7 +161,7 @@
         	<!-- --------------------------------------------------------------------------------- -->
         	<br><br><br>
         	<h1 class="letter-red font-blackoutM" id="dev">
-        		<img src="<?php echo $urlKgou; ?>" height="35" class="logoKgou"> en developpement
+        		<img src="<?php echo $urlKgou; ?>" height="35" class="logoKgou"> En developpement
         	</h1>
 
         	<h3 class="letter-blue"><i class="fa fa-cubes fa-2x"></i> <i class="fa fa-angle-righ"></i> Plusieurs nouveautés déjà en préparation</h3>
@@ -222,9 +195,9 @@
 				Dans cet objectif, nous <b>co-construisons</b> depuis plus de 3 ans, une plateforme sociétale dénommée <a href="www.communecter.org" class="letter-red"><b>Communecter.org</b></a>, qui propose un ensemble de fonctionnalités cohérentes aux internautes souhaitant participer plus activement à la <b>vie de leur territoire</b>.<br><br>
 
 				En Nouvelle-Calédonie, certaines particularités propres à ce territoire isolé d'océanie nous ont poussé à adopter une approche légèrement différente de celle que nous suivons depuis nos débuts. Pour répondre au mieux aux <b>besoins réels du pays</b> dans le domaine de l'internet.<br><br>
-				C'est ainsi que KGOUGLE est né : c'est une application issue de la plateforme <a href="www.communecter.org" class="letter-red"><b>communecter</b></a>, adaptée au territoire Calédonien, pour en simplifier l'utilisation et proposer des applications spécifiques.
+				C'est ainsi que KGOUGLE est né : c'est une application issue de la plateforme <a href="www.communecter.org" class="letter-red"><b>Communecter.org</b></a>, adaptée au territoire Calédonien, pour en simplifier l'utilisation et proposer des applications spécifiques.
 				<br><br>
-				Motivé et conseillé par notre développeur calédonien <a href="#co2.info.p.alphatango" class="letter-green"><b>AlphaTango</b></a>, nous espérons faire avancer internet sur le Caillou et en multiplier les usages : d'abord via ce moteur de recherche, pour faciliter votre navigation sur le web d'aujourd'hui, puis par la mise en place d'autres fonctionnalités innovantes inclues dans la plateforme <a href="www.communecter.org" class="letter-red"><b>communecter</b></a>.
+				Motivé et conseillé par notre développeur calédonien <a href="#co2.info.p.alphatango" class="letter-green"><b>AlphaTango</b></a>, nous espérons faire avancer internet sur le Caillou et en multiplier les usages : d'abord via ce moteur de recherche, pour faciliter votre navigation sur le web d'aujourd'hui, puis par la mise en place d'autres fonctionnalités innovantes déjà inclues dans la plateforme <a href="www.communecter.org" class="letter-red"><b>Communecter.org</b></a>.
         	</p>
 
         </div>
