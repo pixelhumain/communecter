@@ -40,7 +40,7 @@
       </span>
     </div>
     <select class="pull-left" id="stepSearch" style="margin: 2px 0px 5px 15px; padding: 6px;">
-      <option value="30">30</option>
+      <option value="30">300</option>
       <option value="100">100</option>
       <option value="500">500</option>
       <option value="1000">1000</option>
@@ -121,37 +121,7 @@ var headerParams = {
   "cities"        : { color: "red",     icon: "university",   name: "communes" },
   "poi"       	  :	{ color: "black",   icon: "map-marker",   name: "points d'intérêts" },
 }
-function setHeaderDirectory(type){
- 
-  var params = new Array();
-  if(typeof headerParams[type] == "undefined") return;
-  params = headerParams[type];
-  $(".subtitle-search").html('<span class="text-'+params.color+' homestead">'+
-                                '<i class="fa fa-angle-down"></i> <i class="fa fa-'+params.icon+'"></i> '+
-                                params.name+
-                              '</span>');
 
-  $(".lbl-info-search .lbl-info").addClass("hidden");
-  $(".lbl-info-search .lbl-info.lbl-info-"+type).removeClass("hidden");
-
-  $("#dropdown_search").html("");
-
-  if(type == "cities") { 
-    $("#searchBarText").attr("placeholder", "rechercher une ville, un code postal..."); 
-    $("#scopeListContainer, #btn-slidup-scopetags").hide(200);
-  }else{ 
-    $("#searchBarText").attr("placeholder", "rechercher par #tag ou mots clés..."); 
-    $("#scopeListContainer, #btn-slidup-scopetags").show(200);
-  }
-
-  $(".menu-left-container #menu-extend .menu-button-left").removeClass("selected");
-  $(".menu-left-container #menu-extend #menu-btn-"+type).addClass("selected");
-
-  $(".my-main-container").scrollTop(0);
-
-  Sig.clearMap();
-
-}
 
 var searchType = [ "persons" ];
 var allSearchType = [ "persons", "organizations", "projects", "events", "vote", "cities" ];
@@ -159,7 +129,6 @@ var allSearchType = [ "persons", "organizations", "projects", "events", "vote", 
 var personCOLLECTION = "<?php echo Person::COLLECTION ?>";
 var userId = '<?php echo isset( Yii::app()->session["userId"] ) ? Yii::app() -> session["userId"] : null; ?>';
 //var lockCityKey = <?php echo (@$_GET['lockCityKey']) ? "'".$_GET['lockCityKey']."'" : "null" ?>;
-var zoneId = <?php echo (@$_GET['id']) ? "'".$_GET['id']."'" : "null" ?>;
 var zone =  <?php echo json_encode($city) ?>;
 mylog.log("zoneDirectory", zone);
 var cityNameLocked = "<?php echo $cityName; ?>";
@@ -200,7 +169,7 @@ jQuery(document).ready(function() {
   }else{
     rebuildSearchScopeInput();
   }*/
-  if(zoneId != null){
+  if(zone != null && typeof zone != "undefined"){
     lockScopeOnCityId(zone);
   }else{
     rebuildSearchScopeInput();
@@ -264,6 +233,39 @@ function searchCallback() {
 
 
 function showResultInCalendar(mapElements){}
+
+
+function setHeaderDirectory(type){
+ 
+  var params = new Array();
+  if(typeof headerParams[type] == "undefined") return;
+  params = headerParams[type];
+  $(".subtitle-search").html('<span class="text-'+params.color+' homestead">'+
+                                '<i class="fa fa-angle-down"></i> <i class="fa fa-'+params.icon+'"></i> '+
+                                params.name+
+                              '</span>');
+
+  $(".lbl-info-search .lbl-info").addClass("hidden");
+  $(".lbl-info-search .lbl-info.lbl-info-"+type).removeClass("hidden");
+
+  $("#dropdown_search").html("");
+
+  if(type == "cities") { 
+    $("#searchBarText").attr("placeholder", "rechercher une ville, un code postal..."); 
+    $("#scopeListContainer, #btn-slidup-scopetags").hide(200);
+  }else{ 
+    $("#searchBarText").attr("placeholder", "rechercher par #tag ou mots clés..."); 
+    $("#scopeListContainer, #btn-slidup-scopetags").show(200);
+  }
+
+  $(".menu-left-container #menu-extend .menu-button-left").removeClass("selected");
+  $(".menu-left-container #menu-extend #menu-btn-"+type).addClass("selected");
+
+  $(".my-main-container").scrollTop(0);
+
+  Sig.clearMap();
+
+}
 
 </script>
 

@@ -1,18 +1,24 @@
+
 var timeout;
-function startSearchLive(isFirst){
-	mylog.log("startSearch Live", isFirst);
-	showNewsStream(isFirst);
+function startSearch(isFirst){
+	//$(".my-main-container").off();
+	mylog.log("startSearch Live");
+	if(liveScopeType == "global"){
+		showNewsStream(isFirst);
+	}else{
+		showNewsStream(isFirst);//loadStream(0,5);
+	}
 	loadLiveNow();
 }
 
+
 function loadLiveNow () { 
 
-	mylog.log("loadLiveNow");
+
     var searchParams = {
       "name":$('.input-global-search').val(),
       "tpl":"/pod/nowList",
       "latest" : true,
-      "locality" : localitySearch,
       "searchType" : searchType,// [typeObj["event"]["col"],typeObj["project"]["col"],
       				 // typeObj["organization"]["col"],typeObj["action"]["col"]], 
       "searchTag" : $('#searchTags').val().split(','), //is an array
@@ -24,8 +30,7 @@ function loadLiveNow () {
       "indexMax" : 40 
     };
 
-    mylog.dir(searchParams);
-
+    
     ajaxPost( "#nowList", baseUrl+"/"+moduleId+'/search/globalautocomplete' , searchParams, function() { 
         bindLBHLinks();
         if($('.el-nowList').length==0)
@@ -33,69 +38,90 @@ function loadLiveNow () {
         else
         	$('.titleNowEvents').removeClass("hidden");
      } , "html" );
+
+    /*searchParams.searchType = ["<?php echo Project::COLLECTION?>"];
+    ajaxPost( "#nowListprojects", baseUrl+"/"+moduleId+'/search/globalautocomplete' , searchParams, function() { 
+        bindLBHLinks();
+        if( !$(".titleNowDDA").length ){
+            $("#nowListprojects").prepend('<h3 class="text-red homestead pull-left titleNowProject"><i class="fa fa-clock-o"></i> En ce moment : projets</h3>');
+            $("#nowListprojects").append('<a href="#project.projectsv" class="lbh btn btn-sm btn-default">Vous créez localement ?</a>');
+        }
+     } , "html" );
+
+    searchParams.searchType = ["<?php echo Organization::COLLECTION?>"];
+    ajaxPost( "#nowListorga", baseUrl+"/"+moduleId+'/search/globalautocomplete' , searchParams, function() { 
+        bindLBHLinks();
+        if( !$(".titleNowDDA").length ){
+            $("#nowListorga").prepend('<h3 class="text-red homestead pull-left titleNowOrga"><i class="fa fa-clock-o"></i> En ce moment : organisations</h3>');
+            $("#nowListorga").append('<a href="#organization.addorganizationform" class="lbh btn btn-sm btn-default">Vous agissez localement ?</a>');
+        }
+     } , "html" );
+
+    searchParams.searchType = ["<?php echo ActionRoom::COLLECTION?>"];
+    ajaxPost( "#nowListDDA", baseUrl+"/"+moduleId+'/search/globalautocomplete' , searchParams, function() { 
+        bindLBHLinks();
+        if( !$(".titleNowDDA").length )
+            $("#nowListDDA").prepend('<h3 class="text-red homestead pull-left titleNowDDA"><i class="fa fa-clock-o"></i> En ce moment : D.D.A</h3>');
+     } , "html" );*/
 }
 
 
-function showNewsStream(isFirst){ 
-	mylog.log("showNewsStream2");
+function showNewsStream(isFirst){ mylog.log("showNewsStream");
 
 	scrollEnd = false;
 
 	var isFirstParam = isFirst ? "?isFirst=1" : "";
-	var tagSearch = $('#searchTags').val().split(','); //$('#searchBarText').val();
-	/*var levelCommunexionName = { 1 : "CITYKEY",
+	var tagSearch = $('#searchTags').val().split(',');; //$('#searchBarText').val();
+	var levelCommunexionName = { 1 : "CITYKEY",
 	                             2 : "CODE_POSTAL",
 	                             3 : "DEPARTEMENT",
 	                             4 : "REGION"
-	                           };*/
+	                           };
 	
 	var thisType="ko";
-	var urlCtrl = "";
-	var dataNewsSearch = {};
-
+	var urlCtrl = ""
 	if(liveScopeType == "global") {
 		thisType = "city";
 		urlCtrl = "/news/index/type/city";
+	}
+	//<?php if(@Yii::app()->session["userId"]){ ?>
+	else if(liveScopeType == "community"){
+		thisType = "citoyens";
+		urlCtrl = "/news/index/type/citoyens/id/"+userId;
+	}
+	//<?php } ?>
+	
+	var dataNewsSearch = {};
+	if(liveScopeType == "global")
 		dataNewsSearch = {
 	      "searchLocalityCITYKEY" : $('#searchLocalityCITYKEY').val().split(','),
 	      "searchLocalityCODE_POSTAL" : $('#searchLocalityCODE_POSTAL').val().split(','), 
 	      "searchLocalityDEPARTEMENT" : $('#searchLocalityDEPARTEMENT').val().split(','),
 	      "searchLocalityREGION" : $('#searchLocalityREGION').val().split(','),
+
 	    };
-	}else if (liveScopeType == "community" && typeof userId != "undefined"){
-		thisType = "citoyens";
-		urlCtrl = "/news/index/type/citoyens/id/"+userId+"/isLive/true";
-	}		
 
     dataNewsSearch.tagSearch = tagSearch;
     dataNewsSearch.searchType = searchType; 
     dataNewsSearch.textSearch = $('#searchBarText').val();
+       
+    //dataNewsSearch.type = thisType;
+    //var myParent = <?php echo json_encode(@$parent)?>;
+    //dataNewsSearch.parent = { }
 
-    var loading = "	<div class='loader text-dark '>"+
-						"<span style='font-size:25px;' class='homestead'>"+
-							"<i class='fa fa-spin fa-circle-o-notch'></i> "+
-							"<span class='text-dark'>Chargement en cours ...</span>" + 
-					"</div>";
+  var loading = "<div class='loader text-dark '>"+
+		"<span style='font-size:25px;' class='homestead'>"+
+			"<i class='fa fa-spin fa-circle-o-notch'></i> "+
+			"<span class='text-dark'>Chargement en cours ...</span>" + 
+	"</div>";
+
+	//loading = "";
 
 	if(isFirst){ //render HTML for 1st load
 		$("#newsstream").html(loading);
 		ajaxPost("#newsstream",baseUrl+"/"+moduleId+urlCtrl+"/date/0"+isFirstParam,dataNewsSearch, function(news){
-			mylog.log("news",news);
 			showTagsScopesMin(".list_tags_scopes");
-			if(loadContent != ''){
-				if(userId){
-					showFormBlock(true);
-					if(loadContent.indexOf("%hash%"))
-						loadContent = loadContent.replace("%hash%", "#");
-					$("#get_url").val(loadContent);
-					$("#get_url").trigger("input");
-				}
-				else {
-					toastr.error('you must be loggued to post on communecter!');
-				}
-			}
-			else
-				showFormBlock(false);
+			showFormBlock(false);
 			bindTags();
 			//$("#newLiveFeedForm").hide();
 	 	},"html");
@@ -108,7 +134,6 @@ function showNewsStream(isFirst){
 		       	dataType: "json",
 		       	data: dataNewsSearch,
 		    	success: function(data){
-		    		mylog.log("data",data);
 			    	//mylog.log("LOAD NEWS BY AJAX");
 			    	//mylog.log(data.news);
 			    	$(".newsTL").html('<div class="spine"></div>');
@@ -121,7 +146,7 @@ function showNewsStream(isFirst){
 							dateLimit=data.limitDate.created;
 					}
 					loadingData = false;
-					$(".my-main-container").bind('scroll', function(){ mylog.log("in linve", loadingData, scrollEnd);
+					$(".my-main-container").bind("scroll", function(){ mylog.log("in linve", loadingData, scrollEnd);
 					    if(!loadingData && !scrollEnd){
 					          var heightContainer = $("#timeline").height(); mylog.log("heightContainer", heightContainer);
 					          var heightWindow = $(window).height();
@@ -139,7 +164,9 @@ function showNewsStream(isFirst){
 			});
 	}
 	$("#dropdown_search").hide(300);
+	
 }
+
 
 function addSearchType(type){
   var index = searchType.indexOf(type);
@@ -150,8 +177,6 @@ function addSearchType(type){
   }
     mylog.log(searchType);
 }
-
-
 function removeSearchType(type){
   var index = searchType.indexOf(type);
   if (index > -1) {

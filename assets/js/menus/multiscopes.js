@@ -320,7 +320,8 @@ function lockScopeOnCityKey(cityKey, cityName){ //mylog.log("lockScopeOnCityKey"
 	});
 }
 
-function lockScopeOnCityId(city){ //mylog.log("lockScopeOnCityKey", cityKey);
+function lockScopeOnCityId(city){ 
+	mylog.log("lockScopeOnCityId", city);
 	$("#searchLocalityCITYKEY").val(city._id.$id);
 	$("#searchLocalityCODE_POSTAL").val("");
 	$("#searchLocalityDEPARTEMENT").val("");

@@ -8,7 +8,6 @@ var totalData = 0;
 
 var timeout = null;
 var searchType = '';
-var localitySearch = [];
 
 function startSearchOld(indexMin, indexMax, callBack){
     mylog.log("startSearch2", typeof callBack, callBack);
@@ -58,20 +57,7 @@ function startSearchOld(indexMin, indexMax, callBack){
     }  
 }
 
-function createLocalityForSearch(zone) {
-  mylog.log("createLocalityForSearch");
-  mylog.dir(zone);
-  var locality = {}; 
-  if(zone["@type"] == "City"){
-    locality.id = zone._id.$id;
-    locality.type = zone.type;
-    locality.insee = zone.insee;
-    locality.cp = zone.cp;
-    locality.country = zone.country;
-    localitySearch.push(locality);
-  }
-  
-}
+
 
 
 function addSearchType(type){
@@ -101,7 +87,7 @@ var loadingData = false;
 var mapElements = new Array(); 
 
 
-function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
+function autoCompleteSearchOld(name, locality, indexMin, indexMax, callBack){
   mylog.log("autoCompleteSearch2", typeof callBack, callBack);
   mylog.log(name, locality, indexMin, indexMax);
 	if(typeof(cityInseeCommunexion) != "undefined"){

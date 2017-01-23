@@ -1262,7 +1262,7 @@ function  bindExplainLinks() {
 	 });
 }
 
-function  bindLBHLinks() { 
+function  bindLBHLinks() {
 	$(".lbh").off().on("click",function(e) {  		
 		e.preventDefault();
 		mylog.warn("***************************************");
@@ -1270,17 +1270,7 @@ function  bindLBHLinks() {
 		mylog.warn("***************************************");
 		var h = ($(this).data("hash")) ? $(this).data("hash") : $(this).attr("href");
 	    loadByHash( h );
-	})/*.on("contextmenu", function(e){
-		var href = $(this).attr("href").split(".");
-		console.log($(this).attr("href"),href[0])
-		if(userId && $.inArray(href[0],["#organization","#project","#event","#person","#element","#survey","#rooms"])){
-			var what = ( href[0] == "#element" ) ? href[3] : typeObj[ href[0].substring(1) ].col; 
-			var	id = ( href[0] == "#element" ) ? href[5] : href[3];
-			//alert( what+id+$(this).attr("href") );
-			//collection.add2fav(what,id);
-		}
-	   return false;
-	});*/
+	});
 }
 
 
