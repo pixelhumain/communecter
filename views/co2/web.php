@@ -26,15 +26,6 @@
 <?php 
     $btnAnc = array("blue"      =>array("color1"=>"#4285f4", 
                                         "color2"=>"#1c6df5"),
-
-//                     "green"     =>array("color1"=>"#34a853", 
-//                                         "color2"=>"#2b8f45"),
-
-//                     "red"       =>array("color1"=>"#ea4335", 
-//                                         "color2"=>"#cc392d"),
-
-//                     "yellow"    =>array("color1"=>"#fbbc05", 
-//                                         "color2"=>"#e3a800"),
                     );
 ?>
 
@@ -58,20 +49,66 @@
     color: <?php echo $params["color1"]; ?>;
 }
 <?php } ?>
+
+
+#btn-onepage-main-menu{
+    position: fixed;
+    top:85px;
+    left:20px;
+    border-radius: 1px;
+    letter-spacing: 2px;
+    border:2px solid white;
+    border-radius:100px;
+    height:60px;
+    width:60px;
+}
 </style>
 
 
 <?php 
-    //$layoutPath = 'webroot.themes.'.Yii::app()->theme->name.'.views.layouts.';
+    $layoutPath = 'webroot.themes.'.Yii::app()->theme->name.'.views.layouts.';
     $this->renderPartial('admin/modalEditUrl',  array( ) ); 
+    //var_dump($myWebFavorites);
+    $this->renderPartial($layoutPath.'modals.favorites',  array("myWebFavorites"=>@$myWebFavorites ) ); 
 ?>
 
+<div class="dropdown hidden">
+                <button class="btn letter-yellow btn-link font-blackoutM dropdown-toggle" data-toggle="dropdown" id="btn-onepage-main-menu">
+                    <i class="fa fa-star fa-2x"></i>
+                </button>
+                <div class="dropdown-onepage-main-menu font-montserrat" aria-labelledby="btn-onepage-main-menu">
+                    <ul class="dropdown-menu arrow_box font-blackoutM letter-red">
+                        <li><a href="javascript:" data-target="#koica" class="letter-red"><i class="fa fa-angle-right"></i> C koi ca ?!?</a></li>
+                        <li><a href="javascript:" data-target="#aussi" class="letter-red"><i class="fa fa-angle-right"></i> C'est aussi</a></li>
+                        <li><a href="javascript:" data-target="#philo" class="letter-red"><i class="fa fa-angle-right"></i> Notre philosophie</a></li>
+                        <li><a href="javascript:" data-target="#dev" class="letter-red"><i class="fa fa-angle-right"></i> En developpement</a></li>
+                        <li><a href="javascript:" data-target="#motivation" class="letter-red"><i class="fa fa-angle-right"></i> Nos motivations</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#co2.info.p.ph" class="letter-yellow"><i class="fa fa-angle-right"></i> Pixel Humain</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#co2.info.p.communecter" class="letter-red"><i class="fa fa-angle-right"></i> Communecter</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#co2.info.p.alphatango" class="letter-green"><i class="fa fa-angle-right"></i> Alpha Tango</a></li>
+                      </ul>
+                </div>
+            </div>
 
 <section class="padding-top-15 hidden" id="sectionSearchResults">
     <div class="row">
 
         <div class="col-md-2 col-sm-2 text-right" id="sub-menu-left"></div>
-        <div class="col-md-8 col-sm-8" id="searchResults"></div>
+        <div class="col-md-7 col-sm-7" id="searchResults"></div>
+        <div class="col-md-2 col-sm-2 text-left" id="sub-menu-left">
+            <a href="https://github.com/pixelhumain" target="_blank">
+                <img src="<?php echo Yii::app()->theme->baseUrl; ?>/assets/img/pib.png" height=70>
+            </a><br><br>
+            <a href="https://github.com/pixelhumain" target="_blank">
+                <img src="<?php echo Yii::app()->theme->baseUrl; ?>/assets/img/sortir.png" height=70>
+            </a><br><br>
+            <a href="https://github.com/pixelhumain" target="_blank">
+                <img src="<?php echo Yii::app()->theme->baseUrl; ?>/assets/img/resto.png" height=70>
+            </a><br><br>
+        </div>
     </div>
 </section>
 
@@ -122,6 +159,11 @@ function initWebInterface(){
          }
     });
 
+
+   $("#modalFavorites .btn-favory").click(function(){
+        var id = $(this).data("idfav");
+        deleteFavorites(id);
+   });
 }
 
 function startWebSearch(search, category){
@@ -217,5 +259,128 @@ function buildListCategories(){
 
 
 
+function incNbClick(url){
+    console.log("incrémentation nbClick essai");
+    $.ajax({ 
+        type: "POST",
+        url: baseUrl+"/"+moduleId+"/siteurl/incnbclick/",
+        data: { url : url },
+        dataType: "json",
+        success:
+            function(data) {
+            console.log("incrémentation nbClick ok", data);
+                // $("#searchResults").html(html);
+                // $("#sectionSearchResults").removeClass("hidden");
+                // KScrollTo("#sectionSearchResults");
+            },
+        error:function(xhr, status, error){
+            console.log("erreur lors de l'incrémentation nbClick");
+            //$("#searchResults").html("erreur");
+        },
+        statusCode:{
+                404: function(){
+                    console.log("404 erreur lors de l'incrémentation nbClick");
+            }
+        }
+    });
+}
+
+function initKeywords(){
+    var html = "";
+    $.each(mainCategories, function(name, params){
+        $.each(params.items, function(keyC, val){
+            if(val.name == currentCategory){
+                $("#fa-category").addClass("fa-"+val.faIcon);
+                if(typeof val.keywords != "undefined"){
+                    $.each(val.keywords, function(keyK, keyword){
+                        var classe="";
+                        if(search==keyword) classe="active";
+                        html += '<button class="btn btn-success btn-sm margin-bottom-5 margin-left-10 btn-keyword btn-anc-color-blue '+classe+'" data-keyword="'+keyword+'">'+
+                                    keyword+
+                                '</button><br class="hidden-xs">';
+                    });
+                }
+            }
+        });
+    });
+    $("#sub-menu-left").html(html);
+
+    $(".btn-keyword").click(function(){
+        var key = $(this).data("keyword");
+        $("#main-search-bar").val(key);
+        $("#second-search-bar").val(key);
+        startWebSearch(key, currentCategory);
+
+        $(".btn-keyword").removeClass("active");
+        $(this).addClass("active");
+    });
+}
+
+
+function addToFavorites(id){ //utilise les cookies
+
+    var myFavorites = $.cookie('webFavorites');
+    console.log("myFavorites", myFavorites);
+
+    if(typeof myFavorites == "undefined"){
+        myFavorites = new Array(id);
+        $("#modalFavorites #listFav").html("");
+        showInFavory(myFavorites, id)
+    }else{
+        if(myFavorites != ""){
+            myFavorites = myFavorites.split(",");
+        }else{
+            myFavorites = new Array(id);
+            $("#modalFavorites #listFav").html("");
+            showInFavory(myFavorites, id)
+        }
+        if(myFavorites.indexOf(id)==-1){
+            myFavorites.push(id);
+            showInFavory(myFavorites, id)
+        }
+    }
+
+    console.log("myFavorites", myFavorites);
+
+    var path = location.pathname;
+    $.cookie('webFavorites', myFavorites,   { expires: 365, path: path });
+
+    
+
+    toastr.success("Ajouté à vos favoris");
+}
+function deleteFavorites(id){ //utilise les cookies
+
+    var myFavorites = $.cookie('webFavorites');
+    console.log("deleteFavorites1", myFavorites);
+
+    if(typeof myFavorites != "undefined"){
+        myFavorites = myFavorites.split(",");
+        if(myFavorites.indexOf(id)>-1){
+            myFavorites.splice(myFavorites.indexOf(id),1);
+        }
+    }
+    console.log("deleteFavorites2", myFavorites, myFavorites.length);
+
+    var path = location.pathname;
+    $.cookie('webFavorites', myFavorites,   { expires: 365, path: path });
+    
+    $("#fav"+id).remove();
+    toastr.success("deleteFavorites : "+id);
+}
+
+function showInFavory(myFavorites, id){
+    var htmlFav = $(".url-"+id+" .addToFavInfo").html();
+
+    htmlFav = '<div class="col-md-6 div-fav margin-bottom-15 text-left" id="fav'+id+'">'+htmlFav+"</div>";
+
+    $("#modalFavorites #listFav").append(htmlFav);
+    $("#modalFavorites .tooltip.fade.in").remove();
+
+    $("#modalFavorites .btn-favory").off().click(function(){
+        var id = $(this).data("idfav");
+        deleteFavorites(id);
+    });
+}
 
 </script>
