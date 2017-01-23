@@ -313,7 +313,7 @@ function bindAddData(){
   		$.ajax({
 	        type: 'POST',
 	        data: params,
-	        url: baseUrl+'/communecter/admin/adddataindb/',
+	        url: baseUrl+'/communecter/adminpublic/adddataindb/',
 	        dataType : 'json',
 	        success: function(data){
 	        	console.log("data",data);
