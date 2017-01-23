@@ -70,7 +70,7 @@ $this->renderPartial('../default/panels/toolbar');
               //$lockCityKey = ($cityGlobal == true) ? $city["country"].'_'.$city["insee"] : City::getUnikey($city) ;
             ?>
               <div class="col-xs-3 center no-padding hidden-xs" style="margin-bottom:10px; font-size:17px; font-weight: 300;">
-                  <a href="#default.agenda?id=<?php echo (String)$zone["_id"]; ?>"" class="lbh btn btn-discover bg-orange">
+                  <a href="#default.agenda?city=<?php echo (String)$zone["_id"]; ?>" class="lbh btn btn-discover bg-orange">
                     <i class="fa fa-calendar"></i>
                   </a>
                   <?php $cnt= (isset($events)) ? count($events): 0; ?>
@@ -81,7 +81,7 @@ $this->renderPartial('../default/panels/toolbar');
                   </span>
               </div>
               <div class="col-xs-4 col-sm-2 col-md-2 center no-padding" style="margin-bottom:10px; font-size:17px; font-weight: 300;">
-                  <a href="#default.directory?type=projects" class="lbh btn btn-discover bg-purple">
+                  <a href="#default.directory?type=projects&city=<?php echo (String)$zone["_id"]; ?>" class="lbh btn btn-discover bg-purple">
                     <i class="fa fa-lightbulb-o"></i>
                   </a>
                   <?php $cnt= (isset($projects)) ? count($projects): 0; ?>
@@ -94,7 +94,7 @@ $this->renderPartial('../default/panels/toolbar');
               </div>
 
               <div class="col-xs-4 col-sm-2 col-md-2 center no-padding" style="margin-bottom:10px; font-size:17px; font-weight: 300;">
-                  <a href="#default.directory?type=persons" class="lbh btn btn-discover bg-yellow">
+                  <a href="#default.directory?type=persons&city=<?php echo (String)$zone["_id"]; ?>" class="lbh btn btn-discover bg-yellow">
                     <i class="fa fa-user"></i>
                   </a>
                   <?php $cnt= (isset($people)) ? count($people): 0; ?>
@@ -108,7 +108,7 @@ $this->renderPartial('../default/panels/toolbar');
               </div>
 
               <div class="col-xs-4 col-sm-2 col-md-2 center no-padding" style="margin-bottom:10px; font-size:17px; font-weight: 300;">
-                  <a href="#default.directory?type=organizations" " class="lbh btn btn-discover bg-green">
+                  <a href="#default.directory?type=organizations&city=<?php echo (String)$zone["_id"]; ?>"  class="lbh btn btn-discover bg-green">
                     <i class="fa fa-group"></i>
                   </a>
                   <?php $cnt= (isset($organizations)) ? count($organizations): 0; ?>
@@ -145,7 +145,7 @@ $this->renderPartial('../default/panels/toolbar');
   </div>
 </div> 
 <div class="col-xs-12">
-  <?php $this->renderPartial('../default/live'/*, array("lockCityKey" => City::getUnikey($city))*/); ?>
+  <?php $this->renderPartial('../default/live', array("zone" => $zone)); ?>
 </div>
 
 <!-- end: PAGE CONTENT-->

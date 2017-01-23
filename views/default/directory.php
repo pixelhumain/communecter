@@ -94,14 +94,16 @@
       <div style="" class="row no-padding" id="dropdown_search"></div>
   </div>
 
-<?php //$this->renderPartial(@$path."first_step_directory"); ?> 
-<?php $city = (@$_GET['lockCityKey'] ? City::getByUnikey($_GET['lockCityKey']) : null);
+<?php //$this->renderPartial(@$path."first_step_directory"); 
+       /*$city = (@$_GET['lockCityKey'] ? City::getByUnikey($_GET['lockCityKey']) : null);
 
       if($city == null && @$_GET['insee'])
-        $city = City::getCityByInsee($_GET['insee']);
+        $city = City::getCityByInsee($_GET['insee']);*/
       
+      $city = (@$_GET['city'] ? City::getById($_GET['city']) : null); 
       $cityName = (($city!=null) ? $city["name"]. (@$city["cp"]? ", ".$city["cp"] : "") : "");
 ?>
+
 
 <script type="text/javascript">
 
@@ -155,7 +157,10 @@ var allSearchType = [ "persons", "organizations", "projects", "events", "vote", 
 
 var personCOLLECTION = "<?php echo Person::COLLECTION ?>";
 var userId = '<?php echo isset( Yii::app()->session["userId"] ) ? Yii::app() -> session["userId"] : null; ?>';
-var lockCityKey = <?php echo (@$_GET['lockCityKey']) ? "'".$_GET['lockCityKey']."'" : "null" ?>;
+//var lockCityKey = <?php echo (@$_GET['lockCityKey']) ? "'".$_GET['lockCityKey']."'" : "null" ?>;
+var zoneId = <?php echo (@$_GET['id']) ? "'".$_GET['id']."'" : "null" ?>;
+var zone =  <?php echo json_encode($city) ?>;
+mylog.log("zoneDirectory", zone);
 var cityNameLocked = "<?php echo $cityName; ?>";
 var typeSelected = <?php echo (@$_GET['type']) ? "'".$_GET['type']."'" : "null" ?>;
 
@@ -189,8 +194,13 @@ jQuery(document).ready(function() {
 
   showTagsScopesMin("#scopeListContainer");
 
-  if(lockCityKey != null){
+  /*if(lockCityKey != null){
     lockScopeOnCityKey(lockCityKey, cityNameLocked);
+  }else{
+    rebuildSearchScopeInput();
+  }*/
+  if(zoneId != null){
+    lockScopeOnCityId(zone);
   }else{
     rebuildSearchScopeInput();
   }
@@ -240,7 +250,7 @@ jQuery(document).ready(function() {
   $('.tooltips').tooltip();
   searchPage = true;
 
-
+  createLocalityForSearch(zone);
   //initBtnScopeList();
   startSearch(0, 30);
 });
@@ -249,6 +259,8 @@ function searchCallback() {
   mylog.log("searchCallback");
   startSearch(0, indexStepInit);
 }
+
+
 
 function showResultInCalendar(mapElements){}
 

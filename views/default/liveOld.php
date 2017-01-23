@@ -92,7 +92,7 @@ var liveTypeName = { "news":"<i class='fa fa-rss'></i> Les messages",
 					 "information":"<i class='fa fa-newspaper-o'></i> Les informations"
 					};
 
-var zone =  <?php echo json_encode($zone) ?>;
+
 var liveScopeType = "global";
 
 <?php if(@$type && !empty($type)){ ?>
@@ -114,12 +114,11 @@ jQuery(document).ready(function() {
 	setTitle("Communecter" + liveType, "<i class='fa fa-heartbeat '></i>");
 	
 	//showTagsScopesMin("#list_tags_scopes");
-	if(typeof zone != "undefined")
-		lockScopeOnCityId(zone);
-	else
+	<?php if(@$lockCityKey){ ?>
+		lockScopeOnCityKey("<?php echo $lockCityKey; ?>");
+	<?php }else{ ?>
 		rebuildSearchScopeInput();
-	
-
+	<?php } ?>
     $("#btn-slidup-scopetags").click(function(){
       slidupScopetagsMin();
     });
@@ -146,7 +145,6 @@ jQuery(document).ready(function() {
 	$(".searchIcon").attr("title","Mode Recherche ciblé (ne concerne que cette page)");*/
     $('.tooltips').tooltip();
     searchPage = true;
-    createLocalityForSearch(zone);
 	startSearch(true);
 	$(".titleNowEvents .btnhidden").hide();
 });

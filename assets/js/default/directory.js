@@ -8,9 +8,10 @@ var totalData = 0;
 
 var timeout = null;
 var searchType = '';
+var localitySearch = [];
 
-function startSearch(indexMin, indexMax, callBack){
-    console.log("startSearch", typeof callBack, callBack);
+function startSearchOld(indexMin, indexMax, callBack){
+    mylog.log("startSearch2", typeof callBack, callBack);
     if(loadingData) return;
     loadingData = true;
     
@@ -57,6 +58,69 @@ function startSearch(indexMin, indexMax, callBack){
     }  
 }
 
+function createLocalityForSearch(zone) {
+  mylog.log("createLocalityForSearch");
+  mylog.dir(zone);
+  var locality = {}; 
+  if(zone["@type"] == "City"){
+    locality.id = zone._id.$id;
+    locality.type = zone.type;
+    locality.insee = zone.insee;
+    locality.cp = zone.cp;
+    locality.country = zone.country;
+    localitySearch.push(locality);
+  }
+  
+}
+
+function startSearch(indexMin, indexMax, callBack){
+    mylog.log("startSearch2", typeof callBack, callBack);
+    if(loadingData) return;
+    loadingData = true;
+    
+    //mylog.log("loadingData true");
+    indexStep = indexStepInit;
+
+    mylog.log("startSearch", indexMin, indexMax, indexStep);
+
+    var name = ($('#searchBarText').length>0) ? $('#searchBarText').val() : "";
+    
+    if(name == "" && searchType.indexOf("cities") > -1) return;  
+
+    if(typeof indexMin == "undefined") indexMin = 0;
+    if(typeof indexMax == "undefined") indexMax = indexStep;
+
+    currentIndexMin = indexMin;
+    currentIndexMax = indexMax;
+
+    if(indexMin == 0 && indexMax == indexStep) {
+      totalData = 0;
+      mapElements = new Array(); 
+    }
+    else{ if(scrollEnd) return; }
+    
+    if(name.length>=3 || name.length == 0)
+    {
+      var locality = "";
+      if( communexionActivated )
+      {
+        if(typeof(cityInseeCommunexion) != "undefined")
+        {
+          if(levelCommunexion == 1) locality = cpCommunexion;
+          if(levelCommunexion == 2) locality = inseeCommunexion;
+        }else{
+          if(levelCommunexion == 1) locality = inseeCommunexion;
+          if(levelCommunexion == 2) locality = cpCommunexion;
+        }
+        //if(levelCommunexion == 3) locality = cpCommunexion.substr(0, 2);
+        if(levelCommunexion == 3) locality = inseeCommunexion;
+        if(levelCommunexion == 4) locality = inseeCommunexion;
+        if(levelCommunexion == 5) locality = "";
+      }
+      autoCompleteSearch(name, locality, indexMin, indexMax, callBack);
+    }  
+}
+
 
 function addSearchType(type){
   $.each(allSearchType, function(key, val){
@@ -86,7 +150,8 @@ var mapElements = new Array();
 
 
 function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
-  console.log("autoCompleteSearch", typeof callBack, callBack);
+  mylog.log("autoCompleteSearch2", typeof callBack, callBack);
+  mylog.log(name, locality, indexMin, indexMax);
 	if(typeof(cityInseeCommunexion) != "undefined"){
 	    var levelCommunexionName = { 1 : "CODE_POSTAL_INSEE",
 	                             2 : "INSEE",
@@ -103,7 +168,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
     //mylog.log("levelCommunexionName", levelCommunexionName[levelCommunexion]);
     var data = {
       "name" : name, 
-      "locality" : "",//locality, 
+      "locality" : localitySearch,//locality, 
       "searchType" : searchType, 
       "searchTag" : $('#searchTags').val().split(','), //is an array
       "searchLocalityCITYKEY" : $('#searchLocalityCITYKEY').val().split(','),
@@ -133,7 +198,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
    
     $.ajax({
         type: "POST",
-        url: baseUrl+"/" + moduleId + "/search/globalautocomplete",
+        url: baseUrl+"/" + moduleId + "/search/globalautocompletenew",
         data: data,
         dataType: "json",
         error: function (data){
