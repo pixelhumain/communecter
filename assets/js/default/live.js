@@ -80,7 +80,6 @@ function showNewsStream(isFirst){
 	if(isFirst){ //render HTML for 1st load
 		$("#newsstream").html(loading);
 		ajaxPost("#newsstream",baseUrl+"/"+moduleId+urlCtrl+"/date/0"+isFirstParam,dataNewsSearch, function(news){
-			mylog.log("news",news);
 			showTagsScopesMin(".list_tags_scopes");
 			if(loadContent != ''){
 				if(userId){
