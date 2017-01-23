@@ -1,6 +1,7 @@
 <?php 
  $cssAnsScriptFilesModule = array(
     '/js/default/directory.js',
+    '/js/default/search.js',
   );
   HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 
