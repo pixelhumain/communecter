@@ -13,21 +13,21 @@ $cs = Yii::app()->getClientScript();
 			<?php if( Role::isSourceAdmin(Role::getRolesUserId(Yii::app()->session["userId"]) ) ||  Role::isSuperAdmin(Role::getRolesUserId(Yii::app()->session["userId"]) ) ){ ?>
 				<li class="list-group-item text-purple col-md-4 col-sm-6 link-to-directory">
 					<div class="" style="cursor:pointer;" onclick="loadByHash('#adminpublic.createfile')">
-						<i class="fa fa-upload fa-2x"></i>
-						<?php echo Yii::t("admin", "IMPORT DATA", null, Yii::app()->controller->module->id); ?>
+						<i class="fa fa-exchange fa-2x"></i>
+						<?php echo Yii::t("admin", "Converter", null, Yii::app()->controller->module->id); ?>
 					</div>
 				</li>
 				<li class="list-group-item text-red col-md-4 col-sm-6 link-to-directory">
 					<div class="" style="cursor:pointer;" onclick="loadByHash('#adminpublic.adddata')">
 						<i class="fa fa-plus fa-2x"></i>
-						<?php echo Yii::t("admin", "ADD DATA", null, Yii::app()->controller->module->id); ?>
+						<?php echo Yii::t("admin", "IMPORT DATA", null, Yii::app()->controller->module->id); ?>
 					</div>
 				</li>
-				<li class="list-group-item text-red col-md-4 col-sm-6 link-to-directory">
+				<!-- <li class="list-group-item text-red col-md-4 col-sm-6 link-to-directory">
 					<div class="" style="cursor:pointer;" onclick="loadByHash('#adminpublic.sourceadmin')">
 						<i class="fa fa-plus fa-2x"></i>
-						<?php echo Yii::t("admin", "SOURCE ADMIN", null, Yii::app()->controller->module->id); ?>
-					</div>
+						<?php // echo Yii::t("admin", "SOURCE ADMIN", null, Yii::app()->controller->module->id); ?>
+					</div> -->
 				</li>
 			<?php } ?>
 			</ul>
