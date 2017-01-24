@@ -130,7 +130,7 @@
     <?php } else { ?>
       $('#searchBarText').keyup(function(e){
           clearTimeout(timeoutSearch);
-          timeoutSearch = setTimeout(function(){ startSearchSimply(0, indexStepInit); }, 800);
+          timeoutSearch = setTimeout(function(){ startSearch(0, indexStepInit); }, 800);
       });
     <?php } ?>
     /***** CHANGE THE VIEW PARAMS  *****/
@@ -189,7 +189,7 @@
       $('.tagFilter').removeClass('active');
       $('.villeFilter').removeClass('active');
       $('.categoryFilter').removeClass('active');
-      startSearchSimply(0, indexStepInit);
+      startSearch(0, indexStepInit);
     });
     <?php if(isset($params['mode']) && $params['mode'] == "client"){ ?>
 
@@ -206,7 +206,7 @@
               var heightWindow = $(window).height();
               if( ($(this).scrollTop() + heightWindow) >= heightContainer-150){
                 // console.log("scroll MAX");
-                startSearchSimply(currentIndexMin+indexStep, currentIndexMax+indexStep);
+                startSearch(currentIndexMin+indexStep, currentIndexMax+indexStep);
               }
             }
         }
@@ -229,10 +229,10 @@
       //});
     <?php } ?>
     //initBtnScopeList();
-    startSearchSimply(0, indexStepInit);
+    startSearch(0, indexStepInit);
   });
-function startSearchSimply(indexMin, indexMax){
-     console.log("startSearchSimply", indexMin, indexMax, indexStep);
+function startSearch(indexMin, indexMax){
+     console.log("startSearch", indexMin, indexMax, indexStep);
     $("#listTagClientFilter").html('spiner');
     if(loadingData) return;
     loadingData = true;
@@ -259,7 +259,7 @@ function startSearchSimply(indexMin, indexMax){
         if(levelCommunexion == 4) locality = inseeCommunexion;
         if(levelCommunexion == 5) locality = "";
       }
-      autoCompleteSearchSimply(name, locality, indexMin, indexMax);
+      autoCompleteSearch(name, locality, indexMin, indexMax);
 }
 function addSearchType(type){
   var index = searchType.indexOf(type);
@@ -360,8 +360,8 @@ var mix = "";
 <?php if(isset($params['mode']) && $params['mode'] == 'client') { ?>
   mix = "mix";
 <?php } ?>
-function autoCompleteSearchSimply(name, locality, indexMin, indexMax){
-  console.log("autoCompleteSearchSimply", indexMin, indexMax, indexStep);
+function autoCompleteSearch(name, locality, indexMin, indexMax){
+  console.log("autoCompleteSearch", indexMin, indexMax, indexStep);
     var levelCommunexionName = { 1 : "INSEE",
                              2 : "CODE_POSTAL_INSEE",
                              3 : "DEPARTEMENT",
@@ -651,7 +651,7 @@ function autoCompleteSearchSimply(name, locality, indexMin, indexMax){
                 //(au cas où le scroll n'ait pas lancé le chargement comme prévu)
                 $("#btnShowMoreResult").mouseenter(function(){
                   if(!loadingData){
-                    startSearchSimply(indexMin+indexStep, indexMax+indexStep);
+                    startSearch(indexMin+indexStep, indexMax+indexStep);
                     $("#btnShowMoreResult").mouseenter(function(){});
                   }
                 });
@@ -693,7 +693,7 @@ function autoCompleteSearchSimply(name, locality, indexMin, indexMax){
 
   function setSearchValue(value){
     $("#searchBarText").val(value);
-    startSearchSimply(0, 100);
+    startSearch(0, 100);
   }
   function manageTagFilter(tag){
     var index = tagsFilter.indexOf(tag);
@@ -753,7 +753,7 @@ function autoCompleteSearchSimply(name, locality, indexMin, indexMax){
       if(tag == "all"){
         searchTag = [];
         $('.tagFilter[value="all"]').addClass('active');
-        startSearchSimply(0, indexStepInit);
+        startSearch(0, indexStepInit);
         return;
       }
       else{
@@ -761,7 +761,7 @@ function autoCompleteSearchSimply(name, locality, indexMin, indexMax){
       }
       if (index > -1) removeSearchTag(tag);
       else addSearchTag(tag);
-      startSearchSimply(0, indexStepInit);
+      startSearch(0, indexStepInit);
     });
     $(".villeFilter").off().click(function(e){
       var ville = $(this).attr("value");
@@ -769,7 +769,7 @@ function autoCompleteSearchSimply(name, locality, indexMin, indexMax){
       if(ville == "all"){
         searchLocalityNAME = [];
         $('.villeFilter[value="all"]').addClass('active');
-        startSearchSimply(0, indexStepInit);
+        startSearch(0, indexStepInit);
         return;
       }
       else{
@@ -777,7 +777,7 @@ function autoCompleteSearchSimply(name, locality, indexMin, indexMax){
       }
       if (index > -1) removeSearchVille(ville);
       else addSearchVille(ville);
-      startSearchSimply(0, indexStepInit);
+      startSearch(0, indexStepInit);
     });
     $(".categoryFilter").off().click(function(e){
       var category = $(this).attr("value");
@@ -788,7 +788,7 @@ function autoCompleteSearchSimply(name, locality, indexMin, indexMax){
       else{
         addSearchCategory(category);
       }
-      startSearchSimply(0, indexStepInit);
+      startSearch(0, indexStepInit);
     });
   }
   // function loadClientFilters(types, tags){
