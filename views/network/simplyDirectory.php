@@ -54,7 +54,11 @@
   var allTags = new Object();
   var allTypes = new Object();
   var indexStepInit = 100;
-
+  var  searchPrefTag = null;
+  <?php if(!empty($params['request']['searchPrefTag'])){ ?>
+   searchPrefTag = "<?php echo $params['request']['searchPrefTag'] ;?>";
+  <?php } ?>
+console.log("searchPrefTag", searchPrefTag);
   //With different pagination params
   <?php if(isset($params['request']['pagination']) && $params['request']['pagination'] > 0){ ?>
     indexStepInit = <?php echo $params['request']['pagination'] ;?>;
@@ -397,7 +401,8 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
       "indexMin" : indexMin,
       "indexMax" : indexMax,
       "sourceKey" : sourceKey,
-      "mainTag" : mainTag
+      "mainTag" : mainTag,
+      "searchPrefTag" : searchPrefTag
     };
     //console.log("loadingData true");
     loadingData = true;
