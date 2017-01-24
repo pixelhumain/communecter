@@ -82,6 +82,7 @@ Report Abuse on element
     [ ] geojson, ex umap 
     [ ] csv ...
     [ ] xml
+    [ ] api smart citizen + conversion
 
 * City 
 [.2] city bread crumb ( cp, insee, agglo, departement, region)  
@@ -128,7 +129,28 @@ Liste des notifications déjà lues => #370 #453
 
 ** @Tib 
   [ ] INTEGRATTE MARKDOWN wisiwig
-  [ ] add photo  
+    [ ] add documentation editor project page 
+      * wishlist 
+      [ ] add from external link 
+        [ ] multi bao
+        [ ] wiki page
+        [ ] git url or wiki
+        [ ] mainstenant
+  [ ] add photo
+    [X] join upload and save into one unique action : UploadSaveAction
+    [X] added test btn to gallery page and authorisation limitations  
+    [X] added fineUploader element to dynForm
+      [X] connecting image upload endpoint 
+    [X] adding list of images to album 
+    [ ] clean up mkdir($upload_dir, 0777);
+    [ ] add into a element form 
+      [ ] element
+        [ ] use a tmp id
+        [ ] set context + id 
+        [ ] manage abandon form > delete all tmp entries
+    * wishlist
+      [ ] cropping before upload
+      [ ] adding album colelctions
   [ ] notification à la création d'un dda
   [ ] Count requests DB per page 
   [X] network source from gist served by gitraw
@@ -302,8 +324,16 @@ Liste des notifications déjà lues => #370 #453
   [new] from siteweb to element 
     [ ] from json : oceatoon.json
     [ ] openatlas.org
-  [ ] expliquer ce qu'est un commun
-  [ ] test a light mobile version
+  [new] organisation de type 
+    [ ] "quartier", connecté une "zone" et un element
+    [ ] "tiers lieux", décrivez ce qu'il ya dans votre lieux : 
+      - fablab, coworking, repare café, ressourcerie, salle de réunion, restaurant, 
+  [new] element param : dont show in search
+  [new] expliquer ce qu'est un commun
+  [new] test a light mobile version
+  [new] my profile , if twitter account, add a twitter reader 
+  [new] sur n'importe quelle url , si on ajoute ?format=json > ca fait un export grace a l'api 
+  [new] save search criterias and better user activity stats to make a better platform
   * DDA
   [ ] Quand la liste est vide , faire une page explication avec des kickers pour creer des espaces
   [ ] bug : sur archiver , persiste dans les listes 

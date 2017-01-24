@@ -314,7 +314,7 @@ if($('#breadcum').length)
 														"invitedMe" => @$invitedMe));*/
 				?>
 			</div>
-			<?php } ?>
+			<?php } /*?>
 			<div class="col-xs-12">
 				<?php 
 					$urls = ( empty($element["urls"]) ? array() : $element["urls"] ) ;
@@ -326,7 +326,7 @@ if($('#breadcum').length)
 				?>						  
 			</div>
 
-			<?php if (($type==Project::COLLECTION || $type==Organization::COLLECTION || $type==Event::COLLECTION)){ ?>
+			<?php */ if (($type==Project::COLLECTION || $type==Organization::COLLECTION || $type==Event::COLLECTION)){ ?>
 				<div class="col-xs-12">
 					<?php 
 						$contacts = ( empty($element["contacts"]) ? array() : $element["contacts"] ) ;

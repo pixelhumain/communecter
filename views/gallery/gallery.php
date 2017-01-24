@@ -75,10 +75,13 @@ if(!@$_GET["renderPartial"])
 			<div class="panel-body">
 				<div class="controls">
 					<ul class="nav nav-pills">
+						<?php  if( Authorisation::canParticipate( Yii::app()->session['userId'], $itemType, $itemId ) ) {  ?>
+						<li>
+							<a class="btn btn-danger" href="javascript:elementLib.openForm('addPhoto')"><i class="fa fa-upload"></i> <?php echo Yii::t("common","Add Photos"); ?></a>
+						</li>
+						<?php  }  ?>
 						<li class="filter active" data-filter="all">
-							<a href="#">
-								<?php echo Yii::t("common","Show All"); ?>
-							</a>
+							<a href="#"><?php echo Yii::t("common","Show All"); ?></a>
 						</li>
 					</ul>
 				</div>
