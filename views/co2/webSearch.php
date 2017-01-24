@@ -45,21 +45,23 @@
 
 <div class="col-md-10 margin-bottom-15" style="">
 <?php  foreach ($siteurls as $key => $siteurl) { ?>
-	<div class="col-md-12 margin-bottom-15">
+	<div class="col-md-12 margin-bottom-15 url-<?php echo $siteurl['_id']; ?>">
 
-		<?php if(isset(Yii::app()->session["userId"])){ ?>
-		<a href="javascript:" class="btn-favory tooltips" data-placement="top" data-toggle="tooltip" title="Garder en favoris">
-			<i class="fa fa-star-o"></i><i class="fa fa-star letter-yellow"></i>
-		</a>
-		<?php } ?>
+		<div class="addToFavInfo">
+			<a href="#co2.web" class="btn-favory tooltips" data-idFav="<?php echo $siteurl['_id']; ?>" 
+					data-placement="top" data-toggle="tooltip" title="Garder en favoris">
+				<i class="fa fa-star-o"></i><i class="fa fa-star letter-yellow"></i>
+			</a>
 
-		<a class="siteurl_title letter-blue" target="_blank" href="<?php echo $siteurl["url"]; ?>">
-			<?php if(@$siteurl["favicon"]){ ?>
-				<img src='<?php echo $siteurl["favicon"]; ?>' height=17 class="margin-right-5" style="margin-top:-3px;" alt="">
-			<?php } ?> 
-			<?php echo $siteurl["title"]; ?>
-		</a><br>
-		<span class="siteurl_hostname letter-green"><?php echo $siteurl["url"]; ?></span><br>
+			<a class="siteurl_title letter-blue" target="_blank" href="<?php echo $siteurl["url"]; ?>">
+				<?php if(@$siteurl["favicon"]){ ?>
+					<img src='<?php echo $siteurl["favicon"]; ?>' height=17 class="margin-right-5" style="margin-top:-3px;" alt="">
+				<?php } ?> 
+				<?php echo $siteurl["title"]; ?>
+			</a>
+			<br>
+			<span class="siteurl_hostname letter-green"><?php echo $siteurl["url"]; ?></span><br>
+		</div>
 
 		<?php if(@$siteurl["description"]){ ?>
 		<span class="siteurl_desc letter-grey"><?php echo @$siteurl["description"]; ?></span><br>
@@ -112,7 +114,7 @@
 <div class="col-md-12" style="margin-top:0px;">
 	<hr>
 	<h5 class="text-right">
-		<a href="https://www.google.com/search?q=<?php echo $searchG; ?>" target="_blank">
+		<a href="https://www.ecosia.org/search?q=<?php echo $searchG; ?>" target="_blank">
 			<i class="fa fa-fw fa-angle-right"></i> continuer la recherche sur 
 	    	<img style="margin-top:-10px;" src="<?php echo Yii::app()->theme->baseUrl; ?>/assets/img/ecosia_logo.png" height=60>
     	</a>
@@ -180,6 +182,12 @@ jQuery(document).ready(function() {
         currentCategory = ""
     });
    
+   $("#searchResults .btn-favory").click(function(){
+   		var id = $(this).data("idfav");
+   		addToFavorites(id);
+   });
+
+
    $(".tooltips").tooltip();
 
    bindLBHLinks();
@@ -188,60 +196,4 @@ jQuery(document).ready(function() {
 
 });
 
-function incNbClick(url){
-	console.log("incrémentation nbClick essai");
-	$.ajax({ 
-        type: "POST",
-        url: baseUrl+"/"+moduleId+"/siteurl/incnbclick/",
-        data: { url : url },
-        dataType: "json",
-        success:
-            function(data) {
-            console.log("incrémentation nbClick ok", data);
-                // $("#searchResults").html(html);
-                // $("#sectionSearchResults").removeClass("hidden");
-                // KScrollTo("#sectionSearchResults");
-            },
-        error:function(xhr, status, error){
-            console.log("erreur lors de l'incrémentation nbClick");
-            //$("#searchResults").html("erreur");
-        },
-        statusCode:{
-                404: function(){
-                    console.log("404 erreur lors de l'incrémentation nbClick");
-            }
-        }
-    });
-}
-
-function initKeywords(){
-	var html = "";
-    $.each(mainCategories, function(name, params){
-    	$.each(params.items, function(keyC, val){
-    		if(val.name == currentCategory){
-	    		$("#fa-category").addClass("fa-"+val.faIcon);
-		    	if(typeof val.keywords != "undefined"){
-	    			$.each(val.keywords, function(keyK, keyword){
-	    				var classe="";
-	    				if(search==keyword) classe="active";
-		    			html += '<button class="btn btn-success btn-sm margin-bottom-5 margin-left-10 btn-keyword btn-anc-color-blue '+classe+'" data-keyword="'+keyword+'">'+
-		    						keyword+
-		    					'</button><br class="hidden-xs">';
-		    		});
-		    	}
-	    	}
-	    });
-	});
-	$("#sub-menu-left").html(html);
-
-	$(".btn-keyword").click(function(){
-		var key = $(this).data("keyword");
-		$("#main-search-bar").val(key);
-		$("#second-search-bar").val(key);
-		startWebSearch(key, currentCategory);
-
-		$(".btn-keyword").removeClass("active");
-		$(this).addClass("active");
-	});
-}
 </script>

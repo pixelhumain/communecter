@@ -22,6 +22,9 @@ class AdminpublicController extends CommunecterController {
 		'adddata' => 'citizenToolKit.controllers.adminpublic.AddDataAction',
 	    'adddataindb' => 'citizenToolKit.controllers.adminpublic.AddDataInDbAction',
 	    'sourceadmin' => 'citizenToolKit.controllers.adminpublic.SourceadminAction',
+	    'getdatabyurl' => 'citizenToolKit.controllers.adminpublic.GetDataByUrlAction',
+	    'assigndata'  => 'citizenToolKit.controllers.adminpublic.AssignDataAction',
+	    'previewdata'  => 'citizenToolKit.controllers.adminpublic.PreviewDataAction',
 		);
 	}	
 }

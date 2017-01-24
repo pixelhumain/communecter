@@ -312,7 +312,7 @@ function bindCreateFile(){
 			nameFile = "JSON_URL";
   			typeFile = "json";			
 			$.ajax({
-				url: baseUrl+'/communecter/admin/getdatabyurl/',
+				url: baseUrl+'/communecter/adminpublic/getdatabyurl/',
 				type: 'POST',
 				dataType: 'json', 
 				data:{ url : $("#textUrl").val() },
@@ -554,7 +554,7 @@ function stepTwo(){
 	$.ajax({
         type: 'POST',
         data: params,
-        url: baseUrl+'/communecter/admin/assigndata/',
+        url: baseUrl+'/communecter/adminpublic/assigndata/',
         dataType : 'json',
         async : false,
         success: function(data)
@@ -820,7 +820,7 @@ function stepThree(params){
 	$.ajax({
         type: 'POST',
         data: params,
-        url: baseUrl+'/communecter/admin/previewData/',
+        url: baseUrl+'/communecter/adminpublic/previewData/',
         dataType : 'json',
         async : false,
         success: function(data)
