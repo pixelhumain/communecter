@@ -69,7 +69,7 @@ class CommunecterModule extends CWebModule
 	 */
 	public function getTheme() {
 		//$theme = "CO2";
-		$theme = "ph-dori";
+		$theme = (@Yii::app()->session["theme"]) ? Yii::app()->session["theme"] : "ph-dori";
 		//$theme = "notragora";
 		if (!empty(Yii::app()->params['theme'])) {
 			$theme = Yii::app()->params['theme'];
@@ -85,6 +85,7 @@ class CommunecterModule extends CWebModule
             $theme = "network";
             Yii::app()->params['networkParams'] = $_GET["network"];
         }
+        Yii::app()->session["theme"] = $theme;
 		return $theme;
 	}
 }
