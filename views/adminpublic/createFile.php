@@ -96,9 +96,9 @@ $userId = Yii::app()->session["userId"] ;
 			</select>
 		</div>
 		<div class="col-sm-4 col-xs-12">
-			<label for="selectTypeSource"><?php echo Yii::t("common", "Mapping"); ?> : </label>
+			<label for="selectTypeSource"><?php echo Yii::t("common", "Link"); ?> : </label>
 			<select id="chooseMapping" name="chooseMapping" class="">
-				<option value="-1"><?php echo Yii::t("common", "Not mappings"); ?></option>
+				<option value="-1"><?php echo Yii::t("common", "Not link"); ?></option>
 			<?php
 				if(!empty($allMappings)){
 					foreach ($allMappings as $key => $value){
@@ -165,17 +165,17 @@ $userId = Yii::app()->session["userId"] ;
 				<label for="inputKey">Key : </label>
 				<input class="" placeholder="Key a attribuer à l'ensemble des données importer" id="inputKey" name="inputKey" value="">
 			</div>
-			<div class="col-sm-6 col-xs-12" id="divCheckboxWarnings">
+			<!--<div class="col-sm-6 col-xs-12" id="divCheckboxWarnings">
 				<label>
 					Warnings : <input type="checkbox" value="" id="checkboxWarnings" name="checkboxWarnings">
 				</label>
-			</div>
+			</div>-->
 		</div>
 		<div class="col-sm-12 col-xs-12">
 			<div class="col-sm-6 col-xs-12">
 				<label>
-					Test : <input class="hide" id="isTest" name="isTest"></input>
-				<input id="checkboxTest" name="checkboxTest" type="checkbox" data-on-text="<?php echo Yii::t("common","Yes") ?>" data-off-text="<?php echo Yii::t("common","No") ?>" name="my-checkbox"></input>
+					Test : <input class="hide" id="isTest" name="isTest" ></input>
+				<input id="checkboxTest" name="checkboxTest" type="checkbox" data-on-text="<?php echo Yii::t("common","Yes") ?>" data-off-text="<?php echo Yii::t("common","No") ?>" name="my-checkbox" checked></input>
 				</label>
 			</div>
 			<div class="col-sm-6 col-xs-12" id="divNbTest">
@@ -321,32 +321,6 @@ function bindCreateFile(){
 					mylog.log('success' , obj);
 					file.push(obj.data) ;
 					stepTwo();
-					/*$.ajax({
-				        type: 'POST',
-				        data: {
-				        		nameFile : nameF,
-				        		typeFile : typeF,
-				        		file : file,
-				        		idMicroformat : $("#chooseCollection").val(),
-				        		idMapping : $("#chooseMapping").val(),
-				        		pathObject : $("#pathObject").val()
-				        	},
-				        url: baseUrl+'/communecter/admin/assigndata/',
-				        dataType : 'json',
-				        async : false,
-				        success: function(data)
-				        {
-				        	console.log("btnVerification data",data.createLink);
-				        	if(data.createLink){
-				        		resultAssignData(data);
-				        		
-				        	}
-				        	else{
-
-				        	}
-
-				        }
-					});*/
 				},
 				error: function (error) {
 					console.log('error', error);
@@ -454,10 +428,16 @@ function bindCreateFile(){
 function preStep2(){
 	cleanVisualisation();
 		var nbLigneMapping = $("#nbLigneMapping").val();
+		var inputKey = $("#inputKey").val().trim();
 		var infoCreateData = [] ;
 
 		if(nbLigneMapping == 0){
 			toastr.error("Vous devez faire au moins une assignation de données");
+			$.unblockUI();
+  			return false ;
+		}else if(inputKey.length == 0){
+			toastr.error("Vous devez ajouter une Key");
+			$.unblockUI();
   			return false ;
 		}
 		else{
@@ -478,7 +458,7 @@ function preStep2(){
 	        		nameFile : nameFile,
 	        		typeFile : typeFile,
 	        		pathObject : $('#pathObject').val(),
-			        key : $("#inputKey").val(),
+			        key : inputKey,
 			        warnings : $("#checkboxWarnings").is(':checked')
 			    }
 
@@ -490,7 +470,7 @@ function preStep2(){
 	  			if($("#checkboxTest").is(':checked')){
 	  				if(typeFile == "csv"){
 	  					//console.log("inputNbTest", $("#inputNbTest").val());
-	  					var subFile = file.slice(0,$("#inputNbTest").val());
+	  					var subFile = file.slice(0,parseInt($("#inputNbTest").val())+1);
 	  					params["file"] = subFile;
 	  				}
 			  		else if(typeFile == "json" || typeFile == "js" || typeFile == "geojson"){
