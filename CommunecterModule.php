@@ -81,6 +81,11 @@ class CommunecterModule extends CWebModule
             $theme = "network";
             Yii::app()->params['networkParams'] = $_GET["network"];
         }
+        if(@$_GET["theme"]) 
+        	$theme = $_GET["theme"];
+        
+        Yii::app()->session["theme"] = $theme;
+
 		return $theme;
 	}
 }

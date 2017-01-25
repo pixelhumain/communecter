@@ -23,11 +23,17 @@ class DefaultController extends CommunecterController {
      * Home page
      */
 
-	public function actionIndex($theme="ph-dori") 
+	public function actionIndex() 
 	{
     	//Yii::app()->theme = $theme;   
       //Yii::app()->session["theme"] = $theme; 
-      Yii::app()->theme = "ph-dori";
+      $theme = "";
+      if(@Yii::app()->session["theme"])
+        Yii::app()->theme = Yii::app()->session["theme"];
+      else if( @$_GET["theme"] )
+        Yii::app()->theme = $_GET["theme"];
+      else
+        Yii::app()->theme = (@$_GET["theme"]) ? $_GET["theme"] :"ph-dori";
       //Yii::app()->theme = "notragora";
       //Yii::app()->theme = "CO2";
 	    if(@$_GET["network"]){

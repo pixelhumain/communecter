@@ -2291,18 +2291,20 @@ var elementLib = {
 	    elementLocation = null;
 	    elementLocations = [];
 	    centerLocation = null;
-
 	    updateLocality = false;
-	    if(typeof type == "object"){
-	    	specs = type;
-	    }else{
-		    formType = type;
-		    console.log(type);
-		    specs = typeObj[type];
-	    }
+	    
 
 	    if(userId)
 		{
+			if(typeof type == "object"){
+				specs = type;
+			}else{
+				formType = type;
+				console.log(type);
+				specs = typeObj[type];
+			}
+	    	uploadObj.type = specs.col;
+	    
 			mylog.dir(specs);
 			$("#ajax-modal").removeClass("bgEvent bgOrga bgProject bgPerson bgDDA").addClass(specs.bgClass);
 			$("#ajax-modal-modal-title").html("<i class='fa fa-refresh fa-spin'></i> Chargement en cours. Merci de patienter.");

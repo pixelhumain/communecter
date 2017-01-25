@@ -120,6 +120,9 @@ class CommunecterController extends Controller
       "list"    => array("href" => "/ph/communecter/collections/list"),
       "crud"    => array("href" => "/ph/communecter/collections/crud"),
     ),
+    "tool" => array(
+      "get"    => array("href" => "/ph/communecter/tool/get")
+    ),
     "default" => array(
       "index"                => array("href" => "/ph/communecter/default/index", "public" => true),
       "directory"            => array("href" => "/ph/communecter/default/directory", "public" => true),
