@@ -2233,7 +2233,7 @@ var elementLib = {
 
 
 	editElement : function (type,id)
-	{
+		{
 		mylog.warn("--------------- editElement "+type+" ---------------------",id);
 		//get ajax of the elemetn content
 		$.ajax({
@@ -2292,17 +2292,11 @@ var elementLib = {
 	    elementLocations = [];
 	    centerLocation = null;
 	    updateLocality = false;
-	    
+	    console.log(type);
 
 	    if(userId)
 		{
-			if(typeof type == "object"){
-				specs = type;
-			}else{
-				formType = type;
-				console.log(type);
-				specs = typeObj[type];
-			}
+			specs = typeObj[type];
 	    	uploadObj.type = specs.col;
 	    
 			mylog.dir(specs);
@@ -3328,7 +3322,6 @@ var typeObj = {
 		ctrl:"city", 
 		titleClass : "bg-red", 
 		icon : "university",
-		color:"red",
 		dynForm : {
 			jsonSchema : {
 				title : "Modifier une ville",

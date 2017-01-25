@@ -73,7 +73,11 @@ class CommunecterModule extends CWebModule
 		//$theme = "notragora";
 		if (!empty(Yii::app()->params['theme'])) {
 			$theme = Yii::app()->params['theme'];
-		} 
+		} else if (empty(Yii::app()->theme)) {
+			$theme = "ph-dori";
+			//$theme = "CO2";
+			//$theme = "notragora";
+		}
 
 		if(@$_GET["tpl"] == "iframesig"){ $theme = $_GET["tpl"]; }
 
@@ -81,11 +85,6 @@ class CommunecterModule extends CWebModule
             $theme = "network";
             Yii::app()->params['networkParams'] = $_GET["network"];
         }
-        if(@$_GET["theme"]) 
-        	$theme = $_GET["theme"];
-        
-        Yii::app()->session["theme"] = $theme;
-
 		return $theme;
 	}
 }
