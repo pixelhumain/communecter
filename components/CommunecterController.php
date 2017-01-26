@@ -120,6 +120,9 @@ class CommunecterController extends Controller
       "list"    => array("href" => "/ph/communecter/collections/list"),
       "crud"    => array("href" => "/ph/communecter/collections/crud"),
     ),
+    "tool" => array(
+      "get"    => array("href" => "/ph/communecter/tool/get")
+    ),
     "default" => array(
       "index"                => array("href" => "/ph/communecter/default/index", "public" => true),
       "directory"            => array("href" => "/ph/communecter/default/directory", "public" => true),
@@ -365,6 +368,7 @@ class CommunecterController extends Controller
       "removeAndBacktract"  => array("href"=> "/ph/communecter/document/removeAndBacktract"),
       "getlistbyid"         => array("href"=> "ph/communecter/document/getlistbyid"),
       "upload"              => array("href"=> "ph/communecter/document/upload"),
+      "uploadsave"          => array("href"=> "ph/communecter/document/uploadsave"),
       "delete"              => array("href"=> "ph/communecter/document/delete")
     ),
     "survey" => array(

@@ -2233,7 +2233,7 @@ var elementLib = {
 
 
 	editElement : function (type,id)
-		{
+	{
 		mylog.warn("--------------- editElement "+type+" ---------------------",id);
 		//get ajax of the elemetn content
 		$.ajax({
@@ -2291,18 +2291,20 @@ var elementLib = {
 	    elementLocation = null;
 	    elementLocations = [];
 	    centerLocation = null;
-
 	    updateLocality = false;
-	    if(typeof type == "object"){
-	    	specs = type;
-	    }else{
-		    formType = type;
-		    console.log(type);
-		    specs = typeObj[type];
-	    }
+	    
 
 	    if(userId)
 		{
+			if(typeof type == "object"){
+				specs = type;
+			}else{
+				formType = type;
+				console.log(type);
+				specs = typeObj[type];
+			}
+	    	uploadObj.type = specs.col;
+	    
 			mylog.dir(specs);
 			$("#ajax-modal").removeClass("bgEvent bgOrga bgProject bgPerson bgDDA").addClass(specs.bgClass);
 			$("#ajax-modal-modal-title").html("<i class='fa fa-refresh fa-spin'></i> Chargement en cours. Merci de patienter.");
@@ -2319,8 +2321,10 @@ var elementLib = {
 		  	afterLoad = ( notNull(afterLoad) ) ? afterLoad : null;
 		  	data = ( notNull(data) ) ? data : {};
 		  	elementLib.buildDynForm(specs, afterLoad, data);
-		} else 
+		} else {
 			toastr.error("Vous devez être connecté pour afficher les formulaires de création");
+			showPanel('box-login');
+		}
 	},
 
 	buildDynForm : function (elementObj, afterLoad,data) { 
@@ -2365,8 +2369,10 @@ var elementLib = {
 			    }
 			});
 			mylog.dir(form);
-		} else 
-			alert('Vous devez etre loggué');
+		} else {
+			toastr.error("Vous devez être connecté pour afficher les formulaires de création");
+			showPanel('box-login');
+		}
 	}
 }
 
@@ -2374,6 +2380,10 @@ var elementLib = {
 			DYNFORM SPEC TYPE OBJ
 ********************************** */
 var contextData = null;
+var uploadObj = {
+	type : "poi",
+	id : "tototo"
+};
 var typeObj = {
 	"themes":{ 
 		dynForm : {
@@ -2434,8 +2444,15 @@ var typeObj = {
 			    properties : {
 			    	image :{
 		            	inputType : "image",
-		            	contextType : "citoyens",
-		            	contextId : "585bdfdaf6ca47b6118b4583"
+		            	init : function() { 
+		            		setTimeout( function(){
+			            		$('#trigger-upload').click(function() {
+						        	$('.fine-uploader-manual-trigger').fineUploader('uploadStoredFiles');
+						        	loadByHash(location.hash);
+			            			$('#ajax-modal').modal("hide");
+						        });
+			            	},500);
+		            	}
 		            }
 			    }
 			}
@@ -2568,6 +2585,18 @@ var typeObj = {
 			            inputType : "text",
 			            rules : { required : true }
 			        },
+			        image :{
+		            	inputType : "image",
+		            	init : function() { 
+		            		setTimeout( function(){
+			            		$('#trigger-upload').click(function() {
+						        	$('.fine-uploader-manual-trigger').fineUploader('uploadStoredFiles');
+						        	loadByHash(location.hash);
+			            			$('#ajax-modal').modal("hide");
+						        });
+			            	},500);
+		            	}
+		            },
 		            description : {
 		                inputType : "wysiwyg",
 	            		placeholder : "Décrire c'est partager",
@@ -2621,7 +2650,6 @@ var typeObj = {
 		    				$('#ajaxFormModal #parentId').val(contextData.id);
 			    			$("#ajaxFormModal #parentType").val( contextData.type ); 
 			    		}
-			    		
 			    	}/*,
 			    	loadData : function(data){
 				    	mylog.warn("--------------- loadData ---------------------",data);
@@ -3906,6 +3934,78 @@ var typeObj = {
 		}},
 };
 
+var documents = {
+	saveImages : function (contextType, contextId,contentKey){
+		alert("saveImages"+contextType+contextId);
+		$.ajax({
+			url : baseUrl+"/"+moduleId+"/document/"+uploadUrl+"dir/"+moduleId+"/folder/"+contextType+"/ownerId/"+contextId+"/input/dynform",
+			type: "POST",
+			data: new FormData(this),
+			contentType: false,
+			cache: false, 
+			processData: false,
+			dataType: "json",
+			success: function(data){
+				if(debug)mylog.log(data);
+		  		if( data.success ){
+			  		mylog.log("success");
+		  			imageName = data.name;
+					var doc = { 
+						"id":contextId,
+						"type":contextType,
+						"folder":contextType+"/"+contextId,
+						"moduleId":moduleId,
+						"author" : userId  , 
+						"name" : data.name , 
+						"date" : new Date() , 
+						"size" : data.size ,
+						"doctype" : docType,
+						"contentKey" : contentKey
+					};
+					mylog.log(doc);
+					path = "/"+data.dir+data.name;
+					$.ajax({
+					  	type: "POST",
+					  	url: baseUrl+"/"+moduleId+"/document/save",
+					  	data: doc,
+				      	dataType: "json"
+					}).done( function(data){
+				        if(data.result){
+						    toastr.success(data.msg);
+						    //setTimeout(function(){
+						    $(".imagesNews").last().val(data.id.$id);
+						    $(".imagesNews").last().attr("name","");
+						    $(".newImageAlbum").last().find("img").removeClass("grayscale");
+						    $(".newImageAlbum").last().find("i").remove();
+						    $(".newImageAlbum").last().append("<a href='javascript:;' onclick='deleteImage(\""+data.id.$id+"\",\""+data.name+"\")'><i class='fa fa-times fa-x padding-5 text-white removeImage' id='deleteImg"+data.id.$id+"'></i></a>");
+						    //},200);
+				
+						} else{
+							toastr.error(data.msg);
+							if($("#resultsImage img").length>1)
+						  		$(".newImageAlbum").last().remove();
+						  	else{
+						  		$("#resultsImage").empty();
+						  		$("#resultsImage").hide();
+						  	}
+						}
+						$("#addImage").off();
+					});
+		  		}
+		  		else{
+			  		if($("#resultsImage img").length>1)
+				  		$(".newImageAlbum").last().remove();
+				  	else{
+				  		$("#resultsImage").empty();
+				  		$("#resultsImage").hide();
+				  	}
+				  	$("#addImage").off();
+		  			toastr.error(data.msg);
+		  		}
+			},
+		});
+	}
+}
 /* ************************************
 Keyboard Shortcuts
 *************************************** */
