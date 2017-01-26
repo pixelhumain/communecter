@@ -126,6 +126,24 @@ $userId = Yii::app()->session["userId"] ;
 				<input type="text" id="pathElement" name="pathElement" value="">
 			</div>
 		</div>
+		<div id="divCsv" class="col-sm-12 col-xs-12">
+			<div class="col-sm-4 col-xs-12">
+				<label for="selectSeparateur"><?php echo Yii::t("common", "Séparateur"); ?> : </label>
+				<select id="selectSeparateur" name="selectSeparateur" class="">
+					<option value=";"><?php echo Yii::t("common", "point vigule"); ?></option>
+					<option value=","><?php echo Yii::t("common", "virgule"); ?></option>
+					<option value=" "><?php echo Yii::t("common", "Espace"); ?></option>
+				</select>
+			</div>
+			<div class="col-sm-4 col-xs-12">
+				<label for="selectSeparateurText"><?php echo Yii::t("common", "Separateur de Text"); ?> : </label>
+				<select id="selectSeparateurText" name="selectSeparateur" class="">
+					<option value=""><?php echo Yii::t("common", "Aucune"); ?></option>
+					<option value='"'><?php echo Yii::t("common", "Guillemet"); ?></option>
+					<option value="'"><?php echo Yii::t("common", "Cote"); ?></option>
+				</select>
+			</div>
+		</div>
 		<div class="col-sm-12 col-xs-12">
 			<a href="javascript:;" id="btnNextStep" class="btn btn-success margin-top-15"><?php echo Yii::t("common", "Next step"); ?></a>
 		</div>
@@ -246,6 +264,7 @@ $userId = Yii::app()->session["userId"] ;
 
 <script type="text/javascript">
 var file = [] ;
+var csvFile = "" ;
 var extensions = ["csv", "json", "js", "geojson"];
 var nameFile = "";
 var typeFile = "";
@@ -254,7 +273,9 @@ var typeElement = "";
 jQuery(document).ready(function() {
 
 	setTitle("CreateFile","circle");
+
 	$("#divFile").hide();
+	$("#divCsv").hide();
 	$("#divUrl").hide();
 	$("#menu-step-mapping").hide();
 	$("#menu-step-visualisation").hide();
@@ -269,6 +290,7 @@ function bindCreateFile(){
 		var typeSource = $("#selectTypeSource").val();
 		if(typeSource == "url"){
 			$("#divUrl").show();
+			$("#divCsv").hide();
 			$("#divFile").hide();
 		}	
 		else if(typeSource == "file"){
@@ -281,17 +303,13 @@ function bindCreateFile(){
 	});
 
 
-	
-
-	
-
 	$("#btnPreviousStep").off().on('click', function(e){
 		returnStep1();
   	});
 
 
 	$("#btnNextStep").off().on('click', function(e){
-		console.log($("#selectTypeSource").val(), file.length);
+		mylog.log($("#selectTypeSource").val(), file.length);
   		if($("#chooseElement").val() == "-1"){
   			toastr.error("Vous devez sélectionner un type d'éléments");
   			return false ;
@@ -300,7 +318,7 @@ function bindCreateFile(){
   			toastr.error("Vous devez sélectionner une source");
   			return false ;
   		}else if($("#selectTypeSource").val() == "file"){
-  			if(file.length == 0){
+  			if(file.length == 0 && csvFile.length == 0){
 	  			toastr.error("Vous devez sélectionner un fichier.");
 	  			return false ;
 	  		}
@@ -323,7 +341,7 @@ function bindCreateFile(){
 					stepTwo();
 				},
 				error: function (error) {
-					console.log('error', error);
+					mylog.log('error', error);
 				}
 			});
 		}	
@@ -445,7 +463,7 @@ function preStep2(){
 	  			if($('#lineMapping'+i).length){
 	  				var valuesCreateData = {};
 					valuesCreateData['valueAttributeElt'] = $("#valueAttributeElt"+i).text();
-					//console.log(typeof $("#idHeadCSV"+i).val());
+					//mylog.log(typeof $("#idHeadCSV"+i).val());
 					valuesCreateData['idHeadCSV'] = $("#idHeadCSV"+i).val();
 					infoCreateData.push(valuesCreateData);
 	  			}	
@@ -469,7 +487,7 @@ function preStep2(){
 
 	  			if($("#checkboxTest").is(':checked')){
 	  				if(typeFile == "csv"){
-	  					//console.log("inputNbTest", $("#inputNbTest").val());
+	  					//mylog.log("inputNbTest", $("#inputNbTest").val());
 	  					var subFile = file.slice(0,parseInt($("#inputNbTest").val())+1);
 	  					params["file"] = subFile;
 	  				}
@@ -477,12 +495,12 @@ function preStep2(){
 			  			params["file"] = file;
 			  			params["nbTest"] = $("#inputNbTest").val();
 			  		}
-	  				//console.log(params);
+	  				//mylog.log(params);
 		  			stepThree(params);
 		  			showStep3();
 
 	  			}else{
-	  				//console.log("Here");
+	  				//mylog.log("Here");
 	  				if(typeFile == "csv"){
 	  					var fin = false ;
 				  		var indexStart = 1 ;
@@ -493,7 +511,7 @@ function preStep2(){
 
 				  		while(fin == false){
 				  			subFile = head.concat(file.slice(indexStart,indexEnd));
-				  			console.log("subFile", subFile.length);
+				  			mylog.log("subFile", subFile.length);
 				  			params["file"] = subFile;
 
 				  			stepThree(params);
@@ -530,6 +548,8 @@ function stepTwo(){
 
 	if(typeFile == "json" || typeFile == "js" || typeFile == "geojson")
 		params["file"] = file ;
+	else
+		file = csvToArray(csvFile, $("#selectSeparateur").val(), $("#selectSeparateurText").val())
 
 	$.ajax({
         type: 'POST',
@@ -539,7 +559,7 @@ function stepTwo(){
         async : false,
         success: function(data)
         {
-        	console.log("stepTwo data",data);
+        	mylog.log("stepTwo data",data);
         	if(data.result){
         		createStepTwo(data);
         	}
@@ -573,13 +593,14 @@ function bindUpdate(data){
 			var reader = new FileReader();
 			reader.onload = function(e) {
 				if(typeFile == "csv"){
-					var csvval=e.target.result.split("\n");
-					//console.log("csv : ", csvval );
-					$.each(csvval, function(key, value){
+					//var csvval=e.target.result.split("\n");
+					csvFile = e.target.result;
+					//mylog.log("csv : ", csvval );
+					/*$.each(csvval, function(key, value){
 						var ligne = value.split(";");
 						var newLigne = [];
 						$.each(ligne, function(keyLigne, valueLigne){
-							//console.log("valueLigne", valueLigne);
+							//mylog.log("valueLigne", valueLigne);
 							if(valueLigne.charAt(0) == '"' && valueLigne.charAt(valueLigne.length-1) == '"'){
 								var elt = valueLigne.substr(1,valueLigne.length-2);
 								newLigne.push(elt);
@@ -588,9 +609,11 @@ function bindUpdate(data){
 							}
 						});
 		  				file.push(newLigne);
-		  			});
+		  			});*/
+		  			$("#divCsv").show();
 				}
 				else if(typeFile == "json" || typeFile == "js" || typeFile == "geojson") {
+					$("#divCsv").hide();
 					file.push(e.target.result);
 	  			}
 			};
@@ -600,10 +623,9 @@ function bindUpdate(data){
 	});
 }
 
-
 function createStepTwo(data){
 
-	console.log("createStepTwo");
+	mylog.log("createStepTwo");
 	var chaineSelectCSVHidden = "" ;
 	if(data.typeFile == "csv"){
 		$("#nbFileMapping").html(file.length - 1 + " éléments");
@@ -663,7 +685,7 @@ function verifNameSelected(arrayName){
 }
 
 function displayStepTwo(){
-	console.log("showStep2")
+	mylog.log("showStep2")
 	$('#menu-step-2 i.fa').removeClass("fa-circle-o").addClass("fa-circle");
 	$('#menu-step-1 i.fa').removeClass("fa-circle").addClass("fa-check-circle");
 	$('#menu-step-1').removeClass("selected");
@@ -675,7 +697,7 @@ function displayStepTwo(){
 
 
 function showStep3(){
-	console.log("showStep3");
+	mylog.log("showStep3");
 	$('#menu-step-3 i.fa').removeClass("fa-circle-o").addClass("fa-circle");
 	$('#menu-step-2 i.fa').removeClass("fa-circle").addClass("fa-check-circle");
 	$('#menu-step-2').removeClass("selected");
@@ -688,7 +710,7 @@ function showStep3(){
 }
 
 function returnStep2(){
-	console.log("returnStep2")
+	mylog.log("returnStep2")
 	$('#menu-step-3 i.fa').removeClass("fa-circle").addClass("fa-circle-o");
 	$('#menu-step-2 i.fa').removeClass("fa-check-circle").addClass("fa-circle");
 	$('#menu-step-3').removeClass("selected");
@@ -699,7 +721,7 @@ function returnStep2(){
 }
 
 function returnStep1(){
-	console.log("returnStep2")
+	mylog.log("returnStep2")
 	file = [] ;
 	nameFile = "";
 	typeFile = "";
@@ -778,7 +800,7 @@ function verifBeforeAddSelect(arrayMap)
 	  	var position = jQuery.inArray( option, arrayMap);
 	  	if(position != -1)
 	  		arrayMap.splice(position, 1);
-		//console.log("option", option);
+		//mylog.log("option", option);
 	});
 }
 
@@ -805,7 +827,7 @@ function stepThree(params){
         async : false,
         success: function(data)
         {
-        	console.log("stepThree data",data);
+        	mylog.log("stepThree data",data);
         	if(data.result){
         		
         		var importD = "" ;
@@ -842,8 +864,8 @@ function stepThree(params){
         		}
 
         		
-        		console.log("importD",typeof importD);		
-        		console.log("errorD",typeof errorD);
+        		mylog.log("importD",typeof importD);		
+        		mylog.log("errorD",typeof errorD);
 
         		$("#jsonImport").val(importD);
         		$("#jsonError").val(errorD);
