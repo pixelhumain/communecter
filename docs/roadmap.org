@@ -144,13 +144,14 @@ Liste des notifications déjà lues => #370 #453
     [X] adding list of images to album 
     [ ] clean up mkdir($upload_dir, 0777);
     [ ] add into a element form 
-      [ ] element
-        [ ] use a tmp id
-        [ ] set context + id 
+        [X] generate id when image exist /api/tool/get/what/mongoId
+        [X] set context + id 
         [ ] manage abandon form > delete all tmp entries
+        [ ] make upload on validate button
     * wishlist
       [ ] cropping before upload
       [ ] adding album colelctions
+      [new] define common points between element in typeObj , make a merge with a common map 
   [ ] notification à la création d'un dda
   [ ] Count requests DB per page 
   [X] network source from gist served by gitraw

@@ -469,7 +469,15 @@ class CommunecterController extends Controller
     //creates an issue with Json requests : to clear add josn:true on the page definition here 
     //if( Yii::app()->request->isAjaxRequest && (!isset( $page["json"] )) )
       //echo "<script type='text/javascript'> userId = '".Yii::app()->session['userId']."'; var blackfly = 'sosos';</script>";
-    
+    if( @$_GET["theme"] ){
+      Yii::app()->theme = $_GET["theme"];
+      Yii::app()->session["theme"] = $_GET["theme"];
+    }
+    else if(@Yii::app()->session["theme"])
+      Yii::app()->theme = Yii::app()->session["theme"];
+    /*else
+      Yii::app()->theme = "ph-dori";*/
+
     //managed public and private sections through a url manager
     if( Yii::app()->controller->id == "admin" && !Yii::app()->session[ "userIsAdmin" ] )
       throw new CHttpException(403,Yii::t('error','Unauthorized Access.'));
