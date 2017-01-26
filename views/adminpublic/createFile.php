@@ -130,17 +130,17 @@ $userId = Yii::app()->session["userId"] ;
 			<div class="col-sm-4 col-xs-12">
 				<label for="selectSeparateur"><?php echo Yii::t("common", "Séparateur"); ?> : </label>
 				<select id="selectSeparateur" name="selectSeparateur" class="">
-					<option value=";"><?php echo Yii::t("common", "point vigule"); ?></option>
-					<option value=","><?php echo Yii::t("common", "virgule"); ?></option>
-					<option value=" "><?php echo Yii::t("common", "Espace"); ?></option>
+					<option value=";"><?php echo Yii::t("common", "Semicolon"); ?></option>
+					<option value=","><?php echo Yii::t("common", "Comma"); ?></option>
+					<option value=" "><?php echo Yii::t("common", "Space"); ?></option>
 				</select>
 			</div>
 			<div class="col-sm-4 col-xs-12">
 				<label for="selectSeparateurText"><?php echo Yii::t("common", "Separateur de Text"); ?> : </label>
 				<select id="selectSeparateurText" name="selectSeparateur" class="">
-					<option value=""><?php echo Yii::t("common", "Aucune"); ?></option>
-					<option value='"'><?php echo Yii::t("common", "Guillemet"); ?></option>
-					<option value="'"><?php echo Yii::t("common", "Cote"); ?></option>
+					<option value=""><?php echo Yii::t("common", "Nothing"); ?></option>
+					<option value='"'><?php echo Yii::t("common", "Quotation marks"); ?></option>
+					<option value="'"><?php echo Yii::t("common", "Quotes"); ?></option>
 				</select>
 			</div>
 		</div>
