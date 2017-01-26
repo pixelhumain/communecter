@@ -2304,7 +2304,6 @@ var elementLib = {
 				specs = typeObj[type];
 			}
 	    	uploadObj.type = specs.col;
-	    
 			mylog.dir(specs);
 			$("#ajax-modal").removeClass("bgEvent bgOrga bgProject bgPerson bgDDA").addClass(specs.bgClass);
 			$("#ajax-modal-modal-title").html("<i class='fa fa-refresh fa-spin'></i> Chargement en cours. Merci de patienter.");
@@ -2320,7 +2319,9 @@ var elementLib = {
 		  	$('#ajax-modal').modal("show");
 		  	afterLoad = ( notNull(afterLoad) ) ? afterLoad : null;
 		  	data = ( notNull(data) ) ? data : {};
+		  	
 		  	elementLib.buildDynForm(specs, afterLoad, data);
+		  	mylog.log("--------------- here5");
 		} else {
 			toastr.error("Vous devez être connecté pour afficher les formulaires de création");
 			showPanel('box-login');
@@ -2331,11 +2332,13 @@ var elementLib = {
 		mylog.warn("--------------- buildDynForm", elementObj, afterLoad,data);
 		if(userId)
 		{
+			mylog.log("--------------- here");
 			var form = $.dynForm({
 			      formId : "#ajax-modal-modal-body #ajaxFormModal",
 			      formObj : elementObj.dynForm,
 			      formValues : data,
 			      onLoad : function  () {
+
 			        $("#ajax-modal-modal-title").html("<i class='fa fa-"+elementObj.dynForm.jsonSchema.icon+"'></i> "+elementObj.dynForm.jsonSchema.title);
 			        $("#ajax-modal-modal-body").append("<div class='space20'></div>");
 			        //alert(afterLoad+"|"+typeof elementObj.dynForm.jsonSchema.onLoads[afterLoad]);
@@ -2348,6 +2351,7 @@ var elementLib = {
 			        	&& elementObj.dynForm.jsonSchema.onLoads[afterLoad] 
 			        	&& typeof elementObj.dynForm.jsonSchema.onLoads.onload == "function" )
 			        	elementObj.dynForm.jsonSchema.onLoads.onload();
+
 			        bindLBHLinks();
 			      },
 			      onSave : function(){
@@ -2783,11 +2787,8 @@ var typeObj = {
 			        },
 			        
 			        description : {
-		                inputType : "wysiwyg",
-	            		placeholder : "Décrire c'est partager",
-			            init : function(){
-			            	$(".descriptionwysiwyg").css("display","none");
-			            }
+		                inputType : "markdown",
+	            		placeholder : "Décrire c'est partager2"
 		            },
 		            url : {
 		                inputType :"text",
