@@ -849,56 +849,64 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 		getAjaxFiche(url, newLevel); 
 	  }
   }
-  function getAjaxFiche(url, breadcrumLevel){
+
+function getAjaxFiche(url, breadcrumLevel){
 	$("#ficheInfoDetail").empty();
 	if(location.hash == ""){
-	    history.pushState(null, "New Title", url);
-    }
-    if(isMapEnd){
-		pathTitle="Cartographie";
+    history.pushState(null, "New Title", url);
+  }
+
+  if(isMapEnd){
+    pathTitle="Cartographie";
 		pathIcon = "map-marker";
-	    showMapNetwork();
-    }
-    else{
-	    pathTitle="Annuaire";
-	    pathIcon = "list";
-    }
-    isEntityView=true;
+    showMapNetwork();
+  }else{
+    pathTitle="Annuaire";
+    pathIcon = "list";
+  }
+
+  isEntityView=true;
 	allReadyLoad = true;
 	location.hash = url;
-    urlHash=url;
-    if(urlHash.indexOf("type") < 0 && urlHash.indexOf("default.view") < 0 && urlHash.indexOf("gallery") < 0 && urlHash.indexOf("news") < 0 && urlHash.indexOf("invite") < 0){
-	    urlSplit=urlHash.replace( "#","" ).split(".");
-	    console.log(urlHash);
-	    if(urlSplit[0]=="person")
-	    	urlType="citoyens";
-	    else
-	    	urlType=urlSplit[0]+"s";
-	    urlHash="#element."+urlSplit[1]+".type."+urlType+".id."+urlSplit[3];
-    }
-    if(urlHash.indexOf("news") >= 0){
-	    urlHash=urlHash+"&isFirst=1";
-    }
-	url= "/"+urlHash.replace( "#","" ).replace( /\./g,"/" );
-	$("#repertory").hide( 700 );
-    $(".main-menu-left").hide( 700 );
-    $("#ficheInfoDetail").show( 700 );
-	$(".main-col-search").removeClass("col-md-10 col-md-offset-2 col-sm-9 col-sm-offset-3").addClass("col-md-12 col-sm-12");
-    $.blockUI({
-				message : "<h4 style='font-weight:300' class='text-dark padding-10'><i class='fa fa-spin fa-circle-o-notch'></i><br>Chargement en cours ...</span></h4>"
-	});
-    getAjax('#ficheInfoDetail', baseUrl+'/'+moduleId+url+'?network='+networkParams,
-    	function(){
-	    $.unblockUI();
-	    console.log(contextData);
-	    //Construct breadcrumb
-	    if(breadcrumLevel != false){
-		    $html= '<i class="fa fa-chevron-right fa-1x text-red breadcrumChevron" style="padding: 0px 10px 0px 10px;" data-value="'+breadcrumLevel+'"></i>'+
-		    		'<a href="javascript:;" onclick="breadcrumGuide('+breadcrumLevel+',\''+urlHash+'\')" class="breadcrumAnchor text-dark" data-value="'+breadcrumLevel+'">'+contextData.name+'</a>';
-		    $("#breadcrum").append($html);
-		}
-    },"html");
+  urlHash=url;
+
+  if(urlHash.indexOf("type") < 0 && urlHash.indexOf("default.view") < 0 && urlHash.indexOf("gallery") < 0 && urlHash.indexOf("news") < 0 && urlHash.indexOf("invite") < 0){
+    
+    urlSplit=urlHash.replace( "#","" ).split(".");
+    console.log(urlHash);
+
+    if(urlSplit[0]=="person")
+      urlType="citoyens";
+    else
+      urlType=urlSplit[0]+"s";
+    
+    urlHash="#element."+urlSplit[1]+".type."+urlType+".id."+urlSplit[3];
   }
+
+  if(urlHash.indexOf("news") >= 0){
+    urlHash=urlHash+"&isFirst=1";
+  }
+  url= "/"+urlHash.replace( "#","" ).replace( /\./g,"/" );
+  $("#repertory").hide( 700 );
+  $(".main-menu-left").hide( 700 );
+  $("#ficheInfoDetail").show( 700 );
+  $(".main-col-search").removeClass("col-md-10 col-md-offset-2 col-sm-9 col-sm-offset-3").addClass("col-md-12 col-sm-12");
+  $.blockUI({
+    message : "<h4 style='font-weight:300' class='text-dark padding-10'><i class='fa fa-spin fa-circle-o-notch'></i><br>Chargement en cours ...</span></h4>"
+  });
+
+  getAjax('#ficheInfoDetail', baseUrl+'/'+moduleId+url+'?network='+networkParams, function(){
+    $.unblockUI();
+    console.log(contextData);
+    //Construct breadcrumb
+    if(breadcrumLevel != false){
+      $html= '<i class="fa fa-chevron-right fa-1x text-red breadcrumChevron" style="padding: 0px 10px 0px 10px;" data-value="'+breadcrumLevel+'"></i>'+'<a href="javascript:;" onclick="breadcrumGuide('+breadcrumLevel+',\''+urlHash+'\')" class="breadcrumAnchor text-dark" data-value="'+breadcrumLevel+'">'+contextData.name+'</a>';
+      $("#breadcrum").append($html);
+		}
+  },"html");
+}
+
+
 function reverseToRepertory(){
 	  if(isMapEnd){
 	    showMapNetwork();
