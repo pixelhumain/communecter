@@ -4,6 +4,9 @@ $cssAnsScriptFilesTheme = array(
 	'/plugins/Chart.js/Chart.min.js',
 	'/plugins/jquery.qrcode/jquery-qrcode.min.js',
 	'/plugins/Chart.js/Chart.min.js',
+	'/plugins/showdown/showdown.min.js',
+	//'/plugins/bootstrap-markdown/js/bootstrap-markdown.js',
+	//'/plugins/bootstrap-markdown/css/bootstrap-markdown.min.css'
 	//'/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
 	//'/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js' , 
 

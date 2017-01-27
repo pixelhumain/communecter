@@ -55,7 +55,7 @@
 
 <?php $this->renderPartial($layoutPath.'footer', array("subdomain"=>"live")); ?>
 
-<script>
+<script type="text/javascript" >
 var loadingData = false;
 var scrollEnd = false;
 

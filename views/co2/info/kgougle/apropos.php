@@ -210,7 +210,7 @@
 
 
 
-<script>
+<script type="text/javascript" >
 
 var currentCategory = "";
 

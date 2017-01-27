@@ -112,7 +112,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 
 </ul>
 
-<script>
+<script type="text/javascript" >
   var news = <?php echo json_encode($news); ?>;
 
 

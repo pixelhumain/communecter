@@ -35,7 +35,7 @@ $cs = Yii::app()->getClientScript();
 	</div>
 </div>
 <!-- end: PAGE CONTENT-->
-<script>
+<script type="text/javascript">
 	jQuery(document).ready(function() {
 		setTitle("Espace administrateur","cog");
 		//Index.init();

@@ -129,7 +129,7 @@
 </div>
 <?php //} ?>
 
-<script>
+<script type="text/javascript" >
   
 var siteurls = <?php echo json_encode($siteurls); ?>;
 var search = "<?php echo $search; ?>";

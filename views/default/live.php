@@ -78,7 +78,7 @@
 </div>
 
 <!-- end: PAGE CONTENT-->
-<script>
+<script type="text/javascript" >
 
 <?php  $parent = Person::getById(@Yii::app()->session["userId"]); ?>
 

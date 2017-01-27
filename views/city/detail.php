@@ -338,7 +338,7 @@ $this->renderPartial('../default/panels/toolbar');
 
 <!-- end: PAGE CONTENT-->
 
-<script>
+<script type="text/javascript" >
 
 var zones =  <?php echo json_encode($zones) ?>;
 var postalCodesDynForm =  <?php echo json_encode($postalCodes) ?>;

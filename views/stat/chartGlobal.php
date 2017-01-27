@@ -22,7 +22,7 @@
 <!-- ***** CITOYENS ***** -->
 <h4>Evolution du nombre de communecté</h4>
 <div id="chartCitoyens"></div>
-<script>
+<script type="text/javascript" >
 
 var chartCitoyens = c3.generate({
     bindto: '#chartCitoyens',
@@ -50,7 +50,7 @@ var chartCitoyens = c3.generate({
 <!-- LINKS -->
 <h4>Evolution du nombre de liens entre entités</h4>
 <div id="chartLinks"></div>
-<script>
+<script type="text/javascript" >
 
 var chartLinks = c3.generate({
     bindto: '#chartLinks',
@@ -81,7 +81,7 @@ var chartLinks = c3.generate({
 <!-- ORGANIZATIONS -->
 <h4>Evolution du nombre d'organisations</h4>
 <div id="chartOrganizations"></div>
-<script>
+<script type="text/javascript" >
 
 var chartOrganizations = c3.generate({
     bindto: '#chartOrganizations',
@@ -112,7 +112,7 @@ var chartOrganizations = c3.generate({
 <!-- EVENTS -->
 <h4>Evolution du nombre d'événements</h4>
 <div id="chartEvents"></div>
-<script>
+<script type="text/javascript" >
 
 var chartEvents = c3.generate({
     bindto: '#chartEvents',
@@ -142,7 +142,7 @@ var chartEvents = c3.generate({
 <!-- PROJECTS -->
 <h4>Evolution du nombre de projets</h4>
 <div id="chartProjects"></div>
-<script>
+<script type="text/javascript" >
 
 var chartProjects = c3.generate({
     bindto: '#chartProjects',
@@ -172,7 +172,7 @@ var chartProjects = c3.generate({
 <!-- ACTIONSROOMS -->
 <h4>Evolution du nombre de salles de vote</h4>
 <div id="chartActionRooms"></div>
-<script>
+<script type="text/javascript" >
 
 var chartActionRooms = c3.generate({
     bindto: '#chartActionRooms',
@@ -200,7 +200,7 @@ var chartActionRooms = c3.generate({
 <!-- MODULES -->
 <h4>Evolution du nombre de modules par organisation</h4>
 <div id="chartModulesOrga"></div>
-<script>
+<script type="text/javascript" >
 
 var chartModulesOrga = c3.generate({
     bindto: '#chartModulesOrga',
@@ -230,7 +230,7 @@ var chartModulesOrga = c3.generate({
 <!-- ***** SALLE DE VOTE ***** -->
 <h4>Evolution du nombre de salle de vote</h4>
 <div id="chartSurveys"></div>
-<script>
+<script type="text/javascript" >
 
 var chartSurveys = c3.generate({
     bindto: '#chartSurveys',
@@ -254,7 +254,7 @@ var chartSurveys = c3.generate({
 
 </script>
 
-<script>
+<script type="text/javascript" >
     //Title
     jQuery(document).ready(function() {
         setTitle("Espace administrateur : Statistiques","cog");

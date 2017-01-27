@@ -49,7 +49,7 @@ else if(@$networkJson && @$networkJson["skin"]["menu"]) $menuConfig = $networkJs
     $('head').append('<link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/jquery-editable/css/jquery-editable.css" rel="stylesheet" />');
     $.fn.poshytip={defaults:null};
 </script>
-<script>
+<script type="text/javascript" >
 if($('#breadcum').length)
 	$('#breadcum').html('<i class="fa fa-search fa-2x" style="padding-top: 10px;padding-left: 20px;"></i><i class="fa fa-chevron-right fa-1x" style="padding: 10px 10px 0px 10px;""></i><a href="javascript:;" onclick="reverseToRepertory();">Répertoire</a><i class="fa fa-chevron-right fa-1x" style="padding: 10px 10px 0px 10px;""></i><?php echo addslashes($element["name"]); ?>');
 </script>

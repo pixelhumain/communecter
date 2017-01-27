@@ -12,6 +12,6 @@ $cs->registerScriptFile(Yii::app()->getModule('githubs')->assetsUrl."/bootstrap-
 <input type="text" value="" name="title" id="title">
 <textarea class="textarea" placeholder="Enter text ..." style="width: 810px; height: 200px"></textarea>
 
-<script>
+<script type="text/javascript" >
 	$('.textarea').wysihtml5();
 </script>

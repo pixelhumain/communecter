@@ -116,7 +116,7 @@
 
 <?php $this->renderPartial($layoutPath.'footer',  array( "subdomain"=>"web" ) ); ?>
 
-<script>
+<script type="text/javascript" >
 
 var currentCategory = "";
 

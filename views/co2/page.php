@@ -21,7 +21,7 @@
 </div>
 
 
-<script>
+<script type="text/javascript" >
 
 var type = "<?php echo $type; ?>";
 var id = "<?php echo $id; ?>";

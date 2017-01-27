@@ -54,7 +54,7 @@
 
 <?php } ?>
 
-<script>
+<script type="text/javascript" >
 var medias = <?php echo json_encode($medias); ?>;
 
 jQuery(document).ready(function() {

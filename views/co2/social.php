@@ -268,7 +268,7 @@
 
 
 
-<script>
+<script type="text/javascript" >
 
 var type = "<?php echo @$type ? $type : 'persons'; ?>";
 

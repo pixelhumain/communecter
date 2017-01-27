@@ -23,6 +23,8 @@ $cssAnsScriptFilesTheme = array(
 
 //'/assets/plugins/moment/min/moment.min.js' , 
 //'/assets/plugins/jquery.qrcode/jquery-qrcode.min.js'
+
+
 );
 
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
@@ -686,16 +688,12 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 		<div id="divShortDescription" class="col-xs-12 no-padding">
 			<div class="text-dark lbl-info-details"><i class="fa fa-angle-down"></i> 
 			<?php echo Yii::t("common","Short description",null,Yii::app()->controller->module->id); ?></div>
-			<a href="#" id="shortDescription" data-type="wysihtml5" data-original-title="<?php echo Yii::t($controller,"Write the ".$controller."'s short description",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("common","Short description",null,Yii::app()->controller->module->id); ?>" class="editable editable-click">
-				<?php echo (!empty($element["shortDescription"])) ? $element["shortDescription"] : ""; ?>
-			</a>	
+			<a href="#" id="shortDescription" data-type="wysihtml5" data-original-title="<?php echo Yii::t($controller,"Write the ".$controller."'s short description",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("common","Short description",null,Yii::app()->controller->module->id); ?>" class="editable editable-click"><?php echo (!empty($element["shortDescription"])) ? $element["shortDescription"] : ""; ?></a>	
 		</div>
 
 		<div class="col-xs-12 no-padding margin-top-10">
-			<div class="text-dark lbl-info-details"><i class="fa fa-angle-down"></i> Description</div>
-				<a href="#" id="description" data-type="wysihtml5" data-original-title="<?php echo Yii::t($controller,"Write the ".$controller."'s description",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("common","Description") ?>" class="editable editable-click">
-					<?php  echo (!empty($element["description"])) ? $element["description"] : ""; ?>
-				</a>	
+		  	<div class="text-dark lbl-info-details"><i class="fa fa-angle-down"></i> Description</div>
+				<a href="#" id="description" data-type="wysihtml5" data-original-title="<?php echo Yii::t($controller,"Write the ".$controller."'s description",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("common","Description") ?>" class="editable editable-click"><?php  echo (!empty($element["description"])) ? $element["description"] : ""; ?></a>	
 		</div>
 	</div>
 </div>
@@ -766,6 +764,7 @@ if($showOdesc == true){
 		changeHiddenIconeElement(true);
 		manageDivEditElement();
 		bindAboutPodElement();
+		inintDescs();
 		collection.applyColor(contextData.type,contextData.id);
 		/*$("#btn-update-geopos").click(function(){
 			findGeoPosByAddress();
@@ -1814,6 +1813,13 @@ if($showOdesc == true){
 			fieldHTML += '</select>';
         }
         return fieldHTML;
+	}
+
+
+	function inintDescs() {
+		$("#description").html(markdownToHtml($("#description").html()));
+		$("#shortDescription").html(markdownToHtml($("#shortDescription").html()));
+		
 	}
 	
 

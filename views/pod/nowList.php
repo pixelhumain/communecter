@@ -94,7 +94,7 @@
     <?php } ?>
 </div>
 
-<script>
+<script type="text/javascript" >
 
 jQuery(document).ready(function() {
     // $(".elemt_date").each(function() {

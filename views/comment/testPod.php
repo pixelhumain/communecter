@@ -44,7 +44,7 @@ $cs->registerScriptFile(Yii::app()->request->baseUrl. '/plugins/jquery.pulsate/j
 
 
 <!-- end: PAGE CONTENT-->
-<script>
+<script type="text/javascript" >
 
 	jQuery(document).ready(function() {
 		getAjax(".commentPod",baseUrl+"/"+moduleId+"/comment/index/type/news/id/5591485d2336f28d290041ba",null,"html");

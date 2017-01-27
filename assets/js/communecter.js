@@ -1428,6 +1428,60 @@ function activateSummernote(elem) {
 		});
 	}
 }
+function markdownToHtml(str) { 
+	mylog.log("markdownToHtml", str);
+	var converter = new showdown.Converter();
+	var res = converter.makeHtml(str)
+	mylog.log("rest", res);
+	return res;
+}
+
+
+function activateMarkdown(elem) { 
+	mylog.log("activateMarkdown", elem);
+
+	markdownParams = {
+			savable:false,
+			iconlibrary:'fa',
+			onPreview: function(e) {
+				var previewContent = "";
+			    mylog.log(e.isDirty());
+			    if (e.isDirty()) {
+			    	var converter = new showdown.Converter(),
+			    		text      = e.getContent(),
+			    		previewContent      = converter.makeHtml(text);
+			    } else {
+			    	previewContent = "Default content";
+			    }
+			    return previewContent;
+		  	},
+		  	onSave: function(e) {
+		  		mylog.log(e);
+		  	},
+		}
+
+	if( !$('script[src="'+baseUrl+'/plugins/bootstrap-markdown/js/bootstrap-markdown.js"]').length ){
+		mylog.log("activateMarkdown if");
+
+		$("<link/>", {
+		   rel: "stylesheet",
+		   type: "text/css",
+		   href: baseUrl+"/plugins/bootstrap-markdown/css/bootstrap-markdown.min.css"
+		}).appendTo("head");
+		$.getScript( baseUrl+"/plugins/showdown/showdown.min.js", function( data, textStatus, jqxhr ) {
+
+			$.getScript( baseUrl+"/plugins/bootstrap-markdown/js/bootstrap-markdown.js", function( data, textStatus, jqxhr ) {
+				mylog.log("HERE", elem);
+				$(elem).markdown(markdownParams);
+			});
+
+
+		});
+	} else {
+		mylog.log("activateMarkdown else");
+		$(elem).markdown(markdownParams);
+	}
+}
 
 function  firstOptions() { 
 	var res = {
@@ -2332,7 +2386,6 @@ var elementLib = {
 		mylog.warn("--------------- buildDynForm", elementObj, afterLoad,data);
 		if(userId)
 		{
-			mylog.log("--------------- here");
 			var form = $.dynForm({
 			      formId : "#ajax-modal-modal-body #ajaxFormModal",
 			      formObj : elementObj.dynForm,
@@ -2790,7 +2843,7 @@ var typeObj = {
 		            formshowers : {
 		                inputType : "custom",
 		                html:
-						"<a class='btn btn-default text-dark w100p' href='javascript:;' onclick='$(\".emailtext,.descriptionwysiwyg,.urltext\").slideToggle();activateSummernote(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (email, desc, urls, telephone)</a>",
+						"<a class='btn btn-default text-dark w100p' href='javascript:;' onclick='$(\".emailtext,.descriptiontextarea,.urltext\").slideToggle();activateMarkdown(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (email, desc, urls, telephone)</a>",
 		            },
 		            email : {
 			        	placeholder : "Email du responsable",
@@ -2799,10 +2852,12 @@ var typeObj = {
 			            	$(".emailtext").css("display","none");
 			            }
 			        },
-			        
 			        description : {
-		                inputType : "markdown",
-	            		placeholder : "Décrire c'est partager2"
+		                inputType : "textarea",
+	            		placeholder : "Décrire c'est partager2",
+	            		init : function(){
+			            	$(".descriptiontextarea").css("display","none");
+			            }
 		            },
 		            url : {
 		                inputType :"text",
