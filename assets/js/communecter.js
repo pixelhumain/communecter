@@ -2386,6 +2386,7 @@ var elementLib = {
 	}
 }
 
+
 /* *********************************
 			DYNFORM SPEC TYPE OBJ
 ********************************** */
@@ -2571,14 +2572,7 @@ var typeObj = {
 		    				$('#ajaxFormModal #parentId').val(contextData.id);
 			    			$("#ajaxFormModal #parentType").val( contextData.type ); 
 			    		}
-			    	}/*,
-			    	loadData : function(data){
-				    	mylog.warn("--------------- loadData ---------------------",data);
-				    	$('#ajaxFormModal #name').val(data.name);
-				    	$('#ajaxFormModal #type').val(data.type);
-				    	$('#ajaxFormModal #parentId').val(data.parentId);
-			    		$("#ajaxFormModal #parentType").val( data.parentType ); 
-				    },*/
+			    	}
 			    },
 			    beforeSave : function(){
 			    	
@@ -2590,18 +2584,8 @@ var typeObj = {
 				    }
 			    },
 				afterSave : function(){
-					if( $('.fine-uploader-manual-trigger').fineUploader('getUploads').length > 0 ){  
-				    	$(".form-group").addClass('hide');
-				    	$(".form-group.imageimage").removeClass('hide');
-				    	$("#btn-submit-form").remove().before('<a class="pull-right uploadImages btn btn-default text-azure text-bold"> Rajouter les images <i class="fa fa-download"></i></a>')
-				    	$(".uploadImages").click(function() { 
-							$('.fine-uploader-manual-trigger').fineUploader('uploadStoredFiles');   
-							$('#ajax-modal').modal("hide");
-			                //clear the unecessary DOM 
-			                $("#ajaxFormModal").html('');
-			                loadByHash( location.hash );	
-				        });
-				    }
+					if( $('.fine-uploader-manual-trigger').fineUploader('getUploads').length > 0 )
+				    	$('.fine-uploader-manual-trigger').fineUploader('uploadStoredFiles');
 			    },
 			    properties : {
 			    	info : {
@@ -2619,7 +2603,14 @@ var typeObj = {
 			            rules : { required : true }
 			        },
 			        image :{
-		            	inputType : "image"
+		            	inputType : "image",
+		            	afterUploadComplete : function(){
+					    	alert("afterUploadComplete");
+							$('#ajax-modal').modal("hide");
+			                //clear the unecessary DOM 
+			                $("#ajaxFormModal").html('');
+			                loadByHash( location.hash );	
+					    },
 		            },
 		            description : {
 		                inputType : "wysiwyg",
