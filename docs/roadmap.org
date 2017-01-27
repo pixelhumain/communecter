@@ -147,6 +147,7 @@ Liste des notifications déjà lues => #370 #453
     * use case
     [ ] test multiple images, with one overweight
     [ ] new POI aren't editable
+    [ ] gallery for poi : http://127.0.0.1/ph/#gallery.index.type.poi.id.588b2aa6f6ca47250a8b4584
     [ ] add into a element form 
         [X] generate id when image exist /api/tool/get/what/mongoId
         [X] set context + id 

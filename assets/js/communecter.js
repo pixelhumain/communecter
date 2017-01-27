@@ -2221,9 +2221,7 @@ var elementLib = {
 	            		afterSave();
 	            	else
             		{
-						$('#ajax-modal').modal("hide");
-		                //clear the unecessary DOM 
-		                $("#ajaxFormModal").html('');
+						elementLib.closeForm();
 		                if(data.url)
 		                	loadByHash( data.url );
 		                else if(data.id)
@@ -2236,8 +2234,11 @@ var elementLib = {
 	    	}
 	    });
 	},
-
-
+	closeForm : function() {
+		$('#ajax-modal').modal("hide");
+	    //clear the unecessary DOM 
+	    $("#ajaxFormModal").html(''); 
+	},
 	editElement : function (type,id)
 	{
 		mylog.warn("--------------- editElement "+type+" ---------------------",id);
@@ -2605,10 +2606,7 @@ var typeObj = {
 			        image :{
 		            	inputType : "image",
 		            	afterUploadComplete : function(){
-					    	alert("afterUploadComplete");
-							$('#ajax-modal').modal("hide");
-			                //clear the unecessary DOM 
-			                $("#ajaxFormModal").html('');
+					    	elementLib.closeForm();
 			                loadByHash( location.hash );	
 					    },
 		            },
@@ -4157,6 +4155,8 @@ var js_templates = {
       		tplObj.key = (notNull(obj.key)) ? ' data-key="'+obj.key+'"' : ""; 
 			tplObj.color = (notNull(obj.color)) ? obj.color : "white"; 
 			tplObj.tooltip = (notNull(obj.tooltip)) ? 'data-toggle="tooltip" data-placement="left" title="'+tooltip+'"' : ""; 
+			tplObj.path = (notNull(obj.path)) ? obj.path : "";
+			tplObj.thumb = (notNull(obj.thumb)) ? obj.thumb : "";
 			return tplObj;
 		},
 
@@ -4220,9 +4220,36 @@ var js_templates = {
 		    str += js_templates.loop( params.list,"col_Link_Label_Count", { classes : "bg-red kickerBtn", parentClass : "col-xs-12 col-sm-4 "} );
 		     str += '</div></div>';
 		     return str;
-		}
+		},
+
+		album : function (obj) 
+		{ 
+			var tplObj = js_templates.objectify(obj);
+			return //' <div class="portfolio-item">'+
+					' <a class="thumb-info '+tplObj.classes+'" href="'+tplObj.path+'" data-lightbox="all">'+
+						' <img src="'+tplObj.thumb+'" class="img-responsive" alt="'+tplObj.thumb+'">'+
+					' </a>';
+					//' </div>' ;
+				
+		},
 
 	};
+
+var album = {
+	show : function (id,type){
+		getAjax( null , baseUrl+'/'+moduleId+"/document/list/id/"+id+"/type/"+type+"/tpl/json" , function( data ) { 
+			$.each(data,function(k,v){
+				v.path = baseUrl+'/'+moduleId+"/"+v.folder+"/"+v.name;
+			});
+			console.dir(data);
+			smallMenu.build( data , 
+			    function( params ){ return js_templates.loop( params, "album" ); },
+			    function(){
+			        $(".labelCount").html('(0)');
+			    });
+		});
+	}
+}
 
 $(document).ready(function() { 
 	initSequence();
