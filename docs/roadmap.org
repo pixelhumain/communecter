@@ -128,6 +128,7 @@ Liste des notifications déjà lues => #370 #453
 
 
 ** @Tib 
+  [new] connect a WP RSS to an element wall
   [ ] INTEGRATTE MARKDOWN wisiwig
     [ ] add documentation editor project page 
       * wishlist 
@@ -143,11 +144,14 @@ Liste des notifications déjà lues => #370 #453
       [X] connecting image upload endpoint 
     [X] adding list of images to album 
     [ ] clean up mkdir($upload_dir, 0777);
+    * use case
+    [ ] test multiple images, with one overweight
+    [ ] new POI aren't editable
     [ ] add into a element form 
         [X] generate id when image exist /api/tool/get/what/mongoId
         [X] set context + id 
         [ ] manage abandon form > delete all tmp entries
-        [ ] make upload on validate button
+        [X] make upload on validate button
     * wishlist
       [ ] cropping before upload
       [ ] adding album colelctions

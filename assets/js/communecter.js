@@ -2218,7 +2218,7 @@ var elementLib = {
 		return formData;
 	},
 
-	saveElement : function  ( formId,collection,ctrl,saveUrl ) 
+	saveElement : function  ( formId,collection,ctrl,saveUrl,afterSave ) 
 	{ 
 		mylog.warn("saveElement",formId,collection);
 		formData = $(formId).serializeFormJSON();
@@ -2270,16 +2270,22 @@ var elementLib = {
 			        });
 	           	}
 	            else { 
-	                toastr.success(data.msg);
-	                $('#ajax-modal').modal("hide");
-	                //clear the unecessary DOM 
-	                $("#ajaxFormModal").html('');
-	                if(data.url)
-	                	loadByHash( data.url );
-	                else if(data.id)
-		        		loadByHash( '#'+ctrl+'.detail.id.'+data.id )
-		        	if(data.map && $.inArray(collection, ["events","organizations","projects","citoyens"] ) !== -1)
-		        		addFloopEntity(data.id, collection, data.map);
+	            	toastr.success(data.msg);
+	            	if (typeof afterSave == "function") 
+	            		afterSave();
+	            	else
+            		{
+						$('#ajax-modal').modal("hide");
+		                //clear the unecessary DOM 
+		                $("#ajaxFormModal").html('');
+		                if(data.url)
+		                	loadByHash( data.url );
+		                else if(data.id)
+			        		loadByHash( '#'+ctrl+'.detail.id.'+data.id )
+			        	if(data.map && $.inArray(collection, ["events","organizations","projects","citoyens"] ) !== -1)
+			        		addFloopEntity(data.id, collection, data.map);	
+					}
+	            	
 	            }
 	    	}
 	    });
@@ -2391,7 +2397,7 @@ var elementLib = {
 			      formObj : elementObj.dynForm,
 			      formValues : data,
 			      beforeBuild : function  () {
-			      	if( elementObj.dynForm.jsonSchema.beforeBuild && typeof elementObj.dynForm.jsonSchema.beforeBuild == "function" )
+			      	if( typeof elementObj.dynForm.jsonSchema.beforeBuild == "function" )
 				        	elementObj.dynForm.jsonSchema.beforeBuild();
 			      },
 			      onLoad : function  () {
@@ -2402,31 +2408,29 @@ var elementLib = {
 
 			        if( notNull(afterLoad) && elementObj.dynForm.jsonSchema.onLoads )
 			        {
-				        if( elementObj.dynForm.jsonSchema.onLoads[afterLoad] && typeof elementObj.dynForm.jsonSchema.onLoads[afterLoad] == "function" )
+				        if( typeof elementObj.dynForm.jsonSchema.onLoads[afterLoad] == "function" )
 				        	elementObj.dynForm.jsonSchema.onLoads[afterLoad](data);
 				        //incase we need a second global post process
-				        if( elementObj.dynForm.jsonSchema.onLoads.onload && typeof elementObj.dynForm.jsonSchema.onLoads.onload == "function" )
+				        if( typeof elementObj.dynForm.jsonSchema.onLoads.onload == "function" )
 				        	elementObj.dynForm.jsonSchema.onLoads.onload();
 				        //incase we need a second global post process
-				        if( elementObj.dynForm.jsonSchema.onLoads[afterLoad] && typeof elementObj.dynForm.jsonSchema.onLoads.onload == "function" )
+				        if( typeof elementObj.dynForm.jsonSchema.onLoads.onload == "function" )
 				        	elementObj.dynForm.jsonSchema.onLoads.onload();
 				    }
 			        bindLBHLinks();
 			      },
 			      onSave : function(){
 
-			      	if( elementObj.dynForm.jsonSchema.beforeSave && typeof elementObj.dynForm.jsonSchema.beforeSave == "function")
+			      	if( typeof elementObj.dynForm.jsonSchema.beforeSave == "function")
 			        	elementObj.dynForm.jsonSchema.beforeSave();
+			        var afterSave = ( typeof elementObj.dynForm.jsonSchema.afterSave == "function") ? elementObj.dynForm.jsonSchema.afterSave : null;
 
 			        if( elementObj.save )
 			        	elementObj.save("#ajaxFormModal");
 			        else if(elementObj.saveUrl)
-			        	elementLib.saveElement("#ajaxFormModal",elementObj.col,elementObj.ctrl,elementObj.saveUrl);
+			        	elementLib.saveElement("#ajaxFormModal",elementObj.col,elementObj.ctrl,elementObj.saveUrl,afterSave);
 			        else
-			        	elementLib.saveElement("#ajaxFormModal",elementObj.col,elementObj.ctrl);
-
-			        if( elementObj.dynForm.jsonSchema.afterSave && typeof elementObj.dynForm.jsonSchema.afterSave == "function")
-			        	elementObj.dynForm.jsonSchema.afterSave();
+			        	elementLib.saveElement("#ajaxFormModal",elementObj.col,elementObj.ctrl,null,afterSave);
 
 			        return false;
 			    }
@@ -2438,6 +2442,7 @@ var elementLib = {
 		}
 	}
 }
+
 
 /* *********************************
 			DYNFORM SPEC TYPE OBJ
@@ -2624,14 +2629,7 @@ var typeObj = {
 		    				$('#ajaxFormModal #parentId').val(contextData.id);
 			    			$("#ajaxFormModal #parentType").val( contextData.type ); 
 			    		}
-			    	}/*,
-			    	loadData : function(data){
-				    	mylog.warn("--------------- loadData ---------------------",data);
-				    	$('#ajaxFormModal #name').val(data.name);
-				    	$('#ajaxFormModal #type').val(data.type);
-				    	$('#ajaxFormModal #parentId').val(data.parentId);
-			    		$("#ajaxFormModal #parentType").val( data.parentType ); 
-				    },*/
+			    	}
 			    },
 			    beforeSave : function(){
 			    	
@@ -2641,6 +2639,10 @@ var typeObj = {
 				    	$('#ajaxFormModal #parentId').val(userId);
 				    	$("#ajaxFormModal #parentType").val( "citoyens" ); 
 				    }
+			    },
+				afterSave : function(){
+					if( $('.fine-uploader-manual-trigger').fineUploader('getUploads').length > 0 )
+				    	$('.fine-uploader-manual-trigger').fineUploader('uploadStoredFiles');
 			    },
 			    properties : {
 			    	info : {
@@ -2659,14 +2661,13 @@ var typeObj = {
 			        },
 			        image :{
 		            	inputType : "image",
-		            	init : function() { 
-		            		setTimeout( function(){
-		            			uploadObj.type = 'poi';
-			            		$('#trigger-upload').click(function() {
-						        	$('.fine-uploader-manual-trigger').fineUploader('uploadStoredFiles');
-						        });
-			            	},500);
-		            	}
+		            	afterUploadComplete : function(){
+					    	alert("afterUploadComplete");
+							$('#ajax-modal').modal("hide");
+			                //clear the unecessary DOM 
+			                $("#ajaxFormModal").html('');
+			                loadByHash( location.hash );	
+					    },
 		            },
 		            description : {
 		                inputType : "wysiwyg",
