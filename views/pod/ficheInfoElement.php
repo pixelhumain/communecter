@@ -692,8 +692,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 		</div>
 
 		<div class="col-xs-12 no-padding margin-top-10">
-		  	<div class="text-dark lbl-info-details"><i class="fa fa-angle-down"></i> Description</div>
-				<a href="#" id="description" data-type="wysihtml5" data-original-title="<?php echo Yii::t($controller,"Write the ".$controller."'s description",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("common","Description") ?>" class="editable editable-click"><?php  echo (!empty($element["description"])) ? $element["description"] : ""; ?></a>	
+		  	<div class="text-dark lbl-info-details">
+		  		<i class="fa fa-angle-down"></i> Description
+		  		<a href='javascript:;' id="btn-update-desc" class="hidden tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Update Description");?>"><i class="fa text-red fa-pencil"></i></a>
+		  	</div>
+				<span id="description"  class=""><?php  echo (!empty($element["description"])) ? $element["description"] : ""; ?></span>	
 		</div>
 	</div>
 </div>
@@ -729,6 +732,8 @@ if($showOdesc == true){
 		contextData.geoPosition = <?php echo json_encode(@$element["geoPosition"]) ?>;
 		contextData.address = <?php echo json_encode(@$element["address"]) ?>;
 		contextData.addresses = <?php echo json_encode(@$element["addresses"]) ?>;
+		contextData.description = <?php echo json_encode(@$element["description"]) ?>;
+		contextData.shortDescription = <?php echo json_encode(@$element["shortDescription"]) ?>;
 	}
 	//var emptyAddress = ((typeof(contextData.address) == "undefined" || contextData.address == null || typeof(contextData.address.codeInsee) == "undefined" || (typeof(contextData.address.codeInsee) != "undefined" && contextData.address.codeInsee == ""))?true:false);
 	var emptyAddress = (( "<?php echo $emptyAddress; ?>" == "<?php echo false; ?>")?false:true);
@@ -785,12 +790,15 @@ if($showOdesc == true){
 			updateLocalityEntities();
 		});
 
+		
+
 		$("#btn-update-organizer").off().on( "click", function(){
 			updateOrganizer();
 		});
 		$("#btn-add-organizer").off().on( "click", function(){
 			updateOrganizer();
 		});
+
 
 		$("#btn-remove-geopos").off().on( "click", function(){
 			var msg = "<?php echo Yii::t('common','Are you sure you want to delete the locality') ;?>" ;
@@ -883,6 +891,19 @@ if($showOdesc == true){
 				switchModeElement();
 			}
 		}
+
+
+		$("#btn-update-desc").off().on( "click", function(){
+			var data = { value : contextData.description } ;
+			var onLoads = {
+				markdown : function(){
+					mylog.log("#btn-update-desc #ajaxFormModal #description")
+					activateMarkdown("#ajaxFormModal #value");
+				}
+			}
+			var saveUrl = baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType;
+			editDynForm("description", "Modifier la description", "fa-pencil", "descriptionUpdate", "markdown", data, saveUrl, onLoads);
+		});
 	});
 
 	function bindAboutPodElement() {
@@ -999,37 +1020,46 @@ if($showOdesc == true){
 
 	function manageModeContextElement() {
 		mylog.log("-----------------manageModeContextElement----------------------", mode);
-		listXeditablesContext = [	'#birthDate', '#description', '#shortDescription', '#fax', '#fixe', '#mobile', 
+		listXeditablesContext = [	'#birthDate', '#shortDescription', '#fax', '#fixe', '#mobile', 
 							'#tags', '#facebookAccount', '#twitterAccount',
 							'#gpplusAccount', '#gitHubAccount', '#skypeAccount', '#telegramAccount', 
 							'#avancement', '#allDay', '#startDate', '#endDate', '#type'];
+
+		listBtnContext = ["#btn-update-desc", "#btn-update-geopos", "#btn-remove-geopos", "#btn-add-geopos", "#btn-update-organizer", "#btn-update-organizer", "#btn-add-organizer"];
 		if (mode == "view") {
 			$('.editable-context').editable('toggleDisabled');
 			$.each(listXeditablesContext, function(i,value) {
 				$(value).editable('toggleDisabled');
 			});
+
+			$.each(listBtnContext, function(i,value) {
+				mylog.log(value, "hidden");
+				$(value).addClass("hidden");
+			});
+			/*$("#btn-update-desc").addClass("hidden");
 			$("#btn-update-geopos").addClass("hidden");
 			$("#btn-remove-geopos").addClass("hidden");
 			$("#btn-add-geopos").addClass("hidden");
 			$("#btn-update-organizer").addClass("hidden");
-			$("#btn-add-organizer").addClass("hidden");
+			$("#btn-add-organizer").addClass("hidden");*/
 			if(!emptyAddress)
 				$("#btn-view-map").removeClass("hidden");
+
 		} else if (mode == "update") {
 			// Add a pk to make the update process available on X-Editable
 			$('.editable-context').editable('option', 'pk', contextData.id);
 			$('.editable-context').editable('toggleDisabled');
-			$.each(listXeditablesContext, function(i,value) {
-				//add primary key to the x-editable field
-				$(value).editable('option', 'pk', contextData.id);
-				$(value).editable('toggleDisabled');
+			$.each(listBtnContext, function(i,value) {
+				mylog.log(value);
+				$(value).removeClass("hidden");
 			})
+			/*$("#btn-update-desc").removeClass("hidden");
 			$("#btn-update-geopos").removeClass("hidden");
 			$("#btn-remove-geopos").removeClass("hidden");
 			$("#btn-add-geopos").removeClass("hidden");
-			$("#btn-view-map").addClass("hidden");
 			$("#btn-update-organizer").removeClass("hidden");
-			$("#btn-add-organizer").removeClass("hidden");
+			$("#btn-add-organizer").removeClass("hidden");*/
+			$("#btn-view-map").addClass("hidden");
 		}
 	}
 
@@ -1088,7 +1118,7 @@ if($showOdesc == true){
 		//
 		listIcones = [	'.fa_name', ".fa_birthDate", ".fa_email", ".fa_telephone_mobile",
 						".fa_telephone",".fa_telephone_fax",".fa_url" , ".fa-file-text-o",
-						".fa_streetAddress", ".fa_postalCode", ".fa_addressCountry",".addresses"];
+						".fa_streetAddress", ".fa_postalCode", ".fa_addressCountry",".desc",".addresses"];
 
 		listXeditablesId = ['#username','#birthDate',"#email", "#mobile", 
 							"#fixe", "#fax","#url", "#licence",
@@ -1819,8 +1849,44 @@ if($showOdesc == true){
 	function inintDescs() {
 		$("#description").html(markdownToHtml($("#description").html()));
 		$("#shortDescription").html(markdownToHtml($("#shortDescription").html()));
-		
 	}
+
+
+
+	function editDynForm(name, title, icon , obj, fct, data, saveUrl, onLoads) {
+		var form = {
+			dynForm:{
+				jsonSchema : {
+					title : title,
+					icon : icon,
+					properties : {
+						value : typeObjLib[obj],
+						pk : {
+				            inputType : "hidden",
+				            value : contextData.id
+				        },
+						name: {
+				            inputType : "hidden",
+				            value : name
+				        }
+					}
+				}
+			}
+		};
+
+		if(typeof saveUrl != "undefined" )
+			form.saveUrl = saveUrl;
+
+		if(typeof onLoads != "undefined" )
+			form.dynForm.jsonSchema.onLoads = onLoads;
+
+
+		mylog.dir(form);
+
+		elementLib.openForm(form, fct, data);
+}
+
+	
 	
 
 </script>

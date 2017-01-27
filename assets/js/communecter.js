@@ -2452,6 +2452,71 @@ var uploadObj = {
 	type : null,
 	id : null
 };
+
+var typeObjLib = {
+	name : {
+    	placeholder : "Nom",
+        inputType : "text",
+        rules : { required : true }
+    },
+    image : {
+    	inputType : "image",
+    	init : function() { 
+    		setTimeout( function(){
+        		$('#trigger-upload').click(function() {
+		        	$('.fine-uploader-manual-trigger').fineUploader('uploadStoredFiles');
+		        	loadByHash(location.hash);
+        			$('#ajax-modal').modal("hide");
+		        });
+        	},500);
+    	}
+    },
+    description : {
+        inputType : "textarea",
+		placeholder : "Décrire c'est partager",
+		init : function(){
+        	$(".descriptiontextarea").css("display","none");
+        }
+    },
+    descriptionUpdate : {
+        inputType : "textarea",
+		placeholder : "Décrire c'est partager"
+    },
+    tags : {
+		inputType : "tags",
+		placeholder : "Ajouter des tags",
+		values : tagsList
+	},
+	location : {
+       inputType : "location"
+    },
+    email : {
+		placeholder : "Email du responsable",
+		inputType : "text",
+		init : function(){
+			$(".emailtext").css("display","none");
+		}
+	},
+	url : {
+        inputType :"text",
+        "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
+        placeholder : "url, lien, adresse web",
+        init:function(){
+            getMediaFromUrlContent("#url", ".resultGetUrl0",0);
+            $(".urltext").css("display","none");
+        }
+    },
+    urls : {
+        inputType : "array",
+        placeholder : "url, informations supplémentaires, actions à faire, etc",
+        value : [],
+        init:function(){
+            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
+        	$(".urlsarray").css("display","none");	
+        }
+    }
+};
+
 var typeObj = {
 	"themes":{ 
 		dynForm : {
@@ -2833,14 +2898,8 @@ var typeObj = {
 							creator : trad.justCitizen
 		            	}
 		            },
-		            tags :{
-		              inputType : "tags",
-		              placeholder : "Tags ou Types de l'organisation",
-		              values : tagsList
-		            },
-		            location : {
-		               inputType : "location"
-		            },
+		            tags : typeObjLib.tags,
+		            location : typeObjLib.location,
 		            formshowers : {
 		                inputType : "custom",
 		                html:
@@ -2853,38 +2912,15 @@ var typeObj = {
 			            	$(".emailtext").css("display","none");
 			            }
 			        },
-			        description : {
-		                inputType : "textarea",
-	            		placeholder : "Décrire c'est partager2",
-	            		init : function(){
-			            	$(".descriptiontextarea").css("display","none");
-			            }
-		            },
-		            url : {
-		                inputType :"text",
-		                "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
-		                placeholder : "url, lien, adresse web",
-		                init:function(){
-				            getMediaFromUrlContent("#url", ".resultGetUrl0",0);
-				            $(".urltext").css("display","none");
-			            }
-		            },
-		            /*urls : {
-			        	placeholder : "URL du site web",
-			            inputType : "array",
-			            value : [],
-			            init:function(){
-				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
-			            	$(".urlsarray").css("display","none");	
-			            }
-			        },*/
-			        telephone : {
+			        description : typeObjLib.description,
+		            url : typeObjLib.url,
+			        /*telephone : {
 			        	placeholder : "Téléphne",
 			            inputType : "text",
 			            init : function(){
 			            	$(".telephonetext").css("display","none");
 			            }
-			        },
+			        },*/
 		            "preferences[publicFields]" : {
 		               inputType : "hidden",
 		                value : []
