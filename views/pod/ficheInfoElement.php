@@ -894,15 +894,22 @@ if($showOdesc == true){
 
 
 		$("#btn-update-desc").off().on( "click", function(){
-			var data = { value : contextData.description } ;
+			var dataUpdate = { value : contextData.description } ;
 			var onLoads = {
 				markdown : function(){
 					mylog.log("#btn-update-desc #ajaxFormModal #description")
 					activateMarkdown("#ajaxFormModal #value");
 				}
 			}
+
+			var afterSave = function(data){
+				$("#description").html(markdownToHtml(data.description));
+				contextData.description = data.description
+				elementLib.closeForm();		
+			}
+			
 			var saveUrl = baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType;
-			editDynForm("description", "Modifier la description", "fa-pencil", "descriptionUpdate", "markdown", data, saveUrl, onLoads);
+			editDynForm("description", "Modifier la description", "fa-pencil", "descriptionUpdate", "markdown", dataUpdate, saveUrl, onLoads, afterSave);
 		});
 	});
 
@@ -1853,7 +1860,7 @@ if($showOdesc == true){
 
 
 
-	function editDynForm(name, title, icon , obj, fct, data, saveUrl, onLoads) {
+	function editDynForm(name, title, icon , obj, fct, data, saveUrl, onLoads, afterSave) {
 		var form = {
 			dynForm:{
 				jsonSchema : {
@@ -1880,6 +1887,8 @@ if($showOdesc == true){
 		if(typeof onLoads != "undefined" )
 			form.dynForm.jsonSchema.onLoads = onLoads;
 
+		if(typeof afterSave != "undefined" )
+			form.dynForm.jsonSchema.afterSave = afterSave;
 
 		mylog.dir(form);
 

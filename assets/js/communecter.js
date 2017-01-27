@@ -2272,7 +2272,7 @@ var elementLib = {
 	            else { 
 	            	toastr.success(data.msg);
 	            	if (typeof afterSave == "function") 
-	            		afterSave();
+	            		afterSave(data);
 	            	else
             		{
 						elementLib.closeForm();
