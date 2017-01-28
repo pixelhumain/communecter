@@ -62,6 +62,21 @@
     height:60px;
     width:60px;
 }
+
+
+@media screen and (max-width: 1024px) {
+    
+}
+
+@media (max-width: 768px) {
+
+    .category-search-link h4{
+        font-size: 0.9em;
+    }
+    #mainCategories h3{
+        font-size: 1.3em;
+    }
+}
 </style>
 
 
@@ -98,15 +113,12 @@
 
         <div class="col-md-2 col-sm-2 text-right" id="sub-menu-left"></div>
         <div class="col-md-7 col-sm-7" id="searchResults"></div>
-        <div class="col-md-2 col-sm-2 text-left" id="sub-menu-left">
+        <div class="col-md-2 col-sm-2 text-right" id="sub-menu-right">
             <a href="https://github.com/pixelhumain" target="_blank">
-                <img src="<?php echo Yii::app()->theme->baseUrl; ?>/assets/img/pib.png" height=70>
+                <img src="<?php echo Yii::app()->theme->baseUrl; ?>/assets/img/anc/105.jpg" height=170>
             </a><br><br>
             <a href="https://github.com/pixelhumain" target="_blank">
-                <img src="<?php echo Yii::app()->theme->baseUrl; ?>/assets/img/sortir.png" height=70>
-            </a><br><br>
-            <a href="https://github.com/pixelhumain" target="_blank">
-                <img src="<?php echo Yii::app()->theme->baseUrl; ?>/assets/img/resto.png" height=70>
+                <img src="<?php echo Yii::app()->theme->baseUrl; ?>/assets/img/anc/105.jpg" height=170>
             </a><br><br>
         </div>
     </div>
