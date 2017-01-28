@@ -330,6 +330,44 @@ Liste des notifications déjà lues => #370 #453
   *** Chart
   [X] Create common and open Chart for project and organization
   [X] Bash de reprise des données sur project dans properties.chart
+  *** Notifications
+  [X] Create notificationTree
+  [ ] Add method to get intelligent Notifications
+    [X] Simple action on same notification with different author
+    [ ] Limit of time (1 day Or two day?)
+    [ ] Update community to notify if one is out of element
+  [ ] Commons method called to construct notification
+    [X] /Follow/, /Ask/ to become member or admin
+    [X] /Accept/ an admin or member (include new sublevel in notficationTree)
+    [ ] /Invite/ 
+      [ ] Generalize invitation as event for organization and project
+    [ ] /Confirm/ an invitation to join a element (for moment event)
+    [ ] /Join/ for creator of event, member of orga or project
+    [ ] /Like/Unlike/Comment
+    [ ] /Add/
+    [ ] /Leave/
+    [ ] /Update/
+  [X] Community to notify
+    [X] method
+  [ ] Create model notificationTree.php
+  [ ] View of notification
+    [X] Get new model of notification
+    [ ] Create $or in condition to get old notification
+    [ ] Plug notifification time on updated
+  *** Mail
+  [ ] Template for use case
+    [X] AskToBecomeAdmin, AskToBecomeMember
+  [ ] Insert daily mail
+  *** Preferences
+
+  *** News
+  [ ] View of like, unlike 
+  *** Link
+  [ ] Add confirmation if someone link me to orga or projet (as event)
+  [ ] Friend relation between persons ?? (community to notify, messaging, see information ??) 
+    *** Bug
+    [ ] If isPendingAdmin or toBeValidated as member user is consedering as member in right access
+    
 * ************************************************************    
 * Version 0.16 (début oct) : en PROD
 * ************************************************************    
