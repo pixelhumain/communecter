@@ -110,12 +110,18 @@ class CommunecterController extends Controller
       "adddataindb"    => array("href" => "/ph/communecter/adminpublic/adddataindb"),
       "createfile" => array("href" => "/ph/communecter/adminpublic/createfile"),
       "sourceadmin" => array("href" => "/ph/communecter/adminpublic/sourceadmin"),
+      "assigndata"    => array("href" => "/ph/communecter/adminpublic/assigndata"),
+      "getdatabyurl"   => array("href" => "/ph/communecter/adminpublic/getdatabyurl"),
+      "previewdata"    => array("href" => "/ph/communecter/adminpublic/previewdata"),
       
     ),
     "collections" => array(
       "add"    => array("href" => "/ph/communecter/collections/add"),
       "list"    => array("href" => "/ph/communecter/collections/list"),
       "crud"    => array("href" => "/ph/communecter/collections/crud"),
+    ),
+    "tool" => array(
+      "get"    => array("href" => "/ph/communecter/tool/get")
     ),
     "default" => array(
       "index"                => array("href" => "/ph/communecter/default/index", "public" => true),
@@ -362,6 +368,7 @@ class CommunecterController extends Controller
       "removeAndBacktract"  => array("href"=> "/ph/communecter/document/removeAndBacktract"),
       "getlistbyid"         => array("href"=> "ph/communecter/document/getlistbyid"),
       "upload"              => array("href"=> "ph/communecter/document/upload"),
+      "uploadsave"          => array("href"=> "ph/communecter/document/uploadsave"),
       "delete"              => array("href"=> "ph/communecter/document/delete")
     ),
     "survey" => array(
@@ -462,7 +469,15 @@ class CommunecterController extends Controller
     //creates an issue with Json requests : to clear add josn:true on the page definition here 
     //if( Yii::app()->request->isAjaxRequest && (!isset( $page["json"] )) )
       //echo "<script type='text/javascript'> userId = '".Yii::app()->session['userId']."'; var blackfly = 'sosos';</script>";
-    
+    if( @$_GET["theme"] ){
+      Yii::app()->theme = $_GET["theme"];
+      Yii::app()->session["theme"] = $_GET["theme"];
+    }
+    else if(@Yii::app()->session["theme"])
+      Yii::app()->theme = Yii::app()->session["theme"];
+    /*else
+      Yii::app()->theme = "ph-dori";*/
+
     //managed public and private sections through a url manager
     if( Yii::app()->controller->id == "admin" && !Yii::app()->session[ "userIsAdmin" ] )
       throw new CHttpException(403,Yii::t('error','Unauthorized Access.'));

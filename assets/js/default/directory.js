@@ -105,11 +105,11 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
       "name" : name, 
       "locality" : "",//locality, 
       "searchType" : searchType, 
-      "searchTag" : $('#searchTags').val().split(','), //is an array
-      "searchLocalityCITYKEY" : $('#searchLocalityCITYKEY').val().split(','),
-      "searchLocalityCODE_POSTAL" : $('#searchLocalityCODE_POSTAL').val().split(','), 
-      "searchLocalityDEPARTEMENT" : $('#searchLocalityDEPARTEMENT').val().split(','),
-      "searchLocalityREGION" : $('#searchLocalityREGION').val().split(','),
+      "searchTag" : ($('#searchTags').length ) ? $('#searchTags').val().split(',') : [] , //is an array
+      "searchLocalityCITYKEY" : ($('#searchLocalityCITYKEY').length ) ? $('#searchLocalityCITYKEY').val().split(',') : [],
+      "searchLocalityCODE_POSTAL" : ($('#searchLocalityCODE_POSTAL').length ) ? $('#searchLocalityCODE_POSTAL').val().split(',') : [], 
+      "searchLocalityDEPARTEMENT" : ($('#searchLocalityDEPARTEMENT').length ) ?  $('#searchLocalityDEPARTEMENT').val().split(',') : [],
+      "searchLocalityREGION" : ($('#searchLocalityREGION').length ) ? $('#searchLocalityREGION').val().split(',') : [],
       "searchBy" : levelCommunexionName[levelCommunexion], 
       "indexMin" : indexMin, 
       "indexMax" : indexMax  };

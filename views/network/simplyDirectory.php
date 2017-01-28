@@ -361,6 +361,7 @@ var mix = "";
   mix = "mix";
 <?php } ?>
 function autoCompleteSearch(name, locality, indexMin, indexMax){
+  console.log("autoCompleteSearch", indexMin, indexMax, indexStep);
     var levelCommunexionName = { 1 : "INSEE",
                              2 : "CODE_POSTAL_INSEE",
                              3 : "DEPARTEMENT",

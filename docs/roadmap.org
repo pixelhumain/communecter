@@ -78,6 +78,11 @@ Report Abuse on element
 
 ** POI
   [.2] affiché sur la carte un type geoJson 
+  [.2] import POIs from : 
+    [ ] geojson, ex umap 
+    [ ] csv ...
+    [ ] xml
+    [ ] api smart citizen + conversion
 
 * City 
 [.2] city bread crumb ( cp, insee, agglo, departement, region)  
@@ -123,6 +128,38 @@ Liste des notifications déjà lues => #370 #453
 
 
 ** @Tib 
+  [new] connect a WP RSS to an element wall
+  [ ] INTEGRATTE MARKDOWN wisiwig
+    [ ] add documentation editor project page 
+      * wishlist 
+      [ ] add from external link 
+        [ ] multi bao
+        [ ] wiki page
+        [ ] git url or wiki
+        [ ] mainstenant
+  [ ] add photo
+    [X] join upload and save into one unique action : UploadSaveAction
+    [X] added test btn to gallery page and authorisation limitations  
+    [X] added fineUploader element to dynForm
+      [X] connecting image upload endpoint 
+    [X] adding list of images to album 
+    [ ] clean up mkdir($upload_dir, 0777);
+    * use case
+    [ ] test multiple images, with one overweight
+    [ ] new POI aren't editable
+    [ ] gallery for poi : http://127.0.0.1/ph/#gallery.index.type.poi.id.588b2aa6f6ca47250a8b4584
+    [ ] add into a element form 
+        [X] generate id when image exist /api/tool/get/what/mongoId
+        [X] set context + id 
+        [ ] manage abandon form > delete all tmp entries
+        [X] make upload on validate button
+    * wishlist
+      [ ] cropping before upload
+      [ ] adding album colelctions
+      [new] define common points between element in typeObj , make a merge with a common map 
+  [ ] notification à la création d'un dda
+  [ ] Count requests DB per page 
+  [X] network source from gist served by gitraw
   [X] Finance Transparente
   [X] Finder
     [ ] url direct sur le finder 
@@ -243,10 +280,6 @@ Liste des notifications déjà lues => #370 #453
     * wishlist
         [ ] show all events of my links, with posibility to choose to hide anyone of them 
         [ ] add automatically any events from this organization or project to my calendar
-  [ ] INTEGRATTE MARKDOWN wisiwig
-  [ ] add photo  
-  [ ] notification à la création d'un dda
-  [ ] Count requests DB per page 
 
   [ ] cut up communecter.js into sub files
   [ ] cacher des sections sont mon element 
@@ -294,8 +327,19 @@ Liste des notifications déjà lues => #370 #453
   [new] page pour reflechir 
     une page qui pousse a l'action, qui fait reflechir, et utiliser les outils de la plateforme 
   [new] connecter les POI à des source ousite externe ex : randopitons.re
-  [ ] expliquer ce qu'est un commun
-  [ ] test a light mobile version
+  [new] from siteweb to element 
+    [ ] from json : oceatoon.json
+    [ ] openatlas.org
+  [new] organisation de type 
+    [ ] "quartier", connecté une "zone" et un element
+    [ ] "tiers lieux", décrivez ce qu'il ya dans votre lieux : 
+      - fablab, coworking, repare café, ressourcerie, salle de réunion, restaurant, 
+  [new] element param : dont show in search
+  [new] expliquer ce qu'est un commun
+  [new] test a light mobile version
+  [new] my profile , if twitter account, add a twitter reader 
+  [new] sur n'importe quelle url , si on ajoute ?format=json > ca fait un export grace a l'api 
+  [new] save search criterias and better user activity stats to make a better platform
   * DDA
   [ ] Quand la liste est vide , faire une page explication avec des kickers pour creer des espaces
   [ ] bug : sur archiver , persiste dans les listes 

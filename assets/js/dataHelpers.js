@@ -259,3 +259,30 @@ function getFullTextCountry(codeCountry){
 	else return "";
 }
 
+function csvToArray(csv, separateur, separateurText){
+
+	var lines = csv.split("\n");
+				
+	var result = [];
+	$.each(lines, function(key, value){
+		var colonnes = value.split(separateur);
+		var newColonnes = [];
+		$.each(colonnes, function(keyCol, valueCol){
+			//mylog.log("valueCol", valueCol);
+			if(typeof separateurText == "undefined" || separateurText =="")
+				newColonnes.push(valueCol);
+			else{
+				if(valueCol.charAt(0) == separateurText && valueCol.charAt(valueCol.length-1) == separateurText){
+					var elt = valueCol.substr(1,valueCol.length-2);
+					newColonnes.push(elt);
+				}else{
+					newColonnes.push(valueCol);
+				}
+			}
+			
+		});
+			result.push(newColonnes);
+	});
+	return result;
+}
+

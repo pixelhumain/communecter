@@ -2,10 +2,10 @@
 
 return array(
 	"DIRECTORY" => "DIRECTORY",
-	"IMPORT DATA" => "CREER UN FICHIER CONFORME",
+	"Converter" => "Convertisseur de données",
 	"OPEN AGENDA" => "OPEN AGENDA",
 	"CHECK GEOCODAGE" => "VERIFIER LE GEOCODAGE DES ENTITES ",
-	"ADD DATA" => "AJOUTER DES DONNEES",
+	"IMPORT DATA" => "Injecter des données",
 	"SOURCE ADMIN" => "SOURCE ADMIN",
 	"CHECK CITIES" => "VERIFIER LA TABLE CITIES",
 );

@@ -156,9 +156,9 @@ $userId = Yii::app()->session["userId"] ;
 </div>
 
 <div class="col-xs-12 center">
-	<br/><a href="#" class="btn btn-primary col-sm-3" id="sumitVerification">Vérification</a>
+	<br/><a href="#" class="btn btn-primary col-sm-3" id="sumitVerification">Ajouter</a>
 </div>
-
+<br/>
 <div id="resultAddData">
 	<br/><h4 class="panel-title">Résultat</h4>
 
@@ -313,7 +313,7 @@ function bindAddData(){
   		$.ajax({
 	        type: 'POST',
 	        data: params,
-	        url: baseUrl+'/communecter/admin/adddataindb/',
+	        url: baseUrl+'/communecter/adminpublic/adddataindb/',
 	        dataType : 'json',
 	        success: function(data){
 	        	console.log("data",data);

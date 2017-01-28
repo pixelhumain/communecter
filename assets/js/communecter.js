@@ -2164,7 +2164,7 @@ var elementLib = {
 		return formData;
 	},
 
-	saveElement : function  ( formId,collection,ctrl,saveUrl ) 
+	saveElement : function  ( formId,collection,ctrl,saveUrl,afterSave ) 
 	{ 
 		mylog.warn("saveElement",formId,collection);
 		formData = $(formId).serializeFormJSON();
@@ -2216,24 +2216,31 @@ var elementLib = {
 			        });
 	           	}
 	            else { 
-	                toastr.success(data.msg);
-	                $('#ajax-modal').modal("hide");
-	                //clear the unecessary DOM 
-	                $("#ajaxFormModal").html('');
-	                if(data.url)
-	                	loadByHash( data.url );
-	                else if(data.id)
-		        		loadByHash( '#'+ctrl+'.detail.id.'+data.id )
-		        	if(data.map && $.inArray(collection, ["events","organizations","projects","citoyens"] ) !== -1)
-		        		addFloopEntity(data.id, collection, data.map);
+	            	toastr.success(data.msg);
+	            	if (typeof afterSave == "function") 
+	            		afterSave();
+	            	else
+            		{
+						elementLib.closeForm();
+		                if(data.url)
+		                	loadByHash( data.url );
+		                else if(data.id)
+			        		loadByHash( '#'+ctrl+'.detail.id.'+data.id )
+			        	if(data.map && $.inArray(collection, ["events","organizations","projects","citoyens"] ) !== -1)
+			        		addFloopEntity(data.id, collection, data.map);	
+					}
+	            	
 	            }
 	    	}
 	    });
 	},
-
-
+	closeForm : function() {
+		$('#ajax-modal').modal("hide");
+	    //clear the unecessary DOM 
+	    $("#ajaxFormModal").html(''); 
+	},
 	editElement : function (type,id)
-		{
+	{
 		mylog.warn("--------------- editElement "+type+" ---------------------",id);
 		//get ajax of the elemetn content
 		$.ajax({
@@ -2291,18 +2298,20 @@ var elementLib = {
 	    elementLocation = null;
 	    elementLocations = [];
 	    centerLocation = null;
-
 	    updateLocality = false;
-	    if(typeof type == "object"){
-	    	specs = type;
-	    }else{
-		    formType = type;
-		    console.log(type);
-		    specs = typeObj[type];
-	    }
+	    
 
 	    if(userId)
 		{
+			if(typeof type == "object"){
+				specs = type;
+			}else{
+				formType = type;
+				console.log(type);
+				specs = typeObj[type];
+			}
+	    	uploadObj.type = specs.col;
+	    
 			mylog.dir(specs);
 			$("#ajax-modal").removeClass("bgEvent bgOrga bgProject bgPerson bgDDA").addClass(specs.bgClass);
 			$("#ajax-modal-modal-title").html("<i class='fa fa-refresh fa-spin'></i> Chargement en cours. Merci de patienter.");
@@ -2319,8 +2328,10 @@ var elementLib = {
 		  	afterLoad = ( notNull(afterLoad) ) ? afterLoad : null;
 		  	data = ( notNull(data) ) ? data : {};
 		  	elementLib.buildDynForm(specs, afterLoad, data);
-		} else 
+		} else {
 			toastr.error("Vous devez être connecté pour afficher les formulaires de création");
+			showPanel('box-login');
+		}
 	},
 
 	buildDynForm : function (elementObj, afterLoad,data) { 
@@ -2331,49 +2342,60 @@ var elementLib = {
 			      formId : "#ajax-modal-modal-body #ajaxFormModal",
 			      formObj : elementObj.dynForm,
 			      formValues : data,
+			      beforeBuild : function  () {
+			      	if( typeof elementObj.dynForm.jsonSchema.beforeBuild == "function" )
+				        	elementObj.dynForm.jsonSchema.beforeBuild();
+			      },
 			      onLoad : function  () {
 			        $("#ajax-modal-modal-title").html("<i class='fa fa-"+elementObj.dynForm.jsonSchema.icon+"'></i> "+elementObj.dynForm.jsonSchema.title);
 			        $("#ajax-modal-modal-body").append("<div class='space20'></div>");
 			        //alert(afterLoad+"|"+typeof elementObj.dynForm.jsonSchema.onLoads[afterLoad]);
-			        if( notNull(afterLoad) && elementObj.dynForm.jsonSchema.onLoads 
-			        	&& elementObj.dynForm.jsonSchema.onLoads[afterLoad] 
-			        	&& typeof elementObj.dynForm.jsonSchema.onLoads[afterLoad] == "function" )
-			        	elementObj.dynForm.jsonSchema.onLoads[afterLoad](data);
-			        //incase we need a second global post process
-			        if( notNull(afterLoad) && elementObj.dynForm.jsonSchema.onLoads 
-			        	&& elementObj.dynForm.jsonSchema.onLoads[afterLoad] 
-			        	&& typeof elementObj.dynForm.jsonSchema.onLoads.onload == "function" )
-			        	elementObj.dynForm.jsonSchema.onLoads.onload();
+			        if( notNull(afterLoad) && elementObj.dynForm.jsonSchema.onLoads )
+			        {
+				        if( typeof elementObj.dynForm.jsonSchema.onLoads[afterLoad] == "function" )
+				        	elementObj.dynForm.jsonSchema.onLoads[afterLoad](data);
+				        //incase we need a second global post process
+				        if( typeof elementObj.dynForm.jsonSchema.onLoads.onload == "function" )
+				        	elementObj.dynForm.jsonSchema.onLoads.onload();
+				        //incase we need a second global post process
+				        if( typeof elementObj.dynForm.jsonSchema.onLoads.onload == "function" )
+				        	elementObj.dynForm.jsonSchema.onLoads.onload();
+				    }
 			        bindLBHLinks();
 			      },
 			      onSave : function(){
 
-			      	if( elementObj.dynForm.jsonSchema.beforeSave && typeof elementObj.dynForm.jsonSchema.beforeSave == "function")
+			      	if( typeof elementObj.dynForm.jsonSchema.beforeSave == "function")
 			        	elementObj.dynForm.jsonSchema.beforeSave();
+			        var afterSave = ( typeof elementObj.dynForm.jsonSchema.afterSave == "function") ? elementObj.dynForm.jsonSchema.afterSave : null;
 
 			        if( elementObj.save )
 			        	elementObj.save("#ajaxFormModal");
 			        else if(elementObj.saveUrl)
-			        	elementLib.saveElement("#ajaxFormModal",elementObj.col,elementObj.ctrl,elementObj.saveUrl);
+			        	elementLib.saveElement("#ajaxFormModal",elementObj.col,elementObj.ctrl,elementObj.saveUrl,afterSave);
 			        else
-			        	elementLib.saveElement("#ajaxFormModal",elementObj.col,elementObj.ctrl);
-
-			        if( elementObj.dynForm.jsonSchema.afterSave && typeof elementObj.dynForm.jsonSchema.afterSave == "function")
-			        	elementObj.dynForm.jsonSchema.afterSave();
+			        	elementLib.saveElement("#ajaxFormModal",elementObj.col,elementObj.ctrl,null,afterSave);
 
 			        return false;
 			    }
 			});
 			mylog.dir(form);
-		} else 
-			alert('Vous devez etre loggué');
+		} else {
+			toastr.error("Vous devez être connecté pour afficher les formulaires de création");
+			showPanel('box-login');
+		}
 	}
 }
+
 
 /* *********************************
 			DYNFORM SPEC TYPE OBJ
 ********************************** */
 var contextData = null;
+var uploadObj = {
+	type : null,
+	id : null
+};
 var typeObj = {
 	"themes":{ 
 		dynForm : {
@@ -2386,10 +2408,10 @@ var typeObj = {
 		            	inputType : "custom",
 		            	html : function() { 
 		            		return "<div class='menuSmallMenu'>"+js_templates.loop( [ 
-			            		{ label : "ph dori", classes:"bg-dark", icon:"fa-bullseye", action : "javascript:window.location.href = moduleId+'/default/index/theme/ph-dori'"},
-			            		{ label : "notragora", classes:"bg-grey", icon:"fa-video-camera ", action : "javascript:window.location.href = moduleId+'/default/index/theme/notragora'"},
-			            		{ label : "C02", classes:"bg-red", icon:"fa-search", action : "javascript:window.location.href = moduleId+'/co2/index/theme/CO2'"},
-			            		{ label : "network", classes:"bg-orange", icon:"fa-bars", action : "javascript:window.location.href = moduleId+'/default/index/theme/network'"},
+			            		{ label : "ph dori", classes:"bg-dark", icon:"fa-bullseye", action : "javascript:window.location.href = moduleId+'?theme=ph-dori'"},
+			            		{ label : "notragora", classes:"bg-grey", icon:"fa-video-camera ", action : "javascript:window.location.href = moduleId+'?theme=notragora'"},
+			            		{ label : "C02", classes:"bg-red", icon:"fa-search", action : "javascript:window.location.href = moduleId+'?theme=CO2'"},
+			            		{ label : "network", classes:"bg-orange", icon:"fa-bars", action : "javascript:window.location.href = moduleId+'?theme=network'"},
 			            		
 		            		], "col_Link_Label_Count", { classes : "bg-red kickerBtn", parentClass : "col-xs-12 col-sm-4 "} )+"</div>";
 		            	}
@@ -2434,8 +2456,15 @@ var typeObj = {
 			    properties : {
 			    	image :{
 		            	inputType : "image",
-		            	contextType : "citoyens",
-		            	contextId : "585bdfdaf6ca47b6118b4583"
+		            	init : function() { 
+		            		setTimeout( function(){
+			            		$('#trigger-upload').click(function() {
+						        	$('.fine-uploader-manual-trigger').fineUploader('uploadStoredFiles');
+						        	loadByHash(location.hash);
+			            			$('#ajax-modal').modal("hide");
+						        });
+			            	},500);
+		            	}
 		            }
 			    }
 			}
@@ -2526,23 +2555,25 @@ var typeObj = {
 			    title : "Formulaire Point d'interet",
 			    icon : "map-marker",
 			    type : "object",
-			    
+			    beforeBuild : function(){
+			    	//generate Id for upload feature of this element 
+			    	uploadObj.type = 'poi';
+	    			if( !$("#ajaxFormModal #id").val() ){
+	    				getAjax( null , baseUrl+"/api/tool/get/what/mongoId" , function(data){
+		    				uploadObj.id = data.id;
+		    				$("#ajaxFormModal #id").val(data.id)
+		    			});
+		    		}
+			    },
 			    onLoads : {
 			    	//pour creer un subevnt depuis un event existant
 			    	subPoi : function(){
-			    		if(contextData.type && contextData.id ){
+			    		if(contextData.type && contextData.id )
+			    		{
 		    				$('#ajaxFormModal #parentId').val(contextData.id);
 			    			$("#ajaxFormModal #parentType").val( contextData.type ); 
 			    		}
-			    		
-			    	}/*,
-			    	loadData : function(data){
-				    	mylog.warn("--------------- loadData ---------------------",data);
-				    	$('#ajaxFormModal #name').val(data.name);
-				    	$('#ajaxFormModal #type').val(data.type);
-				    	$('#ajaxFormModal #parentId').val(data.parentId);
-			    		$("#ajaxFormModal #parentType").val( data.parentType ); 
-				    },*/
+			    	}
 			    },
 			    beforeSave : function(){
 			    	
@@ -2552,6 +2583,10 @@ var typeObj = {
 				    	$('#ajaxFormModal #parentId').val(userId);
 				    	$("#ajaxFormModal #parentType").val( "citoyens" ); 
 				    }
+			    },
+				afterSave : function(){
+					if( $('.fine-uploader-manual-trigger').fineUploader('getUploads').length > 0 )
+				    	$('.fine-uploader-manual-trigger').fineUploader('uploadStoredFiles');
 			    },
 			    properties : {
 			    	info : {
@@ -2568,6 +2603,13 @@ var typeObj = {
 			            inputType : "text",
 			            rules : { required : true }
 			        },
+			        image :{
+		            	inputType : "image",
+		            	afterUploadComplete : function(){
+					    	elementLib.closeForm();
+			                loadByHash( location.hash );	
+					    },
+		            },
 		            description : {
 		                inputType : "wysiwyg",
 	            		placeholder : "Décrire c'est partager",
@@ -2621,7 +2663,6 @@ var typeObj = {
 		    				$('#ajaxFormModal #parentId').val(contextData.id);
 			    			$("#ajaxFormModal #parentType").val( contextData.type ); 
 			    		}
-			    		
 			    	}/*,
 			    	loadData : function(data){
 				    	mylog.warn("--------------- loadData ---------------------",data);
@@ -3906,6 +3947,78 @@ var typeObj = {
 		}},
 };
 
+var documents = {
+	saveImages : function (contextType, contextId,contentKey){
+		alert("saveImages"+contextType+contextId);
+		$.ajax({
+			url : baseUrl+"/"+moduleId+"/document/"+uploadUrl+"dir/"+moduleId+"/folder/"+contextType+"/ownerId/"+contextId+"/input/dynform",
+			type: "POST",
+			data: new FormData(this),
+			contentType: false,
+			cache: false, 
+			processData: false,
+			dataType: "json",
+			success: function(data){
+				if(debug)mylog.log(data);
+		  		if( data.success ){
+			  		mylog.log("success");
+		  			imageName = data.name;
+					var doc = { 
+						"id":contextId,
+						"type":contextType,
+						"folder":contextType+"/"+contextId,
+						"moduleId":moduleId,
+						"author" : userId  , 
+						"name" : data.name , 
+						"date" : new Date() , 
+						"size" : data.size ,
+						"doctype" : docType,
+						"contentKey" : contentKey
+					};
+					mylog.log(doc);
+					path = "/"+data.dir+data.name;
+					$.ajax({
+					  	type: "POST",
+					  	url: baseUrl+"/"+moduleId+"/document/save",
+					  	data: doc,
+				      	dataType: "json"
+					}).done( function(data){
+				        if(data.result){
+						    toastr.success(data.msg);
+						    //setTimeout(function(){
+						    $(".imagesNews").last().val(data.id.$id);
+						    $(".imagesNews").last().attr("name","");
+						    $(".newImageAlbum").last().find("img").removeClass("grayscale");
+						    $(".newImageAlbum").last().find("i").remove();
+						    $(".newImageAlbum").last().append("<a href='javascript:;' onclick='deleteImage(\""+data.id.$id+"\",\""+data.name+"\")'><i class='fa fa-times fa-x padding-5 text-white removeImage' id='deleteImg"+data.id.$id+"'></i></a>");
+						    //},200);
+				
+						} else{
+							toastr.error(data.msg);
+							if($("#resultsImage img").length>1)
+						  		$(".newImageAlbum").last().remove();
+						  	else{
+						  		$("#resultsImage").empty();
+						  		$("#resultsImage").hide();
+						  	}
+						}
+						$("#addImage").off();
+					});
+		  		}
+		  		else{
+			  		if($("#resultsImage img").length>1)
+				  		$(".newImageAlbum").last().remove();
+				  	else{
+				  		$("#resultsImage").empty();
+				  		$("#resultsImage").hide();
+				  	}
+				  	$("#addImage").off();
+		  			toastr.error(data.msg);
+		  		}
+			},
+		});
+	}
+}
 /* ************************************
 Keyboard Shortcuts
 *************************************** */
@@ -3922,7 +4035,7 @@ var keyboardNav = {
 		"112" : function(){ $(".menu-name-profil").trigger('click') },//f1
 		"113" : function(){ if(userId)loadByHash('#person.detail.id.'+userId); else alert("login first"); },//f2
 		"114" : function(){ showMap(true); },//f3
-		"115" : function(){ console.clear();console.warn("repair society") },//f4
+		"115" : function(){ elementLib.openForm('themes') },//f4
 		"117" : function(){ console.clear();loadByHash(location.hash) },//f6
 	},
 	keyMapCombo : {
@@ -3936,7 +4049,6 @@ var keyboardNav = {
 		"79" : function(){elementLib.openForm('organization')},//o : orga
 		"80" : function(){elementLib.openForm('project')},//p : project
 		"82" : function(){smallMenu.openAjax(baseUrl+'/'+moduleId+'/person/directory?tpl=json','Mon répertoire','fa-book','red')},//r : annuaire
-		"84" : function(){elementLib.openForm('themes')},//t : theme switcher
 		"86" : function(){elementLib.openForm('entry')},//v : votes
 		
 	},
@@ -4026,6 +4138,117 @@ function displayStartAndEndDate(event) {
 		}
 	}
 	return content;
+}
+
+//*********************************************************************************
+// JS Template
+//*********************************************************************************
+var js_templates = {
+		objectify : function(obj)
+		{
+			var tplObj = { label : obj.label };
+			tplObj.lblCount = (notNull(obj.labelCount)) ? ' <span class="labelCount">('+obj.labelCount+')</span>' : '';
+			tplObj.action = (notNull(obj.action)) ? obj.action : 'javascript:smallMenu.openAjax(\''+baseUrl+'/'+moduleId+'/collections/list/col/'+obj.label+'\',\''+obj.label+'\',\'fa-folder-open\',\'yellow\'})';
+			tplObj.icon = (notNull(obj.icon)) ? obj.icon : "fa-question-circle-o";
+			tplObj.classes = (notNull(obj.classes)) ? obj.classes : ""; 
+      		tplObj.parentClass = (notNull(obj.parentClass)) ? obj.parentClass : ""; 
+      		tplObj.key = (notNull(obj.key)) ? ' data-key="'+obj.key+'"' : ""; 
+			tplObj.color = (notNull(obj.color)) ? obj.color : "white"; 
+			tplObj.tooltip = (notNull(obj.tooltip)) ? 'data-toggle="tooltip" data-placement="left" title="'+tooltip+'"' : ""; 
+			tplObj.path = (notNull(obj.path)) ? obj.path : "";
+			tplObj.thumb = (notNull(obj.thumb)) ? obj.thumb : "";
+			return tplObj;
+		},
+
+		//params :
+		//obj : 
+		//classes :: applies a class on each rendered element
+		//open / close :: is a globale container
+		//el_open/el_close :: is a container for each element of the list rendering
+		loop : function(obj,tpl,tplparams)
+		{
+      		var str = (notNull(tplparams.open)) ? tplparams.open : "";
+      		var cleanup = false;
+      		$.each(obj ,function(k,v){
+          		if( !notNull( v.classes ) && notNull(tplparams) && notNull( tplparams.classes )){
+          			v.classes = tplparams.classes;
+          			cleanup = true;
+          		}
+        		if( !notNull( v.parentClass ) && notNull(tplparams) && notNull( tplparams.parentClass ))
+           			v.parentClass = tplparams.parentClass;
+         		var opener = (notNull(tplparams.el_open)) ? tplparams.el_open : "";
+		     	str += opener+js_templates[tpl]( v );
+         		if(notNull(tplparams.el_close)) str += tplparams.el_close;
+         		if(cleanup)
+         			delete v.classes;
+		   	});
+        	if(notNull(tplparams.close)) str += tplparams.close;
+		   	return str;
+		},
+
+		col_Link_Label_Count : function(obj)
+		{
+			var tplObj = js_templates.objectify(obj);
+			return ' <div class="'+tplObj.parentClass+' center padding-5 ">'+
+						'<a href="'+tplObj.action+'" '+
+							'class="'+tplObj.classes+' btn tooltips text-'+tplObj.color+'" '+tplObj.tooltip+' '+tplObj.key+'>'+
+							'<i class="fa '+tplObj.icon+' text-'+tplObj.color+'"></i> '+
+							'<br/>'+tplObj.label+tplObj.lblCount+
+						'</a>'+
+				    '</div>'
+		},
+
+		linkList : function (obj) 
+		{ 
+			var tplObj = js_templates.objectify(obj);
+			mylog.log("classes",tplObj.classes);
+			return '<a href="'+tplObj.action+'" class="'+tplObj.classes+' btn btn-xs btn-link text-white text-left w100p" '+tplObj.key+'><i class="fa '+tplObj.icon+'  text-'+tplObj.color+'"></i> '+tplObj.label+tplObj.lblCount+'</a><br/>';
+		},
+
+		leftMenu_content : function(params)
+		{
+		     //left menu section 
+		     var str = '<div class="menuSmallMenu"><div class="menuSmallLeftMenu col-sm-3 col-xs-12 center margin-top-15 margin-bottom-5">';
+		     str += js_templates.loop( params.menu,"linkList",{ classes : "padding-5 bg-dark center  col-xs-12 ", el_open:'<div class="col-xs-12 center no-padding">', el_close:'</div>'} );
+		     str += '</div>'+
+		     //right content section 
+		    	'<div class="col-sm-9 col-xs-12 no-padding">';
+
+		    str += "<div class='homestead titleSmallMenu' style='font-size:45px'> "+
+		       params.title1+' <i class="fa fa-angle-right"></i> '+params.title2+"</div>";
+
+		    str += js_templates.loop( params.list,"col_Link_Label_Count", { classes : "bg-red kickerBtn", parentClass : "col-xs-12 col-sm-4 "} );
+		     str += '</div></div>';
+		     return str;
+		},
+
+		album : function (obj) 
+		{ 
+			var tplObj = js_templates.objectify(obj);
+			return //' <div class="portfolio-item">'+
+					' <a class="thumb-info '+tplObj.classes+'" href="'+tplObj.path+'" data-lightbox="all">'+
+						' <img src="'+tplObj.thumb+'" class="img-responsive" alt="'+tplObj.thumb+'">'+
+					' </a>';
+					//' </div>' ;
+				
+		},
+
+	};
+
+var album = {
+	show : function (id,type){
+		getAjax( null , baseUrl+'/'+moduleId+"/document/list/id/"+id+"/type/"+type+"/tpl/json" , function( data ) { 
+			$.each(data,function(k,v){
+				v.path = baseUrl+'/'+moduleId+"/"+v.folder+"/"+v.name;
+			});
+			console.dir(data);
+			smallMenu.build( data , 
+			    function( params ){ return js_templates.loop( params, "album" ); },
+			    function(){
+			        $(".labelCount").html('(0)');
+			    });
+		});
+	}
 }
 
 $(document).ready(function() { 
