@@ -4227,7 +4227,7 @@ var js_templates = {
 			var tplObj = js_templates.objectify(obj);
 			return //' <div class="portfolio-item">'+
 					' <a class="thumb-info '+tplObj.classes+'" href="'+tplObj.path+'" data-lightbox="all">'+
-						' <img src="'+tplObj.thumb+'" class="img-responsive" alt="'+tplObj.thumb+'">'+
+						' <img src="'+tplObj.thumb+'" class="img-responsive" alt="'+objbj.name+'">'+
 					' </a>';
 					//' </div>' ;
 				
@@ -4238,9 +4238,7 @@ var js_templates = {
 var album = {
 	show : function (id,type){
 		getAjax( null , baseUrl+'/'+moduleId+"/document/list/id/"+id+"/type/"+type+"/tpl/json" , function( data ) { 
-			$.each(data,function(k,v){
-				v.path = baseUrl+'/'+moduleId+"/"+v.folder+"/"+v.name;
-			});
+			
 			console.dir(data);
 			smallMenu.build( data , 
 			    function( params ){ return js_templates.loop( params, "album" ); },
