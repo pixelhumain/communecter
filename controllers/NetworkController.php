@@ -21,10 +21,5 @@ class NetworkController extends CommunecterController {
 		$this->layout = "//layouts/mainSearch";
 		$this->render("simplyDirectory");
 	}
-
-	public function actionDocs(){
-		//$params = self::getParams(@$_GET['params']);
-		$this->layout = "//layouts/mainSearch";
-		$this->render("savoir");
-	}
+}
  ?>

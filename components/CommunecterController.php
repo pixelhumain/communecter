@@ -161,8 +161,7 @@ class CommunecterController extends Controller
       "mainmap"               => array("href" => "/ph/communecter/default/mainmap", "public" => true)
     ),
     "network" => array(
-      "simplydirectory"    => array("href" => "/ph/communecter/network/simplydirectory"),
-      "savoir"    => array("href" => "/ph/communecter/network/savoir")
+      "simplydirectory"    => array("href" => "/ph/communecter/network/simplydirectory")
     ),
     "rooms"=> array(
       "index"    => array("href" => "/ph/communecter/rooms/index"),

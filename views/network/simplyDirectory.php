@@ -70,7 +70,8 @@ console.log("searchPrefTag", searchPrefTag);
   var totalData = 0;
   var timeout = null;
   jQuery(document).ready(function() {
-	if  (location.hash == "" || location.hash == "#network.simplydirectory")
+     bindLBHLinks();
+	  if(location.hash == "" || location.hash == "#network.simplydirectory")
     	showMapNetwork(true);
     else
     	showMapNetwork(false);
@@ -827,26 +828,27 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
   // }
   function breadcrumGuide(level, url){
 	  newLevel=$(".breadcrumAnchor").length;
+
 	  if(level==0){
-		reverseToRepertory();
+		  reverseToRepertory();
 	  }
 	  else{
-		if(level < newLevel){
-			newLevel=false;
-			$(".breadcrumAnchor").each(function(){
-				value=$(this).data("value");
-				if(value > level){
-					$(this).remove();
-					$(".breadcrumChevron[data-value='"+value+"']").remove();
-				}
-			});
-		}
-		if(newLevel == 5){
-			$(".breadcrumChevron[data-value='4']").remove();
-			$(".breadcrumAnchor[data-value='4']").remove();
-			newLevel=4;
-		}
-		getAjaxFiche(url, newLevel); 
+    		if(level < newLevel){
+      			newLevel=false;
+      			$(".breadcrumAnchor").each(function(){
+        				value=$(this).data("value");
+        				if(value > level){
+        					$(this).remove();
+        					$(".breadcrumChevron[data-value='"+value+"']").remove();
+        				}
+      			});
+    		}
+    		if(newLevel == 5){
+      			$(".breadcrumChevron[data-value='4']").remove();
+      			$(".breadcrumAnchor[data-value='4']").remove();
+      			newLevel=4;
+    		}
+    		getAjaxFiche(url, newLevel); 
 	  }
   }
 
@@ -870,17 +872,22 @@ function getAjaxFiche(url, breadcrumLevel){
 	location.hash = url;
   urlHash=url;
 
-  if(urlHash.indexOf("type") < 0 && urlHash.indexOf("default.view") < 0 && urlHash.indexOf("gallery") < 0 && urlHash.indexOf("news") < 0 && urlHash.indexOf("invite") < 0){
+  if( urlHash.indexOf("type") < 0 && 
+      urlHash.indexOf("default.view") < 0 && 
+      urlHash.indexOf("gallery") < 0 && 
+      urlHash.indexOf("news") < 0 &&
+      urlHash.indexOf("network") < 0 && 
+      urlHash.indexOf("invite") < 0){
     
-    urlSplit=urlHash.replace( "#","" ).split(".");
-    console.log(urlHash);
+      urlSplit=urlHash.replace( "#","" ).split(".");
+      console.log(urlHash);
 
-    if(urlSplit[0]=="person")
-      urlType="citoyens";
-    else
-      urlType=urlSplit[0]+"s";
-    
-    urlHash="#element."+urlSplit[1]+".type."+urlType+".id."+urlSplit[3];
+      if(urlSplit[0]=="person")
+        urlType="citoyens";
+      else
+        urlType=urlSplit[0]+"s";
+      
+      urlHash="#element."+urlSplit[1]+".type."+urlType+".id."+urlSplit[3];
   }
 
   if(urlHash.indexOf("news") >= 0){
