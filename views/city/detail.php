@@ -386,7 +386,7 @@ var wikipedia = {
 
             "prefixe" : { 
 
-                "dbpedia" : "http://fr.dbpedia.org/data/Saint-Denis_(La_R%C3%A9union).json",
+                "dbpedia" : "http://fr.dbpedia.org/",
                 "dbpedia_resource" : "http://fr.dbpedia.org/resource",
                 "dbpedia_owl" : "http://fr.dbpedia.org/ontology",
                 "dbpedia_property" : "http://fr.dbpedia.org/property"
@@ -397,7 +397,16 @@ var wikipedia = {
 
                 "depiction" : { 
 
-                    "uri" : "https://upload.wikimedia.org/wikipedia/commons/0/0c/SaintDenisReunion002.jpg",
+                    "uri" : "",
+                    "property" : "dbpedia_property:depiction",  
+                    "source" : "dbpedia"
+
+                },
+
+
+                "item" : { 
+
+                    "uri" : "",
                     "property" : "dbpedia_property:depiction",  
                     "source" : "dbpedia"
 
@@ -405,7 +414,7 @@ var wikipedia = {
 
                 "abstract" : { 
 
-                    "value" : "test",
+                    "value" : "",
                     "ontology" : "dbpedia_owl:abstract", 
                     "source" : "dbpedia"
 
@@ -413,9 +422,18 @@ var wikipedia = {
 
                 "country" : {
 
-                    "value" : "France",
+                    "value" : "",
                     "ontology" : "dbpedia_owl:country",
-                    "uri" : "dbpedia_resource:France",
+                    "uri" : "",
+                    "property" : "dbpedia_property:country",
+                    "source" : "dbpedia"
+
+                },
+
+                "countryLabel" : {
+
+                    "value" : "",
+                    "uri" : "",
                     "property" : "dbpedia_property:country",
                     "source" : "dbpedia"
 
@@ -423,25 +441,50 @@ var wikipedia = {
 
                 "region" :  { 
 
-                    "value" : "La Réunion",
+                    "value" : "",
                     "ontology" : "dbpedia_owl:region",
-                    "uri" : "dbpedia_resource:La_Réunion",
+                    "uri" : "",
                     "source" : "dbpedia"
                 },
 
+                "regionLabel" :  { 
+
+                    "value" : "",
+                    "uri" : "",
+                    "source" : "dbpedia"
+                },
+
+
                 "department" : {
 
-                    "value ": "La Réunion",
+                    "value ": "",
                     "ontology" : "dbpedia_owl:department",
-                    "uri" : "dbpedia_resource:La_Réunion",
+                    "uri" : "",
+                    "source" : "dbpedia"
+
+                },
+
+
+                "departmentLabel" : {
+
+                    "value ": "",
+                    "uri" : "",
                     "source" : "dbpedia"
 
                 },
 
                 "maire" : { 
 
-                    "value" : "Gilbert Annette",
-                    "uri" : "dbpedia_resource:Gilbert_Annette",
+                    "value" : "",
+                    "uri" : "",
+                    "property" : "dbpedia_property:maire",
+                    "source" : "dbpedia"
+                },
+
+
+                "maireLabel" : { 
+
+                    "value" : "",
                     "property" : "dbpedia_property:maire",
                     "source" : "dbpedia"
                 },
@@ -465,7 +508,7 @@ var wikipedia = {
 
                 "gentile": { 
 
-                    "value" : "Dionysiens",
+                    "value" : "",
                     "property" : "dbpedia_property:gentilé",
                     "source" : "dbpedia"
 
@@ -489,33 +532,7 @@ var wikipedia = {
                 },
 
                 
-                "latitude" : { 
-
-                    "value" : -20.878901 ,
-                    "property" : "dbpedia_property:latitude",
-                    "source" : "dbpedia"
-                },
-
-                "longitude" : { 
-
-                    "value" : 55.448101 ,
-                    "property" : "dbpedia_property:longitude",
-                    "source" : "dbpedia"
-                },
-
-                "altMaxi" : { 
-
-                    "value" : 2276,
-                    "property" : "dbpedia_property:altMaxi",
-                    "source" : "dbpedia"
-                },
-
-                "altMini" : { 
-
-                    "value" : 0,
-                    "property" : "dbpedia_property:altMini",
-                    "source" : "dbpedia"
-                },
+                
 
 
                 "superficie" : {
@@ -529,7 +546,7 @@ var wikipedia = {
 
                 "siteweb" : { 
 
-                    "value": "http://www.saintdenis.re",
+                    "value": "",
                     "property" : "dbpedia_resource:siteweb",
                     "source" : "dbpedia"
 
@@ -727,6 +744,8 @@ function getWiki(q){
         },*/
         success:function(data) {
           if( notNull(data) ){
+            mylog.log('il rentre dans le premier AJAX')
+
             wikidata = data;
             //name = wikidata.entities[q].claims.P373[0].mainsnak.datavalue.value;
             //imgName = wikidata.entities[q].claims.P18[0].mainsnak.datavalue.value;
@@ -751,27 +770,29 @@ function getWiki(q){
                 type:"GET",
                 dataType: "jsonp",
                 success:function(data) {
+                  mylog.log('il rentre dans le second AJAX')
                   console.dir(data)
                   data_dbpedia = data;
-                },
-                error:function (xhr, ajaxOptions, thrownError){
-                  alert("error 2");
-                } 
-                });
+              
 
             var prefixe = data_dbpedia.results.bindings[0];
 
-            var test = ["abstract", "country", "countryLabel", "region", "regionLabel", "department", "departmentLabel", "maire", "maireLabel", "postalCode", "inseeCode", "gentile", "populationTotal", "superficie", "siteweb"];
+            var test = ["item", "abstract", "country", "countryLabel", "region", "regionLabel", "department", "departmentLabel", "maire", "maireLabel", "postalCode", "inseeCode", "gentile", "populationTotal", "superficie", "siteweb"];
 
+            mylog.dir(prefixe);
             $.each(test, function( index, value ) {
 
-              if (typeof data_dbpedia.results.bindings[0][value] === "undefined") {
+              //mylog.log(value, typeof prefixe[value]);
+              if (typeof prefixe[value] == "undefined") {
 
-                wikipedia.fr[value] = "Il manque cette information" ; 
+
+                //mylog.log('il rentre dans le if ')
+                wikipedia.fr[value].value = "Il manque cette information" ; 
 
                 } else { 
 
-                wikipedia.fr[value] = prefixe[value].value;
+                //mylog.log('il rentre dans le else')  
+                wikipedia.fr[value].value = prefixe[value].value;
               }
 
             });       
@@ -815,41 +836,40 @@ function getWiki(q){
             wikipedia.fr.depiction = data_dbpedia.results.bindings[0].picture.value;
             
 
-            $("#ajax-modal-modal-title").html("<img width=40 src='<?php echo $this->module->assetsUrl; ?>/images/logos/Wikipedia-logo-en-big.png'> <h1 align='center'>"+label_dbpedia)+"</h1>";
+            $("#ajax-modal-modal-title").html("<img width=40 src='<?php echo $this->module->assetsUrl; ?>/images/logos/Wikipedia-logo-en-big.png'> <h1 align='center'>  <a target='_blank' href='"+wikipedia.fr.item.value+"'> "+label_dbpedia)+"</a></h1>";
               $("#ajax-modal-modal-body").html( "<div class='row bg-white'>"+
 
                                 "<div class='col-sm-10 col-sm-offset-1'> <h2> Infobox Wikipédia </h2>"+
                                       //"<div id='P18'>image : "+wikidata.entities[q].claims.P18[0].mainsnak.datavalue.value+"</div>"+
 
-                                      "<div id='abstract'>Abstract Wikipédia : "+wikipedia.fr.abstract+"</div>"+
+                                      "<div id='abstract'>Abstract Wikipédia : "+wikipedia.fr.abstract.value+"</div>"+
 
-                                                      
+                                    
+                                      
+                                      "<div id='country'> Pays : " +wikipedia.fr.countryLabel.value+" ===> URI de la ressource dbpédia : <a target='_blank' href='"+wikipedia.fr.country.value+"'> "+wikipedia.fr.country.value+"</a></div>"+
 
                                       
-                                      "<div id='country'> Pays : " +wikipedia.fr.countryLabel+"</div>"+
-
-                                      
-                                      "<div id='region'> Région : "+wikipedia.fr.regionLabel+"</div>"+
-
-
-                                      
-                                      "<div id='department'> Département : " +wikipedia.fr.departmentLabel+"</div>"+
+                                      "<div id='region'> Région : "+wikipedia.fr.regionLabel.value+" ===> URI vers la ressource dbpédia : <a target='_blank' href='"+wikipedia.fr.region.value+"'> "+wikipedia.fr.region.value+"</a></div>"+
 
 
                                       
-                                      "<div id='maire'> Maire de la ville : " +wikipedia.fr.maireLabel +"</div>"+
+                                      "<div id='department'> Département : " +wikipedia.fr.departmentLabel.value+" ===> URI vers la ressource dbpédia : <a target='_blank' href='"+ wikipedia.fr.department.value+"'> "+ wikipedia.fr.department.value+"</a></div>"+ 
+
+
+                                      
+                                      "<div id='maire'> Maire de la ville : " +wikipedia.fr.maire.value+"</div>"+
               
 
-                                      "<div id='postalCode'> Code postal : " +wikipedia.fr.postalCode +"</div>"+
+                                      "<div id='postalCode'> Code postal : " +wikipedia.fr.postalCode.value +"</div>"+
 
-                                      "<div id='inseeCode'> Code INSEE : " +wikipedia.fr.inseeCode +"</div>"+
+                                      "<div id='inseeCode'> Code INSEE : " +wikipedia.fr.inseeCode.value +"</div>"+
 
                                       "<div id='gentile'> Gentilé : " +wikipedia.fr.gentile.value +"</div>"+
 
                                       //"<div id='populationAgglomeration'> Population de l'Agglomération : " +wikipedia.fr.populationAgglomeration +"</div>"+
 
                                       "<div id='populationTotal'> Population municipale : " +wikipedia.fr.
-populationTotal +"</div>"+
+populationTotal.value +"</div>"+
                                       //"<div id='latitude'> Lalitude : " +wikipedia.fr.latitude +"</div>"+
 
                                       //"<div id='longitude'> Longitude : " +wikipedia.fr.longitude +"</div>"+
@@ -858,13 +878,15 @@ populationTotal +"</div>"+
 
                                       //"<div id='altMini'> Altitude Minimum : " +wikipedia.fr.altMini +"</div>"+
 
-                                      "<div id='superficie'> Superficie : " +wikipedia.fr.superficie +"</div>"+
+                                      "<div id='superficie'> Superficie : " +wikipedia.fr.superficie.value +"</div>"+
 
-                                      "<div id='siteweb'> Site Web : " +wikipedia.fr.siteweb +"</div>"+
+                                      "<div id='siteweb'> Site Web : " +wikipedia.fr.siteweb.value +"</div>"+
 
-                                      "<div id='depiction'> Image de la ville : " +wikipedia.fr.depiction + 
+                                      "<div id='depiction'> " +
+                                      "<img id='photo_ville' src="+ wikipedia.fr.depiction+" alt='Photo de la ville' title='Cliquez pour agrandir' width='40%' height='40%' /> " + 
 
-                                      "<img id='photo_ville' src="+ wikipedia.fr.depiction+" alt='Photo de la ville' title='Cliquez pour agrandir' width='40%' height='40%' /> " +
+
+                                      // Faudrait mettrele blazon ici 
 
                                       "</div>"+
 
@@ -888,6 +910,12 @@ populationTotal +"</div>"+
                                     "</div>");
               $('.modal-footer').show();
               $('#ajax-modal').modal("show");
+
+                },
+                error:function (xhr, ajaxOptions, thrownError){
+                  alert("error 2");
+                } 
+                }); 
           }
         },
         error:function (xhr, ajaxOptions, thrownError){
