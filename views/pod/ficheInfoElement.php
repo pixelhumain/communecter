@@ -681,6 +681,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 									<i class="fa fa-vcard"></i>
 									<span class="hidden-sm">'.Yii::t("event","Update the organizer").'</span>
 								</a>' ;
+
+								$xml_data = new SimpleXMLElement('<?xml version="1.0"?><data></data>');
 					}
 				?>
 			</div>
@@ -1027,17 +1029,17 @@ if($showOdesc == true){
 
 	function manageModeContextElement() {
 		mylog.log("-----------------manageModeContextElement----------------------", mode);
-		listXeditablesContext = [	'#birthDate', '#shortDescription', '#fax', '#fixe', '#mobile', 
+		/*listXeditablesContext = [	'#birthDate', '#shortDescription', '#fax', '#fixe', '#mobile', 
 							'#tags', '#facebookAccount', '#twitterAccount',
 							'#gpplusAccount', '#gitHubAccount', '#skypeAccount', '#telegramAccount', 
-							'#avancement', '#allDay', '#startDate', '#endDate', '#type'];
+							'#avancement', '#allDay', '#startDate', '#endDate', '#type'];*/
 
 		listBtnContext = ["#btn-update-desc", "#btn-update-geopos", "#btn-remove-geopos", "#btn-add-geopos", "#btn-update-organizer", "#btn-update-organizer", "#btn-add-organizer"];
 		if (mode == "view") {
 			$('.editable-context').editable('toggleDisabled');
-			$.each(listXeditablesContext, function(i,value) {
+			/*$.each(listXeditablesContext, function(i,value) {
 				$(value).editable('toggleDisabled');
-			});
+			});*/
 
 			$.each(listBtnContext, function(i,value) {
 				mylog.log(value, "hidden");
