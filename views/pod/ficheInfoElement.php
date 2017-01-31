@@ -94,6 +94,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
       	margin:0px !important;
       	text-align: left;
     }*/
+    .editable-context{
+    	color: #3c5665;
+    }
+
     .entityDetails span{
       font-weight: 300;
       font-size:15px;
@@ -198,7 +202,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 
 </style>
 
-<div class="panel panel-white">
+<div id="ficheInfo" class="panel panel-white">
 	<div class="panel-heading border-light padding-15" style="background-color: #dee2e680;">
 		<h4 class="panel-title text-dark"> 
 			<i class="fa fa-info-circle"></i> <?php echo Yii::t("common","Account info") ?>
@@ -247,7 +251,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 			<div class="no-padding col-md-12">
 				<div id="divName">
 					<span class="titleField text-dark"><i class="fa fa-angle-right"></i> <?php echo Yii::t("common", "Name"); ?> :</span>
-					<a href="#" id="name" data-type="text" data-original-title="<?php echo Yii::t("person","Enter your name"); ?>" data-emptytext="Enter your name" class="editable-context editable editable-click">
+					<a href="#" id="name" data-type="text" data-original-title="<?php echo Yii::t("person","Enter your name"); ?>" data-emptytext="Enter your name" class="editable-context">
 						<?php if(isset($element["name"])) echo $element["name"]; else echo ""; ?>
 					</a>
 				</div>
@@ -256,8 +260,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 				<div id="divUserName">
 					<!-- <i class="fa fa-smile-o fa_name hidden"></i> -->
 					<span class="titleField text-dark"><i class="fa fa-angle-right"></i> <?php echo Yii::t("common", "Username"); ?> :</span>
-							
-					<a href="#" id="username" data-type="text" data-emptytext="<?php echo Yii::t("person","Username"); ?>"  data-original-title="<?php echo Yii::t("person","Enter your user name"); ?>" class="editable-context editable editable-click">
+					<a href="#" id="username" data-type="text" data-emptytext="<?php echo Yii::t("person","Username"); ?>"  data-original-title="<?php echo Yii::t("person","Enter your user name"); ?>" class="editable-context">
 						<?php if(isset($element["username"]) && ! isset($element["pending"])) echo $element["username"]; else echo "";?>
 					</a>
 				</div>
@@ -568,9 +571,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 					//if ($type==Organization::COLLECTION || $type==Person::COLLECTION){ 
 						if(($type==Person::COLLECTION && Preference::showPreference($element, $type, "email", Yii::app()->session["userId"])) || ($type!=Person::COLLECTION && $type!=Event::COLLECTION)){ ?>
 							<i class="fa fa-envelope fa_email  hidden"></i> 
-							<a href="#" id="email" data-type="text" data-title="Email" data-emptytext="Email" class="editable-context editable editable-click required">
-								<?php echo (isset($element["email"])) ? $element["email"] : null; ?>
-							</a>
+							<a href="javascript:;" id="email" class="editable-context required"><?php echo (isset($element["email"])) ? $element["email"] : null; ?></a>
 							<br>
 				<?php 	} 
 					//} ?>
@@ -583,13 +584,13 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 				
 				<i class="fa fa-desktop fa_url hidden"></i> 
 				<a href="<?php echo (isset($element["url"])) ? $scheme.$element['url'] : '#'; ?>" target="_blank" id="url" data-type="text" data-title="<?php echo Yii::t("common","Website URL") ?>" 
-					data-emptytext="<?php echo Yii::t("common","Website URL") ?>" style="cursor:pointer;" class="editable-context editable editable-click">
+					data-emptytext="<?php echo Yii::t("common","Website URL") ?>" style="cursor:pointer;" class="editable-context">
 					<?php echo (isset($element["url"])) ? $element["url"] : null; ?>
 				</a> 
 				<br>
 				<?php if($type==Project::COLLECTION){ ?>
 				<i class="fa fa-file-text-o"></i>
-				<a href="#" id="licence" data-type="text" data-original-title="<?php echo Yii::t("project","Enter the project's licence",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("project","Project licence") ?>" class="editable-context editable editable-click"><?php if(isset($element["licence"])) echo $element["licence"];?></a><br>
+				<a href="#" id="licence" data-type="text" data-original-title="<?php echo Yii::t("project","Enter the project's licence",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("project","Project licence") ?>" class="editable-context"><?php if(isset($element["licence"])) echo $element["licence"];?></a><br>
 				<?php } ?>
 
 				<?php  if($type==Organization::COLLECTION || $type==Person::COLLECTION){ ?>
@@ -765,13 +766,15 @@ if($showOdesc == true){
 	//var publics = <?php echo json_encode($publics) ?>;
 
 	jQuery(document).ready(function() {
-		activateEditableContext();
+		//activateEditableContext();
+		bindDynFormEditable();
 		manageAllDayElement(allDay);
 		manageModeContextElement();
 		changeHiddenIconeElement(true);
 		manageDivEditElement();
 		bindAboutPodElement();
 		inintDescs();
+		bindDynFormEditable();
 		collection.applyColor(contextData.type,contextData.id);
 		/*$("#btn-update-geopos").click(function(){
 			findGeoPosByAddress();
@@ -895,6 +898,23 @@ if($showOdesc == true){
 		}
 
 
+		
+	});
+
+	function bindDynFormEditable(){
+		$("#email").off().on( "click", function(){
+			mylog.log("email");
+			var dataUpdate = { value : contextData.email } ;
+			
+			var afterSave = function(data){
+				$("#email").html(markdownToHtml(data.email));
+				elementLib.closeForm();		
+			}
+			
+			var saveUrl = baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType;
+			editDynForm("email", "Modifier l'email'", "fa-envelope", "email", null, dataUpdate, saveUrl, onLoads, afterSave);
+		});
+
 		$("#btn-update-desc").off().on( "click", function(){
 			var dataUpdate = { value : contextData.description } ;
 			var onLoads = {
@@ -913,7 +933,7 @@ if($showOdesc == true){
 			var saveUrl = baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType;
 			editDynForm("description", "Modifier la description", "fa-pencil", "descriptionUpdate", "markdown", dataUpdate, saveUrl, onLoads, afterSave);
 		});
-	});
+	}
 
 	function bindAboutPodElement() {
 		$("#editGeoPosition").click(function(){
@@ -1029,45 +1049,40 @@ if($showOdesc == true){
 
 	function manageModeContextElement() {
 		mylog.log("-----------------manageModeContextElement----------------------", mode);
-		/*listXeditablesContext = [	'#birthDate', '#shortDescription', '#fax', '#fixe', '#mobile', 
+		listXeditablesContext = ['#email',	'#birthDate', '#shortDescription', '#fax', '#fixe', '#mobile', 
 							'#tags', '#facebookAccount', '#twitterAccount',
 							'#gpplusAccount', '#gitHubAccount', '#skypeAccount', '#telegramAccount', 
-							'#avancement', '#allDay', '#startDate', '#endDate', '#type'];*/
+							'#avancement', '#allDay', '#startDate', '#endDate', '#type'];
 
 		listBtnContext = ["#btn-update-desc", "#btn-update-geopos", "#btn-remove-geopos", "#btn-add-geopos", "#btn-update-organizer", "#btn-update-organizer", "#btn-add-organizer"];
 		if (mode == "view") {
-			$('.editable-context').editable('toggleDisabled');
-			/*$.each(listXeditablesContext, function(i,value) {
-				$(value).editable('toggleDisabled');
-			});*/
-
+			//$('.editable-context').editable('toggleDisabled');
+			$('#ficheInfo').off('click', ".editable-context");
+			$.each(listXeditablesContext, function(i,value) {
+				//$(value).editable('toggleDisabled');
+				//$(value).off('click');
+				$('#ficheInfo').off('click', value);
+			});
 			$.each(listBtnContext, function(i,value) {
-				mylog.log(value, "hidden");
 				$(value).addClass("hidden");
 			});
-			/*$("#btn-update-desc").addClass("hidden");
-			$("#btn-update-geopos").addClass("hidden");
-			$("#btn-remove-geopos").addClass("hidden");
-			$("#btn-add-geopos").addClass("hidden");
-			$("#btn-update-organizer").addClass("hidden");
-			$("#btn-add-organizer").addClass("hidden");*/
+			
 			if(!emptyAddress)
 				$("#btn-view-map").removeClass("hidden");
 
 		} else if (mode == "update") {
-			// Add a pk to make the update process available on X-Editable
-			$('.editable-context').editable('option', 'pk', contextData.id);
-			$('.editable-context').editable('toggleDisabled');
+			//$('.editable-context').on('click');
+			$('#ficheInfo').on('click', ".editable-context");
+			$.each(listXeditablesContext, function(i,value) {
+				$(value).on('click');
+				$('#ficheInfo').on('click', value);
+			});
+
 			$.each(listBtnContext, function(i,value) {
-				mylog.log(value);
 				$(value).removeClass("hidden");
 			})
-			/*$("#btn-update-desc").removeClass("hidden");
-			$("#btn-update-geopos").removeClass("hidden");
-			$("#btn-remove-geopos").removeClass("hidden");
-			$("#btn-add-geopos").removeClass("hidden");
-			$("#btn-update-organizer").removeClass("hidden");
-			$("#btn-add-organizer").removeClass("hidden");*/
+			bindDynFormEditable();
+			
 			$("#btn-view-map").addClass("hidden");
 		}
 	}
