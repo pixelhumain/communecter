@@ -69,16 +69,16 @@
 					    <li><a href="javascript:" data-target="#dev" class="letter-red"><i class="fa fa-angle-right"></i> En developpement</a></li>
 					    <li><a href="javascript:" data-target="#motivation" class="letter-red"><i class="fa fa-angle-right"></i> Nos motivations</a></li>
 					    <li role="separator" class="divider"></li>
-					    <li><a href="#co2.info.p.ph" class="letter-yellow"><i class="fa fa-angle-right"></i> Pixel Humain</a></li>
+					    <li><a href="#co2.info.p.ph" class="lbh letter-yellow"><i class="fa fa-angle-right"></i> Pixel Humain</a></li>
 					    <li role="separator" class="divider"></li>
-					    <li><a href="#co2.info.p.communecter" class="letter-red"><i class="fa fa-angle-right"></i> Communecter</a></li>
+					    <li><a href="#co2.info.p.communecter" class="lbh letter-red"><i class="fa fa-angle-right"></i> Communecter</a></li>
 					    <li role="separator" class="divider"></li>
-					    <li><a href="#co2.info.p.alphatango" class="letter-green"><i class="fa fa-angle-right"></i> Alpha Tango</a></li>
+					    <li><a href="#co2.info.p.alphatango" class="lbh text-azure"><i class="fa fa-angle-right"></i> Alpha Tango</a></li>
 					  </ul>
 				</div>
 			</div>
         </div>
-        <div class="col-lg-8 col-md-8 col-sm-7 col-xs-12">
+        <div class="col-lg-7 col-md-8 col-sm-7 col-xs-12">
 
         	<h5 class="pull-left">
         		<i class="fa fa-angle-down"></i> A propos
@@ -112,7 +112,7 @@
         	<!-- --------------------------------------------------------------------------------- -->
         	<br><br><br>
         	<h1 class="letter-red font-blackoutM" id="aussi">
-        		<img src="<?php echo $urlKgou; ?>" height="35" class="logoKgou"> c'est aussi ...
+        		<img src="<?php echo $urlKgou; ?>" height="35" class="logoKgou"> c'est ossi ...
         	</h1>
 
         	<h3 class="letter-blue"><i class="fa fa-database fa-2x"></i> <i class="fa fa-angle-righ"></i> Une base de données co-construite</h3>
@@ -194,16 +194,16 @@
         	<h3 class="letter-blue"><i class="fa fa-cubes fa-2x"></i> <i class="fa fa-angle-righ"></i> Plusieurs nouveautés déjà en préparation</h3>
         	<h4>Notre imagination est sans limite...</h4>
 			<p>
-				<i class="fa fa-newspaper-o letter-red"></i> <span class="letter-red font-blackoutT">ACTU</span> <b><span class="letter-green">Un fil d’actualité média</span>, regroupant les principaux articles de presse publiés sur internet, issus des grands médias calédoniens.</b> <br>
+				<i class="fa fa-newspaper-o letter-red"></i> <span class="letter-red font-blackoutT">ACTU</span> <b><span class="letter-green">Un fil d’actualité média</span>, regroupant les principaux articles de presse publiés sur internet, issus des grands médias calédoniens.</b> 
 				Pour retrouver toute l’actu du pays, d’hier et d’aujourd’hui, en un seul clic !
 				<br><br>
-				<i class="fa fa-user-circle-o letter-red"></i> <span class="letter-red font-blackoutT">SOCIAL</span> <b><span class="letter-green">Un réseau social indépendant</span>, offrant toutes les fonctionnalités des réseaux les plus connus :</b> <br>Création de compte perso, partages de messages et URL, création de page pour associations, entreprises, groupes, projets, une messagerie privée...<br>
+				<i class="fa fa-user-circle-o letter-red"></i> <span class="letter-red font-blackoutT">SOCIAL</span> <b><span class="letter-green">Un réseau social indépendant</span>, offrant toutes les fonctionnalités des réseaux les plus connus :</b> <br>Création de compte perso, partages de messages et URL, création de page pour associations, entreprises, groupes, projets, une messagerie privée... 
 				Et bien plus encore ! 
 				<br><br>
-				<i class="fa fa-comments letter-red"></i> <span class="letter-red font-blackoutT">FREEDOM</span> <b><span class="letter-green">Un outil de partage d’annonce en direct</span>, pour passer vos coups de coeur, vos coups de gueules, et diffuser toutes vos annonces</b> <br>
+				<i class="fa fa-comments letter-red"></i> <span class="letter-red font-blackoutT">FREEDOM</span> <b><span class="letter-green">Un outil de partage d’annonces en direct</span>, pour passer vos coups de coeur, vos coups de gueules, et diffuser toutes vos annonces</b> 
 				(à vendre, à donner, à partager, à louer, offre d’emplois, etc)
 				<br><br>
-				<i class="fa fa-calendar letter-red"></i> <span class="letter-red font-blackoutT">AGENDA</span> <b><span class="letter-green">Un agenda collaboratif</span>, pour faire connaître tous vos événements et ne rien rater de l’activité locale</b> <br>(concert, exposition, sport, festival, sorties, animation culturelle, etc)
+				<i class="fa fa-calendar letter-red"></i> <span class="letter-red font-blackoutT">AGENDA</span> <b><span class="letter-green">Un agenda collaboratif</span>, pour faire connaître tous vos événements et ne rien rater de l’activité locale</b> (concert, exposition, sport, festival, sorties, animation culturelle, etc)
 
         	</p>
 
@@ -239,8 +239,6 @@
 
 
 <script>
-
-var currentCategory = "";
 
 jQuery(document).ready(function() {
     initKInterface();

@@ -53,16 +53,26 @@
 
 #btn-onepage-main-menu{
     position: fixed;
-    top:85px;
+    top:110px;
     left:20px;
     border-radius: 1px;
     letter-spacing: 2px;
     border:2px solid white;
     border-radius:100px;
-    height:60px;
-    width:60px;
+    height:40px;
+    /*width:60px;*/
 }
 
+.siteurl_title{
+    font-size:17px!important;
+}
+.siteurl_hostname{
+    font-size:14px!important;
+}
+.siteurl_desc{
+    font-size:13px!important;
+    color:#606060;
+}
 
 @media screen and (max-width: 1024px) {
     
@@ -87,33 +97,16 @@
     $this->renderPartial($layoutPath.'modals.favorites',  array("myWebFavorites"=>@$myWebFavorites ) ); 
 ?>
 
-<div class="dropdown hidden">
-                <button class="btn letter-yellow btn-link font-blackoutM dropdown-toggle" data-toggle="dropdown" id="btn-onepage-main-menu">
-                    <i class="fa fa-star fa-2x"></i>
-                </button>
-                <div class="dropdown-onepage-main-menu font-montserrat" aria-labelledby="btn-onepage-main-menu">
-                    <ul class="dropdown-menu arrow_box font-blackoutM letter-red">
-                        <li><a href="javascript:" data-target="#koica" class="letter-red"><i class="fa fa-angle-right"></i> C koi ca ?!?</a></li>
-                        <li><a href="javascript:" data-target="#aussi" class="letter-red"><i class="fa fa-angle-right"></i> C'est aussi</a></li>
-                        <li><a href="javascript:" data-target="#philo" class="letter-red"><i class="fa fa-angle-right"></i> Notre philosophie</a></li>
-                        <li><a href="javascript:" data-target="#dev" class="letter-red"><i class="fa fa-angle-right"></i> En developpement</a></li>
-                        <li><a href="javascript:" data-target="#motivation" class="letter-red"><i class="fa fa-angle-right"></i> Nos motivations</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#co2.info.p.ph" class="letter-yellow"><i class="fa fa-angle-right"></i> Pixel Humain</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#co2.info.p.communecter" class="letter-red"><i class="fa fa-angle-right"></i> Communecter</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="#co2.info.p.alphatango" class="letter-green"><i class="fa fa-angle-right"></i> Alpha Tango</a></li>
-                      </ul>
-                </div>
-            </div>
+<button class="hidden btn letter-red btn-link font-montserrat dropdown-toggle" data-toggle="dropdown" id="btn-onepage-main-menu">
+     <i class='fa fa-angle-right'></i> A propos
+</button>
 
 <section class="padding-top-15 hidden" id="sectionSearchResults">
     <div class="row">
 
         <div class="col-md-2 col-sm-2 text-right" id="sub-menu-left"></div>
-        <div class="col-md-7 col-sm-7" id="searchResults"></div>
-        <div class="col-md-2 col-sm-2 text-right" id="sub-menu-right">
+        <div class=" col-lg-8 col-md-7 col-sm-7" id="searchResults"></div>
+        <div class="col-md-2 col-sm-2 text-left" id="sub-menu-right">
             <a href="https://github.com/pixelhumain" target="_blank">
                 <img src="<?php echo Yii::app()->theme->baseUrl; ?>/assets/img/anc/105.jpg" height=170>
             </a><br><br>
@@ -171,6 +164,10 @@ function initWebInterface(){
          }
     });
 
+    $("#menu-map-btn-start-search").click(function(){
+        var search = $("#input-search-map").val();
+        startWebSearch(search, currentCategory);
+    });
 
    $("#modalFavorites .btn-favory").click(function(){
         var id = $(this).data("idfav");

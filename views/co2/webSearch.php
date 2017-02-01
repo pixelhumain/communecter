@@ -30,18 +30,6 @@
 </h3>
 
 
-<style>
-	.siteurl_title{
-		font-size:17px!important;
-	}
-	.siteurl_hostname{
-		font-size:14px!important;
-	}
-	.siteurl_desc{
-		font-size:13px!important;
-		color:#606060;
-	}
-</style>
 
 <div class="col-md-10 margin-bottom-15" style="">
 <?php  foreach ($siteurls as $key => $siteurl) { ?>

@@ -1,6 +1,7 @@
 <?php 
 
-	HtmlHelper::registerCssAndScriptsFiles( array('/css/timeline2.css',
+	HtmlHelper::registerCssAndScriptsFiles( array(	'/css/timeline2.css',
+													'/js/comments.js',
 											) , Yii::app()->theme->baseUrl. '/assets');
 
 	    

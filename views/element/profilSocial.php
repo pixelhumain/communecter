@@ -1,6 +1,12 @@
 
 
 <?php 
+
+	$cssAnsScriptFilesModule = array(
+		'/js/news/newsHtml.js'
+	);
+	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
+
 	HtmlHelper::registerCssAndScriptsFiles( 
 		array(  '/css/onepage.css',
 				'/css/profilSocial.css',
@@ -9,8 +15,11 @@
 				'/css/news/index.css',	
 				'/css/timeline2.css',
 				'/css/circle.css',	
+				'/js/comments.js',
 			  ) , 
 		Yii::app()->theme->baseUrl. '/assets');
+
+
 
 
 	$imgDefault = $this->module->assetsUrl.'/images/thumbnail-default.jpg';
