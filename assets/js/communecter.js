@@ -949,6 +949,13 @@ function showAjaxPanel (url,title,icon, mapEnd) {
 
 			if(mapEnd)
 				showMap(true);
+
+
+    		if(contextData.type && contextData.id )
+    		{
+        		uploadObj.type = contextData.type;
+        		uploadObj.id = contextData.id;
+        	}
 			// setTimeout(function(){
 			// 	mylog.log("call timeout MAP MAP");
 			// 	getAjax('#mainMap',baseUrl+'/'+moduleId+"/search/mainmap",function(){ 
@@ -2310,7 +2317,8 @@ var elementLib = {
 				console.log(type);
 				specs = typeObj[type];
 			}
-	    	uploadObj.type = specs.col;
+			if( notNull(specs.col) )
+	    		uploadObj.type = specs.col;
 	    
 			mylog.dir(specs);
 			$("#ajax-modal").removeClass("bgEvent bgOrga bgProject bgPerson bgDDA").addClass(specs.bgClass);
@@ -2326,7 +2334,7 @@ var elementLib = {
 		  	$('.modal-footer').hide();
 		  	$('#ajax-modal').modal("show");
 		  	afterLoad = ( notNull(afterLoad) ) ? afterLoad : null;
-		  	data = ( notNull(data) ) ? data : {};
+		  	data = ( notNull(data) ) ? data : {}; 
 		  	elementLib.buildDynForm(specs, afterLoad, data);
 		} else {
 			toastr.error("Vous devez être connecté pour afficher les formulaires de création");
@@ -2394,7 +2402,11 @@ var elementLib = {
 var contextData = null;
 var uploadObj = {
 	type : null,
-	id : null
+	id : null,
+	set : function(type,id){
+		uploadObj.type = type;
+		uploadObj.id = id;
+	}
 };
 var typeObj = {
 	"themes":{ 
@@ -2456,8 +2468,10 @@ var typeObj = {
 			    properties : {
 			    	image :{
 		            	inputType : "image",
+		            	showUploadBtn : true,
 		            	init : function() { 
-		            		setTimeout( function(){
+		            		setTimeout( function()
+		            		{
 			            		$('#trigger-upload').click(function() {
 						        	$('.fine-uploader-manual-trigger').fineUploader('uploadStoredFiles');
 						        	loadByHash(location.hash);
@@ -4155,8 +4169,6 @@ var js_templates = {
       		tplObj.key = (notNull(obj.key)) ? ' data-key="'+obj.key+'"' : ""; 
 			tplObj.color = (notNull(obj.color)) ? obj.color : "white"; 
 			tplObj.tooltip = (notNull(obj.tooltip)) ? 'data-toggle="tooltip" data-placement="left" title="'+tooltip+'"' : ""; 
-			tplObj.path = (notNull(obj.path)) ? obj.path : "";
-			tplObj.thumb = (notNull(obj.thumb)) ? obj.thumb : "";
 			return tplObj;
 		},
 
@@ -4167,7 +4179,7 @@ var js_templates = {
 		//el_open/el_close :: is a container for each element of the list rendering
 		loop : function(obj,tpl,tplparams)
 		{
-      		var str = (notNull(tplparams.open)) ? tplparams.open : "";
+      		var str = (notNull(tplparams) && notNull(tplparams.open)) ? tplparams.open : "";
       		var cleanup = false;
       		$.each(obj ,function(k,v){
           		if( !notNull( v.classes ) && notNull(tplparams) && notNull( tplparams.classes )){
@@ -4176,13 +4188,13 @@ var js_templates = {
           		}
         		if( !notNull( v.parentClass ) && notNull(tplparams) && notNull( tplparams.parentClass ))
            			v.parentClass = tplparams.parentClass;
-         		var opener = (notNull(tplparams.el_open)) ? tplparams.el_open : "";
+         		var opener = (notNull(tplparams) && notNull(tplparams.el_open)) ? tplparams.el_open : "";
 		     	str += opener+js_templates[tpl]( v );
-         		if(notNull(tplparams.el_close)) str += tplparams.el_close;
+         		if(notNull(tplparams) && notNull(tplparams.el_close)) str += tplparams.el_close;
          		if(cleanup)
          			delete v.classes;
 		   	});
-        	if(notNull(tplparams.close)) str += tplparams.close;
+        	if(notNull(tplparams) && notNull(tplparams.close)) str += tplparams.close;
 		   	return str;
 		},
 
@@ -4224,12 +4236,12 @@ var js_templates = {
 
 		album : function (obj) 
 		{ 
-			var tplObj = js_templates.objectify(obj);
-			return //' <div class="portfolio-item">'+
-					' <a class="thumb-info '+tplObj.classes+'" href="'+tplObj.path+'" data-lightbox="all">'+
-						' <img src="'+tplObj.thumb+'" class="img-responsive" alt="'+objbj.name+'">'+
-					' </a>';
-					//' </div>' ;
+			return ' <div class="col-xs-3 portfolio-item" id="'+obj.id+'">'+
+				' <a class="thumb-info pull-left '+obj.classes+'" href="'+obj.path+'/'+obj.name+'" data-lightbox="all">'+
+						' <img src="'+obj.path+'/medium/'+obj.name+'" class="img-responsive" alt="'+obj.name+'">'+
+					' </a>'+
+					( ( notNull(userId) && obj.author == userId) ? ' <br/><a class="btnRemove" href="javascript:;" data-id="'+obj.id+'" data-key="" data-name="'+obj.name+'" ><i class="fa text-red fa-trash"></i> </a>' : '')+
+					'</div>' ;
 				
 		},
 
@@ -4237,15 +4249,58 @@ var js_templates = {
 
 var album = {
 	show : function (id,type){
+		uploadObj.type = type;
+		uploadObj.id = id;
 		getAjax( null , baseUrl+'/'+moduleId+"/document/list/id/"+id+"/type/"+type+"/tpl/json" , function( data ) { 
 			
 			console.dir(data);
-			smallMenu.build( data , 
-			    function( params ){ return js_templates.loop( params, "album" ); },
+			smallMenu.build( 
+				data.list , 
+			    function( params ){ 
+			    	str = '<style>.thumb-info{height:200px; overflow: hidden; position: relative; } .thumb-info img{}</style><a class="pull-left btn bg-red addPhotoBtn" data-type="'+type+'" data-id="'+id+'" href="javascript:;"> Ajouter des Photos <i class="fa fa-plus"></i></a>'+
+							"<div class='homestead titleSmallMenu' style='font-size:35px'> Album <i class='fa fa-angle-right'></i> "+data.element.name+" </div><br/>"+
+							js_templates.loop( params, "album" );
+					return str;
+				},
 			    function(){
-			        $(".labelCount").html('(0)');
+			    	$(".addPhotoBtn").click(function() { 
+			    		uploadObj.type = type;
+			    		uploadObj.id = id;
+						elementLib.openForm("addPhoto");
+			    	});
+			    	album.delete();
 			    });
 		});
+	},
+	delete : function(){
+		$(".portfolio-item .btnRemove").off().on("click", function(e){
+			e.preventDefault();
+			var imageId = $(this).data("id");
+			var params =  { 
+				"parentId": uploadObj.id, 
+				"parentType": uploadObj.type, 
+				"docId" : imageId};
+			console.dir(params);
+			bootbox.confirm( trad.areyousuretodelete+"<span class='text-red'> "+$(this).data("name")+"</span> ?", 
+				function(result) {
+					if(result){
+						$.ajax({
+							url: baseUrl+"/"+moduleId+"/document/delete/dir/"+moduleId+"/type/"+uploadObj.type+"/parentId/"+uploadObj.id,
+							type: "POST",
+							dataType : "json",
+							data: params,
+							success: function(data){
+								if(data.result){
+									toastr.success(data.msg);
+									$("#"+imageId).remove();
+								}else{
+									toastr.error(data.error)
+								}
+							}
+						})
+					}
+				})
+		})
 	}
 }
 
