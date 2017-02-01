@@ -2269,8 +2269,16 @@ var elementLib = {
 						$( settings.formId ).submit();	        	
 			        });
 	           	}
-	            else { 
-	            	toastr.success(data.msg);
+	            else {
+	            	if(typeof data.msg != "undefined") 
+	            		toastr.success(data.msg);
+	            	else{
+	            		if(typeof data.resultGoods != "undefined" && typeof data.resultGoods.msg != "undefined")
+	            			toastr.success(data.resultGoods.msg);
+	            		if(typeof data.resultErrors != "undefined" && typeof data.resultErrors.msg != "undefined")
+	            			toastr.error(data.resultErrors.msg);
+	            	}
+
 	            	if (typeof afterSave == "function") 
 	            		afterSave(data);
 	            	else
@@ -2424,6 +2432,7 @@ var elementLib = {
 
 			      	if( typeof elementObj.dynForm.jsonSchema.beforeSave == "function")
 			        	elementObj.dynForm.jsonSchema.beforeSave();
+
 			        var afterSave = ( typeof elementObj.dynForm.jsonSchema.afterSave == "function") ? elementObj.dynForm.jsonSchema.afterSave : null;
 
 			        if( elementObj.save )
@@ -2498,6 +2507,13 @@ var typeObjLib = {
 			$(".emailtext").css("display","none");
 		}
 	},
+    email : {
+		placeholder : "Email du responsable",
+		inputType : "text",
+		init : function(){
+			$(".emailtext").css("display","none");
+		}
+	},
 	url : {
         inputType :"text",
         "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
@@ -2515,7 +2531,26 @@ var typeObjLib = {
             getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
         	$(".urlsarray").css("display","none");	
         }
-    }
+    },
+    birthDate : {
+        inputType : "date",
+        placeholder: "Date d'anniversaire'"
+    },
+    phone :{
+      	inputType : "text",
+      	placeholder : "Saisir les numéros de téléphone séparer par une virgule"
+    },
+    mobile :{
+      	inputType : "text",
+      	placeholder : "Saisir les numéros de portable séparer par une virgule"
+    },
+    fax :{
+      	inputType : "text",
+      	placeholder : "Saisir les numéros de fax séparer par une virgule"
+    },
+    hidden :{
+      	inputType : "hidden",
+    },
 };
 
 var typeObj = {

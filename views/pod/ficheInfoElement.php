@@ -518,16 +518,28 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 						
 
 						$tel = "";
+						$fax = "";
+						$fixe = "";
+						$mobile = "";
 						if( @$element["telephone"]["fixe"]){
 							foreach ($element["telephone"]["fixe"] as $key => $num) {
-								$tel .= ($tel != "") ? ", ".$num : $num;
+								$tel .= ($tel != "") ? ", ".trim($num) : trim($num);
+								$fixe .= ($fixe != "") ? ", ".trim($num) : trim($num);
 							}
 						}
 						if( @$element["telephone"]["mobile"]){
 							foreach ($element["telephone"]["mobile"] as $key => $num) {
-								$tel .= ($tel != "") ? ", ".$num : $num;
+								$tel .= ($tel != "") ? ", ".trim($num) : trim($num);
+								$mobile .= ($mobile != "") ? ", ".trim($num) : trim($num);
 							}
 						}
+						if( @$element["telephone"]["fax"]){
+							foreach ($element["telephone"]["mobile"] as $key => $num) {
+								$tel .= ($tel != "") ? ", ".trim($num) : trim($num);
+								$fax .= ($fax != "") ? ", ".trim($num) : trim($num);
+							}
+						}
+
 						$this->renderPartial('../pod/qrcode',array(
 																"type" => @$element['type'],
 																"name" => @$element['name'],
@@ -556,25 +568,24 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 			<div class="col-md-6 col-sm-6 col-xs-12">
 				<div class="text-dark lbl-info-details margin-top-10">
 					<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Contact information"); ?>
+					<?php if($edit==true){?>
+					<a href='javascript:;' id="btn-update-info" class="tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Update Contact information");?>"><i class="fa text-red fa-pencil"></i></a>
+					<?php } ?>
 				</div>
 				
 				<?php if($type==Person::COLLECTION){
 					if(Preference::showPreference($element, $type, "birthDate", Yii::app()->session["userId"])){ ?>
 						<i class="fa fa-birthday-cake fa_birthDate hidden"></i> 
-						<a href="#" id="birthDate" data-type="date" data-title="<?php echo Yii::t("person","Birth date"); ?>" data-emptytext="<?php echo Yii::t("person","Birth date"); ?>" class="">
-							<?php echo (isset($element["birthDate"])) ? date("d/m/Y", strtotime($element["birthDate"]))  : null; ?>
-						</a>
+						<a href="#" id="birthDate" data-type="date" data-title="<?php echo Yii::t("person","Birth date"); ?>" data-emptytext="<?php echo Yii::t("person","Birth date"); ?>" class=""><?php echo (isset($element["birthDate"])) ? date("d/m/Y", strtotime($element["birthDate"]))  : null; ?></a>
 						<br>
 					<?php } 
 				} ?>
 				<?php 
-					//if ($type==Organization::COLLECTION || $type==Person::COLLECTION){ 
-						if(($type==Person::COLLECTION && Preference::showPreference($element, $type, "email", Yii::app()->session["userId"])) || ($type!=Person::COLLECTION && $type!=Event::COLLECTION)){ ?>
+					if(($type==Person::COLLECTION && Preference::showPreference($element, $type, "email", Yii::app()->session["userId"])) || ($type!=Person::COLLECTION && $type!=Event::COLLECTION)){ ?>
 							<i class="fa fa-envelope fa_email  hidden"></i> 
-							<a href="javascript:;" id="email" class="editable-context required"><?php echo (isset($element["email"])) ? $element["email"] : null; ?></a>
-							<br>
-				<?php 	} 
-					//} ?>
+							<span id="email"><?php echo (isset($element["email"])) ? $element["email"] : null; ?></span>
+							<br/>
+				<?php } ?>
 
 				<?php //If there is no http:// in the url
 				$scheme = "";
@@ -584,9 +595,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 				
 				<i class="fa fa-desktop fa_url hidden"></i> 
 				<a href="<?php echo (isset($element["url"])) ? $scheme.$element['url'] : '#'; ?>" target="_blank" id="url" data-type="text" data-title="<?php echo Yii::t("common","Website URL") ?>" 
-					data-emptytext="<?php echo Yii::t("common","Website URL") ?>" style="cursor:pointer;" class="editable-context">
-					<?php echo (isset($element["url"])) ? $element["url"] : null; ?>
-				</a> 
+					data-emptytext="<?php echo Yii::t("common","Website URL") ?>" style="cursor:pointer;"><?php echo (isset($element["url"])) ? $element["url"] : ""; ?></a> 
 				<br>
 				<?php if($type==Project::COLLECTION){ ?>
 				<i class="fa fa-file-text-o"></i>
@@ -595,42 +604,16 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 
 				<?php  if($type==Organization::COLLECTION || $type==Person::COLLECTION){ ?>
 					<i class="fa fa-phone fa_telephone hidden"></i>
-					<a href="#" id="fixe" data-type="text" data-title="<?php echo Yii::t("person","Phone"); ?>" data-emptytext="<?php echo Yii::t("person","Phone"); ?>" class="telephone editable editable-click">
-						<?php 
-							if(isset($element["telephone"]["fixe"])){
-								foreach ($element["telephone"]["fixe"] as $key => $tel) {
-									if($key > 0)
-										echo ", ";
-									echo $tel;
-								}
-							}
-						?>
-					</a>
-					<br>
+					<span id="fixe" class="telephone"><?php echo $fixe; ?></span>
+					<br/>
 
 					<i class="fa fa-mobile fa_telephone_mobile hidden"></i>
-					<a href="#" id="mobile" data-type="text" data-emptytext="<?php echo Yii::t("person","Mobile"); ?>" data-title="<?php echo Yii::t("person","Enter your mobiles"); ?>" class="telephone editable editable-click">
-						<?php if(isset($element["telephone"]["mobile"])){
-							foreach ($element["telephone"]["mobile"] as $key => $tel) {
-								if($key > 0)
-									echo ", ";
-								echo $tel;
-							}
-						} ?>
-					</a>
-					<br>
+					<span id="mobile" class="telephone"><?php echo $mobile; ?></span>
+					<br/>
 
 					<i class="fa fa-fax fa_telephone_fax hidden"></i> 
-					<a href="#" id="fax" data-type="text" data-emptytext="<?php echo Yii::t("person","Fax"); ?>" data-title="<?php echo Yii::t("person","Enter your fax"); ?>" class="telephone editable editable-click">
-						<?php if(isset($element["telephone"]["fax"])){
-							foreach ($element["telephone"]["fax"] as $key => $tel) {
-								if($key > 0)
-									echo ", ";
-								echo $tel;
-							}
-						} ?>
-					</a>
-					<br>
+					<span id="fax" class="telephone"><?php echo $fax; ?></span>
+					<br/>
 				<?php } ?>	
 			</div>			
 		</div>
@@ -728,16 +711,28 @@ if($showOdesc == true){
 
 <script type="text/javascript">
 	
-	
+	var edit = '<?php echo (@$edit == true) ? "true" : "false"; ?>';
 	var showLocality = (( "<?php echo @$showLocality; ?>" == "<?php echo false; ?>")?false:true);
-	if(( showLocality == true && "<?php echo Person::COLLECTION; ?>" == contextData.type ) || "<?php echo Person::COLLECTION; ?>" != contextData.type){
+	if(	( showLocality == true && "<?php echo Person::COLLECTION; ?>" == contextData.type ) 
+		|| "<?php echo Person::COLLECTION; ?>" != contextData.type) {
 		contextData.geo = <?php echo json_encode(@$element["geo"]) ?>;
 		contextData.geoPosition = <?php echo json_encode(@$element["geoPosition"]) ?>;
 		contextData.address = <?php echo json_encode(@$element["address"]) ?>;
 		contextData.addresses = <?php echo json_encode(@$element["addresses"]) ?>;
-		contextData.description = <?php echo json_encode(@$element["description"]) ?>;
-		contextData.shortDescription = <?php echo json_encode(@$element["shortDescription"]) ?>;
 	}
+
+	if(	edit == "true") {
+		mylog.log("HEEEEEERRRREEEEEE");
+		contextData.email = '<?php if(isset($element["email"])) echo $element["email"]; else echo ""; ?>';
+		contextData.birthDate = '<?php if(isset($element["birthDate"])) echo $element["birthDate"]; else echo ""; ?>';
+		contextData.fixe =parsePhone(<?php echo json_encode((isset($element["telephone"]["fixe"]) ? $element["telephone"]["fixe"] : array())); ?>);
+		contextData.mobile = parsePhone(<?php echo json_encode((isset($element["telephone"]["mobile"]) ? $element["telephone"]["mobile"] : array())); ?>);
+		contextData.fax = parsePhone(<?php echo json_encode((isset($element["telephone"]["fax"]) ? $element["telephone"]["fax"] : array())); ?>);
+		/*contextData.fixe = (($("#fixe").hmtl().length > 0) ? $("#fixe").hmtl() : "") ;
+		contextData.mobile = (($("#mobile").hmtl().length > 0) ? $("#mobile").hmtl() : "") ;
+		contextData.fax = (($("#fax").hmtl().length > 0) ? $("#fax").hmtl() : "") ;*/
+	}
+
 	//var emptyAddress = ((typeof(contextData.address) == "undefined" || contextData.address == null || typeof(contextData.address.codeInsee) == "undefined" || (typeof(contextData.address.codeInsee) != "undefined" && contextData.address.codeInsee == ""))?true:false);
 	var emptyAddress = (( "<?php echo $emptyAddress; ?>" == "<?php echo false; ?>")?false:true);
 
@@ -747,7 +742,7 @@ if($showOdesc == true){
 	var startDate = '<?php if(isset($element["startDate"])) echo $element["startDate"]; else echo ""; ?>';
 	var endDate = '<?php if(isset($element["endDate"])) echo $element["endDate"]; else echo "" ?>';
 	var allDay = '<?php echo (@$element["allDay"] == true) ? "true" : "false"; ?>';
-	var edit = '<?php echo (@$edit == true) ? "true" : "false"; ?>';
+	
 	var modeEdit = '<?php echo (@$modeEdit == true) ? "true" : "false"; ?>';
 	var birthDate = '<?php echo (isset($person["birthDate"])) ? $person["birthDate"] : null; ?>';
 	var NGOCategoriesList = <?php echo json_encode($NGOCategories) ?>;
@@ -774,7 +769,6 @@ if($showOdesc == true){
 		manageDivEditElement();
 		bindAboutPodElement();
 		inintDescs();
-		bindDynFormEditable();
 		collection.applyColor(contextData.type,contextData.id);
 		/*$("#btn-update-geopos").click(function(){
 			findGeoPosByAddress();
@@ -902,37 +896,161 @@ if($showOdesc == true){
 	});
 
 	function bindDynFormEditable(){
-		$("#email").off().on( "click", function(){
+		/*$("#email").off().on( "click", function(){
 			mylog.log("email");
-			var dataUpdate = { value : contextData.email } ;
+			var dataUpdate = { value : $("#email").html() } ;
 			
 			var afterSave = function(data){
-				$("#email").html(markdownToHtml(data.email));
+				$("#email").html(data.email);
 				elementLib.closeForm();		
-			}
+			} ;
+			var beforeSave = function(){
+		    	if (typeof $("#ajaxFormModal #description").code === 'function' ) 
+		    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
+		    };
 			
 			var saveUrl = baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType;
-			editDynForm("email", "Modifier l'email'", "fa-envelope", "email", null, dataUpdate, saveUrl, onLoads, afterSave);
+			editDynForm("email", "Modifier l'email'", "fa-envelope", "email", null, dataUpdate, saveUrl, null, afterSave);
+		});*/
+
+		$("#btn-update-info").off().on( "click", function(){
+			var dataUpdate = {
+				block : "coordonnees",
+		        id : contextData.id,
+		        type : contextData.type
+			};
+			if($("#contentGeneralInfos #email").html() != "") 
+				dataUpdate.email = $("#contentGeneralInfos #email").html();
+			if($("#contentGeneralInfos #birthDate").html().length > 0)
+				dataUpdate.birthDate = $("#contentGeneralInfos #birthDate").html();
+			if($("#contentGeneralInfos #fixe").html().length > 0)
+				dataUpdate.fixe = $("#contentGeneralInfos #fixe").html();
+			if($("#contentGeneralInfos #mobile").html().length > 0)
+				dataUpdate.mobile = $("#contentGeneralInfos #mobile").html();
+			if($("#contentGeneralInfos #fax").html().length > 0)
+				dataUpdate.fax = $("#contentGeneralInfos #fax").html();
+
+			var properties = {
+				email : typeObjLib["email"],
+				birthDate : typeObjLib["birthDate"],
+				fixe: typeObjLib["phone"],
+				mobile: typeObjLib["mobile"],
+				fax: typeObjLib["fax"],
+		        type : typeObjLib["hidden"],
+		        block : typeObjLib["hidden"],
+			};
+
+			mylog.log("dataUpdate", dataUpdate);
+
+			var onLoads = {
+				initUpdateInfo : function(){
+					mylog.log("initUpdateInfo");
+					$(".emailtext").slideToggle();
+				}
+			};
+
+			;
+			var beforeSave = function(){
+				mylog.log("beforeSave");
+				mylog.log("#fixe",$("#ajaxFormModal #fixe").length, $("#ajaxFormModal #fixe").val(), contextData.fixe );
+				mylog.log("#mobile",$("#ajaxFormModal #mobile").length, $("#ajaxFormModal #mobile").val(), contextData.mobile );
+
+		    	if($("#ajaxFormModal #email").length && $("#ajaxFormModal #email").val() == contextData.email)
+		    		$("#ajaxFormModal #email").remove();
+
+		    	if($("#ajaxFormModal #birthDate").length && $("#ajaxFormModal #birthDate").val() ==  contextData.birthDate)
+		    		$("#ajaxFormModal #birthDate").remove();
+
+		    	if($("#ajaxFormModal #fixe").length && $("#ajaxFormModal #fixe").val() ==  contextData.fixe)
+		    		$("#ajaxFormModal #fixe").remove();
+
+		    	if($("#ajaxFormModal #mobile").length && $("#ajaxFormModal #mobile").val() == contextData.mobile)
+		    		$("#ajaxFormModal #mobile").remove();
+
+		    	if($("#ajaxFormModal #fax").length && $("#ajaxFormModal #fax").val() ==  contextData.fax)
+		    		$("#ajaxFormModal #fax").remove();
+		    };
+
+			var afterSave = function(data){
+				mylog.dir(data);
+				if(data.result && data.resultGoods.result){
+					if(typeof data.resultGoods.values.email != "undefined"){
+						mylog.log("update email");
+						contextData.email = data.resultGoods.values.email;
+						$("#contentGeneralInfos #email").html(contextData.email);
+					} 
+						
+					if(typeof data.resultGoods.values.birthDate != "undefined"){
+						mylog.log("update birthDate");
+						contextData.birthDate = data.resultGoods.values.birthDate;
+						$("#contentGeneralInfos #birthDate").html(contextData.birthDate);
+					}
+
+					if(typeof data.resultGoods.values.fixe != "undefined"){
+						mylog.log("update fixe");
+						contextData.fixe = parsePhone(data.resultGoods.values.fixe);
+						$("#contentGeneralInfos #fixe").html(str);
+					}
+
+					if(typeof data.resultGoods.values.mobile != "undefined"){
+						mylog.log("update mobile");
+						contextData.mobile = parsePhone(data.resultGoods.values.mobile);
+						$("#contentGeneralInfos #mobile").html(contextData.mobile);
+					}
+
+					if(typeof data.resultGoods.values.fax != "undefined"){
+						mylog.log("update fax");
+						contextData.fax = parsePhone(data.resultGoods.values.fax);
+						$("#contentGeneralInfos #fax").html(contextData.fax);
+					}
+				}
+				elementLib.closeForm();
+			};
+			
+			var saveUrl = baseUrl+"/"+moduleId+"/element/updateblock/type/"+contextType;
+			editDynForm("Modifier les coordonnées", "fa-pencil", properties, "initUpdateInfo", dataUpdate, saveUrl, onLoads, beforeSave, afterSave);
 		});
 
 		$("#btn-update-desc").off().on( "click", function(){
 			var dataUpdate = { value : contextData.description } ;
+			var properties = {
+				value : typeObjLib["descriptionUpdate"],
+				pk : {
+		            inputType : "hidden",
+		            value : contextData.id
+		        },
+				name: {
+		            inputType : "hidden",
+		            value : name
+		        }
+			};
+
 			var onLoads = {
 				markdown : function(){
-					mylog.log("#btn-update-desc #ajaxFormModal #description")
+					mylog.log("#btn-update-desc #ajaxFormModal #description");
 					activateMarkdown("#ajaxFormModal #value");
 				}
-			}
+			};
 
 			var afterSave = function(data){
 				$("#description").html(markdownToHtml(data.description));
-				contextData.description = data.description
+				contextData.description = data.description;
 				elementLib.closeForm();		
-			}
+			};
 			
 			var saveUrl = baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType;
 			editDynForm("description", "Modifier la description", "fa-pencil", "descriptionUpdate", "markdown", dataUpdate, saveUrl, onLoads, afterSave);
 		});
+	}
+
+	function parsePhone(arrayPhones){
+		var str = "";
+		$.each(arrayPhones, function(i,num) {
+			if(str != "")
+				str += ", ";
+			str += num.trim();
+		});
+		return str ;
 	}
 
 	function bindAboutPodElement() {
@@ -1054,14 +1172,15 @@ if($showOdesc == true){
 							'#gpplusAccount', '#gitHubAccount', '#skypeAccount', '#telegramAccount', 
 							'#avancement', '#allDay', '#startDate', '#endDate', '#type'];
 
-		listBtnContext = ["#btn-update-desc", "#btn-update-geopos", "#btn-remove-geopos", "#btn-add-geopos", "#btn-update-organizer", "#btn-update-organizer", "#btn-add-organizer"];
+		listBtnContext = ["#btn-update-info", "#btn-update-desc", "#btn-update-geopos", "#btn-remove-geopos", "#btn-add-geopos", "#btn-update-organizer", "#btn-update-organizer", "#btn-add-organizer"];
+
 		if (mode == "view") {
 			//$('.editable-context').editable('toggleDisabled');
-			$('#ficheInfo').off('click', ".editable-context");
+			$('.editable-context').unbind('click');
 			$.each(listXeditablesContext, function(i,value) {
 				//$(value).editable('toggleDisabled');
 				//$(value).off('click');
-				$('#ficheInfo').off('click', value);
+				$(value).unbind('click');
 			});
 			$.each(listBtnContext, function(i,value) {
 				$(value).addClass("hidden");
@@ -1072,18 +1191,17 @@ if($showOdesc == true){
 
 		} else if (mode == "update") {
 			//$('.editable-context').on('click');
-			$('#ficheInfo').on('click', ".editable-context");
+			$('.editable-context').click(function (){bindDynFormEditable();});
 			$.each(listXeditablesContext, function(i,value) {
-				$(value).on('click');
-				$('#ficheInfo').on('click', value);
+				$(value).click(function (){
+					bindDynFormEditable();
+				});
 			});
 
 			$.each(listBtnContext, function(i,value) {
 				$(value).removeClass("hidden");
-			})
-			bindDynFormEditable();
-			
-			$("#btn-view-map").addClass("hidden");
+			});
+			//$('.my-link').click(function () {bindDynFormEditable();});
 		}
 	}
 
@@ -1877,23 +1995,13 @@ if($showOdesc == true){
 
 
 
-	function editDynForm(name, title, icon , obj, fct, data, saveUrl, onLoads, afterSave) {
+	function editDynForm(title, icon, properties, fct, data, saveUrl, onLoads, beforeSave, afterSave) {
 		var form = {
 			dynForm:{
 				jsonSchema : {
 					title : title,
 					icon : icon,
-					properties : {
-						value : typeObjLib[obj],
-						pk : {
-				            inputType : "hidden",
-				            value : contextData.id
-				        },
-						name: {
-				            inputType : "hidden",
-				            value : name
-				        }
-					}
+					properties : properties
 				}
 			}
 		};
@@ -1903,6 +2011,9 @@ if($showOdesc == true){
 
 		if(typeof onLoads != "undefined" )
 			form.dynForm.jsonSchema.onLoads = onLoads;
+
+		if(typeof beforeSave != "undefined" )
+			form.dynForm.jsonSchema.beforeSave = beforeSave;
 
 		if(typeof afterSave != "undefined" )
 			form.dynForm.jsonSchema.afterSave = afterSave;
