@@ -73,7 +73,7 @@
 								<a href="<?php echo $t?>" class="label label-inverse"><?php echo $t?></a> 
 							<?php } } ?>
 							<div class="space5"></div>
-							<?php if(@$p["creator"] == Yii::app()->session["userId"] ){?>
+							<?php if(@$p["creator"] == Yii::app()->session["userId"] || @$p["author"] == Yii::app()->session["userId"] ){?>
 								<a href="javascript:;" class="btn btn-xs btn-default text-red deleteThisBtn pull-right" data-type="poi" data-id="<?php echo (string)$p["_id"] ?>" ><i class="fa fa-trash"></i></a> 
 								<a href="javascript:;" class="btn btn-xs btn-default text-green editThisBtn pull-right"  data-type="poi" data-id="<?php echo (string)$p["_id"] ?>" ><i class="fa fa-pencil-square-o"></i></a>
 								<div class="space1"></div>

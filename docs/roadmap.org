@@ -140,7 +140,11 @@ Liste des notifications déjà lues => #370 #453
         [ ] wiki page
         [ ] git url or wiki
         [ ] mainstenant
+  [ ] document uploader
   [ ] add photo
+    [ ] limit 
+      [ ] size of images 
+      [ ] image types
     [X] join upload and save into one unique action : UploadSaveAction
     [X] added test btn to gallery page and authorisation limitations  
     [X] added fineUploader element to dynForm
@@ -149,19 +153,19 @@ Liste des notifications déjà lues => #370 #453
     [ ] clean up mkdir($upload_dir, 0777);
     * use case
     [ ] test multiple images, with one overweight
+    [ ] edit poi 
     [bug] new POI aren't editable
     [X] gallery for poi : in menuSmall view
     [ ] add into a element form 
         [X] generate id when image exist /api/tool/get/what/mongoId
         [X] set context + id 
         [X] make upload on validate button
-        [ ] orga form
-        [ ] event form
-        [ ] project form
+        [X] all elements : orga, event, project
     * wishlist
       [ ] cropping before upload
       [ ] adding album colelctions
       [new] define common points between element in typeObj , make a merge with a common map 
+      [ ] adding photos added to news page
   [ ] notification à la création d'un dda
   [ ] Count requests DB per page 
   [X] network source from gist served by gitraw
