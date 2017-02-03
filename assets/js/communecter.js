@@ -1597,9 +1597,34 @@ function globalSearch(searchValue,types,autre){
 			
           }
  	});
-
-	
 }
+
+/*function checkUsername(username){
+	
+	$("#listSameName").html("<i class='fa fa-spin fa-circle-o-notch'></i> Vérification d'existence");
+	$("#similarLink").show();
+	$("#btn-submit-form").html('<i class="fa  fa-spinner fa-spin"></i>').prop("disabled",true);
+
+	$.ajax({
+      type: "POST",
+          url: baseUrl+"/" + moduleId + "/person/checkusername",
+          data: { "username" : username },
+          dataType: "json",
+          error: function (data){
+             mylog.log("error"); mylog.dir(data);
+             $("#btn-submit-form").html('Valider <i class="fa fa-arrow-circle-right"></i>').prop("disabled",false);
+          },
+          success: function(data){
+            var str = "";
+ 			var compt = 0;
+ 			var msg = "Verifiez si cet élément n'existe pas déjà";
+ 			$("#btn-submit-form").html('Valider <i class="fa fa-arrow-circle-right"></i>').prop("disabled",false);
+ 			$("#listSameName").html("<div class='col-sm-12 light-border text-red'> <i class='fa fa-eye'></i> "+msg+" : </div>"+str);
+ 		}
+ 	});
+}*/
+
+
 var elementLocation = null;
 var centerLocation = null;
 var elementLocations = [];
@@ -2469,6 +2494,37 @@ var typeObjLib = {
         inputType : "text",
         rules : { required : true }
     },
+    username : {
+    	placeholder : "username",
+        inputType : "text",
+        rules : { required : true },
+        init : function(){
+        	$("#ajaxFormModal #username ").off().on("blur",function(){
+        		if($("#ajaxFormModal #username ").val().length > 2 ){
+            		var res = isUniqueUsername($(this).val());
+            		$("#btn-submit-form").html('Valider <i class="fa fa-arrow-circle-right"></i>').prop("disabled",false);
+            		var msg = "Username existe déjà";
+            		var color = " text-red"
+            		if(res){
+            			msg = "Username est bon";
+            			color = " text-green"
+            		}
+            		
+            		$("#listSameName").html("<div class='col-sm-12 light-border"+color+"'> <i class='fa fa-eye'></i> "+msg+" : </div>");
+            	}
+            });
+        }
+    },
+    similarLink : {
+        inputType : "custom",
+        html:"<div id='similarLink'><div id='listSameName'></div></div>",
+    },
+    typeOrga :{
+    	inputType : "select",
+    	placeholder : "Type d'organisation",
+    	rules : { required : true },
+    	options : organizationTypes
+    },
     image : {
     	inputType : "image",
     	init : function() { 
@@ -2517,6 +2573,11 @@ var typeObjLib = {
 	url : {
         inputType :"text",
         "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
+        placeholder : "Site web"
+    },
+    urlOptionnel : {
+        inputType :"text",
+        "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
         placeholder : "url, lien, adresse web",
         init:function(){
             getMediaFromUrlContent("#url", ".resultGetUrl0",0);
@@ -2531,6 +2592,35 @@ var typeObjLib = {
             getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
         	$(".urlsarray").css("display","none");	
         }
+    },
+    telegram : {
+        inputType :"text",
+        placeholder : "Votre Speudo Telegram"
+    },
+    skype : {
+        inputType :"text",
+        "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
+        placeholder : "Lien vers Skype"
+    },
+    facebook : {
+        inputType :"text",
+        "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
+        placeholder : "Lien vers Facebook"
+    },
+    github : {
+        inputType :"text",
+        "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
+        placeholder : "Lien vers Git Hub"
+    },
+    googleplus : {
+        inputType :"text",
+        "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
+        placeholder : "Lien vers Google Plus"
+    },
+    twitter : {
+        inputType :"text",
+        "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
+        placeholder : "Lien vers Twitter"
     },
     birthDate : {
         inputType : "date",

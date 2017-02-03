@@ -152,7 +152,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
     	font-family: "homestead";
     }*/
 
-    #telegramAccount {
+    #ficheInfo #telegramAccount {
 	    float: left;
 		font-size: 13px;
 		border-radius: 50px;
@@ -246,23 +246,21 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 	<div id="divInformation" class="col-sm-12 col-md-12 padding-15">
 		<div class="col-md-12 col-lg-12 col-xs-12 no-padding text-dark lbl-info-details">
 			<i class="fa fa-map-marker"></i>  <?php echo Yii::t("common","Information") ?>
+			<?php if($edit==true){?>
+				<a href='javascript:;' id="btn-update-info" class="tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Update Contact information");?>"><i class="fa text-red fa-pencil"></i></a>
+				<?php } ?>
 		</div>
 		<div class="col-md-12">
 			<div class="no-padding col-md-12">
 				<div id="divName">
-					<span class="titleField text-dark"><i class="fa fa-angle-right"></i> <?php echo Yii::t("common", "Name"); ?> :</span>
-					<a href="#" id="name" data-type="text" data-original-title="<?php echo Yii::t("person","Enter your name"); ?>" data-emptytext="Enter your name" class="editable-context">
-						<?php if(isset($element["name"])) echo $element["name"]; else echo ""; ?>
-					</a>
+					<span class="titleField text-dark"><i class="fa fa-angle-right"></i><?php echo Yii::t("common", "Name"); ?> :</span>
+					<span href="#" id="name" class=""><?php if(isset($element["name"])) echo $element["name"]; else echo ""; ?></span>
 				</div>
 
 				<?php if($type==Person::COLLECTION){ ?>
 				<div id="divUserName">
-					<!-- <i class="fa fa-smile-o fa_name hidden"></i> -->
 					<span class="titleField text-dark"><i class="fa fa-angle-right"></i> <?php echo Yii::t("common", "Username"); ?> :</span>
-					<a href="#" id="username" data-type="text" data-emptytext="<?php echo Yii::t("person","Username"); ?>"  data-original-title="<?php echo Yii::t("person","Enter your user name"); ?>" class="editable-context">
-						<?php if(isset($element["username"]) && ! isset($element["pending"])) echo $element["username"]; else echo "";?>
-					</a>
+					<span id="username"><?php if(isset($element["username"]) && ! isset($element["pending"])) echo $element["username"]; else echo "";?></span>
 				</div>
 				<?php } ?>
 
@@ -283,72 +281,38 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 		<?php if($type==Person::COLLECTION){ ?>
 				<div class="socialNetwork col-md-12">
 					<div class="col-md-12 no-padding">
+						<?php 
+							$facebook = (!empty($element["socialNetwork"]["facebook"])? $element["socialNetwork"]["facebook"]:"#") ;
+							$skype = (!empty($element["socialNetwork"]["skype"])? $element["socialNetwork"]["skype"]:"#") ;
+							$twitter =  (!empty($element["socialNetwork"]["twitter"])? $element["socialNetwork"]["twitter"]:"#") ;
+							$googleplus =  (!empty($element["socialNetwork"]["googleplus"])? $element["socialNetwork"]["googleplus"]:"#") ;
+							$github =  (!empty($element["socialNetwork"]["github"])? $element["socialNetwork"]["github"]:"#") ;
+							$telegram =  (!empty($element["socialNetwork"]["telegram"])? $element["socialNetwork"]["telegram"]:"Telegram") ;
+						?>
 						<span class="titleField text-dark"><i class="fa fa-angle-right"></i> <?php echo Yii::t("common","Socials") ?> :</span>
-						<a href="#" id="skypeAccount" data-emptytext='<i class="fa fa-skype"></i>' data-type="text" data-original-title="" class="editable editable-click socialIcon">
-							<?php if (isset($element["socialNetwork"]["skype"])) echo $element["socialNetwork"]["skype"]; else echo ""; ?>
-						</a>
-						<?php $facebook =  (!empty($element["socialNetwork"]["facebook"])? $element["socialNetwork"]["facebook"]:"#") ;?>
-						<a href="<?php echo $facebook ; ?>" target="_blank" id="facebookAccount" data-emptytext='<i class="fa fa-facebook"></i>' data-type="text" data-title="Mettre l'url pointant vers votre profil" data-original-title="" class="editable editable-click socialIcon">
-							<?php echo ($facebook=="#"?"":$facebook) ; ?>
-						</a>
-						<?php $twitter =  (!empty($element["socialNetwork"]["twitter"])? $element["socialNetwork"]["twitter"]:"#") ;?>
-						<a href="<?php echo $twitter ;?>" target="_blank" id="twitterAccount" data-emptytext='<i class="fa fa-twitter"></i>' data-type="text" data-title="Mettre l'url pointant vers votre profil" data-original-title="" class="editable editable-click socialIcon">
-							<?php echo ($twitter=="#"?"":$twitter) ; ?>
-						</a>
-						<?php $googleplus =  (!empty($element["socialNetwork"]["googleplus"])? $element["socialNetwork"]["googleplus"]:"#") ;?>
-						<a href="<?php echo $googleplus ;?>" target="_blank" id="gpplusAccount" data-emptytext='<i class="fa fa-google-plus"></i>' data-type="text" data-title="Mettre l'url pointant vers votre profil" data-original-title="" class="editable editable-click socialIcon">
-							<?php echo ($googleplus=="#"?"":$googleplus) ; ?>
-						</a>
-						<?php $github =  (!empty($element["socialNetwork"]["github"])? $element["socialNetwork"]["github"]:"#") ;?>
-						<a href="<?php echo $github ;?>" target="_blank" id="gitHubAccount" data-emptytext='<i class="fa fa-github"></i>' data-type="text" data-title="Mettre l'url pointant vers votre profil" data-original-title="" class="editable editable-click socialIcon">
-							<?php echo ($github=="#"?"":$github) ; ?>
-						</a>
+						<a href="<?php echo $skype ; ?>" id="skypeAccount" class="socialIcon"><?php echo ($skype=="#"?"": '<i class="fa fa-skype"></i>') ; ?></a>
+						<a href="<?php echo $facebook ; ?>" target="_blank" id="facebookAccount" class="socialIcon"><?php echo ($facebook=="#"?"": '<i class="fa fa-facebook"></i>') ; ?></a>
+						<a href="<?php echo $twitter ;?>" target="_blank" id="twitterAccount" class="socialIcon"><?php echo ($twitter=="#"?"":'<i class="fa fa-twitter"></i>') ; ?></a>
+						<a href="<?php echo $googleplus ;?>" target="_blank" id="gpplusAccount" class="socialIcon"><?php echo ($googleplus=="#"?"":'<i class="fa fa-google-plus"></i>') ; ?></a>
+						<a href="<?php echo $github ;?>" target="_blank" id="gitHubAccount" class="socialIcon"><?php echo ($github=="#"?"":'<i class="fa fa-github"></i>') ; ?></a>
 					</div>
-
 					<div class="col-md-12 no-padding">
-						<?php if (  !empty($element["socialNetwork"]["telegram"]) || 
-									((string)$element["_id"] == Yii::app()->session["userId"] )){ ?>
-									
+						<?php if(!empty($telegram) || ((string)$element["_id"] == Yii::app()->session["userId"] )){ ?>
 									<span class="text-azure pull-left titleField" style="margin:8px 5px 0px 0px;"><i class="fa fa-angle-right"></i> Discuter en privé via :</span>
-									<a 	href='<?php echo ((@$element["socialNetwork"]["telegram"])?"https://web.telegram.org/#/im?p=@".$element["socialNetwork"]["telegram"]:"https://telegram.org/"); ?>'
-										$pseudo;
-										id="telegramAccount"
-										data-type="text"
-										data-emptytext='<i class="fa fa-send"></i> Telegram' 
-										<?php if (!empty($element["socialNetwork"]["telegram"])){ ?> 
-											<?php if ((string)$element["_id"] == Yii::app()->session["userId"]){ ?> 
-												data-original-title="Aller sur Telegram" 
-											<?php }else{ ?>
-												data-original-title="Contacter via Telegram" 
-											<?php } ?>
-										<?php }else{ ?>
-												data-original-title="Votre pseudo sur Telegram ?" 
-										<?php } ?>
-										class="editable editable-click socialIcon" 
-										target="_blank"
-									>
-										<?php echo ((@$element["socialNetwork"]["telegram"])?$element["socialNetwork"]["telegram"]:""); ?>
-									</a> 
-									<!--<a href="javascript:" onclick="" class="pull-right badge-question-telegram tooltips" data-toggle="tooltip" data-placement="right" title="comment ça marche ?" >
-									 		<i class="fa fa-question-circle text-dark" style=""></i>
-									</a>--> 
-
-						<?php }else{ ?>
-							<!-- s<div class="badge text-azure pull-right" style="margin-top:5px; margin-right:5px;"><i class="fa fa-ban"></i> <i class="fa fa-send"></i> Telegram</div> -->
-							<?php } ?>
+									<a 	href='<?php echo (($telegram!="Telegram") ? "https://web.telegram.org/#/im?p=@".$telegram:"https://telegram.org/");?>' id="telegramAccount" class="socialIcon" target="_blank"><i class="fa fa-send"></i><?php echo $telegram; ?></a> 
+						<?php } ?>
 					</div>
-
 				</div>
 			<?php } ?>
 			<!-- class="form-group tag_group no-margin"-->
-			<div id="divTags" class="col-md-12 no-padding" >
+			<!-- <div id="divTags" class="col-md-12 no-padding" >
 				<label class="control-label  text-red">
-					<i class="fa fa-tags"></i> <?php echo Yii::t("common","Tags") ?> : 
+					<i class="fa fa-tags"></i> <?php //echo Yii::t("common","Tags") ?> : 
 				</label>
 				
-				<a href="#" id="tags" data-type="select2" data-emptytext="<?php echo Yii::t("common","empty")?>" data-original-title="<?php echo Yii::t("common","Enter tagsList") ?>" class="editable editable-click text-red">
+				<a href="#" id="tags" data-type="select2" data-emptytext="<?php //echo Yii::t("common","empty")?>" data-original-title="<?php //echo Yii::t("common","Enter tagsList") ?>" class="editable editable-click text-red">
 					<?php 
-						if(isset($element["tags"])){
+						/* if(isset($element["tags"])){
 							$stringTags = "" ;
 							foreach ($element["tags"] as $tag) {
 								if($stringTags != "")
@@ -356,10 +320,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 								$stringTags .= $tag ;
 							}
 							echo $stringTags;
-						} 
+						} */
 					?>
 				</a>
-			</div>
+			</div> -->
 	</div>		
 	<?php 
 	//var_dump($admin);
@@ -569,7 +533,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 				<div class="text-dark lbl-info-details margin-top-10">
 					<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Contact information"); ?>
 					<?php if($edit==true){?>
-					<a href='javascript:;' id="btn-update-info" class="tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Update Contact information");?>"><i class="fa text-red fa-pencil"></i></a>
+					<a href='javascript:;' id="btn-update-contact" class="tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Update Contact information");?>"><i class="fa text-red fa-pencil"></i></a>
 					<?php } ?>
 				</div>
 				
@@ -722,15 +686,30 @@ if($showOdesc == true){
 	}
 
 	if(	edit == "true") {
-		mylog.log("HEEEEEERRRREEEEEE");
 		contextData.email = '<?php if(isset($element["email"])) echo $element["email"]; else echo ""; ?>';
-		contextData.birthDate = '<?php if(isset($element["birthDate"])) echo $element["birthDate"]; else echo ""; ?>';
 		contextData.fixe =parsePhone(<?php echo json_encode((isset($element["telephone"]["fixe"]) ? $element["telephone"]["fixe"] : array())); ?>);
 		contextData.mobile = parsePhone(<?php echo json_encode((isset($element["telephone"]["mobile"]) ? $element["telephone"]["mobile"] : array())); ?>);
 		contextData.fax = parsePhone(<?php echo json_encode((isset($element["telephone"]["fax"]) ? $element["telephone"]["fax"] : array())); ?>);
-		/*contextData.fixe = (($("#fixe").hmtl().length > 0) ? $("#fixe").hmtl() : "") ;
-		contextData.mobile = (($("#mobile").hmtl().length > 0) ? $("#mobile").hmtl() : "") ;
-		contextData.fax = (($("#fax").hmtl().length > 0) ? $("#fax").hmtl() : "") ;*/
+		contextData.tags = <?php echo json_encode((isset($element["tags"]) ? $element["tags"] : array())); ?>;
+
+		if(contextData.type == "<?php echo Person::COLLECTION; ?>" ){
+			contextData.username = '<?php if(isset($element["username"])) echo $element["username"]; else echo ""; ?>';
+			contextData.birthDate = '<?php if(isset($element["birthDate"])) echo $element["birthDate"]; else echo ""; ?>';
+			contextData.twitterAccount = '<?php if(isset($element["socialNetwork"]["twitter"])) echo $element["socialNetwork"]["twitter"]; else echo ""; ?>';
+			contextData.gpplusAccount = '<?php if(isset($element["socialNetwork"]["googleplus"])) echo $element["socialNetwork"]["googleplus"]; else echo ""; ?>';
+			contextData.gitHubAccount = '<?php if(isset($element["socialNetwork"]["github"])) echo $element["socialNetwork"]["github"]; else echo ""; ?>';
+			contextData.skypeAccount = '<?php if(isset($element["socialNetwork"]["skype"])) echo $element["socialNetwork"]["skype"]; else echo ""; ?>';
+			contextData.telegramAccount = '<?php if(isset($element["socialNetwork"]["telegram"])) echo $element["socialNetwork"]["telegram"]; else echo ""; ?>';
+			contextData.facebookAccount = '<?php if(isset($element["socialNetwork"]["facebook"])) echo $element["socialNetwork"]["facebook"]; else echo ""; ?>';
+		}
+
+
+		if(contextData.type == "<?php echo Organization::COLLECTION; ?>" ){
+			contextData.typeOrga = '<?php if(isset($element["type"])) echo $element["type"]; else echo ""; ?>';
+		}
+
+
+		
 	}
 
 	//var emptyAddress = ((typeof(contextData.address) == "undefined" || contextData.address == null || typeof(contextData.address.codeInsee) == "undefined" || (typeof(contextData.address.codeInsee) != "undefined" && contextData.address.codeInsee == ""))?true:false);
@@ -896,31 +875,189 @@ if($showOdesc == true){
 	});
 
 	function bindDynFormEditable(){
-		/*$("#email").off().on( "click", function(){
-			mylog.log("email");
-			var dataUpdate = { value : $("#email").html() } ;
-			
-			var afterSave = function(data){
-				$("#email").html(data.email);
-				elementLib.closeForm();		
-			} ;
-			var beforeSave = function(){
-		    	if (typeof $("#ajaxFormModal #description").code === 'function' ) 
-		    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
-		    };
-			
-			var saveUrl = baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType;
-			editDynForm("email", "Modifier l'email'", "fa-envelope", "email", null, dataUpdate, saveUrl, null, afterSave);
-		});*/
-
 		$("#btn-update-info").off().on( "click", function(){
 			var dataUpdate = {
-				block : "coordonnees",
+				block : "info",
+		        id : contextData.id,
+		        type : contextData.type,
+		        name : contextData.name,
+		        username : contextData.username
+			};
+			
+			if(contextData.tags.length > 0)
+				dataUpdate.tags = contextData.tags;
+
+			if(contextData.type == "<?php echo Person::COLLECTION; ?>" ){
+				if(contextData.twitterAccount.length > 0)
+					dataUpdate.twitterAccount = contextData.twitterAccount;
+				if(contextData.gpplusAccount.length > 0)
+					dataUpdate.gpplusAccount = contextData.gpplusAccount;
+				if(contextData.gitHubAccount.length > 0)
+					dataUpdate.gitHubAccount = contextData.gitHubAccount;
+				if(contextData.skypeAccount.length > 0)
+					dataUpdate.skypeAccount = contextData.skypeAccount;
+				if(contextData.telegramAccount.length > 0)
+					dataUpdate.telegramAccount = contextData.telegramAccount;
+				if(contextData.facebookAccount.length > 0)
+					dataUpdate.facebookAccount = contextData.facebookAccount;
+			}
+
+			if(contextData.type == "<?php echo Organization::COLLECTION; ?>" ){
+				if(contextData.typeOrga.length > 0)
+					dataUpdate.typeOrga = contextData.typeOrga;
+			}
+
+			var properties = {
+				collection : typeObjLib["hidden"],
+				block : typeObjLib["hidden"],
+				name : typeObjLib["name"]				
+			};
+
+			if(contextData.type == "<?php echo Person::COLLECTION; ?>" ){
+				properties.username = typeObjLib["username"];
+				properties.similarLink = typeObjLib["similarLink"];
+				properties.tags = typeObjLib["tags"];
+				properties.telegramAccount = typeObjLib["telegram"];
+				properties.gitHubAccount = typeObjLib["github"];
+				properties.skypeAccount = typeObjLib["skype"];
+				properties.gpplusAccount = typeObjLib["googleplus"];
+		        properties.twitterAccount = typeObjLib["twitter"];
+		        properties.facebookAccount = typeObjLib["facebook"];
+			}
+
+			if(contextData.type == "<?php echo Organization::COLLECTION; ?>" ){
+				properties.typeOrga = typeObjLib["typeOrga"];
+				properties.tags = typeObjLib["tags"];
+			}
+
+
+
+			mylog.log("dataUpdate", dataUpdate);
+
+			var onLoads = null;
+
+			
+			var beforeSave = function(){
+				mylog.log("beforeSave");
+		    	if($("#ajaxFormModal #name").length && $("#ajaxFormModal #name").val() == contextData.name)
+		    		$("#ajaxFormModal #name").remove();
+
+		    	if($("#ajaxFormModal #tags").length && $("#ajaxFormModal #tags").val() ==  contextData.tags)
+		    		$("#ajaxFormModal #tags").remove();
+
+		    	if(contextData.type == "<?php echo Person::COLLECTION; ?>" ){
+			    	if($("#ajaxFormModal #username").length && $("#ajaxFormModal #username").val() == contextData.username)
+			    		$("#ajaxFormModal #username").remove();
+
+			    	if($("#ajaxFormModal #telegramAccount").length && $("#ajaxFormModal #telegramAccount").val() ==  contextData.telegramAccount)
+			    		$("#ajaxFormModal #telegramAccount").remove();
+
+			    	if($("#ajaxFormModal #gitHubAccount").length && $("#ajaxFormModal #gitHubAccount").val() == contextData.gitHubAccount)
+			    		$("#ajaxFormModal #gitHubAccount").remove();
+
+			    	if($("#ajaxFormModal #skypeAccount").length && $("#ajaxFormModal #skypeAccount").val() ==  contextData.skypeAccount)
+			    		$("#ajaxFormModal #skypeAccount").remove();
+
+			    	if($("#ajaxFormModal #twitterAccount").length && $("#ajaxFormModal #twitterAccount").val() ==  contextData.twitterAccount)
+			    		$("#ajaxFormModal #twitterAccount").remove();
+
+			    	if($("#ajaxFormModal #facebookAccount").length && $("#ajaxFormModal #facebookAccount").val() ==  contextData.facebookAccount)
+			    		$("#ajaxFormModal #facebookAccount").remove();
+			    }
+
+			    if(contextData.type == "<?php echo Organization::COLLECTION; ?>" ){
+					if($("#ajaxFormModal #type").length && $("#ajaxFormModal #type").val() ==  contextData.typeOrga)
+			    		$("#ajaxFormModal #type").remove();
+				}
+
+		    };
+
+			var afterSave = function(data){
+				mylog.dir(data);
+				if(data.result && data.resultGoods.result){
+					if(typeof data.resultGoods.values.name != "undefined"){
+						contextData.name = data.resultGoods.values.name;
+						$("#nameHeader").html(contextData.name);
+					}
+
+					if(typeof data.resultGoods.values.username != "undefined"){
+						contextData.username = data.resultGoods.values.username;
+						$("#contentGeneralInfos #username").html(contextData.username);
+					}  
+						
+					if(typeof data.resultGoods.values.tags != "undefined"){
+						contextData.tags = data.resultGoods.values.tags;
+						var str = "";
+						if($('#divTagsHeader').length){
+							$.each(contextData.tags, function (key, tag){
+								str +=	'<div class="tag label label-danger pull-right" data-val="'+tag+'">'+
+											'<i class="fa fa-tag"></i>'+tag+
+										'</div>';
+								if(typeof globalTheme == "undefined" || globalTheme != "network")
+									addTagToMultitag(tag);
+							});
+						}
+						$('#divTagsHeader').html(str);
+					}
+
+					if(typeof contextData.telegramAccount != "undefined"){
+						speudoTelegram = contextData.telegramAccount.trim();
+						$('#contentGeneralInfos #telegramAccount').attr('href', 'https://web.telegram.org/#/im?p=@'+speudoTelegram);
+						$('#contentGeneralInfos #telegramAccount').html('<i class="fa telegramAccount text-white"></i>'+speudoTelegram);
+					}
+
+					if(typeof data.resultGoods.values.facebookAccount != "undefined"){
+						contextData.facebookAccount = data.resultGoods.values.facebookAccount.trim();
+						var icon = ((contextData.facebookAccount=="")?"":'<i class="fa fa-facebook"></i>');
+						changeNetwork('#contentGeneralInfos #facebookAccount', contextData.facebookAccount, icon);
+					}
+
+					if(typeof data.resultGoods.values.twitterAccount != "undefined"){
+						contextData.twitterAccount = data.resultGoods.values.twitterAccount.trim();
+						var icon = ((contextData.twitterAccount=="")?"":'<i class="fa fa-twitter"></i>');
+						changeNetwork('#contentGeneralInfos #twitterAccount', contextData.twitterAccount, icon);
+					}
+
+					if(typeof data.resultGoods.values.gitHubAccount != "undefined"){
+						contextData.gitHubAccount = data.resultGoods.values.gitHubAccount.trim();
+						var icon = ((contextData.gitHubAccount=="")?"":'<i class="fa fa-github"></i>');
+						changeNetwork('#contentGeneralInfos #gitHubAccount', contextData.gitHubAccount, icon);
+					}
+
+					if(typeof data.resultGoods.values.skypeAccount != "undefined"){
+						contextData.skypeAccount = data.resultGoods.values.skypeAccount.trim();
+						var icon = ((contextData.skypeAccount=="")?"":'<i class="fa fa-skype"></i>');
+						changeNetwork('#contentGeneralInfos #skypeAccount', contextData.skypeAccount, icon);
+					}
+
+					if(typeof data.resultGoods.values.gpplusAccount != "undefined"){
+						contextData.gpplusAccount = data.resultGoods.values.gpplusAccount.trim();
+						var icon = ((contextData.gpplusAccount=="")?"":'<i class="fa fa-google-plus"></i>');
+						changeNetwork('#contentGeneralInfos #gpplusAccount', contextData.gpplusAccount, icon);
+					}
+
+					if(typeof data.resultGoods.values.type != "undefined"){
+						contextData.typeOrga = data.resultGoods.values.typeOrga;
+						$("#typeHeader").html(contextData.typeOrga);
+					}
+				}
+				elementLib.closeForm();
+			};
+			
+			var saveUrl = baseUrl+"/"+moduleId+"/element/updateblock/type/"+contextType;
+			editDynForm("Modifier les coordonnées", "fa-pencil", properties, "initUpdateInfo", dataUpdate, saveUrl, onLoads, beforeSave, afterSave);
+		});
+
+		$("#btn-update-contact").off().on( "click", function(){
+			var dataUpdate = {
+				block : "contact",
 		        id : contextData.id,
 		        type : contextData.type
 			};
 			if($("#contentGeneralInfos #email").html() != "") 
 				dataUpdate.email = $("#contentGeneralInfos #email").html();
+			if($("#contentGeneralInfos #url").html() != "") 
+				dataUpdate.url = $("#contentGeneralInfos #url").html();
 			if($("#contentGeneralInfos #birthDate").html().length > 0)
 				dataUpdate.birthDate = $("#contentGeneralInfos #birthDate").html();
 			if($("#contentGeneralInfos #fixe").html().length > 0)
@@ -932,6 +1069,7 @@ if($showOdesc == true){
 
 			var properties = {
 				email : typeObjLib["email"],
+				url : typeObjLib["url"],
 				birthDate : typeObjLib["birthDate"],
 				fixe: typeObjLib["phone"],
 				mobile: typeObjLib["mobile"],
@@ -952,8 +1090,8 @@ if($showOdesc == true){
 			;
 			var beforeSave = function(){
 				mylog.log("beforeSave");
-				mylog.log("#fixe",$("#ajaxFormModal #fixe").length, $("#ajaxFormModal #fixe").val(), contextData.fixe );
-				mylog.log("#mobile",$("#ajaxFormModal #mobile").length, $("#ajaxFormModal #mobile").val(), contextData.mobile );
+		    	if($("#ajaxFormModal #url").length && $("#ajaxFormModal #url").val() == contextData.url)
+		    		$("#ajaxFormModal #url").remove();
 
 		    	if($("#ajaxFormModal #email").length && $("#ajaxFormModal #email").val() == contextData.email)
 		    		$("#ajaxFormModal #email").remove();
@@ -978,7 +1116,14 @@ if($showOdesc == true){
 						mylog.log("update email");
 						contextData.email = data.resultGoods.values.email;
 						$("#contentGeneralInfos #email").html(contextData.email);
-					} 
+					}
+
+					if(typeof data.resultGoods.values.url != "undefined"){
+						mylog.log("update url");
+						contextData.url = data.resultGoods.values.url;
+						$("#contentGeneralInfos #url").html(contextData.url);
+						$("#contentGeneralInfos #url").attr("href", url);
+					}  
 						
 					if(typeof data.resultGoods.values.birthDate != "undefined"){
 						mylog.log("update birthDate");
@@ -1021,7 +1166,7 @@ if($showOdesc == true){
 		        },
 				name: {
 		            inputType : "hidden",
-		            value : name
+		            value : "description"
 		        }
 			};
 
@@ -1031,6 +1176,7 @@ if($showOdesc == true){
 					activateMarkdown("#ajaxFormModal #value");
 				}
 			};
+			var beforeSave = null ;
 
 			var afterSave = function(data){
 				$("#description").html(markdownToHtml(data.description));
@@ -1039,7 +1185,39 @@ if($showOdesc == true){
 			};
 			
 			var saveUrl = baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType;
-			editDynForm("description", "Modifier la description", "fa-pencil", "descriptionUpdate", "markdown", dataUpdate, saveUrl, onLoads, afterSave);
+			editDynForm("Modifier la description", "fa-pencil", properties, "markdown", dataUpdate, saveUrl, onLoads, beforeSave, afterSave);
+		});
+
+		$("#btn-update-shortDesc").off().on( "click", function(){
+			var dataUpdate = { value : contextData.description } ;
+			var properties = {
+				value : typeObjLib["descriptionUpdate"],
+				pk : {
+		            inputType : "hidden",
+		            value : contextData.id
+		        },
+				name: {
+		            inputType : "hidden",
+		            value : "shortDescription"
+		        }
+			};
+
+			var onLoads = {
+				markdown : function(){
+					mylog.log("#btn-update-desc #ajaxFormModal #shortDescription");
+					activateMarkdown("#ajaxFormModal #value");
+				}
+			};
+			var beforeSave = null ;
+
+			var afterSave = function(data){
+				$("#shortDescription").html(markdownToHtml(data.shortDescription));
+				contextData.shortDescription = data.shortDescription;
+				elementLib.closeForm();		
+			};
+			
+			var saveUrl = baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType;
+			editDynForm("Modifier la description court", "fa-pencil", properties, "markdown", dataUpdate, saveUrl, onLoads, beforeSave, afterSave);
 		});
 	}
 
@@ -1172,7 +1350,7 @@ if($showOdesc == true){
 							'#gpplusAccount', '#gitHubAccount', '#skypeAccount', '#telegramAccount', 
 							'#avancement', '#allDay', '#startDate', '#endDate', '#type'];
 
-		listBtnContext = ["#btn-update-info", "#btn-update-desc", "#btn-update-geopos", "#btn-remove-geopos", "#btn-add-geopos", "#btn-update-organizer", "#btn-update-organizer", "#btn-add-organizer"];
+		listBtnContext = ["#btn-update-contact", "#btn-update-desc", "#btn-update-geopos", "#btn-remove-geopos", "#btn-add-geopos", "#btn-update-organizer", "#btn-update-organizer", "#btn-add-organizer"];
 
 		if (mode == "view") {
 			//$('.editable-context').editable('toggleDisabled');
@@ -2021,6 +2199,12 @@ if($showOdesc == true){
 		mylog.dir(form);
 
 		elementLib.openForm(form, fct, data);
+}
+
+function changeNetwork(id, url, str){
+	mylog.log("changeNetwork", id, url, str);
+	$(id).attr('href', url);
+	$(id).html(str);
 }
 
 	
