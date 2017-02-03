@@ -16,24 +16,47 @@
 
 	.logoKgou{
 		margin-top: -0px;
+		height:35px;
 	}
 
 	h1{
 		padding-top:20px;
 	}
 
-	
-
 	.arrow_box:after, .arrow_box:before {
 		left: 19px;
 	}
+
+
+@media screen and (max-width: 1024px) {
+    
+}
+
+@media (max-width: 768px) {
+    .row.main-apropos{
+    	padding:25px;
+    }
+
+    h1, h3, h4, p{
+    	font-size:1em;
+    }
+
+	.logoKgou{
+		height:25px;
+	}
+
+	h1{
+		padding-top:0px;
+	}
+}
+
 </style>
 
 
 <section class="padding-top-70">
-    <div class="row padding-top-15 padding-bottom-50">
+    <div class="row main-apropos padding-top-15 padding-bottom-50">
 	    
-        <div class="col-lg-3 col-md-3 col-sm-4 text-right" id="sub-menu-left">
+        <div class="col-lg-3 col-md-3 col-sm-4 text-right hidden-xs" id="sub-menu-left">
         	<div class="dropdown">
 				<button class="btn bg-red text-white btn font-blackoutM dropdown-toggle" data-toggle="dropdown" id="btn-onepage-main-menu">
 					<i class="fa fa-bars"></i> KGOUGLE
@@ -55,13 +78,17 @@
 				</div>
 			</div>
         </div>
-        <div class="col-lg-8 col-md-8 col-sm-7">
+        <div class="col-lg-8 col-md-8 col-sm-7 col-xs-12">
 
-        	<h5><i class="fa fa-angle-down"></i> A propos</h5>
+        	<h5 class="pull-left">
+        		<i class="fa fa-angle-down"></i> A propos
+        	</h5>
+        		<a href="#co2.web" class="lbh btn btn-default pull-right"><i class="fa fa-arrow-left"></i> retour</a>
+        	<br>
         	<hr>
         	<!-- --------------------------------------------------------------------------------- -->
         	<h1 class="letter-red font-blackoutM" id="koica">
-        		<img src="<?php echo $urlKgou; ?>" height="35" class="logoKgou"> C koi ca ?!?
+        		<img src="<?php echo $urlKgou; ?>" class="logoKgou"> C koi ca ?!?
         	</h1>
 
         	<h3 class="letter-blue"><i class="fa fa-angle-right"></i> Un moteur de recherche simplifié</h3>
@@ -190,7 +217,7 @@
         	<!-- <h3 class="letter-blue"><i class="fa fa-cubes fa-2x"></i> <i class="fa fa-angle-righ"></i> Plusieurs nouvelles applications sont déjà en cours de développement</h3> -->
         	<h4></h4>
 			<p>
-				Le collectif <a href="@co2;info.p.ph" class="letter-yellow"><b>PixelHumain</b></a> est réuni depuis ses origines autour d'un objectif commun : créer des outils numériques collaboratifs afin de <b>(re)dynamiser les territoires</b>, en facilitant la <b>communication entre les différents acteurs locaux</b>.<br><br>
+				Le collectif <b class="letter-yellow"><b>PixelHumain</b></b> est réuni depuis ses origines autour d'un objectif commun : créer des outils numériques collaboratifs afin de <b>(re)dynamiser les territoires</b>, en facilitant la <b>communication entre les différents acteurs locaux</b>.<br><br>
 				
 				Dans cet objectif, nous <b>co-construisons</b> depuis plus de 3 ans, une plateforme sociétale dénommée <a href="www.communecter.org" class="letter-red"><b>Communecter.org</b></a>, qui propose un ensemble de fonctionnalités cohérentes aux internautes souhaitant participer plus activement à la <b>vie de leur territoire</b>.<br><br>
 
@@ -200,6 +227,7 @@
 				Motivé et conseillé par notre développeur calédonien <a href="#co2.info.p.alphatango" class="letter-green"><b>AlphaTango</b></a>, nous espérons faire avancer internet sur le Caillou et en multiplier les usages : d'abord via ce moteur de recherche, pour faciliter votre navigation sur le web d'aujourd'hui, puis par la mise en place d'autres fonctionnalités innovantes déjà inclues dans la plateforme <a href="www.communecter.org" class="letter-red"><b>Communecter.org</b></a>.
         	</p>
 
+			
         </div>
     </div>
 </section>

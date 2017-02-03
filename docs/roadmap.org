@@ -129,6 +129,9 @@ Liste des notifications déjà lues => #370 #453
 
 ** @Tib 
   [new] connect a WP RSS to an element wall
+  [new] show profile consuption > percentage possible contribution to budget (under pts)
+  [new] budget calculator proportionnel à l'utilisation 
+  [test] regression delete image from news , from gallery 
   [ ] INTEGRATTE MARKDOWN wisiwig
     [ ] add documentation editor project page 
       * wishlist 
@@ -137,7 +140,11 @@ Liste des notifications déjà lues => #370 #453
         [ ] wiki page
         [ ] git url or wiki
         [ ] mainstenant
+  [ ] document uploader
   [ ] add photo
+    [ ] limit 
+      [ ] size of images 
+      [ ] image types
     [X] join upload and save into one unique action : UploadSaveAction
     [X] added test btn to gallery page and authorisation limitations  
     [X] added fineUploader element to dynForm
@@ -146,17 +153,19 @@ Liste des notifications déjà lues => #370 #453
     [ ] clean up mkdir($upload_dir, 0777);
     * use case
     [ ] test multiple images, with one overweight
-    [ ] new POI aren't editable
-    [ ] gallery for poi : http://127.0.0.1/ph/#gallery.index.type.poi.id.588b2aa6f6ca47250a8b4584
+    [ ] edit poi 
+    [bug] new POI aren't editable
+    [X] gallery for poi : in menuSmall view
     [ ] add into a element form 
         [X] generate id when image exist /api/tool/get/what/mongoId
         [X] set context + id 
-        [ ] manage abandon form > delete all tmp entries
         [X] make upload on validate button
+        [X] all elements : orga, event, project
     * wishlist
       [ ] cropping before upload
       [ ] adding album colelctions
       [new] define common points between element in typeObj , make a merge with a common map 
+      [ ] adding photos added to news page
   [ ] notification à la création d'un dda
   [ ] Count requests DB per page 
   [X] network source from gist served by gitraw
