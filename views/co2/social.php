@@ -22,7 +22,18 @@
                                     "type" => @$type) ); 
 ?>
 <style>
-	
+#page .bg-dark {
+    color: white !important;
+    background-color: #3C5665 !important;
+}
+#page .bg-red{
+    background-color:#E33551 !important;
+    color:white!important;
+}
+#page .bg-blue{
+    background-color: #5f8295 !important;
+    color:white!important;
+}
 #page .bg-green{
     background-color:#93C020 !important;
     color:white!important;
@@ -46,6 +57,9 @@
 #page .row.headerDirectory{
     margin-top: 20px;
     display: none;
+}
+#page p {
+    font-size: 13px;
 }
 
 .homestead{

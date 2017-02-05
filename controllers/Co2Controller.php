@@ -21,6 +21,7 @@ class Co2Controller extends CommunecterController {
 	        'web'     		=> 'citizenToolKit.controllers.co2.WebAction',
 	        'websearch'     => 'citizenToolKit.controllers.co2.WebSearchAction',
 	        'live'    		=> 'citizenToolKit.controllers.co2.LiveAction',
+	        'media'    		=> 'citizenToolKit.controllers.co2.MediaAction',
 	        'referencement' => 'citizenToolKit.controllers.co2.ReferencementAction',
 	        'savereferencement' => 'citizenToolKit.controllers.co2.SaveReferencementAction',
 	        'freedom'  		=> 'citizenToolKit.controllers.co2.FreedomAction',

@@ -13,9 +13,8 @@
 		<div class="panel-scroll height-230 ps-container">
 			<div class="padding-10">
 			
-				<?php 
-				
-				if(empty($pois)){ ?>
+			<?php 	
+			if(empty($pois)){ ?>
 				<div class="padding-10">
 					<blockquote class="no-margin">
 					<?php echo Yii::t("common","Ajouter des points d'interets à cet élément");  ?>

@@ -2350,60 +2350,43 @@ var elementLib = {
 	        }
 	    });
 	},
-
+	getDynFormObj : function(type, callback,afterLoad, data ){
+		if(typeof type == "object"){
+			specs = type;
+			if( notNull(specs.col) ) uploadObj.type = specs.col;
+    		callback(specs, afterLoad, data);
+		}else if( notNull(typeObj[type]) ){
+			specs = typeObj[type];
+			if( notNull(specs.col) ) uploadObj.type = specs.col;
+    		callback(specs, afterLoad, data);
+		}else {
+			lazyLoad( baseUrl+'/plugins/'+type+'_dynform.js', 
+				null,
+				function() { 
+				  	alert(dynForm);
+				  	typeObj[type] = dynForm;
+					specs = typeObj[type];
+					if( notNull(specs.col) ) uploadObj.type = specs.col;
+    				callback(specs, afterLoad, data);
+			 });
+		}
+	},
 	openForm : function  (type, afterLoad,data) { 
 	    //mylog.clear();
 	    $.unblockUI();
 	    mylog.warn("--------------- Open Form "+type+" ---------------------",data);
 	    mylog.dir(data);
+	    //global variables clean up
 	    elementLocation = null;
 	    elementLocations = [];
 	    centerLocation = null;
 	    updateLocality = false;
-	    
 
 	    if(userId)
 		{
-			if(typeof type == "object"){
-				specs = type;
-				if( notNull(specs.col) ) uploadObj.type = specs.col;
-	    		elementLib.starBuild(specs,afterLoad,data);
-			}else if( notNull(typeObj[type]) ){
-				specs = typeObj[type];
-				if( notNull(specs.col) ) uploadObj.type = specs.col;
-	    		elementLib.starBuild(specs,afterLoad,data);
-			}else {
-				lazyLoad( baseUrl+'/plugins/'+type+'_dynform.js', 
-					null,
-					function() { 
-					  	alert(dynForm);
-					  	typeObj[type] = dynForm;
-						specs = typeObj[type];
-						if( notNull(specs.col) ) uploadObj.type = specs.col;
-	    				elementLib.starBuild(specs,afterLoad,data);
-				 });
-			}
-
-	    	uploadObj.type = specs.col;
-			mylog.dir(specs);
-			$("#ajax-modal").removeClass("bgEvent bgOrga bgProject bgPerson bgDDA").addClass(specs.bgClass);
-			$("#ajax-modal-modal-title").html("<i class='fa fa-refresh fa-spin'></i> Chargement en cours. Merci de patienter.");
-			$(".modal-header").removeClass("bg-purple bg-green bg-orange bg-yellow bg-lightblue ").addClass(specs.titleClass);
-		  	$("#ajax-modal-modal-body").html( "<div class='row bg-white'>"+
-		  										"<div class='col-sm-10 col-sm-offset-1'>"+
-								              	"<div class='space20'></div>"+
-								              	//"<h1 id='proposerloiFormLabel' >Faire une proposition</h1>"+
-								              	"<form id='ajaxFormModal' enctype='multipart/form-data'></form>"+
-								              	"</div>"+
-								              "</div>");
-		  	$('.modal-footer').hide();
-		  	$('#ajax-modal').modal("show");
-		  	afterLoad = ( notNull(afterLoad) ) ? afterLoad : null;
-		  	data = ( notNull(data) ) ? data : {};
-		  	
-		  	elementLib.buildDynForm(specs, afterLoad, data);
-		  	mylog.log("--------------- here5");
-
+			elementLib.getDynFormObj(type, function() { 
+				elementLib.starBuild(specs,afterLoad,data);
+			},afterLoad, data);
 		} else {
 			toastr.error("Vous devez être connecté pour afficher les formulaires de création");
 			showPanel('box-login');
@@ -2566,7 +2549,7 @@ var typeObj = {
 			    noSubmitBtns : true,
 			    properties : {
 			    	image :{
-		            	inputType : "image",
+		            	inputType : "uploader",
 		            	showUploadBtn : true,
 		            	init : function() { 
 		            		setTimeout( function()
@@ -2655,6 +2638,106 @@ var typeObj = {
 			}
 		}},
 	"persons" : {col:"citoyens" , ctrl:"person"},
+	"poi":{ 
+		col:"poi",
+		ctrl:"poi",
+		color:"azure",
+		icon:"info-circle",
+
+		dynForm : {
+		    jsonSchema : {
+			    title : "Formulaire Point d'interet",
+			    icon : "map-marker",
+			    type : "object",
+			    onLoads : {
+			    	//pour creer un subevnt depuis un event existant
+			    	subPoi : function(){
+			    		if(contextData.type && contextData.id )
+			    		{
+		    				$('#ajaxFormModal #parentId').val(contextData.id);
+			    			$("#ajaxFormModal #parentType").val( contextData.type ); 
+			    		}
+			    	}
+			    },
+			    beforeSave : function(){
+			    	
+			    	if( typeof $("#ajaxFormModal #description").code === 'function' )  
+			    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
+			    	if($('#ajaxFormModal #parentId').val() == "" && $('#ajaxFormModal #parentType').val() ){
+				    	$('#ajaxFormModal #parentId').val(userId);
+				    	$("#ajaxFormModal #parentType").val( "citoyens" ); 
+				    }
+			    },
+			    beforeBuild : function(){
+			    	elementLib.setMongoId('poi');
+			    },
+				afterSave : function(){
+					if( $('.fine-uploader-manual-trigger').fineUploader('getUploads').length > 0 )
+				    	$('.fine-uploader-manual-trigger').fineUploader('uploadStoredFiles');
+				    else {
+				    	elementLib.closeForm();
+				    	loadByHash( location.hash );	
+				    }
+			    },
+			    properties : {
+			    	info : {
+		                inputType : "custom",
+		                html:"<p><i class='fa fa-info-circle'></i> Un Point d'interet est un élément assez libre qui peut etre géolocalisé ou pas, qui peut etre rataché à une organisation, un projet ou un évènement.</p>",
+		            },
+		            type :{
+		            	inputType : "select",
+		            	placeholder : "Type du point d'intérêt",
+		            	options : poiTypes
+		            },
+			        name : {
+			        	placeholder : "Nom",
+			            inputType : "text",
+			            rules : { required : true }
+			        },
+			        image :{
+		            	inputType : "uploader",
+		            	afterUploadComplete : function(){
+					    	elementLib.closeForm();
+			                loadByHash( location.hash );	
+					    },
+		            },
+		            description : {
+		                inputType : "wysiwyg",
+	            		placeholder : "Décrire c'est partager",
+	            		init:function(){
+				      		activateSummernote("#ajaxFormModal #description");
+			            }
+		            },
+		            location : {
+		               inputType : "location"
+		            },
+		            tags :{
+		                inputType : "tags",
+		                placeholder : "Tags ou Types de point d'interet",
+		                values : tagsList
+		            },
+		            formshowers : {
+		                inputType : "custom",
+		                html: "<a class='btn btn-default text-dark w100p' href='javascript:;' onclick='$(\".urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options (urls)</a>",
+		            },
+		            urls : {
+			        	placeholder : "url",
+			            inputType : "array",
+			            value : [],
+			            init:function(){
+				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
+			            	$(".urlsarray").css("display","none");	
+			            }
+			        },
+		            parentId :{
+		            	inputType : "hidden"
+		            },
+		            parentType : {
+			            inputType : "hidden"
+			        },
+			    }
+			}
+		}},
 	"citoyen" : {col:"citoyens" , ctrl:"person"},
 	"citoyens" : {col:"citoyens" , ctrl:"person",color:"yellow",icon:"user"},
 	"siteurl":{ 
@@ -2801,7 +2884,7 @@ var typeObj = {
 		              values : tagsList
 		            },
 		            image :{
-		            	inputType : "image",
+		            	inputType : "uploader",
 		            	afterUploadComplete : function(){
 					    	elementLib.closeForm();
 			                loadByHash( "#organization.detail.id."+uploadObj.id );	
@@ -3052,7 +3135,7 @@ var typeObj = {
 		            	rules : { required : true },
 		            },
 		            image :{
-		            	inputType : "image",
+		            	inputType : "uploader",
 		            	afterUploadComplete : function(){
 					    	elementLib.closeForm();
 			                loadByHash( "#event.detail.id."+uploadObj.id );	
@@ -3261,7 +3344,7 @@ var typeObj = {
 		            	rules : { required : true },
 		            },
 		            image :{
-		            	inputType : "image",
+		            	inputType : "uploader",
 		            	afterUploadComplete : function(){
 					    	elementLib.closeForm();
 			                loadByHash( "#project.detail.id."+uploadObj.id );	
