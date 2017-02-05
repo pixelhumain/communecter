@@ -949,6 +949,13 @@ function showAjaxPanel (url,title,icon, mapEnd) {
 
 			if(mapEnd)
 				showMap(true);
+
+
+    		if(contextData.type && contextData.id )
+    		{
+        		uploadObj.type = contextData.type;
+        		uploadObj.id = contextData.id;
+        	}
 			// setTimeout(function(){
 			// 	mylog.log("call timeout MAP MAP");
 			// 	getAjax('#mainMap',baseUrl+'/'+moduleId+"/search/mainmap",function(){ 
@@ -2289,51 +2296,66 @@ var elementLib = {
 	        }
 	    });
 	},
-
+	getDynFormObj : function(type, callback,afterLoad, data ){
+		if(typeof type == "object"){
+			specs = type;
+			if( notNull(specs.col) ) uploadObj.type = specs.col;
+    		callback(specs, afterLoad, data);
+		}else if( notNull(typeObj[type]) ){
+			specs = typeObj[type];
+			if( notNull(specs.col) ) uploadObj.type = specs.col;
+    		callback(specs, afterLoad, data);
+		}else {
+			lazyLoad( baseUrl+'/plugins/'+type+'_dynform.js', 
+				null,
+				function() { 
+				  	alert(dynForm);
+				  	typeObj[type] = dynForm;
+					specs = typeObj[type];
+					if( notNull(specs.col) ) uploadObj.type = specs.col;
+    				callback(specs, afterLoad, data);
+			 });
+		}
+	},
 	openForm : function  (type, afterLoad,data) { 
 	    //mylog.clear();
 	    $.unblockUI();
 	    mylog.warn("--------------- Open Form "+type+" ---------------------",data);
 	    mylog.dir(data);
+	    //global variables clean up
 	    elementLocation = null;
 	    elementLocations = [];
 	    centerLocation = null;
 	    updateLocality = false;
-	    
 
 	    if(userId)
 		{
-			if(typeof type == "object"){
-				specs = type;
-			}else{
-				formType = type;
-				console.log(type);
-				specs = typeObj[type];
-			}
-	    	uploadObj.type = specs.col;
-	    
-			mylog.dir(specs);
-			$("#ajax-modal").removeClass("bgEvent bgOrga bgProject bgPerson bgDDA").addClass(specs.bgClass);
-			$("#ajax-modal-modal-title").html("<i class='fa fa-refresh fa-spin'></i> Chargement en cours. Merci de patienter.");
-			$(".modal-header").removeClass("bg-purple bg-green bg-orange bg-yellow bg-lightblue ").addClass(specs.titleClass);
-		  	$("#ajax-modal-modal-body").html( "<div class='row bg-white'>"+
-		  										"<div class='col-sm-10 col-sm-offset-1'>"+
-								              	"<div class='space20'></div>"+
-								              	//"<h1 id='proposerloiFormLabel' >Faire une proposition</h1>"+
-								              	"<form id='ajaxFormModal' enctype='multipart/form-data'></form>"+
-								              	"</div>"+
-								              "</div>");
-		  	$('.modal-footer').hide();
-		  	$('#ajax-modal').modal("show");
-		  	afterLoad = ( notNull(afterLoad) ) ? afterLoad : null;
-		  	data = ( notNull(data) ) ? data : {};
-		  	elementLib.buildDynForm(specs, afterLoad, data);
+			elementLib.getDynFormObj(type, function() { 
+				elementLib.starBuild(specs,afterLoad,data);
+			},afterLoad, data);
 		} else {
 			toastr.error("Vous devez être connecté pour afficher les formulaires de création");
 			showPanel('box-login');
 		}
 	},
-
+	starBuild : function  (specs, afterLoad, data) {
+		mylog.dir(specs);
+		$("#ajax-modal").removeClass("bgEvent bgOrga bgProject bgPerson bgDDA").addClass(specs.bgClass);
+		$("#ajax-modal-modal-title").html("<i class='fa fa-refresh fa-spin'></i> Chargement en cours. Merci de patienter.");
+		$(".modal-header").removeClass("bg-purple bg-green bg-orange bg-yellow bg-lightblue ").addClass(specs.titleClass);
+	  	$("#ajax-modal-modal-body").html( "<div class='row bg-white'>"+
+	  										"<div class='col-sm-10 col-sm-offset-1'>"+
+							              	"<div class='space20'></div>"+
+							              	//"<h1 id='proposerloiFormLabel' >Faire une proposition</h1>"+
+							              	"<form id='ajaxFormModal' enctype='multipart/form-data'></form>"+
+							              	"</div>"+
+							              "</div>");
+	  	$('.modal-footer').hide();
+	  	$('#ajax-modal').modal("show");
+	  	afterLoad = ( notNull(afterLoad) ) ? afterLoad : null;
+	  	data = ( notNull(data) ) ? data : {}; 
+	  	elementLib.buildDynForm(specs, afterLoad, data);
+	},
 	buildDynForm : function (elementObj, afterLoad,data) { 
 		mylog.warn("--------------- buildDynForm", elementObj, afterLoad,data);
 		if(userId)
@@ -2384,6 +2406,18 @@ var elementLib = {
 			toastr.error("Vous devez être connecté pour afficher les formulaires de création");
 			showPanel('box-login');
 		}
+	},
+
+	//generate Id for upload feature of this element 
+	setMongoId : function(type) { 
+		uploadObj.type = type;
+		if( !$("#ajaxFormModal #id").val() )
+		{
+			getAjax( null , baseUrl+"/api/tool/get/what/mongoId" , function(data){
+				uploadObj.id = data.id;
+				$("#ajaxFormModal #id").val(data.id)
+			});
+		}
 	}
 }
 
@@ -2394,7 +2428,11 @@ var elementLib = {
 var contextData = null;
 var uploadObj = {
 	type : null,
-	id : null
+	id : null,
+	set : function(type,id){
+		uploadObj.type = type;
+		uploadObj.id = id;
+	}
 };
 var typeObj = {
 	"themes":{ 
@@ -2455,9 +2493,11 @@ var typeObj = {
 			    noSubmitBtns : true,
 			    properties : {
 			    	image :{
-		            	inputType : "image",
+		            	inputType : "uploader",
+		            	showUploadBtn : true,
 		            	init : function() { 
-		            		setTimeout( function(){
+		            		setTimeout( function()
+		            		{
 			            		$('#trigger-upload').click(function() {
 						        	$('.fine-uploader-manual-trigger').fineUploader('uploadStoredFiles');
 						        	loadByHash(location.hash);
@@ -2542,8 +2582,6 @@ var typeObj = {
 			}
 		}},
 	"persons" : {col:"citoyens" , ctrl:"person"},
-	"citoyen" : {col:"citoyens" , ctrl:"person"},
-	"citoyens" : {col:"citoyens" , ctrl:"person",color:"yellow",icon:"user"},
 	"poi":{ 
 		col:"poi",
 		ctrl:"poi",
@@ -2555,16 +2593,6 @@ var typeObj = {
 			    title : "Formulaire Point d'interet",
 			    icon : "map-marker",
 			    type : "object",
-			    beforeBuild : function(){
-			    	//generate Id for upload feature of this element 
-			    	uploadObj.type = 'poi';
-	    			if( !$("#ajaxFormModal #id").val() ){
-	    				getAjax( null , baseUrl+"/api/tool/get/what/mongoId" , function(data){
-		    				uploadObj.id = data.id;
-		    				$("#ajaxFormModal #id").val(data.id)
-		    			});
-		    		}
-			    },
 			    onLoads : {
 			    	//pour creer un subevnt depuis un event existant
 			    	subPoi : function(){
@@ -2584,9 +2612,16 @@ var typeObj = {
 				    	$("#ajaxFormModal #parentType").val( "citoyens" ); 
 				    }
 			    },
+			    beforeBuild : function(){
+			    	elementLib.setMongoId('poi');
+			    },
 				afterSave : function(){
 					if( $('.fine-uploader-manual-trigger').fineUploader('getUploads').length > 0 )
 				    	$('.fine-uploader-manual-trigger').fineUploader('uploadStoredFiles');
+				    else {
+				    	elementLib.closeForm();
+				    	loadByHash( location.hash );	
+				    }
 			    },
 			    properties : {
 			    	info : {
@@ -2604,7 +2639,7 @@ var typeObj = {
 			            rules : { required : true }
 			        },
 			        image :{
-		            	inputType : "image",
+		            	inputType : "uploader",
 		            	afterUploadComplete : function(){
 					    	elementLib.closeForm();
 			                loadByHash( location.hash );	
@@ -2647,6 +2682,8 @@ var typeObj = {
 			    }
 			}
 		}},
+	"citoyen" : {col:"citoyens" , ctrl:"person"},
+	"citoyens" : {col:"citoyens" , ctrl:"person",color:"yellow",icon:"user"},
 	"siteurl":{ 
 		col:"siteurl",
 		ctrl:"siteurl",
@@ -2733,9 +2770,20 @@ var typeObj = {
 			    title : trad.addOrganization,
 			    icon : "group",
 			    type : "object",
+			    beforeBuild : function(){
+			    	elementLib.setMongoId('organizations');
+			    },
 			    beforeSave : function(){
 			    	if (typeof $("#ajaxFormModal #description").code === 'function' ) 
 			    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
+			    },
+			    afterSave : function(){
+					if( $('.fine-uploader-manual-trigger').fineUploader('getUploads').length > 0 )
+				    	$('.fine-uploader-manual-trigger').fineUploader('uploadStoredFiles');
+				    else {
+				    	elementLib.closeForm();
+				    	loadByHash( location.hash );	
+				    }
 			    },
 			    properties : {
 			    	info : {
@@ -2778,6 +2826,13 @@ var typeObj = {
 		              inputType : "tags",
 		              placeholder : "Tags ou Types de l'organisation",
 		              values : tagsList
+		            },
+		            image :{
+		            	inputType : "uploader",
+		            	afterUploadComplete : function(){
+					    	elementLib.closeForm();
+			                loadByHash( "#organization.detail.id."+uploadObj.id );	
+					    },
 		            },
 		            location : {
 		               inputType : "location"
@@ -2898,6 +2953,17 @@ var typeObj = {
 			    		}
 			    	}
 			    },
+			    beforeBuild : function(){
+			    	elementLib.setMongoId('events');
+			    },
+			    afterSave : function(){
+					if( $('.fine-uploader-manual-trigger').fineUploader('getUploads').length > 0 )
+				    	$('.fine-uploader-manual-trigger').fineUploader('uploadStoredFiles');
+				    else {
+				    	elementLib.closeForm();
+				    	loadByHash( location.hash );	
+				    }
+			    },
 			    beforeSave : function(){
 			    	//alert("onBeforeSave");
 			    	
@@ -3012,6 +3078,13 @@ var typeObj = {
 		            	placeholder : "Type d\'évènement",
 		            	options : eventTypes,
 		            	rules : { required : true },
+		            },
+		            image :{
+		            	inputType : "uploader",
+		            	afterUploadComplete : function(){
+					    	elementLib.closeForm();
+			                loadByHash( "#event.detail.id."+uploadObj.id );	
+					    },
 		            },
 		            allDay : {
 		            	inputType : "checkbox",
@@ -3172,7 +3245,19 @@ var typeObj = {
 			    		 	$("#ajaxFormModal #parentType").val( contextData.type ); 
 			    		 	$("#ajax-modal-modal-title").html($("#ajax-modal-modal-title").html()+" sur "+contextData.name );
 			    	}
-			    },beforeSave : function(){
+			    },
+			    beforeBuild : function(){
+			    	elementLib.setMongoId('projects');
+			    },
+			    afterSave : function(){
+					if( $('.fine-uploader-manual-trigger').fineUploader('getUploads').length > 0 )
+				    	$('.fine-uploader-manual-trigger').fineUploader('uploadStoredFiles');
+				    else {
+				    	elementLib.closeForm();
+				    	loadByHash( location.hash );	
+				    }
+			    },
+			    beforeSave : function(){
 			    	if( typeof $("#ajaxFormModal #description").code === 'function' ) 
 			    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
 			    },
@@ -3202,6 +3287,13 @@ var typeObj = {
 		            	placeholder : "Type d\'évènement",
 		            	options : eventTypes,
 		            	rules : { required : true },
+		            },
+		            image :{
+		            	inputType : "uploader",
+		            	afterUploadComplete : function(){
+					    	elementLib.closeForm();
+			                loadByHash( "#project.detail.id."+uploadObj.id );	
+					    },
 		            },
 		            /*allDay : {
 		            	inputType : "checkbox",
@@ -4155,8 +4247,6 @@ var js_templates = {
       		tplObj.key = (notNull(obj.key)) ? ' data-key="'+obj.key+'"' : ""; 
 			tplObj.color = (notNull(obj.color)) ? obj.color : "white"; 
 			tplObj.tooltip = (notNull(obj.tooltip)) ? 'data-toggle="tooltip" data-placement="left" title="'+tooltip+'"' : ""; 
-			tplObj.path = (notNull(obj.path)) ? obj.path : "";
-			tplObj.thumb = (notNull(obj.thumb)) ? obj.thumb : "";
 			return tplObj;
 		},
 
@@ -4167,7 +4257,7 @@ var js_templates = {
 		//el_open/el_close :: is a container for each element of the list rendering
 		loop : function(obj,tpl,tplparams)
 		{
-      		var str = (notNull(tplparams.open)) ? tplparams.open : "";
+      		var str = (notNull(tplparams) && notNull(tplparams.open)) ? tplparams.open : "";
       		var cleanup = false;
       		$.each(obj ,function(k,v){
           		if( !notNull( v.classes ) && notNull(tplparams) && notNull( tplparams.classes )){
@@ -4176,13 +4266,13 @@ var js_templates = {
           		}
         		if( !notNull( v.parentClass ) && notNull(tplparams) && notNull( tplparams.parentClass ))
            			v.parentClass = tplparams.parentClass;
-         		var opener = (notNull(tplparams.el_open)) ? tplparams.el_open : "";
+         		var opener = (notNull(tplparams) && notNull(tplparams.el_open)) ? tplparams.el_open : "";
 		     	str += opener+js_templates[tpl]( v );
-         		if(notNull(tplparams.el_close)) str += tplparams.el_close;
+         		if(notNull(tplparams) && notNull(tplparams.el_close)) str += tplparams.el_close;
          		if(cleanup)
          			delete v.classes;
 		   	});
-        	if(notNull(tplparams.close)) str += tplparams.close;
+        	if(notNull(tplparams) && notNull(tplparams.close)) str += tplparams.close;
 		   	return str;
 		},
 
@@ -4224,30 +4314,82 @@ var js_templates = {
 
 		album : function (obj) 
 		{ 
-			var tplObj = js_templates.objectify(obj);
-			return //' <div class="portfolio-item">'+
-					' <a class="thumb-info '+tplObj.classes+'" href="'+tplObj.path+'" data-lightbox="all">'+
-						' <img src="'+tplObj.thumb+'" class="img-responsive" alt="'+tplObj.thumb+'">'+
-					' </a>';
-					//' </div>' ;
+			isDoc = (obj.name.toLowerCase().indexOf(".pdf")>0) ? true : false;
+			target = (isDoc) ? " target='_blanck'" : "";
+			str = ' <div class="col-xs-3 portfolio-item" id="'+obj.id+'">'+
+				' <a class="thumb-info pull-left '+obj.classes+'" '+target+' href="'+obj.path+'/'+obj.name+'" data-lightbox="all">';
+			
+			if( isDoc )
+				str += '<i class="fa fa-file-text-o fa-x5"></i>';
+			else
+				str += ' <img src="'+obj.path+'/medium/'+obj.name+'" class="img-responsive" alt="'+obj.name+'">';
+
+			str += ' </a>'+
+					( ( notNull(userId) && obj.author == userId) ? ' <br/><a class="btnRemove" href="javascript:;" data-id="'+obj.id+'" data-key="" data-name="'+obj.name+'" ><i class="fa text-red fa-trash"></i> </a>' : '')+
+					'</div>' ;
+			return str;
 				
 		},
 
 	};
 
+//*********************************************************************************
+// smallMenu Photo Albums
+//*********************************************************************************
 var album = {
 	show : function (id,type){
+		uploadObj.type = type;
+		uploadObj.id = id;
 		getAjax( null , baseUrl+'/'+moduleId+"/document/list/id/"+id+"/type/"+type+"/tpl/json" , function( data ) { 
-			$.each(data,function(k,v){
-				v.path = baseUrl+'/'+moduleId+"/"+v.folder+"/"+v.name;
-			});
+			
 			console.dir(data);
-			smallMenu.build( data , 
-			    function( params ){ return js_templates.loop( params, "album" ); },
+			smallMenu.build( 
+				data.list , 
+			    function( params ){ 
+			    	str = '<style>.thumb-info{height:200px; overflow: hidden; position: relative; } .thumb-info img{}</style><a class="pull-left btn bg-red addPhotoBtn" data-type="'+type+'" data-id="'+id+'" href="javascript:;"> Ajouter des Photos <i class="fa fa-plus"></i></a>'+
+							"<div class='homestead titleSmallMenu' style='font-size:35px'> Album <i class='fa fa-angle-right'></i> "+data.element.name+" </div><br/>"+
+							js_templates.loop( params, "album" );
+					return str;
+				},
 			    function(){
-			        $(".labelCount").html('(0)');
+			    	$(".addPhotoBtn").click(function() { 
+			    		uploadObj.type = type;
+			    		uploadObj.id = id;
+						elementLib.openForm("addPhoto");
+			    	});
+			    	album.delete();
 			    });
 		});
+	},
+	delete : function(){
+		$(".portfolio-item .btnRemove").off().on("click", function(e){
+			e.preventDefault();
+			var imageId = $(this).data("id");
+			var params =  { 
+				"parentId": uploadObj.id, 
+				"parentType": uploadObj.type, 
+				"docId" : imageId};
+			console.dir(params);
+			bootbox.confirm( trad.areyousuretodelete+"<span class='text-red'> "+$(this).data("name")+"</span> ?", 
+				function(result) {
+					if(result){
+						$.ajax({
+							url: baseUrl+"/"+moduleId+"/document/delete/dir/"+moduleId+"/type/"+uploadObj.type+"/parentId/"+uploadObj.id,
+							type: "POST",
+							dataType : "json",
+							data: params,
+							success: function(data){
+								if(data.result){
+									toastr.success(data.msg);
+									$("#"+imageId).remove();
+								}else{
+									toastr.error(data.error)
+								}
+							}
+						})
+					}
+				})
+		})
 	}
 }
 
