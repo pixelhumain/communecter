@@ -69,10 +69,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
     	font-weight: 400;
     	font-size: 14px;
     }
-    .editable-click, a.editable-click, a.editable-click:hover{
-    	font-size: 15px;
-		font-weight: 300;
-    }
 
     .entityTitle{
       margin-bottom: 10px;
@@ -94,9 +90,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
       	margin:0px !important;
       	text-align: left;
     }*/
-    .editable-context{
-    	color: #3c5665;
-    }
 
     .entityDetails span{
       font-weight: 300;
@@ -210,9 +203,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 	</div>
 	<div id="divBtnDetail" class="panel-tools" >
 		<?php if(@Yii::app()->session["userId"]){ ?> 
-			<?php if ($edit==true || ($openEdition == true )) { ?>
-				<a href="javascript:;" id="editElementDetail" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t(Element::getControlerByCollection($type), 'Edit your informations'); ?>" alt=""><i class="fa fa-pencil"></i><span class="hidden-sm hidden-xs editProfilLbl"> <?php echo Yii::t("common","Edit"); ?> </span></a>
-			<?php } ?> 
 
 			<?php if($edit==true) { ?>
 				<a href="javascript:;" id="editConfidentialityBtn" class="btn btn-sm btn-default tooltips <?php if(@$element['seePreferences'] && $element['seePreferences']==true && $type==Person::COLLECTION) echo 'btn-red'; ?>" data-toggle="tooltip" data-placement="bottom" title="<?php if ($type==Person::COLLECTION){ echo Yii::t("common", "Manage my parameters"); } else { echo Yii::t("common", "Manage the parameters of")." ".Yii::t("common","this ".$controller); } ?>" alt=""><i class='fa fa-cog'></i><span class="hidden-xs"> <?php echo Yii::t("common","Paramètres de confidentialité"); ?></span></a>
@@ -636,16 +626,17 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 				?>
 			</div>
 		<?php } ?>
-		<div id="divShortDescription" class="col-xs-12 no-padding">
+		<!-- <div id="divShortDescription" class="col-xs-12 no-padding">
 			<div class="text-dark lbl-info-details"><i class="fa fa-angle-down"></i> 
-			<?php echo Yii::t("common","Short description",null,Yii::app()->controller->module->id); ?></div>
-			<a href="#" id="shortDescription" data-type="wysihtml5" data-original-title="<?php echo Yii::t($controller,"Write the ".$controller."'s short description",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("common","Short description",null,Yii::app()->controller->module->id); ?>" class=""><?php echo (!empty($element["shortDescription"])) ? $element["shortDescription"] : ""; ?></a>	
-		</div>
+			<?php //echo Yii::t("common","Short description",null,Yii::app()->controller->module->id); ?></div>
+			<a href="#" id="shortDescription" data-type="wysihtml5" data-original-title="<?php //echo Yii::t($controller,"Write the ".$controller."'s short description",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php //echo Yii::t("common","Short description",null,Yii::app()->controller->module->id); ?>" class=""><?php //echo (!empty($element["shortDescription"])) ? $element["shortDescription"] : ""; ?></a>	
+		</div> -->
 
 		<div class="col-xs-12 no-padding margin-top-10">
 		  	<div class="text-dark lbl-info-details">
 		  		<i class="fa fa-angle-down"></i> Description
-		  		<a href='javascript:;' id="btn-update-desc" class="hidden tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Update Description");?>"><i class="fa text-red fa-pencil"></i></a>
+		  		<?php if($edit==true || $openEdition==true ){?>
+		  		<a href='javascript:;' id="btn-update-desc" class="tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Update Description");?>"><i class="fa text-red fa-pencil"></i></a> <?php } ?>
 		  	</div>
 				<span id="description"  class=""><?php  echo (!empty($element["description"])) ? $element["description"] : ""; ?></span>	
 		</div>
@@ -676,6 +667,7 @@ if($showOdesc == true){
 <script type="text/javascript">
 	
 	var edit = '<?php echo (@$edit == true) ? "true" : "false"; ?>';
+	var openEdition = '<?php echo (@$openEdition == true) ? "true" : "false"; ?>';
 	var showLocality = (( "<?php echo @$showLocality; ?>" == "<?php echo false; ?>")?false:true);
 	if(	( showLocality == true && "<?php echo Person::COLLECTION; ?>" == contextData.type ) 
 		|| "<?php echo Person::COLLECTION; ?>" != contextData.type) {
@@ -685,7 +677,7 @@ if($showOdesc == true){
 		contextData.addresses = <?php echo json_encode(@$element["addresses"]) ?>;
 	}
 
-	if(	edit == "true") {
+	if(	edit == "true" || openEdition == "true") {
 		contextData.email = '<?php if(isset($element["email"])) echo $element["email"]; else echo ""; ?>';
 		contextData.fixe =parsePhone(<?php echo json_encode((isset($element["telephone"]["fixe"]) ? $element["telephone"]["fixe"] : array())); ?>);
 		//contextData.shortDescription = '### Ceci est ma biographie ...' ;
@@ -756,8 +748,8 @@ if($showOdesc == true){
 	jQuery(document).ready(function() {
 		//activateEditableContext();
 		bindDynFormEditable();
-		manageAllDayElement(allDay);
-		manageModeContextElement();
+		//manageAllDayElement(allDay);
+		//manageModeContextElement();
 		changeHiddenIconeElement(true);
 		//manageDivEditElement();
 		bindAboutPodElement();
@@ -1446,70 +1438,12 @@ if($showOdesc == true){
 				$(".cobtn,.whycobtn,.cobtnHeader,.whycobtnHeader").removeClass("hidden");
 
 		}
-		manageModeContextElement();
 		changeHiddenIconeElement(false);
-		//manageDivEditElement();
 	}
 
-	function manageModeContextElement() {
-		mylog.log("-----------------manageModeContextElement----------------------", mode);
-		listXeditablesContext = ['#email',	'#birthDate', '#shortDescription', '#fax', '#fixe', '#mobile', 
-							'#tags', '#facebookAccount', '#twitterAccount',
-							'#gpplusAccount', '#gitHubAccount', '#skypeAccount', '#telegramAccount', 
-							'#avancement', '#allDay', '#startDate', '#endDate', '#type'];
-
-		listBtnContext = ["#btn-update-contact", "#btn-update-desc", "#btn-update-geopos", "#btn-remove-geopos", "#btn-add-geopos", "#btn-update-organizer", "#btn-update-organizer", "#btn-add-organizer"];
-
-		if (mode == "view") {
-			//$('.editable-context').editable('toggleDisabled');
-			$('.editable-context').unbind('click');
-			$.each(listXeditablesContext, function(i,value) {
-				//$(value).editable('toggleDisabled');
-				//$(value).off('click');
-				$(value).unbind('click');
-			});
-			$.each(listBtnContext, function(i,value) {
-				$(value).addClass("hidden");
-			});
-			
-			if(!emptyAddress)
-				$("#btn-view-map").removeClass("hidden");
-
-		} else if (mode == "update") {
-			//$('.editable-context').on('click');
-			$('.editable-context').click(function (){bindDynFormEditable();});
-			$.each(listXeditablesContext, function(i,value) {
-				$(value).click(function (){
-					bindDynFormEditable();
-				});
-			});
-
-			$.each(listBtnContext, function(i,value) {
-				$(value).removeClass("hidden");
-			});
-			//$('.my-link').click(function () {bindDynFormEditable();});
-		}
-	}
-
-	/*function manageDivEditElement() {
-		mylog.log("-----------------manageDivEditElement----------------------", mode);
-		listXeditablesDiv = [ '#divName', '#divShortDescription' , '#divTags', "#divAvancement"];
-		if(contextType != "citoyens")
-			listXeditablesDiv.push('#divInformation');
-		
-		if (mode == "view") {
-			$.each(listXeditablesDiv, function(i,value) {
-				$(value).hide();
-			});
-		} else if (mode == "update") {
-			$.each(listXeditablesDiv, function(i,value) {
-				$(value).show();
-			})
-		}
-	}*/
 
 	function manageSocialNetwork(iconObject, value) {
-		//mylog.log("-----------------manageSocialNetwork----------------------");
+		mylog.log("-----------------manageSocialNetwork----------------------");
 		tabId2Icon = {"facebookAccount" : "fa-facebook", "twitterAccount" : "fa-twitter", 
 				"gpplusAccount" : "fa-google-plus", "gitHubAccount" : "fa-github", 
 				"skypeAccount" : "fa-skype", "telegramAccount" : "fa-send"}
@@ -1527,18 +1461,11 @@ if($showOdesc == true){
 
 		if(iconObject.attr("id") == "telegramAccount"){
 			iconObject.tooltip({title: value, placement: "left"});
-			/*var chaineTelegram = "";
-			if(speudoTelegram.length > 0)
-				chaineTelegram = " : "+speudoTelegram;*/
 			if(speudoTelegram != "")
 				iconObject.html('<i class="fa '+fa+' text-white"></i> '+speudoTelegram);
 			else
 				iconObject.html('<i class="fa '+fa+' text-white"></i> Telegram');
-
-
 		}
-
-		mylog.log(iconObject);
 	}
 
 	function changeHiddenIconeElement(init) { 
@@ -1572,456 +1499,6 @@ if($showOdesc == true){
 				$(value).removeClass("hidden"); 
 			});
 		}
-	}
-
-	function activateEditableContext() {
-		$.fn.editable.defaults.mode = 'popup';
-		$.fn.editable.defaults.container='body';
-		$('.editable-context').editable({
-			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
-			title : $(this).data("title"),
-			onblur: 'submit',
-			/*success: function(response, newValue) {
-				mylog.log(response, newValue);
-				if(! response.result) return response.msg; //msg will be shown in editable form
-    		},*/
-    		success : function(data) {
-    			mylog.log("hello", data);
-				if(data.result) {
-					toastr.success(data.msg);
-					loadActivity=true;
-
-					if(typeof data.name != "undefined" && $('#nameHeader').length ){
-						$('#nameHeader').html(data.name);
-					}	
-				}
-				else 
-					return data.msg;
-			}
-
-		});
-
-		$('.socialIcon').editable({
-			display: function(value) {
-				manageSocialNetwork($(this), value);
-			},
-			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
-			mode: 'popup',
-			success : function(data) {
-				mylog.log("herehehre", data);
-				//mylog.log(data.telegramAccount, typeof data.telegramAccount);
-				if(typeof data.telegramAccount != "undefined" && data.telegramAccount.length > 0){
-					speudoTelegram = data.telegramAccount.trim();
-					$('#telegramAccount').attr('href', 'https://web.telegram.org/#/im?p=@'+speudoTelegram);
-					$('#telegramAccount').html('<i class="fa telegramAccount text-white"></i>'+speudoTelegram);
-					
-				}
-				if(typeof data.facebookAccount != "undefined" && data.facebookAccount.length > 0){
-					pseudoFacebook = data.facebookAccount.trim();
-					$('#facebookAccount').attr('href', pseudoFacebook);
-				}
-				if(typeof data.twitterAccount != "undefined" && data.twitterAccount.length > 0){
-					pseudoTwitter = data.TwitterAccount.trim();
-					$('#twitterAccount').attr('href', pseudoTwitter);
-				}
-				if(typeof data.gitHubAccount != "undefined" && data.gitHubAccount.length > 0){
-					pseudoGithub = data.gitHubAccount.trim();
-					$('#gitHubAccount').attr('href', pseudoGithub);
-				}
-				if(typeof data.skypeAccount != "undefined" && data.skypeAccount.length > 0){
-					pseudoSkype = data.skypeAccount.trim();
-					$('#skypeAccount').attr('href', pseudoSkype);
-				}
-				if(typeof data.gpplusAccount != "undefined" && data.gpplusAccount.length > 0){
-					pseudoGpplus = data.gpplusAccount.trim();
-					$('#gpplusAccount').attr('href', pseudoGpplus);
-				}
-
-			}
-		}); 
-
-
-		//Type Organization
-		 $('#type').editable({
-		 	url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType, 
-		 	value: '<?php echo (isset($element["type"])) ? $element["type"] : ""; ?>',
-		 	placement: 'bottom',
-		 	source: function() {
-		 		return types;
-		 	},
-		 	success : function(data) {
-				if(data.result) {
-					toastr.success(data.msg);
-					loadActivity=true;
-					if(typeof data.type != "undefined" && $('#typeHeader').length ){
-						$('#typeHeader').html(data.type);
-					}
-				}
-				else 
-					return data.msg;
-			}
-		 });
-
-		$('#birthDate').editable({
-			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType, 
-			mode: 'popup',
-			placement: "right",
-			format: 'yyyy-mm-dd',   
-	    	viewformat: 'dd/mm/yyyy',
-	    	datepicker: {
-	            weekStart: 1,
-	        },
-	        showbuttons: true
-		});
-
-		/*$('#tags').editable({
-	        url: baseUrl+"/"+moduleId+"/element/updatefield", //this url will not be used for creating new user, it is only for update
-	        mode : 'popup',
-	        value: <?php echo (isset($person["tags"])) ? json_encode(implode(",", $person["tags"])) : "''"; ?>,
-	        select2: {
-	            tags: <?php if(isset($tags)) echo json_encode($tags); else echo json_encode(array())?>,
-	            tokenSeparators: [","],
-	            width: 200,
-	            dropdownCssClass: 'select2-hidden'
-	        }
-	    });*/
-
-		//Select2 tags
-		$('#tags').editable({
-			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
-		 	mode: 'popup',
-		 	value: returnttags(),
-		 	select2: {
-		 		tags: <?php if(isset($tags)) echo json_encode($tags); else echo json_encode(array())?>,
-		 		tokenSeparators: [","],
-		 		width: 200,
-		 		dropdownCssClass: 'select2-hidden'
-		 	},
-		 	success : function(data) {
-		 		mylog.log("TAGS", data);
-				if(data.result) {
-					toastr.success(data.msg);
-					loadActivity=true;
-					var str = "";
-					if($('#divTagsHeader').length ){
-						
-						$.each(data.tags, function (key, tag){
-							str +=	'<div class="tag label label-danger pull-right" data-val="'+tag+'">'+
-										'<i class="fa fa-tag"></i>'+tag+
-									'</div>';
-							if(typeof globalTheme == "undefined" || globalTheme != "network")
-								addTagToMultitag(tag);
-						});
-						
-					}
-					$('#divTagsHeader').html(str);	
-				}
-				else 
-					return data.msg;
-			}
-		});
-
-
-		$('#mobile').editable({
-	        url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
-	        mode : 'popup',
-	        value: <?php echo (isset($element["telephone"]["mobile"])) ? json_encode(implode(",", $element["telephone"]["mobile"])) : "''"; ?>,
-	    	success : function(data) {
-				if(data.result)
-					toastr.success(data.msg);
-				else 
-					toastr.error(data.msg);
-			}
-	    });
-
-	    $('#fax').editable({
-	        url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
-	        mode : 'popup',
-	        value: <?php echo (isset($element["telephone"]["fax"])) ? json_encode(implode(",", $element["telephone"]["fax"])) : "''"; ?>,
-	    	success : function(data) {
-				if(data.result)
-					toastr.success(data.msg);
-				else 
-					toastr.error(data.msg);
-			}
-	    }); 
-
-		$('#fixe').editable({
-			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType, 
-			mode: 'popup',
-			value: <?php echo (isset($element["telephone"]["fixe"])) ? json_encode(implode(",", $element["telephone"]["fixe"])) : "''"; ?>,
-			success : function(data) {
-				if(data.result)
-					toastr.success(data.msg);
-				else 
-					toastr.error(data.msg);
-			}
-		});
-
-		
-
-		$('#category').editable({
-			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType, 
-			mode: 'popup',
-			value: <?php echo (isset($element["category"])) ? json_encode(implode(",", $element["category"])) : "''"; ?>,
-			source: function() {
-				var result = new Array();
-				var categorySource = null;
-
-				mylog.log("contextData.type",contextData.type);
-				if (contextData.type == "<?php echo Organization::TYPE_NGO ?>") categorySource = NGOCategoriesList;
-				if (contextData.type == "<?php echo Organization::TYPE_BUSINESS ?>") categorySource = localBusinessCategoriesList;
-				
-				if(categorySource != null)
-				$.each(categorySource, function(i,value) {
-					result.push({"value" : value, "text" : value}) ;
-				});
-				return result;
-			},
-			success : function(data) {
-				if(data.result) {
-					toastr.success(data.msg);
-					loadActivity=true;	
-				}
-				else 
-					return data.msg;
-			}
-		});
-
-		$('#avancement').editable({
-			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,  
-			source: function() {
-				//idea => concept => Started => development => testing => mature
-				avancement=["idea","concept","started","development","testing","mature"];
-				return avancement;
-			},
-			success : function(data) {
-				if(data.result) {
-					toastr.success(data.msg);
-					loadActivity=true;	
-					if(data.avancement=="idea")
-						val=5;
-					else if(data.avancement=="concept")
-						val=20;
-					else if (data.avancement== "started")
-						val=40;
-					else if (data.avancement == "development")
-						val=60;
-					else if(data.avancement == "testing")
-						val=80;
-					else
-						val=100;
-					$('#progressStyle').val(val);
-					$('#labelProgressStyle').html(data.avancement);
-				}
-				else 
-					return data.msg;
-		    }
-		});
-
-		$('#shortDescription').editable({
-			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType, 
-			wysihtml5: {
-				color: false,
-				html: false,
-				video: false,
-				image: false,
-				table : false
-			},
-			container: 'body',
-			validate: function(value) {
-			    mylog.log(value);
-			    if($.trim(value).length > 140) {
-			        return 'La description courte ne doit pas dépasser 140 caractères.';
-			    }
-			},
-			success : function(data) {
-				if(data.result) {
-					toastr.success(data.msg);
-					loadActivity=true;
-
-					if(typeof data.shortDescription != "undefined" && $('#shortDescriptionHeader').length ){
-						$('#shortDescriptionHeader').html(data.shortDescription);
-					}
-				}
-				else 
-					return data.msg;
-			}
-		});
-
-
-		$('#description').editable({
-			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,  
-			value: <?php echo (isset($element["description"])) ? json_encode($element["description"]) : "''"; ?>,
-			placement: 'top',
-			wysihtml5: {
-				html: true,
-				video: false,
-				image: false
-			},
-			container: 'body',
-			success : function(data) {
-				if(data.result) {
-					toastr.success(data.msg);
-					loadActivity=true;	
-				}
-				else 
-					return data.msg;
-			}
-		});
-		
-		$('#allDay').editable({
-			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,  
-			mode: "popup",
-			value: allDay,
-			source:[{value: "true", text: "Oui"}, {value: "false", text: "Non"}],
-			success : function(data, newValue) {
-		        if(data.result) {
-		        	manageAllDayElement(newValue);
-		        	toastr.success(data.msg);
-					loadActivity=true;	
-		        }
-		        else
-		        	return data.msg;  
-		    }
-		});
-	   
-		//Validation Rules
-		//Mandotory field
-		$('.required').editable('option', 'validate', function(v) {
-			var intRegex = /^\d+$/;
-			if (!v)
-				return 'Field is required !';
-		});
-	
-		
-	} 
-	function manageAllDayElement(isAllDay) {
-		mylog.warn("Manage all day event ", isAllDay);
-
-		$('#startDate').editable('destroy');
-		$('#endDate').editable('destroy');
-		if (isAllDay == "true") {
-			mylog.log("init Xedit with dd/mm/yyyy");
-			$('#startDate').editable({
-				url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,  
-				pk: contextData.id,
-				type: "date",
-				mode: "popup",
-				placement: "bottom",
-				format: 'yyyy-mm-dd',
-				viewformat: 'dd/mm/yyyy',
-				datepicker: {
-					weekStart: 1
-				},
-				params : function(params) {
-					//add timezone to date before sending
-					params.value = moment(params.value).local().format();
-					return params;
-				},
-				success : function(data) {
-					if(data.result) {
-						toastr.success(data.msg);
-						loadActivity=true;
-						updateCalendar();
-					}else 
-						return data.msg;
-			    }
-			});
-
-			$('#endDate').editable({
-				url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,  
-				pk: contextData.id,
-				type: "date",
-				mode: "popup",
-				placement: "bottom",
-				format: 'yyyy-mm-dd',   
-	        	viewformat: 'dd/mm/yyyy',
-	        	datepicker: {
-	                weekStart: 1
-				},
-   				params : function(params) {
-   					//add timezone to date before sending
-					params.value = moment(params.value).local().format();
-					return params;
-				},
-				success : function(data) {
-			        if(data.result) {
-			        	toastr.success(data.msg);
-						loadActivity=true;
-						updateCalendar();	
-			        }else 
-						return data.msg;
-			    }
-	        });
-
-			formatDate = "YYYY-MM-DD";
-		} else {
-			mylog.log("init Xedit with dd/mm/yyyy hh:ii");
-			$('#startDate').editable({
-				url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType, 
-				pk: contextData.id,
-				type: "datetime",
-				mode: "popup",
-				placement: "bottom",
-				format: 'yyyy-mm-dd hh:ii',
-				viewformat: 'dd/mm/yyyy hh:ii',
-				datetimepicker: {
-					weekStart: 1,
-					minuteStep: 30,
-					language: 'fr'
-				   },
-				params : function(params) {
-					//add timezone to date before sending
-					params.value = moment(params.value).local().format();
-					return params;
-				},
-				success : function(data) {
-					if(data.result) {
-						toastr.success(data.msg);
-						loadActivity=true;
-						updateCalendar();
-					}else 
-						return data.msg;
-			    }
-			});
-
-			$('#endDate').editable({
-				url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType, 
-				pk: contextData.id,
-				mode: "popup",
-				type: "datetime",
-				placement: "bottom",
-				format: 'yyyy-mm-dd hh:ii',
-	        	viewformat: 'dd/mm/yyyy hh:ii',
-	        	datetimepicker: {
-	                weekStart: 1,
-	                minuteStep: 30,
-	                language: 'fr'
-				},
-				params : function(params) {
-					//add timezone to date before sending
-					params.value = moment(params.value).local().format();
-					return params;
-				},
-				success : function(data) {
-			        if(data.result) {
-			        	toastr.success(data.msg);
-						loadActivity=true;
-						updateCalendar();
-						
-			        }else 
-						return data.msg;
-			    }
-	        });
-
-			formatDate = "YYYY-MM-DD HH:mm";
-		}
-		if(startDate != "")
-			$('#startDate').editable('setValue', moment(startDate).local().format(formatDate), true);
-		if(endDate != "")
-			$('#endDate').editable('setValue', moment(endDate).local().format(formatDate), true);
-		$('#dateTimezone').attr('data-original-title', "Fuseau horaire : GMT " + moment().local().format("Z"));
 	}
 
 	function updateCalendar() {
