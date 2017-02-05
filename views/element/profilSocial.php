@@ -111,7 +111,7 @@
 			<h3 class="text-left margin-10 padding-left-15 pull-left">
 				<?php echo @$element["name"]; ?>		
 			</h3>
-			<a href="#co2.page.type.citoyens.id.580827a8da5a3bca128b456b" target="_blank" class="font-blackoutM letter-red bold">
+			<a href="#co2.page.type.citoyens.id.580827a8da5a3bca128b456b?tpl=onepage" target="_blank" class="font-blackoutM letter-red bold">
 				  <i class="fa fa-external-link"></i> <span class="hidden-xs hidden-sm">Page</span> web
 			</a>
 			<br>

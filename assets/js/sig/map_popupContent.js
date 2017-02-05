@@ -251,7 +251,7 @@
 		//##
 		//création du contenu de la popup d'un site web
 		Sig.getPopupSiteUrl = function(data){
-			console.log("POPUP SITEURL", data);
+			//console.log("POPUP SITEURL", data);
 			var type = typeof data['typeSig'] != "undefined" ? data['typeSig'] : data['type'];
 			var id = this.getObjectId(data); //typeof data["_id"]["$id"] != "undefined" ? data['_id']['$id'] : null;
 			var popupContent = "<div class='popup-marker'>";

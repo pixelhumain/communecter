@@ -45,7 +45,7 @@
 				<b>KGOUGLE</b> a été mis en place par une équipe de développeurs indépendants : <a href="#co2.info.p.ph"><b>les PixelHumains</b></a><br>
 				Ce collectif est composée de 8 développeurs répartis sur 3 fuseaux horaires : <b>Nouvelle-Calédonie, île de la Réunion, et métropole.</b><br><br>
 				
-				<b><span class="letter-azure font-blackoutM">Alpha Tango</span> est notre développeur Calédonien</b>, à l'origine de la création de <b>KGOUGLE</b>, et à votre disposition pour répondre à toutes vos questions. C'est le lien entre les Calédoniens et notre collectif <b>PixelHumain</b>.<br><br>
+				<b><span class="letter-azure font-blackoutM">Alpha Tango</span> est notre développeur Calédonien</b>, à l'origine de la création de <b>KGOUGLE</b>, et à votre disposition pour répondre à toutes vos questions.<br>C'est le lien entre les Calédoniens et notre collectif <b>PixelHumain</b>.<br><br>
 
 				<div class="hidden">
 					<h3 class="letter-blue"><i class="fa fa-angle-right"></i> Un projet international</h3>
