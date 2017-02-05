@@ -2415,7 +2415,6 @@ var elementLib = {
 		  	data = ( notNull(data) ) ? data : {};
 		  	
 		  	elementLib.buildDynForm(specs, afterLoad, data);
-		  	mylog.log("--------------- here5");
 		} else {
 			toastr.error("Vous devez être connecté pour afficher les formulaires de création");
 			showPanel('box-login');
@@ -2494,6 +2493,53 @@ var typeObjLib = {
         inputType : "text",
         rules : { required : true }
     },
+    nameOrga : {
+    	placeholder : "Nom",
+        inputType : "text",
+        rules : { required : true },
+        init : function(){
+        	$("#ajaxFormModal #name ").off().on("blur",function(){
+        		if($("#ajaxFormModal #name ").val().length > 3 )
+            		globalSearch($(this).val(),["organizations"]);
+        	});
+        }
+    },
+    nameEvent : {
+    	placeholder : "Nom",
+    	labelText:"Nom",
+        inputType : "text",
+        rules : { required : true },
+        init : function(){
+        	$("#ajaxFormModal #name ").off().on("blur",function(){
+        		if($("#ajaxFormModal #name ").val().length > 3 )
+        			globalSearch($(this).val(),["events"]);
+        	});
+        }
+    },
+    nameProject : {
+    	placeholder : "Nom",
+        inputType : "text",
+        rules : {
+            required : true
+        },
+        init : function(){
+        	$("#ajaxFormModal #name ").off().on("blur",function(){
+        		if($("#ajaxFormModal #name ").val().length > 3 )
+        			globalSearch($(this).val(),["projects"]);
+        	});
+        }
+    },
+    namePerson : {
+    	placeholder : "Nom",
+    	labelText:"Nom",
+        inputType : "text",
+        init : function(){
+        	$("#ajaxFormModal #name ").off().on("blur",function(){
+        		if($("#ajaxFormModal #name ").val().length > 3 )
+        			globalSearch($(this).val(),["persons"],true);
+        	});
+        }
+    },
     username : {
     	placeholder : "username",
         inputType : "text",
@@ -2525,7 +2571,18 @@ var typeObjLib = {
     	rules : { required : true },
     	options : organizationTypes
     },
-    image : {
+    typeEvent :{
+    	inputType : "select",
+    	placeholder : "Type d\'évènement",
+    	options : eventTypes,
+    	rules : { required : true }
+    },
+   	avancementProject :{
+    	inputType : "select",
+    	placeholder : "Avancement du projet",
+    	options : avancementProject
+    },
+    imageAddPhoto : {
     	inputType : "image",
     	init : function() { 
     		setTimeout( function(){
@@ -2537,14 +2594,21 @@ var typeObjLib = {
         	},500);
     	}
     },
-    description : {
+    image :{
+    	inputType : "image",
+    	afterUploadComplete : function(){
+	    	elementLib.closeForm();
+            loadByHash( location.hash );	
+	    },
+    },
+    descriptionOptionnel : {
         inputType : "textarea",
 		placeholder : "Décrire c'est partager",
 		init : function(){
         	$(".descriptiontextarea").css("display","none");
         }
     },
-    descriptionUpdate : {
+    description : {
         inputType : "textarea",
 		placeholder : "Décrire c'est partager"
     },
@@ -2557,13 +2621,10 @@ var typeObjLib = {
        inputType : "location"
     },
     email : {
-		placeholder : "Email du responsable",
-		inputType : "text",
-		init : function(){
-			$(".emailtext").css("display","none");
-		}
+		placeholder : "Ajouter un e-mail",
+		inputType : "text"
 	},
-    email : {
+    emailOptionnel : {
 		placeholder : "Email du responsable",
 		inputType : "text",
 		init : function(){
@@ -2585,6 +2646,14 @@ var typeObjLib = {
         }
     },
     urls : {
+    	placeholder : "url",
+        inputType : "array",
+        value : [],
+        init:function(){
+            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);	
+        }
+    },
+    urlsOptionnel : {
         inputType : "array",
         placeholder : "url, informations supplémentaires, actions à faire, etc",
         value : [],
@@ -2592,6 +2661,70 @@ var typeObjLib = {
             getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
         	$(".urlsarray").css("display","none");	
         }
+    },
+    allDay : {
+    	inputType : "checkbox",
+    	init : function(){
+        	$("#ajaxFormModal #allDay").off().on("switchChange.bootstrapSwitch",function (e, data) {
+        		mylog.log("toto",$("#ajaxFormModal #allDay").val());
+        	})
+        },
+    	"switch" : {
+    		"onText" : "Oui",
+    		"offText" : "Non",
+    		"labelText":"Toute la journée",
+    		"onChange" : function(){
+    			var allDay = $("#ajaxFormModal #allDay").is(':checked');
+    			var startDate = "";
+    			var endDate = "";
+    			$("#ajaxFormModal #allDay").val($("#ajaxFormModal #allDay").is(':checked'));
+    			if (allDay) {
+    				$(".dateTimeInput").addClass("dateInput");
+    				$(".dateTimeInput").removeClass("dateTimeInput");
+    				$('.dateInput').datetimepicker('destroy');
+    				$(".dateInput").datetimepicker({ 
+				        autoclose: true,
+				        lang: "fr",
+				        format: "d/m/Y",
+				        timepicker:false
+				    });
+				    startDate = moment($('#ajaxFormModal #startDateInput').val(), "DD/MM/YYYY HH:mm").format("DD/MM/YYYY");
+				    endDate = moment($('#ajaxFormModal #endDateInput').val(), "DD/MM/YYYY HH:mm").format("DD/MM/YYYY");
+    			} else {
+    				$(".dateInput").addClass("dateTimeInput");
+    				$(".dateInput").removeClass("dateInput");
+    				$('.dateTimeInput').datetimepicker('destroy');
+    				$(".dateTimeInput").datetimepicker({ 
+	       				weekStart: 1,
+						step: 15,
+						lang: 'fr',
+						format: 'd/m/Y H:i'
+				    });
+				    
+    				startDate = moment($('#ajaxFormModal #startDateInput').val(), "DD/MM/YYYY").format("DD/MM/YYYY HH:mm");
+					endDate = moment($('#ajaxFormModal #endDateInput').val(), "DD/MM/YYYY").format("DD/MM/YYYY HH:mm");
+    			}
+			    if (startDate != "Invalid date") $('#ajaxFormModal #startDateInput').val(startDate);
+				if (endDate != "Invalid date") $('#ajaxFormModal #endDateInput').val(endDate);
+    		}
+    	}
+    },
+    startDateInput : {
+        inputType : "datetime",
+        placeholder: "Date de début",
+        rules : { 
+        	required : true,
+        	duringDates: ["#startDateParent","#endDateParent","La date de début"]
+    	}
+    },
+    endDateInput : {
+        inputType : "datetime",
+        placeholder: "Date de fin",
+        rules : { 
+        	required : true,
+        	greaterThan: ["#ajaxFormModal #startDateInput","la date de début"],
+        	duringDates: ["#startDateParent","#endDateParent","La date de fin"]
+	    }
     },
     telegram : {
         inputType :"text",
@@ -2639,8 +2772,78 @@ var typeObjLib = {
       	placeholder : "Saisir les numéros de fax séparer par une virgule"
     },
     hidden :{
-      	inputType : "hidden",
+      	inputType : "hidden"
     },
+    inviteSearch : {
+    	placeholder : " Nom ou Email",
+        inputType : "text",
+        rules : {
+            required : true
+        },
+        init : function(){
+        	$("#ajaxFormModal #inviteSearch ").keyup(function(e){
+		    var search = $('#inviteSearch').val();
+		    if(search.length>2){
+		    	clearTimeout(timeout);
+				timeout = setTimeout('autoCompleteInviteSearch("'+encodeURI(search)+'")', 500); 
+			}else{
+			 	$("#newInvite #dropdown_searchInvite").css({"display" : "none" });	
+			}	
+		});
+        }
+    },
+    invitedUserName : {
+    	placeholder : "Nom",
+        inputType : "text",
+        rules : {
+            required : true
+        },
+        init : function(){
+        	$(".invitedUserNametext").css("display","none");	
+        }
+    },
+    invitedUserEmail : {
+    	placeholder : "Email",
+        inputType : "text",
+        rules : {
+            required : true
+        },
+        init:function(){
+        	$(".invitedUserEmailtext").css("display","none");	 
+        }
+    },
+    poiTypes :{
+    	inputType : "select",
+    	placeholder : "Type du point d'intérêt",
+    	options : poiTypes
+    },
+    role :{
+    	inputType : "select",
+    	placeholder : "Quel est votre rôle dans cette organisation ?",
+    	rules : { required : true },
+    	//value : "admin",
+    	options : {
+    		admin : trad.administrator,
+			member : trad.member,
+			creator : trad.justCitizen
+    	}
+    },
+    hiddenArray : {
+       inputType : "hidden",
+        value : []
+    },
+    hiddenTrue : {
+       inputType : "hidden",
+        value : true
+    },
+    dateEnd :{
+    	inputType : "date",
+    	placeholder : "Fin de la période de vote",
+    	rules : { 
+    		required : true,
+    		greaterThanNow : ["DD/MM/YYYY"]
+    	}
+    }
 };
 
 var typeObj = {
@@ -2701,18 +2904,7 @@ var typeObj = {
 			    icon : "question-cirecle-o",
 			    noSubmitBtns : true,
 			    properties : {
-			    	image :{
-		            	inputType : "image",
-		            	init : function() { 
-		            		setTimeout( function(){
-			            		$('#trigger-upload').click(function() {
-						        	$('.fine-uploader-manual-trigger').fineUploader('uploadStoredFiles');
-						        	loadByHash(location.hash);
-			            			$('#ajax-modal').modal("hide");
-						        });
-			            	},500);
-		            	}
-		            }
+			    	image : typeObjLib.imageAddPhoto
 			    }
 			}
 		}
@@ -2735,44 +2927,9 @@ var typeObj = {
 		                inputType : "custom",
 		                html:"<p><i class='fa fa-info-circle'></i> Si vous voulez créer un nouveau projet de façon à le rendre plus visible : c'est le bon endroit !!<br>Vous pouvez ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
 		            },
-		            inviteSearch : {
-		            	placeholder : " Nom ou Email",
-			            inputType : "text",
-			            rules : {
-			                required : true
-			            },
-			            init : function(){
-			            	$("#ajaxFormModal #inviteSearch ").keyup(function(e){
-						    var search = $('#inviteSearch').val();
-						    if(search.length>2){
-						    	clearTimeout(timeout);
-								timeout = setTimeout('autoCompleteInviteSearch("'+encodeURI(search)+'")', 500); 
-							}else{
-							 	$("#newInvite #dropdown_searchInvite").css({"display" : "none" });	
-							}	
-						});
-			            }
-		            },
-			        invitedUserName : {
-			        	placeholder : "Nom",
-			            inputType : "text",
-			            rules : {
-			                required : true
-			            },
-			            init : function(){
-			            	$(".invitedUserNametext").css("display","none");	
-			            }
-			        },
-			        invitedUserEmail : {
-			        	placeholder : "Email",
-			            inputType : "text",
-			            rules : {
-			                required : true
-			            },
-			            init:function(){
-			            	$(".invitedUserEmailtext").css("display","none");	 
-			            }
-			        },
+		            inviteSearch : typeObjLib.inviteSearch,
+			        invitedUserName : typeObjLib.invitedUserName,
+			        invitedUserEmail : typeObjLib.invitedUserEmail,
 			        "preferences[publicFields]" : {
 		               inputType : "hidden",
 		                value : []
@@ -2840,57 +2997,19 @@ var typeObj = {
 		                inputType : "custom",
 		                html:"<p><i class='fa fa-info-circle'></i> Un Point d'interet est un élément assez libre qui peut etre géolocalisé ou pas, qui peut etre rataché à une organisation, un projet ou un évènement.</p>",
 		            },
-		            type :{
-		            	inputType : "select",
-		            	placeholder : "Type du point d'intérêt",
-		            	options : poiTypes
-		            },
-			        name : {
-			        	placeholder : "Nom",
-			            inputType : "text",
-			            rules : { required : true }
-			        },
-			        image :{
-		            	inputType : "image",
-		            	afterUploadComplete : function(){
-					    	elementLib.closeForm();
-			                loadByHash( location.hash );	
-					    },
-		            },
-		            description : {
-		                inputType : "wysiwyg",
-	            		placeholder : "Décrire c'est partager",
-	            		init:function(){
-				      		activateSummernote("#ajaxFormModal #description");
-			            }
-		            },
-		            location : {
-		               inputType : "location"
-		            },
-		            tags :{
-		                inputType : "tags",
-		                placeholder : "Tags ou Types de point d'interet",
-		                values : tagsList
-		            },
+		            type : typeObjLib.poiTypes,
+			        name : typeObjLib.name,
+			        image : typeObjLib.image,
+		            description : typeObjLib.description,
+		            location : typeObjLib.location,
+		            tags :typeObjLib.tags,
 		            formshowers : {
 		                inputType : "custom",
 		                html: "<a class='btn btn-default text-dark w100p' href='javascript:;' onclick='$(\".urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options (urls)</a>",
 		            },
-		            urls : {
-			        	placeholder : "url",
-			            inputType : "array",
-			            value : [],
-			            init:function(){
-				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
-			            	$(".urlsarray").css("display","none");	
-			            }
-			        },
-		            parentId :{
-		            	inputType : "hidden"
-		            },
-		            parentType : {
-			            inputType : "hidden"
-			        },
+		            urls : typeObjLib.urlsOptionnel,
+		            parentId : typeObjLib.hidden,
+		            parentType : typeObjLib.hidden,
 			    }
 			}
 		}},
@@ -2902,7 +3021,6 @@ var typeObj = {
 			    title : "Point of interest Form",
 			    icon : "map-marker",
 			    type : "object",
-			    
 			    onLoads : {
 			    	//pour creer un subevnt depuis un event existant
 			    	subPoi : function(){
@@ -2910,61 +3028,21 @@ var typeObj = {
 		    				$('#ajaxFormModal #parentId').val(contextData.id);
 			    			$("#ajaxFormModal #parentType").val( contextData.type ); 
 			    		}
-			    	}/*,
-			    	loadData : function(data){
-				    	mylog.warn("--------------- loadData ---------------------",data);
-				    	$('#ajaxFormModal #name').val(data.name);
-				    	$('#ajaxFormModal #type').val(data.type);
-				    	$('#ajaxFormModal #parentId').val(data.parentId);
-			    		$("#ajaxFormModal #parentType").val( data.parentType ); 
-				    },*/
+			    	}
 			    },
 			    properties : {
 			    	info : {
 		                inputType : "custom",
 		                html:"<p><i class='fa fa-info-circle'></i> Une url.</p>",
 		            },
-		            urls : {
-			        	placeholder : "url",
-			            inputType : "array",
-			            value : [],
-			            init:function(){
-				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
-			            	//$(".urlsarray").css("display","none");	
-			            }
-			        },
-		            type :{
-		            	inputType : "select",
-		            	placeholder : "Type du point d'intérêt",
-		            	options : poiTypes
-		            },
-			        name : {
-			        	placeholder : "Nom",
-			            inputType : "text",
-			            rules : { required : true }
-			        },
-		            description : {
-		                inputType : "wysiwyg",
-	            		placeholder : "Décrire c'est partager",
-	            		init:function(){
-				      		activateSummernote("#ajaxFormModal #description");
-			            }
-		            },
-		            location : {
-		               inputType : "location"
-		            },
-		            tags :{
-		                inputType : "tags",
-		                placeholder : "Tags ou Types de point d'interet",
-		                values : tagsList
-		            },
-		            
-		            parentId :{
-		            	inputType : "hidden"
-		            },
-		            parentType : {
-			            inputType : "hidden"
-			        },
+		            urls : typeObjLib.urls,
+		            type : typeObjLib.poiTypes,
+			        name :  typeObjLib.name,
+		            description : typeObjLib.descriptionOptionnel ,
+		            location : typeObjLib.location,
+		            tags : typeObjLib.tags,
+		            parentId :typeObjLib.hidden,
+		            parentType : typeObjLib.hidden,
 			    }
 			}
 		}},
@@ -2989,38 +3067,10 @@ var typeObj = {
 		                inputType : "custom",
 		                html:"<p><i class='fa fa-info-circle'></i> Si vous voulez créer une nouvelle organisation de façon à le rendre plus visible : c'est le bon endroit !!<br>Vous pouvez ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
 		            },
-			        name : {
-			        	placeholder : "Nom",
-			            inputType : "text",
-			            rules : { required : true },
-			            init : function(){
-			            	$("#ajaxFormModal #name ").off().on("blur",function(){
-			            		if($("#ajaxFormModal #name ").val().length > 3 )
-				            		globalSearch($(this).val(),["organizations"]);
-			            	});
-			            }
-			        },
-			        similarLink : {
-		                inputType : "custom",
-		                html:"<div id='similarLink'><div id='listSameName'></div></div>",
-		            },
-			        type :{
-		            	inputType : "select",
-		            	placeholder : "Type d'organisation",
-		            	rules : { required : true },
-		            	options : organizationTypes
-		            },
-		            role :{
-		            	inputType : "select",
-		            	placeholder : "Quel est votre rôle dans cette organisation ?",
-		            	rules : { required : true },
-		            	//value : "admin",
-		            	options : {
-		            		admin : trad.administrator,
-							member : trad.member,
-							creator : trad.justCitizen
-		            	}
-		            },
+			        name : typeObjLib.nameOrga,
+			        similarLink : typeObjLib.similarLink,
+			        type : typeObjLib.typeOrga,
+		            role : typeObjLib.role,
 		            tags : typeObjLib.tags,
 		            location : typeObjLib.location,
 		            formshowers : {
@@ -3028,13 +3078,7 @@ var typeObj = {
 		                html:
 						"<a class='btn btn-default text-dark w100p' href='javascript:;' onclick='$(\".emailtext,.descriptiontextarea,.urltext\").slideToggle();activateMarkdown(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (email, desc, urls, telephone)</a>",
 		            },
-		            email : {
-			        	placeholder : "Email du responsable",
-			            inputType : "text",
-			            init : function(){
-			            	$(".emailtext").css("display","none");
-			            }
-			        },
+		            email : typeObjLib.emailOptionnel,
 			        description : typeObjLib.description,
 		            url : typeObjLib.url,
 			        /*telephone : {
@@ -3044,22 +3088,10 @@ var typeObj = {
 			            	$(".telephonetext").css("display","none");
 			            }
 			        },*/
-		            "preferences[publicFields]" : {
-		               inputType : "hidden",
-		                value : []
-		            },
-		            "preferences[privateFields]" : {
-		               inputType : "hidden",
-		                value : []
-		            },
-		            "preferences[isOpenData]" : {
-		               inputType : "hidden",
-		                value : true
-		            },
-		            "preferences[isOpenEdition]" : {
-		               inputType : "hidden",
-		                value : true
-		            }
+		            "preferences[publicFields]" : typeObjLib.hiddenArray,
+		            "preferences[privateFields]" : typeObjLib.hiddenArray,
+		            "preferences[isOpenData]" : typeObjLib.hiddenTrue,
+		            "preferences[isOpenEdition]" : typeObjLib.hiddenTrue
 			    }
 			}
 		}
@@ -3138,22 +3170,8 @@ var typeObj = {
 		                inputType : "custom",
 		                html:"<p><i class='fa fa-info-circle'></i> Si vous voulez créer un nouvel évènement de façon à le rendre plus visible : c'est le bon endroit !!<br>Vous pouvez inviter des participants, planifier des sous évènements, publier des actus lors de l'évènement...</p>",
 		            },
-		            name : {
-			        	placeholder : "Nom",
-			        	labelText:"Nom",
-			            inputType : "text",
-			            rules : { required : true },
-			            init : function(){
-			            	$("#ajaxFormModal #name ").off().on("blur",function(){
-			            		if($("#ajaxFormModal #name ").val().length > 3 )
-			            			globalSearch($(this).val(),["events"]);
-			            	});
-			            }
-			        },
-			        similarLink : {
-		                inputType : "custom",
-		                html:"<div id='similarLink'><div id='listSameName'></div></div>",
-		            },
+		            name : typeObjLib.nameEvent,
+			        similarLink : typeObjLib.similarLink,
 			        organizerId :{
 			        	rules : { required : true },
 		            	inputType : "select",
@@ -3177,9 +3195,7 @@ var typeObj = {
 			            	});
 			            }
 		            },
-			        organizerType : {
-			            inputType : "hidden"
-			        },
+			        organizerType : typeObjLib.hidden,
 			        parentId :{
 		            	inputType : "select",
 		            	"class" : "hidden",
@@ -3221,147 +3237,25 @@ var typeObj = {
 			            	});
 			            }
 		            },
-		            parentType : {
-			            inputType : "hidden"
-			        },
-			        type :{
-		            	inputType : "select",
-		            	placeholder : "Type d\'évènement",
-		            	options : eventTypes,
-		            	rules : { required : true },
-		            },
-		            allDay : {
-		            	inputType : "checkbox",
-		            	init : function(){
-			            	$("#ajaxFormModal #allDay").off().on("switchChange.bootstrapSwitch",function (e, data) {
-			            		mylog.log("toto",$("#ajaxFormModal #allDay").val());
-			            	})
-			            },
-		            	"switch" : {
-		            		"onText" : "Oui",
-		            		"offText" : "Non",
-		            		"labelText":"Toute la journée",
-		            		"onChange" : function(){
-		            			var allDay = $("#ajaxFormModal #allDay").is(':checked');
-		            			var startDate = "";
-		            			var endDate = "";
-		            			$("#ajaxFormModal #allDay").val($("#ajaxFormModal #allDay").is(':checked'));
-		            			if (allDay) {
-		            				$(".dateTimeInput").addClass("dateInput");
-		            				$(".dateTimeInput").removeClass("dateTimeInput");
-		            				$('.dateInput').datetimepicker('destroy');
-		            				$(".dateInput").datetimepicker({ 
-								        autoclose: true,
-								        lang: "fr",
-								        format: "d/m/Y",
-								        timepicker:false
-								    });
-								    startDate = moment($('#ajaxFormModal #startDateInput').val(), "DD/MM/YYYY HH:mm").format("DD/MM/YYYY");
-								    endDate = moment($('#ajaxFormModal #endDateInput').val(), "DD/MM/YYYY HH:mm").format("DD/MM/YYYY");
-		            			} else {
-		            				$(".dateInput").addClass("dateTimeInput");
-		            				$(".dateInput").removeClass("dateInput");
-		            				$('.dateTimeInput').datetimepicker('destroy');
-		            				$(".dateTimeInput").datetimepicker({ 
-					       				weekStart: 1,
-										step: 15,
-										lang: 'fr',
-										format: 'd/m/Y H:i'
-								    });
-								    
-		            				startDate = moment($('#ajaxFormModal #startDateInput').val(), "DD/MM/YYYY").format("DD/MM/YYYY HH:mm");
-									endDate = moment($('#ajaxFormModal #endDateInput').val(), "DD/MM/YYYY").format("DD/MM/YYYY HH:mm");
-		            			}
-							    if (startDate != "Invalid date") $('#ajaxFormModal #startDateInput').val(startDate);
-								if (endDate != "Invalid date") $('#ajaxFormModal #endDateInput').val(endDate);
-		            		}
-		            	}
-		            },
-		            startDateInput : {
-		                inputType : "datetime",
-		                placeholder: "Date de début",
-			            rules : { 
-			            	required : true,
-			            	duringDates: ["#startDateParent","#endDateParent","La date de début"]
-			        	}
-		            },
-		            endDateInput : {
-		                inputType : "datetime",
-		                placeholder: "Date de fin",
-			            rules : { 
-			            	required : true,
-			            	greaterThan: ["#ajaxFormModal #startDateInput","la date de début"],
-			            	duringDates: ["#startDateParent","#endDateParent","La date de fin"]
-					    }
-		            },
-		            /*public : {
-		            	inputType : "hidden",
-		            	"switch" : {
-		            		"onText" : "Privé",
-		            		"offText" : "Public",
-		            		"labelText":"Type"
-		            	}
-		            },*/
-		            location : {
-		               inputType : "location"
-		            },
-		            tags :{
-		              inputType : "tags",
-		              placeholder : "Tags de l\'événement",
-		              values : tagsList
-		            },
+		            parentType : typeObjLib.hidden,
+			        type : typeObjLib.typeEvent,
+		            allDay : typeObjLib.allDay,
+		            startDateInput : typeObjLib.startDateInput,
+		            endDateInput : typeObjLib.endDateInput,
+		            location : typeObjLib.location,
+		            tags : typeObjLib.tags,
 		            formshowers : {
 		                inputType : "custom",
 		                html:"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".descriptionwysiwyg,.urltext\").slideToggle();activateSummernote(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (desc, urls)</a>",
 		            },
-			        
-			        description : {
-		                inputType : "wysiwyg",
-	            		placeholder : "Décrire c'est partager",
-			            init : function(){
-			            	$(".descriptionwysiwyg").css("display","none");
-			            }
-		            },
-		            url : {
-		                inputType :"text",
-		                "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
-		                placeholder : "url, lien, adresse web",
-		                init:function(){
-				            getMediaFromUrlContent("#url", ".resultGetUrl0",0);
-				            $(".urltext").css("display","none");
-			            }
-		            },
-		            /*urls : {
-			        	placeholder : "url",
-			            inputType : "array",
-			            value : [],
-			            init:function(){
-				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
-			            	$(".urlsarray").css("display","none");	
-			            }
-			        },*/
-		            "preferences[publicFields]" : {
-		               inputType : "hidden",
-		                value : []
-		            },
-		            "preferences[privateFields]" : {
-		               inputType : "hidden",
-		                value : []
-		            },
-		            "preferences[isOpenData]" : {
-		               inputType : "hidden",
-		                value : true
-		            },
-		            "preferences[isOpenEdition]" : {
-		               inputType : "hidden",
-		                value : true
-		            },
-		            "startDate" : {
-		            	inputType : "hidden"
-		            },
-		            "endDate" : {
-		            	inputType : "hidden"
-		            }
+			        description : typeObjLib.descriptionOptionnel,
+		            url : typeObjLib.urlOptionnel,
+		            "preferences[publicFields]" : typeObjLib.hiddenArray,
+		            "preferences[privateFields]" : typeObjLib.hiddenArray,
+		            "preferences[isOpenData]" :  typeObjLib.hiddenTrue,
+		            "preferences[isOpenEdition]" :  typeObjLib.hiddenTrue,
+		            "startDate" :  typeObjLib.hidden,
+		            "endDate" :  typeObjLib.hidden
 			    }
 			}
 		}
@@ -3398,159 +3292,24 @@ var typeObj = {
 		                inputType : "custom",
 		                html:"<p><i class='fa fa-info-circle'></i> Si vous voulez créer un nouveau projet de façon à le rendre plus visible : c'est le bon endroit !!<br>Vous pouvez ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
 		            },
-			        name : {
-			        	placeholder : "Nom",
-			            inputType : "text",
-			            rules : {
-			                required : true
-			            },
-			            init : function(){
-			            	$("#ajaxFormModal #name ").off().on("blur",function(){
-			            		if($("#ajaxFormModal #name ").val().length > 3 )
-			            			globalSearch($(this).val(),["projects"]);
-			            	});
-			            }
-		            },
-		            parentType : {
-			            inputType : "hidden"
-			        },
-			        type :{
-		            	inputType : "select",
-		            	placeholder : "Type d\'évènement",
-		            	options : eventTypes,
-		            	rules : { required : true },
-		            },
-		            /*allDay : {
-		            	inputType : "checkbox",
-		            	init : function(){
-			            	$("#ajaxFormModal #allDay").off().on("switchChange.bootstrapSwitch",function (e, data) {
-			            		mylog.log("toto",$("#ajaxFormModal #allDay").val());
-			            	})
-			            },
-		            	"switch" : {
-		            		"onText" : "Oui",
-		            		"offText" : "Non",
-		            		"labelText":"Toute la journée",
-		            		"onChange" : function(){
-		            			var allDay = $("#ajaxFormModal #allDay").is(':checked');
-		            			$("#ajaxFormModal #allDay").val($("#ajaxFormModal #allDay").is(':checked'));
-		            			if (allDay) {
-		            				$(".dateTimeInput").addClass("dateInput");
-		            				$(".dateTimeInput").removeClass("dateTimeInput");
-		            				$('.dateInput').datetimepicker('destroy');
-		            				$(".dateInput").datetimepicker({ 
-								        autoclose: true,
-								        lang: "fr",
-								        format: "d/m/Y",
-								        timepicker:false
-								    });
-								    startDate = moment($('#ajaxFormModal #startDate').val(), "DD/MM/YYYY HH:mm").format("DD/MM/YYYY");
-								    endDate = moment($('#ajaxFormModal #endDate').val(), "DD/MM/YYYY HH:mm").format("DD/MM/YYYY");
-		            			} else {
-		            				$(".dateInput").addClass("dateTimeInput");
-		            				$(".dateInput").removeClass("dateInput");
-		            				$('.dateTimeInput').datetimepicker('destroy');
-		            				$(".dateTimeInput").datetimepicker({ 
-					       				weekStart: 1,
-										step: 15,
-										lang: 'fr',
-										format: 'd/m/Y H:i'
-								    });
-								    
-		            				startDate = moment($('#ajaxFormModal #startDate').val(), "DD/MM/YYYY").format("DD/MM/YYYY HH:mm");
-									endDate = moment($('#ajaxFormModal #endDate').val(), "DD/MM/YYYY").format("DD/MM/YYYY HH:mm");
-		            			}
-							    $('#ajaxFormModal #startDate').val(startDate);
-								$('#ajaxFormModal #endDate').val(endDate);
-		            		}
-		            	}
-		            },
-		            startDate : {
-		                inputType : "datetime",
-		                placeholder:"Date de début",
-			            rules : { 
-			            	required : true,
-			            	duringDates: ["#startDateParent","#endDateParent","la date de début"]
-			        	}
-		            },
-		            endDate : {
-		                inputType : "datetime",
-		                placeholder:"Date de fin",
-			            rules : { 
-			            	required : true,
-			            	greaterThan: ["#ajaxFormModal #startDate","la date de début"],
-			            	duringDates: ["#ajaxFormModal #startDateParent","#ajaxFormModal #endDateParent","la date de fin"]
-					    }
-		            },*/
-		            /*public : {
-		            	inputType : "hidden",
-		            	"switch" : {
-		            		"onText" : "Privé",
-		            		"offText" : "Public",
-		            		"labelText":"Type"
-		            	}
-		            },*/
-		            location : {
-		               inputType : "location"
-		            },
-		            tags :{
-		              inputType : "tags",
-		              placeholder : "Tags de l\'événement",
-		              values : tagsList
-		            },
+			        name : typeObjLib.nameProject,
+		            parentType : typeObjLib.hidden,
+		            location : typeObjLib.location,
+		            tags :typeObjLib.tags,
 		            formshowers : {
 		                inputType : "custom",
 		                html:"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".descriptionwysiwyg,.urltext\").slideToggle();activateSummernote(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (desc, urls)</a>",
 		            },
-			        
-			        description : {
-		                inputType : "wysiwyg",
-	            		placeholder : "Décrire c'est partager",
-			            init : function(){
-			            	$(".descriptionwysiwyg").css("display","none");
-			            }
-		            },
-		            url : {
-		                inputType :"text",
-		                "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
-		                placeholder : "url, lien, adresse web",
-		                init:function(){
-				            getMediaFromUrlContent("#url", ".resultGetUrl0",0);
-				            $(".urltext").css("display","none");
-			            }
-		            },
-		            /*urls : {
-			        	placeholder : "url",
-			            inputType : "array",
-			            value : [],
-			            init:function(){
-				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
-			            	$(".urlsarray").css("display","none");	
-			            }
-			        },*/
-		            "preferences[publicFields]" : {
-		               inputType : "hidden",
-		                value : []
-		            },
-		            "preferences[privateFields]" : {
-		               inputType : "hidden",
-		                value : []
-		            },
-		            "preferences[isOpenData]" : {
-		               inputType : "hidden",
-		                value : true
-		            },
-		            "preferences[isOpenEdition]" : {
-		               inputType : "hidden",
-		                value : true
-		            }
+			        description : typeObjLib.descriptionOptionnel,
+		            url : typeObjLib.urlOptionnel,
+		            "preferences[publicFields]" : typeObjLib.hiddenArray,
+		            "preferences[privateFields]" :typeObjLib.hiddenArray,
+		            "preferences[isOpenData]" : typeObjLib.hiddenTrue,
+		            "preferences[isOpenEdition]" : typeObjLib.hiddenTrue
 			    }
 			}
 		}
-		/*form : {
-			url:"/"+moduleId+"/event/eventsv",
-			title : "Ajouter un évènement"
-		}*/	},
+	},
 	"projects" : {col:"projects",ctrl:"project",color:"purple",icon:"lightbulb-o"},
 	"city" : {col:"cities",ctrl:"city"},
 	"cities" : {
@@ -3572,62 +3331,53 @@ var typeObj = {
 			    },*/
 				properties : {
 					info : {
-					"inputType" : "custom",
-					"html":"<p><i class='fa fa-info-circle'></i> Modifier une ville</p>",
+						"inputType" : "custom",
+						"html":"<p><i class='fa fa-info-circle'></i> Modifier une ville</p>",
 					},
-					id :{
-					"inputType" : "hidden",
-					"value" : ""
-					},
+					id :typeObjLib.hidden,
 					insee :{
-					"inputType" : "hidden",
-					"value" : "",
-					"rules" : { "required" : true }
+						"inputType" : "hidden",
+						"rules" : { "required" : true }
 					},
-					"name" :{
-					"inputType" : "text",
-					"placeholder" : "Nom de la ville",
-					"rules" : { "required" : true }
-					},
+					name : typeObjLib.name,
 					country :{
-					"inputType" : "hidden",
-					"value" : "",
-					"rules" : { "required" : true }
+						"inputType" : "hidden",
+						"rules" : { "required" : true }
 					},
 					dep :{
-					"inputType" : "text",
-					"placeholder" : "Numéro du département"
+						"inputType" : "text",
+						"placeholder" : "Numéro du département"
 					},
 					depName :{
-					"inputType" : "text",
-					"placeholder" : "Nom du département"
+						"inputType" : "text",
+						"placeholder" : "Nom du département"
 					},
 					region :{
-					"inputType" : "text",
-					"placeholder" : "Numéro de la région"
+						"inputType" : "text",
+						"placeholder" : "Numéro de la région"
 					},
 					regionName :{
-					"inputType" : "text",
-					"placeholder" : "Nom de la région"
+						"inputType" : "text",
+						"placeholder" : "Nom de la région"
 					},
 					"latitude" : {
-					"inputType" : "text",
-					"placeholder" : "Nom de la région"
+						"inputType" : "text",
+						"placeholder" : "Nom de la région"
 					},
 					"longitude" : {
-					"inputType" : "text",
-					"placeholder" : "Nom de la région"
+						"inputType" : "text",
+						"placeholder" : "Nom de la région"
 					},
 					postalcode : {
 						inputType : "postalcode"
 					},
 					osmid :{
-					"inputType" : "text",
-					"placeholder" : "OSM id"
+						"inputType" : "text",
+						"placeholder" : "OSM id"
 					},
 					wikidata :{
-					"inputType" : "text",
-					"placeholder" : "wikidata"
+						"inputType" : "text",
+						"placeholder" : "wikidata"
 					}
 				}
 			}
@@ -3663,10 +3413,7 @@ var typeObj = {
 		                inputType : "custom",
 		                html:"<p><i class='fa fa-info-circle'></i> Une proposition sert à discuter et demander l'avis d'une communauté sur une idée ou une question donnée</p>",
 		            },
-			        id :{
-		              inputType : "hidden",
-		              value : ""
-		            },
+			        id : typeObjLib.hidden,
 		            survey :{
 		            	inputType : "select",
 		            	placeholder : "Choisir une thématique ?",
@@ -3710,46 +3457,15 @@ var typeObj = {
 		            	},
 		            	custom : "<br/><span class='text-small'>Une thématique est un espace de décision lié à une ville, une organisation ou un projet <br/>Vous pouvez créer des espaces coopératifs sur votre commune, organisation et projet</span>"
 		            },
-		            name :{
-		              inputType : "text",
-		              placeholder : "Titre de la proposition",
-		              rules : { required : true }
-		            },
-		            message :{
-		              inputType : "wysiwyg",
-		              placeholder : "Texte de la proposition",
-		              rules : { required : true },
-		              init:function(){
-				      	activateSummernote("#ajaxFormModal #message");
-			            }
-		              
-		            },
-		            dateEnd :{
-		              inputType : "date",
-		              placeholder : "Fin de la période de vote",
-		              rules : { 
-		              	required : true,
-		              	greaterThanNow : ["DD/MM/YYYY"]
-		              }
-		            },
-		            tags :{
-		                inputType : "tags",
-		                placeholder : "Tags",
-		                values : tagsList
-		            },
+		            name : typeObjLib.name,
+		            message : typeObjLib.description,
+		            dateEnd : typeObjLib.dateEnd,
+		            tags : typeObjLib.tags,
 		            formshowers : {
 		                inputType : "custom",
 		                html:"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options ( urls)</a>",
 		            },
-		            urls : {
-		                inputType : "array",
-		                placeholder : "url, informations supplémentaires, actions à faire, etc",
-		                value : [],
-			            init:function(){
-				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
-			            	$(".urlsarray").css("display","none");	
-			            }
-		            },
+		            urls : typeObjLib.urls,
 		            email:{
 		            	inputType : "hidden",
 		            	value : (userId!=null && userConnected!=null) ? userConnected.email : ""
@@ -3835,19 +3551,8 @@ var typeObj = {
 		            	},
 		            	custom : "<br/><span class='text-small'>Choisir l'espace où s'ajoutera votre action parmi vos organisations et projets<br/>Vous pouvez créer des espaces coopératifs sur votre commune, organisation et projet  </span>"
 		            },
-		            name :{
-		              inputType : "text",
-		              placeholder : "Titre de la l'action",
-		              rules : { required : true }
-		            },
-		            message :{
-		              inputType : "wysiwyg",
-		              placeholder : "Description de l'action'",
-		              rules : { required : true },
-		              init:function(){
-				      	activateSummernote("#ajaxFormModal #message");
-			            }
-		            },
+		            name : typeObjLib.name,
+		            message : typeObjLib.description,
 		            startDate :{
 		              inputType : "date",
 		              placeholder : "Date de début"
@@ -3857,24 +3562,12 @@ var typeObj = {
 		              placeholder : "Date de fin"
 		            },
 
-		         	tags :{
-		                inputType : "tags",
-		                placeholder : "Tags",
-		                values : tagsList
-		            },
+		         	tags : typeObjLib.tags,
 		            formshowers : {
 		                inputType : "custom",
 		                html:"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options (urls)</a>",
 		            },
-		            urls : {
-		                inputType : "array",
-		                placeholder : "url",
-		                value : [],
-			            init:function(){
-				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
-			            	$(".urlsarray").css("display","none");	
-			            }
-		            },
+		            urls : typeObjLib.urls,
 		            email:{
 		            	inputType : "hidden",
 		            	value : (userId!=null && userConnected != null) ? userConnected.email : ""
@@ -3931,25 +3624,9 @@ var typeObj = {
 		                inputType : "custom",
 		                html:"<p><i class='fa fa-info-circle'></i> Si vous voulez ajouter un nouveau contact de façon a facilité les échanges</p>",
 		            },
-		            name : {
-			        	placeholder : "Nom",
-			        	labelText:"Nom",
-			            inputType : "text",
-			            init : function(){
-			            	$("#ajaxFormModal #name ").off().on("blur",function(){
-			            		if($("#ajaxFormModal #name ").val().length > 3 )
-			            			globalSearch($(this).val(),["persons"],true);
-			            	});
-			            }
-			        },
-			        similarLink : {
-		                inputType : "custom",
-		                html:"<div id='similarLink'><div id='listSameName'></div></div>",
-		            },
-			        email :{
-		              inputType : "text",
-		              placeholder : "Email du contact"
-		            },
+		            name : typeObjLib.namePerson,
+			        similarLink : typeObjLib.similarLink,
+			        email : typeObjLib.email,
 			        role :{
 		              inputType : "text",
 		              placeholder : "Role du contact"
@@ -3958,19 +3635,10 @@ var typeObj = {
 		              inputType : "text",
 		              placeholder : "téléphone du contact"
 		            },
-		            idContact : {
-		            	inputType : "hidden",
-		            	value : ""
-		            },
-		            parentId :{
-		            	inputType : "hidden"
-		            },
-		            parentType : {
-			            inputType : "hidden"
-			        },
-			        index : {
-			            inputType : "hidden"
-			        }
+		            idContact : typeObjLib.hidden,
+		            parentId :typeObjLib.hidden,
+		            parentType : typeObjLib.hidden,
+			        index : typeObjLib.hidden
 			    }
 			}
 		}},
@@ -3984,8 +3652,7 @@ var typeObj = {
 		    jsonSchema : {
 			    title : "Publier une annonce",
 			    icon : "bullhorn",
-			    type : "object",
-			    
+			    type : "object",	    
 			    onLoads : {
 			    	//pour creer un subevnt depuis un event existant
 			    	subPoi : function(){
@@ -4023,23 +3690,9 @@ var typeObj = {
 		                inputType : "custom",
 		                html:"",//<p><i class='fa fa-info-circle'></i> Une Annonce est un élément assez libre qui peut etre géolocalisé ou pas, qui peut etre rataché à tous les éléments.</p>",
 		            },
-			        name : {
-			        	placeholder : "Titre",
-			        	label : "Titre de votre annonce",
-			            inputType : "text",
-			            rules : { required : true }
-			        },
-		            description : {
-		                inputType : "wysiwyg",
-	            		label : "Rédigez votre annonce",
-			            placeholder : "Votre annonce...",
-	            		init:function(){
-				      		activateSummernote("#ajaxFormModal #description");
-			            }
-		            },
-		            location : {
-		               inputType : "location"
-		            },
+			        name : typeObjLib.name,
+		            description : typeObjLib.description,
+		            location : typeObjLib.location,
 		            typeBtn :{
 		                label : "Type d'annonce",
 			            inputType : "tagList",
@@ -4067,16 +3720,12 @@ var typeObj = {
 			            	});
 			            }
 		            },
-		            type :{
-		                inputType : "hidden"
-		            },
+		            type : typeObjLib.hidden,
 		            subtypeSection : {
 		                inputType : "custom",
 		                html:"<div class='subtypeSection'></div>",
 		            },
-		            subtype :{
-		               inputType : "hidden"
-		            },
+		            subtype : typeObjLib.hidden,
 		            // tags :{
 		            //     inputType : "tags",
 		            //     placeholder : "Mots clefs",
@@ -4086,21 +3735,9 @@ var typeObj = {
 		                inputType : "custom",
 		                html: "<a class='btn btn-default text-dark w100p' href='javascript:;' onclick='$(\".urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options (urls)</a>",
 		            },
-		            urls : {
-			        	placeholder : "url",
-			            inputType : "array",
-			            value : [],
-			            init:function(){
-				            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
-			            	$(".urlsarray").css("display","none");	
-			            }
-			        },
-		            parentId :{
-		            	inputType : "hidden"
-		            },
-		            parentType : {
-			            inputType : "hidden"
-			        },
+		            urls : typeObjLib.urls,
+		            parentId : typeObjLib.hidden,
+		            parentType : typeObjLib.hidden,
 			    }
 			}
 		}},

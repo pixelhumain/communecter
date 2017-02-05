@@ -212,7 +212,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 		<?php if(@Yii::app()->session["userId"]){ ?> 
 			<?php if ($edit==true || ($openEdition == true )) { ?>
 				<a href="javascript:;" id="editElementDetail" class="btn btn-sm btn-default tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t(Element::getControlerByCollection($type), 'Edit your informations'); ?>" alt=""><i class="fa fa-pencil"></i><span class="hidden-sm hidden-xs editProfilLbl"> <?php echo Yii::t("common","Edit"); ?> </span></a>
-			<?php } ?>
+			<?php } ?> 
 
 			<?php if($edit==true) { ?>
 				<a href="javascript:;" id="editConfidentialityBtn" class="btn btn-sm btn-default tooltips <?php if(@$element['seePreferences'] && $element['seePreferences']==true && $type==Person::COLLECTION) echo 'btn-red'; ?>" data-toggle="tooltip" data-placement="bottom" title="<?php if ($type==Person::COLLECTION){ echo Yii::t("common", "Manage my parameters"); } else { echo Yii::t("common", "Manage the parameters of")." ".Yii::t("common","this ".$controller); } ?>" alt=""><i class='fa fa-cog'></i><span class="hidden-xs"> <?php echo Yii::t("common","Paramètres de confidentialité"); ?></span></a>
@@ -246,15 +246,15 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 	<div id="divInformation" class="col-sm-12 col-md-12 padding-15">
 		<div class="col-md-12 col-lg-12 col-xs-12 no-padding text-dark lbl-info-details">
 			<i class="fa fa-map-marker"></i>  <?php echo Yii::t("common","Information") ?>
-			<?php if($edit==true){?>
-				<a href='javascript:;' id="btn-update-info" class="tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Update Contact information");?>"><i class="fa text-red fa-pencil"></i></a>
+			<?php if($edit==true || $openEdition==true ){?>
+				<a href="javascript:;" id="btn-update-info" class="tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Update Contact information");?>"><i class="fa text-red fa-pencil"></i></a>
 				<?php } ?>
 		</div>
 		<div class="col-md-12">
 			<div class="no-padding col-md-12">
 				<div id="divName">
-					<span class="titleField text-dark"><i class="fa fa-angle-right"></i><?php echo Yii::t("common", "Name"); ?> :</span>
-					<span href="#" id="name" class=""><?php if(isset($element["name"])) echo $element["name"]; else echo ""; ?></span>
+					<span class="titleField text-dark"><i class="fa fa-angle-right"></i> <?php echo Yii::t("common", "Name"); ?> :</span>
+					<span id="name" class=""><?php if(isset($element["name"])) echo $element["name"]; else echo ""; ?></span>
 				</div>
 
 				<?php if($type==Person::COLLECTION){ ?>
@@ -268,9 +268,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 				<div id="divType">
 					<!-- <i class="fa fa-smile-o fa_name hidden"></i> -->
 					<span class="titleField text-dark"><i class="fa fa-angle-right"></i>  <?php echo Yii::t("common", "Type"); ?> :</span>
-					<a href="#" id="type" data-type="select" data-title="Type" data-emptytext="Type" class="editable editable-click required">
-						<?php if(isset($element["type"])) echo Yii::t("common", $element["type"]); else echo ""; ?>
-					</a>
+					<span id="type" class=""><?php if(isset($element["type"])) echo Yii::t("common", $element["type"]); else echo ""; ?></span>
 				</div>
 				<?php } ?>
 
@@ -310,7 +308,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 					<i class="fa fa-tags"></i> <?php //echo Yii::t("common","Tags") ?> : 
 				</label>
 				
-				<a href="#" id="tags" data-type="select2" data-emptytext="<?php //echo Yii::t("common","empty")?>" data-original-title="<?php //echo Yii::t("common","Enter tagsList") ?>" class="editable editable-click text-red">
+				<a href="#" id="tags" data-type="select2" data-emptytext="<?php //echo Yii::t("common","empty")?>" data-original-title="<?php //echo Yii::t("common","Enter tagsList") ?>" class="text-red">
 					<?php 
 						/* if(isset($element["tags"])){
 							$stringTags = "" ;
@@ -361,19 +359,22 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 				<div class="col-md-12 col-lg-12 col-xs-12 no-padding">
 					<div class="text-dark lbl-info-details margin-top-10">
 						<a id="dateTimezone" href="javascript:;" class="tooltips text-dark" data-original-title="toto" data-toggle="tooltip" data-placement="right"><i class="fa fa-clock-o"></i>&nbsp;<?php echo Yii::t("common","When") ?> ?</a>
+						<?php if($edit==true || $openEdition==true ){?>
+						<a href="javascript:;" id="btn-update-when" class="tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Update When");?>"><i class="fa text-red fa-pencil"></i></a>
+						<?php } ?>
 					</div>
 				</div>
 				<div class="col-md-12 col-lg-12 col-xs-12 entityDetails no-padding">
 					<?php if($type==Event::COLLECTION ) { ?>
 					<div class="col-xs-12 no-padding">
-						<span><?php echo Yii::t("common","All day") ?> : </span><a href="#" id="allDay" data-type="select" data-emptytext="<?php echo Yii::t("common","All day") ?> ?" class="editable editable-click" ></a>
+						<span><?php echo Yii::t("common","All day") ?> : </span><a id="allDay" class="" ></a>
 					</div>
 					<?php } ?>
 					<div class="col-md-6 col-xs-12 no-padding">
-						<span><?php echo Yii::t("common","From") ?> </span><a href="#" id="startDate" data-emptytext="Enter Start Date" class="editable editable-click" ></a>
+						<span><?php echo Yii::t("common","From") ?> </span><span id="startDate" class="" ></span>
 					</div>
 					<div class="col-md-6 col-xs-12 no-padding">
-						<span><?php echo Yii::t("common","To") ?> </span><a href="#" id="endDate" data-emptytext="Enter End Date" class="editable editable-click"></a> 
+						<span><?php echo Yii::t("common","To") ?> </span><span id="endDate" class=""></span> 
 					</div>
 				</div>
 			</div>
@@ -562,8 +563,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 					data-emptytext="<?php echo Yii::t("common","Website URL") ?>" style="cursor:pointer;"><?php echo (isset($element["url"])) ? $element["url"] : ""; ?></a> 
 				<br>
 				<?php if($type==Project::COLLECTION){ ?>
-				<i class="fa fa-file-text-o"></i>
-				<a href="#" id="licence" data-type="text" data-original-title="<?php echo Yii::t("project","Enter the project's licence",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("project","Project licence") ?>" class="editable-context"><?php if(isset($element["licence"])) echo $element["licence"];?></a><br>
+					<i class="fa fa-file-text-o"></i>
+					<span id="licence" class=""><?php if(isset($element["licence"])) echo $element["licence"];?></span><br>
 				<?php } ?>
 
 				<?php  if($type==Organization::COLLECTION || $type==Person::COLLECTION){ ?>
@@ -638,7 +639,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 		<div id="divShortDescription" class="col-xs-12 no-padding">
 			<div class="text-dark lbl-info-details"><i class="fa fa-angle-down"></i> 
 			<?php echo Yii::t("common","Short description",null,Yii::app()->controller->module->id); ?></div>
-			<a href="#" id="shortDescription" data-type="wysihtml5" data-original-title="<?php echo Yii::t($controller,"Write the ".$controller."'s short description",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("common","Short description",null,Yii::app()->controller->module->id); ?>" class="editable editable-click"><?php echo (!empty($element["shortDescription"])) ? $element["shortDescription"] : ""; ?></a>	
+			<a href="#" id="shortDescription" data-type="wysihtml5" data-original-title="<?php echo Yii::t($controller,"Write the ".$controller."'s short description",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("common","Short description",null,Yii::app()->controller->module->id); ?>" class=""><?php echo (!empty($element["shortDescription"])) ? $element["shortDescription"] : ""; ?></a>	
 		</div>
 
 		<div class="col-xs-12 no-padding margin-top-10">
@@ -670,7 +671,6 @@ if($showOdesc == true){
 	else if($type == Project::COLLECTION)
 		$odesc = $controller." : ".addslashes( strip_tags(json_encode(@$element["shortDescription"]))).",".addslashes(json_encode(@$element["address"]["streetAddress"])).",".@$element["address"]["postalCode"].",".@$element["address"]["addressLocality"].",".@$element["address"]["addressCountry"];
 }
-	
 ?>
 
 <script type="text/javascript">
@@ -688,6 +688,11 @@ if($showOdesc == true){
 	if(	edit == "true") {
 		contextData.email = '<?php if(isset($element["email"])) echo $element["email"]; else echo ""; ?>';
 		contextData.fixe =parsePhone(<?php echo json_encode((isset($element["telephone"]["fixe"]) ? $element["telephone"]["fixe"] : array())); ?>);
+		//contextData.shortDescription = '### Ceci est ma biographie ...' ;
+		contextData.shortDescription = markdownToHtml("<?php echo (isset($element['shortDescription']) ? addslashes( strip_tags(json_encode($element['shortDescription']))) : '') ?>");
+
+		//contextData.shortDescription = contextData.shortDescription.slice(1,contextData.shortDescription.length-2);
+		//contextData.shortDescription = <?php //if(isset($element["shortDescription"])) echo $element["shortDescription"]; else echo ""; ?>;
 		contextData.mobile = parsePhone(<?php echo json_encode((isset($element["telephone"]["mobile"]) ? $element["telephone"]["mobile"] : array())); ?>);
 		contextData.fax = parsePhone(<?php echo json_encode((isset($element["telephone"]["fax"]) ? $element["telephone"]["fax"] : array())); ?>);
 		contextData.tags = <?php echo json_encode((isset($element["tags"]) ? $element["tags"] : array())); ?>;
@@ -708,8 +713,17 @@ if($showOdesc == true){
 			contextData.typeOrga = '<?php if(isset($element["type"])) echo $element["type"]; else echo ""; ?>';
 		}
 
+		if(contextData.type == "<?php echo Event::COLLECTION; ?>"){
+			contextData.allDay = '<?php echo (@$element["allDay"] == true) ? "true" : "false"; ?>';
+		}
 
-		
+		if(contextData.type == "<?php echo Event::COLLECTION; ?>" || contextData.type == "<?php echo Project::COLLECTION; ?>" ){
+			contextData.startDate = '<?php if(isset($element["startDate"])) echo $element["startDate"]; else echo ""; ?>';
+			contextData.endDate = '<?php if(isset($element["endDate"])) echo $element["endDate"]; else echo "" ?>';
+		}
+
+		if(contextData.type == "<?php echo Project::COLLECTION; ?>" )
+			contextData.avancement = '<?php if(isset($element["properties"]["avancement"])) echo $element["properties"]["avancement"]; else echo "" ?>' ;
 	}
 
 	//var emptyAddress = ((typeof(contextData.address) == "undefined" || contextData.address == null || typeof(contextData.address.codeInsee) == "undefined" || (typeof(contextData.address.codeInsee) != "undefined" && contextData.address.codeInsee == ""))?true:false);
@@ -745,7 +759,7 @@ if($showOdesc == true){
 		manageAllDayElement(allDay);
 		manageModeContextElement();
 		changeHiddenIconeElement(true);
-		manageDivEditElement();
+		//manageDivEditElement();
 		bindAboutPodElement();
 		inintDescs();
 		collection.applyColor(contextData.type,contextData.id);
@@ -875,19 +889,125 @@ if($showOdesc == true){
 	});
 
 	function bindDynFormEditable(){
+
+		
+		$("#btn-update-when").off().on( "click", function(){
+
+			var properties = {
+				block : typeObjLib["hidden"],
+				typeElement : typeObjLib["hidden"]		
+			};
+
+			
+			if(contextData.type == "<?php echo Event::COLLECTION; ?>"){
+				properties.allDay = typeObjLib["allDay"];
+			}
+
+			properties.startDate = typeObjLib["startDateInput"];
+			properties.endDate = typeObjLib["endDateInput"];
+			
+			var dataUpdate = {
+				block : "when",
+		        id : contextData.id,
+		        typeElement : contextData.type,
+			};
+			//25/01/2014 08:30
+			if(typeof contextData.allDay != "undefined" && contextData.allDay.length > 0)
+				dataUpdate.allDay = contextData.allDay;
+			if(contextData.startDate.length > 0)
+				dataUpdate.startDate = changeFormatDate(contextData.startDate);
+			if(contextData.endDate.length > 0)
+				dataUpdate.endDate = changeFormatDate(contextData.endDate);
+
+			mylog.log("dataUpdate", dataUpdate);
+
+			var onLoads = null;
+
+			
+			var beforeSave = function(){
+				mylog.log("beforeSave");
+		    	if($("#ajaxFormModal #allDay").length && $("#ajaxFormModal #allDay").val() == contextData.allDay)
+		    		$("#ajaxFormModal #allDay").remove();
+
+		    	if($("#ajaxFormModal #startDate").length && $("#ajaxFormModal #startDate").val() ==  contextData.startDate)
+		    		$("#ajaxFormModal #startDate").remove();
+
+		    	if($("#ajaxFormModal #endDate").length && $("#ajaxFormModal #endDate").val() ==  contextData.startDate)
+		    		$("#ajaxFormModal #endDate").remove();
+		    };
+
+			var afterSave = function(data){
+				mylog.dir(data);
+				if(data.result && data.resultGoods.result){
+					if(typeof data.resultGoods.values.allDay != "undefined"){
+						contextData.allDay = data.resultGoods.values.allDay;
+						$("#contentGeneralInfos #allDay").html(contextData.allDay);
+					}  
+					if(typeof data.resultGoods.values.endDate != "undefined"){
+						contextData.startDate = data.resultGoods.values.startDate;
+						$("#contentGeneralInfos #startDate").html(contextData.startDate);
+					}  
+					if(typeof data.resultGoods.values.endDate != "undefined"){
+						contextData.endDate = data.resultGoods.values.endDate;
+						$("#contentGeneralInfos #endDate").html(contextData.endDate);
+					}  
+					updateCalendar();
+				}
+
+				elementLib.closeForm();
+			};
+			
+			var saveUrl = baseUrl+"/"+moduleId+"/element/updateblock/type/"+contextType;
+			editDynForm("Modifier les dates", "fa-calendar", properties, "initUpdateInfo", dataUpdate, saveUrl, onLoads, beforeSave, afterSave);
+		});
+
+
 		$("#btn-update-info").off().on( "click", function(){
+
+			var properties = {
+				block : typeObjLib.hidden,
+				name : typeObjLib.name,
+				typeElement : typeObjLib.hidden,
+				shortDescription : typeObjLib.description		
+			};
+
+			if(contextData.type == "<?php echo Person::COLLECTION; ?>" ){
+				properties.username = typeObjLib["username"];
+				properties.similarLink = typeObjLib["similarLink"];
+				properties.tags = typeObjLib["tags"];
+				properties.telegramAccount = typeObjLib["telegram"];
+				properties.gitHubAccount = typeObjLib["github"];
+				properties.skypeAccount = typeObjLib["skype"];
+				properties.gpplusAccount = typeObjLib["googleplus"];
+		        properties.twitterAccount = typeObjLib["twitter"];
+		        properties.facebookAccount = typeObjLib["facebook"];
+			}
+
+			if(contextData.type == "<?php echo Organization::COLLECTION; ?>" ){
+				properties.type = typeObjLib["typeOrga"];
+				properties.tags = typeObjLib["tags"];
+			}
+
+			if(contextData.type == "<?php echo Project::COLLECTION; ?>" ){
+				properties.avancement = typeObjLib["avancementProject"];
+			}
+
 			var dataUpdate = {
 				block : "info",
 		        id : contextData.id,
-		        type : contextData.type,
-		        name : contextData.name,
-		        username : contextData.username
+		        typeElement : contextData.type,
+		        name : contextData.name,	
 			};
 			
 			if(contextData.tags.length > 0)
 				dataUpdate.tags = contextData.tags;
 
+			if(contextData.shortDescription.length > 0)
+				dataUpdate.shortDescription = contextData.shortDescription;
+
 			if(contextData.type == "<?php echo Person::COLLECTION; ?>" ){
+				if(contextData.username.length > 0)
+					dataUpdate.username = contextData.username;
 				if(contextData.twitterAccount.length > 0)
 					dataUpdate.twitterAccount = contextData.twitterAccount;
 				if(contextData.gpplusAccount.length > 0)
@@ -904,37 +1024,21 @@ if($showOdesc == true){
 
 			if(contextData.type == "<?php echo Organization::COLLECTION; ?>" ){
 				if(contextData.typeOrga.length > 0)
-					dataUpdate.typeOrga = contextData.typeOrga;
+					dataUpdate.type = contextData.typeOrga;
 			}
-
-			var properties = {
-				collection : typeObjLib["hidden"],
-				block : typeObjLib["hidden"],
-				name : typeObjLib["name"]				
-			};
-
-			if(contextData.type == "<?php echo Person::COLLECTION; ?>" ){
-				properties.username = typeObjLib["username"];
-				properties.similarLink = typeObjLib["similarLink"];
-				properties.tags = typeObjLib["tags"];
-				properties.telegramAccount = typeObjLib["telegram"];
-				properties.gitHubAccount = typeObjLib["github"];
-				properties.skypeAccount = typeObjLib["skype"];
-				properties.gpplusAccount = typeObjLib["googleplus"];
-		        properties.twitterAccount = typeObjLib["twitter"];
-		        properties.facebookAccount = typeObjLib["facebook"];
+			if(contextData.type == "<?php echo Project::COLLECTION; ?>" ){
+				if(contextData.avancement.length > 0)
+					dataUpdate.avancement = contextData.avancement;
 			}
-
-			if(contextData.type == "<?php echo Organization::COLLECTION; ?>" ){
-				properties.typeOrga = typeObjLib["typeOrga"];
-				properties.tags = typeObjLib["tags"];
-			}
-
 
 
 			mylog.log("dataUpdate", dataUpdate);
 
-			var onLoads = null;
+			var onLoads = {
+				markdown : function(){
+					activateMarkdown("#ajaxFormModal #shortDescription");
+				}
+			};
 
 			
 			var beforeSave = function(){
@@ -970,20 +1074,34 @@ if($showOdesc == true){
 			    		$("#ajaxFormModal #type").remove();
 				}
 
+				if(contextData.type == "<?php echo Project::COLLECTION; ?>" ){
+					if($("#ajaxFormModal #avancement").length && $("#ajaxFormModal #avancement").val() ==  contextData.avancement)
+			    		$("#ajaxFormModal #avancement").remove();
+				}
+				
+
 		    };
 
 			var afterSave = function(data){
 				mylog.dir(data);
 				if(data.result && data.resultGoods.result){
+
 					if(typeof data.resultGoods.values.name != "undefined"){
 						contextData.name = data.resultGoods.values.name;
 						$("#nameHeader").html(contextData.name);
+						$("#contentGeneralInfos #name").html(contextData.name);
 					}
 
 					if(typeof data.resultGoods.values.username != "undefined"){
 						contextData.username = data.resultGoods.values.username;
 						$("#contentGeneralInfos #username").html(contextData.username);
-					}  
+					}
+
+
+					if(typeof data.resultGoods.values.shortDescription != "undefined"){
+						contextData.shortDescription = data.resultGoods.values.shortDescription;
+						$("#shortDescriptionHeader").html(markdownToHtml(contextData.shortDescription));
+					}   
 						
 					if(typeof data.resultGoods.values.tags != "undefined"){
 						contextData.tags = data.resultGoods.values.tags;
@@ -1000,7 +1118,26 @@ if($showOdesc == true){
 						$('#divTagsHeader').html(str);
 					}
 
-					if(typeof contextData.telegramAccount != "undefined"){
+					if(typeof data.resultGoods.values.avancement != "undefined"){
+						contextData.avancement = data.resultGoods.values.avancement.trim();
+						val=0;
+				    	if(contextData.avancement=="idea")
+							val=5;
+						else if(contextData.avancement=="concept")
+							val=20;
+						else if (contextData.avancement== "started")
+							val=40;
+						else if (contextData.avancement == "development")
+							val=60;
+						else if (contextData.avancement == "testing")
+							val=80;
+						else if (contextData.avancement == "mature")
+							val=100;
+						$('#progressStyle').val(val);
+						$('#labelProgressStyle').html(contextData.avancement);
+					}
+
+					if(typeof data.resultGoods.values.telegramAccount != "undefined"){
 						speudoTelegram = contextData.telegramAccount.trim();
 						$('#contentGeneralInfos #telegramAccount').attr('href', 'https://web.telegram.org/#/im?p=@'+speudoTelegram);
 						$('#contentGeneralInfos #telegramAccount').html('<i class="fa telegramAccount text-white"></i>'+speudoTelegram);
@@ -1039,13 +1176,14 @@ if($showOdesc == true){
 					if(typeof data.resultGoods.values.type != "undefined"){
 						contextData.typeOrga = data.resultGoods.values.typeOrga;
 						$("#typeHeader").html(contextData.typeOrga);
+						$("#contentGeneralInfos #type").html(contextData.typeOrga);
 					}
 				}
 				elementLib.closeForm();
 			};
 			
 			var saveUrl = baseUrl+"/"+moduleId+"/element/updateblock/type/"+contextType;
-			editDynForm("Modifier les coordonnées", "fa-pencil", properties, "initUpdateInfo", dataUpdate, saveUrl, onLoads, beforeSave, afterSave);
+			editDynForm("Modifier les coordonnées", "fa-pencil", properties, "markdown", dataUpdate, saveUrl, onLoads, beforeSave, afterSave);
 		});
 
 		$("#btn-update-contact").off().on( "click", function(){
@@ -1159,7 +1297,7 @@ if($showOdesc == true){
 		$("#btn-update-desc").off().on( "click", function(){
 			var dataUpdate = { value : contextData.description } ;
 			var properties = {
-				value : typeObjLib["descriptionUpdate"],
+				value : typeObjLib["description"],
 				pk : {
 		            inputType : "hidden",
 		            value : contextData.id
@@ -1188,37 +1326,7 @@ if($showOdesc == true){
 			editDynForm("Modifier la description", "fa-pencil", properties, "markdown", dataUpdate, saveUrl, onLoads, beforeSave, afterSave);
 		});
 
-		$("#btn-update-shortDesc").off().on( "click", function(){
-			var dataUpdate = { value : contextData.description } ;
-			var properties = {
-				value : typeObjLib["descriptionUpdate"],
-				pk : {
-		            inputType : "hidden",
-		            value : contextData.id
-		        },
-				name: {
-		            inputType : "hidden",
-		            value : "shortDescription"
-		        }
-			};
-
-			var onLoads = {
-				markdown : function(){
-					mylog.log("#btn-update-desc #ajaxFormModal #shortDescription");
-					activateMarkdown("#ajaxFormModal #value");
-				}
-			};
-			var beforeSave = null ;
-
-			var afterSave = function(data){
-				$("#shortDescription").html(markdownToHtml(data.shortDescription));
-				contextData.shortDescription = data.shortDescription;
-				elementLib.closeForm();		
-			};
-			
-			var saveUrl = baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType;
-			editDynForm("Modifier la description court", "fa-pencil", properties, "markdown", dataUpdate, saveUrl, onLoads, beforeSave, afterSave);
-		});
+		
 	}
 
 	function parsePhone(arrayPhones){
@@ -1340,7 +1448,7 @@ if($showOdesc == true){
 		}
 		manageModeContextElement();
 		changeHiddenIconeElement(false);
-		manageDivEditElement();
+		//manageDivEditElement();
 	}
 
 	function manageModeContextElement() {
@@ -1383,12 +1491,12 @@ if($showOdesc == true){
 		}
 	}
 
-	function manageDivEditElement() {
+	/*function manageDivEditElement() {
 		mylog.log("-----------------manageDivEditElement----------------------", mode);
 		listXeditablesDiv = [ '#divName', '#divShortDescription' , '#divTags', "#divAvancement"];
 		if(contextType != "citoyens")
 			listXeditablesDiv.push('#divInformation');
-		divInformation
+		
 		if (mode == "view") {
 			$.each(listXeditablesDiv, function(i,value) {
 				$(value).hide();
@@ -1398,7 +1506,7 @@ if($showOdesc == true){
 				$(value).show();
 			})
 		}
-	}
+	}*/
 
 	function manageSocialNetwork(iconObject, value) {
 		//mylog.log("-----------------manageSocialNetwork----------------------");
@@ -2205,6 +2313,22 @@ function changeNetwork(id, url, str){
 	mylog.log("changeNetwork", id, url, str);
 	$(id).attr('href', url);
 	$(id).html(str);
+}
+
+function changeFormatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear(),
+        hour = d.getHours(),
+        min = d.getMinutes();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+    if (min.length < 2) min = '0' + min;
+    if (hour.length < 2) hour = '0' + hour;
+
+    return day+"/"+month+"/"+year+" "+hour+":"+min;
 }
 
 	
