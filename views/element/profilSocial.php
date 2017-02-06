@@ -139,13 +139,18 @@
     
 	<div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 margin-top-70 profilSocial">        
 	    <?php 
-	    	$this->renderPartial('../pod/ficheInfoElementCO2', 
-                        array(  //"layoutPath"=>$layoutPath , 
-                                "element" => @$element, 
+	    	$params = array(    "element" => @$element, 
                                 "type" => @$type, 
                                 "edit" => @$edit,
                                 "countries" => @$countries,
-                                "tags" => @$tags) ); 
+                                "tags" => @$tags);
+
+	    	if(@$members) $params["members"] = $members;
+	    	if(@$events) $params["events"] = $events;
+	    	if(@$needs) $params["needs"] = $needs;
+	    	if(@$projects) $params["projects"] = $projects;
+
+	    	$this->renderPartial('../pod/ficheInfoElementCO2', $params ); 
 	    ?>
 	</div>
         
@@ -259,7 +264,10 @@
 
 	var elementName = "<?php echo @$element["name"]; ?>";
     var contextType = "<?php echo @$type; ?>";
-    
+    var members = <?php echo json_encode(@$members); ?>;
+    var params = <?php echo json_encode(@$params); ?>;
+    console.log("params members", members);
+    console.log("params", params);
 
 	jQuery(document).ready(function() {
 		initSocial();

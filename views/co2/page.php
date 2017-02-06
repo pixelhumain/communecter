@@ -30,12 +30,8 @@ jQuery(document).ready(function() {
 	
 	initKInterface({"affixTop":250});
 
-	var tpl = "onepage";
-	//if(type=="citoyens") 
-		tpl = '<?php echo @$_GET["tpl"] ? $_GET["tpl"] : "profilSocial"; ?>';
+	var tpl = '<?php echo @$_GET["tpl"] ? $_GET["tpl"] : "profilSocial"; ?>';
 	
-
-	//location.hash = location.hash + "?tpl="+tpl;
 
 	getAjax('#onepage' ,baseUrl+'/'+moduleId+"/element/detail/type/"+type+"/id/"+id+"?tpl="+tpl,function(){ 
 				

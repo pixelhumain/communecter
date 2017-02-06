@@ -43,7 +43,12 @@
                       Yii::app()->createUrl('/'.@$element['profilThumbImageUrl']) 
                       : "";
 ?>
-
+<style>
+	.img-thumb{
+		height: 50px;
+		width: 50px;
+	}
+</style>
 <div id="menu-name" class="hidden">
 	<img src="<?php echo $thumbAuthor; ?>" height="45" class="img-circle">
 	<span class="font-montserrat hidden-sm hidden-xs"><?php echo @$element["name"]; ?></span>
@@ -264,96 +269,84 @@
 				</ul>
 			</li>
 
-			<li><div class="link"><i class="fa fa-user-circle"></i>Contacts <small>(24)</small><i class="fa fa-chevron-down"></i></div>
+			<li><div class="link"><i class="fa fa-user-circle"></i>Membres <small>(<?php echo @$members ? count($members) : "0"; ?>)</small><i class="fa fa-chevron-down"></i></div>
 				<ul class="submenu">
-	    			<li class="photosgurdeep"><a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-					</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	    			</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	    			</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	    			</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	        		</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	    			</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	    			</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	        		</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	    			</a>
-	               
-	                <a class="view-all" href="https://web.facebook.com/" target="_blank">50+
-	        		</a>
+					<li class="photosgurdeep">
+					<?php if(@$members) 
+							foreach($members as $key=>$el){ 
+					 				$thumbAuthor = Element::getImgProfil($el, "profilThumbImageUrl", $this->module->assetsUrl); 
+	    			?>
+						    			<a href="#" >
+						    				<img class="img-responsive img-circle img-thumb" alt="" src="<?php echo $thumbAuthor; ?>">
+						    			</a>
+					<?php } ?>	               
+	                <button class="view-all open-directory">50+
+	        		</button>
 	    			    
 					</li>
 				</ul>
 			</li>
 
-			<li><div class="link"><i class="fa fa-users"></i>Organisations <small>(12)</small><i class="fa fa-chevron-down"></i></div>
+
+			<li>
+				<div class="link"><i class="fa fa-lightbulb-o"></i>Projets <small>(<?php echo @$projects ? count($projects) : "0"; ?>)</small>
+					<i class="fa fa-chevron-down"></i>
+				</div>
 				<ul class="submenu">
-	    			<li class="photosgurdeep"><a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-					</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	    			</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	    			</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	    			</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">               
-	    			</a>
-	               
+	    			<li class="photosgurdeep">
+					<?php if(@$projects) 
+							foreach($projects as $key=>$el){ 
+					 				$thumbAuthor = Element::getImgProfil($el, "profilThumbImageUrl", $this->module->assetsUrl); 
+	    			?>
+						    			<a href="#" >
+						    				<img class="img-responsive img-circle img-thumb" alt="" src="<?php echo $thumbAuthor; ?>">
+						    			</a>
+					<?php } ?>	               
 	                <a class="view-all" href="https://web.facebook.com/" target="_blank">50+
 	        		</a>
-	    			    
+
 					</li>
 				</ul>
 			</li>
 
-			<li><div class="link"><i class="fa fa-lightbulb-o"></i>Projets <small>(4)</small><i class="fa fa-chevron-down"></i></div>
+			<li><div class="link"><i class="fa fa-calendar"></i>Événements <small>(<?php echo @$events ? count($events) : "0"; ?>)</small><i class="fa fa-chevron-down"></i></div>
 				<ul class="submenu">
-	    			<li class="photosgurdeep"><a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-					</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	    			</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	    			</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	    			</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	        		</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	    			</a>
-	               
+	    			<li class="photosgurdeep">
+					<?php if(@$events) 
+							foreach($events as $key=>$el){ 
+					 				$thumbAuthor = Element::getImgProfil($el, "profilThumbImageUrl", $this->module->assetsUrl); 
+	    			?>
+						    			<a href="#" >
+						    				<img class="img-responsive img-circle img-thumb" alt="" src="<?php echo $thumbAuthor; ?>">
+						    			</a>
+					<?php } ?>	               
 	                <a class="view-all" href="https://web.facebook.com/" target="_blank">50+
 	        		</a>
-	    			    
+
 					</li>
 				</ul>
 			</li>
 
-			<li><div class="link"><i class="fa fa-lightbulb-o"></i>Événements <small>(3)</small><i class="fa fa-chevron-down"></i></div>
+			<li><div class="link"><i class="fa fa-cubes"></i>Besoins <small>(<?php echo @$needs ? count($needs) : "0"; ?>)</small><i class="fa fa-chevron-down"></i></div>
 				<ul class="submenu">
-	    			<li class="photosgurdeep"><a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-					</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	    			</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	    			</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	    			</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	        		</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	    			</a>
-	               
+	    			<li class="photosgurdeep">
+					<?php if(@$needs) 
+							foreach($needs as $key=>$el){ 
+					 				$thumbAuthor = Element::getImgProfil($el, "profilThumbImageUrl", $this->module->assetsUrl); 
+	    			?>
+						    			<a href="#" >
+						    				<img class="img-responsive img-circle img-thumb" alt="" src="<?php echo $thumbAuthor; ?>">
+						    			</a>
+					<?php } ?>	               
 	                <a class="view-all" href="https://web.facebook.com/" target="_blank">50+
 	        		</a>
-	    			    
+
 					</li>
 				</ul>
+			</li>
+
+			<li>
+
 			</li>
 
 		</ul>
@@ -573,6 +566,12 @@
 				switchModeElement();
 			}
 		}
+
+		$(".open-directory").click(function(){
+			smallMenu.inBlockUI = false; 
+			smallMenu.destination = "#central-container"; 
+			smallMenu.openAjax(baseUrl+'/'+moduleId+'/person/directory?tpl=json','Mon répertoire','fa-book','red');
+		})
 	});
 
 
