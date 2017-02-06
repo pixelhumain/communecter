@@ -677,7 +677,7 @@ var directory = {
 
       $.each( list, function(key,list)
       {
-        var subContent = directory.showResultsDirectoryHtml ( list, key, "min" );
+        var subContent = directory.showResultsDirectoryHtml ( list, key);
         if( notEmpty(subContent) ){
           favTypes.push(key);
           $(smallMenu.destination).append("<div class='"+key+"fav favSection '><div class=' col-xs-12 col-sm-10 padding-15'><h2 class='homestead'> "+key+" <i class='fa fa-angle-down'></i> </h2>"+
