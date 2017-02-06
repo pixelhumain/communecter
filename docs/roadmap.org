@@ -172,7 +172,7 @@ Liste des notifications déjà lues => #370 #453
     [new] Ajout d'info lors du survol d'un POI (horaires, description courte, ... j'ai une liste precise)
     [new] Alerte email sur modification d'un POI ou d'une sélection
   [ ] notification à la création d'un dda
-  [ ] Count requests DB per page
+  [X] Count requests DB per page
   [X] document uploader
   [X] add photo
     [X] limit 

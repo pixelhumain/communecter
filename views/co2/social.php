@@ -294,7 +294,7 @@ jQuery(document).ready(function() {
 	initKInterface();
 
     if(type!='') type = "?type="+type;
-	getAjax('#page' ,baseUrl+'/'+moduleId+"/default/directory"+type,function(){ 
+	getAjax('#page' ,baseUrl+'/'+moduleId+"/default/directoryjs"+type,function(){ 
 				
         $(".btn-directory-type").click(function(){
             var type = $(this).data("type");

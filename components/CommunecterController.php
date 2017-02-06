@@ -417,6 +417,8 @@ class CommunecterController extends Controller
     ),
     "log"=> array(
       "monitoring" => array("href" => "/ph/communecter/log/monitoring"),
+      "dbaccess"  => array("href" => "/ph/communecter/log/dbaccess"),
+      "clear"  => array("href" => "/ph/communecter/log/clear"),
     ),
     "stat"=> array(
       "createglobalstat" => array("href" => "/ph/communecter/stat/createglobalstat"),
@@ -470,6 +472,7 @@ class CommunecterController extends Controller
     //creates an issue with Json requests : to clear add josn:true on the page definition here 
     //if( Yii::app()->request->isAjaxRequest && (!isset( $page["json"] )) )
       //echo "<script type='text/javascript'> userId = '".Yii::app()->session['userId']."'; var blackfly = 'sosos';</script>";
+    
     if( @$_GET["theme"] ){
       Yii::app()->theme = $_GET["theme"];
       Yii::app()->session["theme"] = $_GET["theme"];
@@ -539,6 +542,8 @@ class CommunecterController extends Controller
   protected function beforeAction($action){
     if( $_SERVER['SERVER_NAME'] == "127.0.0.1" || $_SERVER['SERVER_NAME'] == "localhost" ){
       Yii::app()->assetManager->forceCopy = true;
+      //if(Yii::app()->controller->id."/".Yii::app()->controller->action->id != "log/dbaccess")
+        //Yii::app()->session["dbAccess"] = 0;
     }
 
     $this->manageLog();
@@ -548,7 +553,6 @@ class CommunecterController extends Controller
 
 
   protected function afterAction($action){
-
     return parent::afterAction($action);
   }
 
