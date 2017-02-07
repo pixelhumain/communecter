@@ -951,8 +951,7 @@ function showAjaxPanel (url,title,icon, mapEnd) {
 				showMap(true);
 
 
-    		if(contextData.type && contextData.id )
-    		{
+    		if(typeof contextData != "undefined" && contextData != null && contextData.type && contextData.id ){
         		uploadObj.type = contextData.type;
         		uploadObj.id = contextData.id;
         	}

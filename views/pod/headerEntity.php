@@ -675,6 +675,7 @@ var listElementView = [	'detail', 'detail.edit', 'news', 'directory', 'gallery',
 jQuery(document).ready(function() {
 	setTitle(element.name,contextIcon);
 	mylog.log("loadAllLinks-------", loadAllLinks);
+	inintDescs();
 	if(loadAllLinks){
 		$.ajaxSetup({ cache: true});
 		$.ajax({
@@ -742,9 +743,15 @@ jQuery(document).ready(function() {
 		});
     });
 
+
 	
 
 });
+
+function inintDescs() {
+	$("#description").html(markdownToHtml($("#descriptionMarkdown").val()));
+	$("#shortDescriptionHeader").html(markdownToHtml($("#shortDescriptionMarkdown").val()));
+}
 
 function showElementPad(type, id){
 	currentView=type;

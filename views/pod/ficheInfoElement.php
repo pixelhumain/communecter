@@ -638,7 +638,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 		  		<?php if($edit==true || $openEdition==true ){?>
 		  		<a href='javascript:;' id="btn-update-desc" class="tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Update Description");?>"><i class="fa text-red fa-pencil"></i></a> <?php } ?>
 		  	</div>
-				<span id="description"  class=""><?php  echo (!empty($element["description"])) ? $element["description"] : ""; ?></span>	
+				<span id="description"  class=""><?php  echo (!empty($element["description"])) ? $element["description"] : ""; ?></span>
+				<input type="hidden" id="descriptionMarkdown" name="descriptionMarkdown" value="<?php echo (!empty($element['description'])) ? $element['description'] : ''; ?>">
+				<input type="hidden" id="shortDescriptionMarkdown" name="shortDescriptionMarkdown" value="<?php echo (!empty($element['shortDescription'])) ? $element['shortDescription'] : ''; ?>">	
 		</div>
 	</div>
 </div>
@@ -680,11 +682,6 @@ if($showOdesc == true){
 	if(	edit == "true" || openEdition == "true") {
 		contextData.email = '<?php if(isset($element["email"])) echo $element["email"]; else echo ""; ?>';
 		contextData.fixe =parsePhone(<?php echo json_encode((isset($element["telephone"]["fixe"]) ? $element["telephone"]["fixe"] : array())); ?>);
-		//contextData.shortDescription = '### Ceci est ma biographie ...' ;
-		contextData.shortDescription = markdownToHtml("<?php echo (isset($element['shortDescription']) ? addslashes( strip_tags(json_encode($element['shortDescription']))) : '') ?>");
-
-		//contextData.shortDescription = contextData.shortDescription.slice(1,contextData.shortDescription.length-2);
-		//contextData.shortDescription = <?php //if(isset($element["shortDescription"])) echo $element["shortDescription"]; else echo ""; ?>;
 		contextData.mobile = parsePhone(<?php echo json_encode((isset($element["telephone"]["mobile"]) ? $element["telephone"]["mobile"] : array())); ?>);
 		contextData.fax = parsePhone(<?php echo json_encode((isset($element["telephone"]["fax"]) ? $element["telephone"]["fax"] : array())); ?>);
 		contextData.tags = <?php echo json_encode((isset($element["tags"]) ? $element["tags"] : array())); ?>;
@@ -753,7 +750,6 @@ if($showOdesc == true){
 		changeHiddenIconeElement(true);
 		//manageDivEditElement();
 		bindAboutPodElement();
-		inintDescs();
 		collection.applyColor(contextData.type,contextData.id);
 		/*$("#btn-update-geopos").click(function(){
 			findGeoPosByAddress();
@@ -994,8 +990,8 @@ if($showOdesc == true){
 			if(contextData.tags.length > 0)
 				dataUpdate.tags = contextData.tags;
 
-			if(contextData.shortDescription.length > 0)
-				dataUpdate.shortDescription = contextData.shortDescription;
+			if($("#shortDescriptionMarkdown").val().length > 0)
+				dataUpdate.shortDescription = $("#shortDescriptionMarkdown").val();
 
 			if(contextData.type == "<?php echo Person::COLLECTION; ?>" ){
 				if(contextData.username.length > 0)
@@ -1091,8 +1087,8 @@ if($showOdesc == true){
 
 
 					if(typeof data.resultGoods.values.shortDescription != "undefined"){
-						contextData.shortDescription = data.resultGoods.values.shortDescription;
-						$("#shortDescriptionHeader").html(markdownToHtml(contextData.shortDescription));
+						$("#shortDescriptionMarkdown").val(data.resultGoods.values.shortDescription);
+						$("#shortDescriptionHeader").html(markdownToHtml($("#shortDescriptionMarkdown").val()));
 					}   
 						
 					if(typeof data.resultGoods.values.tags != "undefined"){
@@ -1287,7 +1283,7 @@ if($showOdesc == true){
 		});
 
 		$("#btn-update-desc").off().on( "click", function(){
-			var dataUpdate = { value : contextData.description } ;
+			var dataUpdate = { value : $("#descriptionMarkdown").val() } ;
 			var properties = {
 				value : typeObjLib["description"],
 				pk : {
@@ -1310,7 +1306,7 @@ if($showOdesc == true){
 
 			var afterSave = function(data){
 				$("#description").html(markdownToHtml(data.description));
-				contextData.description = data.description;
+				$("#descriptionMarkdown").val(data.description);
 				elementLib.closeForm();		
 			};
 			
@@ -1751,10 +1747,7 @@ if($showOdesc == true){
 	}
 
 
-	function inintDescs() {
-		$("#description").html(markdownToHtml($("#description").html()));
-		$("#shortDescription").html(markdownToHtml($("#shortDescription").html()));
-	}
+	
 
 
 
