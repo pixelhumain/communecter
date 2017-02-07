@@ -15,6 +15,7 @@
 				'/css/news/index.css',	
 				'/css/timeline2.css',
 				'/css/circle.css',	
+				'/css/default/directory.css',	
 				'/js/comments.js',
 			  ) , 
 		Yii::app()->theme->baseUrl. '/assets');
@@ -87,6 +88,47 @@
     	margin-top:4px;
     }
 
+
+#central-container .bg-dark {
+    color: white !important;
+    background-color: #3C5665 !important;
+}
+#central-container .bg-red{
+    background-color:#E33551 !important;
+    color:white!important;
+}
+#central-container .bg-blue{
+    background-color: #5f8295 !important;
+    color:white!important;
+}
+#central-container .bg-green{
+    background-color:#93C020 !important;
+    color:white!important;
+}
+#central-container .bg-orange{
+    background-color:#FFA200 !important;
+    color:white!important;
+}
+#central-container .bg-yellow{
+    background-color:#FFC600 !important;
+    color:white!important;
+}
+#central-container .bg-purple{
+    background-color:#8C5AA1 !important;
+    color:white!important;
+}
+#central-container #dropdown_search{
+	min-height:500px;
+    margin-top:30px;
+}
+#central-container .row.headerDirectory{
+    margin-top: 20px;
+    display: none;
+}
+#central-container p {
+    font-size: 13px;
+}
+
 </style>
 
 	
@@ -139,13 +181,20 @@
     
 	<div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 margin-top-70 profilSocial">        
 	    <?php 
-	    	$this->renderPartial('../pod/ficheInfoElementCO2', 
-                        array(  //"layoutPath"=>$layoutPath , 
-                                "element" => @$element, 
+	    	$params = array(    "element" => @$element, 
                                 "type" => @$type, 
                                 "edit" => @$edit,
                                 "countries" => @$countries,
-                                "tags" => @$tags) ); 
+                                "tags" => @$tags,
+                                "controller" => $controller,
+                                "openEdition" => $openEdition);
+
+	    	if(@$members) $params["members"] = $members;
+	    	if(@$events) $params["events"] = $events;
+	    	if(@$needs) $params["needs"] = $needs;
+	    	if(@$projects) $params["projects"] = $projects;
+
+	    	$this->renderPartial('../pod/ficheInfoElementCO2', $params ); 
 	    ?>
 	</div>
         
@@ -259,7 +308,10 @@
 
 	var elementName = "<?php echo @$element["name"]; ?>";
     var contextType = "<?php echo @$type; ?>";
+    var members = <?php echo json_encode(@$members); ?>;
+    var params = <?php echo json_encode(@$params); ?>;
     
+    console.log("params", params);
 
 	jQuery(document).ready(function() {
 		initSocial();
@@ -305,6 +357,8 @@
 		}	
 
 		var accordion = new Accordion($('#accordion'), false);
+		var accordion2 = new Accordion($('#accordion2'), false);
+		var accordion3 = new Accordion($('#accordion3'), false);
 
    		$(".tooltips").tooltip();
 

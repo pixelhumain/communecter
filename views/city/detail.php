@@ -255,7 +255,7 @@ $this->renderPartial('../default/panels/toolbar');
                 </div>
                 <div class="space20"></div>
                 <a href="javascript:elementLib.openForm(zonesDynForm)" class="btn btn-default">Zones</a>
-                <a href="javascript:cityFinder('city','<?php echo $city["name"];?>')" class="btn btn-default">Filiaires locales</a>  <a href="javascript:cityFinder('departement','<?php echo $city["depName"];?>')" class="btn btn-default">Filiaires département</a>  <a href="javascript:cityFinder('region','<?php echo $city["regionName"];?>')" class="btn btn-default">Filiaires région</a> 
+                <a href="javascript:cityFinderObj.finder('city','<?php echo $city["name"];?>')" class="btn btn-default">Filiaires locales</a>  <a href="javascript:cityFinderObj.finder('departement','<?php echo $city["depName"];?>')" class="btn btn-default">Filiaires département</a>  <a href="javascript:cityFinderObj.finder('region','<?php echo $city["regionName"];?>')" class="btn btn-default">Filiaires région</a> 
         <!--       </div>
             </div>
            
@@ -627,16 +627,14 @@ var cityFinderObj = {
                                             classes : slugify("<?php echo @$value["name"]?>")+"Btn kickerBtn",
                                             action : "javascript:;",
                                             click : function(){
-                                                cityFinderSearch( scopeType, "<?php echo @$value["name"]?>", "<?php echo @$value["icon"]?>", <?php echo json_encode( @$value["tags"] );?> ) 
+                                                cityFinderObj.search( scopeType, "<?php echo @$value["name"]?>", "<?php echo @$value["icon"]?>", <?php echo json_encode( @$value["tags"] );?> ) 
                                             }
       }, 
     <?php }
     } ?>
-  }
-};
-
-function cityFinder(type,where)
-{
+  },
+  finder : function (type,where)
+  {
     scopeType = type;
     if( type == "region" ) 
         scopeName = 'region : <?php echo $city["regionName"];?>';
@@ -673,21 +671,8 @@ function cityFinder(type,where)
                         });
                         $(".menuSmallLeftMenu").prepend("<h2 class='homestead'>Trier</h2>")
                     });
-}
-
-<?php 
-$cps = array();
-foreach ($city["postalCodes"] as $key => $value) {
-  $cps[] = $value["postalCode"];
-}
-?>
-
-var postalCodes = <?php echo json_encode( $cps);?>;
-var cityRegion = "<?php echo $city["region"];?>";
-var cityDep = "<?php echo $city["dep"];?>";
-var scopeType = null;
-var scopeName = null;
-function  cityFinderSearch( type, what, icon, tags ) 
+  },
+  search : function  ( type, what, icon, tags ) 
 { 
     searchTypes = ["events","projects","organizations"];
     var params = {
@@ -721,9 +706,23 @@ function  cityFinderSearch( type, what, icon, tags )
     console.dir(params);
     smallMenu.openAjax( baseUrl+'/'+moduleId+'/search/globalautocomplete',
                    what, icon, 'yellow',
-                   '<a href="javascript:cityFinder(scopeType,scopeName)"><i class="fa fa-th text-grey"></i></a> <i class="fa fa-angle-right"></i> <i class="fa fa-map-marker text-yellow"></i> '+scopeName ,
+                   '<a href="javascript:cityFinderObj.finder(scopeType,scopeName)"><i class="fa fa-th text-grey"></i></a> <i class="fa fa-angle-right"></i> <i class="fa fa-map-marker text-yellow"></i> '+scopeName ,
                    params );
+} 
+};
+
+<?php 
+$cps = array();
+foreach ($city["postalCodes"] as $key => $value) {
+  $cps[] = $value["postalCode"];
 }
+?>
+
+var postalCodes = <?php echo json_encode( $cps);?>;
+var cityRegion = "<?php echo $city["region"];?>";
+var cityDep = "<?php echo $city["dep"];?>";
+var scopeType = null;
+var scopeName = null;
 
 function  initCurrentCityZones() { 
     $.each(postalCodesDynForm,function (i,c){

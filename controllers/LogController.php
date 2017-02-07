@@ -15,4 +15,14 @@ class LogController extends CommunecterController {
 	        'cleanup'    			 => 'citizenToolKit.controllers.log.CleanUpAction'
 	    );
 	}
+
+	public function actionDbaccess() 
+	{
+    	echo Yii::app()->session["dbAccess"];
+  	}
+  	public function actionClear() 
+	{
+    	Yii::app()->session["dbAccess"] = 0;
+    	echo Yii::app()->session["dbAccess"];
+  	}
 }

@@ -102,7 +102,7 @@
                 </a>
               </h4>
               <?php if(@$media["startDate"]) { ?>
-                <?php echo date($media["startDate"]->sec); ?>
+                <?php echo date(@$media["startDate"]->sec); ?>
               <?php } ?>
             <?php } ?>
             <p><?php echo $media["text"]; ?></p>

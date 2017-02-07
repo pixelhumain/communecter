@@ -956,19 +956,30 @@ function showAjaxPanel (url,title,icon, mapEnd) {
         		uploadObj.type = contextData.type;
         		uploadObj.id = contextData.id;
         	}
-			// setTimeout(function(){
-			// 	mylog.log("call timeout MAP MAP");
-			// 	getAjax('#mainMap',baseUrl+'/'+moduleId+"/search/mainmap",function(){ 
-			// 		toastr.info('<i class="fa fa-check"></i> Cartographie activée');
-			// 		showMap(false); 
-			// 		$("#btn-toogle-map").show(400);
-			// 		//mylog.log("getAJAX OK timeout MAIN MAP");
-					
-			// 	},"html");
-			// }, 2000);
+        	if(debug){
+        		getAjax(null, baseUrl+'/'+moduleId+"/log/dbaccess", function(data){ 
+        			if(prevDbAccessCount == 0){
+        				dbAccessCount = parseInt(data);
+        				prevDbAccessCount = dbAccessCount;
+        			} else {
+        				dbAccessCount = parseInt(data)-prevDbAccessCount;
+        				prevDbAccessCount = parseInt(data);
+        			}
+        			toastr.success('prevDbAccessCount:'+prevDbAccessCount);
+        			$(".dbAccessBtn").remove();
+        			$(".menu-info-profil").prepend('<span class="text-red dbAccessBtn" ><i class="fa fa-database text-red text-bold fa-2x"></i> '+dbAccessCount+' <a href="javascript:clearDbAccess();"><i class="fa fa-times text-red text-bold"></i></a></span>');
+        		});
+        	}
 
 		},"html");
 	}, 800);
+}
+prevDbAccessCount = 0; 
+function clearDbAccess() { 
+	getAjax(null, baseUrl+'/'+moduleId+"/log/clear", function(data){ 
+		$(".dbAccessBtn").remove();
+		prevDbAccessCount = 0; 
+	});
 }
 /* ****************
 visualize all tagged elements on a map
@@ -1067,6 +1078,8 @@ function activateHoverMenu () {
 
 var favTypes = [];
 var smallMenu = {
+	destination : ".menuSmallBlockUI",
+	inBlockUI : true,
 	//smallMenu.openAjax(\''+baseUrl+'/'+moduleId+'/collections/list/col/'+obj.label+'\',\''+obj.label+'\',\'fa-folder-open\',\'yellow\')
 	//the url must return a list like userConnected.list
 	openAjax : function  (url,title,icon,color,title1,params,callback) { 
@@ -1088,14 +1101,13 @@ var smallMenu = {
 			else 
 				directory.buildList(data.list);
 			
-
 		   	$('.searchSmallMenu').off().on("keyup",function() { 
 				directory.search ( ".favSection", $(this).val() );
 		   	});
 		   	if( notNull(params) && notNull(params.otherCollectionList) && typeof params.otherCollectionList == "function" )
 		   		params.otherCollectionList();
 		   	else	
-		   		buildCollectionList( "linkList" ,"#listCollections",function(){ $("#listCollections").html("<h2 class='homestead'>Collections</h2>"); });
+		   		collection.buildCollectionList( "linkList" ,"#listCollections",function(){ $("#listCollections").html("<h2 class='homestead'>Collections</h2>"); });
 
 		   	if (typeof callback == "function") 
 				callback();
@@ -1149,36 +1161,43 @@ var smallMenu = {
 	//opens any html without post processing
 	openAjaxHTML : function  (url,title) { 
 		smallMenu.open( );
-		getAjax( ".menuSmallBlockUI" , url , null,"html" );
+		getAjax( smallMenu.destination , url , null,"html" );
 	},
+	//content Loader can go into a block
 	open : function (content) { 
-		menuContent = (content) ? content : $(".menuSmall").html();
-		//buildCollectionList ();
-
-		$.blockUI({ 
-			title : 'Welcome to your page', 
-			message : menuContent,
-			onOverlayClick: $.unblockUI,
-	        css: { 
-	         //    border: 'none', 
-	         //    padding: '15px', 
-	         //    backgroundColor: 'rgba(0,0,0,0.7)', 
-	         //    '-webkit-border-radius': '10px', 
-	         //    '-moz-border-radius': '10px', 
-	         //    color: '#fff' ,
-	        	// "cursor": "pointer"
-	        },
-			overlayCSS: { backgroundColor: '#000'}
-		});
-		$(".blockPage").addClass("menuSmallBlockUI");
-		// If network, check width of menu small
-		if( typeof globalTheme != "undefined" && globalTheme == "network" ) {
-			if($("#ficheInfoDetail").is(":visible"))
-				$(".menuSmallBlockUI").css("cssText", "width: 100% !important;left: 0% !important;");
-			else
-				$(".menuSmallBlockUI").css("cssText", "width: 83.5% !important;left: 16.5% !important;");
+		if(!smallMenu.inBlockUI){
+			$(smallMenu.destination).html( content );
+			$.unblockUI();
 		}
-		bindLBHLinks();
+		else {
+			menuContent = (content) ? content : $(".menuSmall").html();
+			//buildCollectionList ();
+
+			$.blockUI({ 
+				title : 'Welcome to your page', 
+				message : menuContent,
+				onOverlayClick: $.unblockUI,
+		        css: { 
+		         //    border: 'none', 
+		         //    padding: '15px', 
+		         //    backgroundColor: 'rgba(0,0,0,0.7)', 
+		         //    '-webkit-border-radius': '10px', 
+		         //    '-moz-border-radius': '10px', 
+		         //    color: '#fff' ,
+		        	// "cursor": "pointer"
+		        },
+				overlayCSS: { backgroundColor: '#000'}
+			});
+			$(".blockPage").addClass(smallMenu.destination.slice(1));
+			// If network, check width of menu small
+			if( typeof globalTheme != "undefined" && globalTheme == "network" ) {
+				if($("#ficheInfoDetail").is(":visible"))
+					$(smallMenu.destination).css("cssText", "width: 100% !important;left: 0% !important;");
+				else
+					$(smallMenu.destination).css("cssText", "width: 83.5% !important;left: 16.5% !important;");
+			}
+			bindLBHLinks();
+		}
 	}
 }
 
@@ -2089,7 +2108,7 @@ var collection = {
 							delete userConnected.collections[params.name];
 							smallMenu.open();
 						}
-						buildCollectionList("col_Link_Label_Count",".menuSmallBtns", function() { $(".collection").remove() })
+						collection.buildCollectionList("col_Link_Label_Count",".menuSmallBtns", function() { $(".collection").remove() })
 					}
 					else
 						toastr.error(data.msg);
@@ -2136,6 +2155,22 @@ var collection = {
 			},"none");
 		} else
 			toastr.error(trad.LoginFirst);
+	},
+	buildCollectionList : function ( tpl, appendTo, reset ) {
+		if(typeof reset == "function")
+			reset();
+		str = "";
+		$.each(userConnected.collections, function(col,list){ 
+			var colcount = 0;
+			$.each(list, function(type,entries){
+				colcount += Object.keys(entries).length;
+			}); 
+			str += js_templates[ tpl ]({
+				label : col,
+				labelCount : colcount
+			}) ;
+		});
+		$(appendTo).append(str);
 	}
 };
 
