@@ -882,6 +882,7 @@ if($showOdesc == true){
 				switchModeElement();
 			}
 		}
+		mylog.log("htmlspecialchars");
 	});
 
 	function bindAboutPodElement() {

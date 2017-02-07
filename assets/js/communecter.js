@@ -735,6 +735,14 @@ function loadByHash( hash , back ) {
 	}*/
 }
 
+function decodeHtml(str) {
+	mylog.log("decodeHtml", str);
+    var txt = document.createElement("textarea");
+    txt.innerHTML = str;
+    mylog.log("decodeHtml",  txt.value);
+    return txt.value;
+}
+
 function setTitle(str, icon, topTitle,keywords,shortDesc) { 
 	if(icon != "")
 		icon = ( icon.indexOf("<i") >= 0 ) ? icon : "<i class='fa fa-"+icon+"'></i> ";

@@ -18,6 +18,7 @@ $cssAnsScriptFilesModule = array(
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 
 $controler = Element::getControlerByCollection($type);
+
 ?>
 
 <style>
@@ -565,6 +566,7 @@ if($showOdesc == true){
 ?>
 
 <script type="text/javascript">
+
 var contextData = {
 		name : "<?php echo addslashes($entity["name"]) ?>",
 		id : "<?php echo (string)$entity["_id"] ?>",
@@ -672,7 +674,7 @@ var mapUrl = {
 var listElementView = [	'detail', 'detail.edit', 'news', 'directory', 'gallery', 'addmembers', 'calendarview', 'addtimesheet', 'addchart', 'addneed', 'calendarview'];
 
 jQuery(document).ready(function() {
-	setTitle(element.name,contextIcon);
+	setTitle(decodeHtml(element.name),contextIcon);	
 	mylog.log("loadAllLinks-------", loadAllLinks);
 	if(loadAllLinks){
 		$.ajaxSetup({ cache: true});

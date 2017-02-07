@@ -35,7 +35,7 @@ $cssAnsScriptFilesModule = array(
 	'/js/activityHistory.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
-
+$element["name"] = htmlspecialchars($element["name"]);
 // Initialize $front array()
 // - Define which element is visible following current theme (communecter, network, notragora)
 if(@Yii::app()->params["front"]) $front = Yii::app()->params["front"];

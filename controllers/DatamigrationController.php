@@ -1215,7 +1215,7 @@ class DatamigrationController extends CommunecterController {
 						array("address" => array('$exists' => 1)), 
 						array('$or' => array($arrayDep, $arrayRegion))
 					));
-		var_dump($where);
+		
 		foreach ($types as $keyType => $type) {
 			
 			$elements = PHDB::find($type, $where);
