@@ -1148,7 +1148,7 @@ class DatamigrationController extends CommunecterController {
 	}
 
 
-	public function actionNameHtmlSpecialCaractere(){
+	/*public function actionNameHtmlSpecialCaractere(){
 		$types = array(Person::COLLECTION, Organization::COLLECTION, Project::COLLECTION, Event::COLLECTION);
 		$nbelement = 0 ;
 		foreach ($types as $keyType => $type) {
@@ -1173,6 +1173,81 @@ class DatamigrationController extends CommunecterController {
 			}
 		}		
 		echo  "NB Element mis à jours: " .$nbelement."<br>" ;
+	}*/
+
+
+	public function actionNameHtmlSpecialCharsDecode(){
+		$types = array(Person::COLLECTION, Organization::COLLECTION, Project::COLLECTION, Event::COLLECTION);
+		$nbelement = 0 ;
+		foreach ($types as $keyType => $type) {
+			$elements = PHDB::find($type, array("name" => array('$exists' => 1)));
+			if(!empty($elements)){
+				foreach (@$elements as $keyElt => $elt) {
+					if(!empty($elt["name"])){
+						$nbelement ++ ;
+						$elt["modifiedByBatch"][] = array("NameHtmlSpecialCharsDecode" => new MongoDate(time()));
+						try {
+							$res = PHDB::update( $type, 
+						  		array("_id"=>new MongoId($keyElt)),
+	                        	array('$set' => array(	"name" => htmlspecialchars_decode($elt["name"]),
+	                        							"modifiedByBatch" => $elt["modifiedByBatch"])));
+						} catch (MongoWriteConcernException $e) {
+							echo("Erreur à la mise à jour de l'élément ".$type." avec l'id ".$keyElt);
+							die();
+						}
+						echo "Elt mis a jour : ".$type." et l'id ".$keyElt."<br>" ;
+					}
+				}
+			}
+		}		
+		echo  "NB Element mis à jours: " .$nbelement."<br>" ;
 	}
+
+
+	public function actionAddDepAndRegionInAddress(){
+
+
+		$types = array(Person::COLLECTION, Organization::COLLECTION, Project::COLLECTION, Event::COLLECTION);
+		$nbelement = 0 ;
+		$arrayDep = array("address.depName" => array('$exists' => 0));
+		$arrayRegion = array("address.regionName" => array('$exists' => 0));
+		$where = array('$and' => array(
+						array("address" => array('$exists' => 1)), 
+						array('$or' => array($arrayDep, $arrayRegion))
+					));
+		var_dump($where);
+		foreach ($types as $keyType => $type) {
+			
+			$elements = PHDB::find($type, $where);
+			
+			if(!empty($elements)){
+				foreach (@$elements as $keyElt => $elt) {
+					if(!empty($elt["name"])){
+						$nbelement ++ ;
+						$elt["modifiedByBatch"][] = array("AddDepAndRegionInAddress" => new MongoDate(time()));
+						$address = $elt["address"];
+
+						$depAndRegion = City::getDepAndRegionByInsee($address["codeInsee"]);
+
+						$address["depName"] = (empty($depAndRegion["depName"]) ? "" : $depAndRegion["depName"]);
+						$address["regionName"] = (empty($depAndRegion["regionName"]) ? "" : $depAndRegion["regionName"]);
+						try {
+							$res = PHDB::update( $type, 
+						  		array("_id"=>new MongoId($keyElt)),
+	                        	array('$set' => array(	"address" => $address,
+	                        							"modifiedByBatch" => $elt["modifiedByBatch"])));
+						} catch (MongoWriteConcernException $e) {
+							echo("Erreur à la mise à jour de l'élément ".$type." avec l'id ".$keyElt);
+							die();
+						}
+						echo "Elt mis a jour : ".$type." et l'id ".$keyElt."<br>" ;
+					}
+				}
+			}
+		}		
+		echo  "NB Element mis à jours: " .$nbelement."<br>" ;
+
+	}
+		
 }
 
