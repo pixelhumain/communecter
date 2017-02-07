@@ -417,6 +417,8 @@ class CommunecterController extends Controller
     ),
     "log"=> array(
       "monitoring" => array("href" => "/ph/communecter/log/monitoring"),
+      "dbaccess"  => array("href" => "/ph/communecter/log/dbaccess"),
+      "clear"  => array("href" => "/ph/communecter/log/clear"),
     ),
     "stat"=> array(
       "createglobalstat" => array("href" => "/ph/communecter/stat/createglobalstat"),
@@ -438,7 +440,7 @@ class CommunecterController extends Controller
       "aroundme"            => array("href" => "/ph/communecter/element/aroundme"),
       "save"                => array("href" => "/ph/communecter/element/save"),
       "savecontact"         => array("href" => "/ph/communecter/element/savecontact"),
-      "saveurl"         => array("href" => "/ph/communecter/element/saveurl"),
+      "saveurl"             => array("href" => "/ph/communecter/element/saveurl"),
       "get"                 => array("href" => "/ph/communecter/element/get"),
       "delete"              => array("href" => "/ph/communecter/element/delete"),
     ),
@@ -447,14 +449,15 @@ class CommunecterController extends Controller
       "web"               => array('href' => "/ph/communecter/co2/web",               "public" => true),
       "websearch"         => array('href' => "/ph/communecter/co2/websearch",         "public" => true),
       "live"              => array('href' => "/ph/communecter/co2/live",              "public" => true),
+      "media"             => array('href' => "/ph/communecter/co2/media",             "public" => true),
       "referencement"     => array('href' => "/ph/communecter/co2/referencement",     "public" => true),
       "savereferencement" => array('href' => "/ph/communecter/co2/savereferencement", "public" => true),
-      "freedom"            => array('href' => "/ph/communecter/co2/freedom",          "public" => true),
+      "freedom"           => array('href' => "/ph/communecter/co2/freedom",           "public" => true),
       "agenda"            => array('href' => "/ph/communecter/co2/agenda",            "public" => true),
       "mediacrawler"      => array('href' => "/ph/communecter/co2/mediacrawler",      "public" => false),
       "page"              => array('href' => "/ph/communecter/co2/page",              "public" => true),
       "social"            => array('href' => "/ph/communecter/co2/social",            "public" => true),
-      "agenda"             => array('href' => "/ph/communecter/co2/agenda",           "public" => true),
+      "agenda"            => array('href' => "/ph/communecter/co2/agenda",            "public" => true),
       "power"             => array('href' => "/ph/communecter/co2/power",             "public" => true),
       "superadmin"        => array('href' => "/ph/communecter/co2/superadmin",        "public" => false),
       "info"              => array('href' => "/ph/communecter/co2/info",              "public" => false),
@@ -470,6 +473,7 @@ class CommunecterController extends Controller
     //creates an issue with Json requests : to clear add josn:true on the page definition here 
     //if( Yii::app()->request->isAjaxRequest && (!isset( $page["json"] )) )
       //echo "<script type='text/javascript'> userId = '".Yii::app()->session['userId']."'; var blackfly = 'sosos';</script>";
+    
     if( @$_GET["theme"] ){
       Yii::app()->theme = $_GET["theme"];
       Yii::app()->session["theme"] = $_GET["theme"];
@@ -539,6 +543,8 @@ class CommunecterController extends Controller
   protected function beforeAction($action){
     if( $_SERVER['SERVER_NAME'] == "127.0.0.1" || $_SERVER['SERVER_NAME'] == "localhost" ){
       Yii::app()->assetManager->forceCopy = true;
+      //if(Yii::app()->controller->id."/".Yii::app()->controller->action->id != "log/dbaccess")
+        //Yii::app()->session["dbAccess"] = 0;
     }
 
     $this->manageLog();
@@ -548,7 +554,6 @@ class CommunecterController extends Controller
 
 
   protected function afterAction($action){
-
     return parent::afterAction($action);
   }
 

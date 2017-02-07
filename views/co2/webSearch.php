@@ -1,5 +1,6 @@
 
-<button class="btn btn-default menu-btn-back-category btn-second margin-bottom-5 margin-top-15" id="btn-new-search">
+<hr>
+<button class="btn btn-default menu-btn-back-category btn-second margin-bottom-5 margin-top-5" id="btn-new-search">
 	<i class="fa fa-undo"></i> Nouvelle recherche
 </button>
 
@@ -30,21 +31,30 @@
 </h3>
 
 
-<style>
-	.siteurl_title{
-		font-size:17px!important;
-	}
-	.siteurl_hostname{
-		font-size:14px!important;
-	}
-	.siteurl_desc{
-		font-size:13px!important;
-		color:#606060;
-	}
-</style>
-
 <div class="col-md-10 margin-bottom-15" style="">
 <?php  foreach ($siteurls as $key => $siteurl) { ?>
+
+<?php 
+	//bold keywords found
+	$siteurl["urlDisplay"] = $siteurl["url"];
+	
+	if(isset($siteurl["wordsFound"]))
+	foreach ($siteurl["wordsFound"] as $key2 => $regexWF) { 
+		$regexWFR = Search::accentToRegex($regexWF);
+		$siteurl["urlDisplay"] = 	preg_replace("/".$regexWFR."/i", "<b>".$regexWF."</b>", @$siteurl["url"]);
+		$siteurl["title"] = 		preg_replace("/".$regexWFR."/i", "<b>".$regexWF."</b>", @$siteurl["title"]);
+		$siteurl["description"] = 	preg_replace("/".$regexWFR."/i", "<b>".$regexWF."</b>", @$siteurl["description"]);
+	}
+
+
+	foreach ($arraySearch as $key2 => $regexWF) { 
+		$siteurl["urlDisplay"] = 	str_replace($regexWF, "<b>".$regexWF."</b>", @$siteurl["urlDisplay"]);
+		$siteurl["title"] = 		str_replace($regexWF, "<b>".$regexWF."</b>", @$siteurl["title"]);
+		$siteurl["description"] = 	str_replace($regexWF, "<b>".$regexWF."</b>", @$siteurl["description"]);
+	}
+?>
+
+
 	<div class="col-md-12 margin-bottom-15 url-<?php echo $siteurl['_id']; ?>">
 
 		<div class="addToFavInfo">
@@ -60,7 +70,7 @@
 				<?php echo $siteurl["title"]; ?>
 			</a>
 			<br>
-			<span class="siteurl_hostname letter-green"><?php echo $siteurl["url"]; ?></span><br>
+			<span class="siteurl_hostname letter-green"><?php echo @$siteurl["urlDisplay"]; ?></span><br>
 		</div>
 
 		<?php if(@$siteurl["description"]){ ?>
@@ -68,7 +78,16 @@
 		<?php } ?>
 
 		<span class="siteurl_desc letter-grey hidden">
-			<b><?php //if(!empty($siteurl["categories"])) foreach ($siteurl["categories"] as $key => $category) { ?>
+			<b><?php //echo $siteurl["countKW"]; ?>
+			<?php if(!empty($siteurl["wordsFound"])) foreach ($siteurl["wordsFound"] as $key2 => $wordFound) { ?>
+			<?php //echo $wordFound; ?>  
+			<?php } ?>
+			</b> 
+			<!-- <b><?php if(isset($arraySearch)) foreach ($arraySearch as $key2 => $wordFound) { ?>
+			<?php echo $wordFound; ?>  
+			<?php } ?>
+			</b>  -->
+			<b><?php //if(!empty($siteurl["categories"])) foreach ($siteurl["categories"] as $key2 => $category) { ?>
 			<?php //echo $category; ?>  
 			<?php //} ?>
 			</b> 
@@ -145,7 +164,7 @@ jQuery(document).ready(function() {
    $(".btn-edit-url").click(function(){ console.log("siteurls", siteurls);
    		var id = $(this).data("idurl");
    		var site = siteurls[id];
-   		$("#form-idurl").val(id);
+   		$("#form-idurl").val(site["_id"]['$id']);
 	    $("#form-url").val(site.url);
 	    $("#form-title").val(site.title);
 	    $("#form-description").val(site.description);

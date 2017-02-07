@@ -251,7 +251,7 @@
 		//##
 		//création du contenu de la popup d'un site web
 		Sig.getPopupSiteUrl = function(data){
-			console.log("POPUP SITEURL", data);
+			//console.log("POPUP SITEURL", data);
 			var type = typeof data['typeSig'] != "undefined" ? data['typeSig'] : data['type'];
 			var id = this.getObjectId(data); //typeof data["_id"]["$id"] != "undefined" ? data['_id']['$id'] : null;
 			var popupContent = "<div class='popup-marker'>";
@@ -274,9 +274,11 @@
 				if("undefined" != typeof data['address']['streetAddress'] || "undefined" != typeof data['address']['addressLocality'])
 					address = "<i class='fa fa-map-marker'></i> ";
 
-				address += data['address']['streetAddress']   ? data['address']['streetAddress'] : "";
+				address += typeof data['address']['streetAddress'] != "" ? data['address']['streetAddress'] : "";
 				
-				if(typeof data['address']['streetAddress'] != "undefined" && "undefined" != typeof data['address']['addressLocality'])
+				if(typeof data['address']['streetAddress'] != "undefined" && 
+					data['address']['streetAddress'] != "" && 
+					"undefined" != typeof data['address']['addressLocality'])
 					address+=", ";
 
 				address += data['address']['addressLocality'] ? data['address']['addressLocality'] : "";

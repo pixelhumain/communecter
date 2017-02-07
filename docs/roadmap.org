@@ -110,7 +110,14 @@ Liste des notifications déjà lues => #370 #453
   [.2] finir la belgique => #1259
   * Import / Export 
   [.2] RSS (Personne, Orga, Projet, event, city, region, thematique, tags) => #523
-
+  [X] INTEGRATTE MARKDOWN wisiwig
+    [X] add documentation editor project page 
+      * wishlist 
+      [ ] add from external link 
+        [ ] multi bao
+        [ ] wiki page
+        [ ] git url or wiki
+        [ ] mainstenant
 
 ** @Tango 
    * Tags
@@ -128,37 +135,68 @@ Liste des notifications déjà lues => #370 #453
 
 
 ** @Tib 
+  [new] url builder url.get(type,what,id)
+  [new] follow un tag : envoie de notif si nouvel element 
+  [new] linky / Connect / INTEResting CONNECTions
+    - basé sur le finder + scope + tags
+  [new] film viewer
+    [ ] special POI with 3 questions
+    [ ] a film is a collection of type webdocu+question
+    [ ] each poi
+      [ ] is part of the collection , poi.collection : zordi
+      [ ] holds , 3 questions each question is connected to another poi 
+      [ ] when the poi.type.video stops playing , ask the 3 questions 
+  [new] page pour reflechir 
+    une page qui pousse a l'action, qui fait reflechir, et utiliser les outils de la plateforme 
+  [new] connecter les POI à des source ousite externe ex : randopitons.re
+  [new] from siteweb to element 
+    [ ] from json : oceatoon.json
+    [ ] openatlas.org
+  [new] element de type LIEU 
+    [ ] "quartier", connecté une "zone" et un element
+    [ ] "lieux", décrivez ce qu'il ya dans votre lieux : 
+      - fablab, coworking, repare café, ressourcerie, salle de réunion, restaurant, 
+  [new] element param : dont show in search
+  [new] expliquer ce qu'est un commun
+  [new] test a light mobile version
+  [new] my profile , if twitter account, add a twitter reader 
+  [new] sur n'importe quelle url , si on ajoute ?format=json > ca fait un export grace a l'api 
+  [new] save search criterias and better user activity stats to make a better platform
   [new] connect a WP RSS to an element wall
-  [ ] INTEGRATTE MARKDOWN wisiwig
-    [ ] add documentation editor project page 
-      * wishlist 
-      [ ] add from external link 
-        [ ] multi bao
-        [ ] wiki page
-        [ ] git url or wiki
-        [ ] mainstenant
-  [ ] add photo
+  [new] show profile consuption > percentage possible contribution to budget (under pts)
+  [new] budget calculator proportionnel à l'utilisation 
+  [test] regression delete image from news , from gallery 
+  [new] define common points between element in typeObj , make a merge with a common map 
+  * network 
+    [new] utilisation de Picto externe via URL pour les filtres d'une carte network.
+    [new] Ajout d'info lors du survol d'un POI (horaires, description courte, ... j'ai une liste precise)
+    [new] Alerte email sur modification d'un POI ou d'une sélection
+  [ ] notification à la création d'un dda
+  [X] Count requests DB per page
+  [X] document uploader
+  [X] add photo
+    [X] limit 
+      [X] size of images 
+      [X] image types
     [X] join upload and save into one unique action : UploadSaveAction
     [X] added test btn to gallery page and authorisation limitations  
     [X] added fineUploader element to dynForm
       [X] connecting image upload endpoint 
     [X] adding list of images to album 
-    [ ] clean up mkdir($upload_dir, 0777);
+    [X] clean up mkdir($upload_dir, 0777);
     * use case
-    [ ] test multiple images, with one overweight
-    [ ] new POI aren't editable
-    [ ] gallery for poi : http://127.0.0.1/ph/#gallery.index.type.poi.id.588b2aa6f6ca47250a8b4584
-    [ ] add into a element form 
+    [X] gallery for poi : in menuSmall view
+    [X] add into a element form 
         [X] generate id when image exist /api/tool/get/what/mongoId
         [X] set context + id 
-        [ ] manage abandon form > delete all tmp entries
         [X] make upload on validate button
+        [X] all elements : orga, event, project
     * wishlist
+      [ ] image selector from album, pick from existing images
+      [ ] get from url 
       [ ] cropping before upload
       [ ] adding album colelctions
-      [new] define common points between element in typeObj , make a merge with a common map 
-  [ ] notification à la création d'un dda
-  [ ] Count requests DB per page 
+      [ ] add photos to news page on upload 
   [X] network source from gist served by gitraw
   [X] Finance Transparente
   [X] Finder
@@ -282,11 +320,12 @@ Liste des notifications déjà lues => #370 #453
         [ ] add automatically any events from this organization or project to my calendar
 
   [ ] cut up communecter.js into sub files
-  [ ] cacher des sections sont mon element 
+  [ ] element config : cacher des sections sur un element (cacher events, projects ...)
   [ ] header du live ou dans en ce moment
     - les events favoris du territoire
   [ ] PPT explication des 25 use cases
     [X] use runSlide()
+    [ ] use reveal.js
     [ ] finish use cases scenario 
     [ ] activate pourquoi btn in header
   [ ] interoperability : communecter + wikidata +@CLEM 
@@ -313,33 +352,6 @@ Liste des notifications déjà lues => #370 #453
         [ ] cherche/propose benevolat 
         [ ] aimerait apprendre 
     [ ] abonnement a des alerts
-  [new] url builder url.get(type,what,id)
-  [new] follow un tag : envoie de notif si nouvel element 
-  [new] linky / Connect / INTEResting CONNECTions
-    - basé sur le finder + scope + tags
-  [new] film viewer
-    [ ] special POI with 3 questions
-    [ ] a film is a collection of type webdocu+question
-    [ ] each poi
-      [ ] is part of the collection , poi.collection : zordi
-      [ ] holds , 3 questions each question is connected to another poi 
-      [ ] when the poi.type.video stops playing , ask the 3 questions 
-  [new] page pour reflechir 
-    une page qui pousse a l'action, qui fait reflechir, et utiliser les outils de la plateforme 
-  [new] connecter les POI à des source ousite externe ex : randopitons.re
-  [new] from siteweb to element 
-    [ ] from json : oceatoon.json
-    [ ] openatlas.org
-  [new] organisation de type 
-    [ ] "quartier", connecté une "zone" et un element
-    [ ] "tiers lieux", décrivez ce qu'il ya dans votre lieux : 
-      - fablab, coworking, repare café, ressourcerie, salle de réunion, restaurant, 
-  [new] element param : dont show in search
-  [new] expliquer ce qu'est un commun
-  [new] test a light mobile version
-  [new] my profile , if twitter account, add a twitter reader 
-  [new] sur n'importe quelle url , si on ajoute ?format=json > ca fait un export grace a l'api 
-  [new] save search criterias and better user activity stats to make a better platform
   * DDA
   [ ] Quand la liste est vide , faire une page explication avec des kickers pour creer des espaces
   [ ] bug : sur archiver , persiste dans les listes 

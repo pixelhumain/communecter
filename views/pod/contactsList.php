@@ -9,7 +9,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->reque
 ?>
 <div class="panel panel-white">
 	<div class="panel-heading border-light bg-blue">
-		<h4 class="panel-title"><i class="fa fa-calendar"></i> <?php echo Yii::t("common","Contact",null,Yii::app()->controller->module->id); ?></h4>
+		<h4 class="panel-title"><i class="fa fa-user-circle"></i> <?php echo Yii::t("common","Contact",null,Yii::app()->controller->module->id); ?></h4>
 	</div>
 	<div class="panel-tools">
 		<?php if(( @$authorised || @$openEdition) && !isset($noAddLink) && isset(Yii::app()->session["userId"]) ) { ?>

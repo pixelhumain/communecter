@@ -324,8 +324,10 @@
 
 							address += element['address']['streetAddress'] ? element['address']['streetAddress'] : "";
 							
-							if(typeof element['address']['streetAddress'] != "undefined" && "undefined" != typeof element['address']['addressLocality'])
-								address+=", ";
+							if(typeof element['address']['streetAddress'] != "undefined" && 
+									element['address']['streetAddress'] != "" && 
+									"undefined" != typeof element['address']['addressLocality'])
+									address+=", ";
 
 							address += element['address']['addressLocality'] ? element['address']['addressLocality'] : "";
 						}

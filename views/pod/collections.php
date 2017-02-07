@@ -11,7 +11,7 @@
 			</a>
 		</div>
 		<div class="panel-scroll height-230 ps-container">
-			<div class="padding-10">
+			<div class="">
 			
 			<?php 
 			if(empty($collections)){ ?>

@@ -22,7 +22,18 @@
                                     "type" => @$type) ); 
 ?>
 <style>
-	
+#page .bg-dark {
+    color: white !important;
+    background-color: #3C5665 !important;
+}
+#page .bg-red{
+    background-color:#E33551 !important;
+    color:white!important;
+}
+#page .bg-blue{
+    background-color: #5f8295 !important;
+    color:white!important;
+}
 #page .bg-green{
     background-color:#93C020 !important;
     color:white!important;
@@ -46,6 +57,9 @@
 #page .row.headerDirectory{
     margin-top: 20px;
     display: none;
+}
+#page p {
+    font-size: 13px;
 }
 
 .homestead{
@@ -280,43 +294,43 @@ jQuery(document).ready(function() {
 	initKInterface();
 
     if(type!='') type = "?type="+type;
-	getAjax('#page' ,baseUrl+'/'+moduleId+"/default/directory"+type,function(){ 
-				
+	getAjax('#page' ,baseUrl+'/'+moduleId+"/default/directoryjs"+type,function(){ 
+
         $(".btn-directory-type").click(function(){
             var type = $(this).data("type");
             searchType = [ type ];
             setHeaderDirectory(type);
             loadingData = false;
-            startSearch(0, indexStepInit);
+            startSearch(0, indexStepInit, searchCallback);
         });
 
-    	},"html");
+    },"html");
 
-        $("#main-search-bar").keyup(function(e){
-            $("#searchBarText").val($(this).val());
-            if(e.keyCode == 13){
-                //var search = $(this).val();
-                startSearch(0, indexStepInit);
-                //KScrollTo("#page");
-            }
-        });
-        $("#main-search-bar").change(function(){
-            $("#searchBarText").val($(this).val());
-        });
-
-        $(".btn-create-elem").click(function(){
-            currentKFormType = $(this).data("ktype");
-            var type = $(this).data("type");
-            setTimeout(function(){
-                        elementLib.openForm(type);
-                     },500);
-            
-        });
-
-        $(".tooltips").tooltip();
-
-        //currentKFormType = "Group";
-        //elementLib.openForm ("organization");
+    $("#main-search-bar").keyup(function(e){
+        $("#searchBarText").val($(this).val());
+        if(e.keyCode == 13){
+            //var search = $(this).val();
+            startSearch(0, indexStepInit, searchCallback);
+            //KScrollTo("#page");
+        }
     });
+    $("#main-search-bar").change(function(){
+        $("#searchBarText").val($(this).val());
+    });
+
+    $(".btn-create-elem").click(function(){
+        currentKFormType = $(this).data("ktype");
+        var type = $(this).data("type");
+        setTimeout(function(){
+                    elementLib.openForm(type);
+                 },500);
+        
+    });
+
+    $(".tooltips").tooltip();
+
+    //currentKFormType = "Group";
+    //elementLib.openForm ("organization");
+});
 
 </script>
