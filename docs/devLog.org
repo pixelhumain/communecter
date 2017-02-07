@@ -11,6 +11,15 @@
 ----------------------------------------------------
 ----------------------------------------------------
 ----------------------------------------------------
+* Hot Fix 0.17
+** @Rapha : enleve l'encodage en html sur les noms des éléments
+/communecter/datamigration/NameHtmlSpecialCharsDecode
+
+** @Rapha : Ajoute les nom des dep et régions au addresse des elements
+/communecter/datamigration/AddDepAndRegionInAddress
+
+
+
 * Hot Fix 0.16
 ** @Rapha : Fix Organisation avec country = Réunion
 /communecter/datamigration/FixBugCoutryReunion
