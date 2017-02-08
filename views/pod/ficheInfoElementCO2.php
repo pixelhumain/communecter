@@ -727,6 +727,10 @@
 			smallMenu.openAjax(baseUrl+'/'+moduleId+'/element/directory/type/'+contextType+'/id/'+contextId+'?tpl=json','Communauté','fa-book','red');
 		});
 
+		$(".btn-open-collection").click(function(){
+			toogleNotif(false);
+		});
+
 		// $("#btn-open-collection").click(function(){
 		// 	smallMenu.openAjax(baseUrl+'/'+moduleId+'/collections/list/col/Ma collection','Ma collection','fa-folder-open','yellow');
 		// });
