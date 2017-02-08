@@ -509,7 +509,7 @@ var directory = {
        
               //mylog.dir(o);
               //mylog.log(typeof o.startDate);
-              console.log("/////////////////////////// directory.js",o);
+              //console.log("/////////////////////////// directory.js",o);
               //moment.locale("fr");
               var startDate = notEmpty(o.startDate) ? moment(o.startDate).local().locale("fr").format("DD MMMM YYYY - HH:mm") : null;
               var endDate   = notEmpty(o.endDate) ? moment(o.endDate).local().locale("fr").format("DD MMMM YYYY - HH:mm") : null;
@@ -745,9 +745,11 @@ var directory = {
             $("#listTags").removeClass("hide");
         //$("#btn-open-tags").append("("+$(".favElBtn").length+")");
     },
+    
     showFilters : function () { 
         $("#listTags").toggleClass("hide");
     },
+
     addMultiTagsAndScope : function() { 
       directory.multiTagsT = [];
       directory.multiScopesT = [];
@@ -791,7 +793,7 @@ var directory = {
           }
         }
         
-        if(showAll)
+        if( showAll )
           directory.showAll(parents,children);
     },
 

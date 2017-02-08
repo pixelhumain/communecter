@@ -80,18 +80,27 @@ var headerParams = {
   "actions"       : { color: "lightblue2",    icon: "cogs",   name: "actions" },
   "cities"        : { color: "red",     icon: "university",   name: "communes" },
   "poi"       	  :	{ color: "black",   icon: "map-marker",   name: "points d'intérêts" },
-  "classified"    : { color: "lightblue2",   icon: "bullhorn",   name: "Annonces" },
+  "classified"    : { color: "lightblue2",   icon: "bullhorn",   name: "Annonces" }
 }
+
+if( notNull(theme) && notNull(theme.headerParams) )
+{
+  $.each(theme.headerParams,function(k,v) 
+  { 
+    headerParams[k] = v;
+  });
+}
+
 function setHeaderDirectory(type){
  
   var params = new Array();
   if(typeof headerParams[type] == "undefined") return;
   params = headerParams[type];
-  $(".subtitle-search").html('<span class="text-'+params.color+' homestead">'+
+  $(".subtitle-search").html( '<span class="text-'+params.color+' homestead">'+
                                 '<i class="fa fa-angle-down"></i> <i class="fa fa-'+params.icon+'"></i> '+
                                 params.name+
                                 " <i class='fa fa-angle-right'></i> <a href='javascript:directory.showFilters()' class='btn btn-default'> <i class='fa fa-search'></i> <i class='fa fa-tags'></i> </a>"+
-                              '</span>');
+                              '</span>' );
 
   $(".lbl-info-search .lbl-info").addClass("hidden");
   $(".lbl-info-search .lbl-info.lbl-info-"+type).removeClass("hidden");

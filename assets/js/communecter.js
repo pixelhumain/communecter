@@ -951,7 +951,7 @@ function showAjaxPanel (url,title,icon, mapEnd) {
 				showMap(true);
 
 
-    		if(contextData.type && contextData.id )
+    		if( notNull(contextData) && contextData.type && contextData.id )
     		{
         		uploadObj.type = contextData.type;
         		uploadObj.id = contextData.id;
@@ -965,10 +965,10 @@ function showAjaxPanel (url,title,icon, mapEnd) {
         				dbAccessCount = parseInt(data)-prevDbAccessCount;
         				prevDbAccessCount = parseInt(data);
         			}
-        			toastr.success('prevDbAccessCount:'+prevDbAccessCount);
+        			//toastr.success('prevDbAccessCount:'+prevDbAccessCount);
         			$(".dbAccessBtn").remove();
         			$(".menu-info-profil").prepend('<span class="text-red dbAccessBtn" ><i class="fa fa-database text-red text-bold fa-2x"></i> '+dbAccessCount+' <a href="javascript:clearDbAccess();"><i class="fa fa-times text-red text-bold"></i></a></span>');
-        		});
+        		},null);
         	}
 
 		},"html");
