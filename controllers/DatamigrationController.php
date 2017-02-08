@@ -11,7 +11,23 @@ class DatamigrationController extends CommunecterController {
   protected function beforeAction($action) {
 	return parent::beforeAction($action);
   }
-
+  public function actionObjectObjectTypeNewsToObjectType(){
+  	// Check in mongoDB
+  	//// db.getCollection('news').find({"object.objectType": {'$exists':true}})
+  	// Check number of news to formated
+  	//// db.getCollection('news').find({"object.objectType": {'$exists':true}}).count()
+  	$news=PHDB::find(News::COLLECTION,array("object.objectType"=>array('$exists'=>true)));
+  	$nbNews=0;
+  	foreach($news as $key => $data){
+  		$newObject=array("id"=>$data["object"]["id"], "type"=> $data["object"]["objectType"]);
+		PHDB::update(News::COLLECTION,
+			array("_id" => $data["_id"]) , 
+			array('$set' => array("object" => $newObject))
+		);
+  		$nbNews++;
+  	}
+  	echo "nombre de news traitées:".$nbNews." news";
+  }
   public function actionKnowsToFollows(){
 	 $persons=PHDB::find(Person::COLLECTION);
 	foreach($persons as $key => $data){

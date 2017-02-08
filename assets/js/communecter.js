@@ -366,6 +366,7 @@ function validateConnection(parentType, parentId, childId, childType, linkOption
 		success: function(data) {
 			if (data.result) {
 				if (typeof callback == "function") callback(parentType, parentId, childId, childType, linkOption);
+				else{toastr.success(data.msg); loadByHash(location.hash);}
 			} else {
 				toastr.error(data.msg);
 			}
@@ -3150,12 +3151,15 @@ var typeObj = {
 		            parentType : {
 			            inputType : "hidden"
 			        },
-			        type :{
+		            parentId : {
+			            inputType : "hidden"
+			        },
+			        /*type :{
 		            	inputType : "select",
 		            	placeholder : "Type d\'évènement",
 		            	options : eventTypes,
 		            	rules : { required : true },
-		            },
+		            },*/
 		            /*allDay : {
 		            	inputType : "checkbox",
 		            	init : function(){
@@ -3231,7 +3235,7 @@ var typeObj = {
 		            },
 		            tags :{
 		              inputType : "tags",
-		              placeholder : "Tags de l\'événement",
+		              placeholder : "Tags du projet",
 		              values : tagsList
 		            },
 		            formshowers : {

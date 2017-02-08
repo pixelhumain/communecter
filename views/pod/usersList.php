@@ -48,6 +48,8 @@
 
 <?php 
 	$parentId="";
+	$inviteRefuse="Refuse";
+	$inviteAccept="Accept";
 	if ($contentType == Project::COLLECTION){ 
 		$parentRedirect = "project";
 		$parentId = (string)$project["_id"];
@@ -60,6 +62,8 @@
 	}
 	else if ($contentType == Event::COLLECTION){
 		$parentRedirect = "event";
+		$inviteRefuse="Not interested";
+		$inviteAccept="I go";
 		$parentId = (string)$event["_id"];	
 		$tooltips = "La communauté de l'évènement";						
 	}
@@ -109,11 +113,11 @@
 				echo "<div class='no-padding' style='border-bottom: 1px solid lightgray;margin-bottom:10px !important;'>".
 					"<div class='padding-5'>".
 						"<a href='#element.detail.type.".Person::COLLECTION.".id.".$invitedMe["invitorId"]."' class='lbh'>".$invitedMe["invitorName"]."</a><span class='text-dark'> vous a invité: <br/>".
-						'<a class="btn btn-xs btn-default tooltips" href="javascript:;" onclick="connectTo(\''.Event::COLLECTION.'\',\''.(string)$event["_id"].'\', \''.Yii::app()->session["userId"].'\',\''.Person::COLLECTION.'\',\'attendee\')" data-placement="bottom" data-original-title="Go to the event">'.
-							'<i class="fa fa-check "></i> '.Yii::t("event","I go").
+						'<a class="btn btn-xs btn-default tooltips" href="javascript:;" onclick="validateConnection(\''.$contentType.'\',\''.$parentId.'\', \''.Yii::app()->session["userId"].'\',\''.Person::COLLECTION.'\',\''.Link::IS_INVITING.'\')" data-placement="bottom" data-original-title="Go to the event">'.
+							'<i class="fa fa-check "></i> '.Yii::t("common",$inviteAccept).
 						'</a>'.
-						'<a class="btn btn-xs btn-default tooltips" href="javascript:;" onclick="disconnectTo(\''.Event::COLLECTION.'\',\''.(string)$event["_id"].'\',\''.Yii::app()->session["userId"].'\',\''.Person::COLLECTION.'\',\'attendees\')" data-placement="bottom" data-original-title="Not interested by the invitation">'.
-							'<i class="fa fa-remove"></i> '.Yii::t("event","Not interested").
+						'<a class="btn btn-xs btn-default tooltips" href="javascript:;" onclick="disconnectTo(\''.$contentType.'\',\''.$parentId.'\',\''.Yii::app()->session["userId"].'\',\''.Person::COLLECTION.'\',\'attendees\')" data-placement="bottom" data-original-title="Not interested by the invitation">'.
+							'<i class="fa fa-remove"></i> '.Yii::t("common",$inviteRefuse).
 						'</a>'.
 					"</div>".
 				"</div>";
