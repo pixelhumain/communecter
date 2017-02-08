@@ -15,7 +15,7 @@
 ** @Rapha : enleve l'encodage en html sur les noms des éléments
 /communecter/datamigration/NameHtmlSpecialCharsDecode
 
-** @Rapha : Ajoute les nom des dep et régions au addresse des elements
+** @Rapha : Ajoute les nom des dep et régions aux addresses des elements
 /communecter/datamigration/AddDepAndRegionInAddress
 
 
