@@ -1200,5 +1200,34 @@ class DatamigrationController extends CommunecterController {
 		}		
 		echo  "NB Element mis à jours: " .$nbelement."<br>" ;
 	}
+
+
+
+	public function actionHtmlToMarkdown(){
+		$html = "<h3> TEst </h3>
+				<p>Welcome to the demo:</p>
+				<ol>
+				<li>Write Markdown text on the left</li>
+				<li>Hit the <strong>Parse</strong> button or <code>⌘ + Enter</code></li>
+				<li>See the result to on the right</li>
+				</ol>" ;
+
+		echo $html ;
+
+		echo "<br/><br/><br/><br/>";
+
+		
+		
+
+		try {
+            //$mailError = new MailError($_POST);
+            $converter = new Htmlconverter();
+			$mark = $converter->convert($html);
+        } catch (CTKException $e) {
+            Rest::sendResponse(450, "Webhook : ".$e->getMessage());
+            die;
+        }
+		echo $mark;
+	}
 }
 

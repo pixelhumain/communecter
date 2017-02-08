@@ -1999,6 +1999,7 @@ function shadowOnHeader() {
 }
 
 function autoCompleteInviteSearch(search){
+	mylog.log("autoCompleteInviteSearch2", search);
 	if (search.length < 3) { return }
 	tabObject = [];
 
@@ -2042,8 +2043,8 @@ function autoCompleteInviteSearch(search){
 				});
 			}
 			
-			$("#newInvite #dropdown_searchInvite").html(str);
-			$("#newInvite #dropdown_searchInvite").css({"display" : "inline" });
+			$("#ajaxFormModal #invitedUserNametext").html(str);
+			$("#ajaxFormModal #invitedUserNametext").css({"display" : "inline" });
 		}
 	);	
 }
@@ -2278,7 +2279,11 @@ var elementLib = {
 			});
 			delete formData['genres'];
 		}
-		removeEmptyAttr(formData);
+
+		if(typeof formData.isUpdate != "undefined" && !formData.isUpdate)
+			removeEmptyAttr(formData);
+		else
+			delete formData["isUpdate"];
 
 		mylog.dir(formData);
 		return formData;
@@ -2320,6 +2325,7 @@ var elementLib = {
 				formData.medias.push(mediaObject);
 			}
 		});
+		mylog.log("beforeAjax",formData);
 		$.ajax( {
 	    	type: "POST",
 	    	url: (saveUrl) ? saveUrl : baseUrl+"/"+moduleId+"/element/save",
@@ -2877,14 +2883,14 @@ var typeObjLib = {
         },
         init : function(){
         	$("#ajaxFormModal #inviteSearch ").keyup(function(e){
-		    var search = $('#inviteSearch').val();
-		    if(search.length>2){
-		    	clearTimeout(timeout);
-				timeout = setTimeout('autoCompleteInviteSearch("'+encodeURI(search)+'")', 500); 
-			}else{
-			 	$("#newInvite #dropdown_searchInvite").css({"display" : "none" });	
-			}	
-		});
+			    var search = $('#inviteSearch').val();
+			    if(search.length>2){
+			    	clearTimeout(timeout);
+					timeout = setTimeout('autoCompleteInviteSearch("'+encodeURI(search)+'")', 500); 
+				}else{
+				 	$("#newInvite #dropdown_searchInvite").css({"display" : "none" });	
+				}	
+			});
         }
     },
     invitedUserName : {
@@ -3020,7 +3026,7 @@ var typeObj = {
 			    properties : {
 			    	info : {
 		                inputType : "custom",
-		                html:"<p><i class='fa fa-info-circle'></i> Si vous voulez créer un nouveau projet de façon à le rendre plus visible : c'est le bon endroit !!<br>Vous pouvez ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
+		                html:"<p><i class='fa fa-info-circle'></i> Si vous voulez inviter quelqu'un à rejoindre Communecter ...</p>",
 		            },
 		            inviteSearch : typeObjLib.inviteSearch,
 			        invitedUserName : typeObjLib.invitedUserName,

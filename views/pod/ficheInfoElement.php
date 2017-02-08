@@ -421,18 +421,18 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 
 						<?php 
 						
-						if(empty($element["address"]) && $type!=Person::COLLECTION){
-							echo '	<a href="javascript:;" class="hidden addresses btn btn-danger btn-sm" id="btn-update-geopos">
+						if(empty($element["address"]) && $type!=Person::COLLECTION && ($edit==true || $openEdition==true )){
+							echo '	<a href="javascript:;" class="addresses btn btn-danger btn-sm" id="btn-update-geopos">
 										<i class="fa fa-map-marker"></i>
 										<span class="hidden-sm">'.Yii::t("common","Add a primary address").'</span>
 									</a>' ;
-						}else if(empty($element["address"]["codeInsee"]) && $type==Person::COLLECTION && Yii::app()->session["userId"] == (string) $element["_id"]) {
-							echo '<br/><a href="javascript:;" class="cobtn hidden btn btn-danger btn-sm" style="margin: 10px 0px;">'.Yii::t("common", "Connect to your city").'</a> <a href="javascript:;" class="whycobtn hidden btn btn-default btn-sm explainLink" style="margin: 10px 0px;" data-id="explainCommunectMe" >'. Yii::t("common", "Why ?").'</a>';
+						}else if(empty($element["address"]["codeInsee"]) && $type==Person::COLLECTION && ($edit==true || $openEdition==true )) {
+							echo '<br/><a href="javascript:;" class="cobtn btn btn-danger btn-sm" style="margin: 10px 0px;">'.Yii::t("common", "Connect to your city").'</a> <a href="javascript:;" class="whycobtn btn btn-default btn-sm explainLink" style="margin: 10px 0px;" data-id="explainCommunectMe" >'. Yii::t("common", "Why ?").'</a>';
 						}else{
-							echo '<a href="javascript:;" id="btn-remove-geopos" class="hidden pull-right tooltips" data-toggle="tooltip" data-placement="bottom" title="'.Yii::t("common","Remove Locality").'">
+							echo '<a href="javascript:;" id="btn-remove-geopos" class="pull-right tooltips" data-toggle="tooltip" data-placement="bottom" title="'.Yii::t("common","Remove Locality").'">
 										<i class="fa text-red fa-trash-o"></i>
 									</a>
-									<a href="javascript:;" id="btn-update-geopos" class="hidden pull-right tooltips" data-toggle="tooltip" data-placement="bottom" title="'.Yii::t("common","Update Locality").'" >
+									<a href="javascript:;" id="btn-update-geopos" class="pull-right tooltips" data-toggle="tooltip" data-placement="bottom" title="'.Yii::t("common","Update Locality").'" >
 										<i class="fa text-red fa-map-marker"></i>
 									</a> ';	
 						}
@@ -441,8 +441,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 
 					</div>
 
-				<?php if($type!=Person::COLLECTION && !empty($element["address"])) { ?>
-					<a href='javascript:updateLocalityEntities("<?php echo count(@$element["addresses"]) ; ?>");' id="btn-add-geopos" class="btn btn-danger btn-sm hidden col-xs-12 addresses" style="margin: 10px 0px;">
+				<?php if($type!=Person::COLLECTION && !empty($element["address"]) && ($edit==true || $openEdition==true )) { ?>
+					<a href='javascript:updateLocalityEntities("<?php echo count(@$element["addresses"]) ; ?>");' id="btn-add-geopos" class="btn btn-danger btn-sm col-xs-12 addresses" style="margin: 10px 0px;">
 						<i class="fa fa-plus" style="margin:0px !important;"></i> 
 						<span class="hidden-sm"><?php echo Yii::t("common","Add a secondary address"); ?></span>
 					</a>
@@ -489,7 +489,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 							}
 						}
 						if( @$element["telephone"]["fax"]){
-							foreach ($element["telephone"]["mobile"] as $key => $num) {
+							foreach ($element["telephone"]["fax"] as $key => $num) {
 								$tel .= ($tel != "") ? ", ".trim($num) : trim($num);
 								$fax .= ($fax != "") ? ", ".trim($num) : trim($num);
 							}
@@ -505,25 +505,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 																"tel" => $tel,
 																"img"=>@$element['profilThumbImageUrl']));
 				?>
-
-				<!-- <a href="javascript:" id="btn-view-map" class="btn btn-default text-azure btn-sm col-xs-6" style="margin: 10px 0px;">
-					<i class="fa fa-map-marker" style="margin:0px !important;"></i> <?php echo Yii::t("common","Show map"); ?>
-				</a> -->
-				<?php 
-					$roles = Role::getRolesUserId(Yii::app()->session["userId"]);
-					if(@$roles["superAdmin"] == true){
-						?>
-							<!--<a href="javascript:" id="btn-update-geopos-admin" class="btn btn-danger btn-sm" style="margin: 10px 0px;">
-								<i class="fa fa-map-marker" style="margin:0px !important;"></i> Repositionner Admin
-							</a>-->
-						<?php
-					}
-				?>
 			</div>
 			<div class="col-md-6 col-sm-6 col-xs-12">
 				<div class="text-dark lbl-info-details margin-top-10">
 					<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Contact information"); ?>
-					<?php if($edit==true){?>
+					<?php if( $edit==true || $openEdition==true ){?>
 					<a href='javascript:;' id="btn-update-contact" class="tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Update Contact information");?>"><i class="fa text-red fa-pencil"></i></a>
 					<?php } ?>
 				</div>
@@ -546,6 +532,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 				$scheme = "";
 				if(isset($element["url"])){
 					if (!preg_match("~^(?:f|ht)tps?://~i", $element["url"])) $scheme = 'http://';
+
 				}?>
 				
 				<i class="fa fa-desktop fa_url hidden"></i> 
@@ -681,6 +668,7 @@ if($showOdesc == true){
 
 	if(	edit == "true" || openEdition == "true") {
 		contextData.email = '<?php if(isset($element["email"])) echo $element["email"]; else echo ""; ?>';
+		contextData.url = '<?php if(isset($element["url"])) echo $element["url"]; else echo ""; ?>';
 		contextData.fixe =parsePhone(<?php echo json_encode((isset($element["telephone"]["fixe"]) ? $element["telephone"]["fixe"] : array())); ?>);
 		contextData.mobile = parsePhone(<?php echo json_encode((isset($element["telephone"]["mobile"]) ? $element["telephone"]["mobile"] : array())); ?>);
 		contextData.fax = parsePhone(<?php echo json_encode((isset($element["telephone"]["fax"]) ? $element["telephone"]["fax"] : array())); ?>);
@@ -883,7 +871,8 @@ if($showOdesc == true){
 
 			var properties = {
 				block : typeObjLib["hidden"],
-				typeElement : typeObjLib["hidden"]		
+				typeElement : typeObjLib["hidden"],
+				isUpdate : typeObjLib["hiddenTrue"]	
 			};
 
 			
@@ -956,7 +945,8 @@ if($showOdesc == true){
 				block : typeObjLib.hidden,
 				name : typeObjLib.name,
 				typeElement : typeObjLib.hidden,
-				shortDescription : typeObjLib.description		
+				shortDescription : typeObjLib.description,
+				isUpdate : typeObjLib["hiddenTrue"]		
 			};
 
 			if(contextData.type == "<?php echo Person::COLLECTION; ?>" ){
@@ -1168,6 +1158,7 @@ if($showOdesc == true){
 					}
 				}
 				elementLib.closeForm();
+				changeHiddenIconeElement(false);
 			};
 			
 			var saveUrl = baseUrl+"/"+moduleId+"/element/updateblock/type/"+contextType;
@@ -1175,10 +1166,23 @@ if($showOdesc == true){
 		});
 
 		$("#btn-update-contact").off().on( "click", function(){
+
+			var properties = {
+				email : typeObjLib["email"],
+				url : typeObjLib["url"],
+				birthDate : typeObjLib["birthDate"],
+				fixe: typeObjLib["phone"],
+				mobile: typeObjLib["mobile"],
+				fax: typeObjLib["fax"],
+		        typeElement : typeObjLib["hidden"],
+		        block : typeObjLib["hidden"],
+		        isUpdate : typeObjLib["hiddenTrue"]
+			};
+
 			var dataUpdate = {
 				block : "contact",
 		        id : contextData.id,
-		        type : contextData.type
+		        typeElement : contextData.type
 			};
 			if($("#contentGeneralInfos #email").html() != "") 
 				dataUpdate.email = $("#contentGeneralInfos #email").html();
@@ -1193,16 +1197,7 @@ if($showOdesc == true){
 			if($("#contentGeneralInfos #fax").html().length > 0)
 				dataUpdate.fax = $("#contentGeneralInfos #fax").html();
 
-			var properties = {
-				email : typeObjLib["email"],
-				url : typeObjLib["url"],
-				birthDate : typeObjLib["birthDate"],
-				fixe: typeObjLib["phone"],
-				mobile: typeObjLib["mobile"],
-				fax: typeObjLib["fax"],
-		        type : typeObjLib["hidden"],
-		        block : typeObjLib["hidden"],
-			};
+			
 
 			mylog.log("dataUpdate", dataUpdate);
 
@@ -1227,7 +1222,7 @@ if($showOdesc == true){
 
 		    	if($("#ajaxFormModal #fixe").length && $("#ajaxFormModal #fixe").val() ==  contextData.fixe)
 		    		$("#ajaxFormModal #fixe").remove();
-
+		    	mylog.log($("#ajaxFormModal #mobile").length, $("#ajaxFormModal #mobile").val(), contextData.mobile);
 		    	if($("#ajaxFormModal #mobile").length && $("#ajaxFormModal #mobile").val() == contextData.mobile)
 		    		$("#ajaxFormModal #mobile").remove();
 
@@ -1276,6 +1271,7 @@ if($showOdesc == true){
 					}
 				}
 				elementLib.closeForm();
+				changeHiddenIconeElement(false);
 			};
 			
 			var saveUrl = baseUrl+"/"+moduleId+"/element/updateblock/type/"+contextType;
@@ -1465,36 +1461,20 @@ if($showOdesc == true){
 	}
 
 	function changeHiddenIconeElement(init) { 
-		mylog.log("-----------------changeHiddenIconeElement----------------------", mode);
+		mylog.log("-----------------changeHiddenIconeElement----------------------");
 		//
-		listIcones = [	'.fa_name', ".fa_birthDate", ".fa_email", ".fa_telephone_mobile",
-						".fa_telephone",".fa_telephone_fax",".fa_url" , ".fa-file-text-o",
-						".fa_streetAddress", ".fa_postalCode", ".fa_addressCountry",".desc",".addresses"];
+		listIcones = [	".fa_birthDate", ".fa_email", ".fa_telephone_mobile",
+						".fa_telephone",".fa_telephone_fax",".fa_url" , ".fa-file-text-o"];
 
-		listXeditablesId = ['#username','#birthDate',"#email", "#mobile", 
-							"#fixe", "#fax","#url", "#licence",
-							"#detailStreetAddress" , "#detailCity" , "#detailCountry"];
-		if (init == true) {
-			$.each(listIcones, function(i,value) {
-				mylog.log(listXeditablesId[i], $(listXeditablesId[i]).text().length, $(listXeditablesId[i]).text()) ;
-				if($(listXeditablesId[i]).text().length != 0){
-					//mylog.log(listXeditables[i], " : ", value);
-					$(value).removeClass("hidden");	
-				}
-					 
-			});
-		}
-		else if (mode == "view") {
-			$.each(listIcones, function(i,value) {
-
-				if($(listXeditablesId[i]).text().length == 0)
-					$(value).addClass("hidden");
-			});
-		} else if (mode == "update") {
-			$.each(listIcones, function(i,value) {
+		listXeditablesId = ['#birthDate',"#email", "#mobile", "#fixe", "#fax","#url", "#licence"];
+		$.each(listIcones, function(i,value) {
+			mylog.log("listIcones", value, listXeditablesId[i]);
+			if($("#contentGeneralInfos "+listXeditablesId[i]).text().length == 0)
+				$(value).addClass("hidden");
+			else
 				$(value).removeClass("hidden"); 
-			});
-		}
+		});
+		
 	}
 
 	function updateCalendar() {
