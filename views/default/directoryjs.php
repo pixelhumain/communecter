@@ -83,9 +83,9 @@ var headerParams = {
   "classified"    : { color: "lightblue2",   icon: "bullhorn",   name: "Annonces" }
 }
 
-if( notNull(theme) && notNull(theme.headerParams) )
+if( notNull(themeObj) && notNull(themeObj.headerParams) )
 {
-  $.each(theme.headerParams,function(k,v) 
+  $.each(themeObj.headerParams,function(k,v) 
   { 
     headerParams[k] = v;
   });

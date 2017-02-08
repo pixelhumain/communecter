@@ -965,9 +965,9 @@ function showAjaxPanel (url,title,icon, mapEnd) {
         				dbAccessCount = parseInt(data)-prevDbAccessCount;
         				prevDbAccessCount = parseInt(data);
         			}
-        			//toastr.success('prevDbAccessCount:'+prevDbAccessCount);
-        			$(".dbAccessBtn").remove();
-        			$(".menu-info-profil").prepend('<span class="text-red dbAccessBtn" ><i class="fa fa-database text-red text-bold fa-2x"></i> '+dbAccessCount+' <a href="javascript:clearDbAccess();"><i class="fa fa-times text-red text-bold"></i></a></span>');
+        			console.error('dbaccess:'+prevDbAccessCount);
+        			//$(".dbAccessBtn").remove();
+        			//$(".menu-info-profil").prepend('<span class="text-red dbAccessBtn" ><i class="fa fa-database text-red text-bold fa-2x"></i> '+dbAccessCount+' <a href="javascript:clearDbAccess();"><i class="fa fa-times text-red text-bold"></i></a></span>');
         		},null);
         	}
 
@@ -2182,24 +2182,29 @@ var elementLib = {
 								key : formData.source
 							}
 		}
-										
+		
 		if( typeof formData.tags != "undefined" && formData.tags != "" )
 			formData.tags = formData.tags.split(",");
+
 		// Add collections and genres of notragora in tags
 		if( typeof formData.collections != "undefined" && formData.collections != "" ){
 			collectionsTagsSave=formData.collections.split(",");
+			if(!formData.tags)formData.tags = [];
 			$.each(collectionsTagsSave, function(i, e) {
 				formData.tags.push(e);
 			});
 			delete formData['collections'];
 		}
+		
 		if( typeof formData.genres != "undefined" && formData.genres != "" ){
 			genresTagsSave=formData.genres.split(",");
+			if(!formData.tags)formData.tags = [];
 			$.each(genresTagsSave, function(i, e) {
 				formData.tags.push(e);
 			});
 			delete formData['genres'];
 		}
+
 		removeEmptyAttr(formData);
 
 		mylog.dir(formData);
@@ -2271,7 +2276,6 @@ var elementLib = {
 			        	if(data.map && $.inArray(collection, ["events","organizations","projects","citoyens"] ) !== -1)
 			        		addFloopEntity(data.id, collection, data.map);	
 					}
-	            	
 	            }
 	    	}
 	    });
@@ -2654,8 +2658,7 @@ var typeObj = {
 					if( $('.fine-uploader-manual-trigger').fineUploader('getUploads').length > 0 )
 				    	$('.fine-uploader-manual-trigger').fineUploader('uploadStoredFiles');
 				    else {
-				    	elementLib.closeForm();
-				    	loadByHash( location.hash );	
+				    	elementLib.closeForm();	
 				    }
 			    },
 			    properties : {
@@ -2676,8 +2679,7 @@ var typeObj = {
 			        image :{
 		            	inputType : "uploader",
 		            	afterUploadComplete : function(){
-					    	elementLib.closeForm();
-			                loadByHash( location.hash );	
+					    	elementLib.closeForm();	
 					    },
 		            },
 		            description : {

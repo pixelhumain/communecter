@@ -365,10 +365,43 @@
 		nbMember = "<?php echo @$nbMember; ?>";
 		nbAdmin = "<?php echo @$nbAdmin; ?>";
   	}
-  	
-  	<?php $pois = PHDB::find(Poi::COLLECTION,array("parentId"=>(String) $element["_id"],"parentType"=>$type)); ?>
+  	<?php
+  	$showOdesc = true ;
+	if(Person::COLLECTION == $type){
+		$showLocality = (Preference::showPreference($element, $type, "locality", Yii::app()->session["userId"])?true:false);
+		$showOdesc = ((Preference::isOpenData($element["preferences"]) && Preference::isPublic($element, "locality"))?true:false);	
+	}
+  	$odesc = "" ;
+	if($showOdesc == true){
+		$controller = Element::getControlerByCollection($type) ;
+		if($type == Person::COLLECTION)
+			$odesc = $controller." : ".addslashes( strip_tags(json_encode(@$element["shortDescription"]))).",".addslashes(json_encode(@$element["address"]["streetAddress"])).",".@$element["address"]["postalCode"].",".@$element["address"]["addressLocality"].",".@$element["address"]["addressCountry"] ;
+		else if($type == Organization::COLLECTION)
+			$odesc = $controller." : ".@$element["type"].", ".addslashes( strip_tags(json_encode(@$element["shortDescription"]))).",".addslashes(json_encode(@$element["address"]["streetAddress"])).",".@$element["address"]["postalCode"].",".@$element["address"]["addressLocality"].",".@$element["address"]["addressCountry"];
+		else if($type == Event::COLLECTION)
+			$odesc = $controller." : ".@$element["startDate"].",".@$element["endDate"].",".addslashes(json_encode(@$element["address"]["streetAddress"])).",".@$element["address"]["postalCode"].",". @$element["address"]["addressLocality"].",".@$element["address"]["addressCountry"].",".addslashes(strip_tags(json_encode(@$element["shortDescription"])));
+		else if($type == Project::COLLECTION)
+			$odesc = $controller." : ".addslashes( strip_tags(json_encode(@$element["shortDescription"]))).",".addslashes(json_encode(@$element["address"]["streetAddress"])).",".@$element["address"]["postalCode"].",".@$element["address"]["addressLocality"].",".@$element["address"]["addressCountry"];
+	}
+		
+	?>
+  	var contextData = {
+		name : "<?php echo addslashes($element["name"]) ?>",
+		id : "<?php echo (string)$element["_id"] ?>",
+		type : "<?php echo $type ?>",
+		controller : <?php echo json_encode(Element::getControlerByCollection($type))?>,
+		otags : "<?php echo addslashes($element["name"]).",".$type.",communecter,".@$element["type"].",".addslashes(@implode(",", $element["tags"])) ?>",
+		
+		odesc : <?php echo json_encode($odesc) ?>,
+		<?php 
+		if( @$element["startDate"] )
+			echo "'startDate':'".$element["startDate"]."',";
+		if( @$element["endDate"] )
+			echo "'endDate':'".$element["endDate"]."'"; ?>
+	};	
+  	<?php $entitiesPois = PHDB::find( Poi::COLLECTION, array("parentId"=>(String) $element["_id"],"parentType"=>$type)); ?>
 
-  	var pois = <?php json_encode($pois); ?>
+  	var pois = <?php json_encode($entitiesPois); ?>
 
 	jQuery(document).ready(function() {
 	
@@ -489,6 +522,8 @@ function initMenuDetail(){
     	$("#section-directory").show();
 
     	var poisHtml = directory.showResultsDirectoryHtml(pois, "poi");
+
+    	poisHtml = "<a href='javascript:elementLib.openForm(\"poi\",\"subPoi\")' class='btn btn-azure pull-right'><i class='fa fa-plus'></i> Ajouter une production</a>"+poisHtml;
     	$("#section-directory").html(poisHtml);
 		// 	var type = "?type=poi";
  		//  ajaxPost('#section-directory', baseUrl+'/'+moduleId+"/default/directory"+type, 

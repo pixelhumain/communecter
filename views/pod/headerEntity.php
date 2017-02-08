@@ -204,7 +204,7 @@ $controler = Element::getControlerByCollection($type);
 																  "show" => true,
 																  "editMode" => $edit,
 																  "image" => $images,
-																  "openEdition" => $openEdition)); 
+																  "openEdition" => $openEdition) ); 
 			//	$profilThumbImageUrl = Element::getImgProfil(@$entity, "profilMediumImageUrl", $this->module->assetsUrl);
 			?>
 			<button class="col-xs-12 center btn btn-default text-azure" style="margin-left:10px;" onclick="showMap(true)">
