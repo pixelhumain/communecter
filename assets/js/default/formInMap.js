@@ -409,7 +409,7 @@ function autocompleteFormAddress(currentScopeType, scopeValue){
     				saveCities[insee] = value;
 
     			if(notEmpty(value.geoShape))
-			    				inseeGeoSHapes[insee] = value.geoShape.coordinates[0];
+			    	inseeGeoSHapes[insee] = value.geoShape.coordinates[0];
 
     			if(currentScopeType == "city") { mylog.log("in scope city"); mylog.dir(value);
     				if(value.postalCodes.length > 0){
@@ -418,7 +418,7 @@ function autocompleteFormAddress(currentScopeType, scopeValue){
 		    				var lbl = valueCP.postalCode ;
 		    				var lat = valueCP.geo.latitude;
 		    				var lng = valueCP.geo.longitude;
-		    				var lblList = value.name + ", " + valueCP.name + ", " +valueCP.postalCode ;
+		    				var lblList = value.name + ", " + valueCP.name + ", " +valueCP.postalCode + ", " + value.osmID ;
 		    				html += "<li><a href='javascript:' data-type='"+currentScopeType+"' data-dep='"+dep+"' data-region='"+region+"' data-country='"+country+"' data-city='"+val+"' data-cp='"+lbl+"' data-lat='"+lat+"' data-lng='"+lng+"' data-insee='"+insee+"' class='item-city-found'>"+lblList+"</a></li>";
 		    			});
     				}else{
