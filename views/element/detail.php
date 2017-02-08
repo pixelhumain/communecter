@@ -421,7 +421,7 @@ if($('#breadcum').length)
 	    	<?php }
 
 		    } ?>
-	    	<?php if( !$type==Event::COLLECTION && ( !@$front || (@$front && $front["need"]==true))){ ?>
+	    	<?php if( $type!=Event::COLLECTION && ( !@$front || (@$front && $front["need"]==true))){ ?>
 	    	<div class="col-xs-12 needsPod">	
 				<?php $this->renderPartial('../pod/needsList',array( 	"needs" => @$needs, 
 																		"parentId" => (String) $element["_id"],

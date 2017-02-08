@@ -391,8 +391,11 @@ var directory = {
     multiScopesT :[],
 
     showResultsDirectoryHtml : function ( data, contentType, size ){ //size == null || min || max
-
+      
+        console.log("showResultsDirectoryHtml data", typeof data, data);
         var str = "";
+
+        if(typeof data == "object" && data!=null)
         $.each(data, function(i, o) {
             itemType=(contentType) ? contentType :o.type;
             if( itemType )
@@ -680,9 +683,11 @@ var directory = {
         var subContent = directory.showResultsDirectoryHtml ( list, key);
         if( notEmpty(subContent) ){
           favTypes.push(key);
-          $(smallMenu.destination).append("<div class='"+key+"fav favSection '><div class=' col-xs-12 col-sm-10 padding-15'><h2 class='homestead'> "+key+" <i class='fa fa-angle-down'></i> </h2>"+
-                subContent+
-                "</div>");
+          $(smallMenu.destination).append("<div class='"+key+"fav favSection '>"+
+                                            "<div class=' col-xs-12 col-sm-10 padding-15'>"+
+                                            "<h2 class='homestead text-left padding-15'><i class='fa fa-angle-down'></i> "+t(key)+"</h2>"+
+                                            subContent+
+                                            "</div>");
           color = (typeObj[key] && typeObj[key].color) ? typeObj[key].color : "white";
           $(".sectionFilters").append(" <span class=' btn btn-xs favSectionBtn favSectionBtnNew  bg-"+color+"'><a class='text-black helvetica' href='javascript:toggle(\"."+key+"fav\",\".favSection\",1)'> "+key+"</a></span> ")
         }

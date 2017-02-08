@@ -218,7 +218,7 @@
 							$text .="s";
 
 				}
-				echo "<div class='no-padding' style='border-top: 1px solid lightgray;margin-top:10px !important;'>";
+				echo "<div class='padding-5' style='border-top: 1px solid lightgray;margin-top:10px !important;'>";
 				if (@$countStrongLinks && !empty($countStrongLinks)){
 					if($contentType==Organization::COLLECTION)
 						$strongLinksLabel=Yii::t("common","member");

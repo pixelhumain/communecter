@@ -29,8 +29,8 @@
 		max-height: 300px;
 		min-height: 300px;
 		width:100%;
-		background-image: url("<?php echo Yii::app()->theme->baseUrl; ?>/assets/images/tropic.jpg");
-		background-size: 100%;
+		/*background-image: url("<?php echo Yii::app()->theme->baseUrl; ?>/assets/images/tropic.jpg");
+		background-size: 100%;*/
 	}
 	.main-col-search{
 		padding:0px;
@@ -149,7 +149,7 @@
 	<div class="col-lg-10 col-md-10 col-sm-9 no-padding" id="onepage">
 
 		<?php if ($type == "poi"){ ?>
-			<?php if($element["type"]=="video" && @$element["medias"]){ 
+			<?php if(@$element["type"]=="video" && @$element["medias"]){ 
 				$videoLink=str_replace ( "autoplay=1" , "autoplay=0" , @$element["medias"][0]["content"]["videoLink"]  );
 			?>
 				<div class="col-xs-12">
@@ -172,7 +172,25 @@
 				</div>
 		<?php } ?>
 		<?php }else{ ?>
-				<div class="img-header"></div>
+				<div class="img-header">
+					
+					<?php 
+						if(@$element["profilMediumImageUrl"] && !empty($element["profilMediumImageUrl"]))
+							$images=array("profil"=> array($element["profilMediumImageUrl"]));
+						else 
+							$images="";	
+						$this->renderPartial('../pod/fileupload', array(  "itemId" => (string) $element["_id"],
+																		  "type" => $type,
+																		  "resize" => false,
+																		  "contentId" => Document::IMG_PROFIL,
+																		  "show" => true,
+																		  "editMode" => $edit,
+																		  "image" => $images,
+																		  "openEdition" => $openEdition)); 
+					//	$profilThumbImageUrl = Element::getImgProfil(@$entity, "profilMediumImageUrl", $this->module->assetsUrl);
+					?>
+
+				</div>
 		<div class="element-name text-dark">
 			<?php echo @$element["name"]; ?>
 			<!-- <button class="btn btn-default btn-follow"><i class="fa fa-star"></i> SUIVRE</button> -->

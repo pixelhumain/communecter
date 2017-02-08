@@ -1150,7 +1150,7 @@ var smallMenu = {
 					"<div class='homestead titleSmallMenu' style='font-size:45px'> "+
 						title1+' <i class="fa fa-angle-right"></i> '+title+" <i class='fa "+icon+" text-"+color+"'></i>"+
 					"</div>"+
-					"<input name='searchSmallMenu' class='searchSmallMenu text-black' placeholder='vous cherchez quoi ?' style='margin-bottom:8px;width: 300px;font-size: x-large;'><br/>"+
+					"<input name='searchSmallMenu' class='searchSmallMenu text-black' placeholder='rechercher' style='margin-bottom:8px;width: 300px;font-size: x-large;'><br/>"+
 					"<span class='text-extra-small helvetica sectionFilters'>"+
 						" <span class='btn btn-xs favSectionBtn btn-default'><a class='text-black helvetica ' href='javascript:directory.toggleEmptyParentSection(\".favSection\",null,\".searchEntityContainer\",1)'> Tout voir</a></span> </span>"+
 					" </span><br/>"+
