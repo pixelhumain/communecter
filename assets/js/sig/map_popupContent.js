@@ -79,10 +79,6 @@
 				popupContent	+= 	"</div>";
 			}
 			popupContent += "</div>";
-			//address
-			popupContent += this.getPopupAddressInformation(data);
-			//Contacts information
-			popupContent += this.getPopupContactsInformation(data);
 			//Short description
 			if ("undefined" != typeof data['shortDescription'] && data['shortDescription'] != "" && data['shortDescription'] != null) {
 				popupContent += "<div id='pop-description' class='popup-section'>"
@@ -90,6 +86,10 @@
 								+ "<div class='popup-info-profil'>" + data['shortDescription'] + "</div>"
 							+ "</div>";
 			}
+			//Contacts information
+			popupContent += this.getPopupContactsInformation(data);
+			//address
+			popupContent += this.getPopupAddressInformation(data);
 
 			popupContent += '</div>';
 
@@ -385,15 +385,15 @@
 
 		Sig.getPopupContactsInformation = function(data){
 			var popupContent = "";
-			//email
-			if (typeof data["email"] != "undefined")
-				popupContent += "<div class='popup-info-profil'><i class='fa fa-envelope fa_email'></i>" + data["email"] + "</div>";
-
 			//Website URL
-			if (typeof data["url"] != "undefined")
+			if (typeof data["url"] != "undefined" && data["url"] != null)
 				popupContent += "<div class='popup-info-profil'><i class='fa fa fa-desktop fa_url'></i>" + data["url"] + "</div>";
 
-			if(typeof data["telephone"] != "undefined"){
+			//email
+			if (typeof data["email"] != "undefined" && data["email"] != null)
+				popupContent += "<div class='popup-info-profil'><i class='fa fa-envelope fa_email'></i>" + data["email"] + "</div>";
+
+			if(typeof data["telephone"] != "undefined" && data["telephone"] != null){
 				var telephone = "" ;
 				if(typeof data["telephone"] == "object"){
 					if(typeof data["telephone"]["fixe"] != "undefined") {
