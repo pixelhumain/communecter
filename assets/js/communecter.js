@@ -1082,7 +1082,8 @@ var smallMenu = {
 	inBlockUI : true,
 	//smallMenu.openAjax(\''+baseUrl+'/'+moduleId+'/collections/list/col/'+obj.label+'\',\''+obj.label+'\',\'fa-folder-open\',\'yellow\')
 	//the url must return a list like userConnected.list
-	openAjax : function  (url,title,icon,color,title1,params,callback) { 
+	openAjax : function  (url,title,icon,color,title1,params,callback) 
+	{ 
 		if( typeof directory == "undefined" )
 		    lazyLoad( moduleUrl+'/js/default/directory.js', null, null );
 	    
@@ -2212,7 +2213,7 @@ var elementLib = {
 			});
 			delete formData['collections'];
 		}
-		
+
 		if( typeof formData.genres != "undefined" && formData.genres != "" ){
 			genresTagsSave=formData.genres.split(",");
 			if(!formData.tags)formData.tags = [];
@@ -2638,6 +2639,7 @@ var typeObj = {
 			}
 		}},
 	"persons" : {col:"citoyens" , ctrl:"person"},
+	"people" : {col:"citoyens" , ctrl:"person"},
 	"poi":{ 
 		col:"poi",
 		ctrl:"poi",
@@ -2664,7 +2666,7 @@ var typeObj = {
 			    	if( typeof $("#ajaxFormModal #description").code === 'function' )  
 			    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
 			    	if($('#ajaxFormModal #parentId').val() == "" && $('#ajaxFormModal #parentType').val() ){
-				    	$('#ajaxFormModal #parentId').val(userId);
+				    	$('#ajaxFormModal #parentId').val( userId );
 				    	$("#ajaxFormModal #parentType").val( "citoyens" ); 
 				    }
 			    },
@@ -2676,6 +2678,7 @@ var typeObj = {
 				    	$('.fine-uploader-manual-trigger').fineUploader('uploadStoredFiles');
 				    else {
 				    	elementLib.closeForm();	
+				    	loadByHash( location.hash );
 				    }
 			    },
 			    properties : {
@@ -2697,6 +2700,7 @@ var typeObj = {
 		            	inputType : "uploader",
 		            	afterUploadComplete : function(){
 					    	elementLib.closeForm();	
+					    	loadByHash( location.hash );
 					    },
 		            },
 		            description : {
