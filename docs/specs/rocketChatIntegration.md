@@ -7,28 +7,28 @@
 - P2P : person to person exchanges 
 - P2G : private group chat rooms
 
-## Our side specifications
-  - on CO² 
-  	- we run on a mongoDB
-  		- we have a user collection 
-  		- and a collection for any ELEMENT
-  			- organizations 
-  			- projects 
-			- events
-			- city 
-			- classifieds
+## Our side specificationson CO² 
+- we run on a mongoDB
+	- we have a user collection 
+	- and a collection for any ELEMENT
+		- organizations 
+		- projects 
+	- events
+	- city 
+	- classifieds
+	
 ## Integration			
-  	- ultimetly RC would sit inside the plateform in 2 forms : 
-  		- small bottom popin 
-  		- chat page, grouping all different conversations
-  		- open to suggestions ???
+- ultimetly RC would sit inside the plateform in 2 forms : 
+	- small bottom popin 
+	- chat page, grouping all different conversations
+	- open to suggestions ???
 
 ## Use cases
-  	- a user can go on any users page and start a discussion, identicall to a P2P converstaion in RC 
-  		- the conversation is not accessible to other users
-  	- ELEMENTs always have group or people associated 
-  		- any ELEMENT has a "create chat room" feature 
-  		- channels are only accessible to the group's members
-  		- only admins can open a channel 
-  		- a group can have many channels 
+- a user can go on any users page and start a discussion, identicall to a P2P converstaion in RC 
+	- the conversation is not accessible to other users
+- ELEMENTs always have group or people associated 
+	- any ELEMENT has a "create chat room" feature 
+	- channels are only accessible to the group's members
+	- only admins can open a channel 
+	- a group can have many channels 
 
