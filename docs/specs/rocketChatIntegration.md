@@ -31,8 +31,13 @@
 	- channels are only accessible to the group's members
 	- only admins can open a channel 
 	- a group can have many channels 
+- Login will be transparent between our panels
+- RC notifications should also be hooked up with our notification system or the other way around
 
 ## Relation 
 - we are interested in a close relation with other open source project like RC 
 - our interoperabilty will be the first of a long list
+
+##Questions 
+- How is RC's security ? have you 
 
