@@ -725,7 +725,7 @@
 			//directory.elemClass = smallMenu.destination+' .searchEntityContainer ';
 			toogleNotif(false);
 			smallMenu.openAjax(baseUrl+'/'+moduleId+'/element/directory/type/'+contextType+'/id/'+contextId+
-								'?tpl=json','Communauté','fa-book','red');
+								'?tpl=json','Communauté','fa-connectdevelop','dark');
 		});
 
 		$(".btn-open-collection").click(function(){
