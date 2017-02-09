@@ -100,7 +100,6 @@ Liste des notifications déjà lues => #370 #453
 * ************************************************************  
 
 ** @Clem 
-  [.2] interoperability : communecrter + wikidata +@Tib
   [.2] add POI to news
 
 ** @Rapha 
@@ -135,6 +134,11 @@ Liste des notifications déjà lues => #370 #453
 
 
 ** @Tib 
+  [ ] menuleft tags 
+    [ ] http://127.0.0.1/ph/communecter#element.detail.type.poi.id.5822115cf6ca47ed7cb6cb9c
+    [ ] some dont work like Passeur d'images
+    [ ] more tags on home page
+    [ ] once left menu selected , remains in navigation , what to do ?
   [new] url builder url.get(type,what,id)
   [new] follow un tag : envoie de notif si nouvel element 
   [new] linky / Connect / INTEResting CONNECTions

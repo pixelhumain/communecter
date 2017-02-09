@@ -109,7 +109,7 @@ var headerParams = {
   "classified"    : { color: "lightblue2",   icon: "bullhorn",   name: "Annonces" }
 }
 
-if( notNull(themeObj) && notNull(themeObj.headerParams) )
+if( typeof themeObj != "undefined" && typeof themeObj.headerParams != "undefined" )
 {
   $.each(themeObj.headerParams,function(k,v) 
   { 

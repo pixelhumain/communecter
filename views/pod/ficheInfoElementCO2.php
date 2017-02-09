@@ -716,7 +716,7 @@
 		$(".open-directory").click(function(){
 			smallMenu.inBlockUI = false; 
 			smallMenu.destination = "#central-container"; 
-			directory.elemClass = smallMenu.destination+' .searchEntityContainer ';
+			//directory.elemClass = smallMenu.destination+' .searchEntityContainer ';
 			toogleNotif(false);
 			smallMenu.openAjax(baseUrl+'/'+moduleId+'/element/directory/type/'+contextType+'/id/'+contextId+
 								'?tpl=json','Communauté','fa-book','red');

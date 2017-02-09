@@ -697,13 +697,14 @@ var directory = {
         var subContent = directory.showResultsDirectoryHtml ( list, key /*,"min"*/); //min == dark template 
         if( notEmpty(subContent) ){
           favTypes.push(key);
-          var color = (typeObj[key] && typeObj[key].color) ? typeObj[key].color : "white";
-          $(smallMenu.destination + " #listDirectory").append("<div class='"+key+"fav favSection '>"+
+          
+          var color = (typeObj[key] && typeObj[key].color) ? typeObj[key].color : "dark";
+          $(smallMenu.destination + " #listDirectory").append("<div class='"+typeObj[key].col+"fav favSection '>"+
                                             "<div class=' col-xs-12 col-sm-12'>"+
-                                            "<h4 class='text-left text-"+color+"'><i class='fa fa-angle-down'></i> "+translate[key]+"</h4><hr>"+
+                                            "<h4 class='text-left text-"+color+"'><i class='fa fa-angle-down'></i> "+trad[key]+"</h4><hr>"+
                                             subContent+
                                             "</div>");
-          $(".sectionFilters").append(" <a class='text-black helvetica btn btn-link favSectionBtn favSectionBtnNew  bg-"+color+"' href='javascript:toggle(\"."+key+"fav\",\".favSection\",1)'> "+key+"</a> ")
+          $(".sectionFilters").append(" <a class='text-black helvetica btn btn-link favSectionBtn favSectionBtnNew  bg-"+color+"' href='javascript:toggle(\"."+typeObj[key].col+"fav\",\".favSection\",1)'> "+trad[key]+"</a> ")
         }
       });
       

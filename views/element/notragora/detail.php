@@ -159,14 +159,13 @@
 	#fileuploadContainer .thumbnail{
 		border-radius: 0px!important
 	}
-	#profil_imgPreview{
-
-	}
+	#profil_imgPreview{}
 </style>
 	<div class="col-lg-10 col-md-10 col-sm-9 no-padding" id="onepage">
 
-		<?php if ($type == "poi"){ ?>
-			<?php if(@$element["type"]=="video" && @$element["medias"]){ 
+		<?php 
+		if ($type == "poi"){ 
+			if(@$element["type"]=="video" && @$element["medias"]){ 
 				$videoLink=str_replace ( "autoplay=1" , "autoplay=0" , @$element["medias"][0]["content"]["videoLink"]  );
 			?>
 				<div class="col-xs-12">
@@ -216,7 +215,10 @@
 		<div class="col-md-12 padding-15 menubar">
 			<button class="btn btn-default btn-menubar" id="btn-menu-home">A PROPOS</button>
 			<button class="btn btn-default btn-menubar" id="btn-menu-stream">CARNET DE BORD</button>
-			<button class="btn btn-default btn-menubar" id="btn-menu-directory-poi">PRODUCTIONS</button>
+			<?php   
+			if( $type != Person::COLLECTION){?>
+				<button class="btn btn-default btn-menubar" id="btn-menu-directory-poi">PRODUCTIONS</button>
+			<?php } ?>
 		</div>
 		<?php } ?>
 		<div id="section-home">
@@ -296,7 +298,7 @@
 			<hr>
 			<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding'>
 				<div class="contentEntity">
-				<a href="#project.detail.id.<?php echo $parent["id"] ?>" class="container-img-parent lbh add2fav">
+				<a href="#project.detail.id.<?php echo @$parent["id"] ?>" class="container-img-parent lbh add2fav">
 					<?php
 					$imgProfil = "<i class='fa fa-image fa-2x'></i>";
 					if(@$parent["profilImageUrl"] && !empty($parent["profilImageUrl"])){
@@ -391,17 +393,18 @@
 		type : "<?php echo $type ?>",
 		controller : <?php echo json_encode(Element::getControlerByCollection($type))?>,
 		otags : "<?php echo addslashes($element["name"]).",".$type.",communecter,".@$element["type"].",".addslashes(@implode(",", $element["tags"])) ?>",
-		
+		creator : "<?php echo @$element["creator"] ?>",
 		odesc : <?php echo json_encode($odesc) ?>,
 		<?php 
 		if( @$element["startDate"] )
 			echo "'startDate':'".$element["startDate"]."',";
 		if( @$element["endDate"] )
 			echo "'endDate':'".$element["endDate"]."'"; ?>
+		
 	};	
   	<?php $entitiesPois = PHDB::find( Poi::COLLECTION, array("parentId"=>(String) $element["_id"],"parentType"=>$type)); ?>
-
-  	var pois = <?php json_encode($entitiesPois); ?>
+  	
+  	var pois = <?php echo json_encode($entitiesPois); ?>
 
 	jQuery(document).ready(function() {
 	
@@ -523,8 +526,10 @@ function initMenuDetail(){
 
     	var poisHtml = directory.showResultsDirectoryHtml(pois, "poi");
 
-    	poisHtml = "<a href='javascript:elementLib.openForm(\"poi\",\"subPoi\")' class='btn btn-azure pull-right'><i class='fa fa-plus'></i> Ajouter une production</a>"+poisHtml;
+    	if( userId && userId == contextData.creator )
+    		poisHtml = "<div class='row'><a href='javascript:elementLib.openForm(\"poi\",\"subPoi\")' class='btn btn-azure pull-right'><i class='fa fa-plus'></i> Ajouter une production</a></div><div class='space20'></div>"+poisHtml;
     	$("#section-directory").html(poisHtml);
+    	bindLBHLinks();
 		// 	var type = "?type=poi";
  		//  ajaxPost('#section-directory', baseUrl+'/'+moduleId+"/default/directory"+type, 
 		// 	null,
