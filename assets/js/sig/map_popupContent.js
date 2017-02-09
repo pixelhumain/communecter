@@ -66,7 +66,7 @@
 			if("undefined" != typeof data['name'])
 				popupContent	+= 	"<div class='info_item pseudo_item_map_list'>" + data['name'] + "</div>";
 			
-			if("undefined" != typeof data['tags']){
+			if("undefined" != typeof data['tags'] && data['tags'] != null){
 				popupContent	+= 	"<div class='info_item items_map_list'>";
 				var totalTags = 0;
 				if(data['tags'].length > 0){
