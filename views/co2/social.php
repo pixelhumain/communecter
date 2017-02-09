@@ -306,6 +306,9 @@ jQuery(document).ready(function() {
             startSearch(0, indexStepInit, searchCallback);
         });
 
+        loadingData = false;    
+        startSearch(0, indexStepInit, searchCallback);
+
     },"html");
 
     $("#main-search-bar").keyup(function(e){

@@ -11,21 +11,21 @@
   <style>
 
 <?php 
-    $btnAnc = array("blue"      =>array("color1"=>"#4285f4", 
-                                        "color2"=>"#1c6df5"),
+    $btnAnc = array("blue"      =>array("color1"=>"#ea4335", 
+                                        "color2"=>"#ea4335"),
                     );
 ?>
 
 <?php foreach($btnAnc as $color => $params){ ?>
 .btn-anc-color-<?php echo $color; ?>{
-    background-color: <?php echo $params["color1"]; ?>;
-    border-color: <?php echo $params["color1"]; ?>!important;
-    color: #fff!important;
+    background-color: transparent;
+    border-color: transparent;
+    color: <?php echo $params["color1"]; ?>!important;
 }
 
 .btn-anc-color-<?php echo $color; ?>:hover{
-    background-color: <?php echo $params["color2"]; ?>!important;
-    border-color: <?php echo $params["color1"]; ?>!important;
+    background-color:transparent!important;
+    color:<?php echo $params["color1"]; ?>!important;
 }
 .btn-anc-color-<?php echo $color; ?>.active{ 
     background-color:#fff!important;
@@ -109,7 +109,7 @@ var headerParams = {
   "classified"    : { color: "lightblue2",   icon: "bullhorn",   name: "Annonces" }
 }
 
-if( notNull(themeObj) && notNull(themeObj.headerParams) )
+if( typeof themeObj != "undefined" && notNull(themeObj) && notNull(themeObj.headerParams) )
 {
   $.each(themeObj.headerParams,function(k,v) 
   { 
@@ -215,7 +215,7 @@ jQuery(document).ready(function() {
   });
 
   
-/*  $(".searchIcon").removeClass("fa-search").addClass("fa-file-text-o");
+  /*  $(".searchIcon").removeClass("fa-search").addClass("fa-file-text-o");
   $(".searchIcon").attr("title","Mode Recherche ciblé (ne concerne que cette page)");*/
   $('.tooltips').tooltip();
   searchPage = true;
@@ -226,14 +226,6 @@ jQuery(document).ready(function() {
   startSearch(0, indexStepInit, searchCallback);
 });
 
-function searchCallback() { 
-  directory.elemClass = '.searchEntityContainer ';
-  directory.filterTags(true);
-  $(".btn-tag").off().on("click",function(){ directory.toggleEmptyParentSection(null,"."+$(this).data("tag-value"), directory.elemClass, 1)});
-  $("#searchBarTextJS").off().on("keyup",function() { 
-    directory.search ( null, $(this).val() );
-  });
-}
 
 </script>
 

@@ -394,6 +394,14 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
 
   
   
+function searchCallback() { 
+  directory.elemClass = '.searchEntityContainer ';
+  directory.filterTags(true);
+  $(".btn-tag").off().on("click",function(){ directory.toggleEmptyParentSection(null,"."+$(this).data("tag-value"), directory.elemClass, 1)});
+  $("#searchBarTextJS").off().on("keyup",function() { 
+    directory.search ( null, $(this).val() );
+  });
+}
 
 var directory = {
 
@@ -700,7 +708,7 @@ var directory = {
           var color = (typeObj[key] && typeObj[key].color) ? typeObj[key].color : "white";
           $(smallMenu.destination + " #listDirectory").append("<div class='"+key+"fav favSection '>"+
                                             "<div class=' col-xs-12 col-sm-12'>"+
-                                            "<h4 class='text-left text-"+color+"'><i class='fa fa-angle-down'></i> "+translate[key]+"</h4><hr>"+
+                                            "<h4 class='text-left text-"+color+"'><i class='fa fa-angle-down'></i> "+trad[key]+"</h4><hr>"+
                                             subContent+
                                             "</div>");
           $(".sectionFilters").append(" <a class='text-black helvetica btn btn-link favSectionBtn favSectionBtnNew  bg-"+color+"' href='javascript:toggle(\"."+key+"fav\",\".favSection\",1)'> "+key+"</a> ")
@@ -728,12 +736,12 @@ var directory = {
             var oTag = $(oT).data('tag-value');
             if( notEmpty( oTag ) && !inArray( oTag,directory.tagsT ) ){
               directory.tagsT.push(oTag);
-              $("#listTags").append("<a class='btn btn-xs btn-link btn-anc-color-blue  text-left w100p favElBtn "+slugify(oTag)+"Btn' data-tag='"+slugify(oTag)+"' href='javascript:directory.toggleEmptyParentSection(\".favSection\",\"."+slugify(oTag)+"\",\""+directory.elemClass+"\",1)'><i class='fa fa-tag'></i> "+oTag+"</a><br/>");
+              $("#listTags").append("<a class='btn btn-xs btn-link btn-anc-color-blue text-left w100p favElBtn "+slugify(oTag)+"Btn' data-tag='"+slugify(oTag)+"' href='javascript:directory.toggleEmptyParentSection(\".favSection\",\"."+slugify(oTag)+"\",\""+directory.elemClass+"\",1)'><i class='fa fa-tag'></i> "+oTag+"</a><br/>");
             }
           });
           if( notEmpty( oScope ) && !inArray( oScope,directory.scopesT ) ){
             directory.scopesT.push(oScope);
-            $("#listScopes").append("<a class='btn btn-xs btn-link text-white text-left w100p favElBtn "+slugify(oScope)+"Btn' href='javascript:directory.searchFor(\""+oScope+"\")'><i class='fa fa-map-marker'></i> "+oScope+"</a><br/>");
+            $("#listScopes").append("<a class='btn btn-xs btn-link btn-anc-color-blue text-left w100p favElBtn "+slugify(oScope)+"Btn' href='javascript:directory.searchFor(\""+oScope+"\")'><i class='fa fa-map-marker'></i> "+oScope+"</a><br/>");
           }
         })
         //mylog.log("tags count", directory.tagsT.length, directory.scopesT.length);

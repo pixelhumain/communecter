@@ -75,9 +75,7 @@
 		/*padding: 6px;
 		margin-bottom: 4px;*/
 	}
-	#listTags{
-		text-align: right;
-	}
+	
 </style>
 <div id="menu-name" class="hidden">
 	<img src="<?php echo $thumbAuthor; ?>" height="45" class="img-circle">

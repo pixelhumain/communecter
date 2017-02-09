@@ -1086,7 +1086,8 @@ var smallMenu = {
 		if( typeof directory == "undefined" )
 		    lazyLoad( moduleUrl+'/js/default/directory.js', null, null );
 	    
-	    processingBlockUi();
+	    //processingBlockUi();
+	    $(smallMenu.destination).html("<i class='fa fa-spin fa-refresh'></i>");
 
 		ajaxPost( null , url, params , function(data)
 		{
@@ -1114,7 +1115,7 @@ var smallMenu = {
 	    } );
 	},
 	build : function  (params,build_func,callback) { 
-		processingBlockUi();
+		//processingBlockUi();
 	   	if (typeof build_func == "function") 
 			content = build_func(params);
 		smallMenu.open( content );
@@ -1151,7 +1152,7 @@ var smallMenu = {
 
 				"</div>"+
 
-				"<div class='hidden-xs col-sm-2 text-right'>"+
+				"<div class='hidden-xs col-sm-2 text-left'>"+
 					"<h4 class=''><i class='fa fa-angle-down'></i> Filtres</h4>"+
 					"<a class='btn btn-dark-blue btn-anc-color-blue btn-xs favElBtn favAllBtn text-left' href='javascript:directory.toggleEmptyParentSection(\".favSection\",null,\".searchEntityContainer\",1)'> <i class='fa fa-tags'></i> Tout voir </a><br/>"+
 
