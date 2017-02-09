@@ -348,7 +348,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 			<div class="col-md-12 col-lg-12 col-xs-12 no-padding" style="padding-right:10px !important;">
 				<div class="col-md-12 col-lg-12 col-xs-12 no-padding">
 					<div class="text-dark lbl-info-details margin-top-10">
-						<a id="dateTimezone" href="javascript:;" class="tooltips text-dark" data-original-title="toto" data-toggle="tooltip" data-placement="right"><i class="fa fa-clock-o"></i>&nbsp;<?php echo Yii::t("common","When") ?> ?</a>
+						<a id="dateTimezone" href="javascript:;" class="tooltips text-dark" data-original-title="" data-toggle="tooltip" data-placement="right"><i class="fa fa-clock-o"></i>&nbsp;<?php echo Yii::t("common","When") ?> ?</a>
 						<?php if($edit==true || $openEdition==true ){?>
 						<a href="javascript:;" id="btn-update-when" class="tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Update When");?>"><i class="fa text-red fa-pencil"></i></a>
 						<?php } ?>
@@ -357,14 +357,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 				<div class="col-md-12 col-lg-12 col-xs-12 entityDetails no-padding">
 					<?php if($type==Event::COLLECTION ) { ?>
 					<div class="col-xs-12 no-padding">
-						<span><?php echo Yii::t("common","All day") ?> : </span><a id="allDay" class="" ></a>
+						<span><?php echo Yii::t("common","All day")?> : </span> <span id="allDay" class="" ><?php echo (isset($element["allDay"]) ? Yii::t("common","Yes") : Yii::t("common","No") ); ?></span>
 					</div>
 					<?php } ?>
 					<div class="col-md-6 col-xs-12 no-padding">
-						<span><?php echo Yii::t("common","From") ?> </span><span id="startDate" class="" ></span>
+						<span><?php echo Yii::t("common","From") ?></span> <span id="startDate" class="" ><?php echo (isset($element["startDate"]) ? $element["startDate"] : "" ); ?></span>
 					</div>
 					<div class="col-md-6 col-xs-12 no-padding">
-						<span><?php echo Yii::t("common","To") ?> </span><span id="endDate" class=""></span> 
+						<span><?php echo Yii::t("common","To") ?> </span> <span id="endDate" class=""><?php echo (isset($element["endDate"]) ? $element["endDate"] : "" ); ?></span> 
 					</div>
 				</div>
 			</div>
@@ -564,40 +564,45 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 			<div class="col-md-12 col-lg-12 col-xs-12 no-padding" style="padding-right:10px !important; padding-bottom:5px !important">
 				<div class="text-dark lbl-info-details margin-top-10">
 					<i class="fa fa-angle-down"></i> <?php echo ucfirst(Yii::t("common","organizer")) ?>
+					<?php if( $edit==true || $openEdition==true ){?>
+						<a href='javascript:;' id="btn-update-organizer" class="tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("event","Update the organizer");?>"><i class="fa text-red fa-pencil"></i></a>
+					<?php } ?>
 				</div>
 			</div>
 			
 			<div class="col-sm-6 entityDetails item_map_list">
 				<?php
-				if (!empty($organizer["type"])) {
-					if(@$organizer["type"]=="project"){ 
-						 echo Yii::t("event","By the project",null,Yii::app()->controller->module->id);
-						 $icon="fa-lightbulb-o";
-					} else if(@$organizer["type"]=="organization"){
-						 	$icon="fa-users";
-					} else {
-						 	$icon="fa-user";
-					}
+					if (!empty($organizer["type"])) {
+						if(@$organizer["type"]=="project"){
+							echo Yii::t("event","By the project",null,Yii::app()->controller->module->id);
+							$icon="fa-lightbulb-o";
+							$color = "purple";
+						} else if(@$organizer["type"]=="organization"){
+							$icon="fa-users";
+							$color = "green";
+						} else {
+							$icon="fa-user";
+							$color = "yellow";
+						}
 
-					$img = '';//'<i class="fa '.$icon.' fa-3x"></i> ';
-					if ($organizer && !empty($organizer["profilThumbImageUrl"])){ 
-						$img = '<img class="thumbnail-profil" width="50" height="50" alt="image" src="'.Yii::app()->createUrl('/'.$organizer['profilThumbImageUrl']).'">';
-					}else{
-						$img = "<div class='thumbnail-profil'></div>";
-					}
-					$color = "";
-					if($icon == "fa-users") $color = "green";
-					if($icon == "fa-user") $color = "yellow";
-					if($icon == "fa-lightbulb-o") $color = "purple";
-					$flag = '<div class="ico-type-account"><i class="fa '.$icon.' fa-'.$color.'"></i></div>';
+						$img = '';//'<i class="fa '.$icon.' fa-3x"></i> ';
+						if ($organizer && !empty($organizer["profilThumbImageUrl"])){ 
+							$img = '<img class="thumbnail-profil" width="50" height="50" alt="image" src="'.Yii::app()->createUrl('/'.$organizer['profilThumbImageUrl']).'">';
+						}else{
+							$img = "<div class='thumbnail-profil'></div>";
+						}
+						$flag = '<div class="ico-type-account"><i class="fa '.$icon.' fa-'.$color.'"></i></div>';
 						echo '<div class="imgDiv left-col" style="padding-right: 10px;width: 75px;">'.$img.$flag.'</div>';
-					 ?> <a href="javascript:;" onclick="loadByHash('#<?php echo @$organizer["type"]; ?>.detail.id.<?php echo @$organizer["id"]; ?>')"><?php echo @$organizer["name"]; ?></a><br/>
-					<span><?php echo ucfirst(Yii::t("common", @$organizer["type"])); if (@$organizer["type"]=="organization") echo " - ".Yii::t("common", $organizer["typeOrga"]); ?></span>
+				?> 
+					<a 	href="javascript:;" 
+						onclick="loadByHash('#<?php echo @$organizer["type"]; ?>.detail.id.<?php echo @$organizer["id"]; ?>')"><?php echo @$organizer["name"]; ?></a><br/>
+						<span><?php echo ucfirst(Yii::t("common", @$organizer["type"])); if (@$organizer["type"]=="organization") echo " - ".Yii::t("common", $organizer["typeOrga"]); ?></span>
 				<?php
 					} else {
 						echo "Inconnu";
 					}
-					if (! @$organizer["type"]) {
+
+					/*if (! @$organizer["type"]) {
 						echo '	<a href="javascript:;" class="hidden btn btn-danger btn-sm col-xs-12" style="margin: 10px 0px;" id="btn-add-organizer">
 									<i class="fa fa-vcard"></i>
 									<span class="hidden-sm">'.Yii::t("event","Add an organizer").'</span>
@@ -607,9 +612,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 									<i class="fa fa-vcard"></i>
 									<span class="hidden-sm">'.Yii::t("event","Update the organizer").'</span>
 								</a>' ;
-
-								$xml_data = new SimpleXMLElement('<?xml version="1.0"?><data></data>');
-					}
+					}*/
 				?>
 			</div>
 		<?php } ?>
@@ -684,65 +687,70 @@ if($showOdesc == true){
 			contextData.telegramAccount = '<?php if(isset($element["socialNetwork"]["telegram"])) echo $element["socialNetwork"]["telegram"]; else echo ""; ?>';
 			contextData.facebookAccount = '<?php if(isset($element["socialNetwork"]["facebook"])) echo $element["socialNetwork"]["facebook"]; else echo ""; ?>';
 		}
+	}
 
 
-		if(contextData.type == "<?php echo Organization::COLLECTION; ?>" ){
-			contextData.typeOrga = '<?php if(isset($element["type"])) echo $element["type"]; else echo ""; ?>';
-		}
+	if(contextData.type == "<?php echo Organization::COLLECTION; ?>" ){
+		contextData.typeOrga = '<?php if(isset($element["type"])) echo $element["type"]; else echo ""; ?>';
+	}
 
-		if(contextData.type == "<?php echo Event::COLLECTION; ?>"){
-			contextData.allDay = '<?php echo (@$element["allDay"] == true) ? "true" : "false"; ?>';
-		}
+	if(contextData.type == "<?php echo Event::COLLECTION; ?>"){
+		contextData.allDay = '<?php echo (@$element["allDay"] == true) ? "true" : "false"; ?>';
+	}
 
-		if(contextData.type == "<?php echo Event::COLLECTION; ?>" || contextData.type == "<?php echo Project::COLLECTION; ?>" ){
-			contextData.startDate = '<?php if(isset($element["startDate"])) echo $element["startDate"]; else echo ""; ?>';
-			contextData.endDate = '<?php if(isset($element["endDate"])) echo $element["endDate"]; else echo "" ?>';
-		}
+	if(contextData.type == "<?php echo Event::COLLECTION; ?>" || contextData.type == "<?php echo Project::COLLECTION; ?>" ){
+		contextData.startDate = '<?php if(isset($element["startDate"])) echo $element["startDate"]; else echo ""; ?>';
+		contextData.endDate = '<?php if(isset($element["endDate"])) echo $element["endDate"]; else echo "" ?>';
+	}
 
-		if(contextData.type == "<?php echo Project::COLLECTION; ?>" )
-			contextData.avancement = '<?php if(isset($element["properties"]["avancement"])) echo $element["properties"]["avancement"]; else echo "" ?>' ;
+	if(contextData.type == "<?php echo Project::COLLECTION; ?>" )
+		contextData.avancement = '<?php if(isset($element["properties"]["avancement"])) echo $element["properties"]["avancement"]; else echo "" ?>' ;
+
+	var formatDateView = "DD MMMM YYYY à HH:mm" ;
+	var formatDatedynForm = "DD/MM/YYYY HH:mm" ;
+	if(typeof contextData.allDay != "undefined" && contextData.allDay == "true"){
+		formatDateView = "DD MMMM YYYY" ;
+		formatDatedynForm = "DD/MM/YYYY" ;
 	}
 
 	//var emptyAddress = ((typeof(contextData.address) == "undefined" || contextData.address == null || typeof(contextData.address.codeInsee) == "undefined" || (typeof(contextData.address.codeInsee) != "undefined" && contextData.address.codeInsee == ""))?true:false);
 	var emptyAddress = (( "<?php echo $emptyAddress; ?>" == "<?php echo false; ?>")?false:true);
 
-	var mode = "view";
-	var types = <?php echo json_encode(@$elementTypes) ?>;
-	var countries = <?php echo json_encode($countries) ?>;
-	var startDate = '<?php if(isset($element["startDate"])) echo $element["startDate"]; else echo ""; ?>';
-	var endDate = '<?php if(isset($element["endDate"])) echo $element["endDate"]; else echo "" ?>';
-	var allDay = '<?php echo (@$element["allDay"] == true) ? "true" : "false"; ?>';
+	//var mode = "view";
+	//var types = <?php //echo json_encode(@$elementTypes) ?>;
+	//var countries = <?php //echo json_encode($countries) ?>;
+	//var startDate = '<?php //if(isset($element["startDate"])) echo $element["startDate"]; else echo ""; ?>';
+	//var endDate = '<?php // if(isset($element["endDate"])) echo $element["endDate"]; else echo "" ?>';
+	//var allDay = '<?php //echo (@$element["allDay"] == true) ? "true" : "false"; ?>';
 	
-	var modeEdit = '<?php echo (@$modeEdit == true) ? "true" : "false"; ?>';
-	var birthDate = '<?php echo (isset($person["birthDate"])) ? $person["birthDate"] : null; ?>';
-	var NGOCategoriesList = <?php echo json_encode($NGOCategories) ?>;
-	var localBusinessCategoriesList = <?php echo json_encode($localBusinessCategories) ?>;
+	//var modeEdit = '<?php echo (@$modeEdit == true) ? "true" : "false"; ?>';
+	//var birthDate = '<?php echo (isset($person["birthDate"])) ? $person["birthDate"] : null; ?>';
+	//var NGOCategoriesList = <?php //echo json_encode($NGOCategories) ?>;
+	//var localBusinessCategoriesList = <?php //echo json_encode($localBusinessCategories) ?>;
 	var seePreferences = '<?php echo (@$element["seePreferences"] == true) ? "true" : "false"; ?>';
-	var color = '<?php echo Element::getColorIcon($type); ?>';
-	var icon = '<?php echo Element::getFaIcon($type); ?>';
+	//var color = '<?php //echo Element::getColorIcon($type); ?>';
+	//var icon = '<?php echo Element::getFaIcon($type); ?>';
 	var speudoTelegram = '<?php echo @$element["socialNetwork"]["telegram"]; ?>';
 	var organizer = <?php echo json_encode($organizer) ?>;
 	//var tags = <?php echo json_encode($tags)?>;
 
 	//var contentKeyBase = "<?php echo isset($contentKeyBase) ? $contentKeyBase : ""; ?>";
 	//By default : view mode
-	//var images = <?php echo json_encode($images) ?>;
+	//var images = <?php //echo json_encode($images) ?>;
 	
-	//var publics = <?php echo json_encode($publics) ?>;
+	//var publics = <?php //echo json_encode($publics) ?>;
 
 	jQuery(document).ready(function() {
 		//activateEditableContext();
 		bindDynFormEditable();
+		initDate();
 		//manageAllDayElement(allDay);
 		//manageModeContextElement();
 		changeHiddenIconeElement(true);
 		//manageDivEditElement();
 		bindAboutPodElement();
 		collection.applyColor(contextData.type,contextData.id);
-		/*$("#btn-update-geopos").click(function(){
-			findGeoPosByAddress();
-		});
-
+		/*
 		$("#btn-update-locality").click(function(){
 			Sig.showMapElements(Sig.map, mapData);
 		});*/
@@ -763,9 +771,9 @@ if($showOdesc == true){
 		$("#btn-update-organizer").off().on( "click", function(){
 			updateOrganizer();
 		});
-		$("#btn-add-organizer").off().on( "click", function(){
+		/*$("#btn-add-organizer").off().on( "click", function(){
 			updateOrganizer();
-		});
+		});*/
 
 
 		$("#btn-remove-geopos").off().on( "click", function(){
@@ -829,17 +837,17 @@ if($showOdesc == true){
 
 		
 
-		$("#btn-update-geopos-admin").click(function(){
+		/*$("#btn-update-geopos-admin").click(function(){
 			findGeoPosByAddress();
 		});
 
 		$("#btn-view-map").click(function(){
 			showMap(true);
-		});
+		});*/
 
 		buildQRCode(contextData.type,contextData.id);
 
-		$(".toggle-tag-dropdown").click(function(){ mylog.log("toogle");
+		/*$(".toggle-tag-dropdown").click(function(){ mylog.log("toogle");
 			if(!$("#dropdown-content-multi-tag").hasClass('open'))
 			setTimeout(function(){ $("#dropdown-content-multi-tag").addClass('open'); }, 300);
 			$("#dropdown-content-multi-tag").addClass('open');
@@ -847,17 +855,17 @@ if($showOdesc == true){
 		$(".toggle-scope-dropdown").click(function(){ mylog.log("toogle");
 			if(!$("#dropdown-content-multi-scope").hasClass('open'))
 			setTimeout(function(){ $("#dropdown-content-multi-scope").addClass('open'); }, 300);
-		});
+		});*/
 
 		if(emptyAddress){
 			$(".cobtn,.whycobtn").removeClass("hidden");
 			$(".cobtn").click(function () { 
 				updateLocalityEntities();
 			});
-			mylog.log("modeEdit",modeEdit);
+			/*mylog.log("modeEdit",modeEdit);
 			if(modeEdit == "true"){
 				switchModeElement();
-			}
+			}*/
 		}
 
 
@@ -889,18 +897,22 @@ if($showOdesc == true){
 		        typeElement : contextData.type,
 			};
 			//25/01/2014 08:30
-			if(typeof contextData.allDay != "undefined" && contextData.allDay.length > 0)
-				dataUpdate.allDay = contextData.allDay;
+			
 			if(contextData.startDate.length > 0)
-				dataUpdate.startDate = changeFormatDate(contextData.startDate);
+				dataUpdate.startDate = moment(contextData.startDate).local().format(formatDatedynForm);
+
 			if(contextData.endDate.length > 0)
-				dataUpdate.endDate = changeFormatDate(contextData.endDate);
+				dataUpdate.endDate = moment(contextData.endDate).local().format(formatDatedynForm);
 
 			mylog.log("dataUpdate", dataUpdate);
 
-			var onLoads = null;
+			var onLoads = {
+				initWhen : function(){
+					if(typeof contextData.allDay != "undefined" && contextData.allDay == "true")
+						$("#ajaxFormModal #allDay").attr("checked");
+				}
+			};
 
-			
 			var beforeSave = function(){
 				mylog.log("beforeSave");
 		    	if($("#ajaxFormModal #allDay").length && $("#ajaxFormModal #allDay").val() == contextData.allDay)
@@ -909,8 +921,15 @@ if($showOdesc == true){
 		    	if($("#ajaxFormModal #startDate").length && $("#ajaxFormModal #startDate").val() ==  contextData.startDate)
 		    		$("#ajaxFormModal #startDate").remove();
 
-		    	if($("#ajaxFormModal #endDate").length && $("#ajaxFormModal #endDate").val() ==  contextData.startDate)
+		    	if($("#ajaxFormModal #endDate").length && $("#ajaxFormModal #endDate").val() ==  contextData.endDate)
 		    		$("#ajaxFormModal #endDate").remove();
+
+		    	var allDay = $("#ajaxFormModal #allDay").is(':checked');
+		    	var dateformat = "DD/MM/YYYY";
+		    	if (! allDay) 
+		    		var dateformat = "DD/MM/YYYY HH:mm"
+		    	$("#ajaxFormModal #startDate").val( moment( $("#ajaxFormModal #startDate").val(), dateformat).format());
+				$("#ajaxFormModal #endDate").val( moment( $("#ajaxFormModal #endDate").val(), dateformat).format());
 		    };
 
 			var afterSave = function(data){
@@ -922,11 +941,11 @@ if($showOdesc == true){
 					}  
 					if(typeof data.resultGoods.values.endDate != "undefined"){
 						contextData.startDate = data.resultGoods.values.startDate;
-						$("#contentGeneralInfos #startDate").html(contextData.startDate);
+						$("#contentGeneralInfos #startDate").html(moment(contextData.startDate).local().format(formatDateView));
 					}  
 					if(typeof data.resultGoods.values.endDate != "undefined"){
 						contextData.endDate = data.resultGoods.values.endDate;
-						$("#contentGeneralInfos #endDate").html(contextData.endDate);
+						$("#contentGeneralInfos #endDate").html(moment(contextData.endDate).local().format(formatDateView));
 					}  
 					updateCalendar();
 				}
@@ -935,7 +954,7 @@ if($showOdesc == true){
 			};
 			
 			var saveUrl = baseUrl+"/"+moduleId+"/element/updateblock/type/"+contextType;
-			editDynForm("Modifier les dates", "fa-calendar", properties, "initUpdateInfo", dataUpdate, saveUrl, onLoads, beforeSave, afterSave);
+			editDynForm("Modifier les dates", "fa-calendar", properties, "initWhen", dataUpdate, saveUrl, onLoads, beforeSave, afterSave);
 		});
 
 
@@ -1123,32 +1142,32 @@ if($showOdesc == true){
 
 					if(typeof data.resultGoods.values.facebookAccount != "undefined"){
 						contextData.facebookAccount = data.resultGoods.values.facebookAccount.trim();
-						var icon = ((contextData.facebookAccount=="")?"":'<i class="fa fa-facebook"></i>');
-						changeNetwork('#contentGeneralInfos #facebookAccount', contextData.facebookAccount, icon);
+						var iconNetwork = ((contextData.facebookAccount=="")?"":'<i class="fa fa-facebook"></i>');
+						changeNetwork('#contentGeneralInfos #facebookAccount', contextData.facebookAccount, iconNetwork);
 					}
 
 					if(typeof data.resultGoods.values.twitterAccount != "undefined"){
 						contextData.twitterAccount = data.resultGoods.values.twitterAccount.trim();
-						var icon = ((contextData.twitterAccount=="")?"":'<i class="fa fa-twitter"></i>');
-						changeNetwork('#contentGeneralInfos #twitterAccount', contextData.twitterAccount, icon);
+						var iconNetwork = ((contextData.twitterAccount=="")?"":'<i class="fa fa-twitter"></i>');
+						changeNetwork('#contentGeneralInfos #twitterAccount', contextData.twitterAccount, iconNetwork);
 					}
 
 					if(typeof data.resultGoods.values.gitHubAccount != "undefined"){
 						contextData.gitHubAccount = data.resultGoods.values.gitHubAccount.trim();
-						var icon = ((contextData.gitHubAccount=="")?"":'<i class="fa fa-github"></i>');
-						changeNetwork('#contentGeneralInfos #gitHubAccount', contextData.gitHubAccount, icon);
+						var iconNetwork = ((contextData.gitHubAccount=="")?"":'<i class="fa fa-github"></i>');
+						changeNetwork('#contentGeneralInfos #gitHubAccount', contextData.gitHubAccount, iconNetwork);
 					}
 
 					if(typeof data.resultGoods.values.skypeAccount != "undefined"){
 						contextData.skypeAccount = data.resultGoods.values.skypeAccount.trim();
-						var icon = ((contextData.skypeAccount=="")?"":'<i class="fa fa-skype"></i>');
-						changeNetwork('#contentGeneralInfos #skypeAccount', contextData.skypeAccount, icon);
+						var iconNetwork = ((contextData.skypeAccount=="")?"":'<i class="fa fa-skype"></i>');
+						changeNetwork('#contentGeneralInfos #skypeAccount', contextData.skypeAccount, iconNetwork);
 					}
 
 					if(typeof data.resultGoods.values.gpplusAccount != "undefined"){
 						contextData.gpplusAccount = data.resultGoods.values.gpplusAccount.trim();
-						var icon = ((contextData.gpplusAccount=="")?"":'<i class="fa fa-google-plus"></i>');
-						changeNetwork('#contentGeneralInfos #gpplusAccount', contextData.gpplusAccount, icon);
+						var iconNetwork = ((contextData.gpplusAccount=="")?"":'<i class="fa fa-google-plus"></i>');
+						changeNetwork('#contentGeneralInfos #gpplusAccount', contextData.gpplusAccount, iconNetwork);
 					}
 
 					if(typeof data.resultGoods.values.type != "undefined"){
@@ -1222,7 +1241,7 @@ if($showOdesc == true){
 
 		    	if($("#ajaxFormModal #fixe").length && $("#ajaxFormModal #fixe").val() ==  contextData.fixe)
 		    		$("#ajaxFormModal #fixe").remove();
-		    	mylog.log($("#ajaxFormModal #mobile").length, $("#ajaxFormModal #mobile").val(), contextData.mobile);
+		    	
 		    	if($("#ajaxFormModal #mobile").length && $("#ajaxFormModal #mobile").val() == contextData.mobile)
 		    		$("#ajaxFormModal #mobile").remove();
 
@@ -1309,8 +1328,6 @@ if($showOdesc == true){
 			var saveUrl = baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType;
 			editDynForm("Modifier la description", "fa-pencil", properties, "markdown", dataUpdate, saveUrl, onLoads, beforeSave, afterSave);
 		});
-
-		
 	}
 
 	function parsePhone(arrayPhones){
@@ -1324,14 +1341,14 @@ if($showOdesc == true){
 	}
 
 	function bindAboutPodElement() {
-		$("#editGeoPosition").click(function(){
+		/*$("#editGeoPosition").click(function(){
 			Sig.startModifyGeoposition(contextData.id, "<?php echo $type ?>", contextData);
 			showMap(true);
-		});
+		});*/
 
-		$("#editElementDetail").on("click", function(){
+		/*$("#editElementDetail").on("click", function(){
 				switchModeElement();
-		});
+		});*/
 
 		$("#changePasswordBtn").click(function () {
 			mylog.log("changePasswordbuttton");
@@ -1414,24 +1431,24 @@ if($showOdesc == true){
 
 	}
 
-	function switchModeElement() {
+	/*function switchModeElement() {
 		mylog.log("-------------"+mode);
 		if(mode == "view"){
 			mode = "update";
-			$(".editProfilLbl").html(" Enregistrer les changements");
-			$("#editElementDetail").addClass("btn-red");
+			//$(".editProfilLbl").html(" Enregistrer les changements");
+			//$("#editElementDetail").addClass("btn-red");
 			if(!emptyAddress)
 				$(".cobtn,.whycobtn,.cobtnHeader,.whycobtnHeader").addClass("hidden");
 		}else{
 			mode ="view";
-			$(".editProfilLbl").html(" Éditer");
-			$("#editElementDetail").removeClass("btn-red");
+			//$(".editProfilLbl").html(" Éditer");
+			//$("#editElementDetail").removeClass("btn-red");
 			if(emptyAddress)
 				$(".cobtn,.whycobtn,.cobtnHeader,.whycobtnHeader").removeClass("hidden");
 
 		}
 		changeHiddenIconeElement(false);
-	}
+	}*/
 
 
 	function manageSocialNetwork(iconObject, value) {
@@ -1483,7 +1500,7 @@ if($showOdesc == true){
 		}
 	}
 
-	function returnttags() {
+	/*function returnttags() {
 		mylog.log("------------- returnttags -------------------");
 		var tags = <?php echo (isset($element["tags"])) ? json_encode(implode(",", $element["tags"])) : "''"; ?>;
 		//var tags = <?php echo (isset($element["tags"])) ? json_encode( $element["tags"]) : "''"; ?>;
@@ -1507,256 +1524,252 @@ if($showOdesc == true){
 
 	    mylog.log(tel);
 		return tel ;
-	}
+	}*/
 	//modification de la position geographique	
 
-	function findGeoPosByAddress(){
-		//si la streetAdress n'est pas renseignée
-		if($("#streetAddress").html() == $("#streetAddress").attr("data-emptytext")){
-			//on récupère la valeur du code insee s'il existe
-			var insee = ($("#entity-insee-value").attr("insee-val") != "") ? 
-						 $("#entity-insee-value").attr("insee-val") : "";
-			//si on a un codeInsee, on lance la recherche de position par codeInsee
-			if(insee != "") findGeoposByInsee(insee);
-		//si on a une streetAddress
-		}else{
-			var request = "";
+/* function findGeoPosByAddress(){
+	//si la streetAdress n'est pas renseignée
+	if($("#streetAddress").html() == $("#streetAddress").attr("data-emptytext")){
+		//on récupère la valeur du code insee s'il existe
+		var insee = ($("#entity-insee-value").attr("insee-val") != "") ? 
+					 $("#entity-insee-value").attr("insee-val") : "";
+		//si on a un codeInsee, on lance la recherche de position par codeInsee
+		if(insee != "") findGeoposByInsee(insee);
+	//si on a une streetAddress
+	}else{
+		var request = "";
 
-			//recuperation des données de l'addresse
-			var street 			= ($("#streetAddress").html()  != $("#streetAddress").attr("data-emptytext"))  ? $("#streetAddress").html() : "";
-			var address 		= ($("#address").html() 	   != $("#address").attr("data-emptytext")) 	   ? $("#address").html() : "";
-			var addressCountry 	= ($("#addressCountry").html() != $("#addressCountry").attr("data-emptytext")) ? $("#addressCountry").html() : "";
-			
-			//construction de la requete
-			request = addToRequest(request, street);
-			request = addToRequest(request, address);
-			request = addToRequest(request, addressCountry);
+		//recuperation des données de l'addresse
+		var street 			= ($("#streetAddress").html()  != $("#streetAddress").attr("data-emptytext"))  ? $("#streetAddress").html() : "";
+		var address 		= ($("#address").html() 	   != $("#address").attr("data-emptytext")) 	   ? $("#address").html() : "";
+		var addressCountry 	= ($("#addressCountry").html() != $("#addressCountry").attr("data-emptytext")) ? $("#addressCountry").html() : "";
+		
+		//construction de la requete
+		request = addToRequest(request, street);
+		request = addToRequest(request, address);
+		request = addToRequest(request, addressCountry);
 
-			request = transformNominatimUrl(request);
-			request = "?q=" + request;
-			mylog.log(request);
-			findGeoposByNominatim(request);
-		}
-	
+		request = transformNominatimUrl(request);
+		request = "?q=" + request;
+		mylog.log(request);
+		findGeoposByNominatim(request);
 	}
+}
 
-	//quand la recherche nominatim a fonctionné
-	function callbackNominatimSuccess(obj){
-		mylog.log("callbackNominatimSuccess");
-		//si nominatim a trouvé un/des resultats
-		if (obj.length > 0) {
-			//on utilise les coordonnées du premier resultat
-			var coords = L.latLng(obj[0].lat, obj[0].lon);
-			//et on affiche le marker sur la carte à cette position
-			mylog.log("showGeoposFound coords", coords);
-			mylog.dir("showGeoposFound obj", obj);
+//quand la recherche nominatim a fonctionné
+function callbackNominatimSuccess(obj){
+	mylog.log("callbackNominatimSuccess");
+	//si nominatim a trouvé un/des resultats
+	if (obj.length > 0) {
+		//on utilise les coordonnées du premier resultat
+		var coords = L.latLng(obj[0].lat, obj[0].lon);
+		//et on affiche le marker sur la carte à cette position
+		mylog.log("showGeoposFound coords", coords);
+		mylog.dir("showGeoposFound obj", obj);
 
-			//si la donné n'est pas geolocalisé
-			//on lui rajoute les coordonées trouvés
-			//if(typeof contextData["geo"] == "undefined")
-			contextData["geo"] = { "latitude" : obj[0].lat, "longitude" : obj[0].lon };
+		//si la donné n'est pas geolocalisé
+		//on lui rajoute les coordonées trouvés
+		//if(typeof contextData["geo"] == "undefined")
+		contextData["geo"] = { "latitude" : obj[0].lat, "longitude" : obj[0].lon };
 
-			showGeoposFound(coords, contextData.id, "organizations", contextData);
-		}
-		//si nominatim n'a pas trouvé de résultat
-		else {
-			//on récupère la valeur du code insee s'il existe
-			var insee = ($("#entity-insee-value").attr("insee-val") != "") ? 
-						 $("#entity-insee-value").attr("insee-val") : "";
-			//si on a un codeInsee, on lance la recherche de position par codeInsee
-			if(insee != "") findGeoposByInsee(insee);
-		}
+		showGeoposFound(coords, contextData.id, "organizations", contextData);
 	}
-
-	//quand la recherche par code insee a fonctionné
-	function callbackFindByInseeSuccess(obj){
-		mylog.log("callbackFindByInseeSuccess");
-		//si on a bien un résultat
-		if (typeof obj != "undefined" && obj != "") {
-			//récupère les coordonnées
-			var coords = Sig.getCoordinates(obj, "markerSingle");
-			//si on a une geoShape on l'affiche
-			if(typeof obj.geoShape != "undefined") Sig.showPolygon(obj.geoShape);
-			
-			contextData["geo"] = { "latitude" : obj.geo.latitude, "longitude" : obj.geo.longitude };
-			//on affiche le marker sur la carte
-			showGeoposFound(coords, contextData.id, "organizations", contextData);
-		}
-		else {
-			mylog.log("Erreur getlatlngbyinsee vide");
-		}
+	//si nominatim n'a pas trouvé de résultat
+	else {
+		//on récupère la valeur du code insee s'il existe
+		var insee = ($("#entity-insee-value").attr("insee-val") != "") ? 
+					 $("#entity-insee-value").attr("insee-val") : "";
+		//si on a un codeInsee, on lance la recherche de position par codeInsee
+		if(insee != "") findGeoposByInsee(insee);
 	}
+}
 
-
-	//en cas d'erreur nominatim
-	function callbackNominatimError(error){
-		mylog.log("callbackNominatimError", error);
+//quand la recherche par code insee a fonctionné
+function callbackFindByInseeSuccess(obj){
+	mylog.log("callbackFindByInseeSuccess");
+	//si on a bien un résultat
+	if (typeof obj != "undefined" && obj != "") {
+		//récupère les coordonnées
+		var coords = Sig.getCoordinates(obj, "markerSingle");
+		//si on a une geoShape on l'affiche
+		if(typeof obj.geoShape != "undefined") Sig.showPolygon(obj.geoShape);
+		
+		contextData["geo"] = { "latitude" : obj.geo.latitude, "longitude" : obj.geo.longitude };
+		//on affiche le marker sur la carte
+		showGeoposFound(coords, contextData.id, "organizations", contextData);
 	}
-
-	//quand la recherche par code insee n'a pas fonctionné
-	function callbackFindByInseeError(){
-		mylog.log("erreur getlatlngbyinsee", error);
+	else {
+		mylog.log("Erreur getlatlngbyinsee vide");
 	}
+}
 
-	function removeAddresses (index){
 
-		bootbox.confirm({
-			message: "<?php echo Yii::t('common','Are you sure you want to delete the locality') ?><span class='text-red'></span>",
-			buttons: {
-				confirm: {
-					label: "<?php echo Yii::t('common','Yes');?>",
-					className: 'btn-success'
-				},
-				cancel: {
-					label: "<?php echo Yii::t('common','No');?>",
-					className: 'btn-danger'
-				}
+//en cas d'erreur nominatim
+function callbackNominatimError(error){
+	mylog.log("callbackNominatimError", error);
+}
+
+//quand la recherche par code insee n'a pas fonctionné
+function callbackFindByInseeError(){
+	mylog.log("erreur getlatlngbyinsee", error);
+}
+*/
+
+function removeAddresses (index){
+
+	bootbox.confirm({
+		message: "<?php echo Yii::t('common','Are you sure you want to delete the locality') ?><span class='text-red'></span>",
+		buttons: {
+			confirm: {
+				label: "<?php echo Yii::t('common','Yes');?>",
+				className: 'btn-success'
 			},
-			callback: function (result) {
-				if (!result) {
-					return;
-				} else {
-					var addresses = { addressesIndex : index };
-					var param = new Object;
-					param.name = "addresses";
-					param.value = addresses;
-					param.pk = contextData.id;
-					$.ajax({
-				        type: "POST",
-				        url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
-				        data: param,
-				       	dataType: "json",
-				    	success: function(data){
-					    	if(data.result){
-								toastr.success(data.msg);
-								loadByHash("#"+contextData.controller+".detail.id."+contextData.id);
-					    	}
-					    }
-					});
-				}
+			cancel: {
+				label: "<?php echo Yii::t('common','No');?>",
+				className: 'btn-danger'
 			}
-		});		
-	}
+		},
+		callback: function (result) {
+			if (!result) {
+				return;
+			} else {
+				var addresses = { addressesIndex : index };
+				var param = new Object;
+				param.name = "addresses";
+				param.value = addresses;
+				param.pk = contextData.id;
+				$.ajax({
+			        type: "POST",
+			        url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
+			        data: param,
+			       	dataType: "json",
+			    	success: function(data){
+				    	if(data.result){
+							toastr.success(data.msg);
+							loadByHash("#"+contextData.controller+".detail.id."+contextData.id);
+				    	}
+				    }
+				});
+			}
+		}
+	});		
+}
 
-	function updateOrganizer() {
-		bootbox.confirm({
-			message: 
-				"<?php echo Yii::t("event","Update the organizer") ?>"+
-				buildSelect("organizerId", "organizerId", {"inputType" : "select", "options" : firstOptions(), "groupOptions":myAdminList( ["organizations","projects"] )}, ""),
-			buttons: {
-				confirm: {
-					label: "<?php echo Yii::t("event","Update the organizer");?>",
-					className: 'btn-success'
-				},
-				cancel: {
-					label: "<?php echo Yii::t('common','Annuler');?>",
-					className: 'btn-danger'
-				}
+function updateOrganizer() {
+	bootbox.confirm({
+		message: 
+			"<?php echo Yii::t("event","Update the organizer") ?>"+
+			buildSelect("organizerId", "organizerId", {"inputType" : "select", "options" : firstOptions(), "groupOptions":myAdminList( ["organizations","projects"] )}, ""),
+		buttons: {
+			confirm: {
+				label: "<?php echo Yii::t("event","Update the organizer");?>",
+				className: 'btn-success'
 			},
-			
-			callback: function (result) {
-				if (!result) {
-					return;
-				} else {
-					var organizer = { "organizerId" : organizerId, "organizerType" : organizerType };
-
-					var param = new Object;
-					param.name = "organizer";
-					param.value = organizer;
-					param.pk = contextData.id;
-					$.ajax({
-				        type: "POST",
-				        url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
-				        data: param,
-				       	dataType: "json",
-				    	success: function(data){
-					    	if(data.result){
-								toastr.success(data.msg);
-								loadByHash("#"+contextData.controller+".detail.id."+contextData.id);
-					    	} else {
-					    		toastr.error(data.msg);
-					    	}
-					    }
-					});
-				}
+			cancel: {
+				label: "<?php echo Yii::t('common','Annuler');?>",
+				className: 'btn-danger'
 			}
-		}).init(function(){
-        	console.log("init de la bootbox !");
-        	$("#organizerId").off().on("change",function(){
-        		organizerId = $(this).val();
-        		if(organizerId == "dontKnow" )
-        			organizerType = "dontKnow";
-        		else if( $('#organizerId').find(':selected').data('type') && typeObj[$('#organizerId').find(':selected').data('type')] )
-        			organizerType = typeObj[$('#organizerId').find(':selected').data('type')].col;
-        		else
-        			organizerType = typeObj["person"].col;
+		},
+		
+		callback: function (result) {
+			if (!result) {
+				return;
+			} else {
+				var organizer = { "organizerId" : organizerId, "organizerType" : organizerType };
 
-        		mylog.warn( "organizer",organizerId,organizerType );
-        		$("#ajaxFormModal #organizerType ").val( organizerType );
-        	});
-        })
-	}
-	
-	function buildSelect(id, field, fieldObj,formValues) {
-		var fieldClass = (fieldObj.class) ? fieldObj.class : '';
-		var placeholder = (fieldObj.placeholder) ? fieldObj.placeholder+required : '';
-		var fieldHTML = "";
-		if ( fieldObj.inputType == "select" || fieldObj.inputType == "selectMultiple" ) 
-        {
-       		var multiple = (fieldObj.inputType == "selectMultiple") ? 'multiple="multiple"' : '';
-       		mylog.log("build field "+field+">>>>>> select selectMultiple");
-       		var isSelect2 = (fieldObj.isSelect2) ? "select2Input" : "";
-       		fieldHTML += '<select class="'+isSelect2+' '+fieldClass+'" '+multiple+' name="'+field+'" id="'+field+'" style="width: 100%;height:30px;" data-placeholder="'+placeholder+'">';
-			if(placeholder)
-				fieldHTML += '<option class="text-red" style="font-weight:bold" disabled selected>'+placeholder+'</option>';
-			else
-				fieldHTML += '<option></option>';
-
-			var selected = "";
-			
-			//initialize values
-			if(fieldObj.options)
-				fieldHTML += buildSelectOptions(fieldObj.options, fieldObj.value);
-			
-			if( fieldObj.groupOptions ){
-				fieldHTML += buildSelectGroupOptions(fieldObj.groupOptions, fieldObj.value);
-			} 
-			fieldHTML += '</select>';
-        }
-        return fieldHTML;
-	}
-
-
-	
-
-
-
-	function editDynForm(title, icon, properties, fct, data, saveUrl, onLoads, beforeSave, afterSave) {
-		var form = {
-			dynForm:{
-				jsonSchema : {
-					title : title,
-					icon : icon,
-					properties : properties
-				}
+				var param = new Object;
+				param.name = "organizer";
+				param.value = organizer;
+				param.pk = contextData.id;
+				$.ajax({
+			        type: "POST",
+			        url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
+			        data: param,
+			       	dataType: "json",
+			    	success: function(data){
+				    	if(data.result){
+							toastr.success(data.msg);
+							loadByHash("#"+contextData.controller+".detail.id."+contextData.id);
+				    	} else {
+				    		toastr.error(data.msg);
+				    	}
+				    }
+				});
 			}
-		};
+		}
+	}).init(function(){
+    	console.log("init de la bootbox !");
+    	$("#organizerId").off().on("change",function(){
+    		organizerId = $(this).val();
+    		if(organizerId == "dontKnow" )
+    			organizerType = "dontKnow";
+    		else if( $('#organizerId').find(':selected').data('type') && typeObj[$('#organizerId').find(':selected').data('type')] )
+    			organizerType = typeObj[$('#organizerId').find(':selected').data('type')].col;
+    		else
+    			organizerType = typeObj["person"].col;
 
-		if(typeof saveUrl != "undefined" )
-			form.saveUrl = saveUrl;
+    		mylog.warn( "organizer",organizerId,organizerType );
+    		$("#ajaxFormModal #organizerType ").val( organizerType );
+    	});
+    })
+}
+	
+function buildSelect(id, field, fieldObj,formValues) {
+	var fieldClass = (fieldObj.class) ? fieldObj.class : '';
+	var placeholder = (fieldObj.placeholder) ? fieldObj.placeholder+required : '';
+	var fieldHTML = "";
+	if ( fieldObj.inputType == "select" || fieldObj.inputType == "selectMultiple" ) 
+    {
+   		var multiple = (fieldObj.inputType == "selectMultiple") ? 'multiple="multiple"' : '';
+   		mylog.log("build field "+field+">>>>>> select selectMultiple");
+   		var isSelect2 = (fieldObj.isSelect2) ? "select2Input" : "";
+   		fieldHTML += '<select class="'+isSelect2+' '+fieldClass+'" '+multiple+' name="'+field+'" id="'+field+'" style="width: 100%;height:30px;" data-placeholder="'+placeholder+'">';
+		if(placeholder)
+			fieldHTML += '<option class="text-red" style="font-weight:bold" disabled selected>'+placeholder+'</option>';
+		else
+			fieldHTML += '<option></option>';
 
-		if(typeof onLoads != "undefined" )
-			form.dynForm.jsonSchema.onLoads = onLoads;
+		var selected = "";
+		
+		//initialize values
+		if(fieldObj.options)
+			fieldHTML += buildSelectOptions(fieldObj.options, fieldObj.value);
+		
+		if( fieldObj.groupOptions ){
+			fieldHTML += buildSelectGroupOptions(fieldObj.groupOptions, fieldObj.value);
+		} 
+		fieldHTML += '</select>';
+    }
+    return fieldHTML;
+}
 
-		if(typeof beforeSave != "undefined" )
-			form.dynForm.jsonSchema.beforeSave = beforeSave;
+function editDynForm(title, icon, properties, fct, data, saveUrl, onLoads, beforeSave, afterSave) {
+	mylog.warn("---------------------- editDynForm ------------------");
+	var form = {
+		dynForm:{
+			jsonSchema : {
+				title : title,
+				icon : icon,
+				properties : properties
+			}
+		}
+	};
 
-		if(typeof afterSave != "undefined" )
-			form.dynForm.jsonSchema.afterSave = afterSave;
+	if(typeof saveUrl != "undefined" )
+		form.saveUrl = saveUrl;
 
-		mylog.dir(form);
+	if(typeof onLoads != "undefined" )
+		form.dynForm.jsonSchema.onLoads = onLoads;
 
-		elementLib.openForm(form, fct, data);
+	if(typeof beforeSave != "undefined" )
+		form.dynForm.jsonSchema.beforeSave = beforeSave;
+
+	if(typeof afterSave != "undefined" )
+		form.dynForm.jsonSchema.afterSave = afterSave;
+
+	mylog.dir(form);
+
+	elementLib.openForm(form, fct, data);
 }
 
 function changeNetwork(id, url, str){
@@ -1765,23 +1778,11 @@ function changeNetwork(id, url, str){
 	$(id).html(str);
 }
 
-function changeFormatDate(date) {
-    var d = new Date(date),
-        month = '' + (d.getMonth() + 1),
-        day = '' + d.getDate(),
-        year = d.getFullYear(),
-        hour = d.getHours(),
-        min = d.getMinutes();
+function initDate() {//DD/mm/YYYY hh:mm
 
-    if (month.length < 2) month = '0' + month;
-    if (day.length < 2) day = '0' + day;
-    if (min.length < 2) min = '0' + min;
-    if (hour.length < 2) hour = '0' + hour;
-
-    return day+"/"+month+"/"+year+" "+hour+":"+min;
+    $("#contentGeneralInfos #startDate").html(moment($("#contentGeneralInfos #startDate").html()).local().format(formatDateView));
+    $("#contentGeneralInfos #endDate").html(moment($("#contentGeneralInfos #endDate").html()).local().format(formatDateView));
+    $('#dateTimezone').attr('data-original-title', "Fuseau horaire : GMT " + moment().local().format("Z"));
 }
-
-	
-	
 
 </script>

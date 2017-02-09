@@ -108,6 +108,15 @@ Liste des notifications déjà lues => #370 #453
   [.2] globaliser le system de Tokens et utilisation API Communecter =>#341 (Auth) + #1262
   [.2] page city : ajouter quartier isis, qpv , maison et conseil de quartier =>#1258, #277
   [.2] finir la belgique => #1259
+  * DynForm
+  [ ] Refactor DynForm
+    [X] typeObjLib
+    [ ] Refactor Editable
+      [ ] Organiser a géré
+      [ ] Nettoyer le code inutile
+      * BUG
+      [ ] Historique bug lorsqu'on ajoutes des contacts
+
   * Import / Export 
   [.2] RSS (Personne, Orga, Projet, event, city, region, thematique, tags) => #523
   [X] INTEGRATTE MARKDOWN wisiwig

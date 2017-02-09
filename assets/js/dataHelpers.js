@@ -180,7 +180,7 @@ function dateSecToString(date){
     					(min[1]?min:"0"+min[0]) + ":" + (ss[1]?ss:"0"+ss[0]) + ":00"; // padding
     return date;
 }
-function dateToStr(date, lang, inline, fullMonth){ //work with date formated : yyyy-mm-dd hh:mm:ss ou millisecond
+function dateToStr(date, lang, inline, fullMonth, notTime){ //work with date formated : yyyy-mm-dd hh:mm:ss ou millisecond
 
 	if(typeof date == "undefined") return;
 	if(fullMonth != true) fullMonth = false;
@@ -195,7 +195,16 @@ function dateToStr(date, lang, inline, fullMonth){ //work with date formated : y
 		date = dateSecToString(date);
 	}
 	//mylog.log(date);
-	if(lang == "fr"){
+	//console.log("convert format date 1", date);
+	if(lang == "dynForm"){
+		var year 	= date.substr(0, 4);
+		var month 	= date.substr(5, 2);//getMonthStr(date.substr(5, 2), lang);
+		var day 	= date.substr(8, 2);
+		var hours 	= date.substr(11, 2);
+		var minutes = date.substr(14, 2);
+		mylog.log("notTime", notTime);
+	    return day+ "/" + month + "/" + year + ((notTime) ? "" : " " + hours + ":" + minutes );
+	} else if(lang == "fr"){
 		//(year, month, day, hours, minutes, seconds, milliseconds) 
 		//mylog.log("convert format date", date);
 		var year 	= date.substr(0, 4);
@@ -208,7 +217,6 @@ function dateToStr(date, lang, inline, fullMonth){ //work with date formated : y
 		var str = day + "/" + month + "/" + year;
 
 		if(fullMonth) str = day + " " + getMonthStr(month, "fr") + " " + year;
-
 
 		if(!inline) str += "</br>";
 		else str += " - ";

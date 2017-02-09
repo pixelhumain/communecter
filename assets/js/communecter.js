@@ -2043,10 +2043,26 @@ function autoCompleteInviteSearch(search){
 				});
 			}
 			
-			$("#ajaxFormModal #invitedUserNametext").html(str);
-			$("#ajaxFormModal #invitedUserNametext").css({"display" : "inline" });
+			$("#ajaxFormModal #dropdown_searchInvite").html(str);
+			$("#ajaxFormModal #dropdown_searchInvite").css({"display" : "inline" });
 		}
 	);	
+}
+
+function newInvitation(){
+	$("#ajaxFormModal #step1").css({"display" : "none"});
+	$("#ajaxFormModal #step3").css({"display" : "block"});
+	
+	$('#ajaxFormModal #inviteId').val("");
+	var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+	if(emailReg.test( $("#ajaxFormModal #inviteSearch").val() )){
+		$('#ajaxFormModal #inviteEmail').val( $("#ajaxFormModal #inviteSearch").val());
+		$("#ajaxFormModal #inviteName").val("");
+	}else{
+		$("#ajaxFormModal #inviteName").val($("#ajaxFormModal #inviteSearch").val());
+		$("#ajaxFormModal #inviteEmail").val("");
+	}
+	$("#inviteText").val('<?php echo Yii::t("person","Hello, \\nCome and meet me on that website!\\nAn email, your town and you are connected to your city!\\nYou can see everything that happens in your city and act for the commons."); ?>');
 }
 
 function communecterUser(){
@@ -2264,6 +2280,14 @@ var elementLib = {
 										
 		if( typeof formData.tags != "undefined" && formData.tags != "" )
 			formData.tags = formData.tags.split(",");
+
+
+		/*if( typeof formData.startDate != "undefined" && formData.startDate != "" )
+			formData.startDate = moment(formData.startDate).local().format();
+
+		if( typeof formData.endDate != "undefined" && formData.endDate != "" )
+			formData.endDate = moment(formData.endDate).local().format();*/
+
 		// Add collections and genres of notragora in tags
 		if( typeof formData.collections != "undefined" && formData.collections != "" ){
 			collectionsTagsSave=formData.collections.split(",");
@@ -2280,7 +2304,7 @@ var elementLib = {
 			delete formData['genres'];
 		}
 
-		if(typeof formData.isUpdate != "undefined" && !formData.isUpdate)
+		if(typeof formData.isUpdate == "undefined" || !formData.isUpdate)
 			removeEmptyAttr(formData);
 		else
 			delete formData["isUpdate"];
@@ -2351,19 +2375,18 @@ var elementLib = {
 	            			toastr.error(data.resultErrors.msg);
 	            	}
 
+	            	if(data.map && $.inArray(collection, ["events","organizations","projects","citoyens"] ) !== -1)
+			        	addFloopEntity(data.id, collection, data.map);
+
 	            	if (typeof afterSave == "function") 
 	            		afterSave(data);
-	            	else
-            		{
+	            	else{
 						elementLib.closeForm();
 		                if(data.url)
 		                	loadByHash( data.url );
 		                else if(data.id)
 			        		loadByHash( '#'+ctrl+'.detail.id.'+data.id )
-			        	if(data.map && $.inArray(collection, ["events","organizations","projects","citoyens"] ) !== -1)
-			        		addFloopEntity(data.id, collection, data.map);	
-					}
-	            	
+					}	
 	            }
 	    	}
 	    });
@@ -2618,6 +2641,19 @@ var typeObjLib = {
         	});
         }
     },
+    nameOrganiser : {
+    	placeholder : "Nom",
+        inputType : "text",
+        rules : {
+            required : true
+        },
+        init : function(){
+        	$("#ajaxFormModal #name ").off().on("blur",function(){
+        		if($("#ajaxFormModal #name ").val().length > 3 )
+        			globalSearch($(this).val(),["projects", "events", "organizations"]);
+        	});
+        }
+    },
     username : {
     	placeholder : "username",
         inputType : "text",
@@ -2789,8 +2825,8 @@ var typeObjLib = {
 				        format: "d/m/Y",
 				        timepicker:false
 				    });
-				    startDate = moment($('#ajaxFormModal #startDateInput').val(), "DD/MM/YYYY HH:mm").format("DD/MM/YYYY");
-				    endDate = moment($('#ajaxFormModal #endDateInput').val(), "DD/MM/YYYY HH:mm").format("DD/MM/YYYY");
+				    startDate = moment($('#ajaxFormModal #startDate').val(), "DD/MM/YYYY HH:mm").format("DD/MM/YYYY");
+				    endDate = moment($('#ajaxFormModal #endDate').val(), "DD/MM/YYYY HH:mm").format("DD/MM/YYYY");
     			} else {
     				$(".dateInput").addClass("dateTimeInput");
     				$(".dateInput").removeClass("dateInput");
@@ -2802,11 +2838,11 @@ var typeObjLib = {
 						format: 'd/m/Y H:i'
 				    });
 				    
-    				startDate = moment($('#ajaxFormModal #startDateInput').val(), "DD/MM/YYYY").format("DD/MM/YYYY HH:mm");
-					endDate = moment($('#ajaxFormModal #endDateInput').val(), "DD/MM/YYYY").format("DD/MM/YYYY HH:mm");
+    				startDate = moment($('#ajaxFormModal #startDate').val(), "DD/MM/YYYY").format("DD/MM/YYYY HH:mm");
+					endDate = moment($('#ajaxFormModal #endDate').val(), "DD/MM/YYYY").format("DD/MM/YYYY HH:mm");
     			}
-			    if (startDate != "Invalid date") $('#ajaxFormModal #startDateInput').val(startDate);
-				if (endDate != "Invalid date") $('#ajaxFormModal #endDateInput').val(endDate);
+			    if (startDate != "Invalid date") $('#ajaxFormModal #startDate').val(startDate);
+				if (endDate != "Invalid date") $('#ajaxFormModal #endDate').val(endDate);
     		}
     	}
     },
@@ -2823,7 +2859,7 @@ var typeObjLib = {
         placeholder: "Date de fin",
         rules : { 
         	required : true,
-        	greaterThan: ["#ajaxFormModal #startDateInput","la date de début"],
+        	greaterThan: ["#ajaxFormModal #startDate","la date de début"],
         	duringDates: ["#startDateParent","#endDateParent","La date de fin"]
 	    }
     },
@@ -2876,12 +2912,8 @@ var typeObjLib = {
       	inputType : "hidden"
     },
     inviteSearch : {
-    	placeholder : " Nom ou Email",
-        inputType : "text",
-        rules : {
-            required : true
-        },
-        init : function(){
+    	inputType : "searchInvite",
+       	init : function(){
         	$("#ajaxFormModal #inviteSearch ").keyup(function(e){
 			    var search = $('#inviteSearch').val();
 			    if(search.length>2){
@@ -2891,16 +2923,6 @@ var typeObjLib = {
 				 	$("#newInvite #dropdown_searchInvite").css({"display" : "none" });	
 				}	
 			});
-        }
-    },
-    invitedUserName : {
-    	placeholder : "Nom",
-        inputType : "text",
-        rules : {
-            required : true
-        },
-        init : function(){
-        	$(".invitedUserNametext").css("display","none");	
         }
     },
     invitedUserEmail : {
@@ -3029,8 +3051,8 @@ var typeObj = {
 		                html:"<p><i class='fa fa-info-circle'></i> Si vous voulez inviter quelqu'un à rejoindre Communecter ...</p>",
 		            },
 		            inviteSearch : typeObjLib.inviteSearch,
-			        invitedUserName : typeObjLib.invitedUserName,
-			        invitedUserEmail : typeObjLib.invitedUserEmail,
+			        /*invitedUserName : typeObjLib.invitedUserName,
+			        invitedUserEmail : typeObjLib.invitedUserEmail,*/
 			        "preferences[publicFields]" : {
 		               inputType : "hidden",
 		                value : []
@@ -3282,8 +3304,8 @@ var typeObj = {
 			    	var dateformat = "DD/MM/YYYY";
 			    	if (! allDay) 
 			    		var dateformat = "DD/MM/YYYY HH:mm"
-			    	$("#ajaxFormModal #startDate").val( moment( $("#ajaxFormModal #startDateInput").val(), dateformat).format());
-					$("#ajaxFormModal #endDate").val( moment( $("#ajaxFormModal #endDateInput").val(), dateformat).format());
+			    	$("#ajaxFormModal #startDate").val( moment( $("#ajaxFormModal #startDate").val(), dateformat).format());
+					$("#ajaxFormModal #endDate").val( moment( $("#ajaxFormModal #endDate").val(), dateformat).format());
 					//mylog.log($("#ajaxFormModal #startDate").val());
 			    },
 			    properties : {

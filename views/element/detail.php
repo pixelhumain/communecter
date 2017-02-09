@@ -109,7 +109,7 @@ if($('#breadcum').length)
 	    				"edit" => @$edit,
 	    				"isLinked" => @$isLinked,
 	    				"openEdition" => $openEdition,
-	    				"modeEdit" => @$modeEdit,
+	    				//"modeEdit" => @$modeEdit,
 	    				"controller" => $controller
 	    			);
 	    			$this->renderPartial('../poi/ficheInfo',$params); 
@@ -123,20 +123,20 @@ if($('#breadcum').length)
 	    				"element" => $element,
 						"tags" => $tags, 
 						"images" => array("profil"=>array($element["profilImageUrl"])),
-						"elementTypes" => @$listTypes,
-						"countries" => $countries,
-						"typeIntervention" => @$typeIntervention,
-						"NGOCategories" => @$NGOCategories,
-						"localBusinessCategories" => @$localBusinessCategories,
+						//"elementTypes" => @$listTypes,
+						//"countries" => $countries,
+						//"typeIntervention" => @$typeIntervention,
+						//"NGOCategories" => @$NGOCategories,
+						//"localBusinessCategories" => @$localBusinessCategories,
 	    				"contextMap" => @$contextMap,
-	    				"publics" => @$public,
+	    				//"publics" => @$public,
 						"type" => @$type,
 						"organizer" =>@$organizer,
 	    				"contentKeyBase" => "profil",
 	    				"edit" => @$edit,
 	    				"isLinked" => @$isLinked,
 	    				"openEdition" => $openEdition,
-	    				"modeEdit" => @$modeEdit,
+	    				//"modeEdit" => @$modeEdit,
 	    				"controller" => $controller
 	    			);
 	    			$this->renderPartial('../pod/ficheInfoElement',$params); 
@@ -250,8 +250,8 @@ if($('#breadcum').length)
 				                <div class="col-md-12 no-padding" style="margin-top:20px">
 
 				                    <div class="col-xs-6  center text-yellow btnSubTitle">
-				                        <a href="javascript:elementLib.openForm('person')" class="btn btn-discover bg-yellow">
-
+				                        <!-- <a href="javascript:elementLib.openForm('person')" class="btn btn-discover bg-yellow"> -->
+				                        <a href="#person.invite" class="btn btn-discover bg-yellow lbh">
 				                          <i class="fa fa-user"></i>
 				                        </a><br/><span class="discover-subtitle">Une personne</span>
 				                    </div>
