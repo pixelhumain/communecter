@@ -37,7 +37,7 @@
     margin-top: 4px;
     font-size: large;
     background-color: #e25555 !important;
-    color: white;
+    color: white!important;
     border-radius: inherit;
 }
 .grayscale{
@@ -47,21 +47,17 @@
 </style>
 
 <?php 
-	$parentId="";
 	if ($contentType == Project::COLLECTION){ 
-		$parentRedirect = "project";
-		$parentId = (string)$project["_id"];
 		$tooltips = "La communauté du projet";
 	}
 	else if ($contentType == Organization::COLLECTION){
-		$parentRedirect = "organization";
-		$parentId = (string)$organization["_id"];
 		$tooltips = "La communauté de l'organisation";							
 	}
 	else if ($contentType == Event::COLLECTION){
-		$parentRedirect = "event";
-		$parentId = (string)$event["_id"];	
 		$tooltips = "La communauté de l'évènement";						
+	}
+	else if ($contentType == Person::COLLECTION){
+		$tooltips = "La communauté de cette personne";						
 	}
 
 
@@ -128,7 +124,9 @@
 						else if ($contentType==Project::COLLECTION) 
 							echo Yii::t("common","No contributor for this project"); 
 						else if ($contentType==Organization::COLLECTION) 
-							echo Yii::t("common","No member for this organization"); ?>
+							echo Yii::t("common","No member for this organization");
+						else if ($contentType==Person::COLLECTION) 
+							echo Yii::t("common","No member for this person"); ?>
 					</blockquote>
 				</div>
 			<?php }
