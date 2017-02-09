@@ -7,7 +7,7 @@
 - P2P : person to person exchanges 
 - P2G : private group chat rooms
 
-## Features
+## Our side specifications
   - on CO² 
   	- we run on a mongoDB
   		- we have a user collection 
@@ -17,11 +17,13 @@
 			- events
 			- city 
 			- classifieds
+## Integration			
   	- ultimetly RC would sit inside the plateform in 2 forms : 
   		- small bottom popin 
   		- chat page, grouping all different conversations
   		- open to suggestions ???
 
+## Use cases
   	- a user can go on any users page and start a discussion, identicall to a P2P converstaion in RC 
   		- the conversation is not accessible to other users
   	- ELEMENTs always have group or people associated 
