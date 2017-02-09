@@ -1204,16 +1204,18 @@ class DatamigrationController extends CommunecterController {
 	}
 
 
-	public function actionAddDepAndRegionInAddress(){
+	public function actionAddDepAndRegionAndCountryInAddress(){
 
 
 		$types = array(Person::COLLECTION, Organization::COLLECTION, Project::COLLECTION, Event::COLLECTION);
 		$nbelement = 0 ;
 		$arrayDep = array("address.depName" => array('$exists' => 0));
 		$arrayRegion = array("address.regionName" => array('$exists' => 0));
+		$arrayCountry = array("address.addressCountry" => array('$exists' => 0));
+		$arrayStreet = array("address.streetAddress" => array('$exists' => 0));
 		$where = array('$and' => array(
 						array("address" => array('$exists' => 1)), 
-						array('$or' => array($arrayDep, $arrayRegion))
+						array('$or' => array($arrayDep, $arrayRegion, $arrayCountry, $arrayStreet))
 					));
 		
 		foreach ($types as $keyType => $type) {
@@ -1224,13 +1226,15 @@ class DatamigrationController extends CommunecterController {
 				foreach (@$elements as $keyElt => $elt) {
 					if(!empty($elt["name"])){
 						$nbelement ++ ;
-						$elt["modifiedByBatch"][] = array("AddDepAndRegionInAddress" => new MongoDate(time()));
+						$elt["modifiedByBatch"][] = array("AddDepAndRegionAndCountryInAddress" => new MongoDate(time()));
 						$address = $elt["address"];
 
 						$depAndRegion = City::getDepAndRegionByInsee($address["codeInsee"]);
 
 						$address["depName"] = (empty($depAndRegion["depName"]) ? "" : $depAndRegion["depName"]);
 						$address["regionName"] = (empty($depAndRegion["regionName"]) ? "" : $depAndRegion["regionName"]);
+						$address["addressCountry"] = (empty($depAndRegion["country"]) ? "" : $depAndRegion["country"]);
+						$address["streetAddress"] = (empty($elt["address"]["streetAddress"]) ? "" : $elt["address"]["streetAddress"]);
 						try {
 							$res = PHDB::update( $type, 
 						  		array("_id"=>new MongoId($keyElt)),

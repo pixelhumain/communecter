@@ -16,7 +16,7 @@
 /communecter/datamigration/NameHtmlSpecialCharsDecode
 
 ** @Rapha : Ajoute les nom des dep et régions au addresse des elements
-/communecter/datamigration/AddDepAndRegionInAddress
+/communecter/datamigration/AddDepAndRegionAndCountryInAddress
 
 
 
