@@ -16,7 +16,7 @@
 	- events
 	- city 
 	- classifieds
-	
+
 ## Integration			
 - ultimetly RC would sit inside the plateform in 2 forms : 
 	- small bottom popin 
@@ -31,4 +31,8 @@
 	- channels are only accessible to the group's members
 	- only admins can open a channel 
 	- a group can have many channels 
+
+## Relation 
+- we are interested in a close relation with other open source project like RC 
+- our interoperabilty will be the first of a long list
 
