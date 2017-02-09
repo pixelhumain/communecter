@@ -131,8 +131,47 @@
     font-size: 13px;
 }
 
-</style>
+#listCollections .text-white{
+  color:black!important;
+}
 
+
+
+<?php 
+    $btnAnc = array("blue"      =>array("color1"=>"#4285f4", 
+                                        "color2"=>"#1c6df5"),
+                    );
+?>
+
+<?php foreach($btnAnc as $color => $params){ ?>
+.btn-anc-color-<?php echo $color; ?>{
+    background-color: <?php echo $params["color1"]; ?>;
+    border-color: <?php echo $params["color1"]; ?>!important;
+    color: #fff!important;
+}
+
+.btn-anc-color-<?php echo $color; ?>:hover{
+    background-color: <?php echo $params["color2"]; ?>!important;
+    border-color: <?php echo $params["color1"]; ?>!important;
+}
+.btn-anc-color-<?php echo $color; ?>.active{ 
+    background-color:#fff!important;
+    color:<?php echo $params["color1"]; ?>!important;
+}
+.btn-anc-color-<?php echo $color; ?>.active:hover{
+    background-color: #fff;
+    color: <?php echo $params["color1"]; ?>;
+}
+
+.favElBtn, .favAllBtn{
+  padding: 5px 8px;
+  font-weight: 800;
+  margin-bottom:5px;
+}
+
+<?php } ?>
+
+  </style>
 	
     <!-- Header -->
     <section class="header" id="header">

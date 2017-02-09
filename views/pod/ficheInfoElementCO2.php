@@ -71,9 +71,9 @@
 	}
 
 	.favElBtn{
-		color: #FC4D4D !important;
-		padding: 6px;
-		margin-bottom: 4px;
+		/*color: #FC4D4D !important;*/
+		/*padding: 6px;
+		margin-bottom: 4px;*/
 	}
 	#listTags{
 		text-align: right;
@@ -262,7 +262,7 @@
 			<?php if (($type==Project::COLLECTION || $type==Organization::COLLECTION || $type==Event::COLLECTION)){ ?>
 			<li class="podInside">
 				<div class="link">
-					<i class="fa fa-user-circle"></i> Contacts 
+					<i class="fa fa-user-circle"></i> Nous contacter
 					<small>(<?php echo @$element["contacts"] ? count($element["contacts"]) : "0"; ?>)</small>
 					<i class="fa fa-chevron-down"></i>
 				</div>
@@ -314,7 +314,7 @@
 			<?php if( $type!=Event::COLLECTION && ( !@$front || (@$front && $front["need"]==true))){ ?>
 	    	<li class="podInside needs">
 				<div class="link">
-					<i class="fa fa-cubes"></i> Nos besoins 
+					<i class="fa fa-cubes"></i> <?php if( $type!=Person::COLLECTION){ ?>Nos<?php }else{ ?>Mes<?php } ?> besoins 
 					<small>(<?php echo @$needs ? count($needs) : "0"; ?>)</small>
 					<i class="fa fa-chevron-down"></i>
 				</div>
@@ -490,18 +490,6 @@
 			</div>
 		<?php } ?>
 
-		<?php if( !$type==Event::COLLECTION && ( !@$front || (@$front && $front["need"]==true))){ ?>
-	    	<div class="col-xs-12 needsPod">	
-				<?php $this->renderPartial('../pod/needsList',array( 	"needs" => @$needs, 
-																		"parentId" => (String) $element["_id"],
-																		"parentType" => $type,
-																		"isAdmin" => @$edit,
-																		"parentName" => $element["name"],
-																		"openEdition" => $openEdition
-																	  )); ?>
-
-			</div>
-		<?php } ?>
 <?php 
 	$element["type"] = $type;
 	$element["id"] = (string)$element["_id"];
@@ -721,13 +709,23 @@
 
 		smallMenu.inBlockUI = false; 
 		smallMenu.destination = "#central-container"; 
-			
+		directory.elemClass = smallMenu.destination+' .searchEntityContainer ';
+
+		mylog.log("tagg1 smallMenu.destination", smallMenu.destination);
+		
 		$(".open-directory").click(function(){
+			smallMenu.inBlockUI = false; 
+			smallMenu.destination = "#central-container"; 
+			directory.elemClass = smallMenu.destination+' .searchEntityContainer ';
 			toogleNotif(false);
-			smallMenu.openAjax(baseUrl+'/'+moduleId+'/element/directory/type/'+contextType+'/id/'+contextId+'?tpl=json','Communauté','fa-book','red');
+			smallMenu.openAjax(baseUrl+'/'+moduleId+'/element/directory/type/'+contextType+'/id/'+contextId+
+								'?tpl=json','Communauté','fa-book','red');
 		});
 
 		$(".btn-open-collection").click(function(){
+			smallMenu.inBlockUI = false; 
+			smallMenu.destination = "#central-container"; 
+			directory.elemClass = smallMenu.destination+' .searchEntityContainer ';
 			toogleNotif(false);
 		});
 

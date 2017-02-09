@@ -8,23 +8,44 @@
                                           Yii::app()->theme->baseUrl. '/assets');
 
 ?>  
-  
-  <?php if(@$_GET['type']!="") { ?>
-      <?php $typeSelected = $_GET['type']; ?>
-      <?php if($typeSelected == "persons") $typeSelected = "citoyens" ; ?>
-      <?php $spec = Element::getElementSpecsByType($typeSelected); ?>
-      <h2 class="text-left pull-left" style="margin-left:10px; margin-top:15px; width:90%;">
-        <span class="subtitle-search text-<?php echo $spec["text-color"]; ?> homestead">
-          <i class="fa fa-angle-down"></i> 
-          <?php 
-            $typeName = Yii::t("common",$_GET['type']); 
-            if($_GET['type'] == "vote") $typeName = "propositions";
-            if($_GET['type'] == "cities") $typeName = "communes";
-          ?>
-          <i class="fa fa-<?php echo $spec["icon"]; ?>"></i> Liste des  <?php echo $typeName; ?>
-        </span>
-      </h2>
-     <?php } ?>
+  <style>
+
+<?php 
+    $btnAnc = array("blue"      =>array("color1"=>"#4285f4", 
+                                        "color2"=>"#1c6df5"),
+                    );
+?>
+
+<?php foreach($btnAnc as $color => $params){ ?>
+.btn-anc-color-<?php echo $color; ?>{
+    background-color: <?php echo $params["color1"]; ?>;
+    border-color: <?php echo $params["color1"]; ?>!important;
+    color: #fff!important;
+}
+
+.btn-anc-color-<?php echo $color; ?>:hover{
+    background-color: <?php echo $params["color2"]; ?>!important;
+    border-color: <?php echo $params["color1"]; ?>!important;
+}
+.btn-anc-color-<?php echo $color; ?>.active{ 
+    background-color:#fff!important;
+    color:<?php echo $params["color1"]; ?>!important;
+}
+.btn-anc-color-<?php echo $color; ?>.active:hover{
+    background-color: #fff;
+    color: <?php echo $params["color1"]; ?>;
+}
+
+.favElBtn, .favAllBtn{
+  padding: 5px 8px;
+  font-weight: 800;
+  margin-bottom:5px;
+}
+
+<?php } ?>
+
+  </style>
+ 
 
   <div class="container-result-search">
 
@@ -52,8 +73,13 @@
 		      <span class="hidden-xs"> Afficher <span class="hidden-sm hidden-xs">sur</span> la carte</span>
 		    </button>
 	  	</div>
-		<div id="listTags" class="hide col-sm-2 hide"></div>
-		<div style="" class="row no-padding" id="dropdown_search"></div>
+
+  		<div class="col-md-12">
+          <hr>
+      </div>
+
+      <div id="listTags" class="col-sm-2 col-md-2 text-right"></div>
+      <div class="col-md-10 col-sm-10 padding-10" id="dropdown_search"></div>
 
   </div>
 
@@ -96,11 +122,13 @@ function setHeaderDirectory(type){
   var params = new Array();
   if(typeof headerParams[type] == "undefined") return;
   params = headerParams[type];
-  $(".subtitle-search").html( '<span class="text-'+params.color+' homestead">'+
-                                '<i class="fa fa-angle-down"></i> <i class="fa fa-'+params.icon+'"></i> '+
-                                params.name+
-                                " <i class='fa fa-angle-right'></i> <a href='javascript:directory.showFilters()' class='btn btn-default'> <i class='fa fa-search'></i> <i class='fa fa-tags'></i> </a>"+
-                              '</span>' );
+  $(".subtitle-search").html( '<span class="text-'+params.color+'">'+
+                                //'<i class="fa fa-angle-down"></i> <i class="fa fa-'+params.icon+'"></i> '+
+                               // params.name+
+                                //" <i class='fa fa-angle-right'></i> "+
+                               // "<a href='javascript:directory.showFilters()' class='btn btn-default btn-sm'> "+
+                                //"<i class='fa fa-search'></i> Recherche avancée</a>"+
+                              '</span><hr>' );
 
   $(".lbl-info-search .lbl-info").addClass("hidden");
   $(".lbl-info-search .lbl-info.lbl-info-"+type).removeClass("hidden");
@@ -201,7 +229,7 @@ jQuery(document).ready(function() {
 function searchCallback() { 
   directory.elemClass = '.searchEntityContainer ';
   directory.filterTags(true);
-  $(".btn-tag").off().on("click",function(){ directory.toggleEmptyParentSection(null,"."+$(this).data("tag-value"),".searchEntityContainer",1)});
+  $(".btn-tag").off().on("click",function(){ directory.toggleEmptyParentSection(null,"."+$(this).data("tag-value"), directory.elemClass, 1)});
   $("#searchBarTextJS").off().on("keyup",function() { 
     directory.search ( null, $(this).val() );
   });

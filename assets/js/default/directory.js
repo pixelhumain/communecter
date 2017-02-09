@@ -9,6 +9,12 @@ var totalData = 0;
 var timeout = null;
 var searchType = '';
 
+var translate = {"organizations":"Organisations",
+                 "projects":"Projets",
+                 "events":"Événements",
+                 "people":"Citoyens",
+                 "followers":"Ils nous suivent"};
+
 function startSearch(indexMin, indexMax, callBack){
     console.log("startSearch", typeof callBack, callBack);
     if(loadingData) return;
@@ -255,8 +261,16 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
 
             if(typeof showResultInCalendar != "undefined")
               showResultInCalendar(mapElements);
+
             //affiche les éléments sur la carte
+            if(CoSigAllReadyLoad)
             Sig.showMapElements(Sig.map, mapElements);
+            else{
+              setTimeout(function(){ 
+                Sig.showMapElements(Sig.map, mapElements);
+              }, 4000);
+            }
+            
 
             if(typeof callBack == "function")
                 callBack();
@@ -529,7 +543,7 @@ var directory = {
               var updated   = notEmpty(o.updatedLbl) ? o.updatedLbl : null; 
               
               //template principal
-              str += "<div class='col-lg-3 col-md-4 col-sm-6 col-xs-12 searchEntityContainer "+type+" "+elTagsList+" '>";
+              str += "<div class='col-lg-4 col-md-6 col-sm-6 col-xs-12 searchEntityContainer "+type+" "+elTagsList+" '>";
               str +=    "<div class='searchEntity'>";
 
               if(itemType!="city" && (useMinSize))
@@ -680,16 +694,16 @@ var directory = {
 
       $.each( list, function(key,list)
       {
-        var subContent = directory.showResultsDirectoryHtml ( list, key);
+        var subContent = directory.showResultsDirectoryHtml ( list, key /*,"min"*/); //min == dark template 
         if( notEmpty(subContent) ){
           favTypes.push(key);
-          $(smallMenu.destination).append("<div class='"+key+"fav favSection '>"+
-                                            "<div class=' col-xs-12 col-sm-10 padding-15'>"+
-                                            "<h2 class='homestead text-left padding-15'><i class='fa fa-angle-down'></i> "+t(key)+"</h2>"+
+          var color = (typeObj[key] && typeObj[key].color) ? typeObj[key].color : "white";
+          $(smallMenu.destination + " #listDirectory").append("<div class='"+key+"fav favSection '>"+
+                                            "<div class=' col-xs-12 col-sm-12'>"+
+                                            "<h4 class='text-left text-"+color+"'><i class='fa fa-angle-down'></i> "+translate[key]+"</h4><hr>"+
                                             subContent+
                                             "</div>");
-          color = (typeObj[key] && typeObj[key].color) ? typeObj[key].color : "white";
-          $(".sectionFilters").append(" <span class=' btn btn-xs favSectionBtn favSectionBtnNew  bg-"+color+"'><a class='text-black helvetica' href='javascript:toggle(\"."+key+"fav\",\".favSection\",1)'> "+key+"</a></span> ")
+          $(".sectionFilters").append(" <a class='text-black helvetica btn btn-link favSectionBtn favSectionBtnNew  bg-"+color+"' href='javascript:toggle(\"."+key+"fav\",\".favSection\",1)'> "+key+"</a> ")
         }
       });
       
@@ -704,7 +718,8 @@ var directory = {
         directory.tagsT = [];
         directory.scopesT = [];
         $("#listTags").html("");
-        $("#listScopes").html("<h2 class='homestead'>Où</h2>");
+        $("#listScopes").html("<h4><i class='fa fa-angle-down'></i> Où</h4>");
+        mylog.log("tagg", directory.elemClass);
         $.each($(directory.elemClass),function(k,o){
           
           var oScope = $(o).find(".entityLocality").text();
@@ -713,8 +728,7 @@ var directory = {
             var oTag = $(oT).data('tag-value');
             if( notEmpty( oTag ) && !inArray( oTag,directory.tagsT ) ){
               directory.tagsT.push(oTag);
-              //mylog.log(oTag);
-              $("#listTags").append("<a class='btn btn-xs btn-link text-white text-left w100p favElBtn "+slugify(oTag)+"Btn' data-tag='"+slugify(oTag)+"' href='javascript:directory.toggleEmptyParentSection(\".favSection\",\"."+slugify(oTag)+"\",\""+directory.elemClass+"\",1)'><i class='fa fa-tag'></i> "+oTag+"</a><br/>");
+              $("#listTags").append("<a class='btn btn-xs btn-link btn-anc-color-blue  text-left w100p favElBtn "+slugify(oTag)+"Btn' data-tag='"+slugify(oTag)+"' href='javascript:directory.toggleEmptyParentSection(\".favSection\",\"."+slugify(oTag)+"\",\""+directory.elemClass+"\",1)'><i class='fa fa-tag'></i> "+oTag+"</a><br/>");
             }
           });
           if( notEmpty( oScope ) && !inArray( oScope,directory.scopesT ) ){
@@ -731,28 +745,42 @@ var directory = {
         directory.tagsT = [];
         $("#listTags").html('');
         if(withSearch){
-            $("#listTags").append("<h2 class='homestead'><i class='fa fa-search'></i> #tag ou texte</h2>");
+            $("#listTags").append("<h5 class=''><i class='fa fa-search'></i> Filtrer</h5>");
             $("#listTags").append('<input id="searchBarTextJS" data-searchPage="true" type="text" class="input-search form-control">');
         }
-        $("#listTags").append("<h2 class='homestead'> <i class='fa fa-tags'></i> trier </h2>");
-        $("#listTags").append("<a class='btn btn-dark-blue btn-xs favElBtn favAllBtn text-left' href='javascript:directory.toggleEmptyParentSection(\".favSection\",null,\".searchEntityContainer\",1)'> <i class='fa fa-tags'></i> Tout voir </a><br/>");
+        alert(directory.elemClass);
+       // $("#listTags").append("<h4 class=''> <i class='fa fa-tags'></i> trier </h4>");
+        $("#listTags").append("<a class='btn btn-dark-blue favElBtn favAllBtn' href='javascript:directory.toggleEmptyParentSection(\".favSection\",null,\".searchEntityContainer\",1)'> Tout voir </a><br/>");
         $.each( $(directory.elemClass),function(k,o){
             $.each($(o).find(".btn-tag"),function(i,oT){
                 var oTag = $(oT).data('tag-value').toLowerCase();
                 if( notEmpty( oTag ) && !inArray( oTag,directory.tagsT ) ){
                   directory.tagsT.push(oTag);
                   //mylog.log(oTag);
-                  $("#listTags").append("<a class='btn btn-xs btn-link favElBtn "+slugify(oTag)+"Btn' data-tag='"+slugify(oTag)+"' href='javascript:directory.toggleEmptyParentSection(\".favSection\",\"."+slugify(oTag)+"\",\""+directory.elemClass+"\",1)'><i class='fa fa-tag'></i> "+oTag+"</a><br/> ");
+                  $("#listTags").append("<a class='btn btn-link favElBtn btn-anc-color-blue "+slugify(oTag)+"Btn' "+
+                                            "data-tag='"+slugify(oTag)+"' "+
+                                            "href='javascript:directory.toggleEmptyParentSection(\".favSection\",\"."+slugify(oTag)+"\",\""+directory.elemClass+"\",1)'>"+
+                                              oTag+
+                                        "</a><br> ");
                 }
             });
         });
-        if( directory.tagsT.length && open )
-            $("#listTags").removeClass("hide");
+        if( directory.tagsT.length && open ){
+            directory.showFilters();
+        }
         //$("#btn-open-tags").append("("+$(".favElBtn").length+")");
     },
     
     showFilters : function () { 
-        $("#listTags").toggleClass("hide");
+      if($("#listTags").hasClass("hide")){
+        $("#listTags").removeClass("hide");
+        $("#dropdown_search").removeClass("col-md-offset-1");
+      }else{
+        $("#listTags").addClass("hide");
+        $("#dropdown_search").addClass("col-md-offset-1");
+      }
+      $("#listTags").removeClass("hide");
+      $("#dropdown_search").removeClass("col-md-offset-1");
     },
 
     addMultiTagsAndScope : function() { 
@@ -762,7 +790,7 @@ var directory = {
         if( notEmpty( oTag ) && !inArray( oTag,directory.multiTagsT ) ){
           directory.multiTagsT.push(oTag);
           //mylog.log(oTag);
-          $("#listTags").append("<a class='btn btn-xs btn-link text-white text-left w100p favElBtn "+slugify(oTag)+"Btn' data-tag='"+slugify(oTag)+"' href='javascript:directory.searchFor(\"#"+oTag+"\")'><i class='fa fa-tag'></i> "+oTag+"</a><br/>");
+          $("#listTags").append("<a class='btn btn-xs btn-link btn-anc-color-blue  text-left w100p favElBtn "+slugify(oTag)+"Btn' data-tag='"+slugify(oTag)+"' href='javascript:directory.searchFor(\"#"+oTag+"\")'><i class='fa fa-tag'></i> "+oTag+"</a><br/>");
         }
       });
       $.each(myMultiScopes,function(oScope,oT){

@@ -1107,7 +1107,7 @@ var smallMenu = {
 		   	if( notNull(params) && notNull(params.otherCollectionList) && typeof params.otherCollectionList == "function" )
 		   		params.otherCollectionList();
 		   	else	
-		   		collection.buildCollectionList( "linkList" ,"#listCollections",function(){ $("#listCollections").html("<h2 class='homestead'>Collections</h2>"); });
+		   		collection.buildCollectionList( "linkList" ,"#listCollections",function(){ $("#listCollections").html("<h4 class=''>Collections</h4>"); });
 
 		   	if (typeof callback == "function") 
 				callback();
@@ -1134,26 +1134,42 @@ var smallMenu = {
 	},
 	buildHeader : function (title,icon,color,title1) { 
 		title1 = (typeof title1 != "undefined" && notNull(title1)) ? title1 : "<a class='text-white' href='javascript:smallMenu.open();'> <i class='fa fa-th'></i></a> ";
-		content = "<div class='hidden-xs col-sm-2'>"+
-					"<h2 class='homestead'>filtres <i class='fa fa-angle-down'></i></h2>"+
-					"<a class='btn btn-dark-blue btn-xs favElBtn favAllBtn text-left' href='javascript:directory.toggleEmptyParentSection(\".favSection\",null,\".searchEntityContainer\",1)'> <i class='fa fa-tags'></i> Tout voir </a><br/>"+
+		content = 
+				"<div class='col-xs-12 padding-5'>"+
+
+					"<h3 class='titleSmallMenu'> "+
+						title1+"<i class='fa "+icon+" text-"+color+"'></i> "+title+
+						"<div class='col-md-4 pull-right'>"+
+							"<input name='searchSmallMenu' class='form-control searchSmallMenu text-black' placeholder='rechercher' style=''><br/>"+
+						"</div>"+
+					"</h3><hr>"+
+					"<div class='col-md-12 bold sectionFilters'>"+
+						"<a class='text-black bg-white btn btn-link favSectionBtn btn-default' href='javascript:directory.toggleEmptyParentSection(\".favSection\",null,\".searchEntityContainer\",1)'> Tout voir</a></span> </span>"+
+					"</div>"+
+
+					"<div class='col-md-12'><hr></div>"+
+
+				"</div>"+
+
+				"<div class='hidden-xs col-sm-2 text-right'>"+
+					"<h4 class=''><i class='fa fa-angle-down'></i> Filtres</h4>"+
+					"<a class='btn btn-dark-blue btn-anc-color-blue btn-xs favElBtn favAllBtn text-left' href='javascript:directory.toggleEmptyParentSection(\".favSection\",null,\".searchEntityContainer\",1)'> <i class='fa fa-tags'></i> Tout voir </a><br/>"+
 
 					"<div id='listTags'></div>"+
-					"<div id='listScopes'><h2 class='homestead'>Où</h2></div>"+
+					"<div id='listScopes'><h4><i class='fa fa-angle-down'></i> Où</h4></div>"+
 					"<div id='listCollections'></div>"+
 				"</div> "+
-				"<div class='col-xs-12 col-sm-10 padding-5 center no-padding'>"+
+				"<div id='listDirectory' class='col-md-10 no-padding'></div>"+
+				"<div class='col-xs-12 col-sm-10 center no-padding'>"+
 					//"<a class='pull-right btn btn-xs btn-default' href='javascript:collection.newChild(\""+title+"\");'> <i class='fa fa-sitemap'></i></a> "+
 					"<a class='pull-right btn btn-xs menuSmallTools hide text-red' href='javascript:collection.crud(\"del\",\""+title+"\");'> <i class='fa fa-times'></i></a> "+
 					"<a class='pull-right btn btn-xs menuSmallTools hide'  href='javascript:collection.crud(\"update\",\""+title+"\");'> <i class='fa fa-pencil'></i></a> "+
 					
-					"<div class='homestead titleSmallMenu' style='font-size:45px'> "+
-						title1+' <i class="fa fa-angle-right"></i> '+title+" <i class='fa "+icon+" text-"+color+"'></i>"+
-					"</div>"+
-					"<input name='searchSmallMenu' class='searchSmallMenu text-black' placeholder='rechercher' style='margin-bottom:8px;width: 300px;font-size: x-large;'><br/>"+
-					"<span class='text-extra-small helvetica sectionFilters'>"+
-						" <span class='btn btn-xs favSectionBtn btn-default'><a class='text-black helvetica ' href='javascript:directory.toggleEmptyParentSection(\".favSection\",null,\".searchEntityContainer\",1)'> Tout voir</a></span> </span>"+
-					" </span><br/>"+
+					// "<h3 class='titleSmallMenu'> "+
+					// 	title1+' <i class="fa fa-angle-right"></i> '+title+" <i class='fa "+icon+" text-"+color+"'></i>"+
+					// "</h3>"+
+					// "<input name='searchSmallMenu' class='searchSmallMenu text-black' placeholder='rechercher' style='margin-bottom:8px;width: 300px;font-size: x-large;'><br/>"+
+					
 				"</div>";
 		return content;
 	},

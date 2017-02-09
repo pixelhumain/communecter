@@ -102,6 +102,8 @@
 .links-create-element .btn-create-elem{
     margin-top:25px;
 }
+
+
 </style>
 
 
@@ -123,9 +125,9 @@
     <div class="scope-min-header list_tags_scopes hidden-xs hidden-sm">
     </div>
 
-	<div class="col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 padding-top-50" id="page"></div>
+	<div class="col-md-12 padding-50" id="page"></div>
 
-    <div class="col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1 text-center">
+    <div class="col-md-12 padding-50 text-center">
         <hr style="margin-bottom:-20px;">
         <!-- data-target="#modalScopes" data-toggle="modal" -->
         

@@ -65,6 +65,13 @@ var trad = {"areyousuretodelete" : "<?php echo Yii::t("common", "Are you sure yo
 		"udpateorganizer" : "<?php echo Yii::t("event","Update the organizer") ?>",
 		"emptymsg" : "<?php echo Yii::t("news","Please write something") ?>",
 
+		"organizations":"<?php echo Yii::t("common","organizations"); ?>",
+        "projects":"<?php echo Yii::t("common","projects"); ?>",
+        "events":"<?php echo Yii::t("common","events"); ?>",
+        "people":"<?php echo Yii::t("common","people"); ?>",
+        "citoyens":"<?php echo Yii::t("common","citoyens"); ?>",
+        "followers":"<?php echo Yii::t("common","followers"); ?>",
+
 };
 
 var tradCountry = {
