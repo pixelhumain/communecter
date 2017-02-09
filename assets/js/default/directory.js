@@ -748,7 +748,7 @@ var directory = {
             $("#listTags").append("<h5 class=''><i class='fa fa-search'></i> Filtrer</h5>");
             $("#listTags").append('<input id="searchBarTextJS" data-searchPage="true" type="text" class="input-search form-control">');
         }
-        alert(directory.elemClass);
+       // alert(directory.elemClass);
        // $("#listTags").append("<h4 class=''> <i class='fa fa-tags'></i> trier </h4>");
         $("#listTags").append("<a class='btn btn-dark-blue favElBtn favAllBtn' href='javascript:directory.toggleEmptyParentSection(\".favSection\",null,\".searchEntityContainer\",1)'> Tout voir </a><br/>");
         $.each( $(directory.elemClass),function(k,o){

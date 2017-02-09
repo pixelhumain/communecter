@@ -269,7 +269,7 @@
 				<ul class="submenu">
 					<?php 
 					$contacts = ( empty($element["contacts"]) ? array() : $element["contacts"] ) ;
-					$this->renderPartial('../pod/contactsList',array( 	"contacts" => $contacts, 
+					$this->renderPartial('../pod/contactsList',array( 	"contacts" => @$contacts, 
 																		"contextId" => (String) $element["_id"],
 																		"contextType" => $controller,
 																		"authorised" => $edit,
@@ -352,7 +352,7 @@
 				</div>
 				<ul class="submenu">
 		 			<?php $this->renderPartial('../pod/usersList', array(  $controller => $element,
-														"users" => $members,
+														"users" => @$members,
 														"userCategory" => Yii::t("common","Community"), 
 														"contentType" => $type,
 														"countStrongLinks" => $countStrongLinks,
@@ -433,7 +433,7 @@
 							<i class="fa fa-chevron-down"></i>
 						</div>
 						<ul class="submenu">
-							<?php	$this->renderPartial('../pod/eventsList',array( 	"events" => $events, 
+							<?php	$this->renderPartial('../pod/eventsList',array( 	"events" => @$events, 
 																						"contextId" => (String) $element["_id"],
 																						"contextType" => $controller,
 																						"list" => $eventTypes,
