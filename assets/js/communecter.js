@@ -1108,8 +1108,7 @@ var smallMenu = {
 		   	});
 		   	if( notNull(params) && notNull(params.otherCollectionList) && typeof params.otherCollectionList == "function" )
 		   		params.otherCollectionList();
-		   	else	
-		   		collection.buildCollectionList( "linkList" ,"#listCollections",function(){ $("#listCollections").html("<h4 class=''>Collections</h4>"); });
+		   	//else collection.buildCollectionList( "linkList" ,"#listCollections",function(){ $("#listCollections").html("<h4 class=''>Collections</h4>"); });
 
 		   	if (typeof callback == "function") 
 				callback();
@@ -2639,7 +2638,7 @@ var typeObj = {
 			}
 		}},
 	"persons" : {col:"citoyens" , ctrl:"person"},
-	"people" : {col:"citoyens" , ctrl:"person"},
+	"people" : {col:"citoyens" , ctrl:"person",color:"yellow"},
 	"poi":{ 
 		col:"poi",
 		ctrl:"poi",

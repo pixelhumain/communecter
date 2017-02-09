@@ -406,7 +406,7 @@ function searchCallback() {
 var directory = {
 
     elemClass : smallMenu.destination+' .searchEntityContainer ',
-    path : 'div'+smallMenu.destination+' div.favSection div.searchEntityContainer',
+    path : 'div'+smallMenu.destination+' div.favSection',
     tagsT : [],
     scopesT :[],
     multiTagsT : [],
@@ -704,7 +704,7 @@ var directory = {
       {
         var subContent = directory.showResultsDirectoryHtml ( list, key /*,"min"*/); //min == dark template 
         if( notEmpty(subContent) ){
-          favTypes.push(key);
+          favTypes.push(typeObj[key].col);
           
           var color = (typeObj[key] && typeObj[key].color) ? typeObj[key].color : "dark";
           $(smallMenu.destination + " #listDirectory").append("<div class='"+typeObj[key].col+"fav favSection '>"+
@@ -712,10 +712,10 @@ var directory = {
                                             "<h4 class='text-left text-"+color+"'><i class='fa fa-angle-down'></i> "+trad[key]+"</h4><hr>"+
                                             subContent+
                                             "</div>");
-          $(".sectionFilters").append(" <a class='text-black helvetica btn btn-link favSectionBtn favSectionBtnNew  bg-"+color+"' href='javascript:toggle(\"."+typeObj[key].col+"fav\",\".favSection\",1)'> "+trad[key]+"</a> ")
+          $(".sectionFilters").append(" <a class='text-black helvetica btn btn-link favSectionBtn favSectionBtnNew  bg-"+color+"' href='javascript:directory.showAll(\".favSection\",directory.elemClass);toggle(\"."+typeObj[key].col+"fav\",\".favSection\",1)'> "+trad[key]+"</a> ")
         }
       });
-      
+      bindLBHLinks();
       directory.filterList();
       $(directory.elemClass).show();
       //bindTags();
@@ -737,7 +737,7 @@ var directory = {
             var oTag = $(oT).data('tag-value');
             if( notEmpty( oTag ) && !inArray( oTag,directory.tagsT ) ){
               directory.tagsT.push(oTag);
-              $("#listTags").append("<a class='btn btn-xs btn-link btn-anc-color-blue text-left w100p favElBtn "+slugify(oTag)+"Btn' data-tag='"+slugify(oTag)+"' href='javascript:directory.toggleEmptyParentSection(\".favSection\",\"."+slugify(oTag)+"\",\""+directory.elemClass+"\",1)'><i class='fa fa-tag'></i> "+oTag+"</a><br/>");
+              $("#listTags").append("<a class='btn btn-xs btn-link btn-anc-color-blue text-left w100p favElBtn "+slugify(oTag)+"Btn' data-tag='"+slugify(oTag)+"' href='javascript:directory.toggleEmptyParentSection(\".favSection\",\"."+slugify(oTag)+"\",directory.elemClass,1)'><i class='fa fa-tag'></i> "+oTag+"</a><br/>");
             }
           });
           if( notEmpty( oScope ) && !inArray( oScope,directory.scopesT ) ){
@@ -759,7 +759,7 @@ var directory = {
         }
        // alert(directory.elemClass);
        // $("#listTags").append("<h4 class=''> <i class='fa fa-tags'></i> trier </h4>");
-        $("#listTags").append("<a class='btn btn-dark-blue favElBtn favAllBtn' href='javascript:directory.toggleEmptyParentSection(\".favSection\",null,\".searchEntityContainer\",1)'> Tout voir </a><br/>");
+        $("#listTags").append("<a class='btn btn-dark-blue favElBtn favAllBtn' href='javascript:directory.toggleEmptyParentSection(\".favSection\",null,directory.elemClass,1)'> Tout voir </a><br/>");
         $.each( $(directory.elemClass),function(k,o){
             $.each($(o).find(".btn-tag"),function(i,oT){
                 var oTag = $(oT).data('tag-value').toLowerCase();
@@ -768,7 +768,7 @@ var directory = {
                   //mylog.log(oTag);
                   $("#listTags").append("<a class='btn btn-link favElBtn btn-anc-color-blue "+slugify(oTag)+"Btn' "+
                                             "data-tag='"+slugify(oTag)+"' "+
-                                            "href='javascript:directory.toggleEmptyParentSection(\".favSection\",\"."+slugify(oTag)+"\",\""+directory.elemClass+"\",1)'>"+
+                                            "href='javascript:directory.toggleEmptyParentSection(\".favSection\",\"."+slugify(oTag)+"\",directory.elemClass,1)'>"+
                                               oTag+
                                         "</a><br> ");
                 }
@@ -813,7 +813,7 @@ var directory = {
 
     //show hide parents when empty
     toggleEmptyParentSection : function ( parents ,tag ,children ) { 
-        mylog.log("toggleEmptyParentSection ", parents, tag, children);
+        mylog.log("toggleEmptyParentSection('"+parents+"','"+tag+"','"+children+"')");
         var showAll = true;
         if(tag){
           $(".favAllBtn").removeClass("btn-dark-blue");
@@ -826,12 +826,12 @@ var directory = {
             tags = "";
             $.each( $( ".favElBtn.active" ) ,function( i,o ) { 
               tags += "."+$(o).data("tag")+",";
-            });  
+            });
             tags = tags.replace(/,\s*$/, "");
             mylog.log(tags)
             toggle(tags,children,1);
-
-            directory.toggleParents(directory.path);
+            
+            directory.toggleParents(directory.elemClass);
           }
         }
         
@@ -849,7 +849,8 @@ var directory = {
       $(parents).removeClass('hide');
       $(children).removeClass('hide');
     },
-
+    //be carefull with trailing spaces on elemClass
+    //they break togglePArents and breaks everything
     toggleParents : function (path) { 
         //mylog.log("toggleParents",parents,children);
         $.each( favTypes, function(i,k)
@@ -863,7 +864,7 @@ var directory = {
 
     //fait de la recherche client dans les champs demandé
     search : function(parentClass, searchVal) { 
-        console.log("searchDir searchVal",searchVal);           
+        mylog.log("searchDir searchVal",searchVal);           
         if(searchVal.length>2 ){
             $.each( $(directory.elemClass) ,function (i,k) { 
                       var found = null;
@@ -880,7 +881,8 @@ var directory = {
                 else
                     $(this).addClass('hide');
             });
-            directory.toggleParents(directory.path);
+
+            directory.toggleParents(directory.elemClass);
         } else
             directory.toggleEmptyParentSection(parentClass,null, directory.elemClass ,1);
     },
