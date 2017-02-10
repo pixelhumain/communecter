@@ -222,7 +222,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
                 bindLBHLinks();
 
                 $.unblockUI();
-				//showMap(false);
+				        //showMap(false);
                 
                 //active le chargement de la suite des résultat au survol du bouton "afficher plus de résultats"
                 //(au cas où le scroll n'ait pas lancé le chargement comme prévu)

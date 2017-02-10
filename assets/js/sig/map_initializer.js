@@ -478,6 +478,8 @@
 				imgProfilPath = baseUrl + element.author.profilImageUrl;
 			if(typeof element.profilThumbImageUrl !== "undefined" && element.profilThumbImageUrl != "") 
 				imgProfilPath =  baseUrl + element.profilThumbImageUrl;
+			if(typeof element.profilExternImageUrl !== "undefined" && element.profilExternImageUrl != "") 
+				imgProfilPath = element.profilExternImageUrl;
 			if( typeof element.typeSig !== "undefined" && element.typeSig == "city")
 				imgProfilPath =  assetPath + "/images/city/city_default_l.png";
 			return imgProfilPath;
