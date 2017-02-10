@@ -1779,9 +1779,10 @@ function changeNetwork(id, url, str){
 }
 
 function initDate() {//DD/mm/YYYY hh:mm
-
-    $("#contentGeneralInfos #startDate").html(moment($("#contentGeneralInfos #startDate").html()).local().format(formatDateView));
-    $("#contentGeneralInfos #endDate").html(moment($("#contentGeneralInfos #endDate").html()).local().format(formatDateView));
+	if($("#contentGeneralInfos #startDate").html() != "")
+    	$("#contentGeneralInfos #startDate").html(moment($("#contentGeneralInfos #startDate").html()).local().format(formatDateView));
+    if($("#contentGeneralInfos #endDate").html() != "")
+    	$("#contentGeneralInfos #endDate").html(moment($("#contentGeneralInfos #endDate").html()).local().format(formatDateView));
     $('#dateTimezone').attr('data-original-title', "Fuseau horaire : GMT " + moment().local().format("Z"));
 }
 

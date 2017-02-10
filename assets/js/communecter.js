@@ -551,6 +551,8 @@ var loadableUrls = {
     "#need.detail" : {title:'NEED DETAIL ', icon : 'cubes' },
     "#need.addneedsv" : {title:'NEED DETAIL ', icon : 'cubes' },
     "#city.detail" : {title:'CITY ', icon : 'university', menuId:"btn-geoloc-auto-menu" },
+    "#city.creategraph" : {title:'CITY ', icon : 'university', menuId:"btn-geoloc-auto-menu" },
+    "#city.graphcity" : {title:'CITY ', icon : 'university', menuId:"btn-geoloc-auto-menu" },
     "#city.statisticPopulation" : {title:'CITY ', icon : 'university' },
     "#news" : {title:'NEWS ', icon : 'rss'},
     "#survey" : {title:'VOTE LOCAL ', icon : 'legal'},

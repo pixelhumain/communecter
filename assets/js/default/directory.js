@@ -391,7 +391,7 @@ var directory = {
     multiScopesT :[],
 
     showResultsDirectoryHtml : function ( data, contentType, size ){ //size == null || min || max
-
+      mylog.log("-----------showResultsDirectoryHtml",data, contentType, size)
         var str = "";
         $.each(data, function(i, o) {
             itemType=(contentType) ? contentType :o.type;
@@ -456,8 +456,9 @@ var directory = {
               var url = '#element.detail.type.'+type+'.id.' + id;
               if(type == "citoyens") url += '.viewer.' + userId;
 
-              if(typeof TPL != "undefined")
+              if(typeof TPL != "undefined"){
                 if(TPL == "kgougle") url = '#co2.page.type.'+type+'.id.' + id;
+              }
 
               //else if(type == "poi")    url = '#element.detail.type.poi.id.' + id;
               else if(type == "cities") url = "#city.detail.insee."+o.insee+".postalCode."+o.cp;
