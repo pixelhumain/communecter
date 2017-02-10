@@ -1153,7 +1153,7 @@ var smallMenu = {
 				"</div>"+
 
 				"<div id='listDirectory' class='col-md-10 no-padding'></div>"+
-				"<div class='hidden-xs col-sm-2 text-right'>"+
+				"<div class='hidden-xs col-sm-2 text-left'>"+
 					"<h4 class=''><i class='fa fa-angle-down'></i> Filtres</h4>"+
 					"<a class='btn btn-dark-blue btn-anc-color-blue btn-xs favElBtn favAllBtn text-left' href='javascript:directory.toggleEmptyParentSection(\".favSection\",null,\".searchEntityContainer\",1)'> <i class='fa fa-tags'></i> Tout voir </a><br/>"+
 
