@@ -715,7 +715,7 @@
 
 		smallMenu.inBlockUI = false; 
 		smallMenu.destination = "#central-container"; 
-		directory.elemClass = smallMenu.destination+' .searchEntityContainer';
+		directory.elemClass = smallMenu.destination+' .searchEntityContainer ';
 
 		mylog.log("tagg1 smallMenu.destination", smallMenu.destination);
 		
