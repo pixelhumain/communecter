@@ -3336,15 +3336,6 @@ var typeObj = {
 			            	});
 			            }
 		            },
-		            parentType : {
-			            inputType : "hidden"
-			        },
-			        type :{
-		            	inputType : "select",
-		            	placeholder : "Type d\'évènement",
-		            	options : eventTypes,
-		            	rules : { required : true },
-		            },
 		            image :{
 		            	inputType : "uploader",
 		            	afterUploadComplete : function(){
@@ -3427,7 +3418,7 @@ var typeObj = {
 		            },
 		            tags :{
 		              inputType : "tags",
-		              placeholder : "Tags de l\'événement",
+		              placeholder : "Tags ou Types du projet",
 		              values : tagsList
 		            },
 		            formshowers : {
@@ -3475,7 +3466,15 @@ var typeObj = {
 		            "preferences[isOpenEdition]" : {
 		               inputType : "hidden",
 		                value : true
-		            }
+		            },
+		            parentId :{
+		            	"inputType" : "hidden",
+		            	value : userId	
+		            },
+		            parentType : {
+			            "inputType" : "hidden",
+			            value : "citoyens"
+			        }
 			    }
 			}
 		}
