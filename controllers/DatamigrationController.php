@@ -1229,22 +1229,26 @@ class DatamigrationController extends CommunecterController {
 						$elt["modifiedByBatch"][] = array("AddDepAndRegionAndCountryInAddress" => new MongoDate(time()));
 						$address = $elt["address"];
 
-						$depAndRegion = City::getDepAndRegionByInsee($address["codeInsee"]);
+						if (isset($address["codeInsee"])) {
+							$depAndRegion = City::getDepAndRegionByInsee($address["codeInsee"]);
 
-						$address["depName"] = (empty($depAndRegion["depName"]) ? "" : $depAndRegion["depName"]);
-						$address["regionName"] = (empty($depAndRegion["regionName"]) ? "" : $depAndRegion["regionName"]);
-						$address["addressCountry"] = (empty($depAndRegion["country"]) ? "" : $depAndRegion["country"]);
-						$address["streetAddress"] = (empty($elt["address"]["streetAddress"]) ? "" : $elt["address"]["streetAddress"]);
-						try {
-							$res = PHDB::update( $type, 
-						  		array("_id"=>new MongoId($keyElt)),
-	                        	array('$set' => array(	"address" => $address,
-	                        							"modifiedByBatch" => $elt["modifiedByBatch"])));
-						} catch (MongoWriteConcernException $e) {
-							echo("Erreur à la mise à jour de l'élément ".$type." avec l'id ".$keyElt);
-							die();
+							$address["depName"] = (empty($depAndRegion["depName"]) ? "" : $depAndRegion["depName"]);
+							$address["regionName"] = (empty($depAndRegion["regionName"]) ? "" : $depAndRegion["regionName"]);
+							$address["addressCountry"] = (empty($depAndRegion["country"]) ? "" : $depAndRegion["country"]);
+							$address["streetAddress"] = (empty($elt["address"]["streetAddress"]) ? "" : $elt["address"]["streetAddress"]);
+							try {
+								$res = PHDB::update( $type, 
+							  		array("_id"=>new MongoId($keyElt)),
+		                        	array('$set' => array(	"address" => $address,
+		                        							"modifiedByBatch" => $elt["modifiedByBatch"])));
+							} catch (MongoWriteConcernException $e) {
+								echo("Erreur à la mise à jour de l'élément ".$type." avec l'id ".$keyElt);
+								die();
+							}
+							echo "Elt mis a jour : ".$type." et l'id ".$keyElt."<br>" ;
+						} else {
+							echo "Pas de mise a jour : ".$type." et l'id ".$keyElt."<br>" ;
 						}
-						echo "Elt mis a jour : ".$type." et l'id ".$keyElt."<br>" ;
 					}
 				}
 			}
