@@ -135,6 +135,8 @@ Liste des notifications déjà lues => #370 #453
 
 ** @Tib 
   [ ] notragora
+    [ ] titre des directory 
+    [ ] refresh des tags 
     [ ] http://127.0.0.1/ph/communecter#element.detail.type.poi.id.5822115cf6ca47ed7cb6cb9c
     [ ] some dont work like Passeur d'images
     [ ] more tags on home page
