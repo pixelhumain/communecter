@@ -13,8 +13,9 @@
 <script type="text/javascript">
   //Icons by default categories
   var linksTagImages = new Object();
-  var params = <?php echo json_encode($params) ?>;
+  var params= <?php echo json_encode($params) ?>;
   var contextMapNetwork = [];
+  
   console.log("Params //////////////////");
   console.log(params);
   <?php
@@ -202,6 +203,7 @@ console.log("searchPrefTag", searchPrefTag);
 
     <?php } else{ ?>
       $(".my-main-container").scroll(function(){
+        mylog.log("__________________________ YO _________________");
         if(!loadingData && !scrollEnd){
             var heightContainer = $(".my-main-container")[0].scrollHeight;
             var heightWindow = $(window).height();
@@ -217,6 +219,7 @@ console.log("searchPrefTag", searchPrefTag);
         }
       });
       $(".btn-filter-type").click(function(e){
+        mylog.log("__________________________ YO2 _________________");
         var type = $(this).attr("type");
         var index = searchType.indexOf(type);
         if(type == "all" && searchType.length > 1){
@@ -236,8 +239,8 @@ console.log("searchPrefTag", searchPrefTag);
     //initBtnScopeList();
     startSearch(0, indexStepInit);
   });
-function startSearch(indexMin, indexMax){
-     console.log("startSearch", indexMin, indexMax, indexStep);
+function startSearch(indexMin, indexMax, paramsFiltre){
+     console.log("startSearch2", indexMin, indexMax, indexStep, paramsFiltre);
     $("#listTagClientFilter").html('spiner');
     if(loadingData) return;
     loadingData = true;
@@ -264,7 +267,7 @@ function startSearch(indexMin, indexMax){
         if(levelCommunexion == 4) locality = inseeCommunexion;
         if(levelCommunexion == 5) locality = "";
       }
-      autoCompleteSearch(name, locality, indexMin, indexMax);
+      autoCompleteSearch(name, locality, indexMin, indexMax, paramsFiltre);
 }
 function addSearchType(type){
   var index = searchType.indexOf(type);
@@ -365,7 +368,8 @@ var mix = "";
 <?php if(isset($params['mode']) && $params['mode'] == 'client') { ?>
   mix = "mix";
 <?php } ?>
-function autoCompleteSearch(name, locality, indexMin, indexMax){
+function autoCompleteSearch(name, locality, indexMin, indexMax, paramsFiltre){
+  mylog.log("autoCompleteSearch", paramsFiltre);
     var levelCommunexionName = { 1 : "INSEE",
                              2 : "CODE_POSTAL_INSEE",
                              3 : "DEPARTEMENT",
@@ -403,7 +407,8 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
       "indexMax" : indexMax,
       "sourceKey" : sourceKey,
       "mainTag" : mainTag,
-      "searchPrefTag" : searchPrefTag
+      "searchPrefTag" : searchPrefTag,
+      "paramsFiltre" : paramsFiltre
     };
     //console.log("loadingData true");
     loadingData = true;
@@ -655,6 +660,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                 //active le chargement de la suite des résultat au survol du bouton "afficher plus de résultats"
                 //(au cas où le scroll n'ait pas lancé le chargement comme prévu)
                 $("#btnShowMoreResult").mouseenter(function(){
+                  mylog.log("__________________________ YO3 _________________");
                   if(!loadingData){
                     startSearch(indexMin+indexStep, indexMax+indexStep);
                     $("#btnShowMoreResult").mouseenter(function(){});
@@ -758,7 +764,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
       if(tag == "all"){
         searchTag = [];
         $('.tagFilter[value="all"]').addClass('active');
-        startSearch(0, indexStepInit);
+        startSearch(0, indexStepInit, params.filter.paramsFiltre);
         return;
       }
       else{
@@ -766,7 +772,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
       }
       if (index > -1) removeSearchTag(tag);
       else addSearchTag(tag);
-      startSearch(0, indexStepInit);
+      startSearch(0, indexStepInit, params.filter.paramsFiltre);
     });
     $(".villeFilter").off().click(function(e){
       var ville = $(this).attr("value");
