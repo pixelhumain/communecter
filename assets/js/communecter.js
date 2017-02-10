@@ -1152,7 +1152,8 @@ var smallMenu = {
 
 				"</div>"+
 
-				"<div class='hidden-xs col-sm-2 text-left'>"+
+				"<div id='listDirectory' class='col-md-10 no-padding'></div>"+
+				"<div class='hidden-xs col-sm-2 text-right'>"+
 					"<h4 class=''><i class='fa fa-angle-down'></i> Filtres</h4>"+
 					"<a class='btn btn-dark-blue btn-anc-color-blue btn-xs favElBtn favAllBtn text-left' href='javascript:directory.toggleEmptyParentSection(\".favSection\",null,\".searchEntityContainer\",1)'> <i class='fa fa-tags'></i> Tout voir </a><br/>"+
 
@@ -1160,7 +1161,6 @@ var smallMenu = {
 					"<div id='listScopes'><h4><i class='fa fa-angle-down'></i> Où</h4></div>"+
 					"<div id='listCollections'></div>"+
 				"</div> "+
-				"<div id='listDirectory' class='col-md-10 no-padding'></div>"+
 				"<div class='col-xs-12 col-sm-10 center no-padding'>"+
 					//"<a class='pull-right btn btn-xs btn-default' href='javascript:collection.newChild(\""+title+"\");'> <i class='fa fa-sitemap'></i></a> "+
 					"<a class='pull-right btn btn-xs menuSmallTools hide text-red' href='javascript:collection.crud(\"del\",\""+title+"\");'> <i class='fa fa-times'></i></a> "+

@@ -79,7 +79,7 @@
       </div>
 
       <div id="listTags" class="col-sm-2 col-md-2 text-right"></div>
-      <div class="col-md-10 col-sm-10 padding-10" id="dropdown_search"></div>
+      <div class="col-md-8 col-sm-8 padding-10" id="dropdown_search"></div>
 
   </div>
 

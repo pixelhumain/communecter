@@ -157,6 +157,7 @@
 .btn-anc-color-<?php echo $color; ?>.active{ 
     background-color:#fff!important;
     color:<?php echo $params["color1"]; ?>!important;
+    border-color: <?php echo $params["color1"]; ?>!important;
 }
 .btn-anc-color-<?php echo $color; ?>.active:hover{
     background-color: #fff;
