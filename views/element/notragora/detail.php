@@ -135,7 +135,7 @@
 	    display: block;
 	    width: 100%;
 	    max-width: 100%;
-	    min-height: 90px;
+	    /*min-height: 90px;*/
 	    max-height: 90px;
 	    overflow: hidden;
 	    background-color: #d3d3d3;
@@ -171,7 +171,6 @@
 				<div class="col-xs-12">
 					<div class="embed-responsive embed-responsive-16by9">
 						<iframe class="embed-responsive-item fullScreen" src="<?php echo @$videoLink ?>" allowfullscreen></iframe>
-						<button onclick="makeFullScreen()">Make Full Screen</button>
 					</div>
 				</div>
 				<div class="col-md-12 col-sm-12 col-xs-12 text-dark center">
@@ -302,7 +301,7 @@
 					<?php
 					$imgProfil = "<i class='fa fa-image fa-2x'></i>";
 					if(@$parent["profilImageUrl"] && !empty($parent["profilImageUrl"])){
-						$imgProfil= "<img class='img-responsive' src='".Yii::app()->createUrl('/'.$this->module->id."/".$parent["profilImageUrl"])."'/>";
+						$imgProfil= "<img class='img-responsive' src='".Yii::app()->createUrl($parent["profilImageUrl"])."'/>";
             		} 
 					echo $imgProfil;
                 	?>
@@ -423,7 +422,7 @@
 		$("#nbMember").html(nbMember);
 		$("#nbMemberTotal").html(nbAdmin+nbMember);
 
-		/*var url = "news/index/type/"+contextType+"/id/"+contextId+"?isFirst=1&";
+		var url = "news/index/type/"+contextType+"/id/"+contextId+"?isFirst=1&";
 		console.log("URL", url);
 		if(contextType=="projects" || contextType=="citoyens"){
 			ajaxPost('#timeline-page', baseUrl+'/'+moduleId+'/'+url+"renderPartial=true&tpl=co2&nbCol=2", 
@@ -436,7 +435,7 @@
 			getAjax('#comment-page',baseUrl+'/'+moduleId+"/comment/index/type/"+contextType+"/id/"+contextId,function(){ 
 					
 			},"html");
-		}*/
+		}
 		$(".deleteThisBtn").off().on("click",function () 
 		{
 			mylog.log("deleteThisBtn click");
@@ -476,7 +475,7 @@
 	        var btnClick = $(this);
 	        var id = $(this).data("id");
 	        var type = $(this).data("type");
-	        editElement(type,id);
+	        elementLib.editElement(type,id);
 		});
 
 		initMenuDetail();

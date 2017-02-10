@@ -35,15 +35,16 @@
     background-color: #fff;
     color: <?php echo $params["color1"]; ?>;
 }
+<?php } ?>
 
 .favElBtn, .favAllBtn{
   padding: 5px 8px;
   font-weight: 800;
   margin-bottom:5px;
 }
-
-<?php } ?>
-
+#searchBarTextJS{
+  margin-bottom: 15px;
+}
   </style>
  
 
@@ -78,9 +79,14 @@
           <hr>
       </div>
 
-      <div id="listTags" class="col-sm-2 col-md-2 text-right"></div>
-      <div class="col-md-8 col-sm-8 padding-10" id="dropdown_search"></div>
-
+      <?php if(Yii::app()->theme->name == "CO2"){ ?>
+        <div class="col-sm-2 col-md-2"></div>
+        <div class="col-md-8 col-sm-8 padding-10" id="dropdown_search"></div>
+      <?php }else{ ?>
+        <div class="col-md-10 col-sm-10 padding-10" id="dropdown_search"></div>
+      <?php } ?>
+      <div id="listTags" class="col-sm-2 col-md-2 text-left"></div>
+      
   </div>
 
 <?php //$this->renderPartial(@$path."first_step_directory"); ?> 
