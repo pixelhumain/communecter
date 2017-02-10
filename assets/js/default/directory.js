@@ -855,7 +855,7 @@ var directory = {
         //mylog.log("toggleParents",parents,children);
         $.each( favTypes, function(i,k)
         {
-          if( $(path+'.'+k).length == $(path+'.'+k+'.hide ').length )
+          if( $(path.trim()+'.'+k).length == $(path.trim()+'.'+k+'.hide ').length )
             $('.'+k+'fav').addClass('hide');
           else
             $('.'+k+'fav').removeClass('hide');
