@@ -332,38 +332,61 @@ Liste des notifications déjà lues => #370 #453
   [X] Bash de reprise des données sur project dans properties.chart
   *** Notifications
   [X] Create notificationTree
+  [X] Simplification of method with $construct
   [ ] Add method to get intelligent Notifications
     [X] Simple action on same notification with different author
     [ ] Limit of time (1 day Or two day?)
-    [ ] Update community to notify if one is out of element
+    [X] Update community to notify if one is out of element
   [ ] Commons method called to construct notification
     [X] /Follow/, /Ask/ to become member or admin
     [X] /Accept/ an admin or member (include new sublevel in notficationTree)
     [X] /Invite/ 
       [X] Generalize invitation as event for organization and project
     [X] /Confirm/ an invitation to join a element (for moment event)
-    [ ] /Join/ for creator of event, member of orga or project
+    [X] /Join/ for creator of event, member of orga or project
     [X] /Like/Unlike/Comment
     [X] /Add/
-    [ ] /Leave/
+    [ ] /Leave/ 
     [ ] /Refuse/
     [ ] /Update/
+    [X] /Post/
+  [ ] Update or delete notification
+    [o] Ask to Become => remove object if empty delete notification side
+    [o] Confirm to become => delete notification on user side
   [X] Community to notify
     [X] method
+    [ ] City 
+      [ ] Creator && community participating && community subscribing to theme or citizen council
   [ ] Create model notificationTree.php
   [ ] View of notification
     [X] Get new model of notification
-    [ ] Create $or in condition to get old notification
+    [o] Create $or in condition to get old notification
     [X] Plug notifification time on updated
-    [ ] Use unSee && unRead label in notifcation
-    [ ] Bug on lbh load
+    [o] Use unSee && unRead label in notifcation
+    [X] Bug on lbh load
+    [ ] Separate invitation validation && become friend from others notifications
+      [ ] Add validation btn on community validation
+    [ ] View of notification by element
+      [ ] Confirm push on head
   *** Mail
   [ ] Template for use case
     [X] someoneAskToBecome (Admin || Member=
-    [ ] Generalize someoneAskToBecome with someoneInvitingYou
+    [o] Generalize someoneAskToBecome with someoneInvitingYou
+    [o] someoneValidate invitation or demand to author
+    [o] Follow me [Insert new follow if notif is not view]
   [ ] Insert daily mail
+  [ ] Not send email if user is connected and have active view on communecter.org
   *** Preferences
-
+  [ ] Add inscription on citizen consult that I will follow OR specific room (news + notif + mail)
+  [ ] Mailing on add something in element and comment/Like/unlike on element where I am linking
+  [ ] daily Report
+    [ ] Add parameters (everyday [default], 2days, 3days, every week) [beginning on Monday]
+    [ ] Activity Report
+      [ ] New events with tags &&/|| scope I subscribe
+      [ ] New organization with tags &&/|| scope I subscribe
+      [ ] New projects with tags &&/|| scope I subscribe
+      [ ] New item on element that I am linking
+    [ ] Followers on element where I am linking
   *** News
   [ ] View of like, unlike 
   [X] Bash of object.type inbstead of object.objectType (!!!important with notification reactor!!!!)
@@ -375,7 +398,15 @@ Liste des notifications déjà lues => #370 #453
     [X] If isPendingAdmin or toBeValidated as member user is consedering as member in right access
       => change method Project::getContibutorsByProjectId && Organization::getMembersByOrganizationId
       => Add label ToBeValidated on user asking to be admin not being member yet
-    
+  *** Admin Communication
+  [ ] Creation of news letter 
+    [ ] Choose scope or theme community
+    [ ] To all
+    [ ] See view of newsletter 
+  *** Bugs
+    [ ] Notification
+      [ ] /ADD/ Problem of url on add => id of object and not target
+      [ ] /FOLLOW/ Make usecase following you or target
 * ************************************************************    
 * Version 0.16 (début oct) : en PROD
 * ************************************************************    
