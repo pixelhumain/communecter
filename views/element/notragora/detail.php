@@ -297,7 +297,7 @@
 			<hr>
 			<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding'>
 				<div class="contentEntity">
-				<a href="#project.detail.id.<?php echo @$parent["id"] ?>" class="container-img-parent lbh add2fav">
+				<a href="#organization.detail.id.<?php echo @$parent["id"] ?>" class="container-img-parent lbh add2fav">
 					<?php
 					$imgProfil = "<i class='fa fa-image fa-2x'></i>";
 					if(@$parent["profilImageUrl"] && !empty($parent["profilImageUrl"])){
@@ -307,7 +307,7 @@
                 	?>
 				</a>
 				<div class="padding-10 informations">
-				<a href='#project.detail.id.<?php echo $parent["id"] ?>' class='entityName text-dark lbh add2fav text-light-weight margin-bottom-5'>
+				<a href='#organization.detail.id.<?php echo $parent["id"] ?>' class='entityName text-dark lbh add2fav text-light-weight margin-bottom-5'>
                     <?php echo $parent["name"] ?> 
                 </a>
                 </div>
