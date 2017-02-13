@@ -50,17 +50,32 @@
 
   <div class="container-result-search">
 
+      <?php if(@$_GET['type']!="") { ?>
+      <?php $typeSelected = $_GET['type']; ?>
+      <?php if($typeSelected == "persons") $typeSelected = "citoyens" ; ?>
+      <?php $spec = Element::getElementSpecsByType($typeSelected); ?>
+      <h2 class="text-left pull-left" style="margin-left:10px; margin-top:15px; width:90%;">
+        <span class="subtitle-search text-<?php echo $spec["text-color"]; ?> homestead">
+          <i class="fa fa-angle-down"></i> 
+          <?php 
+            $typeName = Yii::t("common",$_GET['type']); 
+            if($_GET['type'] == "vote") $typeName = "propositions";
+            if($_GET['type'] == "cities") $typeName = "communes";
+          ?>
+          <i class="fa fa-<?php echo $spec["icon"]; ?>"></i> Liste des  <?php echo $typeName; ?>
+        </span>
+      </h2>
+     <?php } ?>
+
 	  	<div class="col-md-12 padding-10 margin-bottom-5 lbl-info-search">
 		    <div class="lbl-info lbl-info-vote lbl-info-actions pull-left hidden col-xs-9 no-padding margin-bottom-10">
-		      <i class="fa fa-chevron-down"></i> 
 		      <i class="fa fa-info-circle"></i> 
 		      <b>Seuls les résultats auxquels vous avez accès sont affichés</b> <br>
 		      (issus de vos <span class="text-green"><b>organisations</b></span>, 
 		      vos <span class="text-purple"><b>projets</b></span> ou votre <span class="text-red"><b>conseil citoyen</b></span>)
 		    </div>
 
-		    <div class="lbl-info lbl-info-organizations lbl-info-projects lbl-info-persons pull-left hidden col-xs-9 no-padding margin-bottom-10">
-		      <i class="fa fa-chevron-down"></i> 
+		    <div class="lbl-info lbl-info-organizations lbl-info-projects lbl-info-poi lbl-info-persons pull-left hidden col-xs-9 no-padding margin-bottom-10">
 		      <i class="fa fa-info-circle"></i> 
 		      <b>Résultats triés en fonction de l'activité la plus récente des éléments recherchés</b> 
 		    </div>
@@ -76,7 +91,7 @@
 	  	</div>
 
   		<div class="col-md-12">
-          <hr>
+          <hr class="margin-bottom-10">
       </div>
 
       <?php if(Yii::app()->theme->name == "CO2"){ ?>
@@ -129,12 +144,12 @@ function setHeaderDirectory(type){
   if(typeof headerParams[type] == "undefined") return;
   params = headerParams[type];
   $(".subtitle-search").html( '<span class="text-'+params.color+'">'+
-                                //'<i class="fa fa-angle-down"></i> <i class="fa fa-'+params.icon+'"></i> '+
-                               // params.name+
-                                //" <i class='fa fa-angle-right'></i> "+
-                               // "<a href='javascript:directory.showFilters()' class='btn btn-default btn-sm'> "+
-                                //"<i class='fa fa-search'></i> Recherche avancée</a>"+
-                              '</span><hr>' );
+                                '<i class="fa fa-angle-down"></i> <i class="fa fa-'+params.icon+'"></i> '+
+                                params.name+
+                              //  " <i class='fa fa-angle-right'></i> "+
+                              // "<a href='javascript:directory.showFilters()' class='btn btn-default btn-sm'> "+
+                              //  "<i class='fa fa-search'></i> Recherche avancée</a>"+
+                              '</span>' );
 
   $(".lbl-info-search .lbl-info").addClass("hidden");
   $(".lbl-info-search .lbl-info.lbl-info-"+type).removeClass("hidden");
