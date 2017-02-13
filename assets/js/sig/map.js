@@ -464,8 +464,8 @@
 
 				if( typeof thisData.geo !== "undefined" && thisData.geo != null && typeof thisData.geo.longitude !== "undefined"){
 					
-					if(typeof thisData['geo'].latitude == "undefined" || thisData['geo'].latitude == null) return false;
-					if(typeof thisData['geo'].longitude == "undefined" || thisData['geo'].longitude == null) return null;
+					if(typeof thisData['geo'].latitude == "undefined" || thisData['geo'].latitude == null || thisData['geo'].latitude == "") return false;
+					if(typeof thisData['geo'].longitude == "undefined" || thisData['geo'].longitude == null || thisData['geo'].longitude == "") return false;
 						
 					if(type == "markerSingle"){
 						return new Array (thisData['geo'].latitude, thisData['geo'].longitude);
@@ -477,8 +477,8 @@
 				else if(typeof thisData.geoPosition != "undefined"){
 					
 					if(typeof thisData.geoPosition.coordinates == "undefined" 	 || thisData.geoPosition.coordinates == null) return false;
-					if(typeof thisData.geoPosition.coordinates[0] == "undefined" || thisData.geoPosition.coordinates[0] == null) return false;
-					if(typeof thisData.geoPosition.coordinates[1] == "undefined" || thisData.geoPosition.coordinates[1] == null) return false;
+					if(typeof thisData.geoPosition.coordinates[0] == "undefined" || thisData.geoPosition.coordinates[0] == null || thisData.geoPosition.coordinates[0] == "") return false;
+					if(typeof thisData.geoPosition.coordinates[1] == "undefined" || thisData.geoPosition.coordinates[1] == null || thisData.geoPosition.coordinates[1] == "") return false;
 						
 					if(type == "markerSingle"){
 						var lat = thisData.geoPosition.coordinates[1];
@@ -492,8 +492,8 @@
 					//mylog.log("thisData.geometry ?");
 					//mylog.dir(thisData);
 					if(typeof thisData.geometry.location == "undefined" 	|| thisData.geometry.location == null) return false;
-					if(typeof thisData.geometry.location.lat == "undefined" || thisData.geometry.location.lat == null) return false;
-					if(typeof thisData.geometry.location.lng == "undefined" || thisData.geometry.location.lng == null) return false;
+					if(typeof thisData.geometry.location.lat == "undefined" || thisData.geometry.location.lat == null || thisData.geometry.location.lat == "") return false;
+					if(typeof thisData.geometry.location.lng == "undefined" || thisData.geometry.location.lng == null || thisData.geometry.location.lng == "") return false;
 					
 					if(type == "markerSingle"){
 						var lat = thisData.geometry.location.lat;
