@@ -335,6 +335,7 @@ function addSearchTag(tag){
     $('.tagFilter[value="'+tag+'"]').prop("checked", true );
   }
 }
+
 function removeSearchTag(tag){
   var index = searchTag.indexOf(tag);
   if (index > -1) {
@@ -392,11 +393,29 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, paramsFiltre){
     if (undefined !== searchTag && searchTag.length)$.merge(searchTagGlobal,searchTag);
     if (undefined !== searchCategory && searchCategory.length)$.unique($.merge(searchTagGlobal,searchCategory));
     console.log("searchTagGlobal : "+searchTagGlobal);
+
+    var newTags = {} ;
+    $.each(searchTagGlobal, function(i, o) {
+
+        $.each(networkJson.filter.linksTag, function(keyNet, valueNet){
+
+          mylog.log("networkTags", o, valueNet.tags, jQuery.inArray(o, valueNet.tags));
+          if(typeof valueNet.tags[o] != "undefined"){
+            if(typeof newTags[keyNet] == "undefined")
+              newTags[keyNet] = [];
+            newTags[keyNet].push(o);
+          }
+        });
+    });
+
+    mylog.log("newTags", newTags);
+
     var data = {
       "name" : name,
       "locality" : "xxxx",
       "searchType" : searchType,
       "searchTag" : searchTagGlobal,
+      "searchTag2" : newTags,
       "searchLocalityNAME" : searchLocalityNAME,
       "searchLocalityCODE_POSTAL_INSEE" : searchLocalityCODE_POSTAL_INSEE,
       "searchLocalityDEPARTEMENT" : searchLocalityDEPARTEMENT,
@@ -792,7 +811,6 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, paramsFiltre){
     });
     $(".categoryFilter").off().click(function(e){
       var category = $(this).attr("value");
-      ;
       if($(this).is(':checked') == false){
         removeSearchCategory(category);
       }
