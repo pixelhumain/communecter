@@ -28,6 +28,7 @@
     color:<?php echo $params["color1"]; ?>!important;
 }
 .btn-anc-color-<?php echo $color; ?>.active{ 
+    border-color: <?php echo $params["color1"]; ?>!important;
     background-color:#fff!important;
     color:<?php echo $params["color1"]; ?>!important;
 }
@@ -39,7 +40,7 @@
 
 .favElBtn, .favAllBtn{
   padding: 5px 8px;
-  font-weight: 800;
+  font-weight: 300;
   margin-bottom:5px;
 }
 #searchBarTextJS{
@@ -84,8 +85,8 @@
 		      <i class="fa fa-info-circle"></i> Indiquez le nom d'une commune, ou un code postal, pour lancer la recherche
 		    </div> 
 
-		    <button class="btn btn-default pull-right text-azure" onclick="showMap(true)" style="margin-bottom: -15px;margin-top: -10px;">
-		      <i class="fa fa-map-marker"></i>
+		    <button class="btn btn-default pull-right text-dark" onclick="showMap(true)" style="margin-bottom: -15px;margin-top: -10px;">
+		      <i class="fa fa-map"></i>
 		      <span class="hidden-xs"> Afficher <span class="hidden-sm hidden-xs">sur</span> la carte</span>
 		    </button>
 	  	</div>

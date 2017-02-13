@@ -134,7 +134,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
       
     if(isMapEnd)
       $.blockUI({
-        message : "<h3 class='homestead text-red'><i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...</span></h3>"
+        message : "<h3 class='text-red'><i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...</span></h3>"
       });
    
     $.ajax({
@@ -759,7 +759,7 @@ var directory = {
         }
        // alert(directory.elemClass);
        // $("#listTags").append("<h4 class=''> <i class='fa fa-tags'></i> trier </h4>");
-        $("#listTags").append("<a class='btn btn-dark-blue favElBtn favAllBtn' href='javascript:directory.toggleEmptyParentSection(\".favSection\",null,directory.elemClass,1)'> Tout voir </a><br/>");
+        $("#listTags").append("<a class='btn btn-anc-color-blue favElBtn favAllBtn' href='javascript:directory.toggleEmptyParentSection(\".favSection\",null,directory.elemClass,1)'> <b>Tout voir</b> </a><br/>");
         $.each( $(directory.elemClass),function(k,o){
             $.each($(o).find(".btn-tag"),function(i,oT){
                 var oTag = $(oT).data('tag-value').toLowerCase();
@@ -769,7 +769,7 @@ var directory = {
                   $("#listTags").append("<a class='btn btn-link favElBtn btn-anc-color-blue "+slugify(oTag)+"Btn' "+
                                             "data-tag='"+slugify(oTag)+"' "+
                                             "href='javascript:directory.toggleEmptyParentSection(\".favSection\",\"."+slugify(oTag)+"\",directory.elemClass,1)'>"+
-                                              oTag+
+                                              "#"+oTag+
                                         "</a><br> ");
                 }
             });
@@ -816,9 +816,9 @@ var directory = {
         mylog.log("toggleEmptyParentSection('"+parents+"','"+tag+"','"+children+"')");
         var showAll = true;
         if(tag){
-          $(".favAllBtn").removeClass("btn-dark-blue");
+          $(".favAllBtn").removeClass("active");
           //apply tag filtering
-          $(tag+"Btn").toggleClass("btn-link text-white").toggleClass("active  btn-dark-blue text-white");
+          $(tag+"Btn").toggleClass("btn-link text-white").toggleClass("active text-white");
 
           if( $( ".favElBtn.active" ).length > 0 ) 
           {
@@ -837,6 +837,8 @@ var directory = {
         
         if( showAll )
           directory.showAll(parents,children);
+
+        $(".my-main-container").scrollTop(0);
     },
 
     showAll: function(parents,children,path,color) 
@@ -845,7 +847,7 @@ var directory = {
       if(!color)
         color = "text-white";
       $(".favElBtn").removeClass("active btn-dark-blue").addClass("btn-link ");//+color+" ");
-      $(".favAllBtn").addClass("btn-dark-blue");
+      $(".favAllBtn").addClass("active");
       $(parents).removeClass('hide');
       $(children).removeClass('hide');
     },
