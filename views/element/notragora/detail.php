@@ -292,12 +292,15 @@
 
 
 	<div class="col-lg-2 col-md-2 col-sm-3 col-members">
-		<?php if($type=="poi"){ ?>
+		<?php if($type=="poi"){ 
+				//var_dump($parent);
+				$spec = Element::getElementSpecsByType( @$parent["typeSig"] );
+			?>
 			<h3>Réalisé par</h3>
 			<hr>
 			<div class='col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding'>
 				<div class="contentEntity">
-				<a href="#organization.detail.id.<?php echo @$parent["id"] ?>" class="container-img-parent lbh add2fav">
+				<a href="#<?php echo $spec["hash"]; echo @$parent["id"]?>" class="container-img-parent lbh add2fav">
 					<?php
 					$imgProfil = "<i class='fa fa-image fa-2x'></i>";
 					if(@$parent["profilImageUrl"] && !empty($parent["profilImageUrl"])){
@@ -307,29 +310,29 @@
                 	?>
 				</a>
 				<div class="padding-10 informations">
-				<a href='#organization.detail.id.<?php echo $parent["id"] ?>' class='entityName text-dark lbh add2fav text-light-weight margin-bottom-5'>
-                    <?php echo $parent["name"] ?> 
+				<a href='#<?php echo $spec["hash"]; echo @$parent["id"]?>' class='entityName text-dark lbh add2fav text-light-weight margin-bottom-5'>
+                    <?php echo @$parent["name"] ?> 
                 </a>
                 </div>
                 </div>
 			</div>
 		<?php } else { ?>
-		<h3>Membres du groupe (<span id="nbMemberTotal"></span>)</h3>
-		<hr>
-		<h4>Administrateurs (<span id="nbAdmin"></span>)</h4>
+			<h3>Membres du groupe (<span id="nbMemberTotal"></span>)</h3>
+			<hr>
+			<h4>Administrateurs (<span id="nbAdmin"></span>)</h4>
 
-		<?php 
-			//var_dump($members);
-			$nbAdmin = 0;
-			if(@$members && !empty($members)) {
-				foreach($members as $key => $member){ 
-					if(@$member["isAdmin"] == true){ $nbAdmin++;
-					$profilThumbImageUrl = Element::getImgProfil($member, "profilThumbImageUrl", $this->module->assetsUrl);
-		?>
-			<a href="#"  class="lbh col-md-12 no-padding margin-top-5 elipsis">
-				<img class="img-circle" src="<?php echo $profilThumbImageUrl; ?>" height=35 width=35> 
-				<span class="username-min"><?php echo @$member["name"]; ?></span>
-			</a>
+			<?php 
+				$nbAdmin = 0;
+				if(@$members && !empty($members)) {
+					foreach($members as $key => $member){ 
+						if(@$member["isAdmin"] == true){ $nbAdmin++;
+						$profilThumbImageUrl = Element::getImgProfil($member, "profilThumbImageUrl", $this->module->assetsUrl);
+						$spec = Element::getElementSpecsByType( @$member["type"] );
+			?>
+						<a href="#<?php echo $spec["hash"]; echo @$member["id"]?>"  class="lbh col-md-12 no-padding margin-top-5 elipsis">
+							<img class="img-circle" src="<?php echo $profilThumbImageUrl; ?>" height=35 width=35> 
+							<span class="username-min"><?php echo @$member["name"]; ?></span>
+						</a>
 		<?php }}} ?>
 
 		<div class="col-md-12 no-padding margin-top-5">
@@ -344,8 +347,9 @@
 				foreach($members as $key => $member){ 
 					if(!isset($member["isAdmin"]) || @$member["isAdmin"]==false){ $nbMember++;
 					$profilThumbImageUrl = Element::getImgProfil($member, "profilThumbImageUrl", $this->module->assetsUrl);
+					$spec = Element::getElementSpecsByType( @$member["type"] );
 		?>
-			<a href="#"  class="lbh col-md-12 no-padding margin-top-5 elipsis">
+			<a href="#<?php echo $spec["hash"]; echo @$member["id"]?>"  class="lbh col-md-12 no-padding margin-top-5 elipsis">
 				<img class="img-circle" src="<?php echo $profilThumbImageUrl; ?>" height=35 width=35> 
 				<span class="username-min"><?php echo @$member["name"]; ?></span>
 			</a>
@@ -526,7 +530,7 @@ function initMenuDetail(){
     	var poisHtml = directory.showResultsDirectoryHtml(pois, "poi");
 
     	if( userId && userId == contextData.creator )
-    		poisHtml = "<div class='row'><a href='javascript:elementLib.openForm(\"poi\",\"subPoi\")' class='btn btn-azure pull-right'><i class='fa fa-plus'></i> Ajouter une production</a></div><div class='space20'></div>"+poisHtml;
+    		poisHtml = "<div class='col-md-12'><a href='javascript:elementLib.openForm(\"poi\",\"subPoi\")' class='btn btn-azure'><i class='fa fa-plus'></i> Ajouter une production</a><hr></div>"+poisHtml;
     	$("#section-directory").html(poisHtml);
     	bindLBHLinks();
 		// 	var type = "?type=poi";

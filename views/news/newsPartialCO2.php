@@ -26,8 +26,6 @@
 
       if(@$media["imageBackground"])
         $srcMainImg = Yii::app()->createUrl($media["imageBackground"]);
-
-
 	?>
 
   
