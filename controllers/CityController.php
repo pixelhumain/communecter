@@ -39,6 +39,7 @@ class CityController extends CommunecterController {
 	        'cityexists'  			=> 'citizenToolKit.controllers.city.CityExistsAction',
 	        'autocompletemultiscope'=> 'citizenToolKit.controllers.city.AutocompleteMultiScopeAction',
 	        'save'       			=> 'citizenToolKit.controllers.city.SaveAction',
+	        'getdepandregion'		=> 'citizenToolKit.controllers.city.GetDepAndRegionAction',
 
 	    );
 	}

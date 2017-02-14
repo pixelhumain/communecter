@@ -59,7 +59,6 @@ var trad = {"areyousuretodelete" : "<?php echo Yii::t("common", "Are you sure yo
 		"mustacceptCGU" : "<?php echo Yii::t("login","You must validate the CGU to sign up.") ?>",
 		"usernamenotunique" : "<?php echo Yii::t("login","The user name is not unique : please change it.")?>",
 		"somethingwentwrong" : "<?php echo Yii::t("login","Something went really bad : contact your administrator !")?>",
-
 		"suredeletelocality" : "<?php echo Yii::t("common","Are you sure you want to delete the locality")?>",
 		
 		"udpateorganizer" : "<?php echo Yii::t("event","Update the organizer") ?>",
@@ -71,6 +70,7 @@ var trad = {"areyousuretodelete" : "<?php echo Yii::t("common", "Are you sure yo
         "people":"<?php echo Yii::t("common","people"); ?>",
         "citoyens":"<?php echo Yii::t("common","citoyens"); ?>",
         "followers":"<?php echo Yii::t("common","followers"); ?>",
+		"address" : "<?php echo Yii::t("common","Address") ?>",
 
 };
 
@@ -82,6 +82,6 @@ var tradCountry = {
 	"MQ":"Martinique",
 	"YT":"Mayotte",
 	"NC":"Nouvelle-Calédonie",
-	"RE":"Réunion",
+	"RE":"La Réunion",
     "PM":"St Pierre et Miquelon",
 };

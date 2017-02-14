@@ -19,128 +19,20 @@
 			}else{
 				return this.getPopupSimple(data);
 			}
-			/*	if(data["@Type"] == "event" || data["type"] == "event" || data["type"] == "meeting") {
-					return this.getPopupEvent(data);
-				}
-				else{
-					return this.getPopupCitoyen(data);
-				}*/
 		};
-		//##
-		//création du contenu de la popup d'un data
-		Sig.getPopupCitoyen = function(data){
-
-			var type = data['type'] ? data['type'] : "";
-
-			mylog.log("getPopupCitoyen",data) ;
-			var imgProfilPath =  Sig.getThumbProfil(data);
-
-			var popupContent = "";
-			//if(data['thumb_path'] != null)
-			popupContent += "<div class='popup-info-profil-thumb-lbl'><img src='" + imgProfilPath + "' height=100 class='popup-info-profil-thumb "+type+"'></div>";
-			//else
-			//popupContent += "<div class='popup-info-profil-thumb-lbl'><img src='"+assetPath+"/images/thumb/default.png' width=100 class='popup-info-profil-thumb "+type+"'></div>";
-
-
-			//NOM DE L'UTILISATEUR
-			if(data['name'] != null){
-				var userUrl = data['publicUrl'] ? data['publicUrl'] : "#";
-				popupContent += 	"<div class='popup-info-profil-username'><a href='"+ userUrl +"' class='"+type+"'>" + data['name'] + "</a></div>";
-			}
-
-			//TYPE D'UTILISATEUR (data, ASSO, PARTENAIRE, ETC)
-			var typeName = data['type'];
-			if(typeName == null)  typeName = "data";
-			if(data['name'] == null)  typeName += " Anonyme";
-
-			popupContent += 	"<div class='popup-info-profil-usertype'>" + typeName + "</div>";
-
-			//WORK - PROFESSION
-			if(data['work'] != null)
-			popupContent += 	"<div class='popup-info-profil-work'>" + data['work'] + "</div>";
-			//else
-			//popupContent += 	"<div class='popup-info-profil-work'>Fleuriste</div>";
-
-			//URL
-			if(data['url'] != null)
-			popupContent += 	"<div class='popup-info-profil-url'>" + data['url'] + "</div>";
-			//else
-			//popupContent += 	"<a href='http://www.google.com' class='popup-info-profil-url'>http://www.google.com</a>";
-
-			if(data['address'] != null){
-				//CODE POSTAL 
-				if(data['address']['postalCode'] != null)
-				popupContent += 	"<div class='popup-info-profil'>" + data['address']['postalCode'] + "</div>";
-				//else
-				//popupContent += 	"<div class='popup-info-profil'>98800</div>";
-
-				//VILLE ET PAYS
-				if(data['address']['addressLocality'] != null){
-					var place = data['address']['addressLocality'];
-					if(place != null && data['address']['addressCountry'] != null) //place += ", ";
-					place += ", " + data['address']['addressCountry'];
-				}
-
-				if(place != null)
-				popupContent += 	"<div class='popup-info-profil'>" + place + "</div>";
-				//else
-				//popupContent += 	"<div class='popup-info-profil'>St-Denis, La Réunion</div>";
-			}
-
-			//NUMÉRO DE TEL
-			/*if(data['telephone'] != null)
-			popupContent += 	"<div class='popup-info-profil'>" + data['telephone'] + "<div/>";
-			//else
-			popupContent += 	"<div class='popup-info-profil'>0123456789<div/>";*/
-
-			if(typeof data["telephone"] != "undefined"){
-				var telephone = "" ;
-				if(typeof data["telephone"] == "object"){
-
-					if(typeof data["telephone"]["fixe"] != "undefined"){
-						$.each(data["telephone"]["fixe"], function(key, value){
-			  				/*if(telephone != "")
-								telephone += ", ";
-							telephone += value ;*/
-							popupContent += "<div class='popup-info-profil'>" + value + "</div>";
-			  			});
-					}
-
-					if(typeof data["telephone"]["mobile"] != "undefined")
-					{
-						$.each(data["telephone"]["mobile"], function(key, value){
-			  				/*if(telephone != "")
-								telephone += ", ";
-							telephone += value ;*/
-							popupContent += "<div class='popup-info-profil'>" + value + "</div>";
-			  			});
-					}
-				}
-				else
-				{
-					if(typeof data["telephone"] == "string"){
-						popupContent += "<div class='popup-info-profil'>" + data["telephone"] + "</div>";
-					}
-				}
-				//popupContent += "<div class='popup-info-profil'>" + telephone + "<div/>";
-			}
-
-			return popupContent;
-		};
-
+		
 		//##
 		//création du contenu de la popup d'un data
 		Sig.getPopupSimple = function(data){
 			
 			var type = typeof data['typeSig'] != "undefined" ? data['typeSig'] : data['type'];
-			var id = this.getObjectId(data); //typeof data["_id"]["$id"] != "undefined" ? data['_id']['$id'] : null;
+			var id = this.getObjectId(data); 
 			var popupContent = "<div class='popup-marker'>";
 	
 			var ico = this.getIcoByType(data);
 			var color = this.getIcoColorByType(data);
 			var imgProfilPath =  Sig.getThumbProfil(data);
 			var icons = '<i class="fa fa-'+ ico + ' fa-'+ color +'"></i>';
-			//mylog.log("type de donnée sig : ",type);
 			
 			var typeElement = type;
 			if(type == "people") 		typeElement = "person";
@@ -158,7 +50,6 @@
 			if(type == "entry") 		url = "#survey.entry.id."+id;
 			if(type == "action") 		url = "#rooms.action.id."+id;
 			
-
 			onclick = 'loadByHash("'+url+'");';
 			
 			if(typeof TPL_IFRAME != "undefined" && TPL_IFRAME==true){
@@ -167,84 +58,51 @@
 			}else{							
 				popupContent += "<a href='"+url+"' onclick='"+onclick+"' class='item_map_list popup-marker lbh' id='popup"+id+"'>";
 			}
-			popupContent += 
-						  "<div class='left-col'>"
-	    				+ 	"<div class='thumbnail-profil'><img src='" + imgProfilPath + "' height=50 width=50 class='popup-info-profil-thumb'></div>"						
-	    				+ 	"<div class='ico-type-account'>"+icons+"</div>"					
-	    				+ "</div>"
-
-						+ "<div class='right-col'>";
-						
-						if("undefined" != typeof data['name'])
-						popupContent	+= 	"<div class='info_item pseudo_item_map_list'>" + data['name'] + "</div>";
-						
-						if("undefined" != typeof data['tags']){
-							popupContent	+= 	"<div class='info_item items_map_list'>";
-							var totalTags = 0;
-							if(data.length > 0){
-								$.each(data['tags'], function(index, value){ totalTags++;
-									if(totalTags<4)
-									popupContent	+= 	"<div class='tag_item_map_list'>#" + value + " </div>";
-								});
-							}
-							popupContent	+= 	"</div>";
-						}
-
-						if("undefined" != typeof data['address'] && "undefined" != typeof data['address']['streetAddress'] )
-						popupContent	+= 	"<div class='info_item city_item_map_list'>" + data['address']['streetAddress'] + "</div>";
-								
-						if("undefined" != typeof data['address'] && "undefined" != typeof data['address']['addressLocality'] )
-						popupContent	+= 	"<div class='info_item city_item_map_list'>" + data['address']['addressLocality'] + "</div>";
-								
-						if("undefined" != typeof data['address'] && "undefined" != typeof data['address']['addressCountry'] )
-						popupContent	+= 	"<div class='info_item country_item_map_list'>" + data['address']['addressCountry'] + "</div>";
-								
-						//if("undefined" != typeof data['telephone'])
-						//popupContent	+= 	"<div class='info_item telephone_item_map_list'>" + data['telephone'] + "</div>";
-						
-						if(typeof data["telephone"] != "undefined"){
-							var telephone = "" ;
-							if(typeof data["telephone"] == "object"){
-
-								if(typeof data["telephone"]["fixe"] != "undefined"){
-									$.each(data["telephone"]["fixe"], function(key, value){
-						  				/*if(telephone != "")
-											telephone += ", ";
-										telephone += value ;*/
-										popupContent += "<div class='info_item telephone_item_map_list'>" + value + "</div>";
-						  			});
-								}
-
-								if(typeof data["telephone"]["mobile"] != "undefined")
-								{
-									$.each(data["telephone"]["mobile"], function(key, value){
-						  				/*if(telephone != "")
-											telephone += ", ";
-										telephone += value ;*/
-										popupContent += "<div class='info_item telephone_item_map_list'>" + value + "</div>";
-						  			});
-								}
-							}
-							else
-							{
-								if(typeof data["telephone"] == "string"){
-									popupContent += "<div class='info_item telephone_item_map_list'>" + data["telephone"] + "</div>";
-								}
-							}
-							//popupContent += "<div class='popup-info-profil'>" + telephone + "<div/>";
-						}
-						
-				popupContent += '</div>';
-
-				var dataType = ("undefined" != typeof data['typeSig']) ? data['typeSig'] : "";
-
-				if(dataType == "event" || dataType == "events"){				
-					popupContent += displayStartAndEndDate(data);
+			popupContent += "<div class='main-panel'>"
+							+   "<div class='left-col'>"
+		    				+ 	   "<div class='thumbnail-profil'><img src='" + imgProfilPath + "' height=50 width=50 class='popup-info-profil-thumb'></div>"						
+		    				+ 	   "<div class='ico-type-account'>"+icons+"</div>"					
+		    				+   "</div>"
+							+   "<div class='right-col'>";
+					
+			if("undefined" != typeof data['name'])
+				popupContent	+= 	"<div class='info_item pseudo_item_map_list'>" + data['name'] + "</div>";
+			
+			if("undefined" != typeof data['tags'] && data['tags'] != null){
+				popupContent	+= 	"<div class='info_item items_map_list'>";
+				var totalTags = 0;
+				if(data['tags'].length > 0){
+					$.each(data['tags'], function(index, value){ 
+						totalTags++;
+						if(totalTags<4)
+							popupContent	+= 	"<div class='tag_item_map_list'>#" + value + " </div>";
+					});
 				}
-				popupContent += '<div class="btn btn-sm btn-more col-md-12"><i class="fa fa-hand-pointer-o"></i> en savoir +</div>';
-				popupContent += '</a>';
+				popupContent	+= 	"</div>";
+			}
+			popupContent += "</div>";
+			//Short description
+			if ("undefined" != typeof data['shortDescription'] && data['shortDescription'] != "" && data['shortDescription'] != null) {
+				popupContent += "<div id='pop-description' class='popup-section'>"
+								+ "<div class='popup-subtitle'>Description</div>"
+								+ "<div class='popup-info-profil'>" + data['shortDescription'] + "</div>"
+							+ "</div>";
+			}
+			//Contacts information
+			popupContent += this.getPopupContactsInformation(data);
+			//address
+			popupContent += this.getPopupAddressInformation(data);
 
+			popupContent += '</div>';
 
+			var dataType = ("undefined" != typeof data['typeSig']) ? data['typeSig'] : "";
+
+			if(dataType == "event" || dataType == "events"){				
+				popupContent += displayStartAndEndDate(data);
+			}
+
+			popupContent += '<div class="btn btn-sm btn-more col-md-12"><i class="fa fa-hand-pointer-o"></i> en savoir +</div>';
+			popupContent += '</a>';
 
 			return popupContent;
 		};
@@ -388,73 +246,39 @@
 	    				+ "</div>"
 
 						+ "<div class='right-col'>";
-						
-						if("undefined" != typeof data['name'])
-						popupContent	+= 	"<div class='info_item pseudo_item_map_list'>" + data['name'] + "</div>";
-						
-						if("undefined" != typeof allData['tags']){
-							popupContent	+= 	"<div class='info_item items_map_list'>";
-							var totalTags = 0;
-							$.each(allData['tags'], function(index, value){ totalTags++;
-								if(totalTags < 4)
-								popupContent	+= 	"<div class='tag_item_map_list'>#" + value + " </div>";
-							});
-							popupContent	+= 	"</div>";
-						}
+				
+			if("undefined" != typeof data['name'])
+			popupContent	+= 	"<div class='info_item pseudo_item_map_list'>" + data['name'] + "</div>";
+			
+			if("undefined" != typeof allData['tags']){
+				popupContent	+= 	"<div class='info_item items_map_list'>";
+				var totalTags = 0;
+				$.each(allData['tags'], function(index, value){ totalTags++;
+					if(totalTags < 4)
+					popupContent	+= 	"<div class='tag_item_map_list'>#" + value + " </div>";
+				});
+				popupContent	+= 	"</div>";
+			}
 
-						if("undefined" != typeof data['address'] && "undefined" != typeof data['address']['addressLocality'] )
-						popupContent	+= 	"<div class='info_item city_item_map_list inline'>" + data['address']['addressLocality'] + "</div>";
-								
-						if("undefined" != typeof data['address'] && "undefined" != typeof data['address']['addressCountry'] )
-						popupContent	+= 	"<div class='info_item country_item_map_list inline'>" + data['address']['addressCountry'] + "</div>";
-								
-						//if("undefined" != typeof data['telephone'])
-						//popupContent	+= 	"<div class='info_item telephone_item_map_list inline'>" + data['telephone'] + "</div>";
-
-
-						if(typeof data["telephone"] != "undefined"){
-							var telephone = "" ;
-							if(typeof data["telephone"] == "object"){
-
-								if(typeof data["telephone"]["fixe"] != "undefined"){
-									$.each(data["telephone"]["fixe"], function(key, value){
-						  				/*if(telephone != "")
-											telephone += ", ";
-										telephone += value ;*/
-										popupContent += "<div class='info_item telephone_item_map_list inline'>" + value + "<div/>";
-						  			});
-								}
-
-								if(typeof data["telephone"]["mobile"] != "undefined")
-								{
-									$.each(data["telephone"]["mobile"], function(key, value){
-						  				/*if(telephone != "")
-											telephone += ", ";
-										telephone += value ;*/
-										popupContent += "<div class='info_item telephone_item_map_list inline'>" + value + "<div/>";
-						  			});
-								}
-							}
-							else
-							{
-								if(typeof data["telephone"] == "string"){
-									popupContent += "<div class='info_item telephone_item_map_list inline'>" + data["telephone"] + "<div/>";
-								}
-							}
-							//popupContent += "<div class='popup-info-profil'>" + telephone + "<div/>";
-						}
-				popupContent += '</div>';
-
-				if("undefined" != typeof allData['text']){
-					if("undefined" != typeof allData['name']){
-						popupContent	+= 	"<div class='info_item title_news_item_map_list'>" + allData['name'] + "</div>";
-					}		
-					popupContent	+= 	"<div class='info_item text_item_map_list'>" + allData['text'] + "</div>";
-				}
+			if("undefined" != typeof data['address'] && "undefined" != typeof data['address']['addressLocality'] )
+			popupContent	+= 	"<div class='info_item city_item_map_list inline'>" + data['address']['addressLocality'] + "</div>";
 					
+			if("undefined" != typeof data['address'] && "undefined" != typeof data['address']['addressCountry'] )
+			popupContent	+= 	"<div class='info_item country_item_map_list inline'>" + data['address']['addressCountry'] + "</div>";
+					
+			popupContent += this.getPopupContactsInformation(data);
+			popupContent += '</div>';
 
-				popupContent += '<button class="btn btn-sm btn-info btn-more col-md-12" onclick="' + "loadByHash('#')"+"><i class='fa fa-hand-pointer-o'></i> en savoir +";
-				popupContent += '</button>';
+			if("undefined" != typeof allData['text']){
+				if("undefined" != typeof allData['name']){
+					popupContent	+= 	"<div class='info_item title_news_item_map_list'>" + allData['name'] + "</div>";
+				}		
+				popupContent	+= 	"<div class='info_item text_item_map_list'>" + allData['text'] + "</div>";
+			}
+				
+
+			popupContent += '<button class="btn btn-sm btn-info btn-more col-md-12" onclick="' + "loadByHash('#')"+"><i class='fa fa-hand-pointer-o'></i> en savoir +";
+			popupContent += '</button>';
 
 			return popupContent;
 		};
@@ -485,103 +309,7 @@
 			return popupContent;
 		};
 
-		//##
-		//création du contenu de la popup d'un data
-		Sig.getPopupEvent = function(data){
-
-			var type = data['type'] ? data['type'] : "";
-
-			var popupContent = "";
-			//if(data['thumb_path'] != null)
-			//popupContent += "<div class='popup-info-profil-thumb-lbl'><img src='" + data['thumb_path'] + "' height=100 class='popup-info-profil-thumb'></div>";
-			//else
-			popupContent += "<div class='popup-info-profil-thumb-lbl'><i class='fa fa-calendar fa-3x popup-info-profil-thumb "+type+"'></i></div>";
-
-
-			//NOM DE L'UTILISATEUR
-			if(data['name'] != null){
-				var userUrl = data['publicUrl'] ? data['publicUrl'] : "#";
-				popupContent += 	"<div class='popup-info-profil-username'><a href='"+ userUrl +"' class='"+type+"'>" + data['name'] + "</a></div>";
-			}
-
-			//TYPE D'UTILISATEUR (data, ASSO, PARTENAIRE, ETC)
-			var typeName = data['type'];
-			if(typeName == null)  typeName = "data";
-			if(data['name'] == null)  typeName += " Anonyme";
-
-			popupContent += 	"<div class='popup-info-profil-usertype'>" + typeName + "</div>";
-
-			//WORK - PROFESSION
-			if(data['work'] != null)
-			popupContent += 	"<div class='popup-info-profil-work'>" + data['work'] + "</div>";
-			//else
-			//popupContent += 	"<div class='popup-info-profil-work'>Fleuriste</div>";
-
-			//URL
-			if(data['url'] != null)
-			popupContent += 	"<div class='popup-info-profil-url'>" + data['url'] + "</div>";
-			//else
-			//popupContent += 	"<a href='http://www.google.com' class='popup-info-profil-url'>http://www.google.com</a>";
-
-			if(data['address'] != null){
-				//CODE POSTAL
-				if(data['address']['postalCode'] != null)
-				popupContent += 	"<div class='popup-info-profil'>" + data['cp'] + "</div>";
-				//else
-				//popupContent += 	"<div class='popup-info-profil'>98800</div>";
-
-				//VILLE ET PAYS
-				var place = data['address']['addressLocality'];
-				if(place != null && data['address']['addressCountry'] != null) //place += ", ";
-				place += ", " + data['address']['addressCountry'];
-
-				if(place != null)
-				popupContent += 	"<div class='popup-info-profil'>" + place + "</div>";
-				//else
-				//popupContent += 	"<div class='popup-info-profil'>St-Denis, La Réunion</div>";
-			}
-
-			//NUMÉRO DE TEL
-			/*if(data['telephone'] != null)
-			popupContent += 	"<div class='popup-info-profil'>" + data['telephone'] + "<div/>";
-			//else
-			popupContent += 	"<div class='popup-info-profil'>0123456789<div/>";*/
-
-			if(typeof data["telephone"] != "undefined"){
-				var telephone = "" ;
-				if(typeof data["telephone"] == "object"){
-
-					if(typeof data["telephone"]["fixe"] != "undefined"){
-						$.each(data["telephone"]["fixe"], function(key, value){
-			  				/*if(telephone != "")
-								telephone += ", ";
-							telephone += value ;*/
-							popupContent += "<div class='popup-info-profil'>" + value + "<div/>";
-			  			});
-					}
-
-					if(typeof data["telephone"]["mobile"] != "undefined")
-					{
-						$.each(data["telephone"]["mobile"], function(key, value){
-			  				/*if(telephone != "")
-								telephone += ", ";
-							telephone += value ;*/
-							popupContent += "<div class='popup-info-profile'>" + value + "<div/>";
-			  			});
-					}
-				}
-				else
-				{
-					if(typeof data["telephone"] == "string"){
-						popupContent += "<div class='popup-info-profil'>" + data["telephone"] + "<div/>";
-					}
-				}
-				//popupContent += "<div class='popup-info-profil'>" + telephone + "<div/>";
-			}
-
-			return popupContent;
-		};
-
+		
 		Sig.getPopupCity = function(dataTxt, insee){
 			var localActors = "";
 			if($("#local-actors-popup-sig").length > 0){ //mylog.log("try to catch local actors");
@@ -676,6 +404,79 @@
 			popupContent +=		'</div>';
 			return popupContent;
 		};
+
+		Sig.getPopupContactsInformation = function(data){
+			var popupContent = "";
+			//Website URL
+			if (typeof data["url"] != "undefined" && data["url"] != null)
+				popupContent += "<div class='popup-info-profil'><i class='fa fa fa-desktop fa_url'></i>" + data["url"] + "</div>";
+
+			//email
+			if (typeof data["email"] != "undefined" && data["email"] != null)
+				popupContent += "<div class='popup-info-profil'><i class='fa fa-envelope fa_email'></i>" + data["email"] + "</div>";
+
+			if(typeof data["telephone"] != "undefined" && data["telephone"] != null){
+				var telephone = "" ;
+				if(typeof data["telephone"] == "object"){
+					if(typeof data["telephone"]["fixe"] != "undefined") {
+						$.each(data["telephone"]["fixe"], function(key, value){
+							popupContent += "<div class='popup-info-profil'><i class='fa fa-phone fa_telephone'></i>" + value + "</div>";
+			  			});
+					}
+					if(typeof data["telephone"]["mobile"] != "undefined") {
+						$.each(data["telephone"]["mobile"], function(key, value){
+							popupContent += "<div class='popup-info-profil'><i class='fa fa-mobile fa_telephone_mobile'></i>" + value + "</div>";
+			  			});
+					}
+					if(typeof data["telephone"]["fax"] != "undefined") {
+						$.each(data["telephone"]["fax"], function(key, value){
+							popupContent += "<div class='popup-info-profil'><i class='fa fa-fax fa_telephone_fax'></i>" + value + "</div>";
+			  			});
+					}
+				} else {
+					if(typeof data["telephone"] == "string"){
+						popupContent += "<div class='popup-info-profil'>" + data["telephone"] + "</div>";
+					}
+				}				
+			}
+			
+			if (popupContent != "") {
+				popupContent = "<div id='pop-contacts' class='popup-section'>"
+								+ "<div class='popup-subtitle'>Contacts</div>"
+								+popupContent
+								+"</div>";
+			}
+
+			return popupContent;
+		}
+
+		Sig.getPopupAddressInformation = function(data){
+			var popupContent = "";
+			if("undefined" != typeof data['address']) { 
+				if ("undefined" != typeof data['address']['streetAddress'] )
+					popupContent	+= 	"<div class='popup-info-profil'>" + data['address']['streetAddress'] + "</div>";
+					
+				if("undefined" != typeof data['address']['addressLocality'] ) {
+					var cpAndLocality = "";
+					if("undefined" != typeof data['address']['postalCode'] ) 
+						cpAndLocality	+= 	data['address']['postalCode'] + " ";
+					cpAndLocality	+= data['address']['addressLocality'];
+					popupContent += "<div class='popup-info-profil'>" + cpAndLocality + "</div>";
+				}	
+				if("undefined" != typeof data['address']['addressCountry'] ) {
+					var country = data['address']['addressCountry'];
+					if ("undefined" != typeof tradCountry[country]) country = tradCountry[country];
+					popupContent	+= 	"<div class='popup-info-profil'>" + country + "</div>";
+				}
+			}
+			if (popupContent != "") {	
+				popupContent = "<div id='pop-address' class='popup-section'>"
+								+ "<div class='popup-subtitle'>" + trad["address"] + "</div>"
+								+popupContent
+								+ "</div>";
+			}
+			return popupContent;
+		}
 
 		Sig.getPopupModifyPosition = function(data){
 			//mylog.dir(data);

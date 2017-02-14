@@ -587,7 +587,7 @@ var loadableUrls = {
 	//"#home" : {"alias":"#default.home"},
     "#stat.chartglobal" : {title:'STATISTICS ', icon : 'bar-chart'},
     "#stat.chartlogs" : {title:'STATISTICS ', icon : 'bar-chart'},
-
+    "#network.savoir" : {title:"En savoir plus" , icon : 'plus'},
     "#default.live" : {title:"FLUX'Direct" , icon : 'heartbeat', menuId:"menu-btn-live"},
 	"#default.login" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
 	"#project.addcontributorsv" : {title:'Add contributors', icon : 'plus'},
@@ -679,15 +679,14 @@ function jsController(hash){
  var CoAllReadyLoad = false;
 //back sert juste a differencier un load avec le back btn
 //ne sert plus, juste a savoir d'ou vient drait l'appel
-function loadByHash( hash , back ) { 
-
+function loadByHash( hash , back ) {
 	/* court circuit du lbh pour changer le type du directory si on est déjà sur une page directory */
 	// mylog.log("IS DIRECTORY ? ", 
 	// 			hash.indexOf("#default.directory"), 
 	// 			location.hash.indexOf("#default.directory"), CoAllReadyLoad);
 	if(typeof globalTheme != "undefined" && globalTheme=="network"){
-		if( hash.indexOf("#network.simplydirectory") >= 0 &&
-			location.hash.indexOf("#network.simplydirectory") >= 0 || hash=="#" || hash==""){ 
+		if( hash.indexOf("#network") >= 0 &&
+			location.hash.indexOf("#network") >= 0 || hash=="#" || hash==""){ 
 		}
 		else{
 			count=$(".breadcrumAnchor").length;
@@ -696,7 +695,8 @@ function loadByHash( hash , back ) {
 				count=1;
 			breadcrumGuide(count, hash);
 		}
-		return;
+		
+		return ;
 	}
 
 	if( hash.indexOf("#default.directory") >= 0 &&
@@ -773,6 +773,14 @@ function loadByHash( hash , back ) {
 	}*/
 }
 
+function decodeHtml(str) {
+	mylog.log("decodeHtml", str);
+    var txt = document.createElement("textarea");
+    txt.innerHTML = str;
+    mylog.log("decodeHtml",  txt.value);
+    return txt.value;
+}
+
 function setTitle(str, icon, topTitle,keywords,shortDesc) { 
 	if(icon != "")
 		icon = ( icon.indexOf("<i") >= 0 ) ? icon : "<i class='fa fa-"+icon+"'></i> ";
@@ -822,6 +830,12 @@ function searchByHash (hash)
 	if( searchT.length > 3 && searchT[3] == "map" )
 		mapEnd = true;
 	return mapEnd;
+}
+
+function markdownToHtml (str) { 
+	var converter = new showdown.Converter(),
+	res = converter.makeHtml(str);
+	return res;
 }
 
 function checkMenu(urlObj, hash){

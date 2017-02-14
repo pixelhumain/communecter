@@ -163,6 +163,7 @@ class CommunecterController extends Controller
       'cityexists'          => array("href" => "/ph/communecter/city/cityexists"),
       'autocompletemultiscope'          => array("href" => "/ph/communecter/city/autocompletemultiscope"),
       "save"               => array("href" => "/ph/communecter/city/save", "public" => true),
+      'getdepandregion'          => array("href" => "/ph/communecter/city/getdepandregion"),
     ),
     "news"=> array(
       "index"   => array( "href" => "/ph/communecter/news/index", "public" => true,'title' => "Fil d'actualités - N.E.W.S", "subTitle"=>"Nord.Est.West.Sud","pageTitle"=>"Fil d'actualités - N.E.W.S"),

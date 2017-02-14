@@ -833,7 +833,7 @@
 							// 	thisMap.fitBounds(thisSig.markersLayer.getBounds(), { 'maxZoom' : 14, 'animate':false });
 							// }, 1500);
 							*/
-
+					
 					thisSig.constructUI();
 
 					this.showIcoLoading(false);

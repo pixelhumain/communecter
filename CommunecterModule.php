@@ -7,8 +7,8 @@
  *
 */
 
-class CommunecterModule extends CWebModule
-{
+class CommunecterModule extends CWebModule {
+
 	public function init()
 	{
 		// this method is called when the module is being created
@@ -21,7 +21,15 @@ class CommunecterModule extends CWebModule
 		));
 		
 		Yii::app()->homeUrl = Yii::app()->createUrl($this->id);
-		Yii::app()->theme = $this->getTheme();
+		
+		//Apply theme
+		$themeName = $this->getTheme();
+		Yii::app()->theme = $themeName;
+		
+		//Retrieve network params in the url
+		if(@$_GET["network"]) {
+            Yii::app()->params['networkParams'] = $_GET["network"];
+        }
 
 		Yii::app()->language = (isset(Yii::app()->session["lang"])) ? Yii::app()->session["lang"] : 'fr';
 		
@@ -83,7 +91,7 @@ class CommunecterModule extends CWebModule
 
 		if(@$_GET["network"]) {
             $theme = "network";
-            Yii::app()->params['networkParams'] = $_GET["network"];
+            //Yii::app()->params['networkParams'] = $_GET["network"];
         }
         Yii::app()->session["theme"] = $theme;
 		return $theme;

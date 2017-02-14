@@ -18,6 +18,7 @@ $cssAnsScriptFilesModule = array(
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 
 $controler = Element::getControlerByCollection($type);
+
 ?>
 
 <style>
@@ -367,14 +368,14 @@ $controler = Element::getControlerByCollection($type);
 				<div id="divTagsHeader" class="badgePH pull-right">
 					<?php if(isset($entity["tags"])){ ?>
 						<?php 
-							$i=0; 
+							//$i=0; 
 							foreach($entity["tags"] as $tag){ 
-								if($i<6) { 
-									$i++;?>
+								//if($i<6) { 
+									//$i++;?>
 									<div class="tag label label-danger pull-right" data-val="<?php echo  $tag; ?>">
 										<i class="fa fa-tag"></i> <?php echo  $tag; ?>
 									</div>
-					<?php 		}
+					<?php 		//}
 							} 
 					} ?>
 				</div>
@@ -565,6 +566,7 @@ if($showOdesc == true){
 ?>
 
 <script type="text/javascript">
+
 var contextData = {
 		name : "<?php echo addslashes($entity["name"]) ?>",
 		id : "<?php echo (string)$entity["_id"] ?>",
@@ -672,7 +674,7 @@ var mapUrl = {
 var listElementView = [	'detail', 'detail.edit', 'news', 'directory', 'gallery', 'addmembers', 'calendarview', 'addtimesheet', 'addchart', 'addneed', 'calendarview'];
 
 jQuery(document).ready(function() {
-	setTitle(element.name,contextIcon);
+	setTitle(decodeHtml(element.name),contextIcon);	
 	mylog.log("loadAllLinks-------", loadAllLinks);
 	if(loadAllLinks){
 		$.ajaxSetup({ cache: true});
