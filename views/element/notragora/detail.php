@@ -214,9 +214,14 @@
 		<div class="col-md-12 padding-15 menubar">
 			<button class="btn btn-default btn-menubar" id="btn-menu-home">A PROPOS</button>
 			<button class="btn btn-default btn-menubar" id="btn-menu-stream">CARNET DE BORD</button>
-			<?php   
-			if( $type != Person::COLLECTION){?>
+			<?php if( $type != Person::COLLECTION){?>
 				<button class="btn btn-default btn-menubar" id="btn-menu-directory-poi">PRODUCTIONS</button>
+			<?php } ?>
+
+			<?php if(isset(Yii::app()->session["userId"]) && Yii::app()->session["userId"] == @$element["creator"]){ ?>
+			<button onclick='javascript:elementLib.openForm("poi","subPoi")' class='btn btn-default pull-right btn-menubar'>
+				<i class='fa fa-plus'></i> <i class='fa fa-video-camera'></i> Ajouter une production
+			</button>
 			<?php } ?>
 		</div>
 		<?php } ?>
@@ -284,9 +289,8 @@
 			
 		</div>
 
-		<div id="section-directory" class="col-md-12">
-		
-		</div>
+
+		<div id="section-directory" class="col-md-12"></div>
 	</div>
 
 
@@ -529,10 +533,12 @@ function initMenuDetail(){
 
     	var poisHtml = directory.showResultsDirectoryHtml(pois, "poi");
 
-    	if( userId && userId == contextData.creator )
-    		poisHtml = "<div class='col-md-12'><a href='javascript:elementLib.openForm(\"poi\",\"subPoi\")' class='btn btn-azure'><i class='fa fa-plus'></i> Ajouter une production</a><hr></div>"+poisHtml;
+    	//if( userId && userId == contextData.creator )
+    	//	poisHtml = poisHtml;
+    	
     	$("#section-directory").html(poisHtml);
     	bindLBHLinks();
+		
 		// 	var type = "?type=poi";
  		//  ajaxPost('#section-directory', baseUrl+'/'+moduleId+"/default/directory"+type, 
 		// 	null,

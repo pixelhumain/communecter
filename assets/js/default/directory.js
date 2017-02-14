@@ -707,12 +707,16 @@ var directory = {
           favTypes.push(typeObj[key].col);
           
           var color = (typeObj[key] && typeObj[key].color) ? typeObj[key].color : "dark";
+          var icon = (typeObj[key] && typeObj[key].icon) ? typeObj[key].icon : "circle";
           $(smallMenu.destination + " #listDirectory").append("<div class='"+typeObj[key].col+"fav favSection '>"+
                                             "<div class=' col-xs-12 col-sm-12'>"+
                                             "<h4 class='text-left text-"+color+"'><i class='fa fa-angle-down'></i> "+trad[key]+"</h4><hr>"+
                                             subContent+
                                             "</div>");
-          $(".sectionFilters").append(" <a class='text-black helvetica btn btn-link favSectionBtn favSectionBtnNew  bg-"+color+"' href='javascript:directory.showAll(\".favSection\",directory.elemClass);toggle(\"."+typeObj[key].col+"fav\",\".favSection\",1)'> "+trad[key]+"</a> ")
+          $(".sectionFilters").append(" <a class='text-black btn btn-default favSectionBtn favSectionBtnNew  bg-"+color+"'"+
+                                      " href='javascript:directory.showAll(\".favSection\",directory.elemClass);toggle(\"."+typeObj[key].col+"fav\",\".favSection\",1)'> "+
+                                          "<i class='fa fa-"+icon+" fa-2x'></i><br>"+trad[key]+
+                                        "</a>")
         }
       });
       bindLBHLinks();

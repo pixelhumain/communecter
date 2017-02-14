@@ -1145,7 +1145,9 @@ var smallMenu = {
 						"</div>"+
 					"</h3><hr>"+
 					"<div class='col-md-12 bold sectionFilters'>"+
-						"<a class='text-black bg-white btn btn-link favSectionBtn btn-default' href='javascript:directory.toggleEmptyParentSection(\".favSection\",null,\".searchEntityContainer\",1)'> Tout voir</a></span> </span>"+
+						"<a class='text-black bg-white btn btn-link favSectionBtn btn-default' "+
+							"href='javascript:directory.toggleEmptyParentSection(\".favSection\",null,\".searchEntityContainer\",1)'>"+
+							"<i class='fa fa-asterisk fa-2x'></i><br>Tout voir</a></span> </span>"+
 					"</div>"+
 
 					"<div class='col-md-12'><hr></div>"+
@@ -2386,6 +2388,7 @@ var elementLib = {
 
 	    if(userId)
 		{
+			formType = type;
 			elementLib.getDynFormObj(type, function() { 
 				elementLib.starBuild(specs,afterLoad,data);
 			},afterLoad, data);
@@ -3282,7 +3285,7 @@ var typeObj = {
 			url:"/"+moduleId+"/event/eventsv",
 			title : "Ajouter un évènement"
 		}*/	},
-	"events" : {col:"events",ctrl:"event",color:"orange"},
+	"events" : {col:"events",ctrl:"event",icon : "calendar",color:"orange"},
 	"project" : {
 		col:"projects",
 		ctrl:"project",
