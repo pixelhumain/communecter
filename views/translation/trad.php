@@ -63,7 +63,13 @@ var trad = {"areyousuretodelete" : "<?php echo Yii::t("common", "Are you sure yo
 		"suredeletelocality" : "<?php echo Yii::t("common","Are you sure you want to delete the locality")?>",
 		
 		"udpateorganizer" : "<?php echo Yii::t("event","Update the organizer") ?>",
-		"emptymsg" : "<?php echo Yii::t("news","Please write something") ?>",
+		"organizations" : "<?php echo Yii::t("common","organizations") ?>",
+		"projects" : "<?php echo Yii::t("common","projects") ?>",
+		"events" : "<?php echo Yii::t("common","events") ?>",
+		"organization" : "<?php echo Yii::t("common","organization") ?>",
+		"project" : "<?php echo Yii::t("common","project") ?>",
+		"event" : "<?php echo Yii::t("common","event") ?>",
+
 
 };
 

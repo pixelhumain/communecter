@@ -2573,6 +2573,34 @@ var elementLib = {
 				$("#ajaxFormModal #id").val(data.id)
 			});
 		}
+	},
+	editDynForm : function(title, icon, properties, fct, data, saveUrl, onLoads, beforeSave, afterSave) {
+		mylog.warn("---------------------- editDynForm ------------------");
+		var form = {
+			dynForm:{
+				jsonSchema : {
+					title : title,
+					icon : icon,
+					properties : properties
+				}
+			}
+		};
+
+		if(typeof saveUrl != "undefined" )
+			form.saveUrl = saveUrl;
+
+		if(typeof onLoads != "undefined" )
+			form.dynForm.jsonSchema.onLoads = onLoads;
+
+		if(typeof beforeSave != "undefined" )
+			form.dynForm.jsonSchema.beforeSave = beforeSave;
+
+		if(typeof afterSave != "undefined" )
+			form.dynForm.jsonSchema.afterSave = afterSave;
+
+		mylog.dir(form);
+
+		elementLib.openForm(form, fct, data);
 	}
 }
 
@@ -3602,10 +3630,10 @@ var typeObj = {
 				            			    	var label = ( v.parentType == "cities" && cpCommunexion && v.parentId.indexOf(cpCommunexion) ) ? cityNameCommunexion : v.parentType;
 				            			    	window.myVotesList[ v.parentType] = {"label":label};
 				            			    	window.myVotesList[ v.parentType].options = {}
-				            			    }else{
+				            			    } /*else{
 				            			    	//if(notNull(myContactsById[v.parentType]) && notNull(myContactsById[v.parentType][v['_id']['$id']]))
 				            			    	//parentName = myContactsById[v.parentType][v['_id']['$id']].name;
-				            			    }
+				            			    }*/
 			            			    	window.myVotesList[ v.parentType].options[v['_id']['$id'] ] = v.name+parentName; 
 			            			    }); 
 			            			    //run through myContacts to fill parent names 
@@ -3701,11 +3729,11 @@ var typeObj = {
 			            			    { mylog.log(v.parentType,v.parentId);
 			            			    	if(v.parentType){
 					            			    if( !window.myActionsList[ v.parentType] ){
-					            			    	var label = ( v.parentType == "cities" && cpCommunexion && v.parentId.indexOf(cpCommunexion) ) ? cityNameCommunexion : v.parentType;
+													var label = ( v.parentType == "cities" && cpCommunexion && v.parentId.indexOf(cpCommunexion) ) ? cityNameCommunexion : "Thématique des " + trad[v.parentType];
 					            			    	window.myActionsList[ v.parentType] = {"label":label};
 					            			    	window.myActionsList[ v.parentType].options = {};
 					            			    }
-				            			    	window.myActionsList[ v.parentType].options[v['_id']['$id'] ] = v.name; 
+				            			    	window.myActionsList[v.parentType].options[v['_id']['$id'] ] = v.name; 
 				            			    }
 			            			    }); 
 			            			    mylog.dir(window.myActionsList);

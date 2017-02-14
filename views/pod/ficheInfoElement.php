@@ -23,11 +23,12 @@ $cssAnsScriptFilesTheme = array(
 
 //'/assets/plugins/moment/min/moment.min.js' , 
 //'/assets/plugins/jquery.qrcode/jquery-qrcode.min.js'
-
+'/plugins/to-markdown/to-markdown.js',
 
 );
 
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->request->baseUrl);
+
 
 /*$cssAnsScriptFilesModule = array(
 
@@ -361,10 +362,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 					</div>
 					<?php } ?>
 					<div class="col-md-6 col-xs-12 no-padding">
-						<span><?php echo Yii::t("common","From") ?></span> <span id="startDate" class="" ><?php echo (isset($element["startDate"]) ? $element["startDate"] : "" ); ?></span>
+						<span><?php echo Yii::t("common","From") ?></span><span id="startDate" class="" ><?php echo (isset($element["startDate"]) ? $element["startDate"] : "" ); ?></span>
 					</div>
 					<div class="col-md-6 col-xs-12 no-padding">
-						<span><?php echo Yii::t("common","To") ?> </span> <span id="endDate" class=""><?php echo (isset($element["endDate"]) ? $element["endDate"] : "" ); ?></span> 
+						<span><?php echo Yii::t("common","To") ?></span> <span id="endDate" class=""><?php echo (isset($element["endDate"]) ? $element["endDate"] : "" ); ?></span> 
 					</div>
 				</div>
 			</div>
@@ -630,7 +631,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 		  	</div>
 				<span id="description"  class=""><?php  echo (!empty($element["description"])) ? $element["description"] : ""; ?></span>
 				<input type="hidden" id="descriptionMarkdown" name="descriptionMarkdown" value="<?php echo (!empty($element['description'])) ? $element['description'] : ''; ?>">
-				<input type="hidden" id="shortDescriptionMarkdown" name="shortDescriptionMarkdown" value="<?php echo (!empty($element['shortDescription'])) ? $element['shortDescription'] : ''; ?>">	
+					
 		</div>
 	</div>
 </div>
@@ -693,6 +694,8 @@ if($showOdesc == true){
 	if(contextData.type == "<?php echo Organization::COLLECTION; ?>" ){
 		contextData.typeOrga = '<?php if(isset($element["type"])) echo $element["type"]; else echo ""; ?>';
 	}
+	contextData.descriptionHTML = '<?php if(isset($element["descriptionHTML"])) echo $element["descriptionHTML"]; else echo ""; ?>';
+	
 
 	if(contextData.type == "<?php echo Event::COLLECTION; ?>"){
 		contextData.allDay = '<?php echo (@$element["allDay"] == true) ? "true" : "false"; ?>';
@@ -744,6 +747,7 @@ if($showOdesc == true){
 		//activateEditableContext();
 		bindDynFormEditable();
 		initDate();
+		inintDescs();
 		//manageAllDayElement(allDay);
 		//manageModeContextElement();
 		changeHiddenIconeElement(true);
@@ -954,7 +958,7 @@ if($showOdesc == true){
 			};
 			
 			var saveUrl = baseUrl+"/"+moduleId+"/element/updateblock/type/"+contextType;
-			editDynForm("Modifier les dates", "fa-calendar", properties, "initWhen", dataUpdate, saveUrl, onLoads, beforeSave, afterSave);
+			elementLib.editDynForm("Modifier les dates", "fa-calendar", properties, "initWhen", dataUpdate, saveUrl, onLoads, beforeSave, afterSave);
 		});
 
 
@@ -964,7 +968,7 @@ if($showOdesc == true){
 				block : typeObjLib.hidden,
 				name : typeObjLib.name,
 				typeElement : typeObjLib.hidden,
-				shortDescription : typeObjLib.description,
+				//shortDescription : typeObjLib.description,
 				isUpdate : typeObjLib["hiddenTrue"]		
 			};
 
@@ -999,8 +1003,8 @@ if($showOdesc == true){
 			if(contextData.tags.length > 0)
 				dataUpdate.tags = contextData.tags;
 
-			if($("#shortDescriptionMarkdown").val().length > 0)
-				dataUpdate.shortDescription = $("#shortDescriptionMarkdown").val();
+			/*if($("#shortDescriptionMarkdown").val().length > 0)
+				dataUpdate.shortDescription = $("#shortDescriptionMarkdown").val();*/
 
 			if(contextData.type == "<?php echo Person::COLLECTION; ?>" ){
 				if(contextData.username.length > 0)
@@ -1031,11 +1035,7 @@ if($showOdesc == true){
 
 			mylog.log("dataUpdate", dataUpdate);
 
-			var onLoads = {
-				markdown : function(){
-					activateMarkdown("#ajaxFormModal #shortDescription");
-				}
-			};
+			var onLoads = null;
 
 			
 			var beforeSave = function(){
@@ -1095,10 +1095,10 @@ if($showOdesc == true){
 					}
 
 
-					if(typeof data.resultGoods.values.shortDescription != "undefined"){
+					/*if(typeof data.resultGoods.values.shortDescription != "undefined"){
 						$("#shortDescriptionMarkdown").val(data.resultGoods.values.shortDescription);
 						$("#shortDescriptionHeader").html(markdownToHtml($("#shortDescriptionMarkdown").val()));
-					}   
+					}  */ 
 						
 					if(typeof data.resultGoods.values.tags != "undefined"){
 						contextData.tags = data.resultGoods.values.tags;
@@ -1181,7 +1181,7 @@ if($showOdesc == true){
 			};
 			
 			var saveUrl = baseUrl+"/"+moduleId+"/element/updateblock/type/"+contextType;
-			editDynForm("Modifier les coordonnées", "fa-pencil", properties, "markdown", dataUpdate, saveUrl, onLoads, beforeSave, afterSave);
+			elementLib.editDynForm("Modifier les coordonnées", "fa-pencil", properties, "", dataUpdate, saveUrl, onLoads, beforeSave, afterSave);
 		});
 
 		$("#btn-update-contact").off().on( "click", function(){
@@ -1294,7 +1294,7 @@ if($showOdesc == true){
 			};
 			
 			var saveUrl = baseUrl+"/"+moduleId+"/element/updateblock/type/"+contextType;
-			editDynForm("Modifier les coordonnées", "fa-pencil", properties, "initUpdateInfo", dataUpdate, saveUrl, onLoads, beforeSave, afterSave);
+			elementLib.editDynForm("Modifier les coordonnées", "fa-pencil", properties, "initUpdateInfo", dataUpdate, saveUrl, onLoads, beforeSave, afterSave);
 		});
 
 		$("#btn-update-desc").off().on( "click", function(){
@@ -1326,7 +1326,7 @@ if($showOdesc == true){
 			};
 			
 			var saveUrl = baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType;
-			editDynForm("Modifier la description", "fa-pencil", properties, "markdown", dataUpdate, saveUrl, onLoads, beforeSave, afterSave);
+			elementLib.editDynForm("Modifier la description", "fa-pencil", properties, "markdown", dataUpdate, saveUrl, onLoads, beforeSave, afterSave);
 		});
 	}
 
@@ -1743,34 +1743,7 @@ function buildSelect(id, field, fieldObj,formValues) {
     return fieldHTML;
 }
 
-function editDynForm(title, icon, properties, fct, data, saveUrl, onLoads, beforeSave, afterSave) {
-	mylog.warn("---------------------- editDynForm ------------------");
-	var form = {
-		dynForm:{
-			jsonSchema : {
-				title : title,
-				icon : icon,
-				properties : properties
-			}
-		}
-	};
 
-	if(typeof saveUrl != "undefined" )
-		form.saveUrl = saveUrl;
-
-	if(typeof onLoads != "undefined" )
-		form.dynForm.jsonSchema.onLoads = onLoads;
-
-	if(typeof beforeSave != "undefined" )
-		form.dynForm.jsonSchema.beforeSave = beforeSave;
-
-	if(typeof afterSave != "undefined" )
-		form.dynForm.jsonSchema.afterSave = afterSave;
-
-	mylog.dir(form);
-
-	elementLib.openForm(form, fct, data);
-}
 
 function changeNetwork(id, url, str){
 	mylog.log("changeNetwork", id, url, str);
@@ -1784,6 +1757,43 @@ function initDate() {//DD/mm/YYYY hh:mm
     if($("#contentGeneralInfos #endDate").html() != "")
     	$("#contentGeneralInfos #endDate").html(moment($("#contentGeneralInfos #endDate").html()).local().format(formatDateView));
     $('#dateTimezone').attr('data-original-title', "Fuseau horaire : GMT " + moment().local().format("Z"));
+}
+
+function descHtmlToMarkdown() {
+	mylog.log("htmlToMarkdown");
+	if(typeof contextData.descriptionHTML != "undefined" && contextData.descriptionHTML == "1"){
+		if($("#contentGeneralInfos #description").html() != ""){
+			var descToMarkdown = toMarkdown($("#contentGeneralInfos #descriptionMarkdown").val()) ;
+			mylog.log("descToMarkdown", descToMarkdown);
+    		$("#contentGeneralInfos #descriptionMarkdown").html(descToMarkdown);
+			var param = new Object;
+			param.name = "description";
+			param.value = descToMarkdown;
+			param.id = contextData.id;
+			param.typeElement = contextType;
+			param.block = "toMarkdown";
+    		$.ajax({
+		        type: "POST",
+		       	url : baseUrl+"/"+moduleId+"/element/updateblock/type/"+contextType,
+		        data: param,
+		       	dataType: "json",
+		    	success: function(data){
+		    		mylog.log("here");
+			    	toastr.success(data.msg);
+			    }
+			});
+			mylog.log("param", param);
+		}
+	}
+}
+
+
+function inintDescs() {
+	mylog.log("inintDescs");
+	descHtmlToMarkdown();
+	mylog.log("after");
+	$("#description").html(markdownToHtml($("#descriptionMarkdown").val()));
+	//$("#shortDescriptionHeader").html(markdownToHtml($("#shortDescriptionMarkdown").val()));
 }
 
 </script>

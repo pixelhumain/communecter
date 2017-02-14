@@ -291,11 +291,11 @@ $controler = Element::getControlerByCollection($type);
 				<?php } ?>
 			</div>
 			<?php } ?>
-			<div id="shortDescriptionHeader" class="col-lg-12 col-xs-12 no-padding hidden-xs">
-				<?php echo (isset($entity["shortDescription"])) ? $entity["shortDescription"] : null; ?>
-			</div>
 
-
+			<div id="shortDescriptionHeader" class="col-lg-12 col-xs-12 no-padding hidden-xs"><?php echo (isset($entity["shortDescription"])) ? $entity["shortDescription"] : null; ?></div>
+			<input type="hidden" id="shortDescriptionMarkdown" name="shortDescriptionMarkdown" value="<?php echo (!empty($element['shortDescription'])) ? $element['shortDescription'] : ''; ?>">
+			<?php if($edit==true || $openEdition==true ){?>
+		  		<a href='javascript:;' id="btn-update-shortdesc" class="tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Update Description");?>"><i class="fa text-red fa-pencil"></i></a> <?php } ?>
 		</div>
 		
 
@@ -675,7 +675,7 @@ var listElementView = [	'detail', 'detail.edit', 'news', 'directory', 'gallery',
 jQuery(document).ready(function() {
 	setTitle(element.name,contextIcon);
 	mylog.log("loadAllLinks-------", loadAllLinks);
-	inintDescs();
+	
 	if(loadAllLinks){
 		$.ajaxSetup({ cache: true});
 		$.ajax({
@@ -743,15 +743,37 @@ jQuery(document).ready(function() {
 		});
     });
 
+    $("#btn-update-shortdesc").off().on( "click", function(){
+		var dataUpdate = { value : $("#shortDescriptionMarkdown").val() } ;
+		var properties = {
+			value : typeObjLib["description"],
+			pk : {
+	            inputType : "hidden",
+	            value : contextData.id
+	        },
+			name: {
+	            inputType : "hidden",
+	            value : "shortDescription"
+	        }
+		};
+
+		var onLoads = null;
+		var beforeSave = null ;
+		var afterSave = function(data){
+			$("#shortDescriptionHeader").val(data.shortDescription);
+			elementLib.closeForm();
+		};
+		
+		var saveUrl = baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType;
+		elementLib.editDynForm("Modifier la description court", "fa-pencil", properties, null, dataUpdate, saveUrl, onLoads, beforeSave, afterSave);
+	});
+
 
 	
 
 });
 
-function inintDescs() {
-	$("#description").html(markdownToHtml($("#descriptionMarkdown").val()));
-	$("#shortDescriptionHeader").html(markdownToHtml($("#shortDescriptionMarkdown").val()));
-}
+
 
 function showElementPad(type, id){
 	currentView=type;
