@@ -28,6 +28,34 @@ class DatamigrationController extends CommunecterController {
   	}
   	echo "nombre de news traitées:".$nbNews." news";
   }
+  public function actionUpOldNotifications(){
+  	// Update notify.id 
+  	$notifications=PHDB::find(ActivityStream::COLLECTION,array("notify.id"=>array('$exists'=>true)));
+  	$nbNotifications=0;
+  	//print_r($notifications);
+  	foreach($notifications as $key => $data){
+  		//print_r($data["notify"]["id"]);
+  		$update=false;
+  		$newArrayId=array();
+  		foreach($data["notify"]["id"] as $val){
+			if(gettype($val)=="string"){
+				//echo($val);
+  				$newArrayId[$val]=array("isUnsee"=>true,"isUnread"=>true);
+  				$update=true;
+  			}
+  		}
+  		if($update){
+  			//print_r($newArrayId);
+			PHDB::update(ActivityStream::COLLECTION,
+				array("_id" => $data["_id"]) , 
+				array('$set' => array("notify.id" => $newArrayId))
+			);
+			$nbNotifications++;
+		}
+  		
+  	}
+  	echo "nombre de notifs traitées:".$nbNotifications." notifs";
+  }
   public function actionKnowsToFollows(){
 	 $persons=PHDB::find(Person::COLLECTION);
 	foreach($persons as $key => $data){

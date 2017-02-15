@@ -402,6 +402,7 @@ class CommunecterController extends Controller
       "getnotifications"          => array("href" => "/ph/communecter/notification/get","json" => true),
       "marknotificationasread"    => array("href" => "/ph/communecter/notification/remove"),
       "markallnotificationasread" => array("href" => "/ph/communecter/notification/removeall"),
+      "update" => array("href" => "/ph/communecter/notification/update")
     ),
     "gamification"=> array(
       "index" => array("href" => "/ph/communecter/gamification/index"),

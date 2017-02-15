@@ -352,60 +352,65 @@ Liste des notifications déjà lues => #370 #453
     *** Test all use case up (around 12 hours)
       [X] TEST OK
     *** Wishlist   
-    [ ] /Leave/ 
-    [ ] /Refuse/
-    [ ] /Update/
-  [ ] Update or delete notification
-    [o] Ask to Become => remove object if empty delete notification side
-    [o] Confirm to become => delete notification on user side
+    [2] /Leave/ 
+    [2] /Refuse/
+    [2] /Update/
+  [2] Update or delete notification
+    [2] Ask to Become => remove object if empty delete notification side
+    [2] Confirm to become => delete notification on user side
   [X] Community to notify
     [X] method
     *** WishList
-    [ ] City 
-      [ ] Creator && community participating && community subscribing to theme or citizen council
-  [ ] Create model notificationTree.php
-  [ ] View of notification
+    [2] City 
+      [2] Creator && community participating && community subscribing to theme or citizen council
+  [2] Create model notificationTree.php
+  [X] View of notification
     [X] Get new model of notification
-    [o] Create $or in condition to get old notification
+    [X] Create $or in condition to get old notification 
+      [X] Create bash on notify.id in datamigration => ph/communecter/datamigration/UpOldNotifications
     [X] Plug notifification time on updated
-    [o] Use unSee && unRead label in notifcation
+    [X] Use unSee && unRead label in notifcation
+      [X] Count unsee notification
+      [X] Onclick notif, check this notif as read
+      [X] Onclick mark all as read, update all notif as read
+      [X] Create delete btn
     [X] Bug on lbh load
     *** Wishlist
-    [ ] Separate invitation validation && become friend from others notifications
+    [2] Separate invitation validation && become friend from others notifications
       [ ] Add validation btn on community validation
-    [ ] View of notification by element
+    [2] View of notification by element
       [ ] Confirm push on head
   *** Mail
   [ ] Template for use case
     [X] someoneAskToBecome (Admin || Member=
-    [o] Generalize someoneAskToBecome with someoneInvitingYou
-    [o] someoneValidate invitation or demand to author
-    [o] Follow me [Insert new follow if notif is not view]
-  [ ] Insert daily mail
-  [ ] Not send email if user is connected and have active view on communecter.org
+    [2] Generalize someoneAskToBecome with someoneInvitingYou
+    [2] someoneValidate invitation or demand to author
+    [2] Follow me [Insert new follow if notif is not view]
+  [2] Insert daily mail
+  [2] Not send email if user is connected and have active view on communecter.org
   *** Preferences
-  [ ] Add inscription on citizen consult that I will follow OR specific room (news + notif + mail)
-  [ ] Mailing on add something in element and comment/Like/unlike on element where I am linking
-  [ ] daily Report
-    [ ] Add parameters (everyday [default], 2days, 3days, every week) [beginning on Monday]
-    [ ] Activity Report
-      [ ] New events with tags &&/|| scope I subscribe
-      [ ] New organization with tags &&/|| scope I subscribe
-      [ ] New projects with tags &&/|| scope I subscribe
-      [ ] New item on element that I am linking
-    [ ] Followers on element where I am linking
+  [2] Add inscription on citizen consult that I will follow OR specific room (news + notif + mail)
+  [2] Mailing on add something in element and comment/Like/unlike on element where I am linking
+  [2] daily Report
+    [2] Add parameters (everyday [default], 2days, 3days, every week) [beginning on Monday]
+    [2] Activity Report
+      [2] New events with tags &&/|| scope I subscribe
+      [2] New organization with tags &&/|| scope I subscribe
+      [2] New projects with tags &&/|| scope I subscribe
+      [2] New item on element that I am linking
+    [2] Followers on element where I am linking
   *** News
-  [ ] View of like, unlike 
+  [2] View of like, unlike 
   [X] Bash of object.type inbstead of object.objectType (!!!important with notification reactor!!!!)
     => ph/communecter/datamigration/ObjectObjectTypeNewsToObjectType
   *** Link
   [X] Add confirmation if someone link me to orga or projet (as event) -- ValdiateLink
-  [ ] Friend relation between persons ?? (community to notify, messaging, see information ??) 
+  [2] Friend relation between persons ?? (community to notify, messaging, see information ??) 
   *** Admin Communication
-  [ ] Creation of news letter 
-    [ ] Choose scope or theme community
-    [ ] To all
-    [ ] See view of newsletter 
+  [2] Creation of news letter 
+    [2] Choose scope or theme community
+    [2] To all
+    [2] See view of newsletter 
   *** Bugs
     [X] Notification
       [X] /ADD/ Problem of url on add => id of object and not target
