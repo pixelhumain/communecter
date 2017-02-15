@@ -188,7 +188,8 @@ console.log("searchPrefTag", searchPrefTag);
     });
     /******** EVENTS ********/
 
-    $('#reset').on('click', function() {
+
+    $('#reset').off().on('click', function() {
       searchTag = allsearchTag;
       searchLocalityNAME = allsearchLocalityNAME;
       searchCategory = allsearchCategory;
@@ -239,8 +240,8 @@ console.log("searchPrefTag", searchPrefTag);
     //initBtnScopeList();
     startSearch(0, indexStepInit);
   });
-function startSearch(indexMin, indexMax, paramsFiltre){
-     console.log("startSearch2", indexMin, indexMax, indexStep, paramsFiltre);
+function startSearch(indexMin, indexMax){
+     console.log("startSearch2", indexMin, indexMax, indexStep);
     $("#listTagClientFilter").html('spiner');
     if(loadingData) return;
     loadingData = true;
@@ -267,7 +268,7 @@ function startSearch(indexMin, indexMax, paramsFiltre){
         if(levelCommunexion == 4) locality = inseeCommunexion;
         if(levelCommunexion == 5) locality = "";
       }
-      autoCompleteSearch(name, locality, indexMin, indexMax, paramsFiltre);
+      autoCompleteSearch(name, locality, indexMin, indexMax);
 }
 function addSearchType(type){
   var index = searchType.indexOf(type);
@@ -369,8 +370,7 @@ var mix = "";
 <?php if(isset($params['mode']) && $params['mode'] == 'client') { ?>
   mix = "mix";
 <?php } ?>
-function autoCompleteSearch(name, locality, indexMin, indexMax, paramsFiltre){
-  mylog.log("autoCompleteSearch", paramsFiltre);
+function autoCompleteSearch(name, locality, indexMin, indexMax){
     var levelCommunexionName = { 1 : "INSEE",
                              2 : "CODE_POSTAL_INSEE",
                              3 : "DEPARTEMENT",
@@ -394,28 +394,35 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, paramsFiltre){
     if (undefined !== searchCategory && searchCategory.length)$.unique($.merge(searchTagGlobal,searchCategory));
     console.log("searchTagGlobal : "+searchTagGlobal);
 
-    var newTags = {} ;
+    var searchTagsSimply = {} ;
     $.each(searchTagGlobal, function(i, o) {
 
         $.each(networkJson.filter.linksTag, function(keyNet, valueNet){
 
-          mylog.log("networkTags", o, valueNet.tags, jQuery.inArray(o, valueNet.tags));
-          if(typeof valueNet.tags[o] != "undefined"){
-            if(typeof newTags[keyNet] == "undefined")
-              newTags[keyNet] = [];
-            newTags[keyNet].push(o);
-          }
+            mylog.log("networkTags", o, valueNet.tags, jQuery.inArray(o, valueNet.tags));
+            if(typeof valueNet.tags[o] != "undefined"){
+                if(typeof searchTagsSimply[keyNet] == "undefined")
+                  searchTagsSimply[keyNet] = [];
+
+                if(typeof valueNet.tags[o] == "string")
+                  searchTagsSimply[keyNet].push(o);
+                else{
+                    $.each(valueNet.tags[o], function(keyTags, valueTags){
+                      searchTagsSimply[keyNet].push(valueTags);
+                    });
+                }
+            }  
         });
     });
 
-    mylog.log("newTags", newTags);
+    mylog.log("searchTagsSimply", searchTagsSimply);
 
     var data = {
       "name" : name,
       "locality" : "xxxx",
       "searchType" : searchType,
-      "searchTag" : searchTagGlobal,
-      "searchTag2" : newTags,
+      //"searchTag" : searchTagGlobal,
+      "searchTag" : searchTagsSimply,
       "searchLocalityNAME" : searchLocalityNAME,
       "searchLocalityCODE_POSTAL_INSEE" : searchLocalityCODE_POSTAL_INSEE,
       "searchLocalityDEPARTEMENT" : searchLocalityDEPARTEMENT,
@@ -427,8 +434,11 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, paramsFiltre){
       "sourceKey" : sourceKey,
       "mainTag" : mainTag,
       "searchPrefTag" : searchPrefTag,
-      "paramsFiltre" : paramsFiltre
+      
     };
+
+    if(typeof params.filter.paramsFiltre != "undefined")
+      data.paramsFiltre = params.filter.paramsFiltre;
     //console.log("loadingData true");
     loadingData = true;
 
@@ -783,7 +793,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, paramsFiltre){
       if(tag == "all"){
         searchTag = [];
         $('.tagFilter[value="all"]').addClass('active');
-        startSearch(0, indexStepInit, params.filter.paramsFiltre);
+        startSearch(0, indexStepInit);
         return;
       }
       else{
@@ -791,7 +801,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, paramsFiltre){
       }
       if (index > -1) removeSearchTag(tag);
       else addSearchTag(tag);
-      startSearch(0, indexStepInit, params.filter.paramsFiltre);
+      startSearch(0, indexStepInit);
     });
     $(".villeFilter").off().click(function(e){
       var ville = $(this).attr("value");
