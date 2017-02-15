@@ -2581,7 +2581,6 @@ var elementLib = {
 			        	elementLib.saveElement("#ajaxFormModal",elementObj.col,elementObj.ctrl,elementObj.saveUrl,afterSave);
 			        else
 			        	elementLib.saveElement("#ajaxFormModal",elementObj.col,elementObj.ctrl,null,afterSave);
-
 			        return false;
 			    }
 			});
@@ -3843,12 +3842,13 @@ var typeObj = {
 					}
 			    },
 			    afterSave : function(){
+			    	elementLib.closeForm();	
 			    	loadByHash(location.hash);
 			    },
 			    properties : {
 			    	info : {
 		                inputType : "custom",
-		                html:"<p><i class='fa fa-info-circle'></i> Si vous voulez ajouter un nouveau contact de façon a facilité les échanges</p>",
+		                html:"<p><i class='fa fa-info-circle'></i> Si vous voulez ajouter un nouveau contact de façon à faciliter les échanges</p>",
 		            },
 		            name : typeObjLib.namePerson,
 			        similarLink : typeObjLib.similarLink,
