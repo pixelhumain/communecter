@@ -11,11 +11,26 @@
 ----------------------------------------------------
 ----------------------------------------------------
 ----------------------------------------------------
+<<<<<<< HEAD
 ----------------------------------------------------
 * Version 0.2
 ** @Bouboule : Bash de reprise des data dans les chart des projets
 /communecter/datamigration/RefactorChartProjectData
 ----------------------------------------------------
+=======
+* Hot Fix 0.16.1
+** @Rapha : enleve l'encodage en html sur les noms des éléments
+/communecter/datamigration/NameHtmlSpecialCharsDecode
+
+** @Rapha : Ajoute les nom des dep et régions au addresse des elements
+/communecter/datamigration/AddDepAndRegionAndCountryInAddress
+
+** @Sylvain : ajout des paramètres rocketChat dans paramsconfig
+//rocketchat params
+'rocketchatEnabled' => false,
+'rocketchatURL' => "http://chat.lescommuns.org",
+
+>>>>>>> origin/master
 * Hot Fix 0.16
 ** @Rapha : Fix Organisation avec country = Réunion
 /communecter/datamigration/FixBugCoutryReunion

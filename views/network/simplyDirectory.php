@@ -13,8 +13,9 @@
 <script type="text/javascript">
   //Icons by default categories
   var linksTagImages = new Object();
-  var params = <?php echo json_encode($params) ?>;
+  var params= <?php echo json_encode($params) ?>;
   var contextMapNetwork = [];
+  
   console.log("Params //////////////////");
   console.log(params);
   <?php
@@ -54,7 +55,11 @@
   var allTags = new Object();
   var allTypes = new Object();
   var indexStepInit = 100;
-
+  var  searchPrefTag = null;
+  <?php if(!empty($params['request']['searchPrefTag'])){ ?>
+   searchPrefTag = "<?php echo $params['request']['searchPrefTag'] ;?>";
+  <?php } ?>
+console.log("searchPrefTag", searchPrefTag);
   //With different pagination params
   <?php if(isset($params['request']['pagination']) && $params['request']['pagination'] > 0){ ?>
     indexStepInit = <?php echo $params['request']['pagination'] ;?>;
@@ -66,7 +71,8 @@
   var totalData = 0;
   var timeout = null;
   jQuery(document).ready(function() {
-	if  (location.hash == "" || location.hash == "#network.simplydirectory")
+     bindLBHLinks();
+	  if(location.hash == "" || location.hash == "#network.simplydirectory")
     	showMapNetwork(true);
     else
     	showMapNetwork(false);
@@ -197,6 +203,7 @@
 
     <?php } else{ ?>
       $(".my-main-container").scroll(function(){
+        mylog.log("__________________________ YO _________________");
         if(!loadingData && !scrollEnd){
             var heightContainer = $(".my-main-container")[0].scrollHeight;
             var heightWindow = $(window).height();
@@ -212,6 +219,7 @@
         }
       });
       $(".btn-filter-type").click(function(e){
+        mylog.log("__________________________ YO2 _________________");
         var type = $(this).attr("type");
         var index = searchType.indexOf(type);
         if(type == "all" && searchType.length > 1){
@@ -231,8 +239,8 @@
     //initBtnScopeList();
     startSearch(0, indexStepInit);
   });
-function startSearch(indexMin, indexMax){
-     console.log("startSearch", indexMin, indexMax, indexStep);
+function startSearch(indexMin, indexMax, paramsFiltre){
+     console.log("startSearch2", indexMin, indexMax, indexStep, paramsFiltre);
     $("#listTagClientFilter").html('spiner');
     if(loadingData) return;
     loadingData = true;
@@ -259,7 +267,7 @@ function startSearch(indexMin, indexMax){
         if(levelCommunexion == 4) locality = inseeCommunexion;
         if(levelCommunexion == 5) locality = "";
       }
-      autoCompleteSearch(name, locality, indexMin, indexMax);
+      autoCompleteSearch(name, locality, indexMin, indexMax, paramsFiltre);
 }
 function addSearchType(type){
   var index = searchType.indexOf(type);
@@ -327,6 +335,7 @@ function addSearchTag(tag){
     $('.tagFilter[value="'+tag+'"]').prop("checked", true );
   }
 }
+
 function removeSearchTag(tag){
   var index = searchTag.indexOf(tag);
   if (index > -1) {
@@ -360,8 +369,9 @@ var mix = "";
 <?php if(isset($params['mode']) && $params['mode'] == 'client') { ?>
   mix = "mix";
 <?php } ?>
-function autoCompleteSearch(name, locality, indexMin, indexMax){
-  console.log("autoCompleteSearch", indexMin, indexMax, indexStep);
+function autoCompleteSearch(name, locality, indexMin, indexMax, paramsFiltre){
+  mylog.log("autoCompleteSearch", paramsFiltre);
+
     var levelCommunexionName = { 1 : "INSEE",
                              2 : "CODE_POSTAL_INSEE",
                              3 : "DEPARTEMENT",
@@ -384,11 +394,29 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
     if (undefined !== searchTag && searchTag.length)$.merge(searchTagGlobal,searchTag);
     if (undefined !== searchCategory && searchCategory.length)$.unique($.merge(searchTagGlobal,searchCategory));
     console.log("searchTagGlobal : "+searchTagGlobal);
+
+    var newTags = {} ;
+    $.each(searchTagGlobal, function(i, o) {
+
+        $.each(networkJson.filter.linksTag, function(keyNet, valueNet){
+
+          mylog.log("networkTags", o, valueNet.tags, jQuery.inArray(o, valueNet.tags));
+          if(typeof valueNet.tags[o] != "undefined"){
+            if(typeof newTags[keyNet] == "undefined")
+              newTags[keyNet] = [];
+            newTags[keyNet].push(o);
+          }
+        });
+    });
+
+    mylog.log("newTags", newTags);
+
     var data = {
       "name" : name,
       "locality" : "xxxx",
       "searchType" : searchType,
       "searchTag" : searchTagGlobal,
+      "searchTag2" : newTags,
       "searchLocalityNAME" : searchLocalityNAME,
       "searchLocalityCODE_POSTAL_INSEE" : searchLocalityCODE_POSTAL_INSEE,
       "searchLocalityDEPARTEMENT" : searchLocalityDEPARTEMENT,
@@ -398,7 +426,9 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
       "indexMin" : indexMin,
       "indexMax" : indexMax,
       "sourceKey" : sourceKey,
-      "mainTag" : mainTag
+      "mainTag" : mainTag,
+      "searchPrefTag" : searchPrefTag,
+      "paramsFiltre" : paramsFiltre
     };
     //console.log("loadingData true");
     loadingData = true;
@@ -650,6 +680,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                 //active le chargement de la suite des résultat au survol du bouton "afficher plus de résultats"
                 //(au cas où le scroll n'ait pas lancé le chargement comme prévu)
                 $("#btnShowMoreResult").mouseenter(function(){
+                  mylog.log("__________________________ YO3 _________________");
                   if(!loadingData){
                     startSearch(indexMin+indexStep, indexMax+indexStep);
                     $("#btnShowMoreResult").mouseenter(function(){});
@@ -753,7 +784,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
       if(tag == "all"){
         searchTag = [];
         $('.tagFilter[value="all"]').addClass('active');
-        startSearch(0, indexStepInit);
+        startSearch(0, indexStepInit, params.filter.paramsFiltre);
         return;
       }
       else{
@@ -761,7 +792,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
       }
       if (index > -1) removeSearchTag(tag);
       else addSearchTag(tag);
-      startSearch(0, indexStepInit);
+      startSearch(0, indexStepInit, params.filter.paramsFiltre);
     });
     $(".villeFilter").off().click(function(e){
       var ville = $(this).attr("value");
@@ -781,7 +812,6 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
     });
     $(".categoryFilter").off().click(function(e){
       var category = $(this).attr("value");
-      ;
       if($(this).is(':checked') == false){
         removeSearchCategory(category);
       }
@@ -823,78 +853,92 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
   // }
   function breadcrumGuide(level, url){
 	  newLevel=$(".breadcrumAnchor").length;
+
 	  if(level==0){
-		reverseToRepertory();
+		  reverseToRepertory();
 	  }
 	  else{
-		if(level < newLevel){
-			newLevel=false;
-			$(".breadcrumAnchor").each(function(){
-				value=$(this).data("value");
-				if(value > level){
-					$(this).remove();
-					$(".breadcrumChevron[data-value='"+value+"']").remove();
-				}
-			});
-		}
-		if(newLevel == 5){
-			$(".breadcrumChevron[data-value='4']").remove();
-			$(".breadcrumAnchor[data-value='4']").remove();
-			newLevel=4;
-		}
-		getAjaxFiche(url, newLevel); 
+    		if(level < newLevel){
+      			newLevel=false;
+      			$(".breadcrumAnchor").each(function(){
+        				value=$(this).data("value");
+        				if(value > level){
+        					$(this).remove();
+        					$(".breadcrumChevron[data-value='"+value+"']").remove();
+        				}
+      			});
+    		}
+    		if(newLevel == 5){
+      			$(".breadcrumChevron[data-value='4']").remove();
+      			$(".breadcrumAnchor[data-value='4']").remove();
+      			newLevel=4;
+    		}
+    		getAjaxFiche(url, newLevel); 
 	  }
   }
-  function getAjaxFiche(url, breadcrumLevel){
+
+function getAjaxFiche(url, breadcrumLevel){
 	$("#ficheInfoDetail").empty();
 	if(location.hash == ""){
-	    history.pushState(null, "New Title", url);
-    }
-    if(isMapEnd){
-		pathTitle="Cartographie";
+    history.pushState(null, "New Title", url);
+  }
+
+  if(isMapEnd){
+    pathTitle="Cartographie";
 		pathIcon = "map-marker";
-	    showMapNetwork();
-    }
-    else{
-	    pathTitle="Annuaire";
-	    pathIcon = "list";
-    }
-    isEntityView=true;
+    showMapNetwork();
+  }else{
+    pathTitle="Annuaire";
+    pathIcon = "list";
+  }
+
+  isEntityView=true;
 	allReadyLoad = true;
 	location.hash = url;
-    urlHash=url;
-    if(urlHash.indexOf("type") < 0 && urlHash.indexOf("default.view") < 0 && urlHash.indexOf("gallery") < 0 && urlHash.indexOf("news") < 0 && urlHash.indexOf("invite") < 0){
-	    urlSplit=urlHash.replace( "#","" ).split(".");
-	    console.log(urlHash);
-	    if(urlSplit[0]=="person")
-	    	urlType="citoyens";
-	    else
-	    	urlType=urlSplit[0]+"s";
-	    urlHash="#element."+urlSplit[1]+".type."+urlType+".id."+urlSplit[3];
-    }
-    if(urlHash.indexOf("news") >= 0){
-	    urlHash=urlHash+"&isFirst=1";
-    }
-	url= "/"+urlHash.replace( "#","" ).replace( /\./g,"/" );
-	$("#repertory").hide( 700 );
-    $(".main-menu-left").hide( 700 );
-    $("#ficheInfoDetail").show( 700 );
-	$(".main-col-search").removeClass("col-md-10 col-md-offset-2 col-sm-9 col-sm-offset-3").addClass("col-md-12 col-sm-12");
-    $.blockUI({
-				message : "<h4 style='font-weight:300' class='text-dark padding-10'><i class='fa fa-spin fa-circle-o-notch'></i><br>Chargement en cours ...</span></h4>"
-	});
-    getAjax('#ficheInfoDetail', baseUrl+'/'+moduleId+url+'?network='+networkParams,
-    	function(){
-	    $.unblockUI();
-	    console.log(contextData);
-	    //Construct breadcrumb
-	    if(breadcrumLevel != false){
-		    $html= '<i class="fa fa-chevron-right fa-1x text-red breadcrumChevron" style="padding: 0px 10px 0px 10px;" data-value="'+breadcrumLevel+'"></i>'+
-		    		'<a href="javascript:;" onclick="breadcrumGuide('+breadcrumLevel+',\''+urlHash+'\')" class="breadcrumAnchor text-dark" data-value="'+breadcrumLevel+'">'+contextData.name+'</a>';
-		    $("#breadcrum").append($html);
-		}
-    },"html");
+  urlHash=url;
+
+  if( urlHash.indexOf("type") < 0 && 
+      urlHash.indexOf("default.view") < 0 && 
+      urlHash.indexOf("gallery") < 0 && 
+      urlHash.indexOf("news") < 0 &&
+      urlHash.indexOf("network") < 0 && 
+      urlHash.indexOf("invite") < 0){
+    
+      urlSplit=urlHash.replace( "#","" ).split(".");
+      console.log(urlHash);
+
+      if(urlSplit[0]=="person")
+        urlType="citoyens";
+      else
+        urlType=urlSplit[0]+"s";
+      
+      urlHash="#element."+urlSplit[1]+".type."+urlType+".id."+urlSplit[3];
   }
+
+  if(urlHash.indexOf("news") >= 0){
+    urlHash=urlHash+"&isFirst=1";
+  }
+  url= "/"+urlHash.replace( "#","" ).replace( /\./g,"/" );
+  $("#repertory").hide( 700 );
+  $(".main-menu-left").hide( 700 );
+  $("#ficheInfoDetail").show( 700 );
+  $(".main-col-search").removeClass("col-md-10 col-md-offset-2 col-sm-9 col-sm-offset-3").addClass("col-md-12 col-sm-12");
+  $.blockUI({
+    message : "<h4 style='font-weight:300' class='text-dark padding-10'><i class='fa fa-spin fa-circle-o-notch'></i><br>Chargement en cours ...</span></h4>"
+  });
+
+  getAjax('#ficheInfoDetail', baseUrl+'/'+moduleId+url+'?network='+networkParams, function(){
+    $.unblockUI();
+    console.log(contextData);
+    //Construct breadcrumb
+    if(breadcrumLevel != false){
+      $html= '<i class="fa fa-chevron-right fa-1x text-red breadcrumChevron" style="padding: 0px 10px 0px 10px;" data-value="'+breadcrumLevel+'"></i>'+'<a href="javascript:;" onclick="breadcrumGuide('+breadcrumLevel+',\''+urlHash+'\')" class="breadcrumAnchor text-dark" data-value="'+breadcrumLevel+'">'+contextData.name+'</a>';
+      $("#breadcrum").append($html);
+		}
+  },"html");
+}
+
+
 function reverseToRepertory(){
 	  if(isMapEnd){
 	    showMapNetwork();

@@ -454,7 +454,7 @@
 			this.Sig.getCoordinates = function(thisData, type)
 			{
 				//mylog.warn("--------------- getCoordinates ---------------------");
-				//mylog.dir(thisData);
+				//mylog.dir("getCoordinates" , thisData);
 				//si la donnée est une news, on doit afficher la position de l'auteur
 				if( typeof thisData.typeSig !== "undefined"){
 					if(thisData.typeSig == "news" && typeof thisData.author !== "undefined"){
@@ -463,12 +463,23 @@
 				}
 
 				if( typeof thisData.geo !== "undefined" && thisData.geo != null && typeof thisData.geo.longitude !== "undefined"){
-					if(type == "markerSingle")
+					
+					if(typeof thisData['geo'].latitude == "undefined" || thisData['geo'].latitude == null) return false;
+					if(typeof thisData['geo'].longitude == "undefined" || thisData['geo'].longitude == null) return null;
+						
+					if(type == "markerSingle"){
 						return new Array (thisData['geo'].latitude, thisData['geo'].longitude);
-					else if(type == "markerGeoJson")
+					}
+					else if(type == "markerGeoJson"){
 						return new Array (thisData['geo'].longitude, thisData['geo'].latitude);
+					}
 				}
 				else if(typeof thisData.geoPosition != "undefined"){
+					
+					if(typeof thisData.geoPosition.coordinates == "undefined" 	 || thisData.geoPosition.coordinates == null) return false;
+					if(typeof thisData.geoPosition.coordinates[0] == "undefined" || thisData.geoPosition.coordinates[0] == null) return false;
+					if(typeof thisData.geoPosition.coordinates[1] == "undefined" || thisData.geoPosition.coordinates[1] == null) return false;
+						
 					if(type == "markerSingle"){
 						var lat = thisData.geoPosition.coordinates[1];
 						var lng = thisData.geoPosition.coordinates[0];
@@ -480,21 +491,21 @@
 				else if(typeof thisData.geometry != "undefined"){ //resultat search street on google map
 					//mylog.log("thisData.geometry ?");
 					//mylog.dir(thisData);
+					if(typeof thisData.geometry.location == "undefined" 	|| thisData.geometry.location == null) return false;
+					if(typeof thisData.geometry.location.lat == "undefined" || thisData.geometry.location.lat == null) return false;
+					if(typeof thisData.geometry.location.lng == "undefined" || thisData.geometry.location.lng == null) return false;
+					
 					if(type == "markerSingle"){
-						if(typeof thisData.geometry.location != "undefined"){
-							//mylog.log(thisData.geometry.location.lat);
-							var lat = thisData.geometry.location.lat;
-							var lng = thisData.geometry.location.lng;
-							mylog.dir(new Array (lat, lng));
-							return new Array (lat, lng);
-						}	
+						var lat = thisData.geometry.location.lat;
+						var lng = thisData.geometry.location.lng;
+						mylog.dir(new Array (lat, lng));
+						return new Array (lat, lng);
 					} else if(type == "markerGeoJson"){
-						if(typeof thisData.geometry.location != "undefined"){
-							var lat = thisData.geometry.location.lat;
-							var lng = thisData.geometry.location.lng;
-							return new Array (lng, lat);
-						}
+						var lat = thisData.geometry.location.lat;
+						var lng = thisData.geometry.location.lng;
+						return new Array (lng, lat);
 					}
+					
 				}
 				else{
 					return null;
@@ -541,6 +552,7 @@
 
 								var marker;
 								var coordinates;
+								var thisSig = this;
 
 								//si le tag de l'élément est dans la liste des éléments à ne pas mettre dans les clusters
 								//on créé un marker simple
@@ -549,18 +561,20 @@
 								//mylog.dir(thisData);
 								if($.inArray(type, this.notClusteredTag) > -1){ 
 									coordinates = this.getCoordinates(thisData, "markerSingle");
-									marker = this.getMarkerSingle(thisMap, properties, coordinates);
+									if(coordinates !== false)
+										marker = this.getMarkerSingle(thisMap, properties, coordinates);
 								}
 								//sinon on crée un nouveau marker pour cluster
 								else { 
 									coordinates = this.getCoordinates(thisData, "markerGeoJson");
-									marker = this.getGeoJsonMarker(properties, coordinates);
-									this.geoJsonCollection['features'].push(marker);
+									if(coordinates !== false){
+										marker = this.getGeoJsonMarker(properties, coordinates);
+										this.geoJsonCollection['features'].push(marker);
+									}
 								}
 								//mylog.log("content POPUT thisAddr : ", thisData);
 										
-								var thisSig = this;
-
+								
 								if(notEmpty(thisData["addresses"])){
 									$.each(thisData["addresses"], function(key, addr){ 
 										var thisAddr = JSON.parse(JSON.stringify(thisData)); //duplicate value, prevent modifying thisData after this line DO NOT REMOVE IT CAN KILL THE WORLLLLLD ! ARE YOU CRAZY ? 
@@ -570,7 +584,8 @@
 										var popup = thisSig.getPopup(thisAddr);
 										properties.content = popup;
 										coordinates = thisSig.getCoordinates(thisAddr, "markerSingle");
-										var multimarker = thisSig.getMarkerSingle(thisMap, properties, coordinates);
+										if(coordinates !== false)
+											var multimarker = thisSig.getMarkerSingle(thisMap, properties, coordinates);
 									});
 									properties.content = content;
 								}
@@ -586,11 +601,13 @@
 									}
 								}
 								
-								this.elementsMap.push(thisData);
-								this.listId.push(objectId);
-								this.populatePanel(thisData, objectId); //["tags"]
-								this.createItemRigthListMap(thisData, marker, thisMap);
-								
+								if(coordinates !== false){
+									this.elementsMap.push(thisData);
+									this.listId.push(objectId);
+									this.populatePanel(thisData, objectId); //["tags"]
+									this.createItemRigthListMap(thisData, marker, thisMap);
+								}else thisSig.addToPanelWithoutGeopos(thisData, objectId);
+
 								//ajoute l'événement click sur l'élément de la liste, pour ouvrir la bulle du marker correspondant
 								//si le marker n'est pas dans un cluster (sinon le click est géré dans le .geoJson.onEachFeature)
 								if($.inArray(type, this.notClusteredTag) > -1)
@@ -605,17 +622,7 @@
 							}
 						}
 						else{
-							if(this.verifyPanelFilter(thisData) && typeof thisData.name != "undefined"){
-								this.elementsMap.push(thisData);
-								this.listId.push(objectId);
-								this.populatePanel(thisData, objectId); //["tags"]
-								this.createItemRigthListMap(thisData);	
-								$(this.cssModuleName + " .item_map_list_" + objectId).click(function(){	
-									//toastr.success('click on element not in map');
-									//mylog.dir(thisData);
-									thisSig.showModalItemNotLocated(thisData);
-								});	
-							}	
+							this.addToPanelWithoutGeopos(thisData, objectId);
 						}
 					}
 					
@@ -643,6 +650,21 @@
 					return false;
 				}
 
+			};
+
+			this.Sig.addToPanelWithoutGeopos = function(thisData, objectId){
+				if(this.verifyPanelFilter(thisData) && typeof thisData.name != "undefined"){
+					this.elementsMap.push(thisData);
+					this.listId.push(objectId);
+					this.populatePanel(thisData, objectId); //["tags"]
+					this.createItemRigthListMap(thisData);
+					var thisSig = this;	
+					$(this.cssModuleName + " .item_map_list_" + objectId).click(function(){	
+						//toastr.success('click on element not in map');
+						//mylog.dir(thisData);
+						thisSig.showModalItemNotLocated(thisData);
+					});	
+				}
 			};
 
 			this.Sig.showFilterOnMap = function(data, thisFilter, thisMap){
@@ -811,7 +833,7 @@
 							// 	thisMap.fitBounds(thisSig.markersLayer.getBounds(), { 'maxZoom' : 14, 'animate':false });
 							// }, 1500);
 							*/
-
+					
 					thisSig.constructUI();
 
 					this.showIcoLoading(false);

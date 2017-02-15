@@ -9,6 +9,12 @@ var totalData = 0;
 var timeout = null;
 var searchType = '';
 
+var translate = {"organizations":"Organisations",
+                 "projects":"Projets",
+                 "events":"Événements",
+                 "people":"Citoyens",
+                 "followers":"Ils nous suivent"};
+
 function startSearch(indexMin, indexMax, callBack){
     console.log("startSearch", typeof callBack, callBack);
     if(loadingData) return;
@@ -128,7 +134,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
       
     if(isMapEnd)
       $.blockUI({
-        message : "<h3 class='homestead text-red'><i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...</span></h3>"
+        message : "<h3 class='text-red'><i class='fa fa-spin fa-circle-o-notch'></i> Recherche en cours ...</span></h3>"
       });
    
     $.ajax({
@@ -216,7 +222,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
                 bindLBHLinks();
 
                 $.unblockUI();
-				//showMap(false);
+				        //showMap(false);
                 
                 //active le chargement de la suite des résultat au survol du bouton "afficher plus de résultats"
                 //(au cas où le scroll n'ait pas lancé le chargement comme prévu)
@@ -255,8 +261,16 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
 
             if(typeof showResultInCalendar != "undefined")
               showResultInCalendar(mapElements);
+
             //affiche les éléments sur la carte
+            if(CoSigAllReadyLoad)
             Sig.showMapElements(Sig.map, mapElements);
+            else{
+              setTimeout(function(){ 
+                Sig.showMapElements(Sig.map, mapElements);
+              }, 4000);
+            }
+            
 
             if(typeof callBack == "function")
                 callBack();
@@ -380,19 +394,30 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
 
   
   
+function searchCallback() { 
+  directory.elemClass = '.searchEntityContainer ';
+  directory.filterTags(true);
+  $(".btn-tag").off().on("click",function(){ directory.toggleEmptyParentSection(null,"."+$(this).data("tag-value"), directory.elemClass, 1)});
+  $("#searchBarTextJS").off().on("keyup",function() { 
+    directory.search ( null, $(this).val() );
+  });
+}
 
 var directory = {
 
     elemClass : smallMenu.destination+' .searchEntityContainer ',
-    path : 'div'+smallMenu.destination+' div.favSection div.searchEntityContainer',
+    path : 'div'+smallMenu.destination+' div.favSection',
     tagsT : [],
     scopesT :[],
     multiTagsT : [],
     multiScopesT :[],
 
     showResultsDirectoryHtml : function ( data, contentType, size ){ //size == null || min || max
-
+      
+        console.log("showResultsDirectoryHtml data", typeof data, data);
         var str = "";
+
+        if(typeof data == "object" && data!=null)
         $.each(data, function(i, o) {
             itemType=(contentType) ? contentType :o.type;
             if( itemType )
@@ -509,7 +534,7 @@ var directory = {
        
               //mylog.dir(o);
               //mylog.log(typeof o.startDate);
-              console.log("/////////////////////////// directory.js",o);
+              //console.log("/////////////////////////// directory.js",o);
               //moment.locale("fr");
               var startDate = notEmpty(o.startDate) ? moment(o.startDate).local().locale("fr").format("DD MMMM YYYY - HH:mm") : null;
               var endDate   = notEmpty(o.endDate) ? moment(o.endDate).local().locale("fr").format("DD MMMM YYYY - HH:mm") : null;
@@ -526,7 +551,7 @@ var directory = {
               var updated   = notEmpty(o.updatedLbl) ? o.updatedLbl : null; 
               
               //template principal
-              str += "<div class='col-lg-3 col-md-4 col-sm-6 col-xs-12 searchEntityContainer "+type+" "+elTagsList+" '>";
+              str += "<div class='col-lg-4 col-md-6 col-sm-6 col-xs-12 searchEntityContainer "+type+" "+elTagsList+" '>";
               str +=    "<div class='searchEntity'>";
 
               if(itemType!="city" && (useMinSize))
@@ -677,17 +702,24 @@ var directory = {
 
       $.each( list, function(key,list)
       {
-        var subContent = directory.showResultsDirectoryHtml ( list, key);
+        var subContent = directory.showResultsDirectoryHtml ( list, key /*,"min"*/); //min == dark template 
         if( notEmpty(subContent) ){
-          favTypes.push(key);
-          $(smallMenu.destination).append("<div class='"+key+"fav favSection '><div class=' col-xs-12 col-sm-10 padding-15'><h2 class='homestead'> "+key+" <i class='fa fa-angle-down'></i> </h2>"+
-                subContent+
-                "</div>");
-          color = (typeObj[key] && typeObj[key].color) ? typeObj[key].color : "white";
-          $(".sectionFilters").append(" <span class=' btn btn-xs favSectionBtn favSectionBtnNew  bg-"+color+"'><a class='text-black helvetica' href='javascript:toggle(\"."+key+"fav\",\".favSection\",1)'> "+key+"</a></span> ")
+          favTypes.push(typeObj[key].col);
+          
+          var color = (typeObj[key] && typeObj[key].color) ? typeObj[key].color : "dark";
+          var icon = (typeObj[key] && typeObj[key].icon) ? typeObj[key].icon : "circle";
+          $(smallMenu.destination + " #listDirectory").append("<div class='"+typeObj[key].col+"fav favSection '>"+
+                                            "<div class=' col-xs-12 col-sm-12'>"+
+                                            "<h4 class='text-left text-"+color+"'><i class='fa fa-angle-down'></i> "+trad[key]+"</h4><hr>"+
+                                            subContent+
+                                            "</div>");
+          $(".sectionFilters").append(" <a class='text-black btn btn-default favSectionBtn favSectionBtnNew  bg-"+color+"'"+
+                                      " href='javascript:directory.showAll(\".favSection\",directory.elemClass);toggle(\"."+typeObj[key].col+"fav\",\".favSection\",1)'> "+
+                                          "<i class='fa fa-"+icon+" fa-2x'></i><br>"+trad[key]+
+                                        "</a>")
         }
       });
-      
+      bindLBHLinks();
       directory.filterList();
       $(directory.elemClass).show();
       //bindTags();
@@ -699,7 +731,8 @@ var directory = {
         directory.tagsT = [];
         directory.scopesT = [];
         $("#listTags").html("");
-        $("#listScopes").html("<h2 class='homestead'>Où</h2>");
+        $("#listScopes").html("<h4><i class='fa fa-angle-down'></i> Où</h4>");
+        mylog.log("tagg", directory.elemClass);
         $.each($(directory.elemClass),function(k,o){
           
           var oScope = $(o).find(".entityLocality").text();
@@ -708,13 +741,12 @@ var directory = {
             var oTag = $(oT).data('tag-value');
             if( notEmpty( oTag ) && !inArray( oTag,directory.tagsT ) ){
               directory.tagsT.push(oTag);
-              //mylog.log(oTag);
-              $("#listTags").append("<a class='btn btn-xs btn-link text-white text-left w100p favElBtn "+slugify(oTag)+"Btn' data-tag='"+slugify(oTag)+"' href='javascript:directory.toggleEmptyParentSection(\".favSection\",\"."+slugify(oTag)+"\",\""+directory.elemClass+"\",1)'><i class='fa fa-tag'></i> "+oTag+"</a><br/>");
+              $("#listTags").append("<a class='btn btn-xs btn-link btn-anc-color-blue text-left w100p favElBtn "+slugify(oTag)+"Btn' data-tag='"+slugify(oTag)+"' href='javascript:directory.toggleEmptyParentSection(\".favSection\",\"."+slugify(oTag)+"\",directory.elemClass,1)'><i class='fa fa-tag'></i> "+oTag+"</a><br/>");
             }
           });
           if( notEmpty( oScope ) && !inArray( oScope,directory.scopesT ) ){
             directory.scopesT.push(oScope);
-            $("#listScopes").append("<a class='btn btn-xs btn-link text-white text-left w100p favElBtn "+slugify(oScope)+"Btn' href='javascript:directory.searchFor(\""+oScope+"\")'><i class='fa fa-map-marker'></i> "+oScope+"</a><br/>");
+            $("#listScopes").append("<a class='btn btn-xs btn-link btn-anc-color-blue text-left w100p favElBtn "+slugify(oScope)+"Btn' href='javascript:directory.searchFor(\""+oScope+"\")'><i class='fa fa-map-marker'></i> "+oScope+"</a><br/>");
           }
         })
         //mylog.log("tags count", directory.tagsT.length, directory.scopesT.length);
@@ -726,28 +758,44 @@ var directory = {
         directory.tagsT = [];
         $("#listTags").html('');
         if(withSearch){
-            $("#listTags").append("<h2 class='homestead'><i class='fa fa-search'></i> #tag ou texte</h2>");
+            $("#listTags").append("<h5 class=''><i class='fa fa-search'></i> Filtrer</h5>");
             $("#listTags").append('<input id="searchBarTextJS" data-searchPage="true" type="text" class="input-search form-control">');
         }
-        $("#listTags").append("<h2 class='homestead'> <i class='fa fa-tags'></i> trier </h2>");
-        $("#listTags").append("<a class='btn btn-dark-blue btn-xs favElBtn favAllBtn text-left' href='javascript:directory.toggleEmptyParentSection(\".favSection\",null,\".searchEntityContainer\",1)'> <i class='fa fa-tags'></i> Tout voir </a><br/>");
+       // alert(directory.elemClass);
+       // $("#listTags").append("<h4 class=''> <i class='fa fa-tags'></i> trier </h4>");
+        $("#listTags").append("<a class='btn btn-anc-color-blue favElBtn favAllBtn' href='javascript:directory.toggleEmptyParentSection(\".favSection\",null,directory.elemClass,1)'> <b>Tout voir</b> </a><br/>");
         $.each( $(directory.elemClass),function(k,o){
             $.each($(o).find(".btn-tag"),function(i,oT){
                 var oTag = $(oT).data('tag-value').toLowerCase();
                 if( notEmpty( oTag ) && !inArray( oTag,directory.tagsT ) ){
                   directory.tagsT.push(oTag);
                   //mylog.log(oTag);
-                  $("#listTags").append("<a class='btn btn-xs btn-link favElBtn "+slugify(oTag)+"Btn' data-tag='"+slugify(oTag)+"' href='javascript:directory.toggleEmptyParentSection(\".favSection\",\"."+slugify(oTag)+"\",\""+directory.elemClass+"\",1)'><i class='fa fa-tag'></i> "+oTag+"</a><br/> ");
+                  $("#listTags").append("<a class='btn btn-link favElBtn btn-anc-color-blue "+slugify(oTag)+"Btn' "+
+                                            "data-tag='"+slugify(oTag)+"' "+
+                                            "href='javascript:directory.toggleEmptyParentSection(\".favSection\",\"."+slugify(oTag)+"\",directory.elemClass,1)'>"+
+                                              "#"+oTag+
+                                        "</a><br> ");
                 }
             });
         });
-        if( directory.tagsT.length && open )
-            $("#listTags").removeClass("hide");
+        if( directory.tagsT.length && open ){
+            directory.showFilters();
+        }
         //$("#btn-open-tags").append("("+$(".favElBtn").length+")");
     },
+    
     showFilters : function () { 
-        $("#listTags").toggleClass("hide");
+      if($("#listTags").hasClass("hide")){
+        $("#listTags").removeClass("hide");
+        $("#dropdown_search").removeClass("col-md-offset-1");
+      }else{
+        $("#listTags").addClass("hide");
+        $("#dropdown_search").addClass("col-md-offset-1");
+      }
+      $("#listTags").removeClass("hide");
+      $("#dropdown_search").removeClass("col-md-offset-1");
     },
+
     addMultiTagsAndScope : function() { 
       directory.multiTagsT = [];
       directory.multiScopesT = [];
@@ -755,7 +803,7 @@ var directory = {
         if( notEmpty( oTag ) && !inArray( oTag,directory.multiTagsT ) ){
           directory.multiTagsT.push(oTag);
           //mylog.log(oTag);
-          $("#listTags").append("<a class='btn btn-xs btn-link text-white text-left w100p favElBtn "+slugify(oTag)+"Btn' data-tag='"+slugify(oTag)+"' href='javascript:directory.searchFor(\"#"+oTag+"\")'><i class='fa fa-tag'></i> "+oTag+"</a><br/>");
+          $("#listTags").append("<a class='btn btn-xs btn-link btn-anc-color-blue  text-left w100p favElBtn "+slugify(oTag)+"Btn' data-tag='"+slugify(oTag)+"' href='javascript:directory.searchFor(\"#"+oTag+"\")'><i class='fa fa-tag'></i> "+oTag+"</a><br/>");
         }
       });
       $.each(myMultiScopes,function(oScope,oT){
@@ -769,12 +817,12 @@ var directory = {
 
     //show hide parents when empty
     toggleEmptyParentSection : function ( parents ,tag ,children ) { 
-        mylog.log("toggleEmptyParentSection ", parents, tag, children);
+        mylog.log("toggleEmptyParentSection('"+parents+"','"+tag+"','"+children+"')");
         var showAll = true;
         if(tag){
-          $(".favAllBtn").removeClass("btn-dark-blue");
+          $(".favAllBtn").removeClass("active");
           //apply tag filtering
-          $(tag+"Btn").toggleClass("btn-link text-white").toggleClass("active  btn-dark-blue text-white");
+          $(tag+"Btn").toggleClass("btn-link text-white").toggleClass("active text-white");
 
           if( $( ".favElBtn.active" ).length > 0 ) 
           {
@@ -782,17 +830,19 @@ var directory = {
             tags = "";
             $.each( $( ".favElBtn.active" ) ,function( i,o ) { 
               tags += "."+$(o).data("tag")+",";
-            });  
+            });
             tags = tags.replace(/,\s*$/, "");
             mylog.log(tags)
             toggle(tags,children,1);
-
-            directory.toggleParents(directory.path);
+            
+            directory.toggleParents(directory.elemClass);
           }
         }
         
-        if(showAll)
+        if( showAll )
           directory.showAll(parents,children);
+
+        $(".my-main-container").scrollTop(0);
     },
 
     showAll: function(parents,children,path,color) 
@@ -801,16 +851,17 @@ var directory = {
       if(!color)
         color = "text-white";
       $(".favElBtn").removeClass("active btn-dark-blue").addClass("btn-link ");//+color+" ");
-      $(".favAllBtn").addClass("btn-dark-blue");
+      $(".favAllBtn").addClass("active");
       $(parents).removeClass('hide');
       $(children).removeClass('hide');
     },
-
+    //be carefull with trailing spaces on elemClass
+    //they break togglePArents and breaks everything
     toggleParents : function (path) { 
         //mylog.log("toggleParents",parents,children);
         $.each( favTypes, function(i,k)
         {
-          if( $(path+'.'+k).length == $(path+'.'+k+'.hide ').length )
+          if( $(path.trim()+'.'+k).length == $(path.trim()+'.'+k+'.hide ').length )
             $('.'+k+'fav').addClass('hide');
           else
             $('.'+k+'fav').removeClass('hide');
@@ -819,7 +870,7 @@ var directory = {
 
     //fait de la recherche client dans les champs demandé
     search : function(parentClass, searchVal) { 
-        console.log("searchDir searchVal",searchVal);           
+        mylog.log("searchDir searchVal",searchVal);           
         if(searchVal.length>2 ){
             $.each( $(directory.elemClass) ,function (i,k) { 
                       var found = null;
@@ -836,7 +887,8 @@ var directory = {
                 else
                     $(this).addClass('hide');
             });
-            directory.toggleParents(directory.path);
+
+            directory.toggleParents(directory.elemClass);
         } else
             directory.toggleEmptyParentSection(parentClass,null, directory.elemClass ,1);
     },

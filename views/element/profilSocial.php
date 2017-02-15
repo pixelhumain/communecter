@@ -38,6 +38,8 @@
     $iconColor = Element::getColorIcon($typeItemHead) ? Element::getColorIcon($typeItemHead) : "";
 
     $useBorderElement = false;
+
+    if(@Yii::app()->params["front"]) $front = Yii::app()->params["front"];
 ?>
 <style>
 	.header{
@@ -129,8 +131,48 @@
     font-size: 13px;
 }
 
-</style>
+#listCollections .text-white{
+  color:black!important;
+}
 
+
+
+<?php 
+    $btnAnc = array("blue"      =>array("color1"=>"#ea4335", 
+                                        "color2"=>"#ea4335"),
+                    );
+?>
+
+<?php foreach($btnAnc as $color => $params){ ?>
+.btn-anc-color-<?php echo $color; ?>{
+    background-color: transparent;
+    border-color: transparent;
+    color: <?php echo $params["color1"]; ?>!important;
+}
+
+.btn-anc-color-<?php echo $color; ?>:hover{
+    background-color:transparent!important;
+    color:<?php echo $params["color1"]; ?>!important;
+}
+.btn-anc-color-<?php echo $color; ?>.active{ 
+    background-color:#fff!important;
+    color:<?php echo $params["color1"]; ?>!important;
+    border-color: <?php echo $params["color1"]; ?>!important;
+}
+.btn-anc-color-<?php echo $color; ?>.active:hover{
+    background-color: #fff;
+    color: <?php echo $params["color1"]; ?>;
+}
+
+.favElBtn, .favAllBtn{
+  padding: 5px 8px;
+  font-weight: 800;
+  margin-bottom:5px;
+}
+
+<?php } ?>
+
+  </style>
 	
     <!-- Header -->
     <section class="header" id="header">
@@ -187,7 +229,10 @@
                                 "countries" => @$countries,
                                 "tags" => @$tags,
                                 "controller" => $controller,
-                                "openEdition" => $openEdition);
+                                "openEdition" => $openEdition,
+                                "countStrongLinks" => $countStrongLinks,
+                                "countLowLinks" => $countLowLinks,
+                                );
 
 	    	if(@$members) $params["members"] = $members;
 	    	if(@$events) $params["events"] = $events;
@@ -242,8 +287,7 @@
 			
 		</div>
 
-		<div class="col-md-6 col-md-offset-4 col-sm-8 col-sm-offset-4 col-lg-6 col-lg-offset-3">
-			<div id="central-container"></div>
+		<div class="col-md-6 col-md-offset-4 col-sm-8 col-sm-offset-4 col-lg-6 col-lg-offset-3" id="central-container">
 		</div>
 
 
@@ -258,7 +302,7 @@
 			}
 		</style>
 
-		<div class="col-md-2 col-sm-3 col-lg-3 hidden-sm hidden-xs notif-column margin-top-15">
+		<div class="col-md-2 col-sm-3 col-lg-3 hidden-sm hidden-xs margin-top-15" id="notif-column">
 			<div class="alert alert-info">
 				<a href="#..."><i class="fa fa-times text-dark padding-5"></i></a> 
 				<span>
@@ -310,7 +354,9 @@
     var contextType = "<?php echo @$type; ?>";
     var members = <?php echo json_encode(@$members); ?>;
     var params = <?php echo json_encode(@$params); ?>;
-    
+    var dateLimit = 0;
+    var typeItem = "<?php echo $typeItem; ?>";
+
     console.log("params", params);
 
 	jQuery(document).ready(function() {
@@ -359,6 +405,10 @@
 		var accordion = new Accordion($('#accordion'), false);
 		var accordion2 = new Accordion($('#accordion2'), false);
 		var accordion3 = new Accordion($('#accordion3'), false);
+		var accordion4 = new Accordion($('#accordion4'), false);
+
+		//ouvre le pod communauté
+		$('#accordion4 .link').trigger("click");
 
    		$(".tooltips").tooltip();
 
@@ -377,14 +427,18 @@
 		isLive = isLiveBool==true ? "/isLive/true" : ""; 
 		dateLimit = 0;
 		scrollEnd = false;
-		var url = "news/index/type/citoyens/id/<?php echo (string)$element["_id"] ?>"+isLive+"/date/"+dateLimit+"?isFirst=1&tpl=co2&renderPartial=true";
-		console.log("URL", url);
+
+		toogleNotif(true);
+
+		var url = "news/index/type/"+typeItem+"/id/<?php echo (string)$element["_id"] ?>"+isLive+"/date/"+dateLimit+
+				  "?isFirst=1&tpl=co2&renderPartial=true";
+		
 		$('#central-container').html("<i class='fa fa-spin fa-refresh'></i>");
 		ajaxPost('#central-container', baseUrl+'/'+moduleId+'/'+url, 
 			null,
 			function(){ 
 				$(window).bind("scroll",function(){ 
-				    if(!loadingData && !scrollEnd){
+				    if(!loadingData && !scrollEnd && colNotifOpen){
 				          var heightWindow = $("html").height() - $("body").height();
 				          if( $(this).scrollTop() >= heightWindow - 400){
 				            loadStream(currentIndexMin+indexStep, currentIndexMax+indexStep, isLiveBool);
@@ -399,9 +453,12 @@ function loadStream(indexMin, indexMax, isLiveBool){ console.log("LOAD STREAM PR
 	loadingData = true;
 	currentIndexMin = indexMin;
 	currentIndexMax = indexMax;
+	
+
+	if(typeof dateLimit == "undefined") dateLimit = 0;
 
 	isLive = isLiveBool==true ? "/isLive/true" : "";
-	var url = "news/index/type/citoyens/id/<?php echo (string)$element["_id"] ?>"+isLive+"/date/"+dateLimit+"?tpl=co2&renderPartial=true";
+	var url = "news/index/type/"+typeItem+"/id/<?php echo (string)$element["_id"] ?>"+isLive+"/date/"+dateLimit+"?tpl=co2&renderPartial=true";
 	$.ajax({ 
         type: "POST",
         url: baseUrl+"/"+moduleId+'/'+url,
@@ -432,6 +489,20 @@ function loadStream(indexMin, indexMax, isLiveBool){ console.log("LOAD STREAM PR
     });
 }
 
+var colNotifOpen = true;
+function toogleNotif(open){
+		if(typeof open == "undefined") open = false;
+		
+		if(open==false){
+			$('#notif-column').removeClass("col-md-2 col-sm-3 col-lg-3").addClass("hidden");
+			$('#central-container').removeClass("col-md-6 col-sm-8 col-lg-6").addClass("col-md-8 col-sm-8 col-lg-9");
+		}else{
+			$('#notif-column').addClass("col-md-2 col-sm-3 col-lg-3").removeClass("hidden");
+			$('#central-container').addClass("col-md-6 col-sm-8 col-lg-6").removeClass("col-md-8 col-sm-8 col-lg-9");
+		}
+
+		colNotifOpen = open;
+	}
 </script>
 
 
