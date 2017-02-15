@@ -24,6 +24,8 @@
 	- open to suggestions ???
 
 ## Use cases
+- Login will be transparent between our panels
+- RC notifications should also be hooked up with our notification system or the other way around
 - a user can go on any users page and start a discussion, identicall to a P2P converstaion in RC 
 	- the conversation is not accessible to other users
 - ELEMENTs always have group or people associated 
@@ -31,8 +33,7 @@
 	- channels are only accessible to the group's members
 	- only admins can open a channel 
 	- a group can have many channels 
-- Login will be transparent between our panels
-- RC notifications should also be hooked up with our notification system or the other way around
+- see all "my chatRooms" in one place
 
 ## Relation 
 - we are interested in a close relation with other open source project like RC 
