@@ -589,7 +589,7 @@ var loadableUrls = {
 	//"#home" : {"alias":"#default.home"},
     "#stat.chartglobal" : {title:'STATISTICS ', icon : 'bar-chart'},
     "#stat.chartlogs" : {title:'STATISTICS ', icon : 'bar-chart'},
-
+    "#network.savoir" : {title:"En savoir plus" , icon : 'plus'},
     "#default.live" : {title:"FLUX'Direct" , icon : 'heartbeat', menuId:"menu-btn-live"},
 	"#default.login" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
 	"#project.addcontributorsv" : {title:'Add contributors', icon : 'plus'},
@@ -681,15 +681,14 @@ function jsController(hash){
  var CoAllReadyLoad = false;
 //back sert juste a differencier un load avec le back btn
 //ne sert plus, juste a savoir d'ou vient drait l'appel
-function loadByHash( hash , back ) { 
-
+function loadByHash( hash , back ) {
 	/* court circuit du lbh pour changer le type du directory si on est déjà sur une page directory */
 	// mylog.log("IS DIRECTORY ? ", 
 	// 			hash.indexOf("#default.directory"), 
 	// 			location.hash.indexOf("#default.directory"), CoAllReadyLoad);
 	if(typeof globalTheme != "undefined" && globalTheme=="network"){
-		if( hash.indexOf("#network.simplydirectory") >= 0 &&
-			location.hash.indexOf("#network.simplydirectory") >= 0 || hash=="#" || hash==""){ 
+		if( hash.indexOf("#network") >= 0 &&
+			location.hash.indexOf("#network") >= 0 || hash=="#" || hash==""){ 
 		}
 		else{
 			count=$(".breadcrumAnchor").length;
@@ -698,7 +697,8 @@ function loadByHash( hash , back ) {
 				count=1;
 			breadcrumGuide(count, hash);
 		}
-		return;
+		
+		return ;
 	}
 
 	if( hash.indexOf("#default.directory") >= 0 &&
@@ -775,6 +775,14 @@ function loadByHash( hash , back ) {
 	}*/
 }
 
+function decodeHtml(str) {
+	mylog.log("decodeHtml", str);
+    var txt = document.createElement("textarea");
+    txt.innerHTML = str;
+    mylog.log("decodeHtml",  txt.value);
+    return txt.value;
+}
+
 function setTitle(str, icon, topTitle,keywords,shortDesc) { 
 	if(icon != "")
 		icon = ( icon.indexOf("<i") >= 0 ) ? icon : "<i class='fa fa-"+icon+"'></i> ";
@@ -824,6 +832,12 @@ function searchByHash (hash)
 	if( searchT.length > 3 && searchT[3] == "map" )
 		mapEnd = true;
 	return mapEnd;
+}
+
+function markdownToHtml (str) { 
+	var converter = new showdown.Converter(),
+	res = converter.makeHtml(str);
+	return res;
 }
 
 function checkMenu(urlObj, hash){
@@ -952,7 +966,6 @@ function showAjaxPanel (url,title,icon, mapEnd) {
 			if(mapEnd)
 				showMap(true);
 
-
     		if(typeof contextData != "undefined" && contextData != null && contextData.type && contextData.id ){
         		uploadObj.type = contextData.type;
         		uploadObj.id = contextData.id;
@@ -966,10 +979,10 @@ function showAjaxPanel (url,title,icon, mapEnd) {
         				dbAccessCount = parseInt(data)-prevDbAccessCount;
         				prevDbAccessCount = parseInt(data);
         			}
-        			toastr.success('prevDbAccessCount:'+prevDbAccessCount);
-        			$(".dbAccessBtn").remove();
-        			$(".menu-info-profil").prepend('<span class="text-red dbAccessBtn" ><i class="fa fa-database text-red text-bold fa-2x"></i> '+dbAccessCount+' <a href="javascript:clearDbAccess();"><i class="fa fa-times text-red text-bold"></i></a></span>');
-        		});
+        			console.error('dbaccess:'+prevDbAccessCount);
+        			//$(".dbAccessBtn").remove();
+        			//$(".menu-info-profil").prepend('<span class="text-red dbAccessBtn" ><i class="fa fa-database text-red text-bold fa-2x"></i> '+dbAccessCount+' <a href="javascript:clearDbAccess();"><i class="fa fa-times text-red text-bold"></i></a></span>');
+        		},null);
         	}
 
 		},"html");
@@ -1083,11 +1096,13 @@ var smallMenu = {
 	inBlockUI : true,
 	//smallMenu.openAjax(\''+baseUrl+'/'+moduleId+'/collections/list/col/'+obj.label+'\',\''+obj.label+'\',\'fa-folder-open\',\'yellow\')
 	//the url must return a list like userConnected.list
-	openAjax : function  (url,title,icon,color,title1,params,callback) { 
+	openAjax : function  (url,title,icon,color,title1,params,callback) 
+	{ 
 		if( typeof directory == "undefined" )
 		    lazyLoad( moduleUrl+'/js/default/directory.js', null, null );
 	    
-	    processingBlockUi();
+	    //processingBlockUi();
+	    $(smallMenu.destination).html("<i class='fa fa-spin fa-refresh'></i>");
 
 		ajaxPost( null , url, params , function(data)
 		{
@@ -1107,15 +1122,14 @@ var smallMenu = {
 		   	});
 		   	if( notNull(params) && notNull(params.otherCollectionList) && typeof params.otherCollectionList == "function" )
 		   		params.otherCollectionList();
-		   	else	
-		   		collection.buildCollectionList( "linkList" ,"#listCollections",function(){ $("#listCollections").html("<h2 class='homestead'>Collections</h2>"); });
+		   	//else collection.buildCollectionList( "linkList" ,"#listCollections",function(){ $("#listCollections").html("<h4 class=''>Collections</h4>"); });
 
 		   	if (typeof callback == "function") 
 				callback();
 	    } );
 	},
 	build : function  (params,build_func,callback) { 
-		processingBlockUi();
+		//processingBlockUi();
 	   	if (typeof build_func == "function") 
 			content = build_func(params);
 		smallMenu.open( content );
@@ -1135,26 +1149,44 @@ var smallMenu = {
 	},
 	buildHeader : function (title,icon,color,title1) { 
 		title1 = (typeof title1 != "undefined" && notNull(title1)) ? title1 : "<a class='text-white' href='javascript:smallMenu.open();'> <i class='fa fa-th'></i></a> ";
-		content = "<div class='hidden-xs col-sm-2'>"+
-					"<h2 class='homestead'>filtres <i class='fa fa-angle-down'></i></h2>"+
-					"<a class='btn btn-dark-blue btn-xs favElBtn favAllBtn text-left' href='javascript:directory.toggleEmptyParentSection(\".favSection\",null,\".searchEntityContainer\",1)'> <i class='fa fa-tags'></i> Tout voir </a><br/>"+
+		content = 
+				"<div class='col-xs-12 padding-5'>"+
+
+					"<h3 class='titleSmallMenu'> "+
+						title1+"<i class='fa "+icon+" text-"+color+"'></i> "+title+
+						"<div class='col-md-4 pull-right'>"+
+							"<input name='searchSmallMenu' class='form-control searchSmallMenu text-black' placeholder='rechercher' style=''><br/>"+
+						"</div>"+
+					"</h3><hr>"+
+					"<div class='col-md-12 bold sectionFilters'>"+
+						"<a class='text-black bg-white btn btn-link favSectionBtn btn-default' "+
+							"href='javascript:directory.toggleEmptyParentSection(\".favSection\",null,\".searchEntityContainer\",1)'>"+
+							"<i class='fa fa-asterisk fa-2x'></i><br>Tout voir</a></span> </span>"+
+					"</div>"+
+
+					"<div class='col-md-12'><hr></div>"+
+
+				"</div>"+
+
+				"<div id='listDirectory' class='col-md-10 no-padding'></div>"+
+				"<div class='hidden-xs col-sm-2 text-left'>"+
+					"<h4 class=''><i class='fa fa-angle-down'></i> Filtres</h4>"+
+					"<a class='btn btn-dark-blue btn-anc-color-blue btn-xs favElBtn favAllBtn text-left' href='javascript:directory.toggleEmptyParentSection(\".favSection\",null,\".searchEntityContainer\",1)'> <i class='fa fa-tags'></i> Tout voir </a><br/>"+
 
 					"<div id='listTags'></div>"+
-					"<div id='listScopes'><h2 class='homestead'>Où</h2></div>"+
+					"<div id='listScopes'><h4><i class='fa fa-angle-down'></i> Où</h4></div>"+
 					"<div id='listCollections'></div>"+
 				"</div> "+
-				"<div class='col-xs-12 col-sm-10 padding-5 center no-padding'>"+
+				"<div class='col-xs-12 col-sm-10 center no-padding'>"+
 					//"<a class='pull-right btn btn-xs btn-default' href='javascript:collection.newChild(\""+title+"\");'> <i class='fa fa-sitemap'></i></a> "+
 					"<a class='pull-right btn btn-xs menuSmallTools hide text-red' href='javascript:collection.crud(\"del\",\""+title+"\");'> <i class='fa fa-times'></i></a> "+
 					"<a class='pull-right btn btn-xs menuSmallTools hide'  href='javascript:collection.crud(\"update\",\""+title+"\");'> <i class='fa fa-pencil'></i></a> "+
 					
-					"<div class='homestead titleSmallMenu' style='font-size:45px'> "+
-						title1+' <i class="fa fa-angle-right"></i> '+title+" <i class='fa "+icon+" text-"+color+"'></i>"+
-					"</div>"+
-					"<input name='searchSmallMenu' class='searchSmallMenu text-black' placeholder='vous cherchez quoi ?' style='margin-bottom:8px;width: 300px;font-size: x-large;'><br/>"+
-					"<span class='text-extra-small helvetica sectionFilters'>"+
-						" <span class='btn btn-xs favSectionBtn btn-default'><a class='text-black helvetica ' href='javascript:directory.toggleEmptyParentSection(\".favSection\",null,\".searchEntityContainer\",1)'> Tout voir</a></span> </span>"+
-					" </span><br/>"+
+					// "<h3 class='titleSmallMenu'> "+
+					// 	title1+' <i class="fa fa-angle-right"></i> '+title+" <i class='fa "+icon+" text-"+color+"'></i>"+
+					// "</h3>"+
+					// "<input name='searchSmallMenu' class='searchSmallMenu text-black' placeholder='rechercher' style='margin-bottom:8px;width: 300px;font-size: x-large;'><br/>"+
+					
 				"</div>";
 		return content;
 	},
@@ -2279,27 +2311,23 @@ var elementLib = {
 								key : formData.source
 							}
 		}
-										
+		
 		if( typeof formData.tags != "undefined" && formData.tags != "" )
 			formData.tags = formData.tags.split(",");
-
-
-		/*if( typeof formData.startDate != "undefined" && formData.startDate != "" )
-			formData.startDate = moment(formData.startDate).local().format();
-
-		if( typeof formData.endDate != "undefined" && formData.endDate != "" )
-			formData.endDate = moment(formData.endDate).local().format();*/
 
 		// Add collections and genres of notragora in tags
 		if( typeof formData.collections != "undefined" && formData.collections != "" ){
 			collectionsTagsSave=formData.collections.split(",");
+			if(!formData.tags)formData.tags = [];
 			$.each(collectionsTagsSave, function(i, e) {
 				formData.tags.push(e);
 			});
 			delete formData['collections'];
 		}
+
 		if( typeof formData.genres != "undefined" && formData.genres != "" ){
 			genresTagsSave=formData.genres.split(",");
+			if(!formData.tags)formData.tags = [];
 			$.each(genresTagsSave, function(i, e) {
 				formData.tags.push(e);
 			});
@@ -2387,8 +2415,8 @@ var elementLib = {
 		                if(data.url)
 		                	loadByHash( data.url );
 		                else if(data.id)
-			        		loadByHash( '#'+ctrl+'.detail.id.'+data.id )
-					}	
+			        		loadByHash( '#'+ctrl+'.detail.id.'+data.id );
+					}
 	            }
 	    	}
 	    });
@@ -2482,6 +2510,7 @@ var elementLib = {
 
 	    if(userId)
 		{
+			formType = type;
 			elementLib.getDynFormObj(type, function() { 
 				elementLib.starBuild(specs,afterLoad,data);
 			},afterLoad, data);
@@ -3099,6 +3128,7 @@ var typeObj = {
 			}
 		}},
 	"persons" : {col:"citoyens" , ctrl:"person"},
+	"people" : {col:"citoyens" , ctrl:"person",color:"yellow"},
 	"poi":{ 
 		col:"poi",
 		ctrl:"poi",
@@ -3125,7 +3155,7 @@ var typeObj = {
 			    	if( typeof $("#ajaxFormModal #description").code === 'function' )  
 			    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
 			    	if($('#ajaxFormModal #parentId').val() == "" && $('#ajaxFormModal #parentType').val() ){
-				    	$('#ajaxFormModal #parentId').val(userId);
+				    	$('#ajaxFormModal #parentId').val( userId );
 				    	$("#ajaxFormModal #parentType").val( "citoyens" ); 
 				    }
 			    },
@@ -3136,8 +3166,8 @@ var typeObj = {
 					if( $('.fine-uploader-manual-trigger').fineUploader('getUploads').length > 0 )
 				    	$('.fine-uploader-manual-trigger').fineUploader('uploadStoredFiles');
 				    else {
-				    	elementLib.closeForm();
-				    	loadByHash( location.hash );	
+				    	elementLib.closeForm();	
+				    	loadByHash( location.hash );
 				    }
 			    },
 			    properties : {
@@ -3446,7 +3476,7 @@ var typeObj = {
 			url:"/"+moduleId+"/event/eventsv",
 			title : "Ajouter un évènement"
 		}*/	},
-	"events" : {col:"events",ctrl:"event",color:"orange"},
+	"events" : {col:"events",ctrl:"event",icon : "calendar",color:"orange"},
 	"project" : {
 		col:"projects",
 		ctrl:"project",

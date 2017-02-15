@@ -8,8 +8,50 @@
                                           Yii::app()->theme->baseUrl. '/assets');
 
 ?>  
-  
-  <?php if(@$_GET['type']!="") { ?>
+  <style>
+
+<?php 
+    $btnAnc = array("blue"      =>array("color1"=>"#ea4335", 
+                                        "color2"=>"#ea4335"),
+                    );
+?>
+
+<?php foreach($btnAnc as $color => $params){ ?>
+.btn-anc-color-<?php echo $color; ?>{
+    background-color: transparent;
+    border-color: transparent;
+    color: <?php echo $params["color1"]; ?>!important;
+}
+
+.btn-anc-color-<?php echo $color; ?>:hover{
+    background-color:transparent!important;
+    color:<?php echo $params["color1"]; ?>!important;
+}
+.btn-anc-color-<?php echo $color; ?>.active{ 
+    border-color: <?php echo $params["color1"]; ?>!important;
+    background-color:#fff!important;
+    color:<?php echo $params["color1"]; ?>!important;
+}
+.btn-anc-color-<?php echo $color; ?>.active:hover{
+    background-color: #fff;
+    color: <?php echo $params["color1"]; ?>;
+}
+<?php } ?>
+
+.favElBtn, .favAllBtn{
+  padding: 5px 8px;
+  font-weight: 300;
+  margin-bottom:5px;
+}
+#searchBarTextJS{
+  margin-bottom: 15px;
+}
+  </style>
+ 
+
+  <div class="container-result-search">
+
+      <?php if(@$_GET['type']!="") { ?>
       <?php $typeSelected = $_GET['type']; ?>
       <?php if($typeSelected == "persons") $typeSelected = "citoyens" ; ?>
       <?php $spec = Element::getElementSpecsByType($typeSelected); ?>
@@ -26,19 +68,15 @@
       </h2>
      <?php } ?>
 
-  <div class="container-result-search">
-
 	  	<div class="col-md-12 padding-10 margin-bottom-5 lbl-info-search">
 		    <div class="lbl-info lbl-info-vote lbl-info-actions pull-left hidden col-xs-9 no-padding margin-bottom-10">
-		      <i class="fa fa-chevron-down"></i> 
 		      <i class="fa fa-info-circle"></i> 
 		      <b>Seuls les résultats auxquels vous avez accès sont affichés</b> <br>
 		      (issus de vos <span class="text-green"><b>organisations</b></span>, 
 		      vos <span class="text-purple"><b>projets</b></span> ou votre <span class="text-red"><b>conseil citoyen</b></span>)
 		    </div>
 
-		    <div class="lbl-info lbl-info-organizations lbl-info-projects lbl-info-persons pull-left hidden col-xs-9 no-padding margin-bottom-10">
-		      <i class="fa fa-chevron-down"></i> 
+		    <div class="lbl-info lbl-info-organizations lbl-info-projects lbl-info-poi lbl-info-persons pull-left hidden col-xs-9 no-padding margin-bottom-10">
 		      <i class="fa fa-info-circle"></i> 
 		      <b>Résultats triés en fonction de l'activité la plus récente des éléments recherchés</b> 
 		    </div>
@@ -47,14 +85,24 @@
 		      <i class="fa fa-info-circle"></i> Indiquez le nom d'une commune, ou un code postal, pour lancer la recherche
 		    </div> 
 
-		    <button class="btn btn-default pull-right text-azure" onclick="showMap(true)" style="margin-bottom: -15px;margin-top: -10px;">
-		      <i class="fa fa-map-marker"></i>
+		    <button class="btn btn-default pull-right text-dark" onclick="showMap(true)" style="margin-bottom: -15px;margin-top: -10px;">
+		      <i class="fa fa-map"></i>
 		      <span class="hidden-xs"> Afficher <span class="hidden-sm hidden-xs">sur</span> la carte</span>
 		    </button>
 	  	</div>
-		<div id="listTags" class="hide col-sm-2 hide"></div>
-		<div style="" class="row no-padding" id="dropdown_search"></div>
 
+  		<div class="col-md-12">
+          <hr class="margin-bottom-10">
+      </div>
+
+      <?php if(Yii::app()->theme->name == "CO2"){ ?>
+        <div class="col-sm-2 col-md-2"></div>
+        <div class="col-md-8 col-sm-8 padding-10" id="dropdown_search"></div>
+      <?php }else{ ?>
+        <div class="col-md-10 col-sm-10 padding-10" id="dropdown_search"></div>
+      <?php } ?>
+      <div id="listTags" class="col-sm-2 col-md-2 text-left"></div>
+      
   </div>
 
 <?php //$this->renderPartial(@$path."first_step_directory"); ?> 
@@ -80,18 +128,29 @@ var headerParams = {
   "actions"       : { color: "lightblue2",    icon: "cogs",   name: "actions" },
   "cities"        : { color: "red",     icon: "university",   name: "communes" },
   "poi"       	  :	{ color: "black",   icon: "map-marker",   name: "points d'intérêts" },
-  "classified"    : { color: "lightblue2",   icon: "bullhorn",   name: "Annonces" },
+  "classified"    : { color: "lightblue2",   icon: "bullhorn",   name: "Annonces" }
 }
+
+if( typeof themeObj != "undefined" && typeof themeObj.headerParams != "undefined" )
+{
+  $.each(themeObj.headerParams,function(k,v) 
+  { 
+    headerParams[k] = v;
+  });
+}
+
 function setHeaderDirectory(type){
  
   var params = new Array();
   if(typeof headerParams[type] == "undefined") return;
   params = headerParams[type];
-  $(".subtitle-search").html('<span class="text-'+params.color+' homestead">'+
+  $(".subtitle-search").html( '<span class="text-'+params.color+'">'+
                                 '<i class="fa fa-angle-down"></i> <i class="fa fa-'+params.icon+'"></i> '+
                                 params.name+
-                                " <i class='fa fa-angle-right'></i> <a href='javascript:directory.showFilters()' class='btn btn-default'> <i class='fa fa-search'></i> <i class='fa fa-tags'></i> </a>"+
-                              '</span>');
+                              //  " <i class='fa fa-angle-right'></i> "+
+                              // "<a href='javascript:directory.showFilters()' class='btn btn-default btn-sm'> "+
+                              //  "<i class='fa fa-search'></i> Recherche avancée</a>"+
+                              '</span>' );
 
   $(".lbl-info-search .lbl-info").addClass("hidden");
   $(".lbl-info-search .lbl-info.lbl-info-"+type).removeClass("hidden");
@@ -178,7 +237,7 @@ jQuery(document).ready(function() {
   });
 
   
-/*  $(".searchIcon").removeClass("fa-search").addClass("fa-file-text-o");
+  /*  $(".searchIcon").removeClass("fa-search").addClass("fa-file-text-o");
   $(".searchIcon").attr("title","Mode Recherche ciblé (ne concerne que cette page)");*/
   $('.tooltips').tooltip();
   searchPage = true;
@@ -189,14 +248,6 @@ jQuery(document).ready(function() {
   startSearch(0, indexStepInit, searchCallback);
 });
 
-function searchCallback() { 
-  directory.elemClass = '.searchEntityContainer ';
-  directory.filterTags(true);
-  $(".btn-tag").off().on("click",function(){ directory.toggleEmptyParentSection(null,"."+$(this).data("tag-value"),".searchEntityContainer",1)});
-  $("#searchBarTextJS").off().on("keyup",function() { 
-    directory.search ( null, $(this).val() );
-  });
-}
 
 </script>
 

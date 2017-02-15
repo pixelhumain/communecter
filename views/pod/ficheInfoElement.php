@@ -872,8 +872,6 @@ if($showOdesc == true){
 			}*/
 		}
 
-
-		
 	});
 
 	function bindDynFormEditable(){

@@ -35,7 +35,7 @@ $cssAnsScriptFilesModule = array(
 	'/js/activityHistory.js'
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
-
+$element["name"] = htmlspecialchars($element["name"]);
 
 // Initialize $front array()
 // - Define which element is visible following current theme (communecter, network, notragora)
@@ -421,7 +421,7 @@ if($('#breadcum').length)
 	    	<?php }
 
 		    } ?>
-	    	<?php if( !$type==Event::COLLECTION && ( !@$front || (@$front && $front["need"]==true))){ ?>
+	    	<?php if( $type!=Event::COLLECTION && ( !@$front || (@$front && $front["need"]==true))){ ?>
 	    	<div class="col-xs-12 needsPod">	
 				<?php $this->renderPartial('../pod/needsList',array( 	"needs" => @$needs, 
 																		"parentId" => (String) $element["_id"],

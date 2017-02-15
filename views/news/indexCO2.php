@@ -259,7 +259,7 @@ function initTags(){
     tagsNews=["bug","idea"];
   }
   else {
-    tagsNews = <?php echo json_encode($tags); ?>
+    tagsNews = <?php echo json_encode($tags); ?>;
   }
   /////// A réintégrer pour la version last
   var $scrollElement = $(".my-main-container");

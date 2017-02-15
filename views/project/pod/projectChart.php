@@ -215,7 +215,7 @@ function chartInit(dataProperties){
 		labelProperties.push(label);
 		valueProperties.push(dataProperties[label]["value"]);
 	}
-<<<<<<< HEAD
+	
 	console.log(labelProperties);
 	console.log(valueProperties);
 	Chart.defaults.global = {
