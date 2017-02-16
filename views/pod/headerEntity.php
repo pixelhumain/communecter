@@ -4,6 +4,9 @@ $cssAnsScriptFilesTheme = array(
 	'/plugins/Chart.js/Chart.min.js',
 	'/plugins/jquery.qrcode/jquery-qrcode.min.js',
 	'/plugins/Chart.js/Chart.min.js',
+	'/plugins/showdown/showdown.min.js',
+	//'/plugins/bootstrap-markdown/js/bootstrap-markdown.js',
+	//'/plugins/bootstrap-markdown/css/bootstrap-markdown.min.css'
 	//'/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
 	//'/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js' , 
 
@@ -205,7 +208,7 @@ $controler = Element::getControlerByCollection($type);
 																  "show" => true,
 																  "editMode" => $edit,
 																  "image" => $images,
-																  "openEdition" => $openEdition)); 
+																  "openEdition" => $openEdition) ); 
 			//	$profilThumbImageUrl = Element::getImgProfil(@$entity, "profilMediumImageUrl", $this->module->assetsUrl);
 			?>
 			<button class="col-xs-12 center btn btn-default text-azure" style="margin-left:10px;" onclick="showMap(true)">
@@ -219,14 +222,12 @@ $controler = Element::getControlerByCollection($type);
 					<?php if($type == Organization::COLLECTION || $type == Event::COLLECTION){ ?>
 						<h2 class="text-left no-margin <?php if (!@$entity["type"] && !empty($entity["type"])) echo "hide" ?>" style="font-weight:100; font-size:19px;">
 								<i class="fa fa-angle-right"></i> 
-								<label id="typeHeader" class="text-dark">
-									<?php
-									if($type == Event::COLLECTION)
-										echo Yii::t(Element::getCommonByCollection($type), @$entity["type"], null, Yii::app()->controller->module->id); 
-									else
-										echo Yii::t("common", @$entity["type"]); 
-									?>
-								</label>
+								<label id="typeHeader" class="text-dark"><?php
+								if($type == Event::COLLECTION)
+									echo Yii::t(Element::getCommonByCollection($type), @$entity["type"], null, Yii::app()->controller->module->id); 
+								else
+									echo Yii::t("common", @$entity["type"]); 
+								?></label>
 						</h2>
 					<?php } ?>
 					<span class="lbl-entity-name">
@@ -291,11 +292,11 @@ $controler = Element::getControlerByCollection($type);
 				<?php } ?>
 			</div>
 			<?php } ?>
-			<div id="shortDescriptionHeader" class="col-lg-12 col-xs-12 no-padding hidden-xs">
-				<?php echo (isset($entity["shortDescription"])) ? $entity["shortDescription"] : null; ?>
-			</div>
 
-
+			<div id="shortDescriptionHeader" class="col-lg-12 col-xs-12 no-padding hidden-xs"><?php echo (isset($entity["shortDescription"])) ? $entity["shortDescription"] : null; ?></div>
+			<input type="hidden" id="shortDescriptionMarkdown" name="shortDescriptionMarkdown" value="<?php echo (!empty($element['shortDescription'])) ? $element['shortDescription'] : ''; ?>">
+			<?php if($edit==true || $openEdition==true ){?>
+		  		<a href='javascript:;' id="btn-update-shortdesc" class="tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Update Description");?>"><i class="fa text-red fa-pencil"></i></a> <?php } ?>
 		</div>
 		
 
@@ -652,8 +653,8 @@ var mapUrl = {
 		},
 	"addchart":
 		{
-			"url"  : "project/addchartsv/id/<?php echo (string)$entity["_id"] ?>?", 
-			"hash" : "project.addchartsv.id.<?php echo (string)$entity["_id"] ?>",
+			"url"  : "chart/addchartsv/type/<?php echo $type ?>/id/<?php echo (string)$entity["_id"] ?>?", 
+			"hash" : "chart.addchartsv.type.<?php echo $type ?>.id.<?php echo (string)$entity["_id"] ?>",
 			"data" : null
 	
 		},
@@ -676,6 +677,7 @@ var listElementView = [	'detail', 'detail.edit', 'news', 'directory', 'gallery',
 jQuery(document).ready(function() {
 	setTitle(decodeHtml(element.name),contextIcon);	
 	mylog.log("loadAllLinks-------", loadAllLinks);
+	
 	if(loadAllLinks){
 		$.ajaxSetup({ cache: true});
 		$.ajax({
@@ -743,9 +745,37 @@ jQuery(document).ready(function() {
 		});
     });
 
+    $("#btn-update-shortdesc").off().on( "click", function(){
+		var dataUpdate = { value : $("#shortDescriptionMarkdown").val() } ;
+		var properties = {
+			value : typeObjLib["description"],
+			pk : {
+	            inputType : "hidden",
+	            value : contextData.id
+	        },
+			name: {
+	            inputType : "hidden",
+	            value : "shortDescription"
+	        }
+		};
+
+		var onLoads = null;
+		var beforeSave = null ;
+		var afterSave = function(data){
+			$("#shortDescriptionHeader").val(data.shortDescription);
+			elementLib.closeForm();
+		};
+		
+		var saveUrl = baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType;
+		elementLib.editDynForm("Modifier la description court", "fa-pencil", properties, null, dataUpdate, saveUrl, onLoads, beforeSave, afterSave);
+	});
+
+
 	
 
 });
+
+
 
 function showElementPad(type, id){
 	currentView=type;
