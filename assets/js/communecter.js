@@ -2768,33 +2768,16 @@ var typeObjLib = {
         	},500);
     	}
     },
-    image :{
-    	inputType : "uploader",
-    	afterUploadComplete : function(){
-	    	elementLib.closeForm();
-            loadByHash( location.hash );	
-	    },
-    },
-    imageOrg : {
-    	inputType : "uploader",
-    	afterUploadComplete : function(){
-	    	elementLib.closeForm();
-            loadByHash( "#organization.detail.id."+uploadObj.id );	
-	    },
-    },
-    imageEvent : {
-    	inputType : "uploader",
-    	afterUploadComplete : function(){
-	    	elementLib.closeForm();
-            loadByHash( "#event.detail.id."+uploadObj.id );	
-	    },
-    },
-    imageProject : {
-    	inputType : "uploader",
-    	afterUploadComplete : function(){
-	    	elementLib.closeForm();
-            loadByHash( "#project.detail.id."+uploadObj.id );	
-	    },
+    image :function(str) { 
+    	url = (str) ? str : location.hash;
+    	return {
+	    	inputType : "uploader",
+	    	label : "Images de profil et album", 
+	    	afterUploadComplete : function(){
+		    	elementLib.closeForm();
+	            loadByHash( url );	
+		    	}
+    	}
     },
     descriptionOptionnel : {
         inputType : "textarea",
@@ -3263,7 +3246,7 @@ var typeObj = {
 		            role : typeObjLib.role,
 		            tags : typeObjLib.tags,
 		            location : typeObjLib.location,
-			        image : typeObjLib.imageOrg,
+			        image : typeObjLib.image( "#organization.detail.id."+uploadObj.id ),
 		            formshowers : {
 		                inputType : "custom",
 		                html:
@@ -3441,7 +3424,7 @@ var typeObj = {
 		            },
 		            parentType : typeObjLib.hidden,
 			        type : typeObjLib.typeEvent,
-			        image : typeObjLib.imageEvent,
+			        image : typeObjLib.image( "#event.detail.id."+uploadObj.id ),
 		            allDay : typeObjLib.allDay,
 		            startDateInput : typeObjLib.startDateInput,
 		            endDateInput : typeObjLib.endDateInput,
@@ -3518,7 +3501,7 @@ var typeObj = {
 		            },
 			        name : typeObjLib.nameProject,
 		            parentType : typeObjLib.hidden,
-		            image : typeObjLib.imageProject,
+		            image : typeObjLib.image("#project.detail.id."+uploadObj.id),
 		            location : typeObjLib.location,
 		            tags :typeObjLib.tags,
 		            formshowers : {
