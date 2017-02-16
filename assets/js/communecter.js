@@ -3142,7 +3142,7 @@ function displayStartAndEndDate(event) {
 		}
 	}
 	return content;
-}
+};
 
 /* *********************************
 			ELEMENTS
@@ -3939,18 +3939,6 @@ var typeObj = {
 		            		], "col_Link_Label_Count", { classes : "bg-red kickerBtn", parentClass : "col-xs-12 col-sm-4 "} )+"</div>";
 		            	}
 		            }
-			    }
-			}
-		}
-	},
-	"addPhoto":{ 
-		dynForm : {
-		    jsonSchema : {
-			    title : "Uploader une image ?",
-			    icon : "question-cirecle-o",
-			    noSubmitBtns : true,
-			    properties : {
-			    	//image : typeObjLib.imageAddPhoto
 			    }
 			}
 		}

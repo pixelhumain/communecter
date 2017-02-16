@@ -23,7 +23,7 @@ $cssAnsScriptFilesTheme = array(
 
 //'/assets/plugins/moment/min/moment.min.js' , 
 //'/assets/plugins/jquery.qrcode/jquery-qrcode.min.js'
-'/plugins/to-markdown/to-markdown.js',
+//'/plugins/to-markdown/to-markdown.js',
 
 );
 
