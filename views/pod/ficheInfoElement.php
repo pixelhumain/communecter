@@ -1308,21 +1308,22 @@ if($showOdesc == true){
 			};
 
 			var onLoads = {
-				markdown : function(){
+				summernote : function(){
 					mylog.log("#btn-update-desc #ajaxFormModal #description");
-					activateMarkdown("#ajaxFormModal #value");
+					//activateMarkdown("#ajaxFormModal #value");
+					activateSummernote("#ajaxFormModal #value");
 				}
 			};
 			var beforeSave = null ;
 
 			var afterSave = function(data){
-				$("#description").html(markdownToHtml(data.description));
+				$("#description").html(data.description);
 				$("#descriptionMarkdown").val(data.description);
 				elementLib.closeForm();		
 			};
 			
 			var saveUrl = baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType;
-			elementLib.editDynForm("Modifier la description", "fa-pencil", properties, "markdown", dataUpdate, saveUrl, onLoads, beforeSave, afterSave);
+			elementLib.editDynForm("Modifier la description", "fa-pencil", properties, "summernote", dataUpdate, saveUrl, onLoads, beforeSave, afterSave);
 		});
 	}
 

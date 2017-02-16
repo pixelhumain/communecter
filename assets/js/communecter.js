@@ -3662,14 +3662,14 @@ var typeObjLib = {
     	}
     },
     descriptionOptionnel : {
-        inputType : "textarea",
+        inputType : "wysiwyg",
 		placeholder : "Décrire c'est partager",
 		init : function(){
-        	$(".descriptiontextarea").css("display","none");
+        	$(".descriptionOptionneltextarea").css("display","none");
         }
     },
     description : {
-        inputType : "textarea",
+        inputType : "wysiwyg",
 		placeholder : "Décrire c'est partager"
     },
     tags : {
