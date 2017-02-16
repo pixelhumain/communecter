@@ -351,14 +351,13 @@ if($('#breadcum').length)
 			<?php } ?>
 
 
-			<?php if ($type==Project::COLLECTION || $type==Organization::COLLECTION){ ?>
+			<?php if (($type==Project::COLLECTION)){ ?>
 			<div class="col-xs-12">
 				<?php
 					if(empty($element["properties"]["chart"])) $element["properties"]["chart"] = array();
-					$this->renderPartial('../chart/index',array(
+					$this->renderPartial('../project/pod/projectChart',array(
 											"itemId" => (string)$element["_id"], 
 											"itemName" => $element["name"], 
-											"parentType" => $type, 
 											"properties" => $element["properties"]["chart"],
 											"admin" =>$edit,
 											"isDetailView" => 1,
