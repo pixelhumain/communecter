@@ -60,19 +60,18 @@
    searchPrefTag = "<?php echo $params['request']['searchPrefTag'] ;?>";
   <?php } ?>
 console.log("searchPrefTag", searchPrefTag);
-  //With different pagination params
-  <?php if(isset($params['request']['pagination']) && $params['request']['pagination'] > 0){ ?>
-    indexStepInit = <?php echo $params['request']['pagination'] ;?>;
-  <?php } ?>
-  var indexStep = indexStepInit;
-  var currentIndexMin = 0;
-  var currentIndexMax = indexStep;
-  var scrollEnd = false;
-  var totalData = 0;
-  var timeout = null;
-  jQuery(document).ready(function() {
-     bindLBHLinks();
-	  if(location.hash == "" || location.hash == "#network.simplydirectory")
+
+var indexStep = indexStepInit;
+var currentIndexMin = 0;
+var currentIndexMax = indexStep;
+var scrollEnd = false;
+var totalData = 0;
+var timeout = null;
+jQuery(document).ready(function() {
+    if( typeof params.request.pagination != "undefined" && params.request.pagination > 0)
+        indexStepInit = params.request.pagination ;
+    bindLBHLinks();
+	if(location.hash == "" || location.hash == "#network.simplydirectory")
     	showMapNetwork(true);
     else
     	showMapNetwork(false);
@@ -133,10 +132,13 @@ console.log("searchPrefTag", searchPrefTag);
     $('#btn-toogle-map').click(function(e){ showMapNetwork(); });
     $('#breadcum_search').click(function(e){ showMapNetwork();    });
     <?php if(isset($params['mode']) && $params['mode'] == "client"){ ?>
+
     <?php } else { ?>
       $('#searchBarText').keyup(function(e){
           clearTimeout(timeoutSearch);
-          timeoutSearch = setTimeout(function(){ startSearch(0, indexStepInit); }, 800);
+          timeoutSearch = setTimeout(function(){ 
+            startSearchSimply(0, indexStepInit); 
+        }, 800);
       });
     <?php } ?>
     /***** CHANGE THE VIEW PARAMS  *****/
@@ -196,9 +198,9 @@ console.log("searchPrefTag", searchPrefTag);
       $('.tagFilter').removeClass('active');
       $('.villeFilter').removeClass('active');
       $('.categoryFilter').removeClass('active');
-      startSearch(0, indexStepInit);
+      startSearchSimply(0, indexStepInit);
     });
-    <?php if(isset($params['mode']) && $params['mode'] == "client"){ ?>
+    <?php if(@$params['mode'] && $params['mode'] == "client"){ ?>
 
         //Charger tous les éléments
 
@@ -214,33 +216,63 @@ console.log("searchPrefTag", searchPrefTag);
               var heightWindow = $(window).height();
               if( ($(this).scrollTop() + heightWindow) >= heightContainer-150){
                 // console.log("scroll MAX");
-                startSearch(currentIndexMin+indexStep, currentIndexMax+indexStep);
+                startSearchSimply(currentIndexMin+indexStep, currentIndexMax+indexStep);
               }
             }
         }
       });
-      $(".btn-filter-type").click(function(e){
-        mylog.log("__________________________ YO2 _________________");
-        var type = $(this).attr("type");
-        var index = searchType.indexOf(type);
-        if(type == "all" && searchType.length > 1){
-          $.each(allSearchType, function(index, value){ removeSearchType(value); }); return;
-        }
-        if(type == "all" && searchType.length == 1){
-          $.each(allSearchType, function(index, value){ addSearchType(value); }); return;
-        }
-        if (index > -1) removeSearchType(type);
-        else addSearchType(type);
-      });
+        /*$(".btn-filter-type").click(function(e){
+            mylog.log("__________________________ YO2 _________________");
+            var type = $(this).attr("type");
+            var index = params.request.searchType.indexOf(type);
+            if(type == "all" && params.request.searchType.length > 1){
+                $.each(allSearchType, function(index, value){ 
+                    removeSearchType(value); 
+                }); 
+                return;
+            }
+            if(type == "all" && params.request.searchType.length == 1){
+                $.each(allSearchType, function(index, value){ 
+                    addSearchType(value); 
+                }); 
+                return;
+            }
+            if (index > -1) 
+                removeSearchType(type);
+            else 
+                addSearchType(type);
+        });*/
+        /*$(".btn-filter-type").click(function(e){
+            mylog.log("__________________________ YO2 _________________");
+            var type = $(this).attr("type");
+            var index = searchType.indexOf(type);
+            if(type == "all" && searchType.length > 1){
+                $.each(allSearchType, function(index, value){ 
+                    removeSearchType(value); 
+                }); 
+                return;
+            }
+            if(type == "all" && searchType.length == 1){
+                $.each(allSearchType, function(index, value){ 
+                    addSearchType(value); 
+                }); 
+                return;
+            }
+            if (index > -1) 
+                removeSearchType(type);
+            else 
+                addSearchType(type);
+        });*/
       //initBtnToogleCommunexion();
       //$(".btn-activate-communexion").click(function(){
       //  toogleCommunexion();
       //});
     <?php } ?>
     //initBtnScopeList();
-    startSearch(0, indexStepInit);
+    console.log("test ", indexStepInit);
+    startSearchSimply(0, indexStepInit);
   });
-function startSearch(indexMin, indexMax){
+function startSearchSimply(indexMin, indexMax){
      console.log("startSearch2", indexMin, indexMax, indexStep);
     $("#listTagClientFilter").html('spiner');
     if(loadingData) return;
@@ -268,24 +300,24 @@ function startSearch(indexMin, indexMax){
         if(levelCommunexion == 4) locality = inseeCommunexion;
         if(levelCommunexion == 5) locality = "";
       }
-      autoCompleteSearch(name, locality, indexMin, indexMax);
+      autoCompleteSearchSimply(name, locality, indexMin, indexMax);
 }
-function addSearchType(type){
-  var index = searchType.indexOf(type);
+/*function addSearchType(type){
+  var index = params.request.searchType.indexOf(type);
   if (index == -1) {
-    searchType.push(type);
+    params.request.searchType.push(type);
     $(".search_"+type).removeClass("fa-circle-o");
     $(".search_"+type).addClass("fa-check-circle-o");
   }
 }
 function removeSearchType(type){
-  var index = searchType.indexOf(type);
+  var index = params.request.searchType.indexOf(type);
   if (index > -1) {
-    searchType.splice(index, 1);
+    params.request.searchType.splice(index, 1);
     $(".search_"+type).removeClass("fa-check-circle-o");
     $(".search_"+type).addClass("fa-circle-o");
   }
-}
+}*/
 function addSearchCategory(category){
   console.log('add'+category+' dans '+searchCategory);
   var index = searchCategory.indexOf(category);
@@ -371,7 +403,8 @@ var mix = "";
   mix = "mix";
 <?php } ?>
 
-function autoCompleteSearch(name, locality, indexMin, indexMax){
+function autoCompleteSearchSimply(name, locality, indexMin, indexMax){
+    console.log("autoCompleteSearchSimply", indexMax);
     var levelCommunexionName = { 1 : "INSEE",
                              2 : "CODE_POSTAL_INSEE",
                              3 : "DEPARTEMENT",
@@ -421,7 +454,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
     var data = {
       "name" : name,
       "locality" : "xxxx",
-      "searchType" : searchType,
+      "searchType" : params.request.searchType,
       //"searchTag" : searchTagGlobal,
       "searchTag" : searchTagsSimply,
       "searchLocalityNAME" : searchLocalityNAME,
@@ -692,7 +725,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                 $("#btnShowMoreResult").mouseenter(function(){
                   mylog.log("__________________________ YO3 _________________");
                   if(!loadingData){
-                    startSearch(indexMin+indexStep, indexMax+indexStep);
+                    startSearchSimply(indexMin+indexStep, indexMax+indexStep);
                     $("#btnShowMoreResult").mouseenter(function(){});
                   }
                 });
@@ -734,7 +767,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 
   function setSearchValue(value){
     $("#searchBarText").val(value);
-    startSearch(0, 100);
+    startSearchSimply(0, 100);
   }
   function manageTagFilter(tag){
     var index = tagsFilter.indexOf(tag);
@@ -794,7 +827,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
       if(tag == "all"){
         searchTag = [];
         $('.tagFilter[value="all"]').addClass('active');
-        startSearch(0, indexStepInit);
+        startSearchSimply(0, indexStepInit);
         return;
       }
       else{
@@ -802,7 +835,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
       }
       if (index > -1) removeSearchTag(tag);
       else addSearchTag(tag);
-      startSearch(0, indexStepInit);
+      startSearchSimply(0, indexStepInit);
     });
     $(".villeFilter").off().click(function(e){
       var ville = $(this).attr("value");
@@ -810,7 +843,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
       if(ville == "all"){
         searchLocalityNAME = [];
         $('.villeFilter[value="all"]').addClass('active');
-        startSearch(0, indexStepInit);
+        startSearchSimply(0, indexStepInit);
         return;
       }
       else{
@@ -818,7 +851,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
       }
       if (index > -1) removeSearchVille(ville);
       else addSearchVille(ville);
-      startSearch(0, indexStepInit);
+      startSearchSimply(0, indexStepInit);
     });
     $(".categoryFilter").off().click(function(e){
       var category = $(this).attr("value");
@@ -828,7 +861,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
       else{
         addSearchCategory(category);
       }
-      startSearch(0, indexStepInit);
+      startSearchSimply(0, indexStepInit);
     });
   }
   // function loadClientFilters(types, tags){
