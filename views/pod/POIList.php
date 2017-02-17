@@ -37,23 +37,22 @@
 						<?php }?>
 
 						<a href="javascript:collection.add2fav('poi','<?php echo (string)$p["_id"] ?>')" data-id="<?php echo (string)$p["_id"] ?>" class="pull-right poiStar star_poi_<?php echo (string)$p["_id"] ?>"><i class="fa star fa-star-o"></i></a>
-
-						<?php
-						echo "<br/>";
-
-						if( @$p["type"] ){ ?>
-							<span class="text-bold text-large"><?php echo Yii::t("poi", $p["type"], null, Yii::app()->controller->module->id) ?></span><br/>
-						<?php  }?>
-						
-						
-						
-						
 						
 						<?php 
 						$countImages = PHDB::count(Document::COLLECTION, array("type"=>"poi","id" => (string)$p['_id'] ));
 						if(@$countImages > 0){?>
 						<a href="javascript:album.show('<?php echo (string)$p["_id"] ?>','poi')" data-id="<?php echo (string)$p["_id"] ?>" class="pull-right"><i class="fa fa-photo"></i></a>
 						<?php }?>
+						
+						<br/>
+
+						<?php
+						if( @$p["type"] ){ ?>
+							<span class="text-bold text-large"><?php echo Yii::t("poi", $p["type"], null, Yii::app()->controller->module->id) ?></span><br/>
+						<?php  }?>
+						
+						
+						
 						
 						<div class="padding-10 poiPanel poi<?php echo InflectorHelper::slugify($p["name"])?> hide">
 
