@@ -12,7 +12,14 @@
 ?>
 
 
-
+<style type="text/css">
+	.txt-mail{
+		min-height: 300px;
+		max-height: 700px;
+		max-width: 100%;
+		min-width: 60%;
+	}
+</style>
         	
 
 
@@ -43,29 +50,45 @@
 	        	</h1>
 	        	<h3 class="letter-blue"><i class="fa fa-angle-right"></i> Votre contact Calédonien</h3>
 				<b>KGOUGLE</b> a été mis en place par une équipe de développeurs indépendants : <a href="#co2.info.p.ph"><b>les PixelHumains</b></a><br>
-				Ce collectif est composée de 8 développeurs répartis sur 3 fuseaux horaires : <b>Nouvelle-Calédonie, île de la Réunion, et métropole.</b><br><br>
+				Ce collectif est composée de 5 développeurs répartis sur 3 fuseaux horaires : <b>Nouvelle-Calédonie, île de la Réunion, et métropole.</b><br><br>
 				
-				<b><span class="letter-azure font-blackoutM">Alpha Tango</span> est notre développeur Calédonien</b>, à l'origine de la création de <b>KGOUGLE</b>, et à votre disposition pour répondre à toutes vos questions.<br>C'est le lien entre les Calédoniens et notre collectif <b>PixelHumain</b>.<br><br>
-
-				<div class="hidden">
-					<h3 class="letter-blue"><i class="fa fa-angle-right"></i> Un projet international</h3>
-					Notre collectif est réuni depuis ses origines autour d'un objectif commun : créer des outils numériques collaboratifs afin de <b>(re)dynamiser les territoires</b>, en facilitant la <b>communication entre les différents acteurs locaux.</b><br><br>
-
-					Dans cet objectif, nous <b>co-construisons</b> depuis plus de 3 ans, une plateforme numériques dénommée Communecter.org, qui propose un ensemble de fonctionnalités cohérentes aux internautes souhaitant participer plus activement à <b>la vie de leur territoire.</b><br><br>
-					
-					Aujourd'hui, cette application s'addresse à la fois au territoire métropolitain (FRANCE), aux départements et territoires d'outre-mer, et à l'internationnal (Belgique, Suisse, Canada, etc)<br><br>
-
-
-					<h3 class="letter-blue"><i class="fa fa-angle-right"></i> S'adapter à chaque territoire</h3>
-				</div>
-
-				En Nouvelle-Calédonie, certaines particularités propres à ce territoire isolé d'océanie nous ont poussé à adopter une approche légèrement différente de celle que nous suivons depuis nos débuts : pour répondre au mieux aux <b>besoins réels du pays</b> dans le domaine d'internet.<br><br>
-
-				Motivé et conseillé par notre développeur calédonien <span class="letter-azure font-blackoutM">Alpha Tango</span>, nous espérons faire avancer internet sur le Caillou et en multiplier les usages : d'abord via ce moteur de recherche, pour faciliter votre navigation sur le web d'aujourd'hui, puis par la mise en place d'autres fonctionnalités innovantes.     
-
-				
+				<b><span class="letter-azure font-blackoutM">Alpha Tango</span> est notre développeur Calédonien</b>, à l'origine de la création de <b>KGOUGLE</b>, et à votre disposition pour répondre à toutes vos questions.<br>C'est le lien entre les Calédoniens et notre collectif <b>PixelHumain</b>.
+				<br><br>
+				<hr>
+				<br>				
 			</div>
 
+			<div class="col-md-10 text-left padding-top-60 form-group">
+				<h3>
+					<i class="fa fa-chevron-down"></i> <i class="fa fa-send"></i> 
+					Contacter <span class="letter-azure font-blackoutM">Alpha Tango</span> par e-mail
+				</h3>
+				<br><br>
+				<div class="col-md-6">
+					<label for="email"><i class="fa fa-angle-down"></i> Votre addresse e-mail*</label>
+	 				<input class="form-control" placeholder="votre addresse e-mail : exemple@mail.com" id="email">
+					<br>
+				</div>
+				<div class="col-md-6">
+					<label for="name"><i class="fa fa-angle-down"></i> Nom / Prénom</label>
+	 				<input class="form-control" placeholder="comment vous appelez-vous ?" id="name">
+					<br>
+				</div>
+				<div class="col-md-12">
+					<label for="objet"><i class="fa fa-angle-down"></i> Objet de votre message</label>
+	 				<input class="form-control" placeholder="c'est à quel sujet ?" id="objet">
+				</div>
+			</div>
+			<div class="col-md-11 text-left form-group">
+				<div class="col-md-12">
+					<label for="message"><i class="fa fa-angle-down"></i> Votre message</label>
+	 				<textarea placeholder="Votre message..." class="form-control txt-mail" id="message"></textarea>
+	 				<br>
+					<button class="btn btn-success pull-right" id="btn-send-mail">
+						<i class="fa fa-send"></i> Envoyer le message
+					</button>
+				</div>
+			</div>
         </div>
     </div>
 </section>

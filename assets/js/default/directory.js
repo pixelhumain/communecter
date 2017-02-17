@@ -281,7 +281,8 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
   }
 
 
-  function initBtnLink(){
+  function initBtnLink(){ mylog.log("initBtnLink");
+      
     $('.tooltips').tooltip();
   	//parcours tous les boutons link pour vérifier si l'entité est déjà dans mon répertoire
   	$.each( $(".followBtn"), function(index, value){
@@ -480,9 +481,8 @@ var directory = {
               var url = '#element.detail.type.'+type+'.id.' + id;
               if(type == "citoyens") url += '.viewer.' + userId;
 
-              if(typeof TPL != "undefined"){
-                if(TPL == "kgougle") url = '#co2.page.type.'+type+'.id.' + id;
-              }
+              if(typeof globalTheme != "undefined" && globalTheme=="CO2")
+                url = '#co2.page.type.'+type+'.id.' + id;
 
               //else if(type == "poi")    url = '#element.detail.type.poi.id.' + id;
               else if(type == "cities") url = "#city.detail.insee."+o.insee+".postalCode."+o.cp;
@@ -716,9 +716,11 @@ var directory = {
           $(".sectionFilters").append(" <a class='text-black btn btn-default favSectionBtn favSectionBtnNew  bg-"+color+"'"+
                                       " href='javascript:directory.showAll(\".favSection\",directory.elemClass);toggle(\"."+typeObj[key].col+"fav\",\".favSection\",1)'> "+
                                           "<i class='fa fa-"+icon+" fa-2x'></i><br>"+trad[key]+
-                                        "</a>")
+                                        "</a>");
         }
       });
+
+      initBtnLink();
       bindLBHLinks();
       directory.filterList();
       $(directory.elemClass).show();

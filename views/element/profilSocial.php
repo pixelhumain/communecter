@@ -43,7 +43,7 @@
 ?>
 <style>
 	.header{
-		/*position: absolute;*/
+		position: absolute;
 		width:100%;
 		height:300px;
 	}
@@ -67,12 +67,12 @@
 	}
 
 	.profilSocial{
-		position: absolute;
-		top:0px;
+		/*position: absolute;
+		top:0px;*/
 	}
 	.sub-menu-social{
-		margin-top: -55px;
-		margin-bottom: 30px;
+		/*margin-top: -55px;
+		margin-bottom: 30px;*/
 	}
 	.sub-menu-social button{
 		height:45px;
@@ -135,7 +135,14 @@
   color:black!important;
 }
 
-
+.notif-column .alert{
+	font-size:12px;
+	border:none!important;
+	border-radius: 0px;
+}
+.notif-column a .fa-times{
+	margin-left:-5px;
+}
 
 <?php 
     $btnAnc = array("blue"      =>array("color1"=>"#ea4335", 
@@ -174,53 +181,8 @@
 
   </style>
 	
-    <!-- Header -->
-    <section class="header" id="header">
-    	<?php if(@$edit==true) { ?>
-    	<button class="btn btn-default btn-sm pull-right margin-right-15 margin-top-70 hidden-xs btn-edit-section" data-id="#header">
-	        <i class="fa fa-cog"></i>
-	    </button>
-	    <?php } ?>
-        <div class="col-md-6 col-md-offset-4 col-sm-7 col-sm-offset-4 col-lg-7 col-lg-offset-3 text-left margin-top-25">
-        	
-        	<div class="col-md-12 padding-5 margin-bottom-10">
-				<!-- <div class="link"><i class="fa fa-tag"></i> Tags</div> -->
-				<?php if(@$element["tags"])
-            			foreach ($element["tags"]  as $key => $tag) { ?>
-            		<span class="badge letter-red bg-white"><?php echo $tag; ?></span>
-            	<?php } ?>
-			</div>
-
-			
-			<h3 class="text-left margin-10 padding-left-15 pull-left">
-				<?php echo @$element["name"]; ?>		
-			</h3>
-			<a href="#co2.page.type.citoyens.id.580827a8da5a3bca128b456b?tpl=onepage" target="_blank" class="font-blackoutM letter-red bold">
-				  <i class="fa fa-external-link"></i> <span class="hidden-xs hidden-sm">Page</span> web
-			</a>
-			<br>
-
-			<!-- <?php //if(@$element["shortDescription"]!="") { ?><i class="fa fa-quote-left pull-left "></i><?php //} ?> -->
-			<div class="col-sm-10 col-md-10">
-				<span class="" id="shortDescriptionHeader"><?php echo @$element["shortDescription"]; ?></span>
-				
-				<?php if(@$edit==true) { ?>
-				<button class=" btn btn-default btn-xs tooltips editElementDetail margin-top-5" data-edit-id="shortDescription" 
-						data-toggle="tooltip" data-placement="right" title="modifier ma description">
-					<i class="fa fa-pencil"></i> en quelques mots
-				</button>
-				<a href="#" id="shortDescription" data-type="wysihtml5" 
-					data-original-title="Décrivez <?php echo @$element["name"]; ?> en quelques mots (140)" 
-					data-emptytext="<?php echo Yii::t("common","Short description",null,Yii::app()->controller->module->id); ?>" 
-					class="editable editable-click" style="max-width: 0px; height:0px;font-size: 0px!important;">
-					<?php echo (!empty($element["shortDescription"])) ? $element["shortDescription"] : ""; ?>
-				</a>
-				<?php } ?>
-			</div>
-	    </div>
-    </section>
-
-    
+    <section class="col-md-12 col-sm-12 col-xs-12 header" id="header"></section>
+		    
 	<div class="col-xs-12 col-sm-4 col-md-4 col-lg-3 margin-top-70 profilSocial">        
 	    <?php 
 	    	$params = array(    "element" => @$element, 
@@ -243,11 +205,56 @@
 	    ?>
 	</div>
         
-	    
-
-    <section class="margin-top-15 padding-15">
-	    <div class="col-md-8 col-md-offset-4 col-sm-8 col-sm-offset-4 col-lg-9 col-lg-offset-3 sub-menu-social">
+    <section class="col-md-8 col-sm-8 col-lg-9  margin-top-15 padding-15">
 	    	
+    	<!-- Header -->
+	    <section class="col-md-12 col-sm-12 col-xs-12" id="social-header">
+	    	<?php if(@$edit==true) { ?>
+	    	<button class="btn btn-default btn-sm pull-right margin-right-15 margin-top-70 hidden-xs btn-edit-section" 
+	    			data-id="#header">
+		        <i class="fa fa-cog"></i>
+		    </button>
+		    <?php } ?>
+	        <div class="col-md-9 col-sm-10 col-lg-10 text-left">
+	        	
+	        	<div class="col-md-12 padding-5 margin-bottom-10">
+					<!-- <div class="link"><i class="fa fa-tag"></i> Tags</div> -->
+					<?php if(@$element["tags"])
+	            			foreach ($element["tags"]  as $key => $tag) { ?>
+	            		<span class="badge letter-red bg-white"><?php echo $tag; ?></span>
+	            	<?php } ?>
+				</div>
+
+				
+				<h3 class="text-left margin-10 padding-left-15 pull-left" id="main-name-element">
+					<?php echo @$element["name"]; ?>		
+				</h3>
+				<a href="#co2.page.type.citoyens.id.580827a8da5a3bca128b456b?tpl=onepage" target="_blank" class="font-blackoutM letter-red bold">
+					  <i class="fa fa-external-link"></i> <span class="hidden-xs hidden-sm">Page</span> web
+				</a>
+				<br>
+
+				<!-- <?php //if(@$element["shortDescription"]!="") { ?><i class="fa fa-quote-left pull-left "></i><?php //} ?> -->
+				<div class="col-sm-10 col-md-10">
+					<span class="" id="shortDescriptionHeader"><?php echo @$element["shortDescription"]; ?></span>
+					
+					<?php if(@$edit==true) { ?>
+					<button class=" btn btn-default btn-xs tooltips editElementDetail margin-top-5" data-edit-id="shortDescription" 
+							data-toggle="tooltip" data-placement="right" title="modifier ma description">
+						<i class="fa fa-pencil"></i> en quelques mots
+					</button>
+					<a href="#" id="shortDescription" data-type="wysihtml5" 
+						data-original-title="Décrivez <?php echo @$element["name"]; ?> en quelques mots (140)" 
+						data-emptytext="<?php echo Yii::t("common","Short description",null,Yii::app()->controller->module->id); ?>" 
+						class="editable editable-click" style="max-width: 0px; height:0px;font-size: 0px!important;">
+						<?php echo (!empty($element["shortDescription"])) ? $element["shortDescription"] : ""; ?>
+					</a>
+					<?php } ?>
+				</div>
+		    </div>
+	    </section>
+
+	    <div class="col-md-12 col-sm-12 col-xs-12 sub-menu-social">
 	    	<div class="btn-group">
 			  <button type="button" class="btn btn-default bold" id="btn-start-newsstream"><i class="fa fa-rss"></i> Fil d'actu<span class="hidden-sm">alité</span>s</button>
 			  <button type="button" class="btn btn-default bold" id="btn-start-mystream"><i class="fa fa-user-circle"></i> Journal</button>
@@ -284,25 +291,12 @@
 			  </button>
 			  <?php } ?>
 			</div>
-			
 		</div>
 
-		<div class="col-md-6 col-md-offset-4 col-sm-8 col-sm-offset-4 col-lg-6 col-lg-offset-3" id="central-container">
+		<div class="col-xs-12 col-sm-12 col-md-10 col-lg-9 margin-top-50" id="central-container">
 		</div>
 
-
-		<style>
-			.notif-column .alert{
-				font-size:12px;
-				border:none!important;
-				border-radius: 0px;
-			}
-			.notif-column a .fa-times{
-				margin-left:-5px;
-			}
-		</style>
-
-		<div class="col-md-2 col-sm-3 col-lg-3 hidden-sm hidden-xs margin-top-15" id="notif-column">
+		<div class="col-md-2 col-lg-3 hidden-sm hidden-xs margin-top-50" id="notif-column">
 			<div class="alert alert-info">
 				<a href="#..."><i class="fa fa-times text-dark padding-5"></i></a> 
 				<span>
@@ -495,10 +489,10 @@ function toogleNotif(open){
 		
 		if(open==false){
 			$('#notif-column').removeClass("col-md-2 col-sm-3 col-lg-3").addClass("hidden");
-			$('#central-container').removeClass("col-md-6 col-sm-8 col-lg-6").addClass("col-md-8 col-sm-8 col-lg-9");
+			$('#central-container').removeClass("col-md-10 col-lg-9").addClass("col-md-12 col-lg-12");
 		}else{
 			$('#notif-column').addClass("col-md-2 col-sm-3 col-lg-3").removeClass("hidden");
-			$('#central-container').addClass("col-md-6 col-sm-8 col-lg-6").removeClass("col-md-8 col-sm-8 col-lg-9");
+			$('#central-container').addClass("col-sm-12 col-md-10 col-lg-9").removeClass("col-md-12 col-lg-12");
 		}
 
 		colNotifOpen = open;

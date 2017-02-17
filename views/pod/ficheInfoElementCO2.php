@@ -283,9 +283,8 @@
 						</button> 
 						<?php } ?>
 
-						<button class="btn btn-default letter-blue open-directory margin-top-5 tooltips" 
-								data-toggle="tooltip" data-placement="right" title="Afficher tout">
-					    	<b>Afficher tout <i class="fa fa-chevron-right"></i></b>
+						<button class="btn btn-default letter-blue open-directory margin-top-5">
+					    	<b><i class="fa fa-connectdevelop"></i> Afficher la communauté <i class="fa fa-chevron-right"></i></b>
 						</button>
 						
 					</div>	

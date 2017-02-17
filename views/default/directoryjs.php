@@ -170,6 +170,12 @@ function setHeaderDirectory(type){
 
   $(".my-main-container").scrollTop(0);
 
+  if(typeof globalTheme != "undefined" && globalTheme=="CO2"){
+    $('html, body').stop().animate({
+          scrollTop: 0
+      }, 800, '');
+  }
+
   Sig.clearMap();
 
 }

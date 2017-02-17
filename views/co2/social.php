@@ -288,7 +288,7 @@
 
 var type = "<?php echo @$type ? $type : 'persons'; ?>";
 
-var TPL = "kgougle";
+//var TPL = "kgougle";
 
 var currentKFormType = "";
 
