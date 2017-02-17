@@ -227,6 +227,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 					<i class='fa fa-download'></i><span class="hidden-sm hidden-xs"></span>
 				</a>
 			<?php } ?>
+			<?php if ($type == Organization::COLLECTION && $edit==true && empty($element["disabled"])) { ?>
+				<a href="javascript:;" id="disableOrga" class="btn btn-sm btn-red tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Disable"); ?>" alt=""><i class="fa fa-trash"></i><span class="hidden-xs"> <?php echo Yii::t("common","Disable")?></span></a>
+			<?php } ?>
 		<?php } ?>
 		<a class="btn btn-sm btn-default tooltips" href="javascript:;" onclick="showDefinition('qrCodeContainerCl',true)" data-toggle="tooltip" data-placement="bottom" title='<?php echo Yii::t("common","Show the QRCode for ").Yii::t("common","this ".$controller); ?>'><i class="fa fa-qrcode"></i> <?php echo Yii::t("common","QR Code") ?></a>
 	</div>
@@ -963,6 +966,31 @@ if($showOdesc == true){
 				    }
 				});
 	    	}
+	    	
+	    });
+
+	    $("#disableOrga").off().on("click", function(){
+	    	
+	    	var url = baseUrl+"/"+moduleId+"/organization/disabled/id/"+contextData.id;
+	    	mylog.log("disableOrga", url);
+    		/*param = new Object;
+	    	param.name = "seePreferences";
+	    	param.value = false;
+	    	param.pk = contextData.id;*/
+			$.ajax({
+		        type: "POST",
+		        url: url,
+		        //data: param,
+		       	dataType: "json",
+		    	success: function(data){
+			    	if(data.result){
+						toastr.success(data.msg);
+			    	}else{
+			    		toastr.error(data.msg);
+			    	}
+			    }
+			});
+	    	
 	    	
 	    });
 
