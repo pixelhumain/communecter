@@ -25,15 +25,29 @@
 				foreach ($pois as $p) { 
 				?>
 					<div style="border-bottom:1px solid #ccc" id="<?php echo "poi".(string)$p["_id"] ?>">
-						<?php 
+						<?php if(@$p["type"]){ ?>
+							<img style="width:40px;margin:5px" class="pull-left " src="<?php echo $this->module->assetsUrl ?>/images/thumb/default_<?php echo $p['type'] ?>.png" /> 
+						<?php  }
+
+						echo '<span class="text-bold text-large"><a href="javascript:toggle(\'.poi'.InflectorHelper::slugify($p["name"]).'\', \'.poiPanel\')">'.$p["name"].'</a></span>';
 						
-						echo '<a href="javascript:toggle(\'.poi'.InflectorHelper::slugify($p["name"]).'\', \'.poiPanel\')">'.$p["name"].'</a>';
-						
-						if(@$p["geo"]){?>
+						if(@$p["geo"])
+						{?>
 						<a href="javascript:showMap(true);"><i class="fa fa-map-marker"></i></a>
 						<?php }?>
-						
+
 						<a href="javascript:collection.add2fav('poi','<?php echo (string)$p["_id"] ?>')" data-id="<?php echo (string)$p["_id"] ?>" class="pull-right poiStar star_poi_<?php echo (string)$p["_id"] ?>"><i class="fa star fa-star-o"></i></a>
+
+						<?php
+						echo "<br/>";
+
+						if( @$p["type"] ){ ?>
+							<span class="text-bold text-large"><?php echo Yii::t("poi", $p["type"], null, Yii::app()->controller->module->id) ?></span><br/>
+						<?php  }?>
+						
+						
+						
+						
 						
 						<?php 
 						$countImages = PHDB::count(Document::COLLECTION, array("type"=>"poi","id" => (string)$p['_id'] ));
@@ -45,7 +59,11 @@
 
 							<?php 
 							if(@$p["description"]){ ?>
-							<div class=""><?php echo $p["description"] ?></div>
+							<div class="">
+							<?php 
+								echo $p["description"];
+								?>
+							</div>
 							<?php  }?>
 
 							<?php 
@@ -80,6 +98,7 @@
 						</div>
 
 					</div>
+					<div class="space5"></div>
 			<?php
 				}
 			}?>

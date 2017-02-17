@@ -2478,23 +2478,21 @@ var elementLib = {
 	},
 	getDynFormObj : function(type, callback,afterLoad, data ){
 		if(typeof type == "object"){
-			specs = type;
-			if( notNull(specs.col) ) uploadObj.type = specs.col;
-    		callback(specs, afterLoad, data);
-		}else if( notNull(typeObj[type]) ){
-			specs = typeObj[type];
-			if( notNull(specs.col) ) uploadObj.type = specs.col;
-    		callback(specs, afterLoad, data);
+			if( notNull(type.col) ) uploadObj.type = type.col;
+    		callback(type, afterLoad, data);
+		}else if( notNull(typeObj[type]) && notNull(typeObj[type].dynForm) ){
+			if( notNull(typeObj[type].col) ) uploadObj.type = typeObj[type].col;
+    		callback(typeObj[type], afterLoad, data);
 		}else {
-			lazyLoad( baseUrl+'/plugins/'+type+'_dynform.js', 
+			lazyLoad( moduleUrl+'/js/dynForm/'+type+'.js', 
 				null,
 				function() { 
-				  	alert(dynForm);
-				  	typeObj[type] = dynForm;
+					mylog.dir(dynForm);
+				  	typeObj[type].dynForm = dynForm;
 					specs = typeObj[type];
-					if( notNull(specs.col) ) uploadObj.type = specs.col;
+					if( notNull(typeObj[type].col) ) uploadObj.type = typeObj[type].col;
     				callback(specs, afterLoad, data);
-			 });
+			});
 		}
 	},
 	openForm : function  (type, afterLoad,data) { 
@@ -2637,6 +2635,7 @@ var elementLib = {
 			DYNFORM SPEC TYPE OBJ
 ********************************** */
 var contextData = null;
+var dynForm = null;
 var uploadObj = {
 	type : null,
 	id : null,
@@ -3081,133 +3080,20 @@ var typeObj = {
 		color:"yellow",
 		icon:"user",
 		lbh : "#person.invite",
-		dynForm : {
-		    jsonSchema : {
-			    title : "Inviter quelqu'un",
-			    icon : "user",
-			    type : "object",
-			    properties : {
-			    	info : {
-		                inputType : "custom",
-		                html:"<p><i class='fa fa-info-circle'></i> Si vous voulez inviter quelqu'un à rejoindre Communecter ...</p>",
-		            },
-		            inviteSearch : typeObjLib.inviteSearch,
-			        /*invitedUserName : typeObjLib.invitedUserName,
-			        invitedUserEmail : typeObjLib.invitedUserEmail,*/
-			        "preferences[publicFields]" : {
-		               inputType : "hidden",
-		                value : []
-		            },
-		            "preferences[privateFields]" : {
-		               inputType : "hidden",
-		                value : []
-		            },
-		            "preferences[isOpenData]" : {
-		               inputType : "hidden",
-		                value : false
-		            },
-			    }
-			}
-		}},
+	},
 	"persons" : {col:"citoyens" , ctrl:"person"},
 	"people" : {col:"citoyens" , ctrl:"person",color:"yellow"},
 	"poi":{ 
 		col:"poi",
 		ctrl:"poi",
 		color:"azure",
-		icon:"info-circle",
-
-		dynForm : {
-		    jsonSchema : {
-			    title : "Formulaire Point d'interet",
-			    icon : "map-marker",
-			    type : "object",
-			    onLoads : {
-			    	//pour creer un subevnt depuis un event existant
-			    	subPoi : function(){
-			    		if(contextData.type && contextData.id )
-			    		{
-		    				$('#ajaxFormModal #parentId').val(contextData.id);
-			    			$("#ajaxFormModal #parentType").val( contextData.type ); 
-			    		}
-			    	}
-			    },
-			    beforeSave : function(){
-			    	
-			    	if( typeof $("#ajaxFormModal #description").code === 'function' )  
-			    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
-			    	if($('#ajaxFormModal #parentId').val() == "" && $('#ajaxFormModal #parentType').val() ){
-				    	$('#ajaxFormModal #parentId').val( userId );
-				    	$("#ajaxFormModal #parentType").val( "citoyens" ); 
-				    }
-			    },
-			    beforeBuild : function(){
-			    	elementLib.setMongoId('poi');
-			    },
-				afterSave : function(){
-					if( $('.fine-uploader-manual-trigger').fineUploader('getUploads').length > 0 )
-				    	$('.fine-uploader-manual-trigger').fineUploader('uploadStoredFiles');
-				    else {
-				    	elementLib.closeForm();	
-				    	loadByHash( location.hash );
-				    }
-			    },
-			    properties : {
-			    	info : {
-		                inputType : "custom",
-		                html:"<p><i class='fa fa-info-circle'></i> Un Point d'interet est un élément assez libre qui peut etre géolocalisé ou pas, qui peut etre rataché à une organisation, un projet ou un évènement.</p>",
-		            },
-		            type : typeObjLib.poiTypes,
-			        name : typeObjLib.name,
-			        image : typeObjLib.image,
-		            description : typeObjLib.description,
-		            location : typeObjLib.location,
-		            tags :typeObjLib.tags,
-		            formshowers : {
-		                inputType : "custom",
-		                html: "<a class='btn btn-default text-dark w100p' href='javascript:;' onclick='$(\".urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options (urls)</a>",
-		            },
-		            urls : typeObjLib.urlsOptionnel,
-		            parentId : typeObjLib.hidden,
-		            parentType : typeObjLib.hidden,
-			    }
-			}
-		}},
+		icon:"info-circle"},
 	"citoyen" : {col:"citoyens" , ctrl:"person"},
 	"citoyens" : {col:"citoyens" , ctrl:"person",color:"yellow",icon:"user"},
 	"siteurl":{ 
 		col:"siteurl",
 		ctrl:"siteurl",
-		dynForm : {
-		    jsonSchema : {
-			    title : "Point of interest Form",
-			    icon : "map-marker",
-			    type : "object",
-			    onLoads : {
-			    	//pour creer un subevnt depuis un event existant
-			    	subPoi : function(){
-			    		if(contextData.type && contextData.id ){
-		    				$('#ajaxFormModal #parentId').val(contextData.id);
-			    			$("#ajaxFormModal #parentType").val( contextData.type ); 
-			    		}
-			    	}
-			    },
-			    properties : {
-			    	info : {
-		                inputType : "custom",
-		                html:"<p><i class='fa fa-info-circle'></i> Une url.</p>",
-		            },
-		            urls : typeObjLib.urls,
-		            type : typeObjLib.poiTypes,
-			        name :  typeObjLib.name,
-		            description : typeObjLib.descriptionOptionnel ,
-		            location : typeObjLib.location,
-		            tags : typeObjLib.tags,
-		            parentId :typeObjLib.hidden,
-		            parentType : typeObjLib.hidden,
-			    }
-			}
-		}},
+	},
 	"organization" : { 
 		col:"organizations", 
 		ctrl:"organization", 
@@ -3215,64 +3101,7 @@ var typeObj = {
 		titleClass : "bg-green",
 		color:"green",
 		bgClass : "bgOrga",
-		dynForm : {
-		    jsonSchema : {
-			    title : trad.addOrganization,
-			    icon : "group",
-			    type : "object",
-			    beforeBuild : function(){
-			    	elementLib.setMongoId('organizations');
-			    },
-			    beforeSave : function(){
-			    	if (typeof $("#ajaxFormModal #description").code === 'function' ) 
-			    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
-			    },
-			    afterSave : function(){
-					if( $('.fine-uploader-manual-trigger').fineUploader('getUploads').length > 0 )
-				    	$('.fine-uploader-manual-trigger').fineUploader('uploadStoredFiles');
-				    else {
-				    	elementLib.closeForm();
-				    	loadByHash( location.hash );	
-				    }
-			    },
-			    properties : {
-			    	info : {
-		                inputType : "custom",
-		                html:"<p><i class='fa fa-info-circle'></i> Si vous voulez créer une nouvelle organisation de façon à le rendre plus visible : c'est le bon endroit !!<br>Vous pouvez ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
-		            },
-			        name : typeObjLib.nameOrga,
-			        similarLink : typeObjLib.similarLink,
-			        type : typeObjLib.typeOrga,
-		            role : typeObjLib.role,
-		            tags : typeObjLib.tags,
-		            location : typeObjLib.location,
-			        image : typeObjLib.image( "#organization.detail.id."+uploadObj.id ),
-		            formshowers : {
-		                inputType : "custom",
-		                html:
-						"<a class='btn btn-default text-dark w100p' href='javascript:;' onclick='$(\".emailtext,.descriptiontextarea,.urltext\").slideToggle();activateMarkdown(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (email, desc, urls, telephone)</a>",
-		            },
-		            email : typeObjLib.emailOptionnel,
-			        description : typeObjLib.description,
-		            url : typeObjLib.url,
-			        /*telephone : {
-			        	placeholder : "Téléphne",
-			            inputType : "text",
-			            init : function(){
-			            	$(".telephonetext").css("display","none");
-			            }
-			        },*/
-		            "preferences[publicFields]" : typeObjLib.hiddenArray,
-		            "preferences[privateFields]" : typeObjLib.hiddenArray,
-		            "preferences[isOpenData]" : typeObjLib.hiddenTrue,
-		            "preferences[isOpenEdition]" : typeObjLib.hiddenTrue
-			    }
-			}
-		}
-		/*form : {
-			url : "/"+moduleId+"/organization/addorganizationform",
-			title : "Ajouter une Organisation"
-		}*/	},
+	},
 	"organizations" : {col:"organizations",ctrl:"organization",color:"green",icon:"users"},
 	"event" : {
 		col:"events",
@@ -3280,184 +3109,8 @@ var typeObj = {
 		icon : "calendar",
 		titleClass : "bg-orange",
 		color:"orange",
-		bgClass : "bgEvent",
-		dynForm : {
-		    jsonSchema : {
-			    title : trad.addEvent,
-			    icon : "calendar",
-			    type : "object",
-			    onLoads : {
-			    	//pour creer un subevnt depuis un event existant
-			    	"subEvent" : function(){
-			    		//alert(contextData.type);
-			    		if(contextData.type == "events"){
-			    			$("#ajaxFormModal #parentId").removeClass('hidden');
-			    		
-		    				if( $('#ajaxFormModal #parentId > optgroup > option[value="'+contextData.id+'"]').length == 0 )
-			    				$('#ajaxFormModal #parentId > optgroup[label="events"]').prepend('<option value="'+contextData.id+'" selected>Fait parti de : '+contextData.name+'</option>');
-			    			else if ( contextData && contextData.id ){
-				    			$("#ajaxFormModal #parentId").val( contextData.id );
-			    			}
-			    			
-			    			if( contextData && contextData.type )
-			    				$("#ajaxFormModal #parentType").val( contextData.type ); 
-
-			    			if(contextData.startDate && contextData.endDate ){
-			    				$("#ajaxFormModal").after("<input type='hidden' id='startDateParent' value='"+contextData.startDate+"'/>"+
-			    										  "<input type='hidden' id='endDateParent' value='"+contextData.endDate+"'/>");
-			    				$("#ajaxFormModal #startDate").after("<span id='parentstartDate'><i class='fa fa-warning'></i> date début du parent : "+moment( contextData.startDate).format('DD/MM/YYYY HH:mm')+"</span>");
-			    				$("#ajaxFormModal #endDate").after("<span id='parentendDate'><i class='fa fa-warning'></i> date de fin du parent : "+moment( contextData.endDate).format('DD/MM/YYYY HH:mm')+"</span>");
-			    			}
-			    			//alert($("#ajaxFormModal #parentId").val() +" | "+$("#ajaxFormModal #parentType").val());
-			    		}
-			    		else {
-				    		if( $('#ajaxFormModal #organizerId > optgroup > option[value="'+contextData.id+'"]').length == 0 )
-			    				$('#ajaxFormModal #organizerId').prepend('<option data-type="'+typeObj[contextData.type].ctrl+'" value="'+contextData.id+'" selected>Organisé par : '+contextData.name+'</option>');
-			    			else if( contextData && contextData.id )
-				    			$("#ajaxFormModal #organizerId").val( contextData.id );
-			    			if( contextData && contextData.type )
-			    				$("#ajaxFormModal #organizerType").val( contextData.type);
-			    			//alert($("#ajaxFormModal #organizerId").val() +" | "+$("#ajaxFormModal #organizerType").val());
-			    		}
-			    	}
-			    },
-			    beforeBuild : function(){
-			    	elementLib.setMongoId('events');
-			    },
-			    afterSave : function(){
-					if( $('.fine-uploader-manual-trigger').fineUploader('getUploads').length > 0 )
-				    	$('.fine-uploader-manual-trigger').fineUploader('uploadStoredFiles');
-				    else {
-				    	elementLib.closeForm();
-				    	loadByHash( location.hash );	
-				    }
-			    },
-			    beforeSave : function(){
-			    	//alert("onBeforeSave");
-			    	
-			    	if( !$("#ajaxFormModal #allDay").val())
-			    		$("#ajaxFormModal #allDay").val(false);
-			    	if( typeof $("#ajaxFormModal #description").code === 'function' )
-			    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
-			    	//mylog.log($("#ajaxFormModal #startDate").val(),moment( $("#ajaxFormModal #startDate").val()).format('YYYY/MM/DD HH:mm'));
-			    	
-			    	//Transform datetime before sending
-			    	var allDay = $("#ajaxFormModal #allDay").is(':checked');
-			    	var dateformat = "DD/MM/YYYY";
-			    	if (! allDay) 
-			    		var dateformat = "DD/MM/YYYY HH:mm"
-			    	$("#ajaxFormModal #startDate").val( moment( $("#ajaxFormModal #startDate").val(), dateformat).format());
-					$("#ajaxFormModal #endDate").val( moment( $("#ajaxFormModal #endDate").val(), dateformat).format());
-					//mylog.log($("#ajaxFormModal #startDate").val());
-			    },
-			    properties : {
-			    	info : {
-		                inputType : "custom",
-		                html:"<p><i class='fa fa-info-circle'></i> Si vous voulez créer un nouvel évènement de façon à le rendre plus visible : c'est le bon endroit !!<br>Vous pouvez inviter des participants, planifier des sous évènements, publier des actus lors de l'évènement...</p>",
-		            },
-		            name : typeObjLib.nameEvent,
-			        similarLink : typeObjLib.similarLink,
-			        organizerId :{
-			        	rules : { required : true },
-		            	inputType : "select",
-		            	placeholder : "Qui organise ?",
-		            	rules : { required : true },
-		            	options : firstOptions(),
-		            	"groupOptions" : myAdminList( ["organizations","projects"] ),
-			            init : function(){
-			            	$("#ajaxFormModal #organizerId").off().on("change",function(){
-			            		
-			            		organizerId = $(this).val();
-			            		if(organizerId == "dontKnow" )
-			            			organizerType = "dontKnow";
-			            		else if( $('#organizerId').find(':selected').data('type') && typeObj[$('#organizerId').find(':selected').data('type')] )
-			            			organizerType = typeObj[$('#organizerId').find(':selected').data('type')].col;
-			            		else
-			            			organizerType = typeObj["person"].col;
-
-			            		mylog.warn( "organizer",organizerId,organizerType );
-			            		$("#ajaxFormModal #organizerType ").val( organizerType );
-			            	});
-			            }
-		            },
-			        organizerType : typeObjLib.hidden,
-			        parentId :{
-		            	inputType : "select",
-		            	"class" : "hidden",
-		            	placeholder : "Fait parti d'un évènement ?",
-		            	options : {
-		            		"":"Pas de Parent"
-		            	},
-		            	"groupOptions" : myAdminList( ["events"] ),
-		            	init : function(){
-			            	$("#ajaxFormModal #parentId ").off().on("change",function(){
-
-			            		parentId = $(this).val();
-			            		startDateParent = "2000/01/01 00:00";
-			            		endDateParent = "2100/01/01 00:00";
-			            		if( parentId != "" ){
-			            			//Search in the current context
-			            			if (typeof contextData != "undefined") {
-			            				if (contextData.type == "events" && contextData.id == parentId) {
-			            					mylog.warn("event found in contextData : ",contextData.startDate+"|"+contextData.endDate);
-				            				startDateParent = contextData.startDate;
-				            				endDateParent = contextData.endDate
-			            				}
-			            			}
-			            			//Search in my contacts list
-			            			if(typeof myContacts != "undefined") {
-				            			$.each(myContacts.events,function (i,evObj) { 
-				            				if( evObj["_id"]["$id"] == parentId){
-				            					mylog.warn("event found in my contact list: ",evObj.startDate+"|"+evObj.endDate);
-				            					startDateParent = evObj.startDate;
-				            					endDateParent = evObj.endDate
-					    					}
-				            			});
-				            		}
-				            		$("#startDateParent").val(startDateParent);
-				            		$("#endDateParent").val(endDateParent);
-				            		$("#parentstartDate").html("<i class='fa fa-warning'></i> Date de début de l'événement parent : "+moment( startDateParent ).format('DD/MM/YYYY HH:mm'));
-					    			$("#parentendDate").html("<i class='fa fa-warning'></i> Date de fin de l'événement parent : "+moment( endDateParent ).format('DD/MM/YYYY HH:mm'));
-			            		}
-			            	});
-			            }
-		            },
-		            parentType : typeObjLib.hidden,
-			        type : typeObjLib.typeEvent,
-			        image : typeObjLib.image( "#event.detail.id."+uploadObj.id ),
-		            allDay : typeObjLib.allDay,
-		            startDateInput : typeObjLib.startDateInput,
-		            endDateInput : typeObjLib.endDateInput,
-		            location : typeObjLib.location,
-		            tags : typeObjLib.tags,
-		            
-		            /*public : {
-		            	inputType : "hidden",
-		            	"switch" : {
-		            		"onText" : "Privé",
-		            		"offText" : "Public",
-		            		"labelText":"Type"
-		            	}
-		            },*/
-		            formshowers : {
-		                inputType : "custom",
-		                html:"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".descriptionwysiwyg,.urltext\").slideToggle();activateSummernote(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (desc, urls)</a>",
-		            },
-			        description : typeObjLib.descriptionOptionnel,
-		            url : typeObjLib.urlOptionnel,
-		            "preferences[publicFields]" : typeObjLib.hiddenArray,
-		            "preferences[privateFields]" : typeObjLib.hiddenArray,
-		            "preferences[isOpenData]" :  typeObjLib.hiddenTrue,
-		            "preferences[isOpenEdition]" :  typeObjLib.hiddenTrue,
-		            "startDate" :  typeObjLib.hidden,
-		            "endDate" :  typeObjLib.hidden
-			    }
-			}
-		}
-		/*form : {
-			url:"/"+moduleId+"/event/eventsv",
-			title : "Ajouter un évènement"
-		}*/	},
+		bgClass : "bgEvent"
+	},
 	"events" : {col:"events",ctrl:"event",icon : "calendar",color:"orange"},
 	"project" : {
 		col:"projects",
@@ -3465,58 +3118,7 @@ var typeObj = {
 		icon : "lightbulb-o",
 		color : "purple",
 		titleClass : "bg-purple",
-		bgClass : "bgProject",
-		dynForm : {
-		    jsonSchema : {
-			    title : trad.addProject,
-			    icon : "lightbulb-o",
-			    type : "object",
-			    onLoads : {
-			    	//pour creer un subevnt depuis un event existant
-			    	"sub" : function(){
-			    			$("#ajaxFormModal #parentId").val( contextData.id );
-			    		 	$("#ajaxFormModal #parentType").val( contextData.type ); 
-			    		 	$("#ajax-modal-modal-title").html($("#ajax-modal-modal-title").html()+" sur "+contextData.name );
-			    	}
-			    },
-			    beforeBuild : function(){
-			    	elementLib.setMongoId('projects');
-			    },
-			    afterSave : function(){
-					if( $('.fine-uploader-manual-trigger').fineUploader('getUploads').length > 0 )
-				    	$('.fine-uploader-manual-trigger').fineUploader('uploadStoredFiles');
-				    else {
-				    	elementLib.closeForm();
-				    	loadByHash( location.hash );	
-				    }
-			    },
-			    beforeSave : function(){
-			    	if( typeof $("#ajaxFormModal #description").code === 'function' ) 
-			    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
-			    },
-			    properties : {
-			    	info : {
-		                inputType : "custom",
-		                html:"<p><i class='fa fa-info-circle'></i> Si vous voulez créer un nouveau projet de façon à le rendre plus visible : c'est le bon endroit !!<br>Vous pouvez ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
-		            },
-			        name : typeObjLib.nameProject,
-		            parentType : typeObjLib.hidden,
-		            image : typeObjLib.image("#project.detail.id."+uploadObj.id),
-		            location : typeObjLib.location,
-		            tags :typeObjLib.tags,
-		            formshowers : {
-		                inputType : "custom",
-		                html:"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".descriptionwysiwyg,.urltext\").slideToggle();activateSummernote(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (desc, urls)</a>",
-		            },
-			        description : typeObjLib.descriptionOptionnel,
-		            url : typeObjLib.urlOptionnel,
-		            "preferences[publicFields]" : typeObjLib.hiddenArray,
-		            "preferences[privateFields]" :typeObjLib.hiddenArray,
-		            "preferences[isOpenData]" : typeObjLib.hiddenTrue,
-		            "preferences[isOpenEdition]" : typeObjLib.hiddenTrue
-			    }
-			}
-		}
+		bgClass : "bgProject"
 	},
 	"projects" : {col:"projects",ctrl:"project",color:"purple",icon:"lightbulb-o"},
 	"city" : {col:"cities",ctrl:"city"},
@@ -3525,71 +3127,7 @@ var typeObj = {
 		ctrl:"city", 
 		titleClass : "bg-red", 
 		icon : "university",
-		color:"red",
-		dynForm : {
-			jsonSchema : {
-				title : "Modifier une ville",
-				icon : "university",
-				/*onLoads : {
-		    	//pour creer un subevnt depuis un event existant
-			    	"sub" : function(){
-			    		$("#ajaxFormModal #room").val( contextData.id );
-		    		 	$("#ajax-modal-modal-title").html($("#ajax-modal-modal-title").html()+" sur "+contextData.name );
-			    	}
-			    },*/
-				properties : {
-					info : {
-						"inputType" : "custom",
-						"html":"<p><i class='fa fa-info-circle'></i> Modifier une ville</p>",
-					},
-					id :typeObjLib.hidden,
-					insee :{
-						"inputType" : "hidden",
-						"rules" : { "required" : true }
-					},
-					name : typeObjLib.name,
-					country :{
-						"inputType" : "hidden",
-						"rules" : { "required" : true }
-					},
-					dep :{
-						"inputType" : "text",
-						"placeholder" : "Numéro du département"
-					},
-					depName :{
-						"inputType" : "text",
-						"placeholder" : "Nom du département"
-					},
-					region :{
-						"inputType" : "text",
-						"placeholder" : "Numéro de la région"
-					},
-					regionName :{
-						"inputType" : "text",
-						"placeholder" : "Nom de la région"
-					},
-					"latitude" : {
-						"inputType" : "text",
-						"placeholder" : "Nom de la région"
-					},
-					"longitude" : {
-						"inputType" : "text",
-						"placeholder" : "Nom de la région"
-					},
-					postalcode : {
-						inputType : "postalcode"
-					},
-					osmid :{
-						"inputType" : "text",
-						"placeholder" : "OSM id"
-					},
-					wikidata :{
-						"inputType" : "text",
-						"placeholder" : "wikidata"
-					}
-				}
-			}
-		}
+		color:"red"
 	},
 	"entry" : {
 		col:"surveys",
@@ -3598,97 +3136,8 @@ var typeObj = {
 		bgClass : "bgDDA",
 		icon : "gavel",
 		color : "azure",
-		saveUrl : baseUrl+"/" + moduleId + "/survey/saveSession",
-		dynForm : {
-		    jsonSchema : {
-			    title : "Ajouter une proposition",
-			    icon : "gavel",
-			    type : "object",
-			    onLoads : {
-			    	//pour creer un subevnt depuis un event existant
-			    	"sub" : function(){
-		    			$("#ajaxFormModal #survey").val( contextData.id );
-		    		 	$("#ajax-modal-modal-title").html($("#ajax-modal-modal-title").html()+" sur "+contextData.name );
-			    	}
-			    },
-			    beforeSave : function(){
-			    	
-			    	if( typeof $("#ajaxFormModal #message").code === 'function' )  
-			    		$("#ajaxFormModal #message").val( $("#ajaxFormModal #message").code() );
-			    },
-			    properties : {
-			    	info : {
-		                inputType : "custom",
-		                html:"<p><i class='fa fa-info-circle'></i> Une proposition sert à discuter et demander l'avis d'une communauté sur une idée ou une question donnée</p>",
-		            },
-			        id : typeObjLib.hidden,
-		            survey :{
-		            	inputType : "select",
-		            	placeholder : "Choisir une thématique ?",
-		            	init : function(){
-		            		if( userId )
-		            		{
-		            			/*filling the seclect*/
-			            		if(notNull(window.myVotesList)){
-			            			html = buildSelectGroupOptions( window.myVotesList);
-			            			$("#survey").append(html); 
-			            		} else {
-			            			getAjax( null , baseUrl+"/" + moduleId + "/rooms/index/type/citoyens/id/"+userId+"/view/data/fields/votes" , function(data){
-			            			    window.myVotesList = {};
-			            			    $.each( data.votes , function( k,v ) 
-			            			    { 
-			            			    	parentName = "";
-				            			    if(!window.myVotesList[ v.parentType]){
-				            			    	var label = ( v.parentType == "cities" && cpCommunexion && v.parentId.indexOf(cpCommunexion) ) ? cityNameCommunexion : v.parentType;
-				            			    	window.myVotesList[ v.parentType] = {"label":label};
-				            			    	window.myVotesList[ v.parentType].options = {}
-				            			    } /*else{
-				            			    	//if(notNull(myContactsById[v.parentType]) && notNull(myContactsById[v.parentType][v['_id']['$id']]))
-				            			    	//parentName = myContactsById[v.parentType][v['_id']['$id']].name;
-				            			    }*/
-			            			    	window.myVotesList[ v.parentType].options[v['_id']['$id'] ] = v.name+parentName; 
-			            			    }); 
-			            			    //run through myContacts to fill parent names 
-			            			    mylog.dir(window.myVotesList);
-			            			    
-			            			    html = buildSelectGroupOptions(window.myVotesList);
-										$("#survey").append(html);
-										if(contextData && contextData.id)
-											$("#ajaxFormModal #survey").val( contextData.id );
-								    } );
-			            		}
-			            		/*$("#survey").change(function() { 
-			            			mylog.dir( $(this).val().split("_"));
-			            		});*/
-
-		            		}
-		            	},
-		            	custom : "<br/><span class='text-small'>Une thématique est un espace de décision lié à une ville, une organisation ou un projet <br/>Vous pouvez créer des espaces coopératifs sur votre commune, organisation et projet</span>"
-		            },
-		            name : typeObjLib.name,
-		            message : typeObjLib.description,
-		            dateEnd : typeObjLib.dateEnd,
-		            tags : typeObjLib.tags,
-		            formshowers : {
-		                inputType : "custom",
-		                html:"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options ( urls)</a>",
-		            },
-		            urls : typeObjLib.urls,
-		            email:{
-		            	inputType : "hidden",
-		            	value : (userId!=null && userConnected!=null) ? userConnected.email : ""
-		            },
-		            organizer:{
-		            	inputType : "hidden",
-		            	value : "currentUser"
-		            },
-		            type : {
-		            	inputType : "hidden",
-		            	value : "entry"
-		            }
-			    }
-			}
-		} },
+		saveUrl : baseUrl+"/" + moduleId + "/survey/saveSession"
+	},
 	"vote" : {col:"actionRooms",ctrl:"survey"},
 	"survey" : {col:"actionRooms",ctrl:"survey",color:"lightblue2",icon:"cog"},
 	"action" : {
@@ -3699,106 +3148,7 @@ var typeObj = {
 		icon : "cogs",
 		color : "lightblue2",
 		saveUrl : baseUrl+"/" + moduleId + "/rooms/saveaction",
-		dynForm : {
-		    jsonSchema : {
-			    title : "Ajouter une action",
-			    icon : "gavel",
-			    type : "object",
-			    onLoads : {
-			    	//pour creer un subevnt depuis un event existant
-			    	"sub" : function(){
-			    		$("#ajaxFormModal #room").val( contextData.id );
-		    		 	$("#ajax-modal-modal-title").html($("#ajax-modal-modal-title").html()+" sur "+contextData.name );
-			    	}
-			    },
-			    beforeSave : function(){
-			    	if( typeof $("#ajaxFormModal #message").code === 'function' ) 
-			    		$("#ajaxFormModal #message").val( $("#ajaxFormModal #message").code() );
-			    },
-			    properties : {
-			    	info : {
-		                inputType : "custom",
-		                html:"<p><i class='fa fa-info-circle'></i> Une Action permet de faire avancer votre projet ou le fonctionnement de votre association</p>",
-		            },
-			        id :{
-		              inputType : "hidden",
-		              value : ""
-		            },
-		            room :{
-		            	inputType : "select",
-		            	placeholder : "Choisir une thématique ?",
-		            	init : function(){
-		            		if( userId )
-		            		{
-		            			/*filling the seclect*/
-			            		if(notNull(window.myActionsList)){
-			            			html = buildSelectGroupOptions( window.myActionsList);
-			            			$("#room").append(html); 
-			            		} else {
-			            			getAjax( null , baseUrl+"/" + moduleId + "/rooms/index/type/citoyens/id/"+userId+"/view/data/fields/actions" , function(data){
-			            			    window.myActionsList = {};
-			            			    $.each( data.actions , function( k,v ) 
-			            			    { mylog.log(v.parentType,v.parentId);
-			            			    	if(v.parentType){
-					            			    if( !window.myActionsList[ v.parentType] ){
-													var label = ( v.parentType == "cities" && cpCommunexion && v.parentId.indexOf(cpCommunexion) ) ? cityNameCommunexion : "Thématique des " + trad[v.parentType];
-					            			    	window.myActionsList[ v.parentType] = {"label":label};
-					            			    	window.myActionsList[ v.parentType].options = {};
-					            			    }
-				            			    	window.myActionsList[v.parentType].options[v['_id']['$id'] ] = v.name; 
-				            			    }
-			            			    }); 
-			            			    mylog.dir(window.myActionsList);
-			            			    html = buildSelectGroupOptions(window.myActionsList);
-										$("#room").append(html);
-										if(contextData && contextData.id)
-											$("#ajaxFormModal #room").val( contextData.id );
-								    } );
-			            		}
-		            		}
-		            	},
-		            	custom : "<br/><span class='text-small'>Choisir l'espace où s'ajoutera votre action parmi vos organisations et projets<br/>Vous pouvez créer des espaces coopératifs sur votre commune, organisation et projet  </span>"
-		            },
-		            name : typeObjLib.name,
-		            message : typeObjLib.description,
-		            startDate :{
-		              inputType : "date",
-		              placeholder : "Date de début"
-		            },
-		            dateEnd :{
-		              inputType : "date",
-		              placeholder : "Date de fin"
-		            },
-
-		         	tags : typeObjLib.tags,
-		            formshowers : {
-		                inputType : "custom",
-		                html:"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options (urls)</a>",
-		            },
-		            urls : typeObjLib.urls,
-		            email:{
-		            	inputType : "hidden",
-		            	value : (userId!=null && userConnected != null) ? userConnected.email : ""
-		            },
-		            organizer:{
-		            	inputType : "hidden",
-		            	value : "currentUser"
-		            },
-		            "type" : {
-		            	inputType : "hidden",
-		            	value : "action"
-		            },
-		            parentId :{
-		            	inputType : "hidden",
-		            	value : userId	
-		            },
-		            parentType : {
-			            inputType : "hidden",
-			            value : "citoyens"
-			        },
-			    }
-			}
-		} },
+	},
 	"actions" : {col:"actions",color:"azure",ctrl:"room",icon:"cog"},
 	"rooms" : {col:"actions",ctrl:"room",color:"azure",icon:"gavel"},
 	"discuss" : {col:"actionRooms",ctrl:"room"},
@@ -3810,146 +3160,13 @@ var typeObj = {
 		color:"blue",
 		icon:"user",
 		saveUrl : baseUrl+"/" + moduleId + "/element/saveContact",
-		dynForm : {
-		    jsonSchema : {
-			    title : "Ajouter un contact",
-			    icon : "user",
-			    type : "object",
-			    onLoads : {
-			    	//pour creer un contact depuis un element existant
-			    	"contact" : function(){
-			    		if( contextData && contextData.id )
-	    					$("#ajaxFormModal #parentId").val( contextData.id );
-		    			if( contextData && contextData.type )
-		    				$("#ajaxFormModal #parentType").val( contextData.type ); 
-					}
-			    },
-			    afterSave : function(){
-			    	elementLib.closeForm();	
-			    	loadByHash(location.hash);
-			    },
-			    properties : {
-			    	info : {
-		                inputType : "custom",
-		                html:"<p><i class='fa fa-info-circle'></i> Si vous voulez ajouter un nouveau contact de façon à faciliter les échanges</p>",
-		            },
-		            name : typeObjLib.namePerson,
-			        similarLink : typeObjLib.similarLink,
-			        email : typeObjLib.email,
-			        role :{
-		              inputType : "text",
-		              placeholder : "Role du contact"
-		            },
-			        phone :{
-		              inputType : "text",
-		              placeholder : "téléphone du contact"
-		            },
-		            idContact : typeObjLib.hidden,
-		            parentId :typeObjLib.hidden,
-		            parentType : typeObjLib.hidden,
-			        index : typeObjLib.hidden
-			    }
-			}
-		}},
+		},
 	"classified":{ 
 		col:"classified",
 		ctrl:"classified",
 		color:"azure",
 		icon:"bullhorn",
-
-		dynForm : {
-		    jsonSchema : {
-			    title : "Publier une annonce",
-			    icon : "bullhorn",
-			    type : "object",	    
-			    onLoads : {
-			    	//pour creer un subevnt depuis un event existant
-			    	subPoi : function(){
-			    		if(contextData.type && contextData.id ){
-		    				$('#ajaxFormModal #parentId').val(contextData.id);
-			    			$("#ajaxFormModal #parentType").val( contextData.type ); 
-			    		}
-			    		
-			    	}/*,
-			    	loadData : function(data){
-				    	mylog.warn("--------------- loadData ---------------------",data);
-				    	$('#ajaxFormModal #name').val(data.name);
-				    	$('#ajaxFormModal #type').val(data.type);
-				    	$('#ajaxFormModal #parentId').val(data.parentId);
-			    		$("#ajaxFormModal #parentType").val( data.parentType ); 
-				    },*/
-			    },
-			    beforeSave : function(){
-			    	var tagAndTypes = $("#ajaxFormModal #tags").val();
-			    	if( $("#ajaxFormModal #type").val() )
-			    		tagAndTypes += ","+$("#ajaxFormModal #type").val();
-			    	if( $("#ajaxFormModal #subtype").val() )
-			    		tagAndTypes += ","+$("#ajaxFormModal #subtype").val();
-			    	$("#ajaxFormModal #tags").val( tagAndTypes );
-			    	
-			    	if( typeof $("#ajaxFormModal #description").code === 'function' )  
-			    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
-			    	if($('#ajaxFormModal #parentId').val() == "" && $('#ajaxFormModal #parentType').val() ){
-				    	$('#ajaxFormModal #parentId').val(userId);
-				    	$("#ajaxFormModal #parentType").val( "citoyens" ); 
-				    }
-			    },
-			    properties : {
-			    	info : {
-		                inputType : "custom",
-		                html:"",//<p><i class='fa fa-info-circle'></i> Une Annonce est un élément assez libre qui peut etre géolocalisé ou pas, qui peut etre rataché à tous les éléments.</p>",
-		            },
-			        name : typeObjLib.name,
-		            description : typeObjLib.description,
-		            location : typeObjLib.location,
-		            typeBtn :{
-		                label : "Type d'annonce",
-			            inputType : "tagList",
-		                placeholder : "Type d'annonce",
-		                list : classifiedTypes,
-		                init : function(){
-			            	$(".typeBtn").off().on("click",function()
-			            	{
-			            		$(".typeBtn").removeClass("active btn-dark-blue text-white");
-			            		$( "."+$(this).data('tag')+"Btn" ).toggleClass("active btn-dark-blue text-white");
-			            		$("#ajaxFormModal #type").val( ( $(this).hasClass('active') ) ? $(this).data('tag') : "" );
-
-			            		$("#ajaxFormModal #subtype").val("");
-			            		fieldHTML = "";
-			            		$.each(classifiedSubTypes[ $(this).data('tag') ].subType, function(k,v) { 
-			            			fieldHTML += '<a class="btn btn-link tagListEl subtypeBtn '+k+'Btn " data-tag="'+k+'" href="javascript:;">'+v+'</a>';
-			            		});
-			            		$(".subtypeSection").html(fieldHTML);
-
-			            		$(".subtypeBtn").off().on("click",function()
-				            	{
-				            		$( "."+$(this).data('tag')+"Btn" ).toggleClass("btn-link text-white").toggleClass("active  btn-dark-blue text-white");
-				            		$("#ajaxFormModal #subtype").val( ( $(this).hasClass('active') ) ? $(this).data('tag') : "" );
-								});
-			            	});
-			            }
-		            },
-		            type : typeObjLib.hidden,
-		            subtypeSection : {
-		                inputType : "custom",
-		                html:"<div class='subtypeSection'></div>",
-		            },
-		            subtype : typeObjLib.hidden,
-		            // tags :{
-		            //     inputType : "tags",
-		            //     placeholder : "Mots clefs",
-		            //     values : tagsList
-		            // },
-		            formshowers : {
-		                inputType : "custom",
-		                html: "<a class='btn btn-default text-dark w100p' href='javascript:;' onclick='$(\".urlsarray\").slideToggle()'><i class='fa fa-plus'></i> options (urls)</a>",
-		            },
-		            urls : typeObjLib.urls,
-		            parentId : typeObjLib.hidden,
-		            parentType : typeObjLib.hidden,
-			    }
-			}
-		}},
+	},
 	"url" : {
 		col : "url" , 
 		ctrl : "url",
@@ -3958,56 +3175,7 @@ var typeObj = {
 		color:"blue",
 		icon:"user",
 		saveUrl : baseUrl+"/" + moduleId + "/element/saveurl",
-		dynForm : {
-		    jsonSchema : {
-			    title : "Ajouter une url",
-			    icon : "user",
-			    type : "object",
-			    onLoads : {
-			    	//pour creer un contact depuis un element existant
-			    	"parentUrl" : function(){
-			    		if( contextData && contextData.id )
-	    					$("#ajaxFormModal #parentId").val( contextData.id );
-		    			if( contextData && contextData.type )
-		    				$("#ajaxFormModal #parentType").val( contextData.type ); 
-					}
-			    },
-			    afterSave : function(){
-			    	loadByHash(location.hash);
-			    },
-			    properties : {
-			    	info : {
-		                inputType : "custom",
-		                html:"<p><i class='fa fa-info-circle'></i> Si vous voulez ajouter un nouveau contact de façon a facilité les échanges</p>",
-		            },
-		            titre : {
-			        	placeholder : "Titre de l'URL",
-			        	labelText:"Nom",
-			            inputType : "text",
-		            	rules : { required : true },
-			        },
-			        url :{
-		              	inputType : "text",
-		              	placeholder : "URL du lien",
-		            	rules : { required : true },
-		            },
-		            type :{
-		            	inputType : "select",
-		            	placeholder : "Type de l'URL",
-		            	options : urlTypes,
-		            	rules : { required : true },
-		            },
-		            parentId :{
-		            	inputType : "hidden",
-		            	rules : { required : true },
-		            },
-		            parentType : {
-			            inputType : "hidden",
-		            	rules : { required : true },
-			        }
-			    }
-			}
-		}},
+	},
 };
 
 var documents = {
