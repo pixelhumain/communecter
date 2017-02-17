@@ -1181,7 +1181,7 @@ if($showOdesc == true){
 		});
 
 		$("#btn-update-contact").off().on( "click", function(){
-
+			mylog.log("---------------btn-update-contact---------------------");
 			var properties = {
 				email : typeObjLib["email"],
 				url : typeObjLib["url"],
@@ -1199,18 +1199,18 @@ if($showOdesc == true){
 		        id : contextData.id,
 		        typeElement : contextData.type
 			};
-			if($("#contentGeneralInfos #email").html() != "") 
-				dataUpdate.email = $("#contentGeneralInfos #email").html();
-			if($("#contentGeneralInfos #url").html() != "") 
-				dataUpdate.url = $("#contentGeneralInfos #url").html();
-			if($("#contentGeneralInfos #birthDate").html().length > 0)
-				dataUpdate.birthDate = $("#contentGeneralInfos #birthDate").html();
-			if($("#contentGeneralInfos #fixe").html().length > 0)
-				dataUpdate.fixe = $("#contentGeneralInfos #fixe").html();
-			if($("#contentGeneralInfos #mobile").html().length > 0)
-				dataUpdate.mobile = $("#contentGeneralInfos #mobile").html();
-			if($("#contentGeneralInfos #fax").html().length > 0)
-				dataUpdate.fax = $("#contentGeneralInfos #fax").html();
+			if(contextData.email.length > 0)
+				dataUpdate.email = contextData.email;
+			if(contextData.url.length > 0)
+				dataUpdate.url = contextData.url;
+			if(typeof contextData.birthDate != "undefined" && contextData.birthDate.length > 0)
+				dataUpdate.birthDate = contextData.birthDate;
+			if(contextData.fixe.length > 0)
+				dataUpdate.fixe = contextData.fixe;
+			if(contextData.mobile.length > 0)
+				dataUpdate.mobile = contextData.mobile;
+			if(contextData.fax.length > 0)
+				dataUpdate.fax = contextData.fax;
 
 			
 
