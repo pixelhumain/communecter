@@ -374,7 +374,27 @@
 
 			if(element['cityName'] != null) {
 				if(place!="") place += " ";
-				place +=  "<span class='letter-red'>"+element['cityName']+"</span>";
+				place +=  "<span class='letter-red'><b>"+element['cityName']+"</b></span>";
+			}
+
+			if(element['suburb'] != null) {
+				if(place!="") place += "<span class='letter-red'>, </span>";
+				place +=  "<span class='letter-red'>"+element['suburb']+"</span>";
+			}
+
+			if(element['POI'] != null) {
+				if(place!="") place += "<br>";
+				place +=  "<span class='letter-green'><b>"+element['POI']+"</b></span>";
+			}
+
+			if(element['AAL1'] != null) {
+				if(place!="") place += ", ";
+				place +=  "<span class='letter-green'>"+element['AAL1']+"</span>";
+			}
+
+			if(element['AAL2'] != null) {
+				if(place!="") place += ", ";
+				place +=  "<span class='letter-dark'>"+element['AAL2']+"</span>";
 			}
 
 			if(element['postalCode'] != null) {
@@ -402,8 +422,7 @@
 										"<i class='fa fa-map-marker fa-2x letter-red' style='margin-left:-6px;'></i> " + 
 										place + 
 									"</div>";
-						//if("" != url)
-						//button	+= 	"<div class='info_item siteurl_url letter-green'>" + url + "</div>";
+
 						//if("" != description)
 						//button	+= 	"<div class='info_item siteurl_desc'>" + description + "</div>";
 						

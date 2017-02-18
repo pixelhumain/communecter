@@ -9,130 +9,65 @@
       
       $urlKgou = Yii::app()->theme->baseUrl . "/assets/img/KGOUGLE-logo.png";
 ?>
+<style>
+  #iframevideo{
+    width:640px;
+    height:480px;
+  }
+
+@media screen and (max-width: 1024px) {
+  #iframevideo{
+    width:480px;
+    height:360px;
+  }
+}
+
+@media (max-width: 768px) {
+  #iframevideo{
+    width: 320px;
+    height: 180px;
+    margin-left: -15px;
+  }
+
+  footer{
+    position: absolute;
+    bottom: 0px;
+  }
+}
+</style>
 <section class="padding-top-70">
-    <div class="row main-apropos padding-top-15 padding-bottom-50">
+    <div class="row col-md-12 main-apropos padding-top-15 padding-bottom-50">
       
-        <div class="col-lg-1 col-md-1 col-sm-1 text-right hidden-xs" id="sub-menu-left">
+        <div class="col-lg-2 col-md-2 col-sm-2 text-right hidden-xs" id="sub-menu-left">
           
         </div>
       
-        <div class="col-lg-8 col-md-8 col-sm-7 col-xs-12">
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
 
           <h5 class="pull-left">
-            <i class="fa fa-angle-down"></i> Définir KGOUGLE comme page d'accueil
+            <i class="fa fa-angle-down"></i> Définir 
+            <span class="letter-blue">K</span><span class="letter-yellow">GOU</span><span class="letter-green">GLE</span> 
+            en page d'accueil
           </h5>
             <a href="#co2.web" class="lbh btn btn-default pull-right"><i class="fa fa-arrow-left"></i> retour</a>
           <br>
           <hr>
+          <p class="hidden-xs"><b>Comment changer la page d'accueil de votre navigateur ?</b></p>
+          <span>Suivez les conseils de cette vidéo de <a class="letter-blue" href="http://www.commentcamarche.net/faq/16919-comment-changer-la-page-d-accueil-de-son-navigateur-web">commentcamarche.net</a> pour configurer votre navigateur : <b>(PC & Mac)</b><br>
+          <small class="hidden-xs"><a class="letter-green" href="http://www.commentcamarche.net/faq/16919-comment-changer-la-page-d-accueil-de-son-navigateur-web">http://www.commentcamarche.net/faq/16919-comment-changer-la-page-d-accueil-de-son-navigateur-web</a></small>
+          </span>
           <!-- --------------------------------------------------------------------------------- -->
-          
-          <div class="zippy-container">
-            <h3 class="letter-blue"><i class="fa fa-angle-right"></i> Firefox </h3>
-          </div>
-          <div class="zippy-overflow">
-            <div class="zippy-content">
-              <ol>
-                <li>Lancez le navigateur, puis accédez à la page <a href="http://www.kgougle.nc" target="_blank">www.kgougle.nc</a>.</li>
-                <li>Faites glisser l'onglet sur le bouton d'accueil dans l'angle supérieur droit du navigateur.&nbsp;</li>
-                <li>Cliquez sur <strong>Oui</strong>.</li>
-              </ol>
-            </div>
-          </div>
-
-          
-          
-          <!-- --------------------------------------------------------------------------------- -->
-          
-          <h3 class="letter-blue"><i class="fa fa-angle-right"></i> Google Chrome</h3>
-          
-          <div class="zippy-overflow">
-            <div class="zippy-content">
-              <p><strong>Remarque</strong>&nbsp;: Vous ne pouvez pas définir de page d'accueil dans Google&nbsp;Chrome sur une tablette ou un téléphone.</p>
-
-              <ol>
-                <li>Dans le coin supérieur droit du navigateur de votre ordinateur, cliquez sur Plus&nbsp;<img src="//storage.googleapis.com/support-kms-prod/5C6FB52C8BBB2C12DC89B5F42F16B9B5E9CF" alt="Plus" title="Plus" width="18" height="18">&nbsp;<img src="//lh3.googleusercontent.com/79Ix2eMNX9FsFPayc5EmffxVhi9hOZlVSVYs2E3oQcV__X4QUGrXlVL4JpC6J_rzEbdy=w13-h18" alt="puis" title="puis" width="13" height="18"> <strong>Paramètres</strong>.</li>
-                <li>Dans la section "Apparence", cochez la case <strong>Afficher le bouton Accueil</strong>.&nbsp;Lorsque la case est cochée, une adresse Web figure en dessous.</li>
-                <li>Cliquez sur <strong>Modifier</strong>.</li>
-                <li>Cliquez sur <strong>Ouvrir cette page</strong>, puis saisissez <strong><code>www.kgougle.nc</code></strong> dans la zone de texte.</li>
-                <li>Cliquez sur <strong>OK</strong>.</li>
-              </ol>
-            </div>
-
-          </div>
-
-          <!-- --------------------------------------------------------------------------------- -->
-          
-          <div class="zippy-container">
-            <h3 class="letter-blue"><i class="fa fa-angle-right"></i> Microsoft&nbsp;Edge</h3>
-          </div>
-
-          <div class="zippy-overflow">
-            <div class="zippy-content">
-              <ol>
-                <li>Dans le coin supérieur droit du navigateur, sélectionnez <strong>Plus (...)&nbsp;</strong><img src="//lh3.googleusercontent.com/79Ix2eMNX9FsFPayc5EmffxVhi9hOZlVSVYs2E3oQcV__X4QUGrXlVL4JpC6J_rzEbdy=w13-h18" alt="puis" title="puis" width="13" height="18"> <strong>Paramètres</strong>.</li>
-                <li>Faites défiler l'écran jusqu'à "Ouvrir Microsoft&nbsp;Edge avec", puis sélectionnez <strong>Une ou des pages spécifiques</strong>.</li>
-                <li>Ouvrez la liste, puis sélectionnez <strong>Personnalisé</strong>.&nbsp;Sélectionnez ensuite la croix "X" à côté de la page d'accueil actuelle de l'appareil.</li>
-                <li>Dans "Indiquer une URL", saisissez <strong><code>www.kgougle.nc</code></strong> et sélectionnez la <strong>disquette</strong>.</li>
-              </ol>
-            </div>
-          </div>
-
-          <!-- --------------------------------------------------------------------------------- -->
-          
-          <div class="zippy-container">
-            <h3 class="letter-blue"><i class="fa fa-angle-right"></i> Internet&nbsp;Explorer&nbsp; </h3>
-          </div>
-
-          <div class="zippy-overflow">
-            <div class="zippy-content">
-              <ol>
-                <li>Dans la barre de menus située en haut du navigateur, cliquez sur <strong>Outils</strong>.</li>
-                <li>Sélectionnez <strong>Options Internet</strong>.</li>
-                <li>Cliquez sur l'onglet <strong>Général</strong>.</li>
-                <li>Dans la section "Page de démarrage", saisissez <strong><code>//www.kgougle.nc</code></strong> dans la zone de texte.</li>
-                <li>Cliquez sur <strong>OK</strong>.</li>
-              </ol>
-
-              <p>Une fois les étapes ci-dessus terminées, redémarrez le navigateur afin d'afficher votre nouvelle page d'accueil.</p>
-            </div>
-          </div>
-
-          <!-- --------------------------------------------------------------------------------- -->
-          
-          <div class="zippy-container">
-            <h3 class="letter-blue"><i class="fa fa-angle-right"></i> Safari </h3>
-          </div>
-          <div class="zippy-overflow">
-            <div class="zippy-content">
-              <ol>
-                <li>Dans le coin supérieur gauche de votre écran, choisissez <strong>Safari</strong>&nbsp;<img src="//lh3.googleusercontent.com/79Ix2eMNX9FsFPayc5EmffxVhi9hOZlVSVYs2E3oQcV__X4QUGrXlVL4JpC6J_rzEbdy=w13-h18" alt="puis" title="puis" width="13" height="18"> <strong>Préférences</strong>.</li>
-                <li>Dans le menu déroulant "Les nouvelles fenêtres s'ouvrent avec" et "Les nouveaux onglets s'ouvrent avec", sélectionnez <strong>Page d'accueil</strong>.&nbsp;</li>
-                <li>Dans la section "Page d'accueil", saisissez <strong><code>www.kgougle.nc</code></strong> dans la zone de texte.</li>
-              </ol>
-            </div>
-          </div>
-
-          <!-- --------------------------------------------------------------------------------- -->
-          
-          <div class="zippy-container zippy-last">
-            <h3 class="letter-blue"><i class="fa fa-angle-right"></i> Navigateur Android</h3>
-          </div>
-
-          <div class="zippy-overflow">
-            <div class="zippy-content">
-              <ol>
-                <li>Ouvrez votre navigateur. Cette application peut être intitulée Internet ou Navigateur.</li>
-                <li>Appuyez sur le bouton <strong>Menu</strong> de votre téléphone ou dans le coin supérieur droit du navigateur.</li>
-                <li>Appuyez sur <strong>Paramètres</strong>&nbsp;<img src="//lh3.googleusercontent.com/79Ix2eMNX9FsFPayc5EmffxVhi9hOZlVSVYs2E3oQcV__X4QUGrXlVL4JpC6J_rzEbdy=w13-h18" alt="puis" title="puis" width="13" height="18"> <strong>Général</strong>&nbsp;<img src="//lh3.googleusercontent.com/79Ix2eMNX9FsFPayc5EmffxVhi9hOZlVSVYs2E3oQcV__X4QUGrXlVL4JpC6J_rzEbdy=w13-h18" alt="puis" title="puis" width="13" height="18"> <strong>Configurer la page d'accueil</strong>.</li>
-                <li>Saisissez <code><strong>www.kgougle.nc</strong></code>.</li>
-              </ol>
-            </div>
-          </div>
-
-          </section>
-
-
-        </div>
+          <br>
+          <ul class="hidden-xs">
+            <li><b>0 min 16 sec :</b> Internet Explorer</li>
+            <li><b>0 min 35 sec :</b> Google Chrome</li>
+            <li><b>1 min 31 sec :</b> Mozilla Firefox</li>
+            <li><b>1 min 57 sec :</b> Opera</li>
+          </ul>
+          <iframe width='740' height='480' frameborder='0' allowfullscreen id="iframevideo"
+                  src='//player.ooyala.com/static/v4/stable/4.11.13/skin-plugin/iframe.html?ec=Vkazg4dzqp4NzPY7U_vhShMwTKIPJFnt&pbid=69cb820a85749509efca96fb36853ca&pcode=M4azMxOmZFabvRouis6TdYXWR9uR'>
+          </iframe>
+        
       </div>
     </div>
 </section>

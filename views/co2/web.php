@@ -159,7 +159,10 @@
 <section class="no-padding hidden" id="sectionSearchResults">
     <div class="row">
 
-        <div class="col-md-2 col-sm-2 text-right" id="sub-menu-left"></div>
+        <div class="col-md-2 col-sm-2 text-right" id="sub-menu-left">
+            
+
+        </div>
         <div class=" col-lg-8 col-md-7 col-sm-7" id="searchResults"></div>
         <div class="col-md-2 col-sm-2 text-left" id="sub-menu-right">
             <!-- <a href="https://github.com/pixelhumain" target="_blank">
@@ -228,6 +231,9 @@ function initWebInterface(){
         var id = $(this).data("idfav");
         deleteFavorites(id);
    });
+
+   $('#main-search-bar, #second-search-bar, #input-search-map').filter_input({regex:'[^@#\"\`/\(|\)/\\\\]'}); //[a-zA-Z0-9_] 
+    
 }
 
 
