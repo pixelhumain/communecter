@@ -26,6 +26,12 @@
 	width: 15px;
 	border-radius: 0 0 5px 0px;
 }
+.cogFlag{
+	position: absolute;
+	top: 0px;
+	width: 15px;
+	border-radius: 0 0 5px 0px;	
+}
 
 .contentImg{
 	margin-top:3px;
@@ -50,6 +56,7 @@
 	$parentId="";
 	$inviteRefuse="Refuse";
 	$inviteAccept="Accept";
+	$tooltipAccept="Join this ".Element::getControlerByCollection($contentType);
 	if ($contentType == Project::COLLECTION){ 
 		$parentRedirect = "project";
 		$parentId = (string)$project["_id"];
@@ -64,6 +71,7 @@
 		$parentRedirect = "event";
 		$inviteRefuse="Not interested";
 		$inviteAccept="I go";
+		$tooltipAccept="Go to the event";
 		$parentId = (string)$event["_id"];	
 		$tooltips = "La communauté de l'évènement";						
 	}
@@ -113,7 +121,7 @@
 				echo "<div class='no-padding' style='border-bottom: 1px solid lightgray;margin-bottom:10px !important;'>".
 					"<div class='padding-5'>".
 						"<a href='#element.detail.type.".Person::COLLECTION.".id.".$invitedMe["invitorId"]."' class='lbh'>".$invitedMe["invitorName"]."</a><span class='text-dark'> vous a invité: <br/>".
-						'<a class="btn btn-xs btn-default tooltips" href="javascript:;" onclick="validateConnection(\''.$contentType.'\',\''.$parentId.'\', \''.Yii::app()->session["userId"].'\',\''.Person::COLLECTION.'\',\''.Link::IS_INVITING.'\')" data-placement="bottom" data-original-title="Go to the event">'.
+						'<a class="btn btn-xs btn-default tooltips" href="javascript:;" onclick="validateConnection(\''.$contentType.'\',\''.$parentId.'\', \''.Yii::app()->session["userId"].'\',\''.Person::COLLECTION.'\',\''.Link::IS_INVITING.'\')" data-placement="bottom" data-original-title="'.Yii::t("common",$tooltipAccept).'">'.
 							'<i class="fa fa-check "></i> '.Yii::t("common",$inviteAccept).
 						'</a>'.
 						'<a class="btn btn-xs btn-default tooltips" href="javascript:;" onclick="disconnectTo(\''.$contentType.'\',\''.$parentId.'\',\''.Yii::app()->session["userId"].'\',\''.Person::COLLECTION.'\',\'attendees\')" data-placement="bottom" data-original-title="Not interested by the invitation">'.
@@ -140,6 +148,8 @@
 				foreach ($users as $e) { 
 					if(!@$e["invitorId"]){
 						$grayscale = "grayscale";
+						$addCogFlag=true;
+						$addCogFlag=15;
 						//print_r($e);
 						$name = $e["name"];
 						if (@$e["isAdmin"]){
@@ -153,19 +163,25 @@
 							else {
 								$name.= " (admin)";
 								$grayscale = "";
+								$addCogFlag=false;
 							}
 						}
 						else {
 							$adminFlag="";
+							$addCogFlag=1;
 							if (@$e["toBeValidated"])
 								$name.= " (".Yii::t("common","waiting for validation").")";
 							else if (@$e["tobeactivated"])
 								$name.= " (".Yii::t("common","not activated").")";
 							else if (@$e["pending"])
 								$name.= " (".Yii::t("common","unregistred").")";
-							else
+							else{
 								$grayscale = "";
+								$addCogFlag=false;
+							}
 						}
+						if($addCogFlag != false)
+							$adminFlag.='<div class="cogFlag bg-dark" style="left:'.($addCogFlag--).'px;"><i class="fa fa-cog fa-white"></i></div>';
 						if ($e["type"]==Person::COLLECTION){
 							$icon='<img height="50" width="50" class="tooltips" src="'.$this->module->assetsUrl.'/images/news/profile_default_l.png" data-placement="top" data-original-title="'.$name.'">';
 							$refIcon="fa-user";
@@ -193,11 +209,13 @@
 				<?php 
 					}
 				}
-				if(!empty($countLowLinks) || $countStrongLinks > 11){ 
+				if(!empty($countLowLinks) || $countInvitations > 0 || $countStrongLinks > 11){ 
 					$nbCommunity=$countLowLinks;
 					$fontSize="";
 					if($countStrongLinks>11)
 						$nbCommunity+=($countStrongLinks-11);
+					if($countInvitations)
+						$nbCommunity+=$countInvitations;
 					if($nbCommunity >= 1000){
 						$nbCommunity=$nbCommunity/1000;
 						$nbCommunity=number_format($nbCommunity, 1, ',',"")."K";
@@ -215,13 +233,13 @@
 			if((@$countStrongLinks && $countStrongLinks != 0) || (@$countLowLinks && $countLowLinks != 0)){
 				$text="";
 					
-					if(!empty($followers)){
+					/*if(!empty($followers)){
 						$text .= " ".Yii::t("common","and")." ";
 						$text .= $followers." ".Yii::t("common","follower");
 						if ($followers > 1)
 							$text .="s";
 
-				}
+					}*/
 				echo "<div class='no-padding' style='border-top: 1px solid lightgray;margin-top:10px !important;'>";
 				if (@$countStrongLinks && !empty($countStrongLinks)){
 					if($contentType==Organization::COLLECTION)
@@ -236,15 +254,24 @@
 							"<span class='text-dark' style='font-size:16px;font-weight:bold'>".$countStrongLinks."</span><br/>".
 							"<span class='text-dark'>".ucfirst(@$strongLinksLabel)."</span>".
 						"</div>";
-				}if (@$countLowLinks && $countLowLinks != 0){
+				}if (@$countInvitations && $countInvitations != 0){
 					$style="";		
-					if ($contentType==Event::COLLECTION)
-						$lowLinksLabel = Yii::t("event","guest");
-					else
-						$lowLinksLabel = Yii::t("common","follower");
+					$invitationsLabel = Yii::t("event","guest");
+					if($countInvitations > 1)
+						$invitationsLabel .= "s";
+					if($countStrongLinks != 0)
+						$style="padding-left:15px;";
+					echo "<div class='col-md-4 inline' style='float:inherit;".$style."'>".
+						"<span class='text-dark' style='font-size:16px;font-weight:bold'>".$countInvitations."</span><br/>".
+						"<span class='text-dark'>".ucfirst($invitationsLabel)."</span>".
+					"</div>";
+				}
+				if (@$countLowLinks && $countLowLinks != 0){
+					$style="";
+					$lowLinksLabel = Yii::t("common","follower");
 					if($countLowLinks > 1)
 						$lowLinksLabel .= "s";
-					if($countStrongLinks != 0)
+					if($countStrongLinks != 0 || $countInvitations != 0)
 						$style="padding-left:15px;";
 					echo "<div class='col-md-4 inline' style='float:inherit;".$style."'>".
 						"<span class='text-dark' style='font-size:16px;font-weight:bold'>".$countLowLinks."</span><br/>".
