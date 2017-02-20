@@ -322,6 +322,9 @@ Liste des notifications déjà lues => #370 #453
     * todo 
     [ ] encrypt username and pwd when giving out token accesses 
   [X] my POIs
+  [ ] cut up communecter.js 
+    [X] lazyloading dynForm definitions
+    [ ] use a packing system to split the file
   [ ] my calendar
     [[http://127.0.0.1/ph/#event.calendarview.id.585bdfdaf6ca47b6118b4583.type.person]]
     [X] my created events

@@ -148,7 +148,6 @@ class DefaultController extends CommunecterController {
       //$this->sidebar2 = Menu::$infoMenu;
       $this->render($page);
     }
-    
   }
   
     public function actionSwitch($lang)
