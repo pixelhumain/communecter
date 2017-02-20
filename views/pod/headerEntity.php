@@ -234,6 +234,11 @@ $controler = Element::getControlerByCollection($type);
 						</i> <label id="nameHeader" class="">
 								<?php echo @$entity["name"]; ?>
 							</label>
+						<?php if($type == Organization::COLLECTION && !empty($entity["disabled"]) && $entity["disabled"]==true){ ?>
+							<h1 id="disabledHeader" class="text-red">
+								<?php echo Yii::t("common", "Disabled"); ?>
+							</h1>
+						<?php } ?>
 					</span>
 					<?php if(!empty($entity["parentId"]) && !empty($entity["parentType"])) {
 							$parentEvent = Element::getElementSimpleById($entity["parentId"], $entity["parentType"]);
