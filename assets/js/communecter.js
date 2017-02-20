@@ -3662,14 +3662,14 @@ var typeObjLib = {
     	}
     },
     descriptionOptionnel : {
-        inputType : "wysiwyg",
+        inputType : "textarea",
 		placeholder : "Décrire c'est partager",
 		init : function(){
         	$(".descriptionOptionneltextarea").css("display","none");
         }
     },
     description : {
-        inputType : "wysiwyg",
+        inputType : "textarea",
 		placeholder : "Décrire c'est partager"
     },
     tags : {
@@ -4866,4 +4866,50 @@ var typeObj = {
 			    }
 			}
 		}},*/
+};
+
+function activateMarkdown(elem) { 
+	mylog.log("activateMarkdown", elem);
+
+	markdownParams = {
+			savable:false,
+			iconlibrary:'fa',
+			onPreview: function(e) {
+				var previewContent = "";
+			    mylog.log(e.isDirty());
+			    if (e.isDirty()) {
+			    	var converter = new showdown.Converter(),
+			    		text      = e.getContent(),
+			    		previewContent      = converter.makeHtml(text);
+			    } else {
+			    	previewContent = "Default content";
+			    }
+			    return previewContent;
+		  	},
+		  	onSave: function(e) {
+		  		mylog.log(e);
+		  	},
+		}
+
+	if( !$('script[src="'+baseUrl+'/plugins/bootstrap-markdown/js/bootstrap-markdown.js"]').length ){
+		mylog.log("activateMarkdown if");
+
+		$("<link/>", {
+		   rel: "stylesheet",
+		   type: "text/css",
+		   href: baseUrl+"/plugins/bootstrap-markdown/css/bootstrap-markdown.min.css"
+		}).appendTo("head");
+		$.getScript( baseUrl+"/plugins/showdown/showdown.min.js", function( data, textStatus, jqxhr ) {
+
+			$.getScript( baseUrl+"/plugins/bootstrap-markdown/js/bootstrap-markdown.js", function( data, textStatus, jqxhr ) {
+				mylog.log("elem", elem);
+				$(elem).markdown(markdownParams);
+			});
+
+
+		});
+	} else {
+		mylog.log("activateMarkdown else");
+		$(elem).markdown(markdownParams);
+	}
 };

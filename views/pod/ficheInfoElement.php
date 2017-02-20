@@ -257,7 +257,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 				<div id="divType">
 					<!-- <i class="fa fa-smile-o fa_name hidden"></i> -->
 					<span class="titleField text-dark"><i class="fa fa-angle-right"></i>  <?php echo Yii::t("common", "Type"); ?> :</span>
-					<span id="type" class=""><?php if(isset($element["type"])) echo Yii::t("common", $element["type"]); else echo ""; ?></span>
+					<span id="type" class="">
+					<?php 
+					$pageTrad = (($type==Event::COLLECTION) ? "event" : "common") ;
+					if(isset($element["type"])) echo Yii::t($pageTrad , $element["type"]); else echo ""; ?></span>
 				</div>
 				<?php } ?>
 
@@ -360,7 +363,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 					</div>
 					<?php } ?>
 					<div class="col-md-6 col-xs-12 no-padding">
-						<span><?php echo Yii::t("common","From") ?></span><span id="startDate" class="" ><?php echo (isset($element["startDate"]) ? $element["startDate"] : "" ); ?></span>
+						<span><?php echo Yii::t("common","From") ?> </span><span id="startDate" class="" ><?php echo (isset($element["startDate"]) ? $element["startDate"] : "" ); ?></span>
 					</div>
 					<div class="col-md-6 col-xs-12 no-padding">
 						<span><?php echo Yii::t("common","To") ?></span> <span id="endDate" class=""><?php echo (isset($element["endDate"]) ? $element["endDate"] : "" ); ?></span> 
@@ -627,9 +630,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 		  		<?php if($edit==true || $openEdition==true ){?>
 		  		<a href='javascript:;' id="btn-update-desc" class="tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Update Description");?>"><i class="fa text-red fa-pencil"></i></a> <?php } ?>
 		  	</div>
+		  	<div>
+		  		<h3 class="text-blue">Courte :</h3>
+				<span id="shortDescription"  class=""><?php  echo (!empty($element["shortDescription"])) ? $element["shortDescription"] : ""; ?></span>
+				<input type="hidden" id="shortDescriptionMarkdown" name="shortDescriptionMarkdown" value="<?php echo (!empty($element['shortDescription'])) ? $element['shortDescription'] : ''; ?>">
+				<h3 class="text-blue">Longue :</h3>
 				<span id="description"  class=""><?php  echo (!empty($element["description"])) ? $element["description"] : ""; ?></span>
 				<input type="hidden" id="descriptionMarkdown" name="descriptionMarkdown" value="<?php echo (!empty($element['description'])) ? $element['description'] : ''; ?>">
-					
+			</div>		
 		</div>
 	</div>
 </div>
@@ -696,6 +704,7 @@ if($showOdesc == true){
 	
 
 	if(contextData.type == "<?php echo Event::COLLECTION; ?>"){
+		contextData.typeEvent = '<?php if(isset($element["type"])) echo $element["type"]; else echo ""; ?>';
 		contextData.allDay = '<?php echo (@$element["allDay"] == true) ? "true" : "false"; ?>';
 	}
 
@@ -709,7 +718,7 @@ if($showOdesc == true){
 
 	var formatDateView = "DD MMMM YYYY à HH:mm" ;
 	var formatDatedynForm = "DD/MM/YYYY HH:mm" ;
-	if(typeof contextData.allDay != "undefined" && contextData.allDay == "true"){
+	if( (typeof contextData.allDay != "undefined" && contextData.allDay == "true") || contextData.type == "<?php echo Project::COLLECTION; ?>" ) {
 		formatDateView = "DD MMMM YYYY" ;
 		formatDatedynForm = "DD/MM/YYYY" ;
 	}
@@ -953,7 +962,7 @@ if($showOdesc == true){
 				elementLib.closeForm();
 			};
 			
-			var saveUrl = baseUrl+"/"+moduleId+"/element/updateblock/type/"+contextType;
+			var saveUrl = baseUrl+"/"+moduleId+"/element/updateblock/";
 			elementLib.editDynForm("Modifier les dates", "fa-calendar", properties, "initWhen", dataUpdate, saveUrl, onLoads, beforeSave, afterSave);
 		});
 
@@ -982,12 +991,18 @@ if($showOdesc == true){
 
 			if(contextData.type == "<?php echo Organization::COLLECTION; ?>" ){
 				properties.type = typeObjLib["typeOrga"];
-				properties.tags = typeObjLib["tags"];
 			}
+
+			if(contextData.type == "<?php echo Event::COLLECTION; ?>" ){
+				properties.type = typeObjLib["typeEvent"];
+			}
+
 
 			if(contextData.type == "<?php echo Project::COLLECTION; ?>" ){
 				properties.avancement = typeObjLib["avancementProject"];
 			}
+
+			properties.tags = typeObjLib["tags"];
 
 			var dataUpdate = {
 				block : "info",
@@ -1022,6 +1037,11 @@ if($showOdesc == true){
 			if(contextData.type == "<?php echo Organization::COLLECTION; ?>" ){
 				if(contextData.typeOrga.length > 0)
 					dataUpdate.type = contextData.typeOrga;
+			}
+
+			if(contextData.type == "<?php echo Event::COLLECTION; ?>" ){
+				if(contextData.typeEvent.length > 0)
+					dataUpdate.type = contextData.typeEvent;
 			}
 			if(contextData.type == "<?php echo Project::COLLECTION; ?>" ){
 				if(contextData.avancement.length > 0)
@@ -1062,8 +1082,13 @@ if($showOdesc == true){
 			    		$("#ajaxFormModal #facebookAccount").remove();
 			    }
 
-			    if(contextData.type == "<?php echo Organization::COLLECTION; ?>" ){
+			    if(contextData.type == "<?php echo Organization::COLLECTION; ?>"){
 					if($("#ajaxFormModal #type").length && $("#ajaxFormModal #type").val() ==  contextData.typeOrga)
+			    		$("#ajaxFormModal #type").remove();
+				}
+
+				 if(contextData.type == "<?php echo Event::COLLECTION; ?>"){
+					if($("#ajaxFormModal #type").length && $("#ajaxFormModal #type").val() ==  contextData.typeEvent)
 			    		$("#ajaxFormModal #type").remove();
 				}
 
@@ -1167,17 +1192,22 @@ if($showOdesc == true){
 					}
 
 					if(typeof data.resultGoods.values.type != "undefined"){
-						contextData.typeOrga = data.resultGoods.values.typeOrga;
-						$("#typeHeader").html(contextData.typeOrga);
-						$("#contentGeneralInfos #type").html(contextData.typeOrga);
+						if(contextData.type == "<?php echo Event::COLLECTION; ?>"){
+							contextData.typeEvent = data.resultGoods.values.type;
+						}
+						else if(contextData.type == "<?php echo Organization::COLLECTION; ?>"){
+							contextData.typeOrga = data.resultGoods.values.type;
+						}
+						$("#typeHeader").html(data.resultGoods.values.typ);
+						$("#contentGeneralInfos #type").html(data.resultGoods.values.typ);
 					}
 				}
 				elementLib.closeForm();
 				changeHiddenIconeElement(false);
 			};
 			
-			var saveUrl = baseUrl+"/"+moduleId+"/element/updateblock/type/"+contextType;
-			elementLib.editDynForm("Modifier les coordonnées", "fa-pencil", properties, "", dataUpdate, saveUrl, onLoads, beforeSave, afterSave);
+			var saveUrl = baseUrl+"/"+moduleId+"/element/updateblock/";
+			elementLib.editDynForm("Modifier les informations générales", "fa-pencil", properties, "", dataUpdate, saveUrl, onLoads, beforeSave, afterSave);
 		});
 
 		$("#btn-update-contact").off().on( "click", function(){
@@ -1185,7 +1215,6 @@ if($showOdesc == true){
 			var properties = {
 				email : typeObjLib["email"],
 				url : typeObjLib["url"],
-				birthDate : typeObjLib["birthDate"],
 				fixe: typeObjLib["phone"],
 				mobile: typeObjLib["mobile"],
 				fax: typeObjLib["fax"],
@@ -1193,6 +1222,8 @@ if($showOdesc == true){
 		        block : typeObjLib["hidden"],
 		        isUpdate : typeObjLib["hiddenTrue"]
 			};
+			if(contextData.type == "<?php echo Person::COLLECTION; ?>")
+				properties.birthDate = typeObjLib["birthDate"];
 
 			var dataUpdate = {
 				block : "contact",
@@ -1289,41 +1320,57 @@ if($showOdesc == true){
 				changeHiddenIconeElement(false);
 			};
 			
-			var saveUrl = baseUrl+"/"+moduleId+"/element/updateblock/type/"+contextType;
+			var saveUrl = baseUrl+"/"+moduleId+"/element/updateblock/";
 			elementLib.editDynForm("Modifier les coordonnées", "fa-pencil", properties, "initUpdateInfo", dataUpdate, saveUrl, onLoads, beforeSave, afterSave);
 		});
 
 		$("#btn-update-desc").off().on( "click", function(){
-			var dataUpdate = { value : $("#descriptionMarkdown").val() } ;
 			var properties = {
-				value : typeObjLib["description"],
-				pk : {
-		            inputType : "hidden",
-		            value : contextData.id
-		        },
-				name: {
-		            inputType : "hidden",
-		            value : "description"
-		        }
+				description : typeObjLib["description"],
+				shortDescription : typeObjLib["description"],
+		        typeElement : typeObjLib["hidden"],
+		        block : typeObjLib["hidden"],
+		        isUpdate : typeObjLib["hiddenTrue"]
+			};
+
+			var dataUpdate = {
+				block : "description",
+		        id : contextData.id,
+		        typeElement : contextData.type,
+		        description : $("#contentGeneralInfos #descriptionMarkdown").val(),
+				shortDescription : $("#contentGeneralInfos #shortDescriptionMarkdown").val()
 			};
 
 			var onLoads = {
-				summernote : function(){
+				markdown : function(){
 					mylog.log("#btn-update-desc #ajaxFormModal #description");
-					//activateMarkdown("#ajaxFormModal #value");
-					activateSummernote("#ajaxFormModal #value");
+					activateMarkdown("#ajaxFormModal #description");
 				}
 			};
 			var beforeSave = null ;
 
 			var afterSave = function(data){
-				$("#description").html(data.description);
-				$("#descriptionMarkdown").val(data.description);
-				elementLib.closeForm();		
+				if(data.result && data.resultGoods.result){
+					if(typeof data.resultGoods.values.shortDescription != "undefined"){
+						mylog.log("update shortDescription");
+						contextData.shortDescription = data.resultGoods.values.shortDescription;
+						$("#contentGeneralInfos #shortDescription").html(contextData.shortDescription);
+						$("#shortDescriptionHeader").html(contextData.shortDescription);
+						$("#contentGeneralInfos #shortDescriptionMarkdown").val(contextData.shortDescription);
+					}
+
+					if(typeof data.resultGoods.values.description != "undefined"){
+						mylog.log("update description");
+						contextData.description = data.resultGoods.values.description;
+						$("#contentGeneralInfos #description").html(markdownToHtml(contextData.description));
+						$("#contentGeneralInfos #descriptionMarkdown").val(contextData.description);
+					}
+				}
+				elementLib.closeForm();	
 			};
 			
-			var saveUrl = baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType;
-			elementLib.editDynForm("Modifier la description", "fa-pencil", properties, "summernote", dataUpdate, saveUrl, onLoads, beforeSave, afterSave);
+			var saveUrl = baseUrl+"/"+moduleId+"/element/updateblock/";
+			elementLib.editDynForm("Modifier les description", "fa-pencil", properties, "markdown", dataUpdate, saveUrl, onLoads, beforeSave, afterSave);
 		});
 	}
 
@@ -1756,7 +1803,7 @@ function initDate() {//DD/mm/YYYY hh:mm
     $('#dateTimezone').attr('data-original-title', "Fuseau horaire : GMT " + moment().local().format("Z"));
 }
 
-/*function descHtmlToMarkdown() {
+function descHtmlToMarkdown() {
 	mylog.log("htmlToMarkdown");
 	if(typeof contextData.descriptionHTML != "undefined" && contextData.descriptionHTML == "1"){
 		if($("#contentGeneralInfos #description").html() != ""){
@@ -1771,7 +1818,7 @@ function initDate() {//DD/mm/YYYY hh:mm
 			param.block = "toMarkdown";
     		$.ajax({
 		        type: "POST",
-		       	url : baseUrl+"/"+moduleId+"/element/updateblock/type/"+contextType,
+		       	url : baseUrl+"/"+moduleId+"/element/updateblock/",
 		        data: param,
 		       	dataType: "json",
 		    	success: function(data){
@@ -1787,10 +1834,10 @@ function initDate() {//DD/mm/YYYY hh:mm
 
 function inintDescs() {
 	mylog.log("inintDescs");
-	descHtmlToMarkdown();
+	//descHtmlToMarkdown();
 	mylog.log("after");
 	$("#description").html(markdownToHtml($("#descriptionMarkdown").val()));
 	//$("#shortDescriptionHeader").html(markdownToHtml($("#shortDescriptionMarkdown").val()));
-}*/
+}
 
 </script>

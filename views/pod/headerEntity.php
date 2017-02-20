@@ -294,9 +294,6 @@ $controler = Element::getControlerByCollection($type);
 			<?php } ?>
 
 			<div id="shortDescriptionHeader" class="col-lg-12 col-xs-12 no-padding hidden-xs"><?php echo (isset($entity["shortDescription"])) ? $entity["shortDescription"] : null; ?></div>
-			<input type="hidden" id="shortDescriptionMarkdown" name="shortDescriptionMarkdown" value="<?php echo (!empty($element['shortDescription'])) ? $element['shortDescription'] : ''; ?>">
-			<?php if($edit==true || $openEdition==true ){?>
-		  		<a href='javascript:;' id="btn-update-shortdesc" class="tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Update Description");?>"><i class="fa text-red fa-pencil"></i></a> <?php } ?>
 		</div>
 		
 
