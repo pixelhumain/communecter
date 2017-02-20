@@ -26,8 +26,15 @@
         			data-toggle="tooltip" data-placement="right" title="Découvrir les Pixels sur GitHub">Les pixels humains</a>
         	</h5>
         	
-        	<a href="#co2.web" class="lbh btn btn-default pull-right"><i class="fa fa-arrow-left"></i> retour</a>
-        	
+        	<a href="#co2.web" class="lbh btn btn-default pull-right margin-left-5 btn-submenu tooltips"
+        		data-toggle="tooltip" data-placement="top" title="Retourner vers le moteur de recherche">
+        		<b>Quitter cette page <i class="fa fa-arrow-right"></i></b>
+        	</a> 
+        	<a href="#co2.info.p.apropos" class="lbh btn btn-danger pull-right btn-submenu tooltips"
+        		data-toggle="tooltip" data-placement="top" title='Retourner vers la page de présentation "A propos"'>
+				<b><i class="fa fa-arrow-left"></i> À propos</b>
+			</a>
+			
         	<br>
         	<hr>
         	

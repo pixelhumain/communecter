@@ -83,7 +83,12 @@
         	<h5 class="pull-left">
         		<i class="fa fa-angle-down"></i> A propos
         	</h5>
-        		<a href="#co2.web" class="lbh btn btn-default pull-right"><i class="fa fa-arrow-left"></i> retour</a>
+        	
+        	<a href="#co2.web" class="lbh btn btn-default pull-right margin-left-5 btn-submenu tooltips"
+        		data-toggle="tooltip" data-placement="top" title="Retourner vers le moteur de recherche">
+        		<b>Quitter cette page <i class="fa fa-arrow-right"></i></b>
+        	</a> 
+
         	<br>
         	<hr>
         	<!-- --------------------------------------------------------------------------------- -->
