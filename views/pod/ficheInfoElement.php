@@ -899,6 +899,8 @@ if($showOdesc == true){
 
 			properties.startDate = typeObjLib["startDateInput"];
 			properties.endDate = typeObjLib["endDateInput"];
+
+			
 			
 			var dataUpdate = {
 				block : "when",
