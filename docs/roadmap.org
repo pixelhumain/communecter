@@ -337,7 +337,7 @@ Liste des notifications déjà lues => #370 #453
   [1]  [X] Simple action on same notification with different author
   [1]  [ ] Limit of time (1 day Or two day?)
   [1]  [X] Update community to notify if one is out of element
-  [1][ ] Documentations
+  [1][X] Documentations
   [1][ ] Commons method called to construct notification
   [1]  [X] /Follow/ => TEST OK
   [1]  [X] /Ask/ to become member or admin => TEST OK
@@ -350,6 +350,7 @@ Liste des notifications déjà lues => #370 #453
   [1]  [X] /Add/ => TEST OK 
   [1]  [X] /Post/ => TEST OK ++
   [1]  [X] /Vote/ => TEST OK
+  [ ] [ ] "isUnseen" => "isNotViewed" 
       *** Test all use case up (around 12 hours)
   [1]  [X] TEST OK
       *** Wishlist   
@@ -389,7 +390,7 @@ Liste des notifications déjà lues => #370 #453
   [2]  [X] Follow me [Insert new follow if notif is not view]
   [2][ ] Insert daily mail
   [2][ ] Not send email if user is connected and have active view on communecter.org
-  [ ] Result of vote
+  [2][ ] Result of vote
   *** PREFERENCES
   [2][ ] Add inscription on citizen consult that I will follow OR specific room (news + notif + mail)
   [2][ ] Mailing on add something in element and comment/Like/unlike on element where I am linking
