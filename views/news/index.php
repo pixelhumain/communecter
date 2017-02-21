@@ -595,7 +595,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 								<!--<?php //if ((isset($parent['id'])) && (isset($parent['typeSyg']))) { ?>-->
 																
 								<div id="div_rss"> 
-									<a target="_blank" id="btn-rss" class="tooltips btn btn-default  communityBtn btn-menu-element btn-menu-element-directory" role ="button" href="http://127.0.0.1/ph/api/news/get/idElement/<?php echo $parent['_id'];?>/typeElement/<?php echo $parent['typeSig'];?>/format/rss"> Flux RSS <i class="fa fa-rss" aria-hidden="true"></i> 
+									<a target="_blank" id="btn-rss" class="tooltips btn btn-default  communityBtn btn-menu-element btn-menu-element-directory" role ="button" href="http://127.0.0.1/ph/api/news/get/idElement/<?php echo $parent['_id'];?>/typeElement/<?php echo $parent['typeSig'];?>/format/rss"><i class="fa fa-rss" aria-hidden="true"></i> 
 								<!--<?php //echo $parent['typeSig'];?><?php //echo $parent['_id'];?> -->
 									</a>
 
@@ -929,7 +929,7 @@ jQuery(document).ready(function()
 
 	if (string_tag !== '') {
 		$('#div_rss').html(
-				'<a target="_blank" id="btn-rss" class="tooltips btn btn-default  communityBtn btn-menu-element btn-menu-element-directory" role ="button" href="http://127.0.0.1/ph/api/news/get/tags/'+ string_tag +'/format/rss"> Flux RSS ' +
+				'<a target="_blank" id="btn-rss" class="tooltips btn btn-default  communityBtn btn-menu-element btn-menu-element-directory" role ="button" href="http://127.0.0.1/ph/api/news/get/tags/'+ string_tag +'/format/rss">' +
 				'<i class="fa fa-rss" aria-hidden="true"></i> ' +
 										
 				'</a> '
@@ -937,7 +937,7 @@ jQuery(document).ready(function()
  					);
 	} else {
 		$('#div_rss').html(
-				'<a target="_blank" id="btn-rss" class="tooltips btn btn-default  communityBtn btn-menu-element btn-menu-element-directory" role ="button" href="http://127.0.0.1/ph/api/news/get/format/rss"> Flux RSS ' +
+				'<a target="_blank" id="btn-rss" class="tooltips btn btn-default  communityBtn btn-menu-element btn-menu-element-directory" role ="button" href="http://127.0.0.1/ph/api/news/get/format/rss">' +
 				'<i class="fa fa-rss" aria-hidden="true"></i> ' +
 										
 				'</a> '

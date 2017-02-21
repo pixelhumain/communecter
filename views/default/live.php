@@ -306,7 +306,7 @@ function showNewsStream(isFirst){ mylog.log("showNewsStream");
 			    		$(".newsTL").html(
 			    		'<div class="spine"></div>' + 
 						'<div id="div_rss">' + 
-							'<a target="_blank" id="btn-rss" class="tooltips btn btn-default  communityBtn btn-menu-element btn-menu-element-directory" role ="button" href="http://127.0.0.1/ph/api/news/get/tags/'+string_tag+'/format/rss"> Flux RSS '+
+							'<a target="_blank" id="btn-rss" class="tooltips btn btn-default  communityBtn btn-menu-element btn-menu-element-directory" role ="button" href="http://127.0.0.1/ph/api/news/get/tags/'+string_tag+'/format/rss">'+
 								'<i class="fa fa-rss" aria-hidden="true"></i> ' +
 							'</a>' +
 						'<div id="btn-rss-test"></div>'
@@ -315,7 +315,7 @@ function showNewsStream(isFirst){ mylog.log("showNewsStream");
 			    		$(".newsTL").html(
 			    		'<div class="spine"></div>' + 
 						'<div id="div_rss">' + 
-							'<a target="_blank" id="btn-rss" class="tooltips btn btn-default  communityBtn btn-menu-element btn-menu-element-directory" role ="button" href="http://127.0.0.1/ph/api/news/get/format/rss"> Flux RSS '+
+							'<a target="_blank" id="btn-rss" class="tooltips btn btn-default  communityBtn btn-menu-element btn-menu-element-directory" role ="button" href="http://127.0.0.1/ph/api/news/get/format/rss">'+
 								'<i class="fa fa-rss" aria-hidden="true"></i> ' +
 							'</a>' +
 						'<div id="btn-rss-test"></div>'
