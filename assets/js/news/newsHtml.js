@@ -412,6 +412,12 @@ function buildLineHTML(newsObj,idSession,update)
 		// Check offset of last element
 		var offsetLastNews = $(".newsFeed").last().position();
 		// Append news in timeline
+
+		//TEST Damien 
+		var btnRSS = '';
+
+		//$(".newsTL").append('TEST TIME LINE');
+
 		$(".newsTL").append(newsTLLine);
 		if(addForm==true){
 			if(isLiveGlobal()){ 

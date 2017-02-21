@@ -82,7 +82,8 @@ function showTagsScopesMin(htmlId){
 					"<span class='' id='lbl-my-scopes'>"+
 						"<i class='fa fa-tag'></i> Rechercher par lieux <i class='fa fa-angle-right'></i> "+
 					"</span><br class='visible-in-form'>";
-	
+
+
 	var numberOfScope = 0;
 	$.each(myMultiScopes, function(key, value){
 		numberOfScope++;
@@ -100,6 +101,13 @@ function showTagsScopesMin(htmlId){
 	}
 	html += 	"</span>";
 	html += "</div>";
+
+
+	if (contextData == null) {
+		console.log('TEST ContextData');
+		
+	}
+	
 	$(htmlId).html(html);
 	multiTagScopeLbl();
 
