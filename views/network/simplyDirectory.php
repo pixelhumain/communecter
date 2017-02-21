@@ -415,7 +415,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 				  searchTagsSimply[keyNet] = [];
 
 				if(typeof valueNet.tags[o] == "string")
-				  searchTagsSimply[keyNet].push(o);
+				  searchTagsSimply[keyNet].push(valueNet.tags[o]);
 				else{
 					$.each(valueNet.tags[o], function(keyTags, valueTags){
 					  searchTagsSimply[keyNet].push(valueTags);
@@ -431,8 +431,8 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 	  "name" : name,
 	  "locality" : "xxxx",
 	  "searchType" : searchType,
-	  //"searchTag" : searchTagGlobal,
-	  "searchTag" : searchTagsSimply,
+	  "searchTag" : searchTagGlobal,
+	  "filtreTag" : searchTagsSimply,
 	  "searchLocalityNAME" : searchLocalityNAME,
 	  "searchLocalityCODE_POSTAL_INSEE" : searchLocalityCODE_POSTAL_INSEE,
 	  "searchLocalityDEPARTEMENT" : searchLocalityDEPARTEMENT,
