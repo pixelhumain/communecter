@@ -896,11 +896,10 @@ if($showOdesc == true){
 			if(contextData.type == "<?php echo Event::COLLECTION; ?>"){
 				properties.allDay = typeObjLib["allDay"];
 			}
-
-			properties.startDate = typeObjLib["startDateInput"];
-			properties.endDate = typeObjLib["endDateInput"];
-
-			
+			properties.startDateInput = typeObjLib["startDateInput"];
+			properties.endDateInput = typeObjLib["endDateInput"];
+			properties.startDate = typeObjLib.hidden;
+			properties.endDate = typeObjLib.hidden;
 			
 			var dataUpdate = {
 				block : "when",
@@ -910,10 +909,10 @@ if($showOdesc == true){
 			//25/01/2014 08:30
 			
 			if(contextData.startDate.length > 0)
-				dataUpdate.startDate = moment(contextData.startDate).local().format(formatDatedynForm);
+				dataUpdate.startDateInput = moment(contextData.startDate).local().format(formatDatedynForm);
 
 			if(contextData.endDate.length > 0)
-				dataUpdate.endDate = moment(contextData.endDate).local().format(formatDatedynForm);
+				dataUpdate.endDateInput = moment(contextData.endDate).local().format(formatDatedynForm);
 
 			mylog.log("dataUpdate", dataUpdate);
 

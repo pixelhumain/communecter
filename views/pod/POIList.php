@@ -4,7 +4,7 @@
 			<h4 class="panel-title"><i class="fa fa-map-marker"></i> Points d'intérêt</h4>		
 		</div> 
 		<div class="panel-tools">
-			<a  href="javascript:;" onclick="openForm('poi','subPoi')" 
+			<a  href="javascript:;" onclick="elementLib.openForm('poi','subPoi')" 
 				class="btn btn-xs btn-default tooltips" data-placement="bottom" 
 				data-original-title="<?php echo Yii::t("common","Add") ?>" >
 					<i class="fa fa-plus"></i> <?php echo Yii::t("common","Add") ?>

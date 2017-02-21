@@ -1486,11 +1486,6 @@ function buildDynForm(elementObj, afterLoad,data) {
 		mylog.dir(form);
 	} else 
 		alert('Vous devez etre loggué');
-}
-
-var closeForm : function() {
-	$('#ajax-modal').modal("hide");
-    $("#ajaxFormModal").html(''); 
 };
 
 var contextData = null;
@@ -1936,17 +1931,17 @@ var keyMap = {
 	"117" : function(){ mylog.clear();loadByHash(location.hash) },//f6
 };
 var keyMapCombo = {
-	"69" : function(){openForm('event')}, //e
-	"79" : function(){openForm('organization')},//o
-	"80" : function(){openForm('project')},//p
-	"73" : function(){openForm('person')},//i
-	"65" : function(){openForm('action')},//a
-	"86" : function(){openForm('entry')}//v
+	"69" : function(){elementLib.openForm('event')}, //e
+	"79" : function(){elementLib.openForm('organization')},//o
+	"80" : function(){elementLib.openForm('project')},//p
+	"73" : function(){elementLib.openForm('person')},//i
+	"65" : function(){elementLib.openForm('action')},//a
+	"86" : function(){elementLib.openForm('entry')}//v
 };
 var keyMapCtrlCombo = {
 	"83" : function(){$(".menu-name-profil").trigger('click')},//s save an element > open dashboard
 	"80" : function(){showMap(true)},//p switch view 
-	"70" : function(){openForm('person')},//f open finder
+	"70" : function(){elementLib.openForm('person')},//f open finder
 };
 
 function checkKeycode(e) {
