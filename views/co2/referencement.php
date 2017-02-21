@@ -241,7 +241,7 @@
 
 <?php $this->renderPartial($layoutPath.'footer'); ?>
 
-<script>
+<script type="text/javascript" >
 
 var categoriesSelected = new Array();
 var urlValidated = "";
@@ -440,9 +440,11 @@ function refUrl(url){
 
                 var favicon = $("link[rel*='icon']", tempDom).attr("href");
                 var hostname = (new URL(url)).origin;
-                var faviconSrc = hostname+favicon;
-
-                if(favicon.indexOf("http")>=0) faviconSrc = favicon;
+                var faviconSrc = "";
+                if(typeof favicon != "undefined"){
+                    var faviconSrc = hostname+favicon;
+                    if(favicon.indexOf("http")>=0) faviconSrc = favicon;
+                }
 
 				var description = $(tempDom).find('meta[name=description]').attr("content");
 
@@ -499,7 +501,7 @@ function refUrl(url){
 					checkAllInfo();
 			   	});
 
-			   	$("#status-ref").html("<span class='letter-green'><img src='"+faviconSrc+"' height=30> <i class='fa fa-check'></i> Nous avons trouvé votre page</span>");
+			   	$("#status-ref").html("<span class='letter-green'><img src='"+faviconSrc+"' height=30 alt='x'> <i class='fa fa-check'></i> Nous avons trouvé votre page</span>");
     			$("#refResult").removeClass("hidden");
 			   
 			   	$("#lbl-url").removeClass("letter-red").addClass("letter-green");

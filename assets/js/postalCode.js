@@ -6,7 +6,7 @@ Internally value stored as {postalCode: "97426", city: "Trois Bassins"}
 @final
 @example
 <a href="#" id="postalCode" data-type="postalCode" data-pk="1">awesome</a>
-<script>
+<script type="text/javascript" >
 $(function(){
     $('#postalCode').editable({
         url: '/post',

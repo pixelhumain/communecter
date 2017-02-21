@@ -484,7 +484,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-timeline.j
 </div>
 <!-- end: PAGE CONTENT-->
 
-<script>
+<script type="text/javascript" >
 	jQuery(document).ready(function() {
 		Timeline.init();
 	});

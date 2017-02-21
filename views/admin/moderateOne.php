@@ -28,7 +28,7 @@
 	</div>
 </div>
 
-<script>
+<script type="text/javascript" >
 	var newsId = "";
 	var htmlSpiner = '<h2 class="homestead text-dark padding-10"><i class="fa fa-spin fa-circle-o-notch"></i></h2>';
 	function loadNewsToModerate(idNews){

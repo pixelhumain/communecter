@@ -110,12 +110,18 @@ class CommunecterController extends Controller
       "adddataindb"    => array("href" => "/ph/communecter/adminpublic/adddataindb"),
       "createfile" => array("href" => "/ph/communecter/adminpublic/createfile"),
       "sourceadmin" => array("href" => "/ph/communecter/adminpublic/sourceadmin"),
+      "assigndata"    => array("href" => "/ph/communecter/adminpublic/assigndata"),
+      "getdatabyurl"   => array("href" => "/ph/communecter/adminpublic/getdatabyurl"),
+      "previewdata"    => array("href" => "/ph/communecter/adminpublic/previewdata"),
       
     ),
     "collections" => array(
       "add"    => array("href" => "/ph/communecter/collections/add"),
       "list"    => array("href" => "/ph/communecter/collections/list"),
       "crud"    => array("href" => "/ph/communecter/collections/crud"),
+    ),
+    "tool" => array(
+      "get"    => array("href" => "/ph/communecter/tool/get")
     ),
     "default" => array(
       "index"                => array("href" => "/ph/communecter/default/index", "public" => true),
@@ -157,6 +163,7 @@ class CommunecterController extends Controller
       'cityexists'          => array("href" => "/ph/communecter/city/cityexists"),
       'autocompletemultiscope'          => array("href" => "/ph/communecter/city/autocompletemultiscope"),
       "save"               => array("href" => "/ph/communecter/city/save", "public" => true),
+      'getdepandregion'          => array("href" => "/ph/communecter/city/getdepandregion"),
     ),
     "news"=> array(
       "index"   => array( "href" => "/ph/communecter/news/index", "public" => true,'title' => "Fil d'actualités - N.E.W.S", "subTitle"=>"Nord.Est.West.Sud","pageTitle"=>"Fil d'actualités - N.E.W.S"),
@@ -177,7 +184,6 @@ class CommunecterController extends Controller
     "network" => array(
       "simplydirectory"    => array("href" => "/ph/communecter/network/simplydirectory")
     ),
-
     "rooms"=> array(
       "index"    => array("href" => "/ph/communecter/rooms/index"),
       "saveroom" => array("href" => "/ph/communecter/rooms/saveroom"),
@@ -363,6 +369,7 @@ class CommunecterController extends Controller
       "removeAndBacktract"  => array("href"=> "/ph/communecter/document/removeAndBacktract"),
       "getlistbyid"         => array("href"=> "ph/communecter/document/getlistbyid"),
       "upload"              => array("href"=> "ph/communecter/document/upload"),
+      "uploadsave"          => array("href"=> "ph/communecter/document/uploadsave"),
       "delete"              => array("href"=> "ph/communecter/document/delete")
     ),
     "survey" => array(
@@ -412,6 +419,8 @@ class CommunecterController extends Controller
     ),
     "log"=> array(
       "monitoring" => array("href" => "/ph/communecter/log/monitoring"),
+      "dbaccess"  => array("href" => "/ph/communecter/log/dbaccess"),
+      "clear"  => array("href" => "/ph/communecter/log/clear"),
     ),
     "stat"=> array(
       "createglobalstat" => array("href" => "/ph/communecter/stat/createglobalstat"),
@@ -423,6 +432,7 @@ class CommunecterController extends Controller
       "updatesettings"      => array('href' => "/ph/communecter/element/updatesettings"),
       "updatefield"         => array("href" => "/ph/communecter/element/updatefield"),
       "updatefields"        => array("href" => "/ph/communecter/element/updatefields"),
+      "updateblock"        => array("href" => "/ph/communecter/element/updateblock"),
       "detail"              => array("href" => "/ph/communecter/element/detail", "public" => true),
       "getalllinks"         => array("href" => "/ph/communecter/element/getalllinks"),
       "simply"              => array("href" => "/ph/communecter/element/simply", "public" => true),
@@ -432,24 +442,27 @@ class CommunecterController extends Controller
       "aroundme"            => array("href" => "/ph/communecter/element/aroundme"),
       "save"                => array("href" => "/ph/communecter/element/save"),
       "savecontact"         => array("href" => "/ph/communecter/element/savecontact"),
+      "saveurl"             => array("href" => "/ph/communecter/element/saveurl"),
       "get"                 => array("href" => "/ph/communecter/element/get"),
       "delete"              => array("href" => "/ph/communecter/element/delete"),
     ),
     "co2" => array(
-      "index"             => array('href' => "/ph/communecter/co2/index",               "public" => true),
+      "index"             => array('href' => "/ph/communecter/co2/index",             "public" => true),
       "web"               => array('href' => "/ph/communecter/co2/web",               "public" => true),
       "websearch"         => array('href' => "/ph/communecter/co2/websearch",         "public" => true),
       "live"              => array('href' => "/ph/communecter/co2/live",              "public" => true),
+      "media"             => array('href' => "/ph/communecter/co2/media",             "public" => true),
       "referencement"     => array('href' => "/ph/communecter/co2/referencement",     "public" => true),
       "savereferencement" => array('href' => "/ph/communecter/co2/savereferencement", "public" => true),
-      "freedom"            => array('href' => "/ph/communecter/co2/freedom",            "public" => true),
+      "freedom"           => array('href' => "/ph/communecter/co2/freedom",           "public" => true),
       "agenda"            => array('href' => "/ph/communecter/co2/agenda",            "public" => true),
       "mediacrawler"      => array('href' => "/ph/communecter/co2/mediacrawler",      "public" => false),
       "page"              => array('href' => "/ph/communecter/co2/page",              "public" => true),
       "social"            => array('href' => "/ph/communecter/co2/social",            "public" => true),
-      "agenda"             => array('href' => "/ph/communecter/co2/agenda",           "public" => true),
+      "agenda"            => array('href' => "/ph/communecter/co2/agenda",            "public" => true),
       "power"             => array('href' => "/ph/communecter/co2/power",             "public" => true),
       "superadmin"        => array('href' => "/ph/communecter/co2/superadmin",        "public" => false),
+      "info"              => array('href' => "/ph/communecter/co2/info",              "public" => false),
       ),
     "siteurl" => array(
       "incnbclick"        => array('href' => "ph/communecter/siteurl/incnbclick")
@@ -463,6 +476,15 @@ class CommunecterController extends Controller
     //if( Yii::app()->request->isAjaxRequest && (!isset( $page["json"] )) )
       //echo "<script type='text/javascript'> userId = '".Yii::app()->session['userId']."'; var blackfly = 'sosos';</script>";
     
+    if( @$_GET["theme"] ){
+      Yii::app()->theme = $_GET["theme"];
+      Yii::app()->session["theme"] = $_GET["theme"];
+    }
+    else if(@Yii::app()->session["theme"])
+      Yii::app()->theme = Yii::app()->session["theme"];
+    /*else
+      Yii::app()->theme = "ph-dori";*/
+
     //managed public and private sections through a url manager
     if( Yii::app()->controller->id == "admin" && !Yii::app()->session[ "userIsAdmin" ] )
       throw new CHttpException(403,Yii::t('error','Unauthorized Access.'));
@@ -523,6 +545,8 @@ class CommunecterController extends Controller
   protected function beforeAction($action){
     if( $_SERVER['SERVER_NAME'] == "127.0.0.1" || $_SERVER['SERVER_NAME'] == "localhost" ){
       Yii::app()->assetManager->forceCopy = true;
+      //if(Yii::app()->controller->id."/".Yii::app()->controller->action->id != "log/dbaccess")
+        //Yii::app()->session["dbAccess"] = 0;
     }
 
     $this->manageLog();
@@ -532,7 +556,6 @@ class CommunecterController extends Controller
 
 
   protected function afterAction($action){
-
     return parent::afterAction($action);
   }
 

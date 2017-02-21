@@ -210,7 +210,7 @@
     </a>
 </div>
 
-    <script>
+    <script type="text/javascript" >
     
     var currentIdSection = "";
 	jQuery(document).ready(function() { 

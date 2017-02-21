@@ -17,6 +17,7 @@ class ElementController extends CommunecterController {
       return array(
           'updatefield' 				  => 'citizenToolKit.controllers.element.UpdateFieldAction',
           'updatefields' 				  => 'citizenToolKit.controllers.element.UpdateFieldsAction',
+          'updateblock'          => 'citizenToolKit.controllers.element.UpdateBlockAction',
           'updatesettings'        => 'citizenToolKit.controllers.element.UpdateSettingsAction',
           'detail'                => 'citizenToolKit.controllers.element.DetailAction',
           'getalllinks'           => 'citizenToolKit.controllers.element.GetAllLinksAction',
@@ -26,6 +27,7 @@ class ElementController extends CommunecterController {
           'updatefield'           => 'citizenToolKit.controllers.element.UpdateFieldAction',
           'save'                  => 'citizenToolKit.controllers.element.SaveAction',
           'savecontact'           => 'citizenToolKit.controllers.element.SaveContactAction',
+          'saveurl'               => 'citizenToolKit.controllers.element.SaveUrlAction',
           'delete'                => 'citizenToolKit.controllers.element.DeleteAction',
           'get'                   => 'citizenToolKit.controllers.element.GetAction'
       );

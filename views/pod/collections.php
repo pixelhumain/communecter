@@ -11,7 +11,7 @@
 			</a>
 		</div>
 		<div class="panel-scroll height-230 ps-container">
-			<div class="padding-10">
+			<div class="">
 			
 			<?php 
 			if(empty($collections)){ ?>
@@ -24,7 +24,7 @@
 			else{
 				foreach ($collections as $nom => $list) { ?>
 					<div style="border-bottom:1px solid #ccc">
-						<a href="javascript:smallMenu.openAjax(baseUrl+'/'+moduleId+'/collections/list/col/<?php echo $nom?>','<?php echo $nom?>','fa-folder-open','yellow')"><i class="fa fa-folder-open text-yellow"></i>  <?php echo $nom?> </a>
+						<a class="btn-open-collection" href="javascript:smallMenu.openAjax(baseUrl+'/'+moduleId+'/collections/list/col/<?php echo $nom?>','<?php echo $nom?>','fa-folder-open','yellow')"><i class="fa fa-folder-open text-yellow"></i>  <?php echo $nom?> </a>
 					</div>
 			<?php }} ?>
 			</div>

@@ -186,7 +186,11 @@ function callGeoWebService(providerName, requestPart, countryCode, success, erro
 function showMsgListRes(msg){ mylog.log("showMsgListRes", msg);
 	msg = msg != "" ? "<li class='padding-5'>" + msg + "</li>" : "";
 
-	$("#dropdown-newElement_streetAddress-found").html(msg);
+	if($("#dropdown-newElement_streetAddress-found").length){ //si on a cet id = on est dans formInMap
+		$("#dropdown-newElement_streetAddress-found").html(msg);
+	}else{
+		$("#liste_map_element").html(msg);
+	}
 }
 
 
@@ -196,10 +200,10 @@ function getCommonGeoObject(objs, providerName){
 	var commonObjs = new Array();
 	var multiCpName = new Array();
 	$.each(objs, function(key, obj){
-
+		console.log("obj result", providerName, obj);
 		var commonObj = {};
 		if(providerName == "nominatim"){
-			var address = obj["address"];
+			var address = typeof obj["address"] != "undefined" ?  obj["address"] :  obj["address_components"];
 			commonObj = addAttObjNominatim(commonObj, address, "streetNumber", "house_number");
 			
 			commonObj = addAttObjNominatim(commonObj, address, "street", "road");
@@ -210,6 +214,7 @@ function getCommonGeoObject(objs, providerName){
 			commonObj = addAttObjNominatim(commonObj, address, "cityName", "city");
 			commonObj = addAttObjNominatim(commonObj, address, "cityName", "village");
 			commonObj = addAttObjNominatim(commonObj, address, "cityName", "town");
+			commonObj = addAttObjNominatim(commonObj, address, "suburb", "suburb");
 			commonObj = addAttObjNominatim(commonObj, address, "country", "country");
 			commonObj = addAttObjNominatim(commonObj, address, "countryCode", "country_code");
 			commonObj = addAttObjNominatim(commonObj, address, "postalCode", "postcode");
@@ -224,6 +229,9 @@ function getCommonGeoObject(objs, providerName){
 				commonObj = addAttObjGoogle(commonObj, component, "country", "country", "long_name");
 				commonObj = addAttObjGoogle(commonObj, component, "countryCode", "country", "short_name");
 				commonObj = addAttObjGoogle(commonObj, component, "postalCode", "postal_code", "long_name");
+				commonObj = addAttObjGoogle(commonObj, component, "POI", "point_of_interest", "long_name");
+				commonObj = addAttObjGoogle(commonObj, component, "AAL1", "administrative_area_level_1", "long_name");
+				commonObj = addAttObjGoogle(commonObj, component, "AAL2", "administrative_area_level_2", "long_name");
 			});
 			commonObj = addAttObjNominatim(commonObj, obj, "placeId", "place_id");
 		}else 

@@ -90,7 +90,7 @@ $cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/js/pages-calendar.j
 </div>
 <!-- end: PAGE CONTENT-->
 
-<script>
+<script type="text/javascript" >
 	jQuery(document).ready(function() {
 		
 		Calendar.init();

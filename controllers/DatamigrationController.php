@@ -1216,5 +1216,170 @@ class DatamigrationController extends CommunecterController {
 		echo  "NB Element inconnu : " .$nbelementUnknown."<br>" ;
 		echo  "NB Element date en string : " .$nbelementDateString."<br>" ;
 	}
+
+
+	/*public function actionNameHtmlSpecialCaractere(){
+		$types = array(Person::COLLECTION, Organization::COLLECTION, Project::COLLECTION, Event::COLLECTION);
+		$nbelement = 0 ;
+		foreach ($types as $keyType => $type) {
+			$elements = PHDB::find($type, array("name" => array('$exists' => 1)));
+			if(!empty($elements)){
+				foreach (@$elements as $keyElt => $elt) {
+					if(!empty($elt["name"])){
+						$nbelement ++ ;
+						$elt["modifiedByBatch"][] = array("NameHtmlSpecialCaractere" => new MongoDate(time()));
+						try {
+							$res = PHDB::update( $type, 
+						  		array("_id"=>new MongoId($keyElt)),
+	                        	array('$set' => array(	"name" => htmlspecialchars($elt["name"]),
+	                        							"modifiedByBatch" => $elt["modifiedByBatch"])));
+						} catch (MongoWriteConcernException $e) {
+							echo("Erreur à la mise à jour de l'élément ".$type." avec l'id ".$keyElt);
+							die();
+						}
+						echo "Elt mis a jour : ".$type." et l'id ".$keyElt."<br>" ;
+					}
+				}
+			}
+		}		
+		echo  "NB Element mis à jours: " .$nbelement."<br>" ;
+	}*/
+
+
+	public function actionNameHtmlSpecialCharsDecode(){
+		$types = array(Person::COLLECTION, Organization::COLLECTION, Project::COLLECTION, Event::COLLECTION);
+		$nbelement = 0 ;
+		foreach ($types as $keyType => $type) {
+			$elements = PHDB::find($type, array("name" => array('$exists' => 1)));
+			if(!empty($elements)){
+				foreach (@$elements as $keyElt => $elt) {
+					if(!empty($elt["name"])){
+						$nbelement ++ ;
+						$elt["modifiedByBatch"][] = array("NameHtmlSpecialCharsDecode" => new MongoDate(time()));
+						try {
+							$res = PHDB::update( $type, 
+						  		array("_id"=>new MongoId($keyElt)),
+	                        	array('$set' => array(	"name" => htmlspecialchars_decode($elt["name"]),
+	                        							"modifiedByBatch" => $elt["modifiedByBatch"])));
+						} catch (MongoWriteConcernException $e) {
+							echo("Erreur à la mise à jour de l'élément ".$type." avec l'id ".$keyElt);
+							die();
+						}
+						echo "Elt mis a jour : ".$type." et l'id ".$keyElt."<br>" ;
+					}
+				}
+			}
+		}		
+		echo  "NB Element mis à jours: " .$nbelement."<br>" ;
+	}
+
+
+	public function actionAddDepAndRegionAndCountryInAddress(){
+
+
+		$types = array(Person::COLLECTION, Organization::COLLECTION, Project::COLLECTION, Event::COLLECTION);
+		$nbelement = 0 ;
+		$arrayDep = array("address.depName" => array('$exists' => 0));
+		$arrayRegion = array("address.regionName" => array('$exists' => 0));
+		$arrayCountry = array("address.addressCountry" => array('$exists' => 0));
+		$arrayStreet = array("address.streetAddress" => array('$exists' => 0));
+		$where = array('$and' => array(
+						array("address" => array('$exists' => 1)), 
+						array('$or' => array($arrayDep, $arrayRegion, $arrayCountry, $arrayStreet))
+					));
+		
+		foreach ($types as $keyType => $type) {
+			
+			$elements = PHDB::find($type, $where);
+			
+			if(!empty($elements)){
+				foreach (@$elements as $keyElt => $elt) {
+					if(!empty($elt["name"])){
+						$nbelement ++ ;
+						$elt["modifiedByBatch"][] = array("AddDepAndRegionAndCountryInAddress" => new MongoDate(time()));
+						$address = $elt["address"];
+
+						if (isset($address["codeInsee"])) {
+							$depAndRegion = City::getDepAndRegionByInsee($address["codeInsee"]);
+
+							$address["depName"] = (empty($depAndRegion["depName"]) ? "" : $depAndRegion["depName"]);
+							$address["regionName"] = (empty($depAndRegion["regionName"]) ? "" : $depAndRegion["regionName"]);
+							$address["addressCountry"] = (empty($depAndRegion["country"]) ? "" : $depAndRegion["country"]);
+							$address["streetAddress"] = (empty($elt["address"]["streetAddress"]) ? "" : $elt["address"]["streetAddress"]);
+							try {
+								$res = PHDB::update( $type, 
+							  		array("_id"=>new MongoId($keyElt)),
+		                        	array('$set' => array(	"address" => $address,
+		                        							"modifiedByBatch" => $elt["modifiedByBatch"])));
+							} catch (MongoWriteConcernException $e) {
+								echo("Erreur à la mise à jour de l'élément ".$type." avec l'id ".$keyElt);
+								die();
+							}
+							echo "Elt mis a jour : ".$type." et l'id ".$keyElt."<br>" ;
+						} else {
+							echo "Pas de mise a jour : ".$type." et l'id ".$keyElt."<br>" ;
+						}
+					}
+				}
+			}
+		}		
+		echo  "NB Element mis à jours: " .$nbelement."<br>" ;
+
+	}
+
+	public function actionHtmlToMarkdown(){
+		$html = "<h3> TEst </h3>
+				<p>Welcome to the demo:</p>
+				<ol>
+				<li>Write Markdown text on the left</li>
+				<li>Hit the <strong>Parse</strong> button or <code>⌘ + Enter</code></li>
+				<li>See the result to on the right</li>
+				</ol>" ;
+
+		echo $html ;
+
+		echo "<br/><br/><br/><br/>";
+
+		
+		
+
+		try {
+            //$mailError = new MailError($_POST);
+            $converter = new Htmlconverter();
+			$mark = $converter->convert($html);
+        } catch (CTKException $e) {
+            Rest::sendResponse(450, "Webhook : ".$e->getMessage());
+            die;
+        }
+		echo $mark;
+	}
+
+	public function actionDescInHtml(){
+		$types = array(Person::COLLECTION, Organization::COLLECTION, Project::COLLECTION, Event::COLLECTION);
+		$nbelement = 0 ;
+		foreach ($types as $keyType => $type) {
+			$elements = PHDB::find($type, array("description" => array('$exists' => 1)));
+			if(!empty($elements)){
+				foreach (@$elements as $keyElt => $elt) {
+					if(!empty($elt["name"])){
+						$nbelement ++ ;
+						$elt["modifiedByBatch"][] = array("DescInHtml" => new MongoDate(time()));
+						try {
+							$res = PHDB::update( $type, 
+						  		array("_id"=>new MongoId($keyElt)),
+	                        	array('$set' => array(	"descriptionHTML" => true,
+	                        							"modifiedByBatch" => $elt["modifiedByBatch"])));
+						} catch (MongoWriteConcernException $e) {
+							echo("Erreur à la mise à jour de l'élément ".$type." avec l'id ".$keyElt);
+							die();
+						}
+						echo "Elt mis a jour : ".$type." et l'id ".$keyElt."<br>" ;
+					}
+				}
+			}
+		}		
+		echo  "NB Element mis à jours: " .$nbelement."<br>" ;
+	}
+
 }
 
