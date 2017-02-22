@@ -80,6 +80,9 @@ console.log("searchPrefTag", searchPrefTag);
   var scrollEnd = false;
   var totalData = 0;
   var timeout = null;
+
+
+
   jQuery(document).ready(function() {
 	 bindLBHLinks();
 	  if(location.hash == "" || location.hash == "#network.simplydirectory")
@@ -250,6 +253,8 @@ console.log("searchPrefTag", searchPrefTag);
 	//initBtnScopeList();
 	startSearch(0, indexStepInit);
   });
+
+
 function startSearch(indexMin, indexMax){
 	 console.log("startSearch2", indexMin, indexMax, indexStep);
 	$("#listTagClientFilter").html('spiner');
@@ -280,6 +285,7 @@ function startSearch(indexMin, indexMax){
 	  }
 	  autoCompleteSearch(name, locality, indexMin, indexMax);
 }
+
 function addSearchType(type){
   var index = searchType.indexOf(type);
   if (index == -1) {
@@ -380,6 +386,8 @@ var mix = "";
 <?php if(isset($params['mode']) && $params['mode'] == 'client') { ?>
   mix = "mix";
 <?php } ?>
+
+
 function autoCompleteSearch(name, locality, indexMin, indexMax){
 	var levelCommunexionName = { 1 : "INSEE",
 							 2 : "CODE_POSTAL_INSEE",
@@ -499,10 +507,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 				  var typeIco = i;
 				  var ico = mapIconTop["default"];
 				  var color = mapColorIconTop["default"];
-				  // mapElements.push(o);
-				  // allElement.push(o);
-
-
+				  
 				  typeIco = o.type;
 				  ico = ("undefined" != typeof mapIconTop[typeIco]) ? mapIconTop[typeIco] : mapIconTop["default"];
 				  color = ("undefined" != typeof mapColorIconTop[typeIco]) ? mapColorIconTop[typeIco] : mapColorIconTop["default"];
@@ -1018,9 +1023,9 @@ function getAjaxFiche(url, breadcrumLevel){
 
 
 function reverseToRepertory(){
-	  if(isMapEnd){
+	if(isMapEnd)
 		showMapNetwork();
-	}
+	
 	isEntityView=false;
 	$("#ficheInfoDetail").hide( 700 );
 	$(".main-col-search").removeClass("col-md-12 col-sm-12").addClass("col-md-10 col-md-offset-2 col-sm-9 col-sm-offset-3");
@@ -1135,5 +1140,57 @@ function showMenuNetwork(show){
 		//$(".main-top-menu").animate({ top: -60, opacity:0 }, 500 );
 	}
 }
+
+//if all tags exist returns true
+//console.log( and( [], [ "mobilité", "atelier", "commun", "tiers-lieux" ] ));
+//console.log( and( ["atelier"], [ "mobilité", "atelier", "commun", "tiers-lieux" ] ));
+//console.log( and( ["atelier","coco"], [ "mobilité", "atelier", "commun", "tiers-lieux" ] ));
+//console.log( and( ["atelier","commun"], [ "mobilité", "atelier", "commun", "tiers-lieux" ] ));
+//console.log( and( ["coco","atelier"], [ "mobilité", "atelier", "commun", "tiers-lieux" ] ));
+//console.log( and( ["coco","atelier",'commun'], [ "mobilité", "atelier", "commun", "tiers-lieux" ] ));
+function and(tags,tagList)
+{
+	var res = true ;
+	$.each(tags,function(i,t){
+	//console.log("is '",t,"' in ",tagList);
+		if( $.inArray( t, tagList ) == -1 ){
+			res = false;
+			return false;
+		}
+	});
+	return res;
+}
+
+//if just one or many tags exist returns true
+//console.log( or( [], [ "mobilité", "atelier", "commun", "tiers-lieux" ] ));
+//console.log( or( ["atelier"], [ "mobilité", "atelier", "commun", "tiers-lieux" ] ));
+//console.log( or( ["atelier","coco"], [ "mobilité", "atelier", "commun", "tiers-lieux" ] ));
+//console.log( or( ["atelier","commun"], [ "mobilité", "atelier", "commun", "tiers-lieux" ] ));
+//console.log( or( ["coco","atelier"], [ "mobilité", "atelier", "commun", "tiers-lieux" ] ));
+//console.log( or( ["coco","n"], [ "mobilité", "atelier", "commun", "tiers-lieux" ] ));
+function or(tags,tagList)
+{
+	res = (!tags.length) ? true :false;
+
+	$.each(tags,function(i,t){
+	//console.log("is '",t,"' in ",tagList);
+		if( $.inArray( t, tagList ) !== -1 )
+			res = true;
+	});
+	return res;
+}
+
+/*
+
+var filteredList = [];
+$.each(contextMapNetwork,function(k,v){
+	if( or( ["atelier"], v.tags ) )
+		filteredList.push(v);
+
+})
+
+Sig.showMapElements(Sig.map,filteredList)
+
+*/
 
 </script>
