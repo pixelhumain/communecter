@@ -497,8 +497,11 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		</div>
 	</div>
 
+<<<<<<< Updated upstream
 	<div class="col-sm-12" style="background-color:#fff; float:left;" id="friendsSection">
-
+=======
+	<div class="col-sm-12peopleTalkBg" id="friendsSection">
+>>>>>>> Stashed changes
 		<center>
 			<i class="fa fa-caret-down" style="color:#293A46;"></i>
 		</center>
@@ -529,8 +532,11 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		<div class="space20"></div>
 	</div>
 	
+<<<<<<< Updated upstream
 	<div class="col-sm-12" style="background-color:#E33551;  float:left;" id="teamSection">
-
+=======
+	<div class="col-sm-12 " style="background-color:#E33551; " id="teamSection">
+>>>>>>> Stashed changes
 		<center>
 			<i class="fa fa-caret-down" style="color:#fff"></i><br/>
 			<h1 class="homestead" style="color:#fff"><i class="fa fa-users headerIcon"></i><br/>Construction collaborative</h1>
