@@ -552,9 +552,9 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 					target = "";
 					dataId = o.name; //.replace("'", "\'");
 				  }
-				  var tags = "";
+				  //var tags = "";
 				  var find = false;
-				  if(typeof o.tags != "undefined" && o.tags != null){
+				  /*if(typeof o.tags != "undefined" && o.tags != null){
 					$.each(o.tags, function(key, value){
 					  if(value != ""){
 						//Display info in item
@@ -580,7 +580,27 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 						// tagsClasses += ' '+value.replace("/[^A-Za-z0-9]/", "", value) ;
 					  }
 					});
-				  }
+				  }*/
+
+					var tags = "";
+					var elTagsList = "";
+					if(typeof o.tags != "undefined" && o.tags != null){
+						$.each(o.tags, function(key, value){
+							if(value != ""){
+								tags += "<a href='javascript:' class='badge bg-red btn-tag tagFilter padding-5' data-tag-value='"+slugify(value)+"'>#" + value + "</a> ";
+								elTagsList += slugify(value)+" ";
+								if(find == false && value in linksTagImages == true){
+									find = true;
+									o.typeSig = "organizations";
+									o.type = "organizations";
+								}
+							}
+						});
+					}
+
+
+
+
 				  mapElements.push(o);
 				  contextMapNetwork.push(o);
 				  // console.log(tagsClasses);
@@ -611,8 +631,9 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 				 
 				  var disabledBorder = ((typeof o.disabled != "undefined" && o.disabled == true) ? "border-red" : "" );
 				  var disabledText = ((typeof o.disabled != "undefined" && o.disabled == true) ? '<h1 id="disabledHeader" class="text-red"><?php echo Yii::t("common", "Disabled"); ?></h1>' : "" );
+
 				  /***** VERSION SIMPLY *****/
-				  str += "<div id='"+id+"' class='row list-group-item item searchEntity "+mix+" "+tagsClasses+" "+fullLocality+" "+disabledBorder+"' >";
+				  str += "<div id='"+id+"' class='row list-group-item item searchEntity "+mix+" "+elTagsList+" "+fullLocality+" "+disabledBorder+"' >";
 				  <?php if(isset($params['result']['displayImage']) && $params['result']['displayImage']) { ?>
 					str += '<div class="col-lg-3 col-md-3 col-sm-3 col-xs-4 padding-10 center">'+
 								'<img class="img-responsive thumbnail" src="'+pathmedium+'">'+
@@ -808,8 +829,10 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 	}*/
 
 	$(".tagFilter").off().click(function(e){
-	  var tag = $(this).attr("value");
-	  var index = searchTag.indexOf(tag);
+	  	var filtre = $(this).attr("value");
+
+	  	
+	  /*var index = searchTag.indexOf(tag);
 	  if(tag == "all"){
 		searchTag = [];
 		$('.tagFilter[value="all"]').addClass('active');
@@ -821,7 +844,28 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 	  }
 	  if (index > -1) removeSearchTag(tag);
 	  else addSearchTag(tag);
-	  startSearch(0, indexStepInit);
+	  startSearch(0, indexStepInit);*/
+	  	$.each(networkJson.filter.linksTag, function(keyNet, valueNet){
+			if(typeof valueNet.tags[filtre] != "undefined"){
+
+				if(typeof valueNet.tags[filtre] == "string"){
+					console.log("valueNet.tags[filtre]");
+					toggle("."+slugify(valueNet.tags[filtre]),".searchEntity",1);
+				}
+				else{
+					$.each(valueNet.tags[o], function(keyTags, valueTags){
+						toggle("."+slugify(valueTags),".searchEntity",1);
+					});
+				}
+			}  
+		});
+
+		/*tags = "";
+		$.each( $( ".favElBtn.active" ) ,function( i,o ) { 
+			tags += "."+$(o).data("tag")+",";
+		});
+		tags = tags.replace(/,\s*$/, "");*/
+	  	
 	});
 	$(".villeFilter").off().click(function(e){
 	  var ville = $(this).attr("value");
