@@ -81,7 +81,7 @@ console.log("searchPrefTag", searchPrefTag);
   var totalData = 0;
   var timeout = null;
 
-
+   var tagsActived = {};
 
   jQuery(document).ready(function() {
 	 bindLBHLinks();
@@ -203,13 +203,15 @@ console.log("searchPrefTag", searchPrefTag);
 
 
 	$('#reset').off().on('click', function() {
-	  searchTag = allsearchTag;
+	  /*searchTag = allsearchTag;
 	  searchLocalityNAME = allsearchLocalityNAME;
-	  searchCategory = allsearchCategory;
+	  searchCategory = allsearchCategory;*/
 	  $('.tagFilter').removeClass('active');
 	  $('.villeFilter').removeClass('active');
 	  $('.categoryFilter').removeClass('active');
-	  startSearch(0, indexStepInit);
+	  tagsActived = {};
+	  updateMap();
+	  //startSearch(0, indexStepInit);
 	});
 	<?php if(isset($params['mode']) && $params['mode'] == "client"){ ?>
 
@@ -634,7 +636,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 				  var startDate = (typeof o.startDate != "undefined") ? "Du "+dateToStr(o.startDate, "fr", true, true) : null;
 				  var endDate   = (typeof o.endDate   != "undefined") ? "Au "+dateToStr(o.endDate, "fr", true, true)   : null;
 				 
-				  var disabledBorder = ((typeof o.disabled != "undefined" && o.disabled == true) ? "border-red" : "" );
+				  var disabledBorder = ((typeof o.disabled != "undefined" && o.disabled == true) ? "border-red elementDisabled" : "" );
 				  var disabledText = ((typeof o.disabled != "undefined" && o.disabled == true) ? '<h1 id="disabledHeader" class="text-red"><?php echo Yii::t("common", "Disabled"); ?></h1>' : "" );
 
 				  /***** VERSION SIMPLY *****/
@@ -834,8 +836,28 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 	}*/
 
 	$(".tagFilter").off().click(function(e){
+		mylog.log(".tagFilter",  $(this));
+		mylog.log($(this).is( ':checked' ), $(this).prop( 'checked' ), $(this).attr( 'checked' ));
+		var checked = $(this).is( ':checked' );
 	  	var filtre = $(this).attr("value");
+	  	var parent = $(this).data("parent")
+	  	mylog.log("parent",parent);
+		$.each(networkJson.filter.linksTag, function(keyNet, valueNet){
+			if(typeof valueNet.tags[filtre] != "undefined"){
 
+				if(typeof valueNet.tags[filtre] == "string"){
+					tagActivedUpdate(checked, valueNet.tags[filtre], parent);
+				}
+				else{
+					$.each(valueNet.tags[filtre], function(keyTags, valueTags){
+						//toggle("."+slugify(valueTags),".searchEntity",1);
+						tagActivedUpdate(checked, valueTags, parent);
+					});
+				}
+			}  
+		});
+
+		updateMap();
 	  	
 	  /*var index = searchTag.indexOf(tag);
 	  if(tag == "all"){
@@ -847,24 +869,11 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 	  else{
 		$('.tagFilter[value="all"]').removeClass('active');
 	  }
-	  if (index > -1) removeSearchTag(tag);
-	  else addSearchTag(tag);
-	  startSearch(0, indexStepInit);*/
-	  	$.each(networkJson.filter.linksTag, function(keyNet, valueNet){
-			if(typeof valueNet.tags[filtre] != "undefined"){
-
-				if(typeof valueNet.tags[filtre] == "string"){
-					console.log("valueNet.tags[filtre]");
-					toggle("."+slugify(valueNet.tags[filtre]),".searchEntity",1);
-				}
-				else{
-					$.each(valueNet.tags[o], function(keyTags, valueTags){
-						toggle("."+slugify(valueTags),".searchEntity",1);
-					});
-				}
-			}  
-		});
-
+	  if (index > -1) 
+	  	removeSearchTag(tag);
+	  else 
+	  	addSearchTag(tag);*/
+	  //startSearch(0, indexStepInit);
 		/*tags = "";
 		$.each( $( ".favElBtn.active" ) ,function( i,o ) { 
 			tags += "."+$(o).data("tag")+",";
@@ -872,6 +881,11 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 		tags = tags.replace(/,\s*$/, "");*/
 	  	
 	});
+
+	
+
+
+
 	$(".villeFilter").off().click(function(e){
 	  var ville = $(this).attr("value");
 	  var index = searchLocalityNAME.indexOf(ville);
@@ -900,8 +914,10 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 	});
 
 	$(".disableCheckbox").off().click(function(e){
-		seeDisable = (($(this).is(':checked') == false) ? false : true); 
-		startSearch(0, indexStepInit);
+		/*seeDisable = (($(this).is(':checked') == false) ? false : true); 
+		startSearch(0, indexStepInit);*/
+
+		updateMap(true);
 	});
   }
   // function loadClientFilters(types, tags){
@@ -1180,17 +1196,129 @@ function or(tags,tagList)
 	return res;
 }
 
-/*
 
-var filteredList = [];
-$.each(contextMapNetwork,function(k,v){
-	if( or( ["atelier"], v.tags ) )
-		filteredList.push(v);
+function tagActivedUpdate(checked, tag, parent){
+	mylog.log("tagActivedUpdate", checked, tag, parent,tagsActived, typeof tagsActived[parent], (typeof tagsActived[parent] == "undefined"));
+	if(checked== false){
+		tagsActived[parent].splice($.inArray(tag, tagsActived),1);
+	}
+	else{
+		if(typeof tagsActived[parent] == "undefined"){
+			tagsActived[parent] = [];
+		}
+		tagsActived[parent].push(tag);
+	}
 
-})
+	//tagsActived = orAndAnd(tagsActived) ;
+	mylog.log("tagsActived", tagsActived);
+}
 
-Sig.showMapElements(Sig.map,filteredList)
 
-*/
+
+function addTab(tab, tab2){
+	var res = [];
+	$.each(tab2, function(key2, value2){
+		$.each(tab, function(key1, value1){
+			var t = value1.slice();
+			t.push(value2);
+			res.push(t);
+		});
+	});
+	return res ;
+}
+
+function orAndAnd(allFiltres){
+	mylog.log("allFiltres", allFiltres);
+	var res = [];
+	$.each(allFiltres, function(keyF, valueFiltre){
+		mylog.log("valueFiltre", Object.keys(tagsActived)[0], keyF, valueFiltre);
+		if(valueFiltre.length > 0){
+			if(Object.keys(tagsActived)[0] == keyF){
+				$.each(valueFiltre, function(key, value){
+					res.push([value]);
+				});
+				mylog.log("res true", res);
+			}else{
+				mylog.log("res la", res, valueFiltre);
+				res = addTab(res, valueFiltre);
+			}
+		}
+		
+	});
+	mylog.log("res", res);
+	return res ;
+}
+
+function getAllTags(allFiltres){
+	mylog.log("allTags");
+	var res = [];
+	$.each(allFiltres, function(keyF, valueFiltre){
+		if(valueFiltre.length > 0){
+			$.each(valueFiltre, function(key, value){
+				res.push(value);
+			});
+		}
+	});
+	mylog.log("res", res);
+	return [res] ;
+}
+
+function andAndOr(allFiltres){
+	mylog.log("allFiltres", allFiltres);
+	var res = [];
+	$.each(allFiltres, function(keyF, valueFiltre){
+		mylog.log("valueFiltre", Object.keys(tagsActived)[0], keyF, valueFiltre);
+		if(valueFiltre.length > 0){
+			res.push(valueFiltre);
+		}
+	});
+	mylog.log("res", res);
+	return res ;
+}
+
+
+
+function updateMap(disabled){
+	mylog.log("updateMap", tagsActived);
+
+	
+	var params = ((typeof networkJson.filter == "undefined" && typeof networkJson.filter.paramsFiltre == "undefined") ? null :  networkJson.filter.paramsFiltre);
+	var test = [];
+	var verb = "and";
+	mylog.log("params", params);
+	if ( (params.conditionBlock == "and" || typeof params.conditionBlock == "undefined" ) && params.conditionTagsInBlock == "and" )
+		test = getAllTags(tagsActived);
+	else if ( (params.conditionTagsInBlock == "or" || typeof params.conditionTagsInBlock == "undefined" ) && params.conditionBlock == "or" ){
+		test = getAllTags(tagsActived);
+		verb = "or";
+	}
+	else if ( (params.conditionBlock == "or" || typeof params.conditionBlock == "undefined" ) && 
+			(params.conditionTagsInBlock == "and" || typeof params.conditionTagsInBlock == "undefined") ){
+		//verb = "or";
+		test = andAndOr(tagsActived);
+	}
+	else
+		test = orAndAnd(tagsActived);
+
+	mylog.log("test", test);
+	var filteredList = [];
+	var add = false;
+	if(test.length > 0){
+		$(".searchEntity").hide();
+		$.each(test,function(keyTags,tags){
+			$.each(contextMapNetwork,function(k,v){
+				add = ( (verb == "and") ? and( tags, v.tags ) : or( tags, v.tags ) );
+				if(add && ( typeof disabled == "undefined" || (disabled == true && typeof v.disabled != "undefined" && v.disabled == true) ) ) {
+					filteredList.push(v);
+					$("#"+v.id).show();
+				}
+			});
+		});
+	}else{
+		filteredList = contextMapNetwork.slice();
+	}
+	mylog.log("filteredList", filteredList);
+	Sig.showMapElements(Sig.map,filteredList);
+}
 
 </script>
