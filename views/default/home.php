@@ -1,11 +1,9 @@
 
-
 <style>
-
-
 
 .main-col-search{
 	padding:0px !important;
+	background-color: white !important;
 }
 .home_page h3.subtitle{
 	font-weight: 300;
@@ -48,8 +46,8 @@
 }
 
 .home_page .discover-subtitle{
-	font-size:13px; 
-	margin-top: -6px; 
+	font-size:13px;
+	margin-top: -6px;
 	display: block;
 }
 
@@ -91,7 +89,7 @@
 	height: 40px;
 }*/
 /*input[type="text"].input-search:focus{
-	/*border-color: #3C5665 !important;*/
+	/*border-color: #3C5665 !important;* /
 	-moz-box-shadow: 0px 0px 5px -1px #CF3838 !important;
 	-webkit-box-shadow: 0px 0px 5px -1px #CF3838 !important;
 	-o-box-shadow: 0px 0px 5px -1px #CF3838 !important;
@@ -134,7 +132,6 @@
 }*/
 .contact-map {	background:url(<?php echo $this->module->assetsUrl; ?>/images/people.jpg) bottom center repeat-x; background-size: 80%;background-color:#DFE7E9;  }
 .headSection {	background:url(<?php echo $this->module->assetsUrl; ?>/images/1+1=3.jpg?c=c) bottom center no-repeat; background-size: 80%;background-color:#fff;  }
-.peopleTalkBg {	background:url(<?php echo $this->module->assetsUrl; ?>/images/Delaunay_Pattern_Min.jpg) repeat; background-color:#fff;  }
 .keyword,.keyword1{margin-bottom: 3px;font-size:1.3em;}
 .keywordExplain,.usageExplain{font-size:1.3em;}
 .fa-caret-down{font-size:56px;line-height: 10px;}
@@ -196,6 +193,9 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 	text-decoration-style : dotted !important;;
 }
 
+.home_page h1{
+	margin-top:5px;
+}
 </style>
 
 <div class="home_page">
@@ -212,7 +212,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 </div>
 
 <!-- <div class="imageSection imageSectionVideo headSection" style="margin-top: 50px;height:600px; cursor:pointer; position:relative;" onclick="openVideo()" > -->
-	
+
 <!-- </div> -->
 <?php /* ?>
 	<h1 class="homestead text-dark text-center" id="main-title"
@@ -222,7 +222,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		style="font-size:40px; margin-top:0px;">COMMUNE<span class="text-dark">CTER</span></h1>
 
 	<h3 class="text-dark text-center no-margin subtitle">
-		Un réseau social citoyen libre 
+		Un réseau social citoyen libre
 	</h3>
 */?>
 	<!-- <hr>  -->
@@ -234,9 +234,9 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 
 	<!-- <div class="col-md-6" style="text-align:right;">
 		<button class="btn bg-red" id="btn-param-postal-code"><i class="fa fa-cog"></i> Paramétrer mon code postal</button><br/>
-		
-		<center class="" style="display:none;" id="div-param-postal-code">	
-			<i class="fa fa-2x fa-angle-right"></i> 
+
+		<center class="" style="display:none;" id="div-param-postal-code">
+			<i class="fa fa-2x fa-angle-right"></i>
 			<input id="searchBarPostalCode" class="input-search text-red" style="margin-left:5px;" type="text" placeholder="...">
 		</center>
 	</div>
@@ -245,7 +245,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 	</div> -->
 
 	<div id="dropdown_search" class="col-md-12">
-		
+
 	</div>
 
 	<div style="display:none;" class="col-md-12" id="div-discover">
@@ -256,35 +256,35 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		</h2>
 		<div class="col-md-12 no-padding" style="margin-bottom:40px">
 			<div class="col-md-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
-				<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'#default.directory'); ?>" 
+				<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'#default.directory'); ?>"
 					target="_blank" class="btn btn-discover bg-azure">
 					<i class="fa fa-connectdevelop"></i>
 				</a><br/>L'annuaire<br/><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
 			</div>
 			<div class="col-md-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
-				<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'#default.agenda'); ?>" 
+				<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'#default.agenda'); ?>"
 					target="_blank" class="btn btn-discover bg-azure">
 					<i class="fa fa-calendar"></i>
 				</a><br/>L'agenda<br/><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
 			</div>
 			<div class="col-md-4 center text-azure" style="margin-bottom:10px; font-size:20px; font-weight: 300;">
-				<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'#default.news'); ?>" 
-					target="_blank" 
+				<a href="<?php echo Yii::app()->createUrl('/'.$this->module->id.'#default.news'); ?>"
+					target="_blank"
 					class="btn btn-discover bg-azure">
 					<i class="fa fa-rss"></i>
 				</a><br/>L'actualité<br/><span class="text-red discover-subtitle">commune<span class="text-dark">cté</span></span>
 			</div>
 		</div>
 	</div>
-	
+
 	<div class="col-md-12 no-padding" id="whySection" style="max-width:100%;">
-		
+
 		<div class="col-md-12 center" style="background-color:#394B59;width:100%;padding:1px 0px 1px 0%; ">
 			<h1 class="homestead text-white">
 				<i class="fa fa-question-circle fa-2x" style="color:white;"></i>
 				 POUR QUI ? <br/> POUR QUOI FAIRE ?
 			</h1>
-			
+
 		</div>
 
 		<center>
@@ -294,21 +294,25 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 			<div class="col-sm-4 no-padding hidden-xs">
 				<img class="img-responsive "  src="<?php echo $this->module->assetsUrl; ?>/images/bandeauKiss.jpg"/>
 			</div>
-			
+
 			<div class="col-sm-8 information">
 				<br/>
-				<span class="homestead text-dark text-extra-large">POUR MOI... CITOYEN !</span>
+				<span class="homestead text-dark text-extra-large">POUR MOI ... CITOYEN !</span>
 				<br/>
-					Etre Acteur! participer à la vie de la cité, apprendre, échanger, découvrir ceux qui partagent les memes centres d'interet que moi.
-					<span class="text-red">Créer de la valeur en participant au débat citoyen</span>, favoriser lémergence d'aautres possibles aujourd'hui pour demain. 
+					<span class="text-azure">Déjà <?php echo $stats['global']['citoyens']['total']; ?> citoyens inscrits et <?php echo $stats['global']['projects']['total'] ?> projets référencés</span>
+				<br/>
+					Etre Acteur ! Participer à la vie de la cité, apprendre, échanger, découvrir ceux qui partagent les mêmes centres d'intérêt que moi.
+					<span class="text-red">Créer de la valeur en participant au débat citoyen</span>, favoriser l'émergence d'autres possibles aujourd'hui pour demain.
 			</div>
-			
+
 			<div class="col-sm-8 information">
 				<br/>
 				<span class="homestead text-dark text-extra-large">POUR LES ASSOCIATIONS</span>
 				<br/>
+					<span class="text-azure">Déjà <?php echo $stats['global']['organizations']['NGO']; ?> associations référencées</span>
+				<br/>
 					C'est un moyen fantastique de se faire connaitre et d'avoir un vraie visibilité.
-					<span class="text-red">Recruter de nouveaux membres, trouver des ressources, de l'aide, promouvoir un évennement...</span>
+					<span class="text-red">Recruter de nouveaux membres, trouver des ressources, de l'aide, promouvoir un évènement...</span>
 					Economie solidaire, Fablabs, jardins partagés, biens communs. L'innovation sociale c'est aussi ça.
 			</div>
 
@@ -316,8 +320,10 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 				<br/>
 				<span class="homestead text-dark text-extra-large">POUR LES COMMUNES</span>
 				<br/>
-					Donner du sens au mot <span class="text-red">lien social</span>, reconnaitre ses administrés, <span class="text-red">comprendre leurs attentes et leur donner les moyens de batir le futur</span>.
-					Quand les citoyens communiquent et agissent librement en partenariat avec les collectivités. 
+					<span class="text-azure">Retrouvez toutes les communes de France métropolitaine et des DOM-TOM</span>
+				<br/>
+					Donner du sens au mot <span class="text-red">lien social</span>, reconnaitre ses administrés, <span class="text-red">comprendre leurs attentes et leur donner les moyens de bâtir le futur</span>.
+					Quand les citoyens communiquent et agissent librement en partenariat avec les collectivités.
 					<span class="text-red">La ville est un organisme vivant</span> auquel nous pouvons tous nous connecter.
 			</div>
 
@@ -325,58 +331,62 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 				<br/>
 				<span class="homestead text-dark text-extra-large" >POUR LES ENTREPRISES</span>
 				<br/>
-				Etre un <span class="text-red">acteur local</span> au sens vrai du terme, <span class="text-red">se faire reconnaitre comme un ressource</span> en terme de service au citoyen 
-				avec un vrai respect de la qualité, quelque soit son métier.
-				<span class="text-red">Donner de la visibilité à son activité</span> par la force et à la richesse de la pateforme communecter.
+					<span class="text-azure">Déjà <?php echo $stats['global']['organizations']['LocalBusiness']; ?> entreprises référencées</span>
+				<br/>
+				Etre un <span class="text-red">acteur local</span> au sens vrai du terme, <span class="text-red">se faire reconnaitre comme une ressource</span> en terme de services au citoyen
+				avec un vrai respect de la qualité, quel que soit son métier.
+				<span class="text-red">Donner de la visibilité à son activité</span> par la force et à la richesse de la plateforme Communecter.
 			</div>
 
 			<div class="col-sm-8 information">
 				<br/>
 				<span class="homestead text-dark text-extra-large" >UN Réseau pour tous</span>
 				<br/>
+					<span class="text-azure">Déjà <?php echo $stats['global']['events']['total']; ?> événements partagés</span>
+				<br/>
 					<span class="text-red">Communecter</span> réunit et fédère les principaux acteurs de la vie locale<br/>
-					pour valoriser le territoire et le <span class="text-red">bien commun</span>.  
+					pour valoriser le territoire et le <span class="text-red">bien commun</span>.
 			</div>
-			
-			<div class="col-md-8 col-sm-12 col-xs-12 pull-right">
+
+			<div class="col-md-8 col-xs-12 pull-right">
 				<img id="img-network-for-all" class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/network-for-all.png"/>
 			</div>
-			
+
 		</div>
 	</div>
 
 	<div class="col-md-12 no-padding" id="wwwSection" style="display: inline-block; max-width: 100%;">
-		
+
 		<div class="col-md-12" style="background-color:#394B59;width:100%;padding:8px 0px 3px 0%; ">
-				
+
 				<h1 class="homestead text-white center">
 					<i class="fa fa-mobile fa-5x"></i> <i class="fa fa-tablet fa-5x"></i> <i class="fa fa-desktop fa-5x"></i><br/>
 					World Wide Web<br/>Personnes et territoires
 				</h1>
 		</div>
 
-		<center style="background-color:#DFE5E7;">
+		<center style="background-color:#fffff;">
 			<i class="fa fa-caret-down" style="color:#394B59;"></i><br/>
 		</center>
 
-		<div class="col-md-12" style="background-color:#DFE5E7;color:#293A46;padding-bottom:40px; float:left; width: 100%;">
+		<div class="col-md-12" style="background-color:#fffff;color:#293A46;padding-bottom:40px; float:left; width: 100%;">
 			<div class="space20 hidden-xs"></div>
 			<div class="col-md-6 col-sm-12 information" style="text-align: left; color:#3c5665";>
-				
-				En s'appuyant sur un <a href="javascript:;" data-id="explainSocietyNetwork" class="explainLink">réseau sociétal</a> (au service de la société) regroupant les acteurs d'un territoire, 
-				<a href="javascript:;" data-id="explainCommunecter" class="explainLink">"Communecter"</a> propose des outils numériques innovants et disponibles pour tous afin de créer ensemble 
+
+				En s'appuyant sur un <a href="javascript:;" data-id="explainSocietyNetwork" class="explainLink">réseau sociétal</a> (au service de la société) regroupant les acteurs d'un territoire,
+				<a href="javascript:;" data-id="explainCommunecter" class="explainLink">"Communecter"</a> propose des outils numériques innovants et disponibles pour tous afin de créer ensemble
 				un <a href="javascript:;" data-id="explainConnectedTerritory" class="explainLink">territoire connecté</a> qui nous ressemble.
-				<br/>Tout cela gratuitement, dans le respect des données de chacun, car Communecter est un <a href="javascript:;" data-id="explainCommuns" class="explainLink">bien commun</a> 
+				<br/>Tout cela gratuitement, dans le respect des données de chacun, car Communecter est un <a href="javascript:;" data-id="explainCommuns" class="explainLink">bien commun</a>
 				fait pour et par chacun d’entre nous, porté par une association à but non lucratif.
 				<br/><br/>
-				Plus qu'une simple application Communecter se présente sous differentes formes :
+				Plus qu'une simple application Communecter se présente sous différentes formes :
 				<ul class="information" style="font-weight: normal;">
 				<li>Une projet <a href="javascript:;" data-id="explainOpenSource" class="explainLink">open source</a>
-				<li>Une communauté riche et diversifié</li>
+				<li>Une communauté riche et diversifiée</li>
 				<li>Un site web qui vous tend les bras</li>
-				<li>Une application mobile encore en court </li>
-				<li>Des interfaces tiers contribuant ou pas à une Base de donnée commune</li>
-				<li>Des instances indépendantes mais interopérantes par leurs <a href="javascript:;" data-id="explainOpenSource" class="explainLink">sémantiques</a> communes </li>
+				<li>Une application mobile encore en cours </li>
+				<li>Des interfaces tierces contribuant ou non à une base de donnée commune</li>
+				<li>Des instances indépendantes mais inter-opérantes par leurs <a href="javascript:;" data-id="explainOpenSource" class="explainLink">sémantiques</a> communes </li>
 				</ul>
 			</div>
 			<div class="col-md-6 col-sm-12 flexContainer">
@@ -384,33 +394,33 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 			</div>
 		</div>
 	</div>
-
+	<?php /*
 	<div class="col-md-12 no-padding" id="crowfundingSection" style="float:left;">
 		<div class="col-md-12" style="background-color:#394B59;width:100%;padding:8px 0px 3px 0%; ">
 			<h1 class="homestead text-white center"><i class="fa fa-users fa-2x"></i> CROWDFUNDING</h1>
 		</div>
 
-		<center style="background-color:#92BE1F;">
+		<center style="background-color:#fff;">
 			<i class="fa fa-caret-down" style="color:#394B59;"></i><br/>
 		</center>
-		<div class="col-md-12" style="background-color:#92BE1F; color:#293A46;padding-bottom:40px;  float:left; ">
+		<div class="col-md-12" style="background-color:#fff; color:#293A46;padding-bottom:40px;  float:left; ">
 			<div class="space20 hidden-xs"></div>
 			<div class="col-sm-12">
 				<a href="http://www.kisskissbankbank.com/communecter--2" target="_blank">
 					<img class="img-responsive pull-right" style="width: 60%; border:0px solid #293A46;margin:20px 0px 20px 20px; box-shadow: 0px 0px 4px 3px rgba(84, 82, 82, 0.5);" src="<?php echo $this->module->assetsUrl; ?>/images/crowdfunding.jpg"/>
 				</a>
-			
+
 				<div class="information" style="text-align: left; color:#3c5665">
 					Et oui ! Ces derniers temps, vous êtes très sollicités par des demandes d'aides ou de participation à des campagnes de <a href="javascript:;" data-id="explainFinancementParticipatif" class="explainLink">financement participatif</a>.
 					<br/><span class="text-red">Vous vous demandez pourquoi ?</span> L'état se désengage du financement du milieu associatif. Les mouvements citoyens s'intensifient et prennent de l'ampleur mais se heurtent au nerf de la guerre : où trouver l'argent pour aller plus loin?
 					<br/>Pour <span class="text-red">rester indépendant, citoyen et libre, le réseau sociétal Communecter </span>recherche un moyen de financement qui lui correspond le plus. Quoi de plus naturel alors que de se tourner vers ceux qui s'en serviront le plus.
-					<br/>A l'heure du numérique et du par-tout-le-temps connecté, nous croyons que la <span class="text-red">démocratie participative et la participation citoyenne</span> est conditionnée par la construction d'un outil simple et à destination de tous.
+					<br/>A l'heure du numérique et du par-tout-le-temps connecté, nous croyons que la <span class="text-red">démocratie participative et la participation citoyenne</span> sont conditionnées par la construction d'un outil simple et à destination de tous.
 					<br/>Dans le contexte actuel, difficile de demander aux collectivités de financer cet outil qui, pensent-elles, risque de leur faire perdre une partie de leur pouvoir.
 					<br/>C'est donc vers les citoyens (vers vous) que nous nous tournons : <span class="text-red">participez à la construction de ce projet innovant</span> en choisissant votre contrepartie !
 					<?php /* ?>
 					<br/><br/>
-					Aujourd'hui pour pouvoir faire évoluer notre plate forme avec toutes les idées, les 
-					fonctionnalités chaque citoyen souhaite y apporter et pour pouvoir l'offrir gratuitement au 
+					Aujourd'hui pour pouvoir faire évoluer notre plate forme avec toutes les idées, les
+					fonctionnalités chaque citoyen souhaite y apporter et pour pouvoir l'offrir gratuitement au
 					plus grand nombre, nous souhaitons passer à l’étape suivante... Cette étape nécessite 40 000 € et
 					 nous l’atteindrons en gardant la philosophie du projet : c’est à dire avec un financement citoyen pour un projet citoyen !
 					<br/><br/>
@@ -418,100 +428,81 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 					http://www.kisskissbankbank.com/fr/users/association-open-atlas/projects/created
 					<br/><br/>
 					Notre campagne de crowdfounding va donc démarrer le ......
-					*/?>
+					?>
 				</div>
 			</div>
 		</div>
-	</div>
+	</div>*/?>
 
-	<div class="col-md-12 no-padding" id="valueSection" style="max-width:100%; float:left;">
-		<div class="col-md-12" style="background-color:#394B59;width:100%;padding:8px 0px 3px 0%;">
-			<h1 class="homestead text-white center"><i class="fa fa-heart fa-2x"></i> NOS VALEURS</h1>
+	<div class="col-md-12 no-padding" id="valueSection" style="width:100%; float:left;">
+		<div class="col-md-12" style="background-color:#92BE1F;width:100%;padding:8px 0px 3px 0%;">
+			<h1 class="homestead text-white center"><a href="http://www.kisskissbankbank.com/fr/projects/communecter-se-connecter-a-sa-commune/contributors" target="_blank"  class="text-dark">
+				ILS NOUS SOUTIENNENT <i class="fa fa-child fa-2x"></i><i class="fa fa-child fa-2x"></i><i class="fa fa-child fa-2x"></i>
+			</h1>
+		</div>
+		<div class="col-md-12 hidden" style="background-color:#fff;width:100%;padding:8px 0px 3px 0%;">
+			<h1 class="homestead center"><a href="#default.view.page.crowdfunding"  class="lbh text-dark">Aidez Nous</a> réussir la campagne <i class="fa fa-diamond fa-2x"></i></h1>
 		</div>
 		
+
+		<div class="col-md-12" style="background-color:#394B59;width:100%;padding:8px 0px 3px 0%;">
+			<a href="#default.view.page.index.dir.docs" class="lbh">
+				<h1 class="homestead text-white center">
+					<i class="fa fa-book fa-2x"></i> Documentation
+				</h1>
+			</a>
+		</div>
+
 		<center>
 			<i class="fa fa-caret-down" style="color:#394B59;"></i><br/>
 		</center>
-		
-		<div class="col-md-12" style="color:#E33551;padding-bottom:40px;max-width:100%;" >	
-			<center>
-				<div class="space20"></div>
-				<img class="img-responsive" src="<?php echo $this->module->assetsUrl; ?>/images/nosValeurs.png"/>
-			</center>	
-		</div>
-	</div>
-
-	<div class="col-md-12" id="dicoSection" style="background-color:#293A46;color:white;padding-bottom:40px; float:left; ">
-		<div class="col-md-6 col-sm-12">
-			<center>
+			
+            <div class="col-md-10 col-md-offset-1" style="text-align:center; margin-bottom:24px;">
+            	<div class="pull-right text-red homestead" stye="margin-top: -15px; margin-bottom: -20px;">
+					<?php $this->renderPartial("../docs/docPattern/docIndex", array("icon"=>"")); ?>
+				</div>
+				<?php $this->renderPartial("../docs/docPattern/player"); ?>
 				
-				<div class="keysUsages">
-					<i class="fa fa-caret-down" style="color:#fff;"></i><br/>
-					<h1 class="homestead" style="color:#F6E200"><i class="fa fa-camera " ></i> USAGES</h1>
-					<div class="space20"></div>
-					<div class="buttonArea">
-						<a class="keyword1 text-azure" href="javascript:;" data-id="explainPeriscolaire" >Périscolaire</a>
-						<a class="keyword1 text-azure" href="javascript:;" data-id="explainAssociatif" >Associatif</a>
-						<a class="keyword1 text-azure" href="javascript:;" data-id="explainEconomie" > Economie</a>
-						<a class="keyword1 text-azure" href="javascript:;" data-id="explainTerritoire" >Territoire</a>
-						<a class="keyword1 text-azure" href="javascript:;" data-id="explainTourisme" > Tourisme</a>
-						<a class="keyword1 text-azure" href="javascript:;" data-id="explainAlimentation" >Alimentation</a>
-						<a class="keyword1 text-azure" href="javascript:;" data-id="explainAgriculture" > Agriculture</a>
-						<a class="keyword1 text-azure" href="javascript:;" data-id="explainCulture" > Culture</a>
-						<a class="keyword1 text-azure" href="javascript:;" data-id="explainEmploi" > Emploi</a>
-					</div>
-				</div>
-				<div class="keywordExplain" style="margin-top:40px"></div>
-			</center>
-		</div>
-		<div class="col-md-6 col-sm-12">
-			<center>
-				<div class="usageExplain"></div>
-				<div class="keysKeyWords">
-					<i class="fa fa-caret-down" style="color:#fff;"></i><br/>
-					<h1 class="homestead" style="color:#F6E200"><i class="fa fa-key "></i> MOTS CLEFS</h1>
-					<div class="space20"></div>
-					<div class="buttonArea">
-						<a class="keyword text-azure" href="javascript:;" data-id="explainCommunecter" > Communecter</a>
-						<a class="keyword text-azure" href="javascript:;" data-id="explainCommunecteur" > Communecteur</a>
-						<a class="keyword text-azure" href="javascript:;" data-id="explainOpendata" > OpenData</a>
-						<a class="keyword text-azure" href="javascript:;" data-id="explainDemoPart" > Démocratie participative</a>
-						<a class="keyword text-azure" href="javascript:;" data-id="explainOpenSource" > OpenSource</a>
-						<a class="keyword text-azure" href="javascript:;" data-id="explainProxicity" > Proxicité</a>
-						<a class="keyword text-azure" href="javascript:;" data-id="explainCodeLogiciel" > Code Logiciel</a>
-						<a class="keyword text-azure" href="javascript:;" data-id="explainCartographiedeReseau" > Cartographie de réseau</a>
-						<a class="keyword text-azure" href="javascript:;" data-id="explainConnectedTerritory" > Territoire Connecté</a>
-						<a class="keyword text-azure" href="javascript:;" data-id="explainLocalActors" > Acteurs locaux</a>
-						<a class="keyword text-azure" href="javascript:;" data-id="explainLiveTogether" > Vivre ensemble</a>
-						<a class="keyword text-azure" href="javascript:;" data-id="explainCollabEco" > Economie collaborative</a>
-						<a class="keyword text-azure" href="javascript:;" data-id="explainCommons" > Biens communs</a>
-						<a class="keyword text-azure" href="javascript:;" data-id="explainCitoyens" > Citoyens</a>
-						<a class="keyword text-azure" href="javascript:;" data-id="explainAssociation" > Association</a>
-						<a class="keyword text-azure" href="javascript:;" data-id="explainSocietyNetwork" > Réseau sociétal</a>
-						<a class="keyword text-azure" href="javascript:;" data-id="explainCTK" > Citizen Tool Kit</a>
-						<a class="keyword text-azure" href="javascript:;" data-id="explainCodeSocial" > Code Social</a>
-						<a class="keyword text-azure" href="javascript:;" data-id="explainGlocal" > Glocal</a>
-					</div>
-				</div>
-			</center>
-		</div>
+            </div>
+            <div class="hidden col-md-12" style="text-align:center; margin-bottom:24px;">
+                <div class=" col-md-1"></div>
+                <div class=" col-md-2" style="text-align:center;"><img class="img-responsive" style="margin:0 auto;" src="<?php echo $this->module->assetsUrl; ?>/images/home/valeurs/valeur01.png"/>Open Source</div>
+                <div class=" col-md-2"><img class="img-responsive" style="margin:0 auto;" src="<?php echo $this->module->assetsUrl; ?>/images/home/valeurs/valeur02.png"/>Pas de PUB</div>
+                <div class=" col-md-2"><img class="img-responsive" style="margin:0 auto;" src="<?php echo $this->module->assetsUrl; ?>/images/home/valeurs/valeur03.png"/>Données Protégées</div>
+                <div class=" col-md-2"><img class="img-responsive" style="margin:0 auto;" src="<?php echo $this->module->assetsUrl; ?>/images/home/valeurs/valeur04.png"/>Informations Partagées</div>
+                <div class=" col-md-2"><img class="img-responsive" style="margin:0 auto;" src="<?php echo $this->module->assetsUrl; ?>/images/home/valeurs/valeur05.png"/>Linked Data</div>
+            </div>
+            <div class="hidden col-md-12 homestead" style="text-align:center;">
+                 <div class=" col-md-1"></div>
+                <div class=" col-md-2"><img class="img-responsive" style="margin:0 auto;" src="<?php echo $this->module->assetsUrl; ?>/images/home/valeurs/valeur06.png"/>Territoire Connecté</div>
+                <div class=" col-md-2"><img class="img-responsive" style="margin:0 auto;" src="<?php echo $this->module->assetsUrl; ?>/images/home/valeurs/valeur07.png"/>Inteligence Collective</div>
+                <div class=" col-md-2"><img class="img-responsive" style="margin:0 auto;" src="<?php echo $this->module->assetsUrl; ?>/images/home/valeurs/valeur08.png"/>Gratuit</div>
+                <div class=" col-md-2"><img class="img-responsive" style="margin:0 auto;" src="<?php echo $this->module->assetsUrl; ?>/images/home/valeurs/valeur09.png"/>Société 2.2.main</div>
+                <div class=" col-md-2"><img class="img-responsive" style="margin:0 auto;" src="<?php echo $this->module->assetsUrl; ?>/images/home/valeurs/valeur10.png"/>Biens Communs</div>
+            </div>
+            <div class="space20"></div>
 	</div>
 
-<<<<<<< Updated upstream
-	<div class="col-sm-12" style="background-color:#fff; float:left;" id="friendsSection">
-=======
-	<div class="col-sm-12peopleTalkBg" id="friendsSection">
->>>>>>> Stashed changes
+	
+	<div class="col-sm-12 no-padding " style="max-width:100%; float:left;">
+		<div class="col-md-12 bg-dark" style="width:100%;padding:8px 0px 8px 0%;">
+			<h1 class="homestead center text-white"><a href="#default.view.page.explain" class="lbh">Comprendre</a> les gros Mots <i class="fa fa-book fa-2x"></i></h1>
+		</div>
+	</div>
+	<div class="col-sm-12 no-padding" style="background-color:#fff; max-width:100%; float:left;">
+		<div class="col-md-12 bg-red" style="width:100%;padding:8px 0px 8px 0%;">
+			<h1 class="homestead center text-white">Les amis de communecter</h1>
+		</div>
 		<center>
-			<i class="fa fa-caret-down" style="color:#293A46;"></i>
+			<i class="fa fa-caret-down text-red"></i><br/>
 		</center>
-		
+
 		<div class="col-sm-6 col-xs-12 ">
 			<center>
-				<h1 class="homestead" style="color:#E33551"><i class="fa fa-user "></i> Un AMI</h1>
+				<h1 class="homestead" style="color:#E33551"><i class="fa fa-user "></i> Un communecteur</h1>
 				<div class="space20"></div>
-				
-				<div class="col-sm-12">
+
+				<div class="col-sm-12">  
 					<a href="javascript:showPeopleTalk(-1);"><i class="nextPerson fa fa-caret-left  fa-5x" style="color:#DFE7E9;margin-right: 20px;"></i></a>
 					<img class="img-responsive img-thumbnail peopleTalkImg" style="height:200px;cursor:pointer;" src="" onclick="showPeopleTalk();"/>
 					<a href="javascript:showPeopleTalk();"><i class="prevPerson fa fa-caret-right fa-5x" style="color:#DFE7E9;margin-left: 20px;"></i></a>
@@ -531,33 +522,35 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		</div>
 		<div class="space20"></div>
 	</div>
-	
-<<<<<<< Updated upstream
-	<div class="col-sm-12" style="background-color:#E33551;  float:left;" id="teamSection">
-=======
-	<div class="col-sm-12 " style="background-color:#E33551; " id="teamSection">
->>>>>>> Stashed changes
+
+	<div class="col-sm-12 no-padding" style="background-color:#E33551; max-width:100%; float:left;" id="teamSection">
+		<div class="col-md-12" style="background-color:#293A46;width:100%;padding:8px 0px 8px 0%;">
+			<h1 class="homestead center text-white"><a href="#default.view.page.partners" class="lbh">Partenaires & Contributeurs</a> <i class="fa fa-share-alt fa-2x"></i></h1>
+		</div>
+		<center>
+			<i class="fa fa-caret-down" style="color:#293A46;"></i><br/>
+		</center>
 		<center>
 			<i class="fa fa-caret-down" style="color:#fff"></i><br/>
 			<h1 class="homestead" style="color:#fff"><i class="fa fa-users headerIcon"></i><br/>Construction collaborative</h1>
 			<div class="col-sm-12 text-white">
-				On est en amélioration continue, cette plateforme est opensource et construite de facon collaborative. 
+				Nous sommes en amélioration continue, cette plateforme est open source et construite de façon collaborative.
 				<h3 class="homestead">Rejoignez nous : </h3>
-				
-				<a href="javascript:focusPeople ('#developpeur')" data-id="explainDeveloper"  class="btn btn-default text-bold">Développeurs</a> 
-				<a href="javascript:focusPeople ('#communecteur')" data-id="explainCommunecteur" class=" btn btn-default text-bold">Communecteurs</a> 
-				<a href="javascript:focusPeople ('#editeur')" data-id="explainEditor" class=" btn btn-default text-bold">Editeurs </a> 
-				<a href="javascript:focusPeople ('#designeur')" data-id="explainDesigner" class=" btn btn-default text-bold">Designeur </a> 
-				<a href="javascript:focusPeople ('#contributeur')" data-id="explainContributor" class=" btn btn-default text-bold">Contributeurs</a>
+
+				<a href="#showTagOnMap.tag.developpeur" data-id="explainDeveloper"  class="lbh btn btn-default text-bold">Développeurs</a>
+				<a href="javascript:showTagOnMap ('#communecteur')" data-id="explainCommunecteur" class=" btn btn-default text-bold">Communecteurs</a>
+				<a href="javascript:showTagOnMap ('#editeur')" data-id="explainEditor" class=" btn btn-default text-bold">Editeurs </a>
+				<a href="javascript:showTagOnMap ('#designeur')" data-id="explainDesigner" class=" btn btn-default text-bold">Designeur </a>
+				<a href="javascript:showTagOnMap ('#contributeur')" data-id="explainContributor" class=" btn btn-default text-bold">Contributeurs</a>
 				<div class="space20"></div>
-				<a href="javascript:focusPeople ('#openAtlas')" class=" btn btn-default text-bold">Association Open Atlas</a>
-				<a href="javascript:focusPeople ('#communecter'))"  class="btn btn-default text-bold">Projet Communecter</a> 
+				<a href="#organization.detail.id.<?php echo Yii::app()->params['openatlasId'] ?>" class="lbh btn btn-default text-bold">Association Open Atlas</a>
+				<a href="#project.detail.id.<?php echo Yii::app()->params['communecterId'] ?>"  class="lbh btn btn-default text-bold">Projet Communecter</a>
 			</div>
 		</center>
 		<div class="space20"></div>
 	</div>
 
-	<div class="col-md-12 contact-map" style="color:#293A46;padding-bottom:75px; float:left; width:100%;" id="contactSection">	
+	<div class="col-md-12 contact-map" style="color:#293A46;padding-bottom:75px; float:left; width:100%;" id="contactSection">
 		<center>
 			<i class="fa fa-caret-down" style="color:#E33551"></i><br/>
 			<h1 class="homestead"><i class="fa fa-map-marker headerIcon"></i><br/>CONTACT</h1>
@@ -571,44 +564,117 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 			</ul>
 
 			<a href="javascript:;" data-id="explainOpenAtlas" class="explainLink">L'association Open Atlas</a>
-		<center>	
+			<br/><a href="#default.view.page.mention" class="lbh" >Mentions Légales</a>
+			<br/><a href="#default.view.page.partners" class="lbh">Partenaires</a>
+		<center>
 	</div>
 </div>
 
 
 <script type="text/javascript">
-function focusPeople (tag) { 
-	console.log("focusPeople");
-	console.dir(tag);
 
-	var data = { 	 "name" : tag, 
+<?php $this->renderPartial("peopleTalk"); ?>
+var peopleTalkCt = 0;
+jQuery(document).ready(function() {
+
+	topMenuActivated = false;
+	hideScrollTop = true;
+	checkScroll();
+
+	peopleTalkCt = getRandomInt(0,peopleTalk.length);
+	showPeopleTalk();
+
+	setTimeout(function(){ $("#input-communexion").hide(300); }, 300);
+
+	setTitle("Bienvenue sur <span class='text-red'>commune</span>cter","home","Bienvenue sur Communecter");
+	$('.tooltips').tooltip();
+
+	$("#btn-param-postal-code").click(function(){
+		$("#div-param-postal-code").show(400);
+	});
+
+	// $('#searchBarPostalCode').keyup(function(e){
+ //        clearTimeout(timeoutSearchHome);
+ //        timeoutSearchHome = setTimeout(function(){ startSearch(); }, 800);
+ //    });
+
+
+    $(".explainLink").click(function() {
+		showDefinition( $(this).data("id") );
+		return false;
+	});
+    $(".keyword").click(function() {
+    	$(".keysUsages").hide();
+    	link = "<br/><a href='javascript:;' class='showUsage homestead yellow'><i class='fa fa-toggle-up' style='color:#fff'></i> Usages</a>";
+    	$(".keywordExplain").html( $("."+$(this).data("id")).html()+link ).fadeIn(400);
+    	 $(".showUsage").off().on("click",function() { $(".keywordExplain").slideUp(); $(".keysUsages").slideDown();});
+    });
+
+    $(".keyword1").click(function() {
+    	$(".keysKeyWords").hide();
+    	link = "<br/><a href='javascript:;' class='showKeywords homestead yellow'><i class='fa fa-toggle-up' style='color:#fff'></i> Mots Clefs</a>";
+    	$(".usageExplain").html( $("."+$(this).data("id")).html()+link ).slideDown();
+    	 $(".showKeywords").off().on("click",function() { $(".usageExplain").slideUp(); $(".keysKeyWords").slideDown();});
+    });
+});
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+function showPeopleTalk(step)
+{
+	if(!step)
+		step = 1;
+	peopleTalkCt = peopleTalkCt+step;
+	if( undefined == peopleTalk[ peopleTalkCt ]  )
+		peopleTalkCt = 0;
+	person = peopleTalk[ peopleTalkCt ];
+	$(".peopleTalkName").html( person.name );
+	$(".peopleTalkImg").attr("src",person.image);
+	$(".peopleTalkComment").html("<i class='fa fa-quote-left'></i> "+person.comment+"<i class='fa fa-quote-right'></i> ");
+	$(".peopleTalkProject").html( "<a target='_blank' href='"+person.url+"'>"+person.project+"</a>" );
+
+}
+
+function openVideo(){
+	$("#homeImg").fadeOut("slow",function() {
+		$(".videoWrapper").fadeIn('slow');
+	});
+}
+
+var timeoutSearchHome = null;
+
+function showTagOnMap (tag) {
+
+	mylog.log("showTagOnMap",tag);
+
+	var data = { 	 "name" : tag,
 		 			 "locality" : "",
-		 			 "searchType" : [ "persons" ], 
+		 			 "searchType" : [ "persons" ],
 		 			 //"searchBy" : "INSEE",
-            		 "indexMin" : 0, 
-            		 "indexMax" : 500  
+            		 "indexMin" : 0,
+            		 "indexMax" : 500
             		};
 
-        //$(".moduleLabel").html("<i class='fa fa-spin fa-circle-o-notch'></i> Les acteurs locaux : <span class='text-red'>" + cityNameCommunexion + ", " + cpCommunexion + "</span>");
-		
+        //setTitle("","");$(".moduleLabel").html("<i class='fa fa-spin fa-circle-o-notch'></i> Les acteurs locaux : <span class='text-red'>" + cityNameCommunexion + ", " + cpCommunexion + "</span>");
+
 		$.blockUI({
 			message : "<h1 class='homestead text-red'><i class='fa fa-spin fa-circle-o-notch'></i> Recherches des collaborateurs ...</h1>"
 		});
 
 		showMap(true);
-		
+
 		$.ajax({
 	      type: "POST",
 	          url: baseUrl+"/" + moduleId + "/search/globalautocomplete",
 	          data: data,
 	          dataType: "json",
 	          error: function (data){
-	             console.log("error"); console.dir(data);          
+	             mylog.log("error"); mylog.dir(data);
 	          },
 	          success: function(data){
 	            if(!data){ toastr.error(data.content); }
 	            else{
-	            	console.dir(data);
+	            	mylog.dir(data);
 	            	Sig.showMapElements(Sig.map, data);
 	            	//$(".moduleLabel").html("<i class='fa fa-connect-develop'></i> Les acteurs locaux : <span class='text-red'>" + cityNameCommunexion + ", " + cpCommunexion + "</span>");
 					//$(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté : " + cityNameCommunexion + ', ' + cpCommunexion);
@@ -621,77 +687,4 @@ function focusPeople (tag) {
 	//loadByHash('#project.detail.id.56c1a474f6ca47a8378b45ef',null,true);
 	//Sig.showFilterOnMap(tag);
 }
-<?php $this->renderPartial("peopleTalk"); ?> 
-var peopleTalkCt = 0;
-jQuery(document).ready(function() {
-	
-	topMenuActivated = false;
-	hideScrollTop = true; 
-	checkScroll();
-	
-	peopleTalkCt = getRandomInt(0,peopleTalk.length);
-	showPeopleTalk();
-
-	setTimeout(function(){ $("#input-communexion").hide(300); }, 300);
-
-	$(".moduleLabel").html("<span class='text-red'>COMMUNE</span>CTER.org");
-
-	$('.tooltips').tooltip();
-
-	$("#btn-param-postal-code").click(function(){
-		$("#div-param-postal-code").show(400);
-	});
-
-	// $('#searchBarPostalCode').keyup(function(e){
- //        clearTimeout(timeoutSearchHome);
- //        timeoutSearchHome = setTimeout(function(){ startSearch(); }, 800);
- //    });
-    
-    
-    $(".explainLink").click(function() {  
-	    $(".removeExplanation").parent().hide();
-		showDefinition( $(this).data("id") );
-		return false;
-	});
-    $(".keyword").click(function() { 
-    	$(".keysUsages").hide();
-    	link = "<br/><a href='javascript:;' class='showUsage homestead yellow'><i class='fa fa-toggle-up' style='color:#fff'></i> Usages</a>";
-    	$(".keywordExplain").html( $("."+$(this).data("id")).html()+link ).fadeIn(400);
-    	 $(".showUsage").off().on("click",function() { $(".keywordExplain").slideUp(); $(".keysUsages").slideDown();}); 
-    });
-
-    $(".keyword1").click(function() { 
-    	$(".keysKeyWords").hide();
-    	link = "<br/><a href='javascript:;' class='showKeywords homestead yellow'><i class='fa fa-toggle-up' style='color:#fff'></i> Mots Clefs</a>";
-    	$(".usageExplain").html( $("."+$(this).data("id")).html()+link ).slideDown();
-    	 $(".showKeywords").off().on("click",function() { $(".usageExplain").slideUp(); $(".keysKeyWords").slideDown();}); 
-    });    
-});
-function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-function showPeopleTalk(step)
-{
-	if(!step)
-		step = 1;
-	peopleTalkCt = peopleTalkCt+step;
-	if( undefined == peopleTalk[ peopleTalkCt ]  )
-		peopleTalkCt = 0;	
-	person = peopleTalk[ peopleTalkCt ];
-	$(".peopleTalkName").html( person.name );
-	$(".peopleTalkImg").attr("src",person.image);
-	$(".peopleTalkComment").html("<i class='fa fa-quote-left'></i> "+person.comment+"<i class='fa fa-quote-right'></i> ");
-	$(".peopleTalkProject").html( "<a target='_blank' href='"+person.url+"'>"+person.project+"</a>" );
-	
-}
-
-function openVideo(){
-	$("#homeImg").fadeOut("slow",function() {
-		$(".videoWrapper").fadeIn('slow');
-	});
-}
-
-var timeoutSearchHome = null;
-
-
 </script>
