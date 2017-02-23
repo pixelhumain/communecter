@@ -82,6 +82,8 @@ console.log("searchPrefTag", searchPrefTag);
   var timeout = null;
 
    var tagsActived = {};
+   var disableActived = false;
+   var citiesActived = ( (typeof params.request.searchLocalityNAME == "undefined") ? [] : params.request.searchLocalityNAME);
 
   jQuery(document).ready(function() {
 	 bindLBHLinks();
@@ -419,7 +421,6 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 
 		$.each(networkJson.filter.linksTag, function(keyNet, valueNet){
 
-			mylog.log("networkTags", o, valueNet.tags, jQuery.inArray(o, valueNet.tags));
 			if(typeof valueNet.tags[o] != "undefined"){
 				if(typeof searchTagsSimply[keyNet] == "undefined")
 				  searchTagsSimply[keyNet] = [];
@@ -637,7 +638,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 				  var endDate   = (typeof o.endDate   != "undefined") ? "Au "+dateToStr(o.endDate, "fr", true, true)   : null;
 				 
 				  var disabledBorder = ((typeof o.disabled != "undefined" && o.disabled == true) ? "border-red elementDisabled" : "" );
-				  var disabledText = ((typeof o.disabled != "undefined" && o.disabled == true) ? '<h1 id="disabledHeader" class="text-red"><?php echo Yii::t("common", "Disabled"); ?></h1>' : "" );
+				  var disabledText = ((typeof o.disabled != "undefined" && o.disabled == true) ? '<h1 id="disabledList" class="text-red"><?php echo Yii::t("common", "Disabled"); ?></h1>' : "" );
 
 				  /***** VERSION SIMPLY *****/
 				  str += "<div id='"+id+"' class='row list-group-item item searchEntity "+mix+" "+elTagsList+" "+fullLocality+" "+disabledBorder+"' >";
@@ -887,8 +888,8 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 
 
 	$(".villeFilter").off().click(function(e){
-	  var ville = $(this).attr("value");
-	  var index = searchLocalityNAME.indexOf(ville);
+	  
+	  /*var index = searchLocalityNAME.indexOf(ville);
 	  if(ville == "all"){
 		searchLocalityNAME = [];
 		$('.villeFilter[value="all"]').addClass('active');
@@ -900,8 +901,13 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 	  }
 	  if (index > -1) removeSearchVille(ville);
 	  else addSearchVille(ville);
-	  startSearch(0, indexStepInit);
+	  startSearch(0, indexStepInit);*/
+	  var checked = $(this).is( ':checked' );
+	  var ville = $(this).attr("value");
+	  cityActivedUpdate(checked, ville);
+	  updateMap();
 	});
+	
 	$(".categoryFilter").off().click(function(e){
 	  var category = $(this).attr("value");
 	  if($(this).is(':checked') == false){
@@ -916,8 +922,8 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 	$(".disableCheckbox").off().click(function(e){
 		/*seeDisable = (($(this).is(':checked') == false) ? false : true); 
 		startSearch(0, indexStepInit);*/
-
-		updateMap(true);
+		disableActived = ( (disableActived == false) ? true : false );
+		updateMap();
 	});
   }
   // function loadClientFilters(types, tags){
@@ -1210,12 +1216,23 @@ function tagActivedUpdate(checked, tag, parent){
 	}
 
 	//tagsActived = orAndAnd(tagsActived) ;
-	mylog.log("tagsActived", tagsActived);
+	//mylog.log("tagsActived", tagsActived);
+}
+
+function cityActivedUpdate(checked, city){
+	mylog.log("cityActivedUpdate", checked, city);
+	if(checked== false){
+		citiesActived.splice($.inArray(city, citiesActived),1);
+	}
+	else{
+		citiesActived.push(city);
+	}
 }
 
 
 
 function addTab(tab, tab2){
+	mylog.log("addTab", tab, tab2);
 	var res = [];
 	$.each(tab2, function(key2, value2){
 		$.each(tab, function(key1, value1){
@@ -1224,33 +1241,29 @@ function addTab(tab, tab2){
 			res.push(t);
 		});
 	});
+	mylog.log("addTab res", res);
 	return res ;
 }
 
 function orAndAnd(allFiltres){
-	mylog.log("allFiltres", allFiltres);
+	mylog.log("orAndAnd", allFiltres);
 	var res = [];
 	$.each(allFiltres, function(keyF, valueFiltre){
-		mylog.log("valueFiltre", Object.keys(tagsActived)[0], keyF, valueFiltre);
 		if(valueFiltre.length > 0){
 			if(Object.keys(tagsActived)[0] == keyF){
 				$.each(valueFiltre, function(key, value){
 					res.push([value]);
 				});
-				mylog.log("res true", res);
-			}else{
-				mylog.log("res la", res, valueFiltre);
+			}else
 				res = addTab(res, valueFiltre);
-			}
 		}
-		
 	});
-	mylog.log("res", res);
+	mylog.log("orAndAnd Res", res);
 	return res ;
 }
 
 function getAllTags(allFiltres){
-	mylog.log("allTags");
+	mylog.log("getAllTags", allFiltres);
 	var res = [];
 	$.each(allFiltres, function(keyF, valueFiltre){
 		if(valueFiltre.length > 0){
@@ -1259,41 +1272,40 @@ function getAllTags(allFiltres){
 			});
 		}
 	});
-	mylog.log("res", res);
+	mylog.log("getAllTags Res", [res]);
 	return [res] ;
 }
 
 function andAndOr(allFiltres){
-	mylog.log("allFiltres", allFiltres);
+	mylog.log("andAndOr", allFiltres);
 	var res = [];
 	$.each(allFiltres, function(keyF, valueFiltre){
-		mylog.log("valueFiltre", Object.keys(tagsActived)[0], keyF, valueFiltre);
 		if(valueFiltre.length > 0){
 			res.push(valueFiltre);
 		}
 	});
-	mylog.log("res", res);
+	mylog.log("andAndOr Res", res);
 	return res ;
 }
 
 
 
-function updateMap(disabled){
-	mylog.log("updateMap", tagsActived);
+function updateMap(){
+	mylog.log("updateMap", tagsActived, disableActived);
 
 	
 	var params = ((typeof networkJson.filter == "undefined" && typeof networkJson.filter.paramsFiltre == "undefined") ? null :  networkJson.filter.paramsFiltre);
 	var test = [];
 	var verb = "and";
-	mylog.log("params", params);
-	if ( (params.conditionBlock == "and" || typeof params.conditionBlock == "undefined" ) && params.conditionTagsInBlock == "and" )
+	//mylog.log("params", params);
+	if ( params != null && ( (params.conditionBlock == "and" || typeof params.conditionBlock == "undefined" ) && params.conditionTagsInBlock == "and" ) )
 		test = getAllTags(tagsActived);
-	else if ( (params.conditionTagsInBlock == "or" || typeof params.conditionTagsInBlock == "undefined" ) && params.conditionBlock == "or" ){
+	else if ( params != null && ( (params.conditionTagsInBlock == "or" || typeof params.conditionTagsInBlock == "undefined" ) && params.conditionBlock == "or" ) ) {
 		test = getAllTags(tagsActived);
 		verb = "or";
 	}
-	else if ( (params.conditionBlock == "or" || typeof params.conditionBlock == "undefined" ) && 
-			(params.conditionTagsInBlock == "and" || typeof params.conditionTagsInBlock == "undefined") ){
+	else if ( params != null && ( (params.conditionBlock == "or" || typeof params.conditionBlock == "undefined" ) && 
+			(params.conditionTagsInBlock == "and" || typeof params.conditionTagsInBlock == "undefined") ) ) {
 		//verb = "or";
 		test = andAndOr(tagsActived);
 	}
@@ -1303,19 +1315,43 @@ function updateMap(disabled){
 	mylog.log("test", test);
 	var filteredList = [];
 	var add = false;
+	$(".searchEntity").hide();
 	if(test.length > 0){
-		$(".searchEntity").hide();
 		$.each(test,function(keyTags,tags){
 			$.each(contextMapNetwork,function(k,v){
 				add = ( (verb == "and") ? and( tags, v.tags ) : or( tags, v.tags ) );
-				if(add && ( typeof disabled == "undefined" || (disabled == true && typeof v.disabled != "undefined" && v.disabled == true) ) ) {
+				if(	add && 
+					( 	disableActived == false || 
+						(disableActived == true && typeof v.disabled != "undefined" && v.disabled == true) ) && 
+					( citiesActived.length == 0  || 
+						(	typeof v.address != "undefined" && 
+							typeof v.address.addressLocality != "undefined" && 
+							$.inArray( v.address.addressLocality, citiesActived ) >= 0  ) ) ) {
+					
 					filteredList.push(v);
 					$("#"+v.id).show();
 				}
 			});
 		});
 	}else{
-		filteredList = contextMapNetwork.slice();
+		if( disableActived == true || citiesActived.length > 0 )  {
+			$.each(contextMapNetwork,function(k,v){
+				
+				mylog.log("here", disableActived, v.address.addressLocality, $.inArray( v.address.addressLocality, citiesActived ) );
+				if(	( 	disableActived == false || 
+						(disableActived == true && typeof v.disabled != "undefined" && v.disabled == true) ) && 
+					( citiesActived.length == 0  || 
+						(	typeof v.address != "undefined" && 
+							typeof v.address.addressLocality != "undefined" && 
+							$.inArray( v.address.addressLocality, citiesActived ) >= 0 ) ) ) {
+					filteredList.push(v);
+					$("#"+v.id).show();
+				}
+			});
+		}else{
+			filteredList = contextMapNetwork.slice();
+			$(".searchEntity").show();
+		}
 	}
 	mylog.log("filteredList", filteredList);
 	Sig.showMapElements(Sig.map,filteredList);
