@@ -322,26 +322,30 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 	<div class="panel-body border-light panelDetails" id="contentGeneralInfos">	
 		<?php if($type==Project::COLLECTION){ ?>
 			<div id="divAvancement" class="col-md-12 text-dark no-padding" style="margin-top:10px;">
-				<a  href="#" id="avancement" data-type="select" data-title="avancement" 
-					data-original-title="<?php echo Yii::t("project","Enter the project's maturity",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php echo Yii::t("project","Project maturity",null,Yii::app()->controller->module->id) ?>"
-					class="entityDetails pull-left">
-					<?php if(isset($element["properties"]["avancement"])){ 
-						//idea => concept => Started => development => testing => mature
-						if($element["properties"]["avancement"]=="idea")
-							$val=5;
-						else if($element["properties"]["avancement"]=="concept")
-							$val=20;
-						else if ($element["properties"]["avancement"]== "started")
-							$val=40;
-						else if ($element["properties"]["avancement"] == "development")
-							$val=60;
-						else if ($element["properties"]["avancement"] == "testing")
-							$val=80;
-						else 
-							$val=100;
-						echo Yii::t("project",$element["properties"]["avancement"],null,Yii::app()->controller->module->id);
-					} ?>
-				</a>
+				
+				<?php 
+					if(isset($element["properties"]["avancement"])){ 
+					//idea => concept => Started => development => testing => mature
+					if($element["properties"]["avancement"]=="idea")
+						$val=5;
+					else if($element["properties"]["avancement"]=="concept")
+						$val=20;
+					else if ($element["properties"]["avancement"]== "started")
+						$val=40;
+					else if ($element["properties"]["avancement"] == "development")
+						$val=60;
+					else if ($element["properties"]["avancement"] == "testing")
+						$val=80;
+					else 
+						$val=100;
+					echo "<label id='labelProgressStyle'>".Yii::t("project",$element["properties"]["avancement"],null,Yii::app()->controller->module->id)."</label>";
+				?>
+					<progress id="progressStyle" max="100" value="<?php echo $val;?>" class="progressStyle">
+					</progress>
+				<?php } else { ?>
+					<progress id="progressStyle" max="100" value="0" class="progressStyle hide">
+					</progress>
+				<?php } ?>
 			</div>
 			<?php } ?>
 			
@@ -1109,6 +1113,7 @@ if($showOdesc == true){
 						contextData.name = data.resultGoods.values.name;
 						$("#nameHeader").html(contextData.name);
 						$("#contentGeneralInfos #name").html(contextData.name);
+						setTitle(decodeHtml(contextData.name),contextIcon);	
 					}
 
 					if(typeof data.resultGoods.values.username != "undefined"){
@@ -1152,8 +1157,11 @@ if($showOdesc == true){
 							val=80;
 						else if (contextData.avancement == "mature")
 							val=100;
-						$('#progressStyle').val(val);
-						$('#labelProgressStyle').html(contextData.avancement);
+						$('#progressStyleHeader').val(val);
+						$('#labelProgressStyleHeader').html(contextData.avancement);
+
+						$('#contentGeneralInfos #progressStyle').val(val);
+						$('#contentGeneralInfos #labelProgressStyle').html(contextData.avancement);
 					}
 
 					if(typeof data.resultGoods.values.telegramAccount != "undefined"){

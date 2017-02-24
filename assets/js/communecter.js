@@ -2459,14 +2459,14 @@ var elementLib = {
 
 	//generate Id for upload feature of this element 
 	setMongoId : function(type) { 
-		uploadObj.type = type;
+		/*uploadObj.type = type;
 		if( !$("#ajaxFormModal #id").val() )
 		{
 			getAjax( null , baseUrl+"/api/tool/get/what/mongoId" , function(data){
 				uploadObj.id = data.id;
 				$("#ajaxFormModal #id").val(data.id)
 			});
-		}
+		}*/
 	},
 	editDynForm : function(title, icon, properties, fct, data, saveUrl, onLoads, beforeSave, afterSave) {
 		mylog.warn("---------------------- editDynForm ------------------");
@@ -2983,7 +2983,7 @@ var typeObj = {
 				    }
 			    },
 			    beforeBuild : function(){
-			    	elementLib.setMongoId('poi');
+			    	//elementLib.setMongoId('poi');
 			    },
 				afterSave : function(){
 					if( $('.fine-uploader-manual-trigger').fineUploader('getUploads').length > 0 )
@@ -3062,7 +3062,7 @@ var typeObj = {
 			    icon : "group",
 			    type : "object",
 			    beforeBuild : function(){
-			    	elementLib.setMongoId('organizations');
+			    	//elementLib.setMongoId('organizations');
 			    },
 			    beforeSave : function(){
 			    	if (typeof $("#ajaxFormModal #description").code === 'function' ) 
@@ -3163,7 +3163,7 @@ var typeObj = {
 			    	}
 			    },
 			    beforeBuild : function(){
-			    	elementLib.setMongoId('events');
+			    //	elementLib.setMongoId('events');
 			    },
 			    afterSave : function(){
 					if( $('.fine-uploader-manual-trigger').fineUploader('getUploads').length > 0 )
@@ -3321,7 +3321,7 @@ var typeObj = {
 			    	}
 			    },
 			    beforeBuild : function(){
-			    	elementLib.setMongoId('projects');
+			    	//elementLib.setMongoId('projects');
 			    },
 			    afterSave : function(){
 					if( $('.fine-uploader-manual-trigger').fineUploader('getUploads').length > 0 )

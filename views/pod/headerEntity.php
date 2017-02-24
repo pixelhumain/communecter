@@ -281,13 +281,13 @@ $controler = Element::getControlerByCollection($type);
 						$val=80;
 					else 
 						$val=100;
-					echo "<label id='labelProgressStyle'>".Yii::t("project",$entity["properties"]["avancement"],null,Yii::app()->controller->module->id)."</label>";
+					echo "<label id='labelProgressStyleHeader'>".Yii::t("project",$entity["properties"]["avancement"],null,Yii::app()->controller->module->id)."</label>";
 				}  
 				if(isset($entity["properties"]["avancement"])){ ?>
-					<progress id="progressStyle" max="100" value="<?php echo $val;?>" class="progressStyle">
+					<progress id="progressStyleHeader" max="100" value="<?php echo $val;?>" class="progressStyle">
 					</progress>
 				<?php } else { ?>
-					<progress id="progressStyle" max="100" value="0" class="progressStyle hide">
+					<progress id="progressStyleHeader" max="100" value="0" class="progressStyle hide">
 					</progress>
 				<?php } ?>
 			</div>
