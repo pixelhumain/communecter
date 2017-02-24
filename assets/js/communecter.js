@@ -348,7 +348,7 @@ function follow(parentType, parentId, childId, childType, callback){
 		dataType: "json",
 		success: function(data) {
 			if(data.result){
-				if (formData.parentType)
+				if (formData.parentType && typeof networkJson == "undefined")
 					addFloopEntity(formData.parentId, formData.parentType, data.parentEntity);
 				toastr.success(data.msg);	
 				if (typeof callback == "function") 
@@ -412,7 +412,8 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
 								dataType: "json",
 								success: function(data) {
 									if(data.result){
-										addFloopEntity(data.parent["_id"]["$id"], data.parentType, data.parent);
+										if(typeof networkJson == "undefined")
+											addFloopEntity(data.parent["_id"]["$id"], data.parentType, data.parent);
 										toastr.success(data.msg);	
 										loadByHash(location.hash);
 									}
@@ -461,7 +462,8 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
 								dataType: "json",
 								success: function(data) {
 									if(data.result){
-										addFloopEntity(data.parent["_id"]["$id"], data.parentType, data.parent);
+										if(typeof networkJson == "undefined")
+											addFloopEntity(data.parent["_id"]["$id"], data.parentType, data.parent);
 										toastr.success(data.msg);	
 										loadByHash(location.hash);
 									}
@@ -1381,7 +1383,7 @@ function saveElement ( formId,collection,ctrl,saveUrl )
                 	loadByHash( data.url );
                 else if(data.id)
 	        		loadByHash( '#'+ctrl+'.detail.id.'+data.id )
-	        	if(data.map && $.inArray(collection, ["events","organizations","projects","citoyens"] ) !== -1)
+	        	if(data.map && $.inArray(collection, ["events","organizations","projects","citoyens"] ) !== -1 && typeof networkJson == "undefined")
 	        		addFloopEntity(data.id, collection, data.map);
             }
     	}
