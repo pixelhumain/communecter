@@ -458,11 +458,11 @@ Liste des notifications déjà lues => #370 #453
   [2]    [X] Create element.notifications.type.id [communecter && ctk]
   [2]    [X] Validation action on notification
   [2]    [X] fix bug when refuse an admin already member... He stays member
-  [2]    [ ] Generalize js for element.notifications && notification2.php
+  [2]    [X] Generalize js for element.notifications && notification2.php => assets/default/notifications.js
   [2]    [ ] Simplify confirmation using js
   [2]    [ ] Add count badges on view
   [2]    [ ] Redirect "Verb_ASK" notif on notif
-  [2]    [ ] Merge Element/GetNotificationsAction in Notification/GetAction
+  [2]    [X] Merge Element/GetNotificationsAction in Notification/GetAction
   *** MAIL
   [2][X] Template for use case
   [2]  [X] someoneAskToBecome (Admin || Member=

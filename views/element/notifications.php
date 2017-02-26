@@ -1,4 +1,10 @@
-<!-- start: PAGESLIDE RIGHT -->
+<?php 
+$cssAnsScriptFilesModule = array(
+	'/js/default/notifications.js'
+	//'/js/news/autosize.js',
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
+?>
 <style type="text/css">
 	.notificationsElement li {
 		min-height:50px;
@@ -284,18 +290,19 @@ if(!@$_GET["renderPartial"])
 <!-- end: PAGESLIDE RIGHT -->
 <script type="text/javascript">
 
-var notifications = null;
-var maxNotifTimstamp = 0;
-
+//var notifications = null;
+//var maxNotifTimstamp = 0;
+elementId="<?php echo $elementId ?>";
+elementType="<?php echo $elementType ?>";
 jQuery(document).ready(function() 
 {
 	//initNotifications();
 	//bindLBHLinks();
-	bindNotifElementEvents();
-	refreshNotificationsElement();
+	bindNotifEvents("Element");
+	refreshNotifications(elementId,elementType,"Element");
 });
 
-function bindNotifElementEvents(){
+/*function bindNotifElementEvents(){
 	$(".notifListElement a.notif").off().on("click",function () 
 	{
 		markAsRead( $(this).data("id") );
@@ -451,7 +458,7 @@ function refreshNotificationsElement()
     });
 
 }*/
-function buildNotificationsElement(list)
+/*function buildNotificationsElement(list)
 {	mylog.log(list);
 	mylog.info("buildNotificationsElement()");
 	mylog.log(typeof list);
@@ -536,5 +543,5 @@ function notifCount(upNotifUnseen)
 		$('.notifications-count').addClass('badge-tranparent');
 		$(".markAllAsRead").hide();
 	}
-}
+}*/
 </script>
