@@ -227,8 +227,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 					<i class='fa fa-download'></i><span class="hidden-sm hidden-xs"></span>
 				</a>
 			<?php } ?>
-			<?php if ($type == Organization::COLLECTION && $edit==true && empty($element["disabled"])) { ?>
-				<a href="javascript:;" id="disableOrga" class="btn btn-sm btn-red tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Disable"); ?>" alt=""><i class="fa fa-trash"></i><span class="hidden-xs"> <?php echo Yii::t("common","Disable")?></span></a>
+				<?php if ($type == Organization::COLLECTION && $edit==true && empty($element["disabled"])) { ?>
+					<div class="btn-group pull-right">
+						<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"><span><i class="fa fa-trash"></i></span><span class="caret"></span></button>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="javascript:;" id="disableOrga" class="margin-right-5 tooltips"><i class="fa fa-times text-red"></i> <?php echo Yii::t("common","Disable")?></a> </li>
+							<li><a href="javascript:;" id="deleteElement" class="margin-right-5 tooltips"><i class="fa fa-times text-red"></i> <?php echo Yii::t("common","Delete")?></a> </li>
+						</ul>
+					</div>
 			<?php } ?>
 		<?php } ?>
 		<a class="btn btn-sm btn-default tooltips" href="javascript:;" onclick="showDefinition('qrCodeContainerCl',true)" data-toggle="tooltip" data-placement="bottom" title='<?php echo Yii::t("common","Show the QRCode for ").Yii::t("common","this ".$controller); ?>'><i class="fa fa-qrcode"></i> <?php echo Yii::t("common","QR Code") ?></a>
@@ -970,28 +976,86 @@ if($showOdesc == true){
 	    });
 
 	    $("#disableOrga").off().on("click", function(){
-	    	
 	    	var url = baseUrl+"/"+moduleId+"/organization/disabled/id/"+contextData.id;
 	    	mylog.log("disableOrga", url);
-    		/*param = new Object;
-	    	param.name = "seePreferences";
-	    	param.value = false;
-	    	param.pk = contextData.id;*/
-			$.ajax({
-		        type: "POST",
-		        url: url,
-		        //data: param,
-		       	dataType: "json",
-		    	success: function(data){
-			    	if(data.result){
-						toastr.success(data.msg);
-			    	}else{
-			    		toastr.error(data.msg);
-			    	}
-			    }
-			});
-	    	
-	    	
+	    	var msg = "<?php echo Yii::t('common','Are you sure you want to disable this organization ? </br> The organization will not be seen anymore when searching it or in the directory of users following it. ') ;?>" ;
+
+			bootbox.confirm({
+				message: msg + "<span class='text-red'></span>",
+				buttons: {
+					confirm: {
+						label: "<?php echo Yii::t('common','Yes');?>",
+						className: 'btn-success'
+					},
+					cancel: {
+						label: "<?php echo Yii::t('common','No');?>",
+						className: 'btn-danger'
+					}
+				},
+				callback: function (result) {
+					if (!result) {
+						return;
+					} else {
+						$.ajax({
+					        type: "POST",
+					        url: url,
+					       	dataType: "json",
+					    	success: function(data){
+						    	if(data.result){
+									toastr.success(data.msg);
+						    	}else{
+						    		toastr.error(data.msg);
+						    	}
+						    }
+						});
+					}
+				}
+			});	
+	    });
+
+	    $("#deleteElement").off().on("click", function(){
+	    	var url = baseUrl+"/"+moduleId+"/element/delete/id/"+contextData.id+"/type/"+contextData.type;
+	    	mylog.log("deleteElement", url);
+	    	var msg = "<?php echo Yii::t('common','Are you sure you want to delete this element ? </br> The element will be deleted : it will not be referenced in all their projects or events. But these last ones will not be deleted. Warning : <span class=\"text-red\"></span> this action can not be cancelled') ;?>" ;
+
+			//TODO SBAR - add the reason
+			bootbox.confirm({
+				message: msg + "<span class='text-red'></span>",
+				buttons: {
+					confirm: {
+						label: "<?php echo Yii::t('common','I confim the delete !');?>",
+						className: 'btn-warning'
+					},
+					cancel: {
+						label: "<?php echo Yii::t('common','No');?>",
+						className: 'btn-secondary'
+					}
+				},
+				callback: function (result) {
+					if (!result) {
+						return;
+					} else {
+						param = new Object;
+	    				param.reason = "Paske !";
+						$.ajax({
+					        type: "POST",
+					        url: url,
+					        data: param,
+					       	dataType: "json",
+					    	success: function(data){
+						    	if(data.result){
+									toastr.success(data.msg);
+						    	}else{
+						    		toastr.error(data.msg);
+						    	}
+						    },
+						    error: function(data){
+						    	toastr.error("Something went really bad ! Please contact the administrator.");
+						    }
+						});
+					}
+				}
+			});	
 	    });
 
 		$(".panel-btn-confidentiality .btn").click(function(){
