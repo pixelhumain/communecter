@@ -168,6 +168,13 @@ Liste des notifications déjà lues => #370 #453
       * BUG
       [ ] Historique bug lorsqu'on ajoutes des contacts
 
+  * Refactor city / zone
+  [ ] Search.php
+    [X] DécouperGlobalAutoComplete en fonctions
+    [ ] Recherche par zones
+    [ ] Bugs
+      [ ] REcherche commune ne prend pas en compte les scopes
+
   * Import / Export 
   [.2] RSS (Personne, Orga, Projet, event, city, region, thematique, tags) => #523
   [X] INTEGRATTE MARKDOWN wisiwig
