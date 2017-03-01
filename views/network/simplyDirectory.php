@@ -29,16 +29,17 @@
   console.log("Params //////////////////");
   console.log(params);
   <?php
-	if(isset($params['filter']['linksTag'])){
+	/*if(isset($params['filter']['linksTag'])){
 	  foreach($params['filter']['linksTag'] as $key => $val){
 		if(isset($val['image'])){?>
 		linksTagImages.<?php echo $val['tagParent']; ?> = {};
 	  <?php
 	  }
 	}
-  }
+  }*/
   // echo "console.log(linksTagImages);";
   ?>
+   	
   //********** FILTER TYPE ITEM **********
   <?php if(isset($params['request']['searchType']) && is_array($params['request']['searchType'])){ ?>
 	// var searchType = <?php echo json_encode($params['request']['searchType']); ?>;
@@ -83,10 +84,18 @@ console.log("searchPrefTag", searchPrefTag);
 
    var tagsActived = {};
    var disableActived = false;
-   var citiesActived = ( (typeof params.request.searchLocalityNAME == "undefined") ? [] : params.request.searchLocalityNAME);
+   var citiesActived = ( ((typeof params.request.searchLocalityNAME == "undefined") || params == null) ? [] : params.request.searchLocalityNAME);
 
   jQuery(document).ready(function() {
+  	if(typeof params.filter.linksTag != "undefined"){
+   		$.each(params.filter.linksTag, function(index, value){ 
+   			if(typeof value != "undefined"){
+   				linksTagImages[value] = {};
+   			}
+   		});
+   	}
 	 bindLBHLinks();
+	  addTooltips();
 	  if(location.hash == "" || location.hash == "#network.simplydirectory")
 		showMapNetwork(true);
 	else
@@ -1357,4 +1366,17 @@ function updateMap(){
 	Sig.showMapElements(Sig.map,filteredList);
 }
 
+
+function addTooltips(){
+	mylog.log("addTooltips");
+	if(typeof networkJson.skin != "undefined" && typeof networkJson.skin.tooltips != "undefined"){
+		$.each(networkJson.skin.tooltips,function(k,v){
+			mylog.log("addTooltips", k,v);
+			$( k ).addClass("tooltips");
+			$( k ).data( "toggle", "tooltip" );
+			$( k ).data( "placement", "bottom" );
+			$( k ).attr( "title", v );
+		});
+	}
+}
 </script>
