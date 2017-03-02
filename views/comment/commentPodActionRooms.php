@@ -34,9 +34,22 @@
 ?>
 <?php if($contextType == "actionRooms"){ ?>
     <h1 class="text-dark" style="font-size: 25px;margin-top: 20px;">
-      <i class="fa fa-angle-down"></i> <i class="fa fa-comment"></i> <span class="homestead"> Espace de discussion</span> 
-      <?php //echo $context["name"]; ?>
+      <i class="fa fa-comment"></i> <span class="homestead"> Espace de discussion</span> 
+          <div class="btn dropdown no-padding" style="padding-left:10px !important;">
+      <a class="dropdown-toggle" type="button" data-toggle="dropdown" style="color:#8b91a0;">
+        <i class="fa fa-cog"></i>  <i class="fa fa-angle-down"></i>
+      </a>
+      <ul class="dropdown-menu">
+        <li>
+          <a href="javascript:;" class="actionRoomDelete" onclick="actionRoomDelete('<?php echo (string)$context["_id"] ?>', this)" data-id="<?php echo $parentId ?>"><small><i class="fa fa-times"></i> Supprimer</small></a>
+        </li>
+        <li>
+          <a href="javascript:;" class="actionRoomReport" onclick="actionRoomReportAbuse('<?php echo (string)$context["_id"] ?>', this)" data-id="<?php echo $parentId ?>"><small><i class="fa fa-flag"></i> Reporter au modérateur</small></a>
+        </li>
+      </ul>
+    </div>
     </h1> 
+
 <?php } ?>
 
 
@@ -72,6 +85,7 @@
 <script type="text/javascript">
 var images = <?php echo json_encode($images) ?>;
 var latestComments = <?php echo time(); ?>;
+var contextId = '<?php echo (string)$context["_id"] ?>';
 jQuery(document).ready(function() {
 	
 	<?php if($contextType == "actionRooms"){ ?>
@@ -80,6 +94,48 @@ jQuery(document).ready(function() {
   	<?php } ?>
 
 });
+
+//TODO SBAR : mutualize with newsReportAbuse
+function actionRoomReportAbuse(id, $this) {
+    var message = "<div id='reason' class='radio'>"+
+      "<label><input type='radio' name='reason' value='Propos malveillants' checked>Propos malveillants</label><br>"+
+      "<label><input type='radio' name='reason' value='Incitation et glorification des conduites agressives'>Incitation et glorification des conduites agressives</label><br>"+
+      "<label><input type='radio' name='reason' value='Affichage de contenu gore et trash'>Affichage de contenu gore et trash</label><br>"+
+      "<label><input type='radio' name='reason' value='Contenu pornographique'>Contenu pornographique</label><br>"+
+        "<label><input type='radio' name='reason' value='Liens fallacieux ou frauduleux'>Liens fallacieux ou frauduleux</label><br>"+
+        "<label><input type='radio' name='reason' value='Mention de source erronée'>Mention de source erronée</label><br>"+
+        "<label><input type='radio' name='reason' value='Violations des droits auteur'>Violations des droits d\'auteur</label><br>"+
+        "<input type='text' class='form-control' id='reasonComment' placeholder='Laisser un commentaire...'/><br>"+
+      "</div>";
+    var boxNews = bootbox.dialog({
+      message: message,
+      title: trad["askreasonreportabuse"],
+      buttons: {
+        annuler: {
+          label: "Annuler",
+          className: "btn-default",
+          callback: function() {
+            mylog.log("Annuler");
+          }
+        },
+        danger: {
+          label: "Déclarer cet abus",
+          className: "btn-primary",
+          callback: function() {
+            // var reason = $('#reason').val();
+            var reason = $("#reason input[type='radio']:checked").val();
+            var reasonComment = $("#reasonComment").val();
+            //actionOnNews($($this),action,method, reason, reasonComment);
+            toastr.info("This feature is comming soon !");
+            //$($this).children(".label").removeClass("text-dark").addClass("text-red");
+          }
+        },
+      }
+    });
+    boxNews.on("shown.bs.modal", function() {
+      $.unblockUI();
+    });
+}
 
 function checkCommentCount(){ 
 		mylog.log("check if new comments exist since",latestComments);
@@ -106,6 +162,28 @@ function checkCommentCount(){
 	    	}
         }
     });
+}
+
+function actionRoomDelete(id, $this){
+  bootbox.confirm(trad["suretodeletediscuss"], 
+    function(result) {
+      if (result) {
+        $.ajax({
+              type: "POST",
+              url: baseUrl+"/"+moduleId+"/rooms/deleteroom/id/"+id,
+          dataType: "json",
+              success: function(data){
+                if (data.result) {               
+                  toastr.success(data.msg);
+                  showRoom('all', contextId);
+                } else {
+                  toastr.error(data.msg);
+                }
+            }
+        });
+      }
+    }
+  )
 }
 
 function archive(collection,id){

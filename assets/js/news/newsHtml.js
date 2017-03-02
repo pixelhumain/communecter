@@ -590,6 +590,7 @@ function builHtmlAuthorImageObject(obj){ //mylog.log("[[[[[[[[[[[[[[[[[[[[[[[[[[
 	}
 	return iconStr;
 }
+
 function actionOnNews(news,action,method,reason, comment) {
 	
 	var type="news";
@@ -863,7 +864,7 @@ function reportNewsAbuse($this,action, method) {
 		      	var reason = $("#reason input[type='radio']:checked").val();
 		      	var reasonComment = $("#reasonComment").val();
 		      	actionOnNews($($this),action,method, reason, reasonComment);
-		      	$this.children(".label").removeClass("text-dark").addClass("text-red");
+		      	$($this).children(".label").removeClass("text-dark").addClass("text-red");
 		      }
 		    },
 		  }

@@ -17,6 +17,7 @@ class RoomsController extends CommunecterController {
 	    return array(
 	        'index'       	=> 'citizenToolKit.controllers.actionRoom.IndexAction',
 			'saveroom'   	=> 'citizenToolKit.controllers.actionRoom.SaveRoomAction',
+			'deleteroom'   	=> 'citizenToolKit.controllers.actionRoom.DeleteRoomAction',
 			'editroom'		=> 'citizenToolKit.controllers.actionRoom.EditRoomAction',
 			'external'		=> 'citizenToolKit.controllers.actionRoom.ExternalAction',
 			'actions'		=> 'citizenToolKit.controllers.actionRoom.ActionsAction',

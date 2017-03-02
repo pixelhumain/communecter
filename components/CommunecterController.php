@@ -167,6 +167,7 @@ class CommunecterController extends Controller
     "rooms"=> array(
       "index"    => array("href" => "/ph/communecter/rooms/index"),
       "saveroom" => array("href" => "/ph/communecter/rooms/saveroom"),
+      "deleteroom" => array("href" => "/ph/communecter/rooms/deleteroom"),
       "editroom" => array("href" => "/ph/communecter/rooms/editroom"),
       "external" => array("href" => "/ph/communecter/rooms/external"),
       "actions"  => array("href" => "/ph/communecter/rooms/actions"),
