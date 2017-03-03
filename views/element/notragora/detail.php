@@ -210,6 +210,9 @@
 		<div class="element-name text-dark">
 			<?php echo @$element["name"]; ?>
 			<!-- <button class="btn btn-default btn-follow"><i class="fa fa-star"></i> SUIVRE</button> -->
+			<?php if(  Authorisation::canEditItem( Yii::app()->session["userId"], $_GET["type"], (string)$_GET["id"])){?>
+			<button class="btn btn-default" onclick='elementLib.editElement("<?php echo @$_GET["type"]; ?>","<?php echo (string)@$element["_id"]; ?>")' ><i class="fa fa-pencil text-red"></i> Edit</button>
+			<?php } ?>
 		</div>
 		<div class="col-md-12 padding-15 menubar">
 			<button class="btn btn-default btn-menubar" id="btn-menu-home">A PROPOS</button>

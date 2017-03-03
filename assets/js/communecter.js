@@ -2348,7 +2348,7 @@ var elementLib = {
 			  			}
 		  			}
 				}
-				elementLib.openForm(type,null, data.map);
+				elementLib.openForm(typeObj[type].ctrl,null, data.map);
 	        } else {
 	           toastr.error("something went wrong!! please try again.");
 	        }
@@ -2364,10 +2364,10 @@ var elementLib = {
 			if( notNull(specs.col) ) uploadObj.type = specs.col;
     		callback(specs, afterLoad, data);
 		}else {
-			lazyLoad( baseUrl+'/plugins/'+type+'_dynform.js', 
+			lazyLoad( moduleUrl+'/js/dynForm/'+type+'.js', 
 				null,
 				function() { 
-				  	alert(dynForm);
+					mylog.log("lazyLoaded",moduleUrl+'/js/dynForm/'+typeObj[type].ctrl+'.js');
 				  	typeObj[type] = dynForm;
 					specs = typeObj[type];
 					if( notNull(specs.col) ) uploadObj.type = specs.col;
