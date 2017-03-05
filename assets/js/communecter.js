@@ -565,6 +565,7 @@ var loadableUrls = {
 	"#rooms" : {title:'ACTION ROOMS ', icon : 'cubes'},
     "#element.aroundme" : {title:"Around me" , icon : 'crosshairs', menuId:"menu-btn-around-me"},
     "#element.notifications" : {title:'DETAIL ENTITY', icon : 'legal'},
+    "#person.settings" : {title:'DETAIL ENTITY', icon : 'legal'},
 	"#element" : {title:'DETAIL ENTITY', icon : 'legal'},
     "#gallery" : {title:'ACTION ROOMS ', icon : 'photo'},
     "#comment" : {title:'DISCUSSION ROOMS ', icon : 'comments'},
