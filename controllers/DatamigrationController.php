@@ -40,7 +40,7 @@ class DatamigrationController extends CommunecterController {
   		foreach($data["notify"]["id"] as $val){
 			if(gettype($val)=="string"){
 				//echo($val);
-  				$newArrayId[$val]=array("isUnsee"=>true,"isUnread"=>true);
+  				$newArrayId[$val]=array("isUnseen"=>true,"isUnread"=>true);
   				$update=true;
   			}
   		}
