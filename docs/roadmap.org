@@ -421,7 +421,7 @@ Liste des notifications déjà lues => #370 #453
   [1]  [X] /Add/ => TEST OK 
   [1]  [X] /Post/ => TEST OK ++
   [1]  [X] /Vote/ => TEST OK
-  [ ] [ ] "isUnseen" => "isNotViewed" 
+  [2] [X] "isUnsee" => "isUnseen" 
       *** Test all use case up (around 12 hours)
   [1]  [X] TEST OK
       *** Wishlist   
@@ -433,6 +433,10 @@ Liste des notifications déjà lues => #370 #453
   [2]  [ ] Confirm to become => delete notification on user side
   [1][X] Community to notify
   [1]  [X] method
+  [2]  [X] add parent target in $construct if usecase of comment on room/news of element
+  [2]  [X] Send $construct and work with it instead of only target information
+  [2]  [X] Not used method when only notify specific user
+  [2]  [X] Use context parameter to notify only admin for notifications ASK and INVITE
       *** WishList
   [2][ ] City 
   [2]   [ ] Creator && community participating && community subscribing to theme or citizen council
@@ -449,10 +453,16 @@ Liste des notifications déjà lues => #370 #453
   [1]    [X] Create delete btn
   [1]  [X] Bug on lbh load
     *** Wishlist
-  [2]  [ ] Separate invitation validation && become friend from others notifications
-  [2]    [ ] Add validation btn on community validation
-  [2]  [ ] View of notification by element
-  [2]    [ ] Confirm push on head
+  [2]  [X] View of notification by element
+  [2]    [X] Confirm push on head
+  [2]    [X] Create element.notifications.type.id [communecter && ctk]
+  [2]    [X] Validation action on notification
+  [2]    [X] fix bug when refuse an admin already member... He stays member
+  [2]    [X] Generalize js for element.notifications && notification2.php => assets/default/notifications.js
+  [2]    [ ] Simplify confirmation using js
+  [2]    [ ] Add count badges on view
+  [2]    [ ] Redirect "Verb_ASK" notif on notif
+  [2]    [X] Merge Element/GetNotificationsAction in Notification/GetAction
   *** MAIL
   [2][X] Template for use case
   [2]  [X] someoneAskToBecome (Admin || Member=
@@ -463,6 +473,7 @@ Liste des notifications déjà lues => #370 #453
   [2][ ] Not send email if user is connected and have active view on communecter.org
   [2][ ] Result of vote
   *** PREFERENCES
+  [2][ ] Create view of settings
   [2][ ] Add inscription on citizen consult that I will follow OR specific room (news + notif + mail)
   [2][ ] Mailing on add something in element and comment/Like/unlike on element where I am linking
   [2][ ] daily  Report
@@ -475,7 +486,7 @@ Liste des notifications déjà lues => #370 #453
   [2]  [ ] Followers on element where I am linking
   *** NEWS
   [2][ ] View of like, unlike 
-  [2][ ] Get news form friends
+  [2][ ] Get news from friends
   [1][X] Bash of object.type inbstead of object.objectType (!!!important with notification reactor!!!!)
     => ph/communecter/datamigration/ObjectObjectTypeNewsToObjectType
   *** LINK
@@ -494,7 +505,7 @@ Liste des notifications déjà lues => #370 #453
     [1][X] /FOLLOW/ => no repeat on notify when I follow a user
     [1][X] /VALIDATE/ => undefined community
     [1][X] /VALIDATE/ => undefined object on check and update because go to update (add object exist in query)
-    [1][X] BUG BUG BUG
+    [1][X] BUG BUG BUG && BUG
   [1][X] Link
     [1][X] If isPendingAdmin or toBeValidated as member user is consedering as member in right access
       [1][X] change method Project::getContibutorsByProjectId && Organization::getMembersByOrganizationId
@@ -502,6 +513,8 @@ Liste des notifications déjà lues => #370 #453
     [1][X] Menu btn => if I am member he purpose me to follow
     [1][X] No disconnect btn if I am member of an element
     [1][X] Two disconnect btn on event
+    [2][X] Fix bug on $unset on disconnect
+    [2][X] Add linkOption parameter on method disconnectTo()
   [1][X] Project
     [1][X] Project with event without address => bug on gantt indexAction
   *** Questions
