@@ -85,6 +85,8 @@ console.log("searchPrefTag", searchPrefTag);
    var tagsActived = {};
    var disableActived = false;
    var citiesActived = ( ((typeof params.request.searchLocalityNAME == "undefined") || params == null) ? [] : params.request.searchLocalityNAME);
+   var typesActived = [] ;
+   var rolesActived = [] ;
 
   jQuery(document).ready(function() {
   	if(typeof params.filter.linksTag != "undefined"){
@@ -461,11 +463,14 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 	  "searchBy" : searchBy,
 	  "indexMin" : indexMin,
 	  "indexMax" : indexMax,
-	  "sourceKey" : sourceKey,
+	  //"sourceKey" : sourceKey,
 	  "mainTag" : mainTag,
 	  "searchPrefTag" : searchPrefTag,
 	  
 	};
+
+	if(typeof params.request.sourceKey != "undefined")
+	  data.sourceKey = params.request.sourceKey;
 
 	if(typeof params.filter.paramsFiltre != "undefined")
 	  data.paramsFiltre = params.filter.paramsFiltre;
@@ -502,292 +507,265 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 			 console.dir(data);
 		  },
 		  success: function(data){
+		  	mylog.log("!data.res", !data.res);
 			if(!data.res){ toastr.error(data.content); }
 			else
 			{
-			  var countData = 0;
-			  $.each(data.res, function(i, v) { if(v.length!=0){ countData++; } });
+				if(data.res.length){
+					var countData = 0;
+					$.each(data.res, function(i, v) { if(v.length!=0){ countData++; } });
 
-			  totalData += countData;
+					totalData += countData;
+					filterTags(data.filters.tags);
+					filterType(data.filters.types)
+					bindAutocomplete();
+					str = "";
+					var city, postalCode = "";
+					var mapElements = new Array();
+					allTags = data.filters;
 
-			  str = "";
-			  var city, postalCode = "";
-			  var mapElements = new Array();
-			  allTags = data.filters;
-			  //parcours la liste des résultats de la recherche
-			  $.each(data.res, function(i, o) {
-				  var typeIco = i;
-				  var ico = mapIconTop["default"];
-				  var color = mapColorIconTop["default"];
-				  
-				  typeIco = o.type;
-				  ico = ("undefined" != typeof mapIconTop[typeIco]) ? mapIconTop[typeIco] : mapIconTop["default"];
-				  color = ("undefined" != typeof mapColorIconTop[typeIco]) ? mapColorIconTop[typeIco] : mapColorIconTop["default"];
+					//parcours la liste des résultats de la recherche
+					$.each(data.res, function(i, o) {
+						var typeIco = i;
+						var ico = mapIconTop["default"];
+						var color = mapColorIconTop["default"];
 
-				  htmlIco ="<i class='fa "+ ico +" text-"+color+"'></i>";
-				  if("undefined" != typeof o.profilThumbImageUrl && o.profilThumbImageUrl != ""){
-					var htmlIco= "<img width='80' height='80' alt='' class='img-circle bg-"+color+"' src='"+baseUrl+o.profilThumbImageUrl+"'/>";
-				  }
+						typeIco = o.type;
+						ico = ("undefined" != typeof mapIconTop[typeIco]) ? mapIconTop[typeIco] : mapIconTop["default"];
+						color = ("undefined" != typeof mapColorIconTop[typeIco]) ? mapColorIconTop[typeIco] : mapColorIconTop["default"];
 
-				  // o.profilImageUrl = "/upload/communecter/network/Alimentation/fa-cutlery505719fabnone.png";
-				  // o.profilMarkerImageUrl = "/upload/communecter/network/Alimentation/thumb/profil-marker.png";
-				  // o.profilThumbImageUrl = "/upload/communecter/network/Alimentation/thumb/profil-resized.png";
-				  city="";
-				  var postalCode = o.cp
-				  if (o.address != null) {
-					city = o.address.addressLocality;
-					postalCode = o.cp ? o.cp : o.address.postalCode ? o.address.postalCode : "";
-				  }
-
-				  //console.dir(o);
-				  var id = getObjectId(o);
-				  var tagsClasses = "";
-				  var insee = o.insee ? o.insee : "";
-				  type = o.type;
-				  if(type=="citoyen") type = "person";
-
-				  //Consolidate types
-				  if(type != "undefined" && type != null){
-					if(typeof allTypes[type] != "undefined"){
-					  allTypes[type] = allTypes[type] + 1;
-					}
-					else{
-					  allTypes[type] = 1;
-					}
-				  }
-				  var url = "javascript:"; //baseUrl+'/'+moduleId+ "/default/simple#" + o.type + ".detail.id." + id;
-				  var url = baseUrl+'/'+moduleId+ "/default/dir#" + type + ".simply.id." + id;
-				 // var onclick = 'loadByHash("#organization.simply.id.' + id + '");';
-				  var onclick = 'getAjaxFiche("#element.detail.type.'+o.typeSig+'.id.'+id+'",1);';
-				  var onclickCp = "";
-				  var target = " target='_blank'";
-				  var dataId = "";
-				  if(type == "city"){
-					url = "javascript:"; //#main-col-search";
-					onclick = 'setScopeValue($(this))'; //"'+o.name.replace("'", "\'")+'");';
-					onclickCp = 'setScopeValue($(this));';
-					target = "";
-					dataId = o.name; //.replace("'", "\'");
-				  }
-				  //var tags = "";
-				  var find = false;
-				  /*if(typeof o.tags != "undefined" && o.tags != null){
-					$.each(o.tags, function(key, value){
-					  if(value != ""){
-						//Display info in item
-						tags +=   "<a href='javascript:' class='badge bg-red btn-tag tagFilter padding-5' value='"+ value +"'>#" + value + "</a>";
-						// manageTagFilter("#"+value);
-						//Consolidate tags
-						// if(typeof allTags[value] != "undefined"){
-						//   allTags[value] = allTags[value] + 1;
-						// }
-						// else{
-						//   allTags[value] = 1;
-						// }
-						//Default Image adn color
-						if(find == false && value in linksTagImages == true){
-						  find = true;
-						  // $.each(linksTagImages[value], function(key2, value2){
-						  //   o[key2] = value2;
-						  // });
-						  o.typeSig = "organizations";
-						  o.type = "organizations";
+						htmlIco ="<i class='fa "+ ico +" text-"+color+"'></i>";
+						if("undefined" != typeof o.profilThumbImageUrl && o.profilThumbImageUrl != ""){
+							var htmlIco= "<img width='80' height='80' alt='' class='img-circle bg-"+color+"' src='"+baseUrl+o.profilThumbImageUrl+"'/>";
 						}
-						//Filter Client (Attention erreur firefox js)
-						// tagsClasses += ' '+value.replace("/[^A-Za-z0-9]/", "", value) ;
-					  }
-					});
-				  }*/
 
-					var tags = "";
-					var elTagsList = "";
-					if(typeof o.tags != "undefined" && o.tags != null){
-						$.each(o.tags, function(key, value){
-							if(value != ""){
-								tags += "<a href='javascript:' class='badge bg-red btn-tag tagFilter padding-5' data-tag-value='"+slugify(value)+"'>#" + value + "</a> ";
-								elTagsList += slugify(value)+" ";
-								if(find == false && value in linksTagImages == true){
-									find = true;
-									o.typeSig = "organizations";
-									o.type = "organizations";
-								}
+						city="";
+						var postalCode = o.cp
+						if (o.address != null) {
+							city = o.address.addressLocality;
+							postalCode = o.cp ? o.cp : o.address.postalCode ? o.address.postalCode : "";
+						}
+
+						//console.dir(o);
+						var id = getObjectId(o);
+						var tagsClasses = "";
+						var insee = o.insee ? o.insee : "";
+						type = o.type;
+						if(type=="citoyen") type = "person";
+
+						//Consolidate types
+						if(type != "undefined" && type != null){
+							if(typeof allTypes[type] != "undefined"){
+								allTypes[type] = allTypes[type] + 1;
 							}
-						});
-					}
+							else{
+								allTypes[type] = 1;
+							}
+						}
+
+						var url = "javascript:"; //baseUrl+'/'+moduleId+ "/default/simple#" + o.type + ".detail.id." + id;
+						var url = baseUrl+'/'+moduleId+ "/default/dir#" + type + ".simply.id." + id;
+						// var onclick = 'loadByHash("#organization.simply.id.' + id + '");';
+						var onclick = 'getAjaxFiche("#element.detail.type.'+o.typeSig+'.id.'+id+'",1);';
+						var onclickCp = "";
+						var target = " target='_blank'";
+						var dataId = "";
+						if(type == "city"){
+							url = "javascript:"; //#main-col-search";
+							onclick = 'setScopeValue($(this))'; //"'+o.name.replace("'", "\'")+'");';
+							onclickCp = 'setScopeValue($(this));';
+							target = "";
+							dataId = o.name; //.replace("'", "\'");
+						}
+
+						//var tags = "";
+						var find = false;
+						var tags = "";
+						var elTagsList = "";
+						if(typeof o.tags != "undefined" && o.tags != null){
+							$.each(o.tags, function(key, value){
+								if(value != ""){
+									tags += "<a href='javascript:' class='badge bg-red btn-tag tagFilter padding-5' data-tag-value='"+slugify(value)+"'>#" + value + "</a> ";
+									elTagsList += slugify(value)+" ";
+									if(find == false && value in linksTagImages == true){
+										find = true;
+										o.typeSig = "organizations";
+										o.type = "organizations";
+									}
+								}
+							});
+						}
+
+						mapElements.push(o);
+						contextMapNetwork.push(o);
+						// console.log(tagsClasses);
+						var name = typeof o.name != "undefined" ? o.name : "";
+						var website = (typeof o.url != "undefined" || o.url != null) ? o.url : "";
+						var postalCode = (	typeof o.address != "undefined" &&
+											typeof o.address.postalCode != "undefined") ? o.address.postalCode : "";
+
+						if(postalCode == "") postalCode = typeof o.cp != "undefined" ? o.cp : "";
+						var cityName = (typeof o.address != "undefined" &&
+										typeof o.address.addressLocality != "undefined") ? o.address.addressLocality : "";
+
+						var fullLocality = postalCode + " " + cityName;
+						var description = (	typeof o.shortDescription != "undefined" &&
+											o.shortDescription != null) ? o.shortDescription : "";
+						if(description == "") description = (	typeof o.description != "undefined" &&
+																o.description != null) ? o.description : "";
+						description = "";
+						if(o.profilMediumImageUrl != "undefined" && o.profilMediumImageUrl != "")
+							pathmedium = baseUrl+o.profilMediumImageUrl;
+						else
+							pathmedium = "<?php echo $this->module->assetsUrl ?>/images/thumbnail-default.jpg";
+						shortDescription = (	typeof o.shortDescription != "undefined" &&
+												o.shortDescription != null ) ? o.shortDescription : "";
+
+						var startDate = (typeof o.startDate != "undefined") ? "Du "+dateToStr(o.startDate, "fr", true, true) : null;
+						var endDate   = (typeof o.endDate   != "undefined") ? "Au "+dateToStr(o.endDate, "fr", true, true)   : null;
+
+						var disabledBorder = ((typeof o.disabled != "undefined" && o.disabled == true) ? "border-red elementDisabled" : "" );
+						var disabledText = ((typeof o.disabled != "undefined" && o.disabled == true) ? '<h1 id="disabledList" class="text-red"><?php echo Yii::t("common", "Disabled"); ?></h1>' : "" );
 
 
+						/***** VERSION SIMPLY *****/
+						str += "<div id='"+id+"' class='row list-group-item item searchEntity "+mix+" "+elTagsList+" "+fullLocality+" "+disabledBorder+"' >";
+						<?php if(isset($params['result']['displayImage']) && $params['result']['displayImage']) { ?>
+							str += '<div class="col-lg-3 col-md-3 col-sm-3 col-xs-4 padding-10 center">'+
+							'<img class="img-responsive thumbnail" src="'+pathmedium+'"></div>';
+						<?php } ?>
 
-
-				  mapElements.push(o);
-				  contextMapNetwork.push(o);
-				  // console.log(tagsClasses);
-				  var name = typeof o.name != "undefined" ? o.name : "";
-				  var website = (typeof o.url != "undefined" || o.url != null) ? o.url : "";
-				  var postalCode = (typeof o.address != "undefined" &&
-							typeof o.address.postalCode != "undefined") ? o.address.postalCode : "";
-
-				  if(postalCode == "") postalCode = typeof o.cp != "undefined" ? o.cp : "";
-				  var cityName = (typeof o.address != "undefined" &&
-						  typeof o.address.addressLocality != "undefined") ? o.address.addressLocality : "";
-
-				  var fullLocality = postalCode + " " + cityName;
-				  var description = (typeof o.shortDescription != "undefined" &&
-							o.shortDescription != null) ? o.shortDescription : "";
-				  if(description == "") description = (typeof o.description != "undefined" &&
-									 o.description != null) ? o.description : "";
-				  description = "";
-				  if(o.profilMediumImageUrl != "undefined" && o.profilMediumImageUrl != "")
-					pathmedium = baseUrl+o.profilMediumImageUrl;
-				  else
-					pathmedium = "<?php echo $this->module->assetsUrl ?>/images/thumbnail-default.jpg";
-				  shortDescription = (typeof o.shortDescription != "undefined" &&
-									 o.shortDescription != null) ? o.shortDescription : "";
-
-				  var startDate = (typeof o.startDate != "undefined") ? "Du "+dateToStr(o.startDate, "fr", true, true) : null;
-				  var endDate   = (typeof o.endDate   != "undefined") ? "Au "+dateToStr(o.endDate, "fr", true, true)   : null;
-				 
-				  var disabledBorder = ((typeof o.disabled != "undefined" && o.disabled == true) ? "border-red elementDisabled" : "" );
-				  var disabledText = ((typeof o.disabled != "undefined" && o.disabled == true) ? '<h1 id="disabledList" class="text-red"><?php echo Yii::t("common", "Disabled"); ?></h1>' : "" );
-
-				  /***** VERSION SIMPLY *****/
-				  str += "<div id='"+id+"' class='row list-group-item item searchEntity "+mix+" "+elTagsList+" "+fullLocality+" "+disabledBorder+"' >";
-				  <?php if(isset($params['result']['displayImage']) && $params['result']['displayImage']) { ?>
-					str += '<div class="col-lg-3 col-md-3 col-sm-3 col-xs-4 padding-10 center">'+
-								'<img class="img-responsive thumbnail" src="'+pathmedium+'">'+
-							'</div>';
-					<?php } ?>
-				   // str += "<div class='entityTop col-md-2' onclick='"+onclick+"'>";
-					  //  str += "<img class='image' src='http://paniersdumarais.weebly.com/uploads/1/4/6/5/1465996/5333680.jpg' />";
-					//str += "</div>";
-					
-					str += "<div class='entityMiddle col-md-5 name' onclick='"+onclick+"'>";
-					str += disabledText;
+						str += "<div class='entityMiddle col-md-5 name' onclick='"+onclick+"'>";
+						str += disabledText;
 						str += "<a class='entityName text-dark'>" + name + "</a><br/>";
 						if(website != null && website.trim() != "")
-						str += "<i class='fa fa-desktop fa_url'></i> <a href='"+website+"' target='_blank'>"+website+"</a><br/>";
+							str += "<i class='fa fa-desktop fa_url'></i> <a href='"+website+"' target='_blank'>"+website+"</a><br/>";
 						<?php if(isset($params['result']['fullLocality']) && $params['result']['fullLocality']) { ?>
-						  if(fullLocality != "" && fullLocality != " ")
-						  str += "<div class='entityLocality'><i class='fa fa-home'></i> " + fullLocality + "</div><br/>";
+							if(fullLocality != "" && fullLocality != " ")
+								str += "<div class='entityLocality'><i class='fa fa-home'></i> " + fullLocality + "</div><br/>";
 						<?php } ?>
-					str += "</div>";
-
-					<?php if(isset($params['result']['displayType']) && $params['result']['displayType']) { ?>
-					  str += "<div class='entityMiddle col-md-2 type '>";
-						typeIco = "";
-						 str += htmlIco+"" + typeIco + "";
-					  str += "</div>";
-					<?php } ?>
-					<?php if(isset($params['result']['displayShortDescription']) && $params['result']['displayShortDescription']) { ?>
-						str += "<div class='entityMiddle col-md-5 type '>";
-						str += 		shortDescription;
 						str += "</div>";
-					   <?php } ?>
 
-					target = "";
-						 str += "<div class='entityBottom col-md-5'>";
-						 str += "<hr>";
-					  if(tags=="") tags = "<a href='#' class='badge bg-red btn-tag'>#</a>";
-					  str += tags;
-					str += "</div>";
-				  str += "</div>";
-			  }); //end each
-			  if(str == "") {
-				  $(".btn-start-search").html("<i class='fa fa-search'></i>");
-				  if(indexMin == 0){
-					//ajout du footer
-					var msg = "Aucun résultat";
-					if(name == "" && locality == "") msg = "<h3 class='text-dark'><i class='fa fa-3x fa-keyboard-o'></i><br> Préciser votre recherche pour plus de résultats ...</h3>";
-					str += '<div class="center" id="footerDropdown">';
-					str += "<hr style='float:left; width:100%;'/><label style='margin-bottom:10px; margin-left:15px;' class='text-white'>"+msg+"</label><br/>";
-					str += "</div>";
-					$("#dropdown_search").html(str);
-					$("#searchBarText").focus();
-				  }
-			  }
-			  else
-			  {
-				//ajout du footer
+						<?php if(isset($params['result']['displayType']) && $params['result']['displayType']) { ?>
+							str += "<div class='entityMiddle col-md-2 type '>";
+							typeIco = "";
+							str += htmlIco+"" + typeIco + "";
+							str += "</div>";
+						<?php } ?>
+						<?php if(isset($params['result']['displayShortDescription']) && $params['result']['displayShortDescription']) { ?>
+							str += "<div class='entityMiddle col-md-5 type '>";
+							str += 		shortDescription;
+							str += "</div>";
+						<?php } ?>
 
-				  str += '</div><div class="center col-md-12" id="footerDropdown">';
-				  str += "<hr style='float:left; width:100%;'/><label id='countResult' class='text-white'></label><br/>";
-				  <?php if(isset($params['mode']) && $params['mode'] != "client"){ ?>
-					str += '<button class="btn btn-default" id="btnShowMoreResult"><i class="fa fa-angle-down"></i> Afficher plus de résultat</div></center>';
-					str += "</div>";
-				  <?php } ?>
-				//si on n'est pas sur une première recherche (chargement de la suite des résultat)
-				if(indexMin > 0){
-				  //on supprime l'ancien bouton "afficher plus de résultat"
-				  $("#btnShowMoreResult").remove();
-				  //on supprimer le footer (avec nb résultats)
-				  $("#footerDropdown").remove();
-				  //on calcul la valeur du nouveau scrollTop
-				  var heightContainer = $(".my-main-container")[0].scrollHeight - 180;
+						target = "";
+						str += "<div class='entityBottom col-md-5'>";
+						str += "<hr>";
+						if(tags=="") tags = "<a href='#' class='badge bg-red btn-tag'>#</a>";
+						str += tags;
+						str += "</div>";
+						str += "</div>";
+					}); //end each
+				
+					if(str == "") {
+						$(".btn-start-search").html("<i class='fa fa-search'></i>");
+						if(indexMin == 0){
+							//ajout du footer
+							var msg = "Aucun résultat";
+							if(name == "" && locality == "") 
+								msg = "<h3 class='text-dark'><i class='fa fa-3x fa-keyboard-o'></i><br> Préciser votre recherche pour plus de résultats ...</h3>";
+							str += '<div class="center" id="footerDropdown">';
+							str += "<hr style='float:left; width:100%;'/><label style='margin-bottom:10px; margin-left:15px;' class='text-white'>"+msg+"</label><br/>";
+							str += "</div>";
+							$("#dropdown_search").html(str);
+							$("#searchBarText").focus();
+						}
+					}
+					else {
+						//ajout du footer
 
-				  //on affiche le résultat à l'écran
-				  $("#dropdown_search").append(str);
+						str += '</div><div class="center col-md-12" id="footerDropdown">';
+						str += "<hr style='float:left; width:100%;'/><label id='countResult' class='text-white'></label><br/>";
+						<?php if(isset($params['mode']) && $params['mode'] != "client"){ ?>
+							str += '<button class="btn btn-default" id="btnShowMoreResult"><i class="fa fa-angle-down"></i> Afficher plus de résultat</div></center>';
+							str += "</div>";
+						<?php } ?>
+						//si on n'est pas sur une première recherche (chargement de la suite des résultat)
+						if(indexMin > 0){
+							//on supprime l'ancien bouton "afficher plus de résultat"
+							$("#btnShowMoreResult").remove();
+							//on supprimer le footer (avec nb résultats)
+							$("#footerDropdown").remove();
+							//on calcul la valeur du nouveau scrollTop
+							var heightContainer = $(".my-main-container")[0].scrollHeight - 180;
+							//on affiche le résultat à l'écran
+							$("#dropdown_search").append(str);
+						//si on est sur une première recherche
+						}else{
+							//on affiche le résultat à l'écran
+							$("#dropdown_search").html(str);
+							//on scroll pour coller le haut de l'arbre au menuTop
+							// $(".my-main-container").scrollTop(95);
+						}
 
-				//si on est sur une première recherche
-				}else{
-				  //on affiche le résultat à l'écran
-				  $("#dropdown_search").html(str);
-				  //on scroll pour coller le haut de l'arbre au menuTop
-				  // $(".my-main-container").scrollTop(95);
+						//On met à jour les filtres
+						<?php if(isset($params['mode']) && $params['mode'] == "client"){ ?>
+							loadClientFilters(allTypes, allTags);
+						<?php } else{ ?>
+							loadServerFilters(allTypes, allTags);
+						<?php } ?>
+						//on affiche par liste par défaut
+						$('#list').click();
+						//remet l'icon "loupe" du bouton search
+						$(".btn-start-search").html("<i class='fa fa-search'></i>");
+
+						//active le chargement de la suite des résultat au survol du bouton "afficher plus de résultats"
+						//(au cas où le scroll n'ait pas lancé le chargement comme prévu)
+						$("#btnShowMoreResult").mouseenter(function(){
+							if(!loadingData){
+								startSearch(indexMin+indexStep, indexMax+indexStep);
+								$("#btnShowMoreResult").mouseenter(function(){});
+							}
+						});
+
+						//initialise les boutons pour garder une entité dans Mon répertoire (boutons links)
+						// initBtnLink();
+					} //end else (str=="")
+
+					//signal que le chargement est terminé
+					// console.log("loadingData false");
+					loadingData = false;
+					<?php if(isset($params['mode']) && $params['mode'] == "client"){ ?>
+						loadClientFeatures();
+					<?php } else{ ?>
+						loadServerFeatures();
+					<?php } ?>
+					//quand la recherche est terminé, on remet la couleur normal du bouton search
+					$(".btn-start-search").removeClass("bg-azure");
+
 				}
-
-				//On met à jour les filtres
-				<?php if(isset($params['mode']) && $params['mode'] == "client"){ ?>
-				  loadClientFilters(allTypes, allTags);
-				<?php } else{ ?>
-				  loadServerFilters(allTypes, allTags);
-				<?php } ?>
-				//on affiche par liste par défaut
-				$('#list').click();
-				//remet l'icon "loupe" du bouton search
-				$(".btn-start-search").html("<i class='fa fa-search'></i>");
-
-				//active le chargement de la suite des résultat au survol du bouton "afficher plus de résultats"
-				//(au cas où le scroll n'ait pas lancé le chargement comme prévu)
-				$("#btnShowMoreResult").mouseenter(function(){
-				  if(!loadingData){
-					startSearch(indexMin+indexStep, indexMax+indexStep);
-					$("#btnShowMoreResult").mouseenter(function(){});
-				  }
-				});
-
-				//initialise les boutons pour garder une entité dans Mon répertoire (boutons links)
-				// initBtnLink();
-			  } //end else (str=="")
-			  //signal que le chargement est terminé
-			  // console.log("loadingData false");
-			  loadingData = false;
-			  <?php if(isset($params['mode']) && $params['mode'] == "client"){ ?>
-			   loadClientFeatures();
-			  <?php } else{ ?>
-				loadServerFeatures();
-			  <?php } ?>
-			  //quand la recherche est terminé, on remet la couleur normal du bouton search
-			  $(".btn-start-search").removeClass("bg-azure");
+				
 			}
 			// console.log("scrollEnd ? ", scrollEnd, indexMax, countData , indexMin);
 
 			//si le nombre de résultat obtenu est inférieur au indexStep => tous les éléments ont été chargé et affiché
 			if(indexMax - countData > indexMin){
-			  $("#btnShowMoreResult").remove();
-			  scrollEnd = true;
+				$("#btnShowMoreResult").remove();
+				scrollEnd = true;
 			}else{
-			  scrollEnd = false;
+				scrollEnd = false;
 			}
-		   //affiche les éléments sur la carte
+			//affiche les éléments sur la carte
 			Sig.showMapElements(Sig.map, mapElements);
-		   //on affiche le nombre de résultat en bas
+			//on affiche le nombre de résultat en bas
 			var s = "";
 			var length = ($( "div.searchEntity" ).length);
 			if(length > 1) s = "s";
 			$("#countResult").html(length+" résultat"+s);
 			$.unblockUI();
-		  }
+		}
 	});
-  }
+}
 
   function setSearchValue(value){
 	$("#searchBarText").val(value);
@@ -1239,6 +1217,27 @@ function cityActivedUpdate(checked, city){
 }
 
 
+function  typeActivedUpdate(checked, type){
+	mylog.log("typeActivedUpdate", checked, type);
+	if(checked== false){
+		typesActived.splice($.inArray(type, typesActived),1);
+	}
+	else{
+		typesActived.push(type);
+	}
+}
+
+function  rolesActivedUpdate(checked, role){
+	mylog.log("rolesActivedUpdate", checked, role);
+	if(checked== false){
+		rolesActived.splice($.inArray(role, rolesActived),1);
+	}
+	else{
+		rolesActived.push(role);
+	}
+}
+
+
 
 function addTab(tab, tab2){
 	mylog.log("addTab", tab, tab2);
@@ -1302,10 +1301,16 @@ function andAndOr(allFiltres){
 function updateMap(){
 	mylog.log("updateMap", tagsActived, disableActived);
 
-	
 	var params = ((typeof networkJson.filter == "undefined" && typeof networkJson.filter.paramsFiltre == "undefined") ? null :  networkJson.filter.paramsFiltre);
 	var test = [];
 	var verb = "and";
+	var elementNetwork = [];
+	if(typeof networkJson.request.oneElement != "undefined" && typeof networkJson.request.sourceKey != "undefined" && networkJson.request.oneElement == true){
+		
+		 elementNetwork = networkJson.request.sourceKey[0].split("@");
+		 mylog.log("elementNetwork", elementNetwork);
+	}
+
 	//mylog.log("params", params);
 	if ( params != null && ( (params.conditionBlock == "and" || typeof params.conditionBlock == "undefined" ) && params.conditionTagsInBlock == "and" ) )
 		test = getAllTags(tagsActived);
@@ -1335,7 +1340,14 @@ function updateMap(){
 					( citiesActived.length == 0  || 
 						(	typeof v.address != "undefined" && 
 							typeof v.address.addressLocality != "undefined" && 
-							$.inArray( v.address.addressLocality, citiesActived ) >= 0  ) ) ) {
+							$.inArray( v.address.addressLocality, citiesActived ) >= 0  ) ) &&
+
+
+					( typesActived.length == 0  || 
+						(	typeof v.typeSig != "undefined" && 
+							$.inArray( v.typeSig, typesActived ) >= 0  ) ) &&
+					( rolesActived.length == 0  || 
+						(isLinks(v, elementNetwork[0]) ) ) ) {
 					
 					filteredList.push(v);
 					$("#"+v.id).show();
@@ -1343,16 +1355,21 @@ function updateMap(){
 			});
 		});
 	}else{
-		if( disableActived == true || citiesActived.length > 0 )  {
+		if( disableActived == true || citiesActived.length > 0 || typesActived.length > 0 || rolesActived.length > 0)  {
 			$.each(contextMapNetwork,function(k,v){
 				
-				mylog.log("here", disableActived, v.address.addressLocality, $.inArray( v.address.addressLocality, citiesActived ) );
+				//mylog.log("here", disableActived, v.address.addressLocality, $.inArray( v.address.addressLocality, citiesActived ) );
 				if(	( 	disableActived == false || 
 						(disableActived == true && typeof v.disabled != "undefined" && v.disabled == true) ) && 
 					( citiesActived.length == 0  || 
 						(	typeof v.address != "undefined" && 
 							typeof v.address.addressLocality != "undefined" && 
-							$.inArray( v.address.addressLocality, citiesActived ) >= 0 ) ) ) {
+							$.inArray( v.address.addressLocality, citiesActived ) >= 0 ) ) &&
+					( typesActived.length == 0  || 
+						(	typeof v.typeSig != "undefined" && 
+							$.inArray( v.typeSig, typesActived ) >= 0  ) ) &&
+					( rolesActived.length == 0  || 
+						(isLinks(v, elementNetwork[0]) ) ) )  {
 					filteredList.push(v);
 					$("#"+v.id).show();
 				}
@@ -1364,6 +1381,37 @@ function updateMap(){
 	}
 	mylog.log("filteredList", filteredList);
 	Sig.showMapElements(Sig.map,filteredList);
+}
+
+function isLinks(element, id){
+	mylog.log("isLinks", element, id);
+	var res = false ;
+	mylog.log("rolesActived", rolesActived);
+	if(rolesActived.length){
+		$.each(rolesActived,function(k,v){
+			mylog.log(v, element);
+			if(v == "creator" && element.creator == id){
+					res = true ;
+					return true;
+				
+			}else if(	v == "admin" && 
+						element.links != null &&
+						typeof element.links["members"] != "undefined" && 
+						typeof element.links["members"][id] != "undefined" && 
+						typeof element.links["members"][id].isAdmin != "undefined" && 
+						element.links["members"][id].isAdmin == true){
+				res = true ;
+				return true;
+			}else if(	element.links != null && 
+						typeof element.links != "undefined" && 
+						typeof element.links[ v ] != "undefined" && 
+						typeof element.links[ v ][id] != "undefined" ){
+				res = true ;
+				return true;
+			}
+		});
+	}
+	return res ;
 }
 
 
@@ -1379,4 +1427,81 @@ function addTooltips(){
 		});
 	}
 }
+
+function filterTags(tags){
+	mylog.log("filterTags", tags);
+	str = '<div class="panel-heading">'+
+          '<h4 class="panel-title" onclick="manageCollapse(\'tags\', \'false\')">'+
+            '<a data-toggle="collapse" href="#tags" style="color:#719FAB" data-label="tags">Tous les tags'+ 
+              '<i class="fa fa-chevron-right right" aria-hidden="true" id="fa_tags"></i>'+
+            '</a>'+
+          '</h4>'+
+        '</div>'+
+        '<div id="list_tags" class="panel-collapse collapse">'+
+          '<ul class="list-group no-margin">';
+          		$.each(tags,function(k,v){
+          			 str += '<li class="list-group-item"><input type="checkbox" class="checkbox tagFilterAuto" value="'+k+'" data-parent="tags" data-label="'+k+'"/>'+k+' (' +v+ ')</li>'
+          		});
+        str +=  '</ul> </div>';
+
+    $("#divTags").append(str);
+}
+
+
+function filterType(types){
+	mylog.log("filterType", types);
+	str = '<div class="panel-heading">'+
+          '<h4 class="panel-title" onclick="manageCollapse(\'types\', \'false\')">'+
+            '<a data-toggle="collapse" href="#types" style="color:#719FAB" data-label="types">Tous les types'+ 
+              '<i class="fa fa-chevron-right right" aria-hidden="true" id="fa_tags"></i>'+
+            '</a>'+
+          '</h4>'+
+        '</div>'+
+        '<div id="list_types" class="panel-collapse collapse">'+
+          '<ul class="list-group no-margin">';
+          		$.each(types,function(k,v){
+          			 str += '<li class="list-group-item"><input type="checkbox" class="checkbox typeFilterAuto" value="'+k+'" data-parent="types" data-label="'+k+'"/>'+k+' (' +v+ ')</li>'
+          		});
+        str +=  '</ul> </div>';
+
+    $("#divTypes").append(str);
+}
+
+
+
+
+function bindAutocomplete(){
+	$(".tagFilterAuto").off().click(function(e){
+		mylog.log(".tagFilter",  $(this));
+		mylog.log($(this).is( ':checked' ), $(this).prop( 'checked' ), $(this).attr( 'checked' ));
+		var checked = $(this).is( ':checked' );
+	  	var val = $(this).attr("value");
+		tagActivedUpdate(checked, val, "tags");
+		updateMap();
+	});
+
+
+	$(".typeFilterAuto").off().click(function(e){
+	  
+	  var checked = $(this).is( ':checked' );
+	  var ville = $(this).attr("value");
+	  typeActivedUpdate(checked, ville);
+	  updateMap();
+	});
+
+	$(".rolesFilterAuto").off().click(function(e){
+	  
+	  var checked = $(this).is( ':checked' );
+	  var role = $(this).attr("value");
+	  mylog.log(".rolesFilterAuto", checked, role);
+	  rolesActivedUpdate(checked, role);
+	  updateMap();
+	});
+}
+
+
+
+
+
+
 </script>
