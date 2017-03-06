@@ -40,9 +40,11 @@
         <i class="fa fa-cog"></i>  <i class="fa fa-angle-down"></i>
       </a>
       <ul class="dropdown-menu">
+        <?php if (ActionRoom::canAdministrate(Yii::app()->session["userId"], (string)$context["_id"])) {?>
         <li>
           <a href="javascript:;" class="actionRoomDelete" onclick="actionRoomDelete('<?php echo (string)$context["_id"] ?>', this)" data-id="<?php echo $parentId ?>"><small><i class="fa fa-times"></i> Supprimer</small></a>
         </li>
+        <?php } ?>
         <li>
           <a href="javascript:;" class="actionRoomReport" onclick="actionRoomReportAbuse('<?php echo (string)$context["_id"] ?>', this)" data-id="<?php echo $parentId ?>"><small><i class="fa fa-flag"></i> Reporter au modérateur</small></a>
         </li>
