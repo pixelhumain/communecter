@@ -516,8 +516,13 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 					$.each(data.res, function(i, v) { if(v.length!=0){ countData++; } });
 
 					totalData += countData;
-					filterTags(data.filters.tags);
-					filterType(data.filters.types)
+					if(typeof networkJson.request.oneElement != "undefined" && networkJson.request.oneElement == true){
+						filterTags(data.filters.tags);
+						filterType(data.filters.types)
+					}else{
+						$("#divRoles").addClass("hidden");
+					}
+					
 					bindAutocomplete();
 					str = "";
 					var city, postalCode = "";
@@ -1460,7 +1465,7 @@ function filterType(types){
         '<div id="list_types" class="panel-collapse collapse">'+
           '<ul class="list-group no-margin">';
           		$.each(types,function(k,v){
-          			 str += '<li class="list-group-item"><input type="checkbox" class="checkbox typeFilterAuto" value="'+k+'" data-parent="types" data-label="'+k+'"/>'+k+' (' +v+ ')</li>'
+          			 str += '<li class="list-group-item"><input type="checkbox" class="checkbox typeFilterAuto" value="'+k+'" data-parent="types" data-label="'+k+'"/>'+trad[k]+' (' +v+ ')</li>'
           		});
         str +=  '</ul> </div>';
 

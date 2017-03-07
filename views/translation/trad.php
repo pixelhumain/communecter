@@ -59,6 +59,11 @@ var trad = {"areyousuretodelete" : "<?php echo Yii::t("common", "Are you sure yo
 		"usernamenotunique" : "<?php echo Yii::t("login","The user name is not unique : please change it.")?>",
 		"somethingwentwrong" : "<?php echo Yii::t("login","Something went really bad : contact your administrator !")?>",
 		"address" : "<?php echo Yii::t("common","Address") ?>",
+
+
+		"projects" : "<?php echo Yii::t("common","Projects") ?>",
+		"events" : "<?php echo Yii::t("common","Events") ?>",
+		"organizations" : "<?php echo Yii::t("common","Organizations") ?>",
 };
 
 var tradCountry = {
