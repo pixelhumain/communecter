@@ -520,7 +520,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 						filterTags(data.filters.tags);
 						filterType(data.filters.types)
 					}else{
-						$("#divRoles").addClass("hidden");
+						$("#divRolesMenu").addClass("hidden");
 					}
 					
 					bindAutocomplete();
@@ -1449,7 +1449,7 @@ function filterTags(tags){
           		});
         str +=  '</ul> </div>';
 
-    $("#divTags").append(str);
+    $("#divTagsMenu").append(str);
 }
 
 
@@ -1469,7 +1469,7 @@ function filterType(types){
           		});
         str +=  '</ul> </div>';
 
-    $("#divTypes").append(str);
+    $("#divTypesMenu").append(str);
 }
 
 
