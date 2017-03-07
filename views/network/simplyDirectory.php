@@ -1354,7 +1354,7 @@ function updateMap(){
 					( rolesActived.length == 0  || 
 						(isLinks(v, elementNetwork[0]) ) ) ) {
 					
-					filteredList.push(v);
+					filteredList = addTabMap(v, filteredList);
 					$("#"+v.id).show();
 				}
 			});
@@ -1375,17 +1375,29 @@ function updateMap(){
 							$.inArray( v.typeSig, typesActived ) >= 0  ) ) &&
 					( rolesActived.length == 0  || 
 						(isLinks(v, elementNetwork[0]) ) ) )  {
-					filteredList.push(v);
+					filteredList = addTabMap(v, filteredList);
 					$("#"+v.id).show();
 				}
 			});
 		}else{
-			filteredList = contextMapNetwork.slice();
+			$.each(contextMapNetwork,function(k,v){
+				filteredList = addTabMap(v, filteredList);
+			});
 			$(".searchEntity").show();
 		}
 	}
 	mylog.log("filteredList", filteredList);
 	Sig.showMapElements(Sig.map,filteredList);
+}
+
+function addTabMap(element, tab){
+	mylog.log("addTabMap",element, tab);
+	if( "undefined" != typeof element.geo && element.geo != null )
+		tab.push(element);
+
+	mylog.log("addTabMap res", tab);
+	return tab;
+
 }
 
 function isLinks(element, id){
