@@ -223,7 +223,7 @@ console.log("searchPrefTag", searchPrefTag);
 	  $('.villeFilter').removeClass('active');
 	  $('.categoryFilter').removeClass('active');
 	  tagsActived = {};
-	  updateMap();
+	   chargement();
 	  //startSearch(0, indexStepInit);
 	});
 	<?php if(isset($params['mode']) && $params['mode'] == "client"){ ?>
@@ -851,7 +851,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 			}  
 		});
 
-		updateMap();
+		 chargement();
 	  	
 	  /*var index = searchTag.indexOf(tag);
 	  if(tag == "all"){
@@ -881,7 +881,6 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 
 
 	$(".villeFilter").off().click(function(e){
-	  
 	  /*var index = searchLocalityNAME.indexOf(ville);
 	  if(ville == "all"){
 		searchLocalityNAME = [];
@@ -898,7 +897,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 	  var checked = $(this).is( ':checked' );
 	  var ville = $(this).attr("value");
 	  cityActivedUpdate(checked, ville);
-	  updateMap();
+	   chargement();
 	});
 	
 	$(".categoryFilter").off().click(function(e){
@@ -915,8 +914,9 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 	$(".disableCheckbox").off().click(function(e){
 		/*seeDisable = (($(this).is(':checked') == false) ? false : true); 
 		startSearch(0, indexStepInit);*/
+		
 		disableActived = ( (disableActived == false) ? true : false );
-		updateMap();
+		 chargement();
 	});
   }
   // function loadClientFilters(types, tags){
@@ -1390,14 +1390,15 @@ function updateMap(){
 	mylog.log("filteredList", filteredList);
 	Sig.restartMap();
 	Sig.showMapElements(Sig.map,filteredList);
+	$.unblockUI();
 }
 
 function addTabMap(element, tab){
-	mylog.log("addTabMap",element, tab);
+	//mylog.log("addTabMap",element, tab);
 	if( "undefined" != typeof element.geo && element.geo != null )
 		tab.push(element);
 
-	mylog.log("addTabMap res", tab);
+	//mylog.log("addTabMap res", tab);
 	return tab;
 
 }
@@ -1486,35 +1487,39 @@ function filterType(types){
     $("#divTypesMenu").append(str);
 }
 
-
-
-
+function chargement(){
+	mylog.log("chargement");
+	processingBlockUi();
+	setTimeout(function(){ updateMap(); }, 1000);
+}
 function bindAutocomplete(){
 	$(".tagFilterAuto").off().click(function(e){
+		
 		mylog.log(".tagFilter",  $(this));
 		mylog.log($(this).is( ':checked' ), $(this).prop( 'checked' ), $(this).attr( 'checked' ));
 		var checked = $(this).is( ':checked' );
 	  	var val = $(this).attr("value");
 		tagActivedUpdate(checked, val, "tags");
-		updateMap();
+		chargement();
+		
 	});
 
 
 	$(".typeFilterAuto").off().click(function(e){
-	  
+	 
 	  var checked = $(this).is( ':checked' );
 	  var ville = $(this).attr("value");
 	  typeActivedUpdate(checked, ville);
-	  updateMap();
+	  chargement();
 	});
 
 	$(".rolesFilterAuto").off().click(function(e){
-	  
+	 
 	  var checked = $(this).is( ':checked' );
 	  var role = $(this).attr("value");
 	  mylog.log(".rolesFilterAuto", checked, role);
 	  rolesActivedUpdate(checked, role);
-	  updateMap();
+	   chargement();
 	});
 }
 
