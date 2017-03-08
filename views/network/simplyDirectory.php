@@ -761,6 +761,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 				scrollEnd = false;
 			}
 			//affiche les éléments sur la carte
+			Sig.restartMap();
 			Sig.showMapElements(Sig.map, mapElements);
 			//on affiche le nombre de résultat en bas
 			var s = "";
@@ -1387,6 +1388,7 @@ function updateMap(){
 		}
 	}
 	mylog.log("filteredList", filteredList);
+	Sig.restartMap();
 	Sig.showMapElements(Sig.map,filteredList);
 }
 
