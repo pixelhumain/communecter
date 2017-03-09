@@ -26,7 +26,8 @@ class ElementController extends CommunecterController {
           'updatefield' => 'citizenToolKit.controllers.element.UpdateFieldAction',
           'save'        => 'citizenToolKit.controllers.element.SaveAction',
           'delete'        => 'citizenToolKit.controllers.element.DeleteAction',
-          'get'        => 'citizenToolKit.controllers.element.GetAction'
+          'get'        => 'citizenToolKit.controllers.element.GetAction',
+          "network" => 'citizenToolKit.controllers.element.NetworkAction',
       );
   }
 }
