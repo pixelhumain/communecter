@@ -94,7 +94,11 @@ function showNotif(show){
     	else show = false;
     }
 
-    if(show) $('#notificationPanelSearch').show("fast");
+    if(show){ 
+    	refreshNotifications(userId,"citoyens","");
+    	$('#notificationPanelSearch').show("fast");
+    	markAllAsSeen(false,"");
+	}
 	else 	 $('#notificationPanelSearch').hide("fast");
 }
 

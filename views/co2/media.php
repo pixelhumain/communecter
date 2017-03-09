@@ -1,6 +1,7 @@
 <?php 
 
-	HtmlHelper::registerCssAndScriptsFiles( array('/css/timeline2.css',
+	HtmlHelper::registerCssAndScriptsFiles( array(	'/css/timeline2.css',
+													'/js/comments.js',
 											) , Yii::app()->theme->baseUrl. '/assets');
 
 	    
@@ -14,7 +15,7 @@
     //header + menu
     $this->renderPartial($layoutPath.'header', 
                         array(  "layoutPath"=>$layoutPath , 
-                                "page" => "live") ); 
+                                "page" => "media") ); 
 ?>
 
 
@@ -53,9 +54,9 @@
 
 
 
-<?php $this->renderPartial($layoutPath.'footer', array("subdomain"=>"live")); ?>
+<?php $this->renderPartial($layoutPath.'footer', array("subdomain"=>"media")); ?>
 
-<script>
+<script type="text/javascript" >
 var loadingData = false;
 var scrollEnd = false;
 
@@ -94,14 +95,14 @@ jQuery(document).ready(function() {
 });
 
 
-function loadStream(indexMin, indexMax){ console.log("load stream LIVE");
+function loadStream(indexMin, indexMax){ console.log("load stream media");
 	loadingData = true;
 	currentIndexMin = indexMin;
 	currentIndexMax = indexMax;
 
 	$.ajax({ 
         type: "POST",
-        url: baseUrl+"/"+moduleId+"/co2/live",
+        url: baseUrl+"/"+moduleId+"/co2/media",
         data: { indexMin: indexMin, 
         		indexMax:indexMax, 
         		renderPartial:true 

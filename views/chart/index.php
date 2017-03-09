@@ -1,6 +1,6 @@
 <?php 
 $cssAnsScriptFilesModule = array(
-	//'/plugins/Chart.js/Chart.min.js'
+	'/plugins/Chart.js/Chart.min.js'
 );
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->request->baseUrl);
 

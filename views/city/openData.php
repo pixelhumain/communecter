@@ -21,7 +21,7 @@ $this->renderPartial('../default/panels/toolbar');
 		</div>
 	</div>
 </div>
-<script>
+<script type="text/javascript" >
 jQuery(document).ready(function() {
 	//setTitle("","");$(".moduleLabel").html( $(".moduleLabel").html()+" : <?php echo $city["name"] ?> <a href='#' id='btn-center-city'><i class='fa fa-map-marker'></i></a>");
 	getPod();

@@ -165,16 +165,16 @@ $userId = Yii::app()->session["userId"] ;
 				<label for="inputKey">Key : </label>
 				<input class="" placeholder="Key a attribuer à l'ensemble des données importer" id="inputKey" name="inputKey" value="">
 			</div>
-			<div class="col-sm-6 col-xs-12" id="divCheckboxWarnings">
+			<!--<div class="col-sm-6 col-xs-12" id="divCheckboxWarnings">
 				<label>
 					Warnings : <input type="checkbox" value="" id="checkboxWarnings" name="checkboxWarnings">
 				</label>
-			</div>
+			</div> -->
 		</div>
 		<div class="col-sm-12 col-xs-12">
 			<div class="col-sm-6 col-xs-12">
 				<label>
-					Test : <input class="hide" id="isTest" name="isTest"></input>
+					Test : <input class="hide" id="isTest" name="isTest" checked="checked"></input>
 				<input id="checkboxTest" name="checkboxTest" type="checkbox" data-on-text="<?php echo Yii::t("common","Yes") ?>" data-off-text="<?php echo Yii::t("common","No") ?>" name="my-checkbox"></input>
 				</label>
 			</div>
@@ -279,10 +279,6 @@ function bindCreateFile(){
 			$("#divFile").hide();
 		}	
 	});
-
-
-	
-
 	
 
 	$("#btnPreviousStep").off().on('click', function(e){

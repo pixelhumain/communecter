@@ -78,7 +78,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		if((@$isLive && $isLive==true) || !@Yii::app()->session["userId"] || (Yii::app()->session["userId"] !=$contextParentId)){
 			//Visible de tous sur
 			//Menu::person($parent);
-		
+
 			$contextName =addslashes($parent["name"]);
 			$contextIcon = "<i class='fa fa-circle text-yellow'></i> <i class='fa fa-user text-dark'></i> ";
 			$contextTitle =  Yii::t("common", "DIRECTORY of")." ".$contextName;
@@ -309,6 +309,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
     display: block;
 }
 
+#btn-rss {
+	background-color: #FE9A2E;
+	border-radius: 50px;
+}
+
 </style>
 <!--<textarea class="mention"></textarea>-->
 
@@ -322,7 +327,23 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 <div id="formCreateNewsTemp" style="float: none;display:none;" class="center-block">
 	<div class='no-padding form-create-news-container col-sm-12'>
 
-	<?php if(false) { ?>
+	<?php 	//if (@$parent['id']) {echo $parent['id'];}
+	    	//if (@$parent['type'] {echo $parent['type'];}
+			if (@$myMultiTags) {
+	 			var_dump($myMultiTags);
+
+			}
+ 			//var_dump($parent);
+ 			//var_dump($parent['_id']);
+ 			//var_dump($parent['_id']['$id']);
+ 			
+ 			//$test = $parent['_id'];
+			//var_dump($test['$id']);
+
+ 			//var_dump($parent['typeSig']);
+			 
+
+		if(false) { ?>
 		<div class="col-xs-12" style="margin-top: 10px; margin-bottom: 10px; margin-left: 0px;padding: 0px 10px;"  id="list_type_news">
 		  
 		  <div class="btn-group btn-group-sm inline-block" id="menu-type-news">
@@ -558,11 +579,31 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				<div id="top" class="no-padding panel-body">
 					<div id="tagFilters" class="optionFilter pull-left center col-md-10" style="display:none;" ></div>
 					<div id="scopeFilters" class="optionFilter pull-left center col-md-10" style="display:none;" ></div>
+
+					<?php 
+						if ($parent['typeSig'] == "people") {
+							$parent['typeSig'] = "citoyens";
+						}
+											
+					?> 
 		
 					<div id="timeline" class="col-md-12">
 						<div class="timeline col-md-12 no-padding">
 							<div class="newsTL">
 								<div class="spine"></div>
+
+								<!--<?php //if ((isset($parent['id'])) && (isset($parent['typeSyg']))) { ?>-->
+																
+								<div id="div_rss"> 
+									<a target="_blank" id="btn-rss" class="tooltips btn btn-default  communityBtn btn-menu-element btn-menu-element-directory" role ="button" href="http://127.0.0.1/ph/api/news/get/idElement/<?php echo $parent['_id'];?>/typeElement/<?php echo $parent['typeSig'];?>/format/rss"><i class="fa fa-rss" aria-hidden="true"></i> 
+								<!--<?php //echo $parent['typeSig'];?><?php //echo $parent['_id'];?> -->
+									</a>
+
+									<div id="btn-rss-test"></div>
+								
+								</div>
+
+								<!--<?php //} ?>-->
 							</div>
 						</div>
 					</div>
@@ -719,6 +760,9 @@ jQuery(document).ready(function()
 	/*}else{
 		
 	}*/
+
+
+
 	
 	// SetTimeout => Problem of sequence in js script reader
 	setTimeout(function(){
@@ -874,6 +918,34 @@ jQuery(document).ready(function()
 	//buildDynForm();
 	//déplace la modal scope à l'exterieur du formulaire
 
+<?php if(@$isLive){ ?>
+	isLive="<?php echo $isLive ?>";
+<?php } ?>
+
+<?php if(!isset($parent)) { ?>
+
+
+	var string_tag = getStringTag();
+
+	if (string_tag !== '') {
+		$('#div_rss').html(
+				'<a target="_blank" id="btn-rss" class="tooltips btn btn-default  communityBtn btn-menu-element btn-menu-element-directory" role ="button" href="http://127.0.0.1/ph/api/news/get/tags/'+ string_tag +'/format/rss">' +
+				'<i class="fa fa-rss" aria-hidden="true"></i> ' +
+										
+				'</a> '
+
+ 					);
+	} else {
+		$('#div_rss').html(
+				'<a target="_blank" id="btn-rss" class="tooltips btn btn-default  communityBtn btn-menu-element btn-menu-element-directory" role ="button" href="http://127.0.0.1/ph/api/news/get/format/rss">' +
+				'<i class="fa fa-rss" aria-hidden="true"></i> ' +
+										
+				'</a> '
+
+ 					);
+	}
+  		
+<?php } ?>
 
  	$('#modal-scope').appendTo("#modal_scope_extern") ;
  	if(isLiveGlobal())

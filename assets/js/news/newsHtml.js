@@ -13,6 +13,7 @@ var mode = "view";
 
 function buildLineHTML(newsObj,idSession,update)
 {
+	mylog.log("buildLineHTML",newsObj,idSession,update);
 	addForm=false;
 	if(typeof(contextParentType) == "undefined")
 		contextParentType="citoyens";
@@ -168,23 +169,27 @@ function buildLineHTML(newsObj,idSession,update)
 		}
 	}
 	else{
-		if(newsObj.object.objectType=="events" || newsObj.object.objectType=="needs"){
+		if(newsObj.object.type=="events" || newsObj.object.type=="needs"){
 			if(newsObj.startDate && newsObj.endDate){
 				if(typeof(newsObj.startDate) == "object")
 					var startDate = new Date( parseInt(newsObj.startDate.sec)*1000 );
+				else if(typeof(newsObj.startDateSec) != "undefined")
+					var startDate = new Date( parseInt(newsObj.startDateSec)*1000 );
 				else
 					var startDate = new Date( parseInt(newsObj.startDate)*1000 );
 				var startMonth = months[startDate.getMonth()];
 				var startDay = (startDate.getDate() < 10) ?  "0"+startDate.getDate() : startDate.getDate();
 				if(typeof(newsObj.endDate) == "object")
 					var endDate = new Date( parseInt(newsObj.endDate.sec)*1000 );
+				else if(typeof(newsObj.endDateSec) != "undefined")
+					var endDate = new Date( parseInt(newsObj.endDateSec)*1000 );
 				else
 					var endDate = new Date( parseInt(newsObj.endDate)*1000 );
 				var endMonth = months[endDate.getMonth()];
 				var endDay = (endDate.getDate() < 10) ?  "0"+endDate.getDate() : endDate.getDate();
 			}
 			var objectLocality = "";
-			if (newsObj.object.objectType=="needs")
+			if (newsObj.object.type=="needs")
 				objectLocality=newsObj.target.address.addressLocality;
 			else 
 				if(typeof newsObj.scope != "undefined")
@@ -407,6 +412,12 @@ function buildLineHTML(newsObj,idSession,update)
 		// Check offset of last element
 		var offsetLastNews = $(".newsFeed").last().position();
 		// Append news in timeline
+
+		//TEST Damien 
+		var btnRSS = '';
+
+		//$(".newsTL").append('TEST TIME LINE');
+
 		$(".newsTL").append(newsTLLine);
 		if(addForm==true){
 			if(isLiveGlobal()){ 
@@ -492,30 +503,30 @@ function buildHtmlUrlAndActionObject(obj){
 		}
 	}
 	else{
-		if(obj.object.objectType =="citoyens"){
+		if(obj.object.type =="citoyens"){
 			redirectTypeUrl="person";
 			id=obj.object.id;
 			urlParent="";
 		} 
-		else if(obj.object.objectType =="organizations"){
+		else if(obj.object.type =="organizations"){
 			redirectTypeUrl="organization";
 			id=obj.object.id;
 			urlParent="";
 			titleAction = "a créé une organisation";
 		} 
-		else if(obj.object.objectType =="events"){
+		else if(obj.object.type =="events"){
 			redirectTypeUrl="event";
 			id=obj.object.id;
 			urlParent="";
 			titleAction = "a posté un évènement";
 		} 
-		else if(obj.object.objectType =="projects"){
+		else if(obj.object.type =="projects"){
 			redirectTypeUrl="project";
 			id=obj.object.id;
 			urlParent="";
 			titleAction = "a créé un projet";
 		}
-		else if(obj.object.objectType =="needs"){
+		else if(obj.object.type =="needs"){
 			redirectTypeUrl="need";
 			id=obj.object.id;
 			urlParent="";
@@ -534,7 +545,7 @@ function builHtmlAuthorImageObject(obj){ //mylog.log("[[[[[[[[[[[[[[[[[[[[[[[[[[
 	var colorIcon="blue";
 	if(typeof(obj.icon) != "undefined"){
 		icon = "fa-" + Sig.getIcoByType({type : obj.type});
-		colorIcon = Sig.getIcoColorByType({type : obj.object.objectType});
+		colorIcon = Sig.getIcoColorByType({type : obj.object.type});
 		if (icon == "fa-circle")
 			icon = obj.icon;
 	}
@@ -562,7 +573,7 @@ function builHtmlAuthorImageObject(obj){ //mylog.log("[[[[[[[[[[[[[[[[[[[[[[[[[[
 					imgProfilPath = obj.target.profilThumbImageUrl;
 					var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='" + baseUrl + imgProfilPath + "'></div>" + flag ; 
 				}else {
-					if(obj.object.objectType=="organizations")
+					if(obj.object.type=="organizations")
 						var iconStr = "<div class='thumbnail-profil text-center' style='overflow:hidden;'><i class='fa fa-group' style='font-size:50px;'></i></div>"+flag;
 					else
 						var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='" + imgProfilPath + "'></div>" + flag ; 

@@ -9,7 +9,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->reque
 ?>
 <div class="panel panel-white">
 	<div class="panel-heading border-light bg-blue">
-		<h4 class="panel-title"><i class="fa fa-calendar"></i> <?php echo Yii::t("common","Contact",null,Yii::app()->controller->module->id); ?></h4>
+		<h4 class="panel-title"><i class="fa fa-user-circle"></i> <?php echo Yii::t("common","Contact",null,Yii::app()->controller->module->id); ?></h4>
 	</div>
 	<div class="panel-tools">
 		<?php if(( @$authorised || @$openEdition) && !isset($noAddLink) && isset(Yii::app()->session["userId"]) ) { ?>
@@ -22,11 +22,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->reque
 	<div class="panel-body no-padding">
 		<div class="panel-scroll height-230 ps-container">
 				<?php
-					
-					$nbOldEvents = 0;
-					$nbEventVisible = 0;
 					if(isset($contacts) && count($contacts)>0 ) { ?>
-					<table class="table table-striped table-hover" id="events">
+					<table class="table table-striped table-hover" id="contacts">
 						<tbody>
 					<?php	
 						foreach ($contacts as $keyContact => $contact) {						
@@ -35,12 +32,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->reque
 							<td class="center hidden-sm hidden-xs" style="padding-left: 18px; ">
 								<?php  
 
-								//$url = '#element.detail.type.'.Event::COLLECTION.'.id.'.$e["_id"]; 
 								if(!empty($contact["id"])){
 									$url = '#person.detail.id.'.$contact["id"];
-
-								
-
 									$id = $contact["id"];
 									$o = Element::getInfos(Person::COLLECTION, $id);
 									
@@ -52,7 +45,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->reque
 									<a href="#<?php echo $redirect; ?>.detail.id.<?php echo (string)$o['id'];?>" class="lbh" title="<?php echo $o['name'] ?>" class="btn no-padding ">
 
 									<?php if(@$o["profilThumbImageUrl"]) { ?>
-										<img width="50" height="50"  alt="image" class="tooltips" data-placement='right' src="<?php echo Yii::app()->createUrl('/'.$o['profilThumbImageUrl']) ?>" data-placement="top" data-original-title="<?php echo $o['name'] ?>">
+										<img width="50" height="50"  alt="image" class="tooltips" data-placement='right' src="<?php echo Yii::app()->createUrl('/'.$o['profilThumbImageUrl']) ?>" data-original-title="<?php echo $o['name'] ?>">
 									<?php }else{ 
 										echo $icon;
 									} ?>
@@ -102,10 +95,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->reque
 							</td>
 							<td>
 								<?php $json = json_encode($contact); ?>
-								<a class="tooltips btn btn-xs btn-light-blue " data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("common","Update",null,Yii::app()->controller->module->id) ?>" href="javascript:;" onclick='updateContact("<?php echo $keyContact; ?>");'>
+								<a class="tooltips btn btn-xs btn-light-blue " data-placement="bottom" data-toggle="tooltip" data-original-title="<?php echo Yii::t("common","Update",null,Yii::app()->controller->module->id) ?>" href="javascript:;" onclick='updateContact("<?php echo $keyContact; ?>");'>
 						    		<i class="fa fa-pencil"></i>
 						    	</a>
-						    	<a class="tooltips btn btn-xs btn-light-blue " data-placement="top" data-toggle="tooltip" data-original-title="<?php echo Yii::t("common","Remove",null,Yii::app()->controller->module->id) ?>" href="javascript:;" onclick='remove("<?php echo $keyContact; ?>")'>
+						    	<a class="tooltips btn btn-xs btn-light-blue " data-placement="bottom" data-toggle="tooltip" data-original-title="<?php echo Yii::t("common","Remove",null,Yii::app()->controller->module->id) ?>" href="javascript:;" onclick='removeContact("<?php echo $keyContact; ?>")'>
 						    		<i class="fa fa-trash"></i>
 						    	</a>
 								
@@ -118,55 +111,15 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->reque
 						</tbody>
 					</table>
 					<?php } ?>
-		<?php if( $nbEventVisible == 0 && $nbOldEvents== 0) { ?>
-			<div id="infoEventPod" class="padding-10" >
-				<blockquote> 
-					<?php 
-						if($contextType==Event::CONTROLLER)
-							$explain="Create sub-events to show the event's program.<br/>And Organize the event's sequence";
-						else
-							$explain="Publiez les événements que vous organisez";
-						echo Yii::t("event",$explain); 
-					?>
-				</blockquote>
-			</div>
-		<?php } ?>
-
 		</div>
 	</div>
 </div>
 
 <script type="text/javascript">
-	var nbOldEvents = <?php echo (String) @$nbOldEvents;?>;
 	var contacts = <?php echo json_encode($contacts);?>;
 	jQuery(document).ready(function() {	 
-		if (nbOldEvents == 0) $("#showHideOldEvent").hide();
-
-		var itemId = '<?php echo @$contextId;?>';
-		$('.init-event').off().on("click", function(){
-			$("#ajaxSV").html("<div class='cblock'><div class='centered'><i class='fa fa-cog fa-spin fa-2x icon-big text-center'></i> Loading</div></div>");
-			$.subview({
-				content : "#ajaxSV",
-				onShow : function() {
-					var url = "";
-					url = baseUrl+"/"+moduleId+"/event/eventsv/id/"+itemId+"/type/<?php echo @$contextType ?>";
-					getAjax("#ajaxSV", url, function(){bindEventSubViewEvents(); $(".new-event").trigger("click");}, "html");
-				},
-				onSave : function() {
-					$('.form-event').submit();
-				},
-				onHide : function() {
-					//$.hideSubview();
-				}
-			});
-			
-		})
-	})
-
-	function toogleOldEvent() {
-		$(".oldEvent").toggle("slow");
-		$("#infoLastButNotNew").toggle("slow");
-	}
+		
+	});
 
 	function updateContact(ind) {
 		contact = contacts[ind] ;
@@ -190,9 +143,10 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->reque
 		}
 		
 		console.dir(dataUpdate);
-		elementLib.openForm ( 'contactPoint','contact', dataUpdate);
+		elementLib.openForm ('contactPoint','contact', dataUpdate);
 	}
-	function remove(ind) {
+
+	function removeContact(ind) {
 		param = new Object;
     	param.name = "contacts";
     	param.value = {index : ind};

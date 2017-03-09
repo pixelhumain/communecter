@@ -9,7 +9,7 @@
 
 ?>  
   
-  <?php if(@$_GET['type']!="") { ?>
+    <?php if(@$_GET['type']!="") { ?>
       <?php $typeSelected = $_GET['type']; ?>
       <?php if($typeSelected == "persons") $typeSelected = "citoyens" ; ?>
       <?php $spec = Element::getElementSpecsByType($typeSelected); ?>

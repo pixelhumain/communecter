@@ -32,7 +32,8 @@ $arrayLabel=array(
 	"isOpenData" => Yii::t("common", "open data"),
 	"isOpenEdition" => Yii::t("common", "open edition"),
 	"state" => Yii::t("common", "state"),
-	"organizer" => Yii::t("common", "organizer")
+	"organizer" => Yii::t("common", "organizer"),
+	"contacts" => Yii::t("common", "un contact")
 );
 if ($contextType == Organization::COLLECTION)
 	$contextTypeLabel=Yii::t("common","of the organization");
@@ -108,6 +109,22 @@ $countries= OpenData::getCountriesList();
 								$organizer = Element::getInfos(@$value["object"]["displayValue"]["organizerType"], @$value["object"]["displayValue"]["organizerId"]);	
 							}
 							echo empty($organizer["name"]) ? "Inconnu" : @$value["object"]["displayValue"]["organizerType"]." / ".$organizer["name"];
+						} else if (@$value["object"]["displayName"] == "contacts") {
+							if ($value["object"]["displayValue"] == "dontKnow") {
+								$contacts = "";
+							} else {
+								$contacts = $value["object"]["displayValue"];
+							}
+							if(isset($contacts["name"]))
+								echo " ".Yii::t("common", "Name")." : ".$contacts["name"];
+
+							if(isset($contacts["role"]))
+								echo " ".Yii::t("common", "Role")." : ".$contacts["role"];
+							if(isset($contacts["url"]))
+								echo " ".Yii::t("common", "Url")." : ".$contacts["url"];
+							if(isset($contacts["tel"]))
+								echo " ".Yii::t("common", "Phone")." : ".$contacts["tel"];
+						
 						} else
 							echo Yii::t("common",$value["object"]["displayValue"]);
 						

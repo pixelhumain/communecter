@@ -78,6 +78,11 @@ Report Abuse on element
 
 ** POI
   [.2] affiché sur la carte un type geoJson 
+  [.2] import POIs from : 
+    [ ] geojson, ex umap 
+    [ ] csv ...
+    [ ] xml
+    [ ] api smart citizen + conversion
 
 * City 
 [.2] city bread crumb ( cp, insee, agglo, departement, region)  
@@ -95,7 +100,6 @@ Liste des notifications déjà lues => #370 #453
 * ************************************************************  
 
 ** @Clem 
-  [.2] interoperability : communecrter + wikidata +@Tib
   [.2] add POI to news
 
 ** @Rapha 
@@ -103,9 +107,25 @@ Liste des notifications déjà lues => #370 #453
   [.2] globaliser le system de Tokens et utilisation API Communecter =>#341 (Auth) + #1262
   [.2] page city : ajouter quartier isis, qpv , maison et conseil de quartier =>#1258, #277
   [.2] finir la belgique => #1259
+  * DynForm
+  [ ] Refactor DynForm
+    [X] typeObjLib
+    [ ] Refactor Editable
+      [ ] Organiser a géré
+      [ ] Nettoyer le code inutile
+      * BUG
+      [ ] Historique bug lorsqu'on ajoutes des contacts
+
   * Import / Export 
   [.2] RSS (Personne, Orga, Projet, event, city, region, thematique, tags) => #523
-
+  [X] INTEGRATTE MARKDOWN wisiwig
+    [X] add documentation editor project page 
+      * wishlist 
+      [ ] add from external link 
+        [ ] multi bao
+        [ ] wiki page
+        [ ] git url or wiki
+        [ ] mainstenant
 
 ** @Tango 
    * Tags
@@ -123,6 +143,73 @@ Liste des notifications déjà lues => #370 #453
 
 
 ** @Tib 
+  * bugs
+    [ ] person.edit.poi > validate > doesn't refresh location.hash
+    [ ] map click savoir plus > KO : http://127.0.0.1/ph/communecter#poi.detail.id.58a69c0b539f22b8298b4571
+  [new] database optim : on citoyens, remove or archives event participation 
+  [new] url builder url.get(type,what,id)
+  [new] follow un tag : envoie de notif si nouvel element 
+  [new] linky / Connect / INTEResting CONNECTions
+    - basé sur le finder + scope + tags
+  [new] film viewer
+    [ ] special POI with 3 questions
+    [ ] a film is a collection of type webdocu+question
+    [ ] each poi
+      [ ] is part of the collection , poi.collection : zordi
+      [ ] holds , 3 questions each question is connected to another poi 
+      [ ] when the poi.type.video stops playing , ask the 3 questions 
+  [new] page pour reflechir 
+    une page qui pousse a l'action, qui fait reflechir, et utiliser les outils de la plateforme 
+  [new] connecter les POI à des source ousite externe ex : randopitons.re
+  [new] from siteweb to element 
+    [ ] from json : oceatoon.json
+    [ ] openatlas.org
+  [new] element de type LIEU 
+    [ ] "quartier", connecté une "zone" et un element
+    [ ] "lieux", décrivez ce qu'il ya dans votre lieux : 
+      - fablab, coworking, repare café, ressourcerie, salle de réunion, restaurant, 
+  [new] element param : dont show in search
+  [new] expliquer ce qu'est un commun
+  [new] test a light mobile version
+  [new] my profile , if twitter account, add a twitter reader 
+  [new] sur n'importe quelle url , si on ajoute ?format=json > ca fait un export grace a l'api 
+  [new] save search criterias and better user activity stats to make a better platform
+  [new] connect a WP RSS to an element wall
+  [new] show profile consuption > percentage possible contribution to budget (under pts)
+  [new] budget calculator proportionnel à l'utilisation 
+  [test] regression delete image from news , from gallery 
+  [new] define common points between element in typeObj , make a merge with a common map 
+  * network 
+    [new] utilisation de Picto externe via URL pour les filtres d'une carte network.
+    [new] Ajout d'info lors du survol d'un POI (horaires, description courte, ... j'ai une liste precise)
+    [new] Alerte email sur modification d'un POI ou d'une sélection
+  [ ] notification à la création d'un dda
+  [X] Count requests DB per page
+  [X] document uploader
+  [X] add photo
+    [X] limit 
+      [X] size of images 
+      [X] image types
+    [X] join upload and save into one unique action : UploadSaveAction
+    [X] added test btn to gallery page and authorisation limitations  
+    [X] added fineUploader element to dynForm
+      [X] connecting image upload endpoint 
+    [X] adding list of images to album 
+    [X] clean up mkdir($upload_dir, 0777);
+    * use case
+    [X] gallery for poi : in menuSmall view
+    [X] add into a element form 
+        [X] generate id when image exist /api/tool/get/what/mongoId
+        [X] set context + id 
+        [X] make upload on validate button
+        [X] all elements : orga, event, project
+    * wishlist
+      [ ] image selector from album, pick from existing images
+      [ ] get from url 
+      [ ] cropping before upload
+      [ ] adding album colelctions
+      [ ] add photos to news page on upload 
+  [X] network source from gist served by gitraw
   [X] Finance Transparente
   [X] Finder
     [ ] url direct sur le finder 
@@ -235,6 +322,9 @@ Liste des notifications déjà lues => #370 #453
     * todo 
     [ ] encrypt username and pwd when giving out token accesses 
   [X] my POIs
+  [ ] cut up communecter.js 
+    [X] lazyloading dynForm definitions
+    [ ] use a packing system to split the file
   [ ] my calendar
     [[http://127.0.0.1/ph/#event.calendarview.id.585bdfdaf6ca47b6118b4583.type.person]]
     [X] my created events
@@ -243,17 +333,14 @@ Liste des notifications déjà lues => #370 #453
     * wishlist
         [ ] show all events of my links, with posibility to choose to hide anyone of them 
         [ ] add automatically any events from this organization or project to my calendar
-  [ ] INTEGRATTE MARKDOWN wisiwig
-  [ ] add photo  
-  [ ] notification à la création d'un dda
-  [ ] Count requests DB per page 
 
-  [ ] cut up communecter.js into sub files
-  [ ] cacher des sections sont mon element 
+ 
+  [ ] element config : cacher des sections sur un element (cacher events, projects ...)
   [ ] header du live ou dans en ce moment
     - les events favoris du territoire
   [ ] PPT explication des 25 use cases
     [X] use runSlide()
+    [ ] use reveal.js
     [ ] finish use cases scenario 
     [ ] activate pourquoi btn in header
   [ ] interoperability : communecter + wikidata +@CLEM 
@@ -280,22 +367,6 @@ Liste des notifications déjà lues => #370 #453
         [ ] cherche/propose benevolat 
         [ ] aimerait apprendre 
     [ ] abonnement a des alerts
-  [new] url builder url.get(type,what,id)
-  [new] follow un tag : envoie de notif si nouvel element 
-  [new] linky / Connect / INTEResting CONNECTions
-    - basé sur le finder + scope + tags
-  [new] film viewer
-    [ ] special POI with 3 questions
-    [ ] a film is a collection of type webdocu+question
-    [ ] each poi
-      [ ] is part of the collection , poi.collection : zordi
-      [ ] holds , 3 questions each question is connected to another poi 
-      [ ] when the poi.type.video stops playing , ask the 3 questions 
-  [new] page pour reflechir 
-    une page qui pousse a l'action, qui fait reflechir, et utiliser les outils de la plateforme 
-  [new] connecter les POI à des source ousite externe ex : randopitons.re
-  [ ] expliquer ce qu'est un commun
-  [ ] test a light mobile version
   * DDA
   [ ] Quand la liste est vide , faire une page explication avec des kickers pour creer des espaces
   [ ] bug : sur archiver , persiste dans les listes 
@@ -327,9 +398,128 @@ Liste des notifications déjà lues => #370 #453
     [ ] refaire le design
 
 ** @Bouboule 
-  *** Chart
-  [X] Create common and open Chart for project and organization
-  [X] Bash de reprise des données sur project dans properties.chart
+    *** CHART
+  [1][X] Create common and open Chart for project and organization
+  [1][X] Bash de reprise des données sur project dans properties.chart
+    *** NOTIFICATIONS
+  [1][X] Create notificationTree
+  [1][X] Simplification of method with $construct
+  [1][ ] Add method to get intelligent Notifications
+  [1]  [X] Simple action on same notification with different author
+  [1]  [ ] Limit of time (1 day Or two day?)
+  [1]  [X] Update community to notify if one is out of element
+  [1][X] Documentations
+  [1][ ] Commons method called to construct notification
+  [1]  [X] /Follow/ => TEST OK
+  [1]  [X] /Ask/ to become member or admin => TEST OK
+  [1]  [X] /Accept/ an admin or member (include new sublevel in notficationTree) => TEST OK
+  [1]  [X] /Invite/ => TEST OK
+  [1]    [X] Generalize invitation as event for organization and project
+  [1]  [X] /Confirm/ an invitation to join a element => TEST OK
+  [1]  [X] /Join/ for creator of event, member of orga or project => TEST OK
+  [1]  [X] /Like/Unlike/Comment => TEST OK ++
+  [1]  [X] /Add/ => TEST OK 
+  [1]  [X] /Post/ => TEST OK ++
+  [1]  [X] /Vote/ => TEST OK
+  [2] [X] "isUnsee" => "isUnseen" 
+      *** Test all use case up (around 12 hours)
+  [1]  [X] TEST OK
+      *** Wishlist   
+  [2]  [ ] /Leave/ 
+  [2]  [ ] /Refuse/
+  [3]  [ ] /Update/
+  [2][ ] Update or delete notification
+  [2]  [ ] Ask to Become => remove object if empty delete notification side
+  [2]  [ ] Confirm to become => delete notification on user side
+  [1][X] Community to notify
+  [1]  [X] method
+  [2]  [X] add parent target in $construct if usecase of comment on room/news of element
+  [2]  [X] Send $construct and work with it instead of only target information
+  [2]  [X] Not used method when only notify specific user
+  [2]  [X] Use context parameter to notify only admin for notifications ASK and INVITE
+      *** WishList
+  [2][ ] City 
+  [2]   [ ] Creator && community participating && community subscribing to theme or citizen council
+  [2][ ] Create model notificationTree.php
+  [1][X] View of notification
+  [1]  [X] Get new model of notification
+  [1]  [X] Create $or in condition to get old notification 
+  [1]    [X] Create bash on notify.id in datamigration => ph/communecter/datamigration/UpOldNotifications
+  [1]  [X] Plug notifification time on updated
+  [1]  [X] Use unSee && unRead label in notifcation
+  [1]    [X] Count unsee notification
+  [1]    [X] Onclick notif, check this notif as read
+  [1]    [X] Onclick mark all as read, update all notif as read
+  [1]    [X] Create delete btn
+  [1]  [X] Bug on lbh load
+    *** Wishlist
+  [2]  [X] View of notification by element
+  [2]    [X] Confirm push on head
+  [2]    [X] Create element.notifications.type.id [communecter && ctk]
+  [2]    [X] Validation action on notification
+  [2]    [X] fix bug when refuse an admin already member... He stays member
+  [2]    [X] Generalize js for element.notifications && notification2.php => assets/default/notifications.js
+  [2]    [ ] Simplify confirmation using js
+  [2]    [ ] Add count badges on view
+  [2]    [ ] Redirect "Verb_ASK" notif on notif
+  [2]    [X] Merge Element/GetNotificationsAction in Notification/GetAction
+  *** MAIL
+  [2][X] Template for use case
+  [2]  [X] someoneAskToBecome (Admin || Member=
+  [2]  [X] someoneInvitingYou
+  [2]  [X] someoneValidate invitation or demand to author
+  [2]  [X] Follow me [Insert new follow if notif is not view]
+  [2][ ] Insert daily mail
+  [2][ ] Not send email if user is connected and have active view on communecter.org
+  [2][ ] Result of vote
+  *** PREFERENCES
+  [2][ ] Create view of settings
+  [2][ ] Add inscription on citizen consult that I will follow OR specific room (news + notif + mail)
+  [2][ ] Mailing on add something in element and comment/Like/unlike on element where I am linking
+  [2][ ] daily  Report
+  [2]  [ ] Add parameters (everyday [default], 2days, 3days, every week) [beginning on Monday]
+  [2]  [ ] Activity Report
+  [2]    [ ] New events with tags &&/|| scope I subscribe
+  [2]    [ ] New organization with tags &&/|| scope I subscribe
+  [2]    [ ] New projects with tags &&/|| scope I subscribe
+  [2]    [ ] New item on element that I am linking
+  [2]  [ ] Followers on element where I am linking
+  *** NEWS
+  [2][ ] View of like, unlike 
+  [2][ ] Get news from friends
+  [1][X] Bash of object.type inbstead of object.objectType (!!!important with notification reactor!!!!)
+    => ph/communecter/datamigration/ObjectObjectTypeNewsToObjectType
+  *** LINK
+  [1][X] Add confirmation if someone link me to orga or projet (as event) -- ValdiateLink
+  [1][X] Rework pod/userList to get invitations
+  [2][ ] Friend relation between persons ?? (community to notify, messaging, see information ??) 
+  *** ADMIN COMMUNICATION
+  [3][ ] Creation of news letter 
+  [3]  [ ] Choose scope or theme community
+  [3]  [ ] To all
+  [3]  [ ] See view of newsletter 
+  *** BUGS
+  [1][X] Notification
+    [1][X] /ADD/ Problem of url on add => id of object and not target
+    [1][X] /FOLLOW/ Make usecase following you or target
+    [1][X] /FOLLOW/ => no repeat on notify when I follow a user
+    [1][X] /VALIDATE/ => undefined community
+    [1][X] /VALIDATE/ => undefined object on check and update because go to update (add object exist in query)
+    [1][X] BUG BUG BUG && BUG
+  [1][X] Link
+    [1][X] If isPendingAdmin or toBeValidated as member user is consedering as member in right access
+      [1][X] change method Project::getContibutorsByProjectId && Organization::getMembersByOrganizationId
+      [1][X] Add label ToBeValidated on user asking to be admin not being member yet
+    [1][X] Menu btn => if I am member he purpose me to follow
+    [1][X] No disconnect btn if I am member of an element
+    [1][X] Two disconnect btn on event
+    [2][X] Fix bug on $unset on disconnect
+    [2][X] Add linkOption parameter on method disconnectTo()
+  [1][X] Project
+    [1][X] Project with event without address => bug on gantt indexAction
+  *** Questions
+    *** Event
+      [ ] Declare me as admin when there are admins => no confirmation asking but directly join ?
 * ************************************************************    
 * Version 0.16 (début oct) : en PROD
 * ************************************************************    

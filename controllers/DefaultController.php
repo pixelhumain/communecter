@@ -23,9 +23,12 @@ class DefaultController extends CommunecterController {
      * Home page
      */
 
-	public function actionIndex($theme="ph-dori") 
+	public function actionIndex() 
 	{
-    	//Yii::app()->theme = $theme;    
+    	//Yii::app()->theme = $theme;   
+      //Yii::app()->session["theme"] = $theme; 
+      
+      
       //Yii::app()->theme = "notragora";
       //Yii::app()->theme = "CO2";
 	    if(@$_GET["network"]){
@@ -145,7 +148,6 @@ class DefaultController extends CommunecterController {
       //$this->sidebar2 = Menu::$infoMenu;
       $this->render($page);
     }
-    
   }
   
     public function actionSwitch($lang)

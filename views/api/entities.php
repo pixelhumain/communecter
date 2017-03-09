@@ -26,7 +26,7 @@
 			</span>
 			<a href="javascript:saveGroup()">Test it</a><br/>
 			<div id="saveGroupResult" class="result fss"></div>
-			<script>
+			<script type="text/javascript" >
 				function saveGroup(){
 					params = { "email" : $("#emailsaveGroup").val() , 
 					    	   "name" : $("#namesaveGroup").val() , 
@@ -69,7 +69,7 @@
 			<a href="javascript:getGroup()">Test it</a><br/>
 			<a href="javascript:confirmGroupRegistration()">Confirm User Registration</a><br/>
 			<div id="getGroupResult" class="result fss"></div>
-			<script>
+			<script type="text/javascript" >
 				function getGroup(){
 					ajaxGet("getGroupResult", baseUrl+'/<?php echo $this::$moduleKey?>/api/getGroup/email/'+$("#getGroupemail").val());
 				}
@@ -104,7 +104,7 @@
 			<a href="javascript:linkUser2Group()">Link it</a><br/>
 			<a href="javascript:unlinkUser2Group()">Unlink it</a><br/>
 			<div id="linkUser2GroupResult" class="result fss"></div>
-			<script>
+			<script type="text/javascript" >
 				function linkUser2Group(){
 					params = { 
 			    	   "email" : $("#linkUser2Groupemail").val() , 
@@ -132,7 +132,7 @@
 			filter : <input type="text" name="getgroupsbyFilter" id="getgroupsbyFilter" value="email" />(comma seperated)<br/>
 			<a href="javascript:getgroupsby()">Test it</a><br/>
 			<div id="getgroupsbyResult" class="result fss"></div>
-			<script>
+			<script type="text/javascript" >
 				function getgroupsby(){
 					filter = ($("#getgroupsbyFilter").val()) ? '/filter/'+$("#getgroupsbyFilter").val() : ""; 
 					ajaxPost("getgroupsbyResult", baseUrl+'/<?php echo $this::$moduleKey?>/api/getgroupsby'+filter,{"app":"<?php echo $this::$moduleKey?>"});

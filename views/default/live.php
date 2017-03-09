@@ -78,7 +78,7 @@
 </div>
 
 <!-- end: PAGE CONTENT-->
-<script>
+<script type="text/javascript" >
 
 <?php  $parent = Person::getById(@Yii::app()->session["userId"]); ?>
 
@@ -299,7 +299,29 @@ function showNewsStream(isFirst){ mylog.log("showNewsStream");
 		    	success: function(data){
 			    	//mylog.log("LOAD NEWS BY AJAX");
 			    	//mylog.log(data.news);
-			    	$(".newsTL").html('<div class="spine"></div>');
+			    		
+			    	var string_tag = getStringTag();
+
+			    	if (string_tag !== '') {
+			    		$(".newsTL").html(
+			    		'<div class="spine"></div>' + 
+						'<div id="div_rss">' + 
+							'<a target="_blank" id="btn-rss" class="tooltips btn btn-default  communityBtn btn-menu-element btn-menu-element-directory" role ="button" href="http://127.0.0.1/ph/api/news/get/tags/'+string_tag+'/format/rss">'+
+								'<i class="fa fa-rss" aria-hidden="true"></i> ' +
+							'</a>' +
+						'<div id="btn-rss-test"></div>'
+    					);
+			    	} else {
+			    		$(".newsTL").html(
+			    		'<div class="spine"></div>' + 
+						'<div id="div_rss">' + 
+							'<a target="_blank" id="btn-rss" class="tooltips btn btn-default  communityBtn btn-menu-element btn-menu-element-directory" role ="button" href="http://127.0.0.1/ph/api/news/get/format/rss">'+
+								'<i class="fa fa-rss" aria-hidden="true"></i> ' +
+							'</a>' +
+						'<div id="btn-rss-test"></div>'
+    					);
+			    	}
+		    	
 					if(data){
 						buildTimeLine (data.news, 0, 5);
 						bindTags();
@@ -354,6 +376,41 @@ function removeSearchType(type){
 function hideNewLiveFeedForm(){
 	//$("#newLiveFeedForm").hide(200);
 	showFormBlock(false);
+}
+
+function getStringTag() {
+	if (myMultiTags !== "undefined") {
+
+		var string_tag ='';
+		var i = 0;
+
+		Object.keys(myMultiTags).forEach(function(tags) {
+				  		
+			if (myMultiTags[tags].active === true) {
+				  	
+				if (i == 0) {
+					console.log('Un seul tag actif');
+					string_tag = tags;
+					console.log(string_tag);
+	  			} 
+	  			else if (i > 0) {
+  				console.log('Plusieurs tags actifs')
+  				string_tag += ',' + tags;
+	  			}
+	  			i++;
+	  			console.log('i = ' + i);
+	  			//console.log(tags);
+	  			console.log(string_tag);
+			}	 
+ 	
+  		});
+	} 
+	if (i > 1) {
+		string_tag = string_tag + '/multiTags/true';
+	}
+
+	return string_tag;
+
 }
 
 </script>

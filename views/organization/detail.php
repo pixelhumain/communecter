@@ -126,7 +126,7 @@
 
 <?php if(!$alone){ ?>	
 <!-- end: PAGE CONTENT-->
-<script>
+<script type="text/javascript" >
 
 
 	jQuery(document).ready(function() {

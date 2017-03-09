@@ -13,8 +13,9 @@
 <script type="text/javascript">
   //Icons by default categories
   var linksTagImages = new Object();
-  var params = <?php echo json_encode($params) ?>;
+  var params= <?php echo json_encode($params) ?>;
   var contextMapNetwork = [];
+  
   console.log("Params //////////////////");
   console.log(params);
   <?php
@@ -54,19 +55,23 @@
   var allTags = new Object();
   var allTypes = new Object();
   var indexStepInit = 100;
-
-  //With different pagination params
-  <?php if(isset($params['request']['pagination']) && $params['request']['pagination'] > 0){ ?>
-    indexStepInit = <?php echo $params['request']['pagination'] ;?>;
+  var  searchPrefTag = null;
+  <?php if(!empty($params['request']['searchPrefTag'])){ ?>
+   searchPrefTag = "<?php echo $params['request']['searchPrefTag'] ;?>";
   <?php } ?>
-  var indexStep = indexStepInit;
-  var currentIndexMin = 0;
-  var currentIndexMax = indexStep;
-  var scrollEnd = false;
-  var totalData = 0;
-  var timeout = null;
-  jQuery(document).ready(function() {
-	if  (location.hash == "" || location.hash == "#network.simplydirectory")
+console.log("searchPrefTag", searchPrefTag);
+
+var indexStep = indexStepInit;
+var currentIndexMin = 0;
+var currentIndexMax = indexStep;
+var scrollEnd = false;
+var totalData = 0;
+var timeout = null;
+jQuery(document).ready(function() {
+    if( typeof params.request.pagination != "undefined" && params.request.pagination > 0)
+        indexStepInit = params.request.pagination ;
+    bindLBHLinks();
+	if(location.hash == "" || location.hash == "#network.simplydirectory")
     	showMapNetwork(true);
     else
     	showMapNetwork(false);
@@ -127,10 +132,13 @@
     $('#btn-toogle-map').click(function(e){ showMapNetwork(); });
     $('#breadcum_search').click(function(e){ showMapNetwork();    });
     <?php if(isset($params['mode']) && $params['mode'] == "client"){ ?>
+
     <?php } else { ?>
       $('#searchBarText').keyup(function(e){
           clearTimeout(timeoutSearch);
-          timeoutSearch = setTimeout(function(){ startSearch(0, indexStepInit); }, 800);
+          timeoutSearch = setTimeout(function(){ 
+            startSearchSimply(0, indexStepInit); 
+        }, 800);
       });
     <?php } ?>
     /***** CHANGE THE VIEW PARAMS  *****/
@@ -182,21 +190,23 @@
     });
     /******** EVENTS ********/
 
-    $('#reset').on('click', function() {
+
+    $('#reset').off().on('click', function() {
       searchTag = allsearchTag;
       searchLocalityNAME = allsearchLocalityNAME;
       searchCategory = allsearchCategory;
       $('.tagFilter').removeClass('active');
       $('.villeFilter').removeClass('active');
       $('.categoryFilter').removeClass('active');
-      startSearch(0, indexStepInit);
+      startSearchSimply(0, indexStepInit);
     });
-    <?php if(isset($params['mode']) && $params['mode'] == "client"){ ?>
+    <?php if(@$params['mode'] && $params['mode'] == "client"){ ?>
 
         //Charger tous les éléments
 
     <?php } else{ ?>
       $(".my-main-container").scroll(function(){
+        mylog.log("__________________________ YO _________________");
         if(!loadingData && !scrollEnd){
             var heightContainer = $(".my-main-container")[0].scrollHeight;
             var heightWindow = $(window).height();
@@ -206,33 +216,64 @@
               var heightWindow = $(window).height();
               if( ($(this).scrollTop() + heightWindow) >= heightContainer-150){
                 // console.log("scroll MAX");
-                startSearch(currentIndexMin+indexStep, currentIndexMax+indexStep);
+                startSearchSimply(currentIndexMin+indexStep, currentIndexMax+indexStep);
               }
             }
         }
       });
-      $(".btn-filter-type").click(function(e){
-        var type = $(this).attr("type");
-        var index = searchType.indexOf(type);
-        if(type == "all" && searchType.length > 1){
-          $.each(allSearchType, function(index, value){ removeSearchType(value); }); return;
-        }
-        if(type == "all" && searchType.length == 1){
-          $.each(allSearchType, function(index, value){ addSearchType(value); }); return;
-        }
-        if (index > -1) removeSearchType(type);
-        else addSearchType(type);
-      });
+        /*$(".btn-filter-type").click(function(e){
+            mylog.log("__________________________ YO2 _________________");
+            var type = $(this).attr("type");
+            var index = params.request.searchType.indexOf(type);
+            if(type == "all" && params.request.searchType.length > 1){
+                $.each(allSearchType, function(index, value){ 
+                    removeSearchType(value); 
+                }); 
+                return;
+            }
+            if(type == "all" && params.request.searchType.length == 1){
+                $.each(allSearchType, function(index, value){ 
+                    addSearchType(value); 
+                }); 
+                return;
+            }
+            if (index > -1) 
+                removeSearchType(type);
+            else 
+                addSearchType(type);
+        });*/
+        /*$(".btn-filter-type").click(function(e){
+            mylog.log("__________________________ YO2 _________________");
+            var type = $(this).attr("type");
+            var index = searchType.indexOf(type);
+            if(type == "all" && searchType.length > 1){
+                $.each(allSearchType, function(index, value){ 
+                    removeSearchType(value); 
+                }); 
+                return;
+            }
+            if(type == "all" && searchType.length == 1){
+                $.each(allSearchType, function(index, value){ 
+                    addSearchType(value); 
+                }); 
+                return;
+            }
+            if (index > -1) 
+                removeSearchType(type);
+            else 
+                addSearchType(type);
+        });*/
       //initBtnToogleCommunexion();
       //$(".btn-activate-communexion").click(function(){
       //  toogleCommunexion();
       //});
     <?php } ?>
     //initBtnScopeList();
-    startSearch(0, indexStepInit);
+    console.log("test ", indexStepInit);
+    startSearchSimply(0, indexStepInit);
   });
-function startSearch(indexMin, indexMax){
-     console.log("startSearch", indexMin, indexMax, indexStep);
+function startSearchSimply(indexMin, indexMax){
+     console.log("startSearch2", indexMin, indexMax, indexStep);
     $("#listTagClientFilter").html('spiner');
     if(loadingData) return;
     loadingData = true;
@@ -259,24 +300,24 @@ function startSearch(indexMin, indexMax){
         if(levelCommunexion == 4) locality = inseeCommunexion;
         if(levelCommunexion == 5) locality = "";
       }
-      autoCompleteSearch(name, locality, indexMin, indexMax);
+      autoCompleteSearchSimply(name, locality, indexMin, indexMax);
 }
-function addSearchType(type){
-  var index = searchType.indexOf(type);
+/*function addSearchType(type){
+  var index = params.request.searchType.indexOf(type);
   if (index == -1) {
-    searchType.push(type);
+    params.request.searchType.push(type);
     $(".search_"+type).removeClass("fa-circle-o");
     $(".search_"+type).addClass("fa-check-circle-o");
   }
 }
 function removeSearchType(type){
-  var index = searchType.indexOf(type);
+  var index = params.request.searchType.indexOf(type);
   if (index > -1) {
-    searchType.splice(index, 1);
+    params.request.searchType.splice(index, 1);
     $(".search_"+type).removeClass("fa-check-circle-o");
     $(".search_"+type).addClass("fa-circle-o");
   }
-}
+}*/
 function addSearchCategory(category){
   console.log('add'+category+' dans '+searchCategory);
   var index = searchCategory.indexOf(category);
@@ -327,6 +368,7 @@ function addSearchTag(tag){
     $('.tagFilter[value="'+tag+'"]').prop("checked", true );
   }
 }
+
 function removeSearchTag(tag){
   var index = searchTag.indexOf(tag);
   if (index > -1) {
@@ -360,7 +402,9 @@ var mix = "";
 <?php if(isset($params['mode']) && $params['mode'] == 'client') { ?>
   mix = "mix";
 <?php } ?>
-function autoCompleteSearch(name, locality, indexMin, indexMax){
+
+function autoCompleteSearchSimply(name, locality, indexMin, indexMax){
+    console.log("autoCompleteSearchSimply", indexMax);
     var levelCommunexionName = { 1 : "INSEE",
                              2 : "CODE_POSTAL_INSEE",
                              3 : "DEPARTEMENT",
@@ -383,11 +427,36 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
     if (undefined !== searchTag && searchTag.length)$.merge(searchTagGlobal,searchTag);
     if (undefined !== searchCategory && searchCategory.length)$.unique($.merge(searchTagGlobal,searchCategory));
     console.log("searchTagGlobal : "+searchTagGlobal);
+
+    var searchTagsSimply = {} ;
+    $.each(searchTagGlobal, function(i, o) {
+
+        $.each(networkJson.filter.linksTag, function(keyNet, valueNet){
+
+            mylog.log("networkTags", o, valueNet.tags, jQuery.inArray(o, valueNet.tags));
+            if(typeof valueNet.tags[o] != "undefined"){
+                if(typeof searchTagsSimply[keyNet] == "undefined")
+                  searchTagsSimply[keyNet] = [];
+
+                if(typeof valueNet.tags[o] == "string")
+                  searchTagsSimply[keyNet].push(o);
+                else{
+                    $.each(valueNet.tags[o], function(keyTags, valueTags){
+                      searchTagsSimply[keyNet].push(valueTags);
+                    });
+                }
+            }  
+        });
+    });
+
+    mylog.log("searchTagsSimply", searchTagsSimply);
+
     var data = {
       "name" : name,
       "locality" : "xxxx",
-      "searchType" : searchType,
-      "searchTag" : searchTagGlobal,
+      "searchType" : params.request.searchType,
+      //"searchTag" : searchTagGlobal,
+      "searchTag" : searchTagsSimply,
       "searchLocalityNAME" : searchLocalityNAME,
       "searchLocalityCODE_POSTAL_INSEE" : searchLocalityCODE_POSTAL_INSEE,
       "searchLocalityDEPARTEMENT" : searchLocalityDEPARTEMENT,
@@ -397,8 +466,13 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
       "indexMin" : indexMin,
       "indexMax" : indexMax,
       "sourceKey" : sourceKey,
-      "mainTag" : mainTag
+      "mainTag" : mainTag,
+      "searchPrefTag" : searchPrefTag,
+      
     };
+
+    if(typeof params.filter.paramsFiltre != "undefined")
+      data.paramsFiltre = params.filter.paramsFiltre;
     //console.log("loadingData true");
     loadingData = true;
 
@@ -649,8 +723,9 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
                 //active le chargement de la suite des résultat au survol du bouton "afficher plus de résultats"
                 //(au cas où le scroll n'ait pas lancé le chargement comme prévu)
                 $("#btnShowMoreResult").mouseenter(function(){
+                  mylog.log("__________________________ YO3 _________________");
                   if(!loadingData){
-                    startSearch(indexMin+indexStep, indexMax+indexStep);
+                    startSearchSimply(indexMin+indexStep, indexMax+indexStep);
                     $("#btnShowMoreResult").mouseenter(function(){});
                   }
                 });
@@ -692,7 +767,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 
   function setSearchValue(value){
     $("#searchBarText").val(value);
-    startSearch(0, 100);
+    startSearchSimply(0, 100);
   }
   function manageTagFilter(tag){
     var index = tagsFilter.indexOf(tag);
@@ -752,7 +827,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
       if(tag == "all"){
         searchTag = [];
         $('.tagFilter[value="all"]').addClass('active');
-        startSearch(0, indexStepInit);
+        startSearchSimply(0, indexStepInit);
         return;
       }
       else{
@@ -760,7 +835,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
       }
       if (index > -1) removeSearchTag(tag);
       else addSearchTag(tag);
-      startSearch(0, indexStepInit);
+      startSearchSimply(0, indexStepInit);
     });
     $(".villeFilter").off().click(function(e){
       var ville = $(this).attr("value");
@@ -768,7 +843,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
       if(ville == "all"){
         searchLocalityNAME = [];
         $('.villeFilter[value="all"]').addClass('active');
-        startSearch(0, indexStepInit);
+        startSearchSimply(0, indexStepInit);
         return;
       }
       else{
@@ -776,18 +851,17 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
       }
       if (index > -1) removeSearchVille(ville);
       else addSearchVille(ville);
-      startSearch(0, indexStepInit);
+      startSearchSimply(0, indexStepInit);
     });
     $(".categoryFilter").off().click(function(e){
       var category = $(this).attr("value");
-      ;
       if($(this).is(':checked') == false){
         removeSearchCategory(category);
       }
       else{
         addSearchCategory(category);
       }
-      startSearch(0, indexStepInit);
+      startSearchSimply(0, indexStepInit);
     });
   }
   // function loadClientFilters(types, tags){
@@ -822,78 +896,92 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
   // }
   function breadcrumGuide(level, url){
 	  newLevel=$(".breadcrumAnchor").length;
+
 	  if(level==0){
-		reverseToRepertory();
+		  reverseToRepertory();
 	  }
 	  else{
-		if(level < newLevel){
-			newLevel=false;
-			$(".breadcrumAnchor").each(function(){
-				value=$(this).data("value");
-				if(value > level){
-					$(this).remove();
-					$(".breadcrumChevron[data-value='"+value+"']").remove();
-				}
-			});
-		}
-		if(newLevel == 5){
-			$(".breadcrumChevron[data-value='4']").remove();
-			$(".breadcrumAnchor[data-value='4']").remove();
-			newLevel=4;
-		}
-		getAjaxFiche(url, newLevel); 
+    		if(level < newLevel){
+      			newLevel=false;
+      			$(".breadcrumAnchor").each(function(){
+        				value=$(this).data("value");
+        				if(value > level){
+        					$(this).remove();
+        					$(".breadcrumChevron[data-value='"+value+"']").remove();
+        				}
+      			});
+    		}
+    		if(newLevel == 5){
+      			$(".breadcrumChevron[data-value='4']").remove();
+      			$(".breadcrumAnchor[data-value='4']").remove();
+      			newLevel=4;
+    		}
+    		getAjaxFiche(url, newLevel); 
 	  }
   }
-  function getAjaxFiche(url, breadcrumLevel){
+
+function getAjaxFiche(url, breadcrumLevel){
 	$("#ficheInfoDetail").empty();
 	if(location.hash == ""){
-	    history.pushState(null, "New Title", url);
-    }
-    if(isMapEnd){
-		pathTitle="Cartographie";
+    history.pushState(null, "New Title", url);
+  }
+
+  if(isMapEnd){
+    pathTitle="Cartographie";
 		pathIcon = "map-marker";
-	    showMapNetwork();
-    }
-    else{
-	    pathTitle="Annuaire";
-	    pathIcon = "list";
-    }
-    isEntityView=true;
+    showMapNetwork();
+  }else{
+    pathTitle="Annuaire";
+    pathIcon = "list";
+  }
+
+  isEntityView=true;
 	allReadyLoad = true;
 	location.hash = url;
-    urlHash=url;
-    if(urlHash.indexOf("type") < 0 && urlHash.indexOf("default.view") < 0 && urlHash.indexOf("gallery") < 0 && urlHash.indexOf("news") < 0 && urlHash.indexOf("invite") < 0){
-	    urlSplit=urlHash.replace( "#","" ).split(".");
-	    console.log(urlHash);
-	    if(urlSplit[0]=="person")
-	    	urlType="citoyens";
-	    else
-	    	urlType=urlSplit[0]+"s";
-	    urlHash="#element."+urlSplit[1]+".type."+urlType+".id."+urlSplit[3];
-    }
-    if(urlHash.indexOf("news") >= 0){
-	    urlHash=urlHash+"&isFirst=1";
-    }
-	url= "/"+urlHash.replace( "#","" ).replace( /\./g,"/" );
-	$("#repertory").hide( 700 );
-    $(".main-menu-left").hide( 700 );
-    $("#ficheInfoDetail").show( 700 );
-	$(".main-col-search").removeClass("col-md-10 col-md-offset-2 col-sm-9 col-sm-offset-3").addClass("col-md-12 col-sm-12");
-    $.blockUI({
-				message : "<h4 style='font-weight:300' class='text-dark padding-10'><i class='fa fa-spin fa-circle-o-notch'></i><br>Chargement en cours ...</span></h4>"
-	});
-    getAjax('#ficheInfoDetail', baseUrl+'/'+moduleId+url+'?network='+networkParams,
-    	function(){
-	    $.unblockUI();
-	    console.log(contextData);
-	    //Construct breadcrumb
-	    if(breadcrumLevel != false){
-		    $html= '<i class="fa fa-chevron-right fa-1x text-red breadcrumChevron" style="padding: 0px 10px 0px 10px;" data-value="'+breadcrumLevel+'"></i>'+
-		    		'<a href="javascript:;" onclick="breadcrumGuide('+breadcrumLevel+',\''+urlHash+'\')" class="breadcrumAnchor text-dark" data-value="'+breadcrumLevel+'">'+contextData.name+'</a>';
-		    $("#breadcrum").append($html);
-		}
-    },"html");
+  urlHash=url;
+
+  if( urlHash.indexOf("type") < 0 && 
+      urlHash.indexOf("default.view") < 0 && 
+      urlHash.indexOf("gallery") < 0 && 
+      urlHash.indexOf("news") < 0 &&
+      urlHash.indexOf("network") < 0 && 
+      urlHash.indexOf("invite") < 0){
+    
+      urlSplit=urlHash.replace( "#","" ).split(".");
+      console.log(urlHash);
+
+      if(urlSplit[0]=="person")
+        urlType="citoyens";
+      else
+        urlType=urlSplit[0]+"s";
+      
+      urlHash="#element."+urlSplit[1]+".type."+urlType+".id."+urlSplit[3];
   }
+
+  if(urlHash.indexOf("news") >= 0){
+    urlHash=urlHash+"&isFirst=1";
+  }
+  url= "/"+urlHash.replace( "#","" ).replace( /\./g,"/" );
+  $("#repertory").hide( 700 );
+  $(".main-menu-left").hide( 700 );
+  $("#ficheInfoDetail").show( 700 );
+  $(".main-col-search").removeClass("col-md-10 col-md-offset-2 col-sm-9 col-sm-offset-3").addClass("col-md-12 col-sm-12");
+  $.blockUI({
+    message : "<h4 style='font-weight:300' class='text-dark padding-10'><i class='fa fa-spin fa-circle-o-notch'></i><br>Chargement en cours ...</span></h4>"
+  });
+
+  getAjax('#ficheInfoDetail', baseUrl+'/'+moduleId+url+'?network='+networkParams, function(){
+    $.unblockUI();
+    console.log(contextData);
+    //Construct breadcrumb
+    if(breadcrumLevel != false){
+      $html= '<i class="fa fa-chevron-right fa-1x text-red breadcrumChevron" style="padding: 0px 10px 0px 10px;" data-value="'+breadcrumLevel+'"></i>'+'<a href="javascript:;" onclick="breadcrumGuide('+breadcrumLevel+',\''+urlHash+'\')" class="breadcrumAnchor text-dark" data-value="'+breadcrumLevel+'">'+contextData.name+'</a>';
+      $("#breadcrum").append($html);
+		}
+  },"html");
+}
+
+
 function reverseToRepertory(){
 	  if(isMapEnd){
 	    showMapNetwork();

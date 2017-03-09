@@ -20,7 +20,7 @@
 			</select>
 			<a href="javascript:setPeople()">Get People </a><br/>
 			<div id="sendMessageResult" class="result fss"></div>
-			<script>
+			<script type="text/javascript" >
 				function sendMessage(){
 					params = { 
 			    	   "email" : $("#sendMessageemail").val() , 

@@ -113,10 +113,10 @@
                     <?php if($nbItem <= 4 && (!isset($useDesc) || @$useDesc == true)){ ?>
                         <div class="col-md-12 col-sm-12 no-padding item-desc  <?php if(@$fullWidth && @$fullWidth == true) echo "text-left"; ?>">
                             <?php echo @$item['shortDescription'] ? @$item['shortDescription'] :
-                                                "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae."; ?>
+                                        "<span class='padding-10'><center><i>- Pas de présentation -</center></i></span>"; ?>
                             
                         </div>
-                        <?php if($sectionKey == "description"){ ?>
+                        <?php if($sectionKey == "description" && @$item['shortDescription']){ ?>
                             <div class="col-md-12 no-padding"></div>
                             <center>
                                 <button class="btn btn-default btn-full-desc" data-sectionkey="<?php echo @$sectionKey; ?>">
@@ -141,7 +141,7 @@
     </div>
 </section>
 
-<script>
+<script type="text/javascript" >
     
     jQuery(document).ready(function() {
     });

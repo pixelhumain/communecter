@@ -63,7 +63,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->reque
 	</div>	
 </div>
 
-<script>
+<script type="text/javascript" >
 jQuery(document).ready(function() {
 	
 });

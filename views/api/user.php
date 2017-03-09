@@ -11,7 +11,7 @@
 			code postal  : <input type="text" name="cpCommunect" id="cpCommunect" value="97421" /><br/>
 			<a href="javascript:communect()">Communect</a><br/>
 			<div id="communectResult" class="result fss"></div>
-			<script>
+			<script type="text/javascript" >
 				function communect(){
 					params = { "email" : $("#emailCommunect").val() , 
 					    	   "cp" : $("#cpCommunect").val()
@@ -34,7 +34,7 @@
 			pwd : <input type="password" name="pwdLogin" id="pwdLogin" value="1234" /><br/>
 			<a href="javascript:login()">Test it</a><br/>
 			<div id="loginResult" class="result fss"></div>
-			<script>
+			<script type="text/javascript" >
 				function login(){
 					params = { "email" : $("#emailLogin").val() , 
 					    	   "pwd" : $("#pwdLogin").val()
@@ -63,7 +63,7 @@
 			
 			<a href="javascript:addUser()">Test it</a><br/>
 			<div id="createUserResult" class="result fss"></div>
-			<script>
+			<script type="text/javascript" >
 				function addUser(){
 					params = { "email" : $("#emailSaveUser").val() , 
 					    	   "name" : $("#nameSaveUser").val() , 
@@ -84,7 +84,7 @@
 			email : <input type="text" name="getUseremail" id="getUseremail" value="<?php echo $this::$moduleKey?>@<?php echo $this::$moduleKey?>.com" /><br/>
 			<a href="javascript:getUser()">Test it</a><br/>
 			<div id="getUserResult" class="result fss"></div>
-			<script>
+			<script type="text/javascript" >
 				function getUser(){
 					ajaxGet("getUserResult", baseUrl+'/<?php echo $this::$moduleKey?>/api/getUser/email/'+$("#getUseremail").val());
 				}
@@ -102,7 +102,7 @@
 			<a href="javascript:getpeopleby()">Test it</a><br/>
 			<a href="javascript:countpeopleby()">Count it</a><br/>
 			<div id="getPeopleResult" class="result fss"></div>
-			<script>
+			<script type="text/javascript" >
 				function getpeopleby(){
 					params = { "cp" : $("#postalcodegetPeople").val() };
 					ajaxPost("getPeopleResult", baseUrl+'/<?php echo $this::$moduleKey?>/api/getpeopleby',params);
@@ -124,7 +124,7 @@
 			email : <input type="text" name="inviteUseremail" id="inviteUseremail" value="<?php echo $this::$moduleKey?>@<?php echo $this::$moduleKey?>.com" /><br/>
 			<a href="javascript:inviteUser()">Test it</a><br/>
 			<div id="inviteUserResult" class="result fss"></div>
-			<script>
+			<script type="text/javascript" >
 				function inviteUser(){
 					params = { "email" : $("#inviteUseremail").val() };
 					ajaxPost("inviteUserResult", baseUrl+'/<?php echo $this::$moduleKey?>/api/inviteUser',params);
