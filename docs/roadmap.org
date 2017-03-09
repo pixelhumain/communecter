@@ -98,6 +98,58 @@ Liste des notifications déjà lues => #370 #453
 * ************************************************************    
 * Version 0.2  : en cours
 * ************************************************************  
+** @Tib 
+  [ ] module clean up communecter to CO2 : clear deprecated views
+    [ ] mainSearch Libs clean up 
+      wysihtml5
+      Chart.min
+      boostrapswitch
+      bostrap editable ???
+      datetimepicker
+    [X] default.home
+    [X] #default.live
+    [X] news.index.type.citoyens.id.582e9551f6ca4759438b4584
+    [ ] element.detail
+      [X] person #person.detail.id.582e9551f6ca4759438b4584
+      [X] me
+      [X] orga
+        - why chart/index
+      [X] project #element.detail.type.project
+      [X] event #element.detail.type.event
+      [ ] #element.detail.type.poi
+        bug : Undefined index: parentId
+    [ ] dynform
+      [ ] orga
+      [ ] poi
+      [ ] project
+      [ ] event
+      [ ] survey
+      [ ] actions
+    [X] directory
+      [X] agenda
+      [X] orga
+      [X] project
+      [X] citoyens
+      [X] survey #default.directory?type=vote
+      [X] actions #default.directory?type=actions
+      [X] classified #default.directory?type=classified
+        [ ] icon in directory
+      [X] cities #default.directory?type=cities
+    [X] DDA
+      [X] #survey.entries.id.57b71a0ff6ca4712778b4570
+      [X] #survey.entry.id.582d9920f6ca47630c8b4580
+      [X] #rooms.actions.id.5786585cf6ca477b4e8b457d
+      [X] #rooms.action.id.5788d9f3f6ca47f8168b457d
+      [X] #comment.index.type.actionRooms.id.57a19c21f6ca47d2548b456e
+    [X] city.detail #city.detail.insee.97414.postalCode.97450
+      - sliderAgenda ???
+      - podBtnTypeNews ???
+    [ ] docs #default.view.page.index.dir.docs
+      [X] move docs to github
+
+* ************************************************************    
+* Version 0.17 bye bye  : closed
+* ************************************************************ 
 
 ** @Clem 
   [.2] add POI to news
@@ -146,6 +198,7 @@ Liste des notifications déjà lues => #370 #453
   * bugs
     [ ] person.edit.poi > validate > doesn't refresh location.hash
     [ ] map click savoir plus > KO : http://127.0.0.1/ph/communecter#poi.detail.id.58a69c0b539f22b8298b4571
+  [new] dynForm garder au cas ou d'une coupure le remplissage (use localStorage)
   [new] database optim : on citoyens, remove or archives event participation 
   [new] url builder url.get(type,what,id)
   [new] follow un tag : envoie de notif si nouvel element 
