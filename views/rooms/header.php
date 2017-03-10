@@ -4,8 +4,15 @@ $cs = Yii::app()->getClientScript();
 $cssAnsScriptFilesModule = array(
   '/assets/css/rooms/header.css'
 );
-HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->theme->baseUrl); ?>
- <style>
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->theme->baseUrl); 
+
+$cssAnsScriptFilesModule = array(
+	// '/survey/css/mixitup/reset.css',
+	'/js/actionRooms/actionRooms.js'
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
+?>
+<style>
 
 .assemblyHeadSection {  
   <?php $bg = (@$archived) ? "assemblyParisDayArchived" : "assemblyParisDay";?>

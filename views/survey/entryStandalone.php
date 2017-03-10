@@ -623,7 +623,7 @@ function move( type,destId ){
 }
 
 function surveyDelete(id, $this){
-  bootbox.confirm(trad["suretodeletediscuss"], 
+  bootbox.confirm(trad["suretodeletesurvey"], 
     function(result) {
       if (result) {
         $.ajax({

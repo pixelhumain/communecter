@@ -59,8 +59,11 @@ var trad = {"areyousuretodelete" : "<?php echo Yii::t("common", "Are you sure yo
 		"usernamenotunique" : "<?php echo Yii::t("login","The user name is not unique : please change it.")?>",
 		"somethingwentwrong" : "<?php echo Yii::t("login","Something went really bad : contact your administrator !")?>",
 		"address" : "<?php echo Yii::t("common","Address") ?>",
-		"suretodeletediscuss" : "<?php echo Yii::t("common","Are you sure you want to delete this chat room") ?>"
-		
+		"suretodeletediscuss" : "<?php echo Yii::t("common","Are you sure you want to delete this chat room") ?>",
+		"suretodeletesurvey" : "<?php echo Yii::t("common","Are you sure you want to delete this survey") ?>",
+		"suretodeletedecisionroom" : "<?php echo Yii::t("common","Are you sure you want to delete this  decision room") ?>",
+		"suretodeleteaction" : "<?php echo Yii::t("common","Are you sure you want to delete this action") ?>",
+		"suretodeleteactionroom" : "<?php echo Yii::t("common","Are you sure you want to delete this action room") ?>",
 };
 
 var tradCountry = {

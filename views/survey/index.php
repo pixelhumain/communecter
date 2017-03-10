@@ -46,7 +46,22 @@
         $archived = (@$where["survey"]["status"] == ActionRoom::STATE_ARCHIVED) ? "<span class='text-small text-red helvetica'>(ARCHIVED)</span>" : "";?>
     <i class="fa fa-angle-down"></i> 
     <span class="homestead"><i class="fa fa-<?php echo $icon;?>"></i> Espace de décision :</span> 
-    <?php echo $where["survey"]["name"].$archived;?> 
+    <?php echo $where["survey"]["name"].$archived;?>
+    <div class="btn dropdown no-padding" style="padding-left:10px !important;">
+      <a class="dropdown-toggle" type="button" data-toggle="dropdown" style="color:#8b91a0;">
+        <i class="fa fa-cog"></i>  <i class="fa fa-angle-down"></i>
+      </a>
+      <ul class="dropdown-menu">
+        <?php if (ActionRoom::canAdministrate(Yii::app()->session["userId"], (string)$where["survey"]["_id"])) {?>
+        <li>
+          <a href="javascript:;" class="actionRoomDelete" onclick="actionRoomDelete('<?php echo (string)$where["survey"]["_id"] ?>', this)" data-id="<?php echo (string)$where["survey"]["_id"] ?>"><small><i class="fa fa-times"></i> Supprimer</small></a>
+        </li>
+        <?php } ?>
+        <li>
+          <a href="javascript:;" class="actionRoomReport" onclick="actionRoomReportAbuse('<?php echo (string)$where["survey"]["_id"] ?>', this)" data-id="<?php echo (string)$where["survey"]["_id"] ?>"><small><i class="fa fa-flag"></i> Reporter au modérateur</small></a>
+        </li>
+      </ul>
+    </div>
 </h1>
 
 <?php
