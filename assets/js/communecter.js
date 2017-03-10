@@ -285,7 +285,7 @@ function connectPerson(connectUserId, callback)
 
 
 
-function disconnectTo(parentType,parentId,childId,childType,connectType, callback) {
+function disconnectTo(parentType,parentId,childId,childType,connectType, callback, linkOption) {
 	var messageBox = trad["removeconnection"];
 	$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
 	var formData = {
@@ -293,8 +293,11 @@ function disconnectTo(parentType,parentId,childId,childType,connectType, callbac
 		"childType" : childType, 
 		"parentType" : parentType,
 		"parentId" : parentId,
-		"connectType" : connectType,
+		"connectType" : connectType
 	};
+	//Case if an admin refuse demand of admin of member already link
+	if(linkOption)
+		formData.linkOption=linkOption;
 	bootbox.dialog({
         onEscape: function() {
             $(".disconnectBtnIcon").removeClass("fa-spinner fa-spin").addClass("fa-unlink");
@@ -360,6 +363,7 @@ function validateConnection(parentType, parentId, childId, childType, linkOption
 		success: function(data) {
 			if (data.result) {
 				if (typeof callback == "function") callback(parentType, parentId, childId, childType, linkOption);
+				else{toastr.success(data.msg); loadByHash(location.hash);}
 			} else {
 				toastr.error(data.msg);
 			}
@@ -560,6 +564,8 @@ var loadableUrls = {
     "#rooms.editroom" : {title:'ADD A ROOM ', icon : 'plus', action:function(){ editRoomSV ();	}},
 	"#rooms" : {title:'ACTION ROOMS ', icon : 'cubes'},
     "#element.aroundme" : {title:"Around me" , icon : 'crosshairs', menuId:"menu-btn-around-me"},
+    "#element.notifications" : {title:'DETAIL ENTITY', icon : 'legal'},
+    "#person.settings" : {title:'DETAIL ENTITY', icon : 'legal'},
 	"#element" : {title:'DETAIL ENTITY', icon : 'legal'},
     "#gallery" : {title:'ACTION ROOMS ', icon : 'photo'},
     "#comment" : {title:'DISCUSSION ROOMS ', icon : 'comments'},

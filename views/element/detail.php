@@ -300,19 +300,11 @@ if($('#breadcum').length)
 														"userCategory" => Yii::t("common","Community"), 
 														"contentType" => $type,
 														"countStrongLinks" => $countStrongLinks,
-														"countLowLinks" => $countLowLinks,
+														"countLowLinks" => @$countLowLinks,
+														"countInvitations" => $countInvitations,
 														"admin" => $edit, 
 														"invitedMe" => @$invitedMe,
 														"openEdition" => $openEdition));
-
-				/*$this->renderPartial('../pod/usersList', array(  "event"=> $event,
-														"users" => $attending,
-														"userCategory" => Yii::t("event","ATTENDEES",null,Yii::app()->controller->module->id), 
-														"contentType" => Event::COLLECTION,
-														"admin" => $admin,
-														"countLowLinks" => $invitedNumber,
-														"countStrongLinks"=> $attendeeNumber,
-														"invitedMe" => @$invitedMe));*/
 				?>
 			</div>
 			<?php } /*?>

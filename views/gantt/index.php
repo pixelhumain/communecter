@@ -81,9 +81,9 @@ Yii::import('ext.timesheetphp.sources.timesheet', true);
 			if($period != "yearly"){
 				$startDate=date("m-d",strtotime($val["startDate"]));
 				$endDate=date("m-d",strtotime($val["endDate"]));
-				$array = array(array('color'=> $val["color"],'start' => $val["startDate"],'end' => $val["endDate"],'key'=>$val["key"]));
+				$array = array(array('color'=> $val["color"],'start' => $val["startDate"],'end' => $val["endDate"],'key'=>@$val["key"]));
 			}else
-				$array = array(array('color'=> $val["color"],'start' => $val["startDate"],'end' => $val["endDate"],'key'=>$val["key"]));
+				$array = array(array('color'=> $val["color"],'start' => $val["startDate"],'end' => $val["endDate"],'key'=>@$val["key"]));
 			$data[$val["name"]]=$array ;
 		}
 		/**MAKE THE SCALE OF TIMESHEET**/

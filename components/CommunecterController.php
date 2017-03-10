@@ -267,6 +267,8 @@ class CommunecterController extends Controller
         
 
         "get"      => array("href" => "/ph/communecter/person/get"),
+        "settings"      => array("href" => "/ph/communecter/person/settings"),
+
     ),
     "organization"=> array(
       "addorganizationform" => array("href" => "/ph/communecter/organization/addorganizationform",
@@ -409,6 +411,7 @@ class CommunecterController extends Controller
       "getnotifications"          => array("href" => "/ph/communecter/notification/get","json" => true),
       "marknotificationasread"    => array("href" => "/ph/communecter/notification/remove"),
       "markallnotificationasread" => array("href" => "/ph/communecter/notification/removeall"),
+      "update" => array("href" => "/ph/communecter/notification/update")
     ),
     "gamification"=> array(
       "index" => array("href" => "/ph/communecter/gamification/index"),
@@ -444,6 +447,8 @@ class CommunecterController extends Controller
       "saveurl"             => array("href" => "/ph/communecter/element/saveurl"),
       "get"                 => array("href" => "/ph/communecter/element/get"),
       "delete"              => array("href" => "/ph/communecter/element/delete"),
+      "notifications"              => array("href" => "/ph/communecter/element/notifications"),
+      "getnotifications"              => array("href" => "/ph/communecter/element/getnotifications"),
     ),
     "co2" => array(
       "index"             => array('href' => "/ph/communecter/co2/index",             "public" => true),
