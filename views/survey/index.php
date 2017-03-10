@@ -54,7 +54,7 @@
       <ul class="dropdown-menu">
         <?php if (ActionRoom::canAdministrate(Yii::app()->session["userId"], (string)$where["survey"]["_id"])) {?>
         <li>
-          <a href="javascript:;" class="actionRoomDelete" onclick="actionRoomDelete('<?php echo (string)$where["survey"]["_id"] ?>', this)" data-id="<?php echo (string)$where["survey"]["_id"] ?>"><small><i class="fa fa-times"></i> Supprimer</small></a>
+          <a href="javascript:;" class="actionRoomDelete" onclick="actionRoomDelete('<?php echo (string)$where["survey"]["_id"] ?>', this, '<?php echo $room['parentId']; ?>')" data-id="<?php echo (string)$where["survey"]["_id"] ?>"><small><i class="fa fa-times"></i> Supprimer</small></a>
         </li>
         <?php } ?>
         <li>

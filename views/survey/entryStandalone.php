@@ -138,7 +138,7 @@
 							<ul class="dropdown-menu">
 								<?php if (Survey::canAdministrate(Yii::app()->session["userId"], (string)$survey["_id"])) {?>
 								<li>
-									<a href="javascript:;" class="surveyDelete" onclick="surveyDelete('<?php echo (string)$survey["_id"] ?>', this)" data-id="<?php echo $survey["_id"] ?>"><small><i class="fa fa-times"></i> Supprimer</small></a>
+									<a href="javascript:;" class="surveyDelete" onclick="surveyDelete('<?php echo (string)$survey["_id"] ?>', this, '<?php echo $room['parentId']; ?>')" data-id="<?php echo $survey["_id"] ?>"><small><i class="fa fa-times"></i> Supprimer</small></a>
 								</li>
 								<?php } ?>
 								<li>
@@ -622,22 +622,25 @@ function move( type,destId ){
 	});
 }
 
-function surveyDelete(id, $this){
+function surveyDelete(id, $this, parentId){
   bootbox.confirm(trad["suretodeletesurvey"], 
     function(result) {
       if (result) {
         $.ajax({
               type: "POST",
               url: baseUrl+"/"+moduleId+"/survey/delete/id/"+id,
-          dataType: "json",
+          	  dataType: "json",
               success: function(data){
                 if (data.result) {               
                   toastr.success(data.msg);
-                  showRoom('all', contextId);
+                  showRoom('all', parentId);
                 } else {
                   toastr.error(data.msg);
                 }
-            }
+              },
+           	  error: function(data) {
+           		toastr.error(data.msg);
+           	  }
         });
       }
     }
