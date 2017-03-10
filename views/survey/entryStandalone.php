@@ -102,14 +102,12 @@
 		<!-- start: REGISTER BOX -->
 		<div class="box-vote box-pod">
 			<h1 class="text-dark" style="font-size: 17px;margin-top: 20px;">
-				<i class="fa fa-angle-down"></i> 
+				<i class="fa fa-angle-right"></i> 
 				<span class="homestead"><i class="fa fa-archive"></i> Espace de décision :</span>
 				<a href="javascript:showRoom('vote', '<?php echo $survey["survey"]; ?>')">
 					<?php echo $room["name"]; ?>
 				</a>
-				<hr>
 			</h1>
-	
 			<div class="col-md-12 voteinfoSection">
 				<?php 
 					$voteDownCount = (isset($survey[Action::ACTION_VOTE_DOWN."Count"])) ? $survey[Action::ACTION_VOTE_DOWN."Count"] : 0;
@@ -126,21 +124,31 @@
 					$voteMoreInfoCount = $voteMoreInfoCount * $oneVote;
 			    ?>
 				
-				<div class="col-md-6 no-padding margin-bottom-15">
-					<?php if( @($organizer) ){ ?>
-						<span class="text-red" style="font-size:13px; font-weight:500;">
-							<i class="fa fa-angle-right"></i> 
-							<?php echo Yii::t("rooms","Made by ",null,Yii::app()->controller->module->id) ?> 
-							<a style="font-size:14px;" href="javascript:<?php echo @$organizer['link'] ?>" class="text-dark">
-								<?php echo @$organizer['name'] ?>
+				<div class="col-md-8 no-padding margin-bottom-15">								
+					<h1 class="text-dark" style="font-size: 25px;margin-top: 20px;margin-right: 10px">
+						<i class="fa fa-angle-down"></i>
+						<span class="homestead"><i class="fa fa-file-text"></i> Proposition :</span>
+						<a style="font-size:25px !important;">
+							 <?php echo trim($survey["name"]) ?>
+						</a>
+						<div class="btn dropdown no-padding" style="padding-left:10px !important;">
+							<a class="dropdown-toggle" type="button" data-toggle="dropdown" style="color:#8b91a0;">
+							<i class="fa fa-cog"></i>  <i class="fa fa-angle-down"></i>
 							</a>
-						</span><br/>
-					<?php }	?>
-					<span class="text-extra-large text-bold text-dark col-md-12" style="font-size:25px !important;">
-						<i class="fa fa-file-text"></i> <?php echo  $survey["name"] ?>
-					</span>
+							<ul class="dropdown-menu">
+								<?php if (Survey::canAdministrate(Yii::app()->session["userId"], (string)$survey["_id"])) {?>
+								<li>
+									<a href="javascript:;" class="surveyDelete" onclick="surveyDelete('<?php echo (string)$survey["_id"] ?>', this)" data-id="<?php echo $survey["_id"] ?>"><small><i class="fa fa-times"></i> Supprimer</small></a>
+								</li>
+								<?php } ?>
+								<li>
+									<a href="javascript:;" class="surveyReport" onclick="surveyReportAbuse('<?php echo (string)$survey["_id"] ?>', this)" data-id="<?php echo $survey["_id"] ?>"><small><i class="fa fa-flag"></i> Reporter au modérateur</small></a>
+								</li>
+							</ul>
+			      		</div>
+			      	</h1>
 				</div>
-				<div class="col-md-6">
+				<div class="col-md-4">
 					<div class="box-ajaxTools">					
 						<?php if (  isset(Yii::app()->session["userId"]) && $survey["organizerId"] == Yii::app()->session["userId"] )  
 						{
@@ -222,7 +230,14 @@
 			</div>
 
 			<div class="col-md-8 col-sm-8 col-xs-12 col-tool-vote text-dark" style="margin-bottom: 10px; margin-top: 10px; font-size:15px;">
-				
+				<?php if( @($organizer) ){ ?>
+				<span>
+					<?php echo Yii::t("rooms","Made by ",null,Yii::app()->controller->module->id) ?> :
+					<a style="font-size:14px;" href="javascript:<?php echo @$organizer['link'] ?>" class="text-dark">
+						<?php echo @$organizer['name'] ?>
+					</a>
+				</span><br/>
+				<?php }	?>
 				<span class="text-azure">
 					<i class="fa fa-calendar"></i> 
 					<?php echo Yii::t("rooms","Since",null,Yii::app()->controller->module->id) ?> : 
@@ -605,6 +620,28 @@ function move( type,destId ){
 		    });
 		}
 	});
+}
+
+function surveyDelete(id, $this){
+  bootbox.confirm(trad["suretodeletediscuss"], 
+    function(result) {
+      if (result) {
+        $.ajax({
+              type: "POST",
+              url: baseUrl+"/"+moduleId+"/survey/delete/id/"+id,
+          dataType: "json",
+              success: function(data){
+                if (data.result) {               
+                  toastr.success(data.msg);
+                  showRoom('all', contextId);
+                } else {
+                  toastr.error(data.msg);
+                }
+            }
+        });
+      }
+    }
+  )
 }
 
 </script>
