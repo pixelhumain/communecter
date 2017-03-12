@@ -2442,7 +2442,7 @@ var elementLib = {
 	        dataType : "json"
 	    })
 	    .done(function (data) {
-	        if ( data && data.result ) {
+	        if ( data && data.result && data.map ) {
 	        	//toastr.info(type+" found");
 	        	
 				//onLoad fill inputs
@@ -2451,31 +2451,10 @@ var elementLib = {
 				delete data.map["_id"];
 				mylog.dir(data);
 				console.log(data);
-				if( notNull(globalTheme) && globalTheme=="notragora"){
-					if(type=="poi"){
-						if(typeof data.map["tags"] != "undefined" && data.map["tags"].length > 0){
-					  		$.each(data.map["tags"], function(i,e){
-						  		if(jQuery.inArray( e, collectionsType ) >= 0){
-							   		 data.map["collections"]=[];
-							   		 data.map["collections"].push(e);
-							   		 var i = data.map["tags"].indexOf(e);
-									if(i != -1) {
-										data.map["tags"].splice(i, 1);
-									}
-								}
-								if(jQuery.inArray( e, genresType ) >= 0){
-							   		 data.map["genres"]=[];
-							   		 data.map["genres"].push(e);
-							   		 var i = data.map["tags"].indexOf(e);
-									if(i != -1) {
-										data.map["tags"].splice(i, 1);
-									}
-								}
 
-					  		});
-			  			}
-		  			}
-				}
+				if( jsonHelper.notNull("themeObj.dynForm.editElementPOI","function") )
+					themeObj.dynForm.editElementPOI(type,data);
+				
 				elementLib.openForm(type,null, data.map);
 	        } else {
 	           toastr.error("something went wrong!! please try again.");
@@ -2490,7 +2469,7 @@ var elementLib = {
 			if( notNull(typeObj[type].col) ) uploadObj.type = typeObj[type].col;
     		callback(typeObj[type], afterLoad, data);
 		}else {
-			lazyLoad( moduleUrl+'/js/dynForm/'+type+'.js', 
+			lazyLoad( moduleUrl+'/js/dynForm/'+typeObj[type].ctrl+'.js', 
 				null,
 				function() { 
 					mylog.dir(dynForm);

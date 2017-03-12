@@ -1001,42 +1001,42 @@ var cityFinderObj = {
                     });
   },
   search : function  ( type, what, icon, tags ) 
-{ 
-    searchTypes = ["events","projects","organizations"];
-    var params = {
-        name : "",
-        searchTag : tags,
-        searchBy : "CODE_POSTAL_INSEE",
-        indexMax : 200,
-        indexMin : 0,
-        searchType : searchTypes,
-        tpl : "list",
-        otherCollectionList : function() {
-          var strHTML = "<h2 class='homestead'>Thématiques</h2>"+
-                js_templates.loop( cityFinderObj.list,"linkList",{ classes : "menuThemeBtn" });
-          $("#listCollections").append(strHTML);
-          $(".menuThemeBtn").on("click",function() { 
-            cityFinderObj.list[ $(this).data('key') ].click();
-          }); 
-        }
-    };
+  { 
+      searchTypes = ["events","projects","organizations"];
+      var params = {
+          name : "",
+          searchTag : tags,
+          searchBy : "CODE_POSTAL_INSEE",
+          indexMax : 200,
+          indexMin : 0,
+          searchType : searchTypes,
+          tpl : "list",
+          otherCollectionList : function() {
+            var strHTML = "<h2 class='homestead'>Thématiques</h2>"+
+                  js_templates.loop( cityFinderObj.list,"linkList",{ classes : "menuThemeBtn" });
+            $("#listCollections").append(strHTML);
+            $(".menuThemeBtn").on("click",function() { 
+              cityFinderObj.list[ $(this).data('key') ].click();
+            }); 
+          }
+      };
 
-    delete params.searchLocalityCODE_POSTAL;
-    delete params.searchLocalityREGION;
-    delete params.searchLocalityDEPARTEMENT;
-    if( type == "region" ) 
-        params.searchLocalityREGION = ['<?php echo $city["regionName"];  ?>'];
-    if( type == "departement" ) 
-        params.searchLocalityDEPARTEMENT = ["<?php echo $city["depName"];  ?>"];
-    else 
-        params.searchLocalityCODE_POSTAL = postalCodes;
-    
-    console.dir(params);
-    smallMenu.openAjax( baseUrl+'/'+moduleId+'/search/globalautocomplete',
-                   what, icon, 'yellow',
-                   '<a href="javascript:cityFinderObj.finder(scopeType,scopeName)"><i class="fa fa-th text-grey"></i></a> <i class="fa fa-angle-right"></i> <i class="fa fa-map-marker text-yellow"></i> '+scopeName ,
-                   params );
-} 
+      delete params.searchLocalityCODE_POSTAL;
+      delete params.searchLocalityREGION;
+      delete params.searchLocalityDEPARTEMENT;
+      if( type == "region" ) 
+          params.searchLocalityREGION = ['<?php echo $city["regionName"];  ?>'];
+      if( type == "departement" ) 
+          params.searchLocalityDEPARTEMENT = ["<?php echo $city["depName"];  ?>"];
+      else 
+          params.searchLocalityCODE_POSTAL = postalCodes;
+      
+      console.dir(params);
+      smallMenu.openAjax( baseUrl+'/'+moduleId+'/search/globalautocomplete',
+                     what, icon, 'yellow',
+                     '<a href="javascript:cityFinderObj.finder(scopeType,scopeName)"><i class="fa fa-th text-grey"></i></a> <i class="fa fa-angle-right"></i> <i class="fa fa-map-marker text-yellow"></i> '+scopeName ,
+                     params );
+  } 
 };
 
 <?php 

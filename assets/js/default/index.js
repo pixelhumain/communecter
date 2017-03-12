@@ -78,12 +78,12 @@ function resizeInterface()
 }
 
 function initNotifications(){
-	
-	$('.main-top-menu .btn-menu-notif').off().click(function(){
+	mylog.log("initNotifications");
+	$('.btn-menu-notif').off().click(function(){
 	  mylog.log("click notification main-top-menu");
       showNotif();
     });
-    $('.my-main-container .btn-menu-notif').off().click(function(){
+    $('.btn-menu-notif').off().click(function(){
 	  mylog.log("click notification my-main-container");
       showNotif();
     });
@@ -112,19 +112,28 @@ function checkScroll(){
 
 function showMap(show)
 {
+
+  if(mapBg == null) return;
+
 	//if(typeof Sig == "undefined") { alert("Pas de SIG"); return; } 
 	mylog.log("typeof SIG : ", typeof Sig);
 	if(typeof Sig == "undefined") show = false;
 
+  //chargement de la carte
+
+
+
 	mylog.log("showMap");
-	mylog.warn("showMap");
 	if(show === undefined) show = !isMapEnd;
 	if(show){
 		isMapEnd =true;
 		showNotif(false);
 
-		$("#mapLegende").html("");
-		$("#mapLegende").hide();
+		currentScrollTop = $('html').scrollTop();
+		
+
+		//$("#mapLegende").html("");
+		//$("#mapLegende").hide();
 
 		showTopMenu(true);
 		if(Sig.currentMarkerPopupOpen != null){
@@ -133,62 +142,67 @@ function showMap(show)
 		
 		$(".btn-group-map").show( 700 );
 		$("#right_tool_map").show(700);
-		$(".btn-menu5, .btn-menu6, .btn-menu7, .btn-menu8, .btn-menu9, .btn-menu10, .btn-menu-add").hide();
-		$("#btn-toogle-map").html("<i class='fa fa-th-large'></i>");
-		$("#btn-toogle-map").attr("data-original-title", "Tableau de bord");
-		$("#btn-toogle-map").css("display","inline !important");
-		$("#btn-toogle-map").show();
+		// $(".btn-menu5, .btn-menu6, .btn-menu7, .btn-menu8, .btn-menu9, .btn-menu10, .btn-menu-add").hide();
+		// $("#btn-toogle-map").html("<i class='fa fa-th-large'></i>");
+		// $("#btn-toogle-map").attr("data-original-title", "Tableau de bord");
+		// $("#btn-toogle-map").css("display","inline !important");
+		// $("#btn-toogle-map").show();
 		//$(".lbl-btn-menu").hide(400);
 		//$(".fa-angle-right").hide(400);
 		//$(".menu-left-container hr").css({opacity:0});
-		$(".main-menu-left").addClass("inSig");
+		$(".main-menu-left").hide(); //addClass("inSig");
 		$("body").addClass("inSig");
 
-		$(".my-main-container").animate({
+		$(".main-container").animate({
      							//top: -1000,
      							opacity:0,
 						      }, 'slow' );
 
-		setTimeout(function(){ $(".my-main-container").hide(); }, 100);
+		setTimeout(function(){ $(".main-container").hide(); }, 100);
 		var timer = setTimeout("Sig.constructUI()", 1000);
 		
 	}else{
-		isMapEnd =false;
+		isMapEnd = false;
 		hideMapLegende();
 
 		var iconMap = "map-marker";
 		if(typeof ICON_MAP_MENU_TOP != "undefined") iconMap = ICON_MAP_MENU_TOP;
 		//mylog.log(ICON_MAP_MENU_TOP);
-		$(".btn-group-map").hide( 700 );
-		$("#right_tool_map").hide(700);
-		$(".btn-menu5, .btn-menu6, .btn-menu7, .btn-menu8, .btn-menu9, .btn-menu10, .btn-menu-add").show();
-		$(".panel_map").hide(1);
-		$("#btn-toogle-map").html("<i class='fa fa-"+iconMap+"'></i>");
-		$("#btn-toogle-map").attr("data-original-title", "Carte");
-		$(".main-col-search").animate({ top: 0, opacity:1 }, 800 );
+		// $(".btn-group-map").hide( 700 );
+		// $("#right_tool_map").hide(700);
+		// $(".btn-menu5, .btn-menu6, .btn-menu7, .btn-menu8, .btn-menu9, .btn-menu10, .btn-menu-add").show();
+		// $(".panel_map").hide(1);
+		// $("#btn-toogle-map").html("<i class='fa fa-"+iconMap+"'></i>");
+		// $("#btn-toogle-map").attr("data-original-title", "Carte");
+		//$(".main-col-search").animate({ top: 0, opacity:1 }, 800 );
 		//$(".lbl-btn-menu").show(400);
 		//$(".fa-angle-right").show(400);		
 		//$(".menu-left-container hr").css({opacity:1} );
-		$(".main-menu-left").removeClass("inSig");
+		//$(".main-menu-left").removeClass("inSig");
 		$("body").removeClass("inSig");
-		$(".my-main-container").animate({
+		$(".main-container").animate({
      							//top: 50,
      							opacity:1
 						      }, 'slow' );
-		setTimeout(function(){ $(".my-main-container").show(); }, 100);
+		setTimeout(function(){ 
+			$(".main-container").show();
+			$('html, body').stop().animate({
+	            scrollTop: currentScrollTop
+	        }, 500, ''); 
+		}, 100);
 
 		//hideFormInMap();
 
-		if(typeof Sig != "undefined")
-		if(Sig.currentMarkerPopupOpen != null){
-			Sig.currentMarkerPopupOpen.closePopup();
-		}
+		// if(typeof Sig != "undefined")
+		// if(Sig.currentMarkerPopupOpen != null){
+		// 	Sig.currentMarkerPopupOpen.closePopup();
+		// }
 
 		//if($(".box-add").css("display") == "none" && notEmpty(userId))
 		//	$("#ajaxSV").show( 700 );
 
-		showTopMenu(true);	
-		checkScroll();
+		//showTopMenu(true);	
+		//checkScroll();
 	}
 		
 }
