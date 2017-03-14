@@ -25,8 +25,101 @@ $this->renderPartial('../default/panels/toolbar');
     if(isset($events))          $contextMap = array_merge($contextMap, $events);
     if(isset($projects))        $contextMap = array_merge($contextMap, $projects);
 
-    //if(isset($test))        $contextMap = array_merge($contextMap, $test);
+    // Test liste des collections 
 
+    function in_array_r($needle, $haystack, $strict = false) {
+      foreach ($haystack as $item) {
+          if (($strict ? $item === $needle : $item == $needle) || (is_array($item) && in_array_r($needle, $item, $strict))) {
+              return true;
+          }
+      }
+
+      return false;
+    }
+
+    // $m = new MongoClient();
+    // $db = $m->pixelhumain;
+    // $collections = $db->getCollectionNames();
+    // $col = $m->selectDB("pixelhumain")->organizations;
+
+    // // $retval = $col->findAndModify(
+    // // array('$set' => array('type' => 'TEST'))
+    // // );
+
+    // $collections2 = array();
+    // $res = array();
+    // $allTags = array();
+
+    // $tag_foireux = 'patrimoire';
+    // $tag_bon = 'patrimoine';
+    // $tag_filter = array('tags' => 'Alimentation');
+
+    // $doublon = json_decode(file_get_contents("/home/damien/workspace/modules/communecter/data/temp/doublon.json"));
+
+
+    // foreach ($doublon as $key => $value) {
+
+    //   // $tag_filter = array('tags' => $value);
+    //   // var_dump($tag_filter);
+    //   // var_dump($value);
+
+    //   foreach ($value as $key2 => $value2) {
+    //     $tag_filter = array('tags' => $value2);
+
+      
+    //     foreach ($collections as $collection) {
+
+    //       $cursor = PHDB::find($collection, $tag_filter);
+
+    //       foreach ($cursor as $doc) {
+
+    //         array_push($res, $doc);
+    //         foreach ($doc['tags'] as $key3 => $value3) {
+
+    //           if ($value3 == $value2) {
+
+    //             // print('Il faut changer '. $value3);
+    //             // print('dans la collection '. $collection);
+    //             // print('par le bon tag qui est : '. $key);
+
+    //             PHDB::update( $collection, array("_id" => $doc['_id']) , 
+    //             array('$unset' => array("tags.".$key3."" => "")));
+
+    //             // if (in_array($key, $doc['tags']) == false) {
+
+    //             PHDB::update( $collection, array("_id" => $doc['_id']) , 
+    //                           array('$addToSet' => array("tags" => $key)));
+
+    //             // }  
+
+    //           }
+
+    //           PHDB::update( $collection, array("_id" => $doc['_id']) , 
+    //                         array('$pull' => array("tags" => null)));
+    //         }
+
+    //       }
+
+    //     }
+    
+    //   }
+
+    // }      
+
+  //{ $pull: { tags: { $in: [ null ] }}}
+  //{ $pull: { tags:  null  }}
+
+   // PHDB::update( "organizations", array("name" => "dzqdkjqzk") , 
+   //                array('$unset' => array("tags.0" => "")));   
+
+   // PHDB::update( "organizations", array("name" => "dzqdkjqzk") , 
+   //                array('$push' => array("tags" => "tota")));
+
+   // PHDB::update( "organizations", array("name" => "dzqdkjqzk") , 
+   //                array('$pull' => array("tags" => null)));
+
+    //-------------------------------------
+    
     $randomOrganization = findOrgaRandImg($organizations, 1);
     function findOrgaRandImg($organizations, $try){
       $rand = rand(0, sizeof($organizations)-1);
@@ -419,7 +512,6 @@ var zonesDynForm = {
     }
   }
 
-//var contextMap = {};
 contextMap = <?php echo json_encode($contextMap) ?>;
 categs = <?php echo json_encode(OpenData::$categ) ?>;
 
@@ -790,6 +882,7 @@ var data_dbpedia = null;
 var data_wikilinks = null;
 
 function getWiki(q){
+
   //url = "https://wikidata.org/w/api.php?action=wbgetentities&format=json&ids="+q+"&props=claims&languages=fr";
   url ="https://www.wikidata.org/wiki/Special:EntityData/"+q+".json" 
   $.ajax({
