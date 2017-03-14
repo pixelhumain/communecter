@@ -99,6 +99,11 @@ Liste des notifications déjà lues => #370 #453
 * Version 0.2  : en cours
 * ************************************************************  
 ** @Tib 
+  [ ] annonces
+    [ ] top level types
+    [ ] mes annonces
+  * bugs
+    [ ] dynSurvey photos
   [ ] module clean up communecter to CO2 : clear deprecated views
     [ ] mainSearch Libs clean up 
       wysihtml5
@@ -109,22 +114,22 @@ Liste des notifications déjà lues => #370 #453
     [X] default.home
     [X] #default.live
     [X] news.index.type.citoyens.id.582e9551f6ca4759438b4584
-    [ ] element.detail
+    [X] element.detail
       [X] person #person.detail.id.582e9551f6ca4759438b4584
       [X] me
       [X] orga
         - why chart/index
       [X] project #element.detail.type.project
       [X] event #element.detail.type.event
-      [ ] #element.detail.type.poi
+      [X] #element.detail.type.poi
         bug : Undefined index: parentId
-    [ ] dynform
-      [ ] orga
-      [ ] poi
-      [ ] project
-      [ ] event
-      [ ] survey
-      [ ] actions
+    [X] dynform
+      [X] orga
+      [X] poi
+      [X] project
+      [X] event
+      [X] survey
+      [X] actions
     [X] directory
       [X] agenda
       [X] orga
@@ -144,7 +149,7 @@ Liste des notifications déjà lues => #370 #453
     [X] city.detail #city.detail.insee.97414.postalCode.97450
       - sliderAgenda ???
       - podBtnTypeNews ???
-    [ ] docs #default.view.page.index.dir.docs
+    [X] docs #default.view.page.index.dir.docs
       [X] move docs to github
 
 * ************************************************************    

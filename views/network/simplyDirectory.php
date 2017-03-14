@@ -495,6 +495,7 @@ function autoCompleteSearchSimply(name, locality, indexMin, indexMax)
     if( @$params['dataSrc'] ) 
     { 
         try {
+            //TODO : put this into Network::getAndConvert
             $json = file_get_contents($params['dataSrc']);
             if ($json === false) 
                 throw new CHttpException(404, "Impossible to find the network configuration file.");
