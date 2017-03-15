@@ -403,7 +403,8 @@ var mix = "";
   mix = "mix";
 <?php } ?>
 
-function autoCompleteSearchSimply(name, locality, indexMin, indexMax){
+function autoCompleteSearchSimply(name, locality, indexMin, indexMax)
+{
     console.log("autoCompleteSearchSimply", indexMax);
     var levelCommunexionName = { 1 : "INSEE",
                              2 : "CODE_POSTAL_INSEE",
@@ -489,281 +490,319 @@ function autoCompleteSearchSimply(name, locality, indexMin, indexMax){
       $.blockUI({
         message : "<h1 class='homestead text-red'><i class='fa fa-spin fa-circle-o-notch'></i><span class='text-dark'> En cours ...</span></h1>"
       });
-    $.ajax({
-      type: "POST",
-          url: baseUrl+"/" + moduleId + "/search/simplyautocomplete",
-          data: data,
-          dataType: "json",
-          error: function (data){
+    
+    <?php 
+    if( @$params['dataSrc'] ) 
+    { 
+        try {
+            //TODO : put this into Network::getAndConvert
+            $json = file_get_contents($params['dataSrc']);
+            if ($json === false) 
+                throw new CHttpException(404, "Impossible to find the network configuration file.");
+        } catch (Exception $e) {
+            throw new CHttpException(404, "Error Reading the network configuration file.");
+        }
+        if ($json){
+    ?>
+
+        var dataJson = <?php echo $json ?>;
+        dataSuccess( dataJson, indexMin, indexMax );
+
+    <?php
+        }
+    } 
+    else 
+    { 
+    ?> 
+
+        $.ajax({
+            type: "POST",
+            url: baseUrl+"/" + moduleId + "/search/simplyautocomplete",
+            data: data,
+            dataType: "json",
+            error: function (data){
              console.log("error");
              console.dir(data);
-          },
-          success: function(data){
-            if(!data.res){ toastr.error(data.content); }
-            else
-            {
-              var countData = 0;
-              $.each(data.res, function(i, v) { if(v.length!=0){ countData++; } });
-
-              totalData += countData;
-
-              str = "";
-              var city, postalCode = "";
-              var mapElements = new Array();
-              allTags = data.filters;
-              //parcours la liste des résultats de la recherche
-              $.each(data.res, function(i, o) {
-                  var typeIco = i;
-                  var ico = mapIconTop["default"];
-                  var color = mapColorIconTop["default"];
-                  // mapElements.push(o);
-                  // allElement.push(o);
-
-
-                  typeIco = o.type;
-                  ico = ("undefined" != typeof mapIconTop[typeIco]) ? mapIconTop[typeIco] : mapIconTop["default"];
-                  color = ("undefined" != typeof mapColorIconTop[typeIco]) ? mapColorIconTop[typeIco] : mapColorIconTop["default"];
-
-                  htmlIco ="<i class='fa "+ ico +" text-"+color+"'></i>";
-                  if("undefined" != typeof o.profilThumbImageUrl && o.profilThumbImageUrl != ""){
-                    var htmlIco= "<img width='80' height='80' alt='' class='img-circle bg-"+color+"' src='"+baseUrl+o.profilThumbImageUrl+"'/>";
-                  }
-
-                  // o.profilImageUrl = "/upload/communecter/network/Alimentation/fa-cutlery505719fabnone.png";
-                  // o.profilMarkerImageUrl = "/upload/communecter/network/Alimentation/thumb/profil-marker.png";
-                  // o.profilThumbImageUrl = "/upload/communecter/network/Alimentation/thumb/profil-resized.png";
-                  city="";
-                  var postalCode = o.cp
-                  if (o.address != null) {
-                    city = o.address.addressLocality;
-                    postalCode = o.cp ? o.cp : o.address.postalCode ? o.address.postalCode : "";
-                  }
-
-                  //console.dir(o);
-                  var id = getObjectId(o);
-                  var tagsClasses = "";
-                  var insee = o.insee ? o.insee : "";
-                  type = o.type;
-                  if(type=="citoyen") type = "person";
-
-                  //Consolidate types
-                  if(type != "undefined" && type != null){
-                    if(typeof allTypes[type] != "undefined"){
-                      allTypes[type] = allTypes[type] + 1;
-                    }
-                    else{
-                      allTypes[type] = 1;
-                    }
-                  }
-                  var url = "javascript:"; //baseUrl+'/'+moduleId+ "/default/simple#" + o.type + ".detail.id." + id;
-                  var url = baseUrl+'/'+moduleId+ "/default/dir#" + type + ".simply.id." + id;
-                 // var onclick = 'loadByHash("#organization.simply.id.' + id + '");';
-                  var onclick = 'getAjaxFiche("#element.detail.type.'+o.typeSig+'.id.'+id+'",1);';
-                  var onclickCp = "";
-                  var target = " target='_blank'";
-                  var dataId = "";
-                  if(type == "city"){
-                    url = "javascript:"; //#main-col-search";
-                    onclick = 'setScopeValue($(this))'; //"'+o.name.replace("'", "\'")+'");';
-                    onclickCp = 'setScopeValue($(this));';
-                    target = "";
-                    dataId = o.name; //.replace("'", "\'");
-                  }
-                  var tags = "";
-                  var find = false;
-                  if(typeof o.tags != "undefined" && o.tags != null){
-                    $.each(o.tags, function(key, value){
-                      if(value != ""){
-                        //Display info in item
-                        tags +=   "<a href='javascript:' class='badge bg-red btn-tag tagFilter padding-5' value='"+ value +"'>#" + value + "</a>";
-                        // manageTagFilter("#"+value);
-                        //Consolidate tags
-                        // if(typeof allTags[value] != "undefined"){
-                        //   allTags[value] = allTags[value] + 1;
-                        // }
-                        // else{
-                        //   allTags[value] = 1;
-                        // }
-                        //Default Image adn color
-                        if(find == false && value in linksTagImages == true){
-                          find = true;
-                          // $.each(linksTagImages[value], function(key2, value2){
-                          //   o[key2] = value2;
-                          // });
-                          o.typeSig = "organizations";
-                          o.type = "organizations";
-                        }
-                        //Filter Client (Attention erreur firefox js)
-                        // tagsClasses += ' '+value.replace("/[^A-Za-z0-9]/", "", value) ;
-                      }
-                    });
-                  }
-                  mapElements.push(o);
-                  contextMapNetwork.push(o);
-                  // console.log(tagsClasses);
-                  var name = typeof o.name != "undefined" ? o.name : "";
-                  var website = typeof o.url != "undefined" ? o.url : "";
-                  var postalCode = (typeof o.address != "undefined" &&
-                            typeof o.address.postalCode != "undefined") ? o.address.postalCode : "";
-
-                  if(postalCode == "") postalCode = typeof o.cp != "undefined" ? o.cp : "";
-                  var cityName = (typeof o.address != "undefined" &&
-                          typeof o.address.addressLocality != "undefined") ? o.address.addressLocality : "";
-
-                  var fullLocality = postalCode + " " + cityName;
-                  var description = (typeof o.shortDescription != "undefined" &&
-                            o.shortDescription != null) ? o.shortDescription : "";
-                  if(description == "") description = (typeof o.description != "undefined" &&
-                                     o.description != null) ? o.description : "";
-                  description = "";
-                  if(o.profilMediumImageUrl != "undefined" && o.profilMediumImageUrl != "")
-                  	pathmedium = baseUrl+o.profilMediumImageUrl;
-                  else
-                  	pathmedium = "<?php echo $this->module->assetsUrl ?>/images/thumbnail-default.jpg";
-                  shortDescription = (typeof o.shortDescription != "undefined" &&
-                                     o.shortDescription != null) ? o.shortDescription : "";
-
-                  var startDate = (typeof o.startDate != "undefined") ? "Du "+dateToStr(o.startDate, "fr", true, true) : null;
-                  var endDate   = (typeof o.endDate   != "undefined") ? "Au "+dateToStr(o.endDate, "fr", true, true)   : null;
-                  /***** VERSION SIMPLY *****/
-                  str += "<div id='"+id+"' class='row list-group-item item searchEntity "+mix+" "+tagsClasses+" "+fullLocality+"' >";
-                  <?php if(isset($params['result']['displayImage']) && $params['result']['displayImage']) { ?>
-                  	str += '<div class="col-lg-3 col-md-3 col-sm-3 col-xs-4 padding-10 center">'+
-				  				'<img class="img-responsive thumbnail" src="'+pathmedium+'">'+
-				  			'</div>';
-                    <?php } ?>
-                   // str += "<div class='entityTop col-md-2' onclick='"+onclick+"'>";
-                      //  str += "<img class='image' src='http://paniersdumarais.weebly.com/uploads/1/4/6/5/1465996/5333680.jpg' />";
-                    //str += "</div>";
-
-                    str += "<div class='entityMiddle col-md-5 name' onclick='"+onclick+"'>";
-                        str += "<a class='entityName text-dark'>" + name + "</a><br/>";
-                        if(website != "" && website != " ")
-                        str += "<i class='fa fa-desktop fa_url'></i><a href='"+website+"' target='_blank'>"+website+"</a><br/>";
-                        <?php if(isset($params['result']['fullLocality']) && $params['result']['fullLocality']) { ?>
-                          if(fullLocality != "" && fullLocality != " ")
-                          str += "<div class='entityLocality'><i class='fa fa-home'></i> " + fullLocality + "</div><br/>";
-                        <?php } ?>
-                    str += "</div>";
-
-                    <?php if(isset($params['result']['displayType']) && $params['result']['displayType']) { ?>
-                      str += "<div class='entityMiddle col-md-2 type '>";
-                        typeIco = "";
-                         str += htmlIco+"" + typeIco + "";
-                      str += "</div>";
-                    <?php } ?>
-                    <?php if(isset($params['result']['displayShortDescription']) && $params['result']['displayShortDescription']) { ?>
-						str += "<div class='entityMiddle col-md-5 type '>";
-                        str += 		shortDescription;
-						str += "</div>";
-                       <?php } ?>
-
-                    target = "";
-                         str += "<div class='entityBottom col-md-5'>";
-                         str += "<hr>";
-                      if(tags=="") tags = "<a href='#' class='badge bg-red btn-tag'>#</a>";
-                      str += tags;
-                    str += "</div>";
-                  str += "</div>";
-              }); //end each
-              if(str == "") {
-                  $(".btn-start-search").html("<i class='fa fa-search'></i>");
-                  if(indexMin == 0){
-                    //ajout du footer
-                    var msg = "Aucun résultat";
-                    if(name == "" && locality == "") msg = "<h3 class='text-dark'><i class='fa fa-3x fa-keyboard-o'></i><br> Préciser votre recherche pour plus de résultats ...</h3>";
-                    str += '<div class="center" id="footerDropdown">';
-                    str += "<hr style='float:left; width:100%;'/><label style='margin-bottom:10px; margin-left:15px;' class='text-white'>"+msg+"</label><br/>";
-                    str += "</div>";
-                    $("#dropdown_search").html(str);
-                    $("#searchBarText").focus();
-                  }
-              }
-              else
-              {
-                //ajout du footer
-
-                  str += '</div><div class="center col-md-12" id="footerDropdown">';
-                  str += "<hr style='float:left; width:100%;'/><label id='countResult' class='text-white'></label><br/>";
-                  <?php if(isset($params['mode']) && $params['mode'] != "client"){ ?>
-                    str += '<button class="btn btn-default" id="btnShowMoreResult"><i class="fa fa-angle-down"></i> Afficher plus de résultat</div></center>';
-                    str += "</div>";
-                  <?php } ?>
-                //si on n'est pas sur une première recherche (chargement de la suite des résultat)
-                if(indexMin > 0){
-                  //on supprime l'ancien bouton "afficher plus de résultat"
-                  $("#btnShowMoreResult").remove();
-                  //on supprimer le footer (avec nb résultats)
-                  $("#footerDropdown").remove();
-                  //on calcul la valeur du nouveau scrollTop
-                  var heightContainer = $(".my-main-container")[0].scrollHeight - 180;
-
-                  //on affiche le résultat à l'écran
-                  $("#dropdown_search").append(str);
-
-                //si on est sur une première recherche
-                }else{
-                  //on affiche le résultat à l'écran
-                  $("#dropdown_search").html(str);
-                  //on scroll pour coller le haut de l'arbre au menuTop
-                  // $(".my-main-container").scrollTop(95);
-                }
-
-                //On met à jour les filtres
-                <?php if(isset($params['mode']) && $params['mode'] == "client"){ ?>
-                  loadClientFilters(allTypes, allTags);
-                <?php } else{ ?>
-                  loadServerFilters(allTypes, allTags);
-                <?php } ?>
-                //on affiche par liste par défaut
-                $('#list').click();
-                //remet l'icon "loupe" du bouton search
-                $(".btn-start-search").html("<i class='fa fa-search'></i>");
-
-                //active le chargement de la suite des résultat au survol du bouton "afficher plus de résultats"
-                //(au cas où le scroll n'ait pas lancé le chargement comme prévu)
-                $("#btnShowMoreResult").mouseenter(function(){
-                  mylog.log("__________________________ YO3 _________________");
-                  if(!loadingData){
-                    startSearchSimply(indexMin+indexStep, indexMax+indexStep);
-                    $("#btnShowMoreResult").mouseenter(function(){});
-                  }
-                });
-
-                //initialise les boutons pour garder une entité dans Mon répertoire (boutons links)
-                // initBtnLink();
-              } //end else (str=="")
-              //signal que le chargement est terminé
-              // console.log("loadingData false");
-              loadingData = false;
-              <?php if(isset($params['mode']) && $params['mode'] == "client"){ ?>
-               loadClientFeatures();
-              <?php } else{ ?>
-                loadServerFeatures();
-              <?php } ?>
-              //quand la recherche est terminé, on remet la couleur normal du bouton search
-              $(".btn-start-search").removeClass("bg-azure");
+            },
+            success: function (data) { 
+                dataSuccess(data, indexMin, indexMax); 
             }
-            // console.log("scrollEnd ? ", scrollEnd, indexMax, countData , indexMin);
+        });
+        
+    <?php 
+    } 
+    ?>
 
-            //si le nombre de résultat obtenu est inférieur au indexStep => tous les éléments ont été chargé et affiché
-            if(indexMax - countData > indexMin){
-              $("#btnShowMoreResult").remove();
-              scrollEnd = true;
-            }else{
-              scrollEnd = false;
-            }
-           //affiche les éléments sur la carte
-            Sig.showMapElements(Sig.map, mapElements);
-           //on affiche le nombre de résultat en bas
-            var s = "";
-            var length = ($( "div.searchEntity" ).length);
-            if(length > 1) s = "s";
-            $("#countResult").html(length+" résultat"+s);
-            $.unblockUI();
+}
+  
+function dataSuccess(dataA, indexMin, indexMax)
+{
+    mylog.log( "dataSuccess : ",dataA.res.length );
+    
+
+    if(!dataA.res)
+        toastr.error(dataA.content); 
+    else
+    {
+      var countData = 0;
+      /*$.each(dataA.res, function(i, v) { if(v.length!=0){ countData++; } });
+      totalData += countData;
+*/
+      str = "";
+      var city, postalCode = "";
+      var mapElements = new Array();
+      allTags = dataA.filters;
+      //parcours la liste des résultats de la recherche
+      $.each(dataA.res, function(i, o) {
+          var typeIco = i;
+          var ico = mapIconTop["default"];
+          var color = mapColorIconTop["default"];
+          // mapElements.push(o);
+          // allElement.push(o);
+
+
+          typeIco = o.type;
+          ico = ("undefined" != typeof mapIconTop[typeIco]) ? mapIconTop[typeIco] : mapIconTop["default"];
+          color = ("undefined" != typeof mapColorIconTop[typeIco]) ? mapColorIconTop[typeIco] : mapColorIconTop["default"];
+
+          htmlIco ="<i class='fa "+ ico +" text-"+color+"'></i>";
+          if("undefined" != typeof o.profilThumbImageUrl && o.profilThumbImageUrl != ""){
+            var htmlIco= "<img width='80' height='80' alt='' class='img-circle bg-"+color+"' src='"+baseUrl+o.profilThumbImageUrl+"'/>";
           }
-    });
-  }
+
+          // o.profilImageUrl = "/upload/communecter/network/Alimentation/fa-cutlery505719fabnone.png";
+          // o.profilMarkerImageUrl = "/upload/communecter/network/Alimentation/thumb/profil-marker.png";
+          // o.profilThumbImageUrl = "/upload/communecter/network/Alimentation/thumb/profil-resized.png";
+          city="";
+          var postalCode = o.cp
+          if (o.address != null) {
+            city = o.address.addressLocality;
+            postalCode = o.cp ? o.cp : o.address.postalCode ? o.address.postalCode : "";
+          }
+
+          //console.dir(o);
+          var id = getObjectId(o);
+          var tagsClasses = "";
+          var insee = o.insee ? o.insee : "";
+          type = o.type;
+          if(type=="citoyen") type = "person";
+
+          //Consolidate types
+          if(type != "undefined" && type != null){
+            if(typeof allTypes[type] != "undefined"){
+              allTypes[type] = allTypes[type] + 1;
+            }
+            else{
+              allTypes[type] = 1;
+            }
+          }
+          var url = "javascript:"; //baseUrl+'/'+moduleId+ "/default/simple#" + o.type + ".detail.id." + id;
+          var url = baseUrl+'/'+moduleId+ "/default/dir#" + type + ".simply.id." + id;
+         // var onclick = 'loadByHash("#organization.simply.id.' + id + '");';
+          var onclick = 'getAjaxFiche("#element.detail.type.'+o.typeSig+'.id.'+id+'",1);';
+          var onclickCp = "";
+          var target = " target='_blank'";
+          var dataId = "";
+          if(type == "city"){
+            url = "javascript:"; //#main-col-search";
+            onclick = 'setScopeValue($(this))'; //"'+o.name.replace("'", "\'")+'");';
+            onclickCp = 'setScopeValue($(this));';
+            target = "";
+            dataId = o.name; //.replace("'", "\'");
+          }
+          var tags = "";
+          var find = false;
+          if(typeof o.tags != "undefined" && o.tags != null){
+            $.each(o.tags, function(key, value){
+              if(value != ""){
+                //Display info in item
+                tags +=   "<a href='javascript:' class='badge bg-red btn-tag tagFilter padding-5' value='"+ value +"'>#" + value + "</a>";
+                // manageTagFilter("#"+value);
+                //Consolidate tags
+                // if(typeof allTags[value] != "undefined"){
+                //   allTags[value] = allTags[value] + 1;
+                // }
+                // else{
+                //   allTags[value] = 1;
+                // }
+                //Default Image adn color
+                if(find == false && value in linksTagImages == true){
+                  find = true;
+                  // $.each(linksTagImages[value], function(key2, value2){
+                  //   o[key2] = value2;
+                  // });
+                  o.typeSig = "organizations";
+                  o.type = "organizations";
+                }
+                //Filter Client (Attention erreur firefox js)
+                // tagsClasses += ' '+value.replace("/[^A-Za-z0-9]/", "", value) ;
+              }
+            });
+          }
+          mapElements.push(o);
+          contextMapNetwork.push(o);
+          // console.log(tagsClasses);
+          var name = typeof o.name != "undefined" ? o.name : "";
+          var website = typeof o.url != "undefined" ? o.url : "";
+          var postalCode = (typeof o.address != "undefined" &&
+                    typeof o.address.postalCode != "undefined") ? o.address.postalCode : "";
+
+          if(postalCode == "") postalCode = typeof o.cp != "undefined" ? o.cp : "";
+          var cityName = (typeof o.address != "undefined" &&
+                  typeof o.address.addressLocality != "undefined") ? o.address.addressLocality : "";
+
+          var fullLocality = postalCode + " " + cityName;
+          var description = (typeof o.shortDescription != "undefined" &&
+                    o.shortDescription != null) ? o.shortDescription : "";
+          if(description == "") description = (typeof o.description != "undefined" &&
+                             o.description != null) ? o.description : "";
+          description = "";
+          if(o.profilMediumImageUrl != "undefined" && o.profilMediumImageUrl != "")
+            pathmedium = baseUrl+o.profilMediumImageUrl;
+          else
+            pathmedium = "<?php echo $this->module->assetsUrl ?>/images/thumbnail-default.jpg";
+          shortDescription = (typeof o.shortDescription != "undefined" &&
+                             o.shortDescription != null) ? o.shortDescription : "";
+
+          var startDate = (typeof o.startDate != "undefined") ? "Du "+dateToStr(o.startDate, "fr", true, true) : null;
+          var endDate   = (typeof o.endDate   != "undefined") ? "Au "+dateToStr(o.endDate, "fr", true, true)   : null;
+          /***** VERSION SIMPLY *****/
+          str += "<div id='"+id+"' class='row list-group-item item searchEntity "+mix+" "+tagsClasses+" "+fullLocality+"' >";
+          <?php if(isset($params['result']['displayImage']) && $params['result']['displayImage']) { ?>
+            str += '<div class="col-lg-3 col-md-3 col-sm-3 col-xs-4 padding-10 center">'+
+          '<img class="img-responsive thumbnail" src="'+pathmedium+'">'+
+        '</div>';
+            <?php } ?>
+           // str += "<div class='entityTop col-md-2' onclick='"+onclick+"'>";
+              //  str += "<img class='image' src='http://paniersdumarais.weebly.com/uploads/1/4/6/5/1465996/5333680.jpg' />";
+            //str += "</div>";
+
+            str += "<div class='entityMiddle col-md-5 name' onclick='"+onclick+"'>";
+                str += "<a class='entityName text-dark'>" + name + "</a><br/>";
+                if(website != "" && website != " ")
+                str += "<i class='fa fa-desktop fa_url'></i><a href='"+website+"' target='_blank'>"+website+"</a><br/>";
+                <?php if(isset($params['result']['fullLocality']) && $params['result']['fullLocality']) { ?>
+                  if(fullLocality != "" && fullLocality != " ")
+                  str += "<div class='entityLocality'><i class='fa fa-home'></i> " + fullLocality + "</div><br/>";
+                <?php } ?>
+            str += "</div>";
+
+            <?php if(isset($params['result']['displayType']) && $params['result']['displayType']) { ?>
+              str += "<div class='entityMiddle col-md-2 type '>";
+                typeIco = "";
+                 str += htmlIco+"" + typeIco + "";
+              str += "</div>";
+            <?php } ?>
+            <?php if(isset($params['result']['displayShortDescription']) && $params['result']['displayShortDescription']) { ?>
+    str += "<div class='entityMiddle col-md-5 type '>";
+                str +=    shortDescription;
+    str += "</div>";
+               <?php } ?>
+
+            target = "";
+                 str += "<div class='entityBottom col-md-5'>";
+                 str += "<hr>";
+              if(tags=="") tags = "<a href='#' class='badge bg-red btn-tag'>#</a>";
+              str += tags;
+            str += "</div>";
+          str += "</div>";
+      }); //end each
+      if(str == "") {
+          $(".btn-start-search").html("<i class='fa fa-search'></i>");
+          if(indexMin == 0){
+            //ajout du footer
+            var msg = "Aucun résultat";
+            if(name == "" && locality == "") msg = "<h3 class='text-dark'><i class='fa fa-3x fa-keyboard-o'></i><br> Préciser votre recherche pour plus de résultats ...</h3>";
+            str += '<div class="center" id="footerDropdown">';
+            str += "<hr style='float:left; width:100%;'/><label style='margin-bottom:10px; margin-left:15px;' class='text-white'>"+msg+"</label><br/>";
+            str += "</div>";
+            $("#dropdown_search").html(str);
+            $("#searchBarText").focus();
+          }
+      }
+      else
+      {
+        //ajout du footer
+
+          str += '</div><div class="center col-md-12" id="footerDropdown">';
+          str += "<hr style='float:left; width:100%;'/><label id='countResult' class='text-white'></label><br/>";
+          <?php if(isset($params['mode']) && $params['mode'] != "client"){ ?>
+            str += '<button class="btn btn-default" id="btnShowMoreResult"><i class="fa fa-angle-down"></i> Afficher plus de résultat</div></center>';
+            str += "</div>";
+          <?php } ?>
+        //si on n'est pas sur une première recherche (chargement de la suite des résultat)
+        if(indexMin > 0){
+          //on supprime l'ancien bouton "afficher plus de résultat"
+          $("#btnShowMoreResult").remove();
+          //on supprimer le footer (avec nb résultats)
+          $("#footerDropdown").remove();
+          //on calcul la valeur du nouveau scrollTop
+          var heightContainer = $(".my-main-container")[0].scrollHeight - 180;
+
+          //on affiche le résultat à l'écran
+          $("#dropdown_search").append(str);
+
+        //si on est sur une première recherche
+        }else{
+          //on affiche le résultat à l'écran
+          $("#dropdown_search").html(str);
+          //on scroll pour coller le haut de l'arbre au menuTop
+          // $(".my-main-container").scrollTop(95);
+        }
+
+        //On met à jour les filtres
+        <?php if(isset($params['mode']) && $params['mode'] == "client"){ ?>
+          loadClientFilters(allTypes, allTags);
+        <?php } else{ ?>
+          loadServerFilters(allTypes, allTags);
+        <?php } ?>
+        //on affiche par liste par défaut
+        $('#list').click();
+        //remet l'icon "loupe" du bouton search
+        $(".btn-start-search").html("<i class='fa fa-search'></i>");
+
+        //active le chargement de la suite des résultat au survol du bouton "afficher plus de résultats"
+        //(au cas où le scroll n'ait pas lancé le chargement comme prévu)
+        $("#btnShowMoreResult").mouseenter(function(){
+          mylog.log("__________________________ YO3 _________________");
+          if(!loadingData){
+            startSearchSimply(indexMin+indexStep, indexMax+indexStep);
+            $("#btnShowMoreResult").mouseenter(function(){});
+          }
+        });
+
+        //initialise les boutons pour garder une entité dans Mon répertoire (boutons links)
+        // initBtnLink();
+      } //end else (str=="")
+      //signal que le chargement est terminé
+      // console.log("loadingData false");
+      loadingData = false;
+      <?php if(isset($params['mode']) && $params['mode'] == "client"){ ?>
+       loadClientFeatures();
+      <?php } else{ ?>
+        loadServerFeatures();
+      <?php } ?>
+      //quand la recherche est terminé, on remet la couleur normal du bouton search
+      $(".btn-start-search").removeClass("bg-azure");
+    }
+    // console.log("scrollEnd ? ", scrollEnd, indexMax, countData , indexMin);
+
+    //si le nombre de résultat obtenu est inférieur au indexStep => tous les éléments ont été chargé et affiché
+    if(indexMax - countData > indexMin){
+      $("#btnShowMoreResult").remove();
+      scrollEnd = true;
+    }else{
+      scrollEnd = false;
+    }
+   //affiche les éléments sur la carte
+    Sig.showMapElements(Sig.map, mapElements);
+   //on affiche le nombre de résultat en bas
+    var s = "";
+    var length = ($( "div.searchEntity" ).length);
+    if(length > 1) s = "s";
+    $("#countResult").html(length+" résultat"+s);
+    $.unblockUI();
+}
 
   function setSearchValue(value){
     $("#searchBarText").val(value);
