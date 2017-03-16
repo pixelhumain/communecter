@@ -241,7 +241,7 @@
 
 <?php $this->renderPartial($layoutPath.'footer'); ?>
 
-<script>
+<script type="text/javascript" >
 
 var categoriesSelected = new Array();
 var urlValidated = "";

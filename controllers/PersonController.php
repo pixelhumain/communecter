@@ -61,7 +61,11 @@ class PersonController extends CommunecterController {
 
 	    );
 	}
-
+// TODO BOUBOULE
+public function actionSettings(){
+    $this->renderPartial( "settings" );
+}
+// END TODO BOUBOULE SETTINGS
 public function actionAbout(){
 
   	$person = PHDB::findOne(PHType::TYPE_CITOYEN, array( "_id" => new MongoId(Yii::app()->session["userId"]) ) );

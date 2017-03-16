@@ -35,6 +35,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 
     $cssAnsScriptFilesModule = array(
       '/css/news/newsSV.css',
+      '/js/comments.js',
     );
     HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule,Yii::app()->theme->baseUrl."/assets");
 
@@ -112,7 +113,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 
 </ul>
 
-<script>
+<script type="text/javascript" >
   var news = <?php echo json_encode($news); ?>;
 
 
@@ -258,7 +259,7 @@ function initTags(){
     tagsNews=["bug","idea"];
   }
   else {
-    tagsNews = <?php echo json_encode($tags); ?>
+    tagsNews = <?php echo json_encode($tags); ?>;
   }
   /////// A réintégrer pour la version last
   var $scrollElement = $(".my-main-container");
@@ -266,57 +267,6 @@ function initTags(){
   
   $('#tags').select2({tags:tagsNews});
   $("#tags").select2('val', "");
-}
-
-function initCommentsTools(thisMedias){
-  //ajoute la barre de commentaire & vote up down signalement sur tous les medias
-  $.each(thisMedias, function(key, media){
-    media.target = "news";
-    
-    var commentCount = 0;
-    idMedia=media._id['$id']; console.log("idMedia",idMedia);
-    if ("undefined" != typeof media.commentCount) 
-      commentCount = media.commentCount;
-    
-    idSession = typeof idSession != "undefined" ? idSession : false;
-
-    var lblCommentCount = '';
-    if(commentCount == 0 && idSession) lblCommentCount = "<i class='fa fa-comment'></i>  Commenter";
-    if(commentCount == 1) lblCommentCount = "<i class='fa fa-comment'></i> <span class='nbNewsComment'>" + commentCount + "</span> commentaire";
-    if(commentCount > 1) lblCommentCount = "<i class='fa fa-comment'></i> <span class='nbNewsComment'>" + commentCount + "</span> commentaires";
-    if(commentCount == 0 && !idSession) lblCommentCount = "0 <i class='fa fa-comment'></i> ";
-
-    lblCommentCount = '<a href="javascript:" class="newsAddComment letter-blue" data-media-id="'+idMedia+'">' + lblCommentCount + '</a>';
-
-    var voteTools = voteCheckAction(media._id['$id'], media);
-
-    voteTools = lblCommentCount + voteTools;
-
-    $("#footer-media-"+media._id['$id']).html(voteTools);
-  });
-
-  $(".newsAddComment").click(function(){
-    var id = $(this).data("media-id");
-    showMediaComments(id);
-  });
-}
-
-
-//lance le chargement des commentaires pour une publication
-function showMediaComments(id){
-    if(!$("#commentContent"+id).hasClass("hidden")){
-      $(".commentContent").html("");
-      $(".commentContent").removeClass("hidden");   
-      
-      $('#commentContent'+id).html('<div class="text-dark margin-bottom-10"><i class="fa fa-spin fa-refresh"></i> Chargement des commentaires ...</div>');
-      getAjax('#commentContent'+id ,baseUrl+'/'+moduleId+"/comment/index/type/news/id/"+id,function(){ 
-        
-      },"html");
-    }else{
-      $("#commentContent"+id).removeClass("hidden");    
-      mylog.log("scroll TO : ", $('#newsFeed'+id).position().top);
-      
-    }
 }
 
 /* COMMENTS vvv */

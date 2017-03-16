@@ -22,7 +22,7 @@
 <!-- ***** CITOYENS ***** -->
 <h4>Evolution du nombre de log</h4>
 <div id="chartLogs"></div>
-<script>
+<script type="text/javascript" >
 
 var chartLogs = c3.generate({
     bindto: '#chartLogs',
@@ -49,7 +49,7 @@ var chartLogs = c3.generate({
 
     <h4>Evolution des logs pour <?php echo $key;?> </h4>
     <div id="chart_<?php echo $actionWellNamed; ?>"></div>
-    <script>
+    <script type="text/javascript" >
 
     var chart_<?php echo $actionWellNamed; ?> = c3.generate({
         bindto: '#chart_<?php echo $actionWellNamed; ?>',
@@ -89,7 +89,7 @@ var chartLogs = c3.generate({
 
 
 
-<script>
+<script type="text/javascript" >
     //Title
     jQuery(document).ready(function() {
         

@@ -176,7 +176,8 @@
 
 
 * Recherche 
-
+[ ] Crée une classe Search
+  [ ] Qui regroupe des functions que symply et global autocomplete pourrons piochier
 
 * Dongles 
 [ ] contribution par mail : https://www.diigo.com/tools/post_by_email

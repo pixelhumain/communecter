@@ -43,7 +43,40 @@
                       Yii::app()->createUrl('/'.@$element['profilThumbImageUrl']) 
                       : "";
 ?>
+<style>
+	.img-thumb{
+		height: 50px;
+		width: 50px;
+	}
 
+	.podInside .panel-heading,
+	.podInside .panel-tools{
+		display:none;
+	}
+	.podInside .panel,
+	.podInside .table{
+		margin-bottom: 0px;
+		border: 0px;
+	}
+
+	.podInside.collections a{
+		font-size: 15px;
+		font-weight: 700;
+		padding:10px;
+		display: inline-block;
+	}
+
+	.podchart .panel-heading{
+		background-color: white !important;
+	}
+
+	.favElBtn{
+		/*color: #FC4D4D !important;*/
+		/*padding: 6px;
+		margin-bottom: 4px;*/
+	}
+	
+</style>
 <div id="menu-name" class="hidden">
 	<img src="<?php echo $thumbAuthor; ?>" height="45" class="img-circle">
 	<span class="font-montserrat hidden-sm hidden-xs"><?php echo @$element["name"]; ?></span>
@@ -53,7 +86,8 @@
 		    <li>
 				<div class="iamgurdeep-pic">
 					<img class="img-responsive" alt="" 
-						 src="<?php echo @$element['profilMediumImageUrl'] ? Yii::app()->createUrl('/'.@$element['profilMediumImageUrl']) : $imgDefault; ?>">
+						 src="<?php echo @$element['profilMediumImageUrl'] ? 
+						 		Yii::app()->createUrl('/'.@$element['profilMediumImageUrl']) : $imgDefault; ?>">
 					<div class="edit-pic">
 						<a href="https://web.facebook.com/" target="_blank" class="fa fa-facebook"></a>
 						<a href="https://www.instagram.com/gurdeeposahan/" target="_blank" class="fa fa-instagram"></a>
@@ -218,145 +252,248 @@
 					</li>
 				</ul>
 			</li>
-			<li>
-				<div class="link"><i class="fa fa-picture-o"></i>Photos <small>(16)</small><i class="fa fa-chevron-down"></i></div>
-				<ul class="submenu">
-					<li class="photosgurdeep"><a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-					</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	    			</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	    			</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	    			</a>
-	               
-	                <a class="view-all" href="https://web.facebook.com/" target="_blank" >15+
-	        		</a>
-	    			    
-					</li>
-				</ul>
-			</li>
-			<li><div class="link"><i class="fa fa-star"></i>Favoris <small>(14)</small><i class="fa fa-chevron-down"></i></div>
-				<ul class="submenu">
-	    			<li class="photosgurdeep"><a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-					</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	    			</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	    			</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	    			</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	        		</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	    			</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	    			</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	        		</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	    			</a>
-	               
-	                <a class="view-all" href="https://web.facebook.com/" target="_blank">50+
-	        		</a>
-	    			    
-					</li>
-				</ul>
-			</li>
+		</ul>
 
-			<li><div class="link"><i class="fa fa-user-circle"></i>Contacts <small>(24)</small><i class="fa fa-chevron-down"></i></div>
-				<ul class="submenu">
-	    			<li class="photosgurdeep"><a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-					</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	    			</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	    			</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	    			</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	        		</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	    			</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	    			</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	        		</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	    			</a>
-	               
-	                <a class="view-all" href="https://web.facebook.com/" target="_blank">50+
-	        		</a>
-	    			    
-					</li>
-				</ul>
-			</li>
+		<ul id="accordion4" class="accordion shadow2 margin-top-20">
 
-			<li><div class="link"><i class="fa fa-users"></i>Organisations <small>(12)</small><i class="fa fa-chevron-down"></i></div>
+			<!-- COMMUNAUTÉ -->
+			<?php //if($type != Person::COLLECTION){ ?>
+			<li class="podInside community">
+				<div class="link">
+					<i class="fa fa-connectdevelop"></i> Communauté 
+					<small>(<?php echo @$members ? count($members) : "0"; ?>)</small>
+					<i class="fa fa-chevron-down"></i>
+				</div>
 				<ul class="submenu">
-	    			<li class="photosgurdeep"><a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-					</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	    			</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	    			</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	    			</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">               
-	    			</a>
-	               
-	                <a class="view-all" href="https://web.facebook.com/" target="_blank">50+
-	        		</a>
-	    			    
-					</li>
-				</ul>
-			</li>
+		 			<?php $this->renderPartial('../pod/usersList', array(  $controller => $element,
+														"users" => @$members,
+														"userCategory" => Yii::t("common","Community"), 
+														"contentType" => $type,
+														"countStrongLinks" => $countStrongLinks,
+														"countLowLinks" => $countLowLinks,
+														"admin" => $edit, 
+														"invitedMe" => @$invitedMe,
+														"openEdition" => $openEdition)); ?>
+					<div class="text-right padding-10">
 
-			<li><div class="link"><i class="fa fa-lightbulb-o"></i>Projets <small>(4)</small><i class="fa fa-chevron-down"></i></div>
-				<ul class="submenu">
-	    			<li class="photosgurdeep"><a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-					</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	    			</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	    			</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	    			</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	        		</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	    			</a>
-	               
-	                <a class="view-all" href="https://web.facebook.com/" target="_blank">50+
-	        		</a>
-	    			    
-					</li>
-				</ul>
-			</li>
+						<?php if(@$edit==true && $type!=Person::COLLECTION) { ?>
+						<button data-toggle="modal" data-target="#modal-scope"
+								class="btn btn-default letter-blue margin-top-5">
+					    	<b><i class="fa fa-plus"></i> Ajouter un membre</b>
+						</button> 
+						<?php } ?>
 
-			<li><div class="link"><i class="fa fa-lightbulb-o"></i>Événements <small>(3)</small><i class="fa fa-chevron-down"></i></div>
+						<button class="btn btn-default letter-blue open-directory margin-top-5">
+					    	<b><i class="fa fa-connectdevelop"></i> Afficher la communauté <i class="fa fa-chevron-right"></i></b>
+						</button>
+						
+					</div>	
+				</ul>			
+			</li>
+			<?php //} ?>
+		</ul>
+		
+
+		<ul id="accordion2" class="accordion shadow2 margin-top-20">
+		
+			<!-- CONTACTS -->
+			<?php if (($type==Project::COLLECTION || $type==Organization::COLLECTION || $type==Event::COLLECTION)){ ?>
+			<li class="podInside">
+				<div class="link">
+					<i class="fa fa-user-circle"></i> Nous contacter
+					<small>(<?php echo @$element["contacts"] ? count($element["contacts"]) : "0"; ?>)</small>
+					<i class="fa fa-chevron-down"></i>
+				</div>
 				<ul class="submenu">
-	    			<li class="photosgurdeep"><a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-					</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	    			</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	    			</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	    			</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	        		</a>
-	                <a href="#"><img class="img-responsive img-circle " alt="" src="<?php echo $thumbAuthor; ?>">                 
-	    			</a>
-	               
-	                <a class="view-all" href="https://web.facebook.com/" target="_blank">50+
-	        		</a>
-	    			    
-					</li>
+					<?php 
+					$contacts = ( empty($element["contacts"]) ? array() : $element["contacts"] ) ;
+					$this->renderPartial('../pod/contactsList',array( 	"contacts" => @$contacts, 
+																		"contextId" => (String) $element["_id"],
+																		"contextType" => $controller,
+																		"authorised" => $edit,
+																		"openEdition" => $openEdition
+																	  ));
+					?>
+					<div class="text-right padding-10">
+						<?php if(@$edit==true) { ?>
+						<button onclick="elementLib.openForm ( 'contactPoint','contact')" 
+								class="btn btn-default letter-blue margin-top-5">
+					    	<b><i class="fa fa-plus"></i> Ajouter un contact </b>
+						</button>
+						<?php } ?>
+					</div>
 				</ul>
 			</li>
+			<?php } ?>
+
+			<!-- COLLECTION -->
+			<?php if ($type==Person::COLLECTION){ ?>
+			<li class="podInside collections">
+				<div class="link">
+					<i class="fa fa-star"></i> Collections 
+					<small>(<?php echo @$element["collections"] ? count($element["collections"]) : "0"; ?>)</small>
+					<i class="fa fa-chevron-down"></i>
+				</div>
+				<ul class="submenu">
+					<?php $this->renderPartial('../pod/collections',array( 	"collections" => @$element["collections"] )); ?>
+					<?php if(@$edit==true) { ?>
+					<div class="text-right padding-10">
+						<button onclick="collection.crud()" 
+								class="btn btn-default letter-blue margin-top-5">
+					    	<b><i class="fa fa-plus"></i> Créer une collection </b>
+						</button>
+					</div>
+					<?php } ?>
+				</ul>
+			</li>
+			<?php } ?>
+
+			<!-- BESOINS -->
+			<?php if( $type!=Event::COLLECTION && ( !@$front || (@$front && $front["need"]==true))){ ?>
+	    	<li class="podInside needs">
+				<div class="link">
+					<i class="fa fa-cubes"></i> <?php if( $type!=Person::COLLECTION){ ?>Nos<?php }else{ ?>Mes<?php } ?> besoins 
+					<small>(<?php echo @$needs ? count($needs) : "0"; ?>)</small>
+					<i class="fa fa-chevron-down"></i>
+				</div>
+				<ul class="submenu">
+					<?php $this->renderPartial('../pod/needsList',array("needs" => @$needs, 
+																		"parentId" => (String) $element["_id"],
+																		"parentType" => $type,
+																		"isAdmin" => @$edit,
+																		"parentName" => $element["name"],
+																		"openEdition" => $openEdition
+																	  )); ?>
+					<div class="text-right padding-10">
+						<?php if(@$edit==true) { ?>
+						<button onclick="" 
+								class="btn btn-default letter-blue margin-top-5">
+					    	<b><i class="fa fa-plus"></i> Créer un besoin </b>
+						</button>
+						<?php } ?>
+					</div>
+				</ul>
+			</li>
+			<?php } ?>
 
 		</ul>
+
+
+		<ul id="accordion3" class="accordion shadow2 margin-top-20">
+				
+			<!-- PROJETS -->
+			<?php if ($type==Organization::COLLECTION){ 
+				if(!@$front || (@$front && $front["project"])){ 
+			?>
+			<li class="podInside events">
+				<div class="link">
+					<i class="fa fa-lightbulb-o"></i> Projets 
+					<small>(<?php echo @$projects ? count($projects) : "0"; ?>)</small>
+					<i class="fa fa-chevron-down"></i>
+				</div>
+				<ul class="submenu">
+		 			<?php $this->renderPartial('../pod/projectsList',array( "projects" => @$projects, 
+															"contextId" => (String) $element["_id"],
+															"contextType" => $type,
+															"authorised" =>	$edit,
+															"openEdition" => $openEdition
+					)); ?>
+					<div class="text-right padding-10">
+						<?php if(@$edit==true) { ?>
+						<button onclick="" 
+								class="btn btn-default letter-blue margin-top-5">
+					    	<b><i class="fa fa-plus"></i> Nouveau projet</b>
+						</button> 
+						<?php } ?>
+						<button class="btn btn-default letter-blue open-directory margin-top-5">
+					    	<i class="fa fa-chevron-right"></i>
+						</button>
+						
+					</div>	
+				</ul>			
+			</li>
+			<?php }} ?>
+
+
+			<!-- ÉVÉNEMENTS -->
+			<?php if (($type==Project::COLLECTION || $type==Organization::COLLECTION || $type==Event::COLLECTION)){ ?>
+	    		<?php if(!@$front || (@$front && $front["event"]==true)){ ?>
+					<?php 
+						$organizerImg=false;
+						if($type==Event::COLLECTION){ 
+							$organizerImg=true;
+							if(empty($subEvents)) $subEvents = array();
+							$events=$subEvents;
+						}
+						if(!isset($eventTypes)) $eventTypes = array();
+						if(empty($subEvents)) $subEvents = array();
+					?>
+					<li class="podInside events">
+					
+						<div class="link">
+							<i class="fa fa-calendar"></i> Événements 
+							<small>(<?php echo @$events ? count($events) : "0"; ?>)</small>
+							<i class="fa fa-chevron-down"></i>
+						</div>
+						<ul class="submenu">
+							<?php	$this->renderPartial('../pod/eventsList',array( 	"events" => @$events, 
+																						"contextId" => (String) $element["_id"],
+																						"contextType" => $controller,
+																						"list" => $eventTypes,
+																						"authorised" => $edit,
+																						"organiserImgs"=> $organizerImg,
+																						"openEdition" => $openEdition
+																					  ));
+							?>
+							<div class="text-right padding-10">
+								<?php if(@$edit==true) { ?>
+								<button onclick="" 
+										class="btn btn-default letter-blue margin-top-5">
+							    	<b><i class="fa fa-plus"></i> Nouvel événement</b>
+								</button> 
+								<?php } ?>
+								<button class="btn btn-default letter-blue open-directory margin-top-5" 
+								data-toggle="tooltip" data-placement="right" title="Afficher tout">
+							    	<i class="fa fa-chevron-right"></i>
+								</button>
+								
+							</div>	
+						</ul>			  
+					</li>
+				<?php } ?>
+			<?php } ?>
+
+
+			<?php /*$this->renderPartial('../pod/ficheInfoPodThumb', array("list"=>@$events, 
+																		 "title"=>"Événements", 
+																		 "icon"=>"calendar",
+																		 "thumbOnly"=>true) );*/ ?>
+
+
+			<?php /*$this->renderPartial('../pod/ficheInfoPodThumb', array("list"=>@$needs, 
+																		 "title"=>"Besoins", 
+																		 "icon"=>"cubes") ); */?>
+
+		</ul>
+
+
+		
+
+		<?php if ($type==Project::COLLECTION || $type==Organization::COLLECTION){ ?>
+			<div class="col-xs-12 no-padding podchart padding-10 accordion margin-top-15">
+				<?php
+					if(empty($element["properties"]["chart"])) $element["properties"]["chart"] = array();
+					$this->renderPartial('../chart/index',array(
+											"itemId" => (string)$element["_id"], 
+											"itemName" => $element["name"], 
+											"parentType" => $type, 
+											"properties" => $element["properties"]["chart"],
+											"admin" =>$edit,
+											"isDetailView" => 1,
+											"openEdition" => $openEdition));
+				?>						  
+			</div>
+		<?php } ?>
 
 <?php 
 	$element["type"] = $type;
@@ -366,6 +503,7 @@
 
 	var elementName = "<?php echo @$element["name"]; ?>";
     var contextType = "<?php echo @$type; ?>";
+    var contextId = "<?php echo @$element["id"]; ?>";
     
 	
 	var contextData = <?php echo json_encode($element)?>;
@@ -573,7 +711,30 @@
 				switchModeElement();
 			}
 		}
-	});
 
+		smallMenu.inBlockUI = false; 
+		smallMenu.destination = "#central-container"; 
+		directory.elemClass = smallMenu.destination+' .searchEntityContainer ';
+
+		mylog.log("tagg1 smallMenu.destination", smallMenu.destination);
+		
+		$(".open-directory").click(function(){
+			toogleNotif(false);
+			smallMenu.openAjax(baseUrl+'/'+moduleId+'/element/directory/type/'+contextType+'/id/'+contextId+
+								'?tpl=json','Communauté','fa-connectdevelop','dark');
+		});
+
+		$(".btn-open-collection").click(function(){
+			toogleNotif(false);
+		});
+
+		// $("#btn-open-collection").click(function(){
+		// 	smallMenu.openAjax(baseUrl+'/'+moduleId+'/collections/list/col/Ma collection','Ma collection','fa-folder-open','yellow');
+		// });
+
+
+
+
+	});
 
 </script>

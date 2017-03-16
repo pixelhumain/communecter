@@ -11,20 +11,15 @@
 class NetworkController extends CommunecterController {
 
     
-    protected function beforeAction($action)
-  	{
+    protected function beforeAction($action){
+    	parent::initPage();
+    	return parent::beforeAction($action);
+    }
 
-      parent::initPage();
-
-      
-		  return parent::beforeAction($action);
-  	}
-
-	public function actionSimplyDirectory() 
-	  {
-	    //$params = self::getParams(@$_GET['params']);
-	
-	    $this->layout = "//layouts/mainSearch";
-	    $this->render("simplyDirectory");
-	  }
+	public function actionSimplyDirectory(){
+		//$params = self::getParams(@$_GET['params']);
+		$this->layout = "//layouts/mainSearch";
+		$this->render("simplyDirectory");
+	}
+}
  ?>

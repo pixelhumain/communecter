@@ -254,8 +254,7 @@
 			</div>
 	</div>
 
-
-<script>
+<script type="text/javascript" >
 
 var email = '<?php echo @$_GET["email"]; ?>';
 var userValidated = '<?php echo @$_GET["userValidated"]; ?>';

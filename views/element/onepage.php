@@ -499,7 +499,7 @@
     	$controler = Element::getControlerByCollection($typeItem) ;
     ?>
 
-    <script>
+    <script type="text/javascript" >
     
     var elementName = "<?php echo @$element["name"]; ?>";
     var mapData = <?php echo json_encode(@$mapData) ?>;

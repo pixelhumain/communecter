@@ -63,7 +63,7 @@ ul.notifList {
     max-height: unset !important;
 }
 </style>
-<script>
+<script type="text/javascript" >
 
   /* global search code is in assets/js/default/globalsearch.js */
   var timeoutGS = setTimeout(function(){ }, 100);

@@ -263,7 +263,7 @@
 
 <!-- ------------------------------------------------------------------------------------------------------------------------------------- -->
 
-<script>
+<script type="text/javascript" >
 	var contextType = "<?php echo $contextType; ?>";
 	var idComment = "<?php echo $idComment; ?>";
 	var comments = <?php echo json_encode($comments); ?>;

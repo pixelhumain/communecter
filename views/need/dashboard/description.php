@@ -36,7 +36,7 @@
 		<a href="#" id="description" data-type="wysihtml5" data-original-title="Enter the need's description" class="editable editable-click"></a>
 	</div>
 </div>
-<script>
+<script type="text/javascript" >
 	var modeDescription = "update";
 	var	needID="<?php echo (string) $id; ?>";
 jQuery(document).ready(function() 

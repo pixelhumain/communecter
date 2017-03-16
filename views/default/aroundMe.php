@@ -70,7 +70,7 @@
   <div id="grid_around"></div>
 
 
-<script>
+<script type="text/javascript" >
 
 var mapElements = new Array();
 var elementsMap = <?php echo json_encode($all) ?>;

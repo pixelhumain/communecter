@@ -70,7 +70,7 @@ ol.slats li p span.meta {
 	    array_shift($entry);
 		?>
 		<pre id="mfjson"></pre>
-		<script>
+		<script type="text/javascript" >
 		var obj = <?php echo json_encode($entry)?>; 
 
 		$("#mfjson").html(JSON.stringify(obj, null, 4));
@@ -91,7 +91,7 @@ ol.slats li p span.meta {
 	    $entry["img"]="";
 		?>
 		<pre id="citoyenjson"></pre>
-		<script>
+		<script type="text/javascript" >
 		var obj = <?php echo json_encode($entry)?>; 
 
 		$("#citoyenjson").html(JSON.stringify(obj, null, 4));
@@ -121,7 +121,7 @@ ol.slats li p span.meta {
 	    array_shift($entry);
 		?>
 		<pre id="assojson"></pre>
-		<script>
+		<script type="text/javascript" >
 		var obj = <?php echo json_encode($entry)?>; 
 		$("#assojson").html(JSON.stringify(obj, null, 4));
 		</script>
@@ -132,7 +132,7 @@ ol.slats li p span.meta {
 	    array_shift($entry);
 		?>
 		<pre id="entreprisejson"></pre>
-		<script>
+		<script type="text/javascript" >
 		var obj = <?php echo json_encode($entry)?>; 
 		$("#entreprisejson").html(JSON.stringify(obj, null, 4));
 		</script>
@@ -151,7 +151,7 @@ ol.slats li p span.meta {
 	    $entry["pwd"]="";
 		?>
 		<pre id="eventjson"></pre>
-		<script>
+		<script type="text/javascript" >
 		var obj = <?php echo json_encode($entry)?>; 
 		$("#eventjson").html(JSON.stringify(obj, null, 4));
 		</script>
@@ -167,7 +167,7 @@ ol.slats li p span.meta {
 	    $entry["owner"]=array();
 		?>
 		<pre id="projetjson"></pre>
-		<script>
+		<script type="text/javascript" >
 		var obj = <?php echo json_encode($entry)?>; 
 		$("#projetjson").html(JSON.stringify(obj, null, 4));
 		</script>
@@ -195,7 +195,7 @@ ol.slats li p span.meta {
 	    array_shift($entry);
 		?>
 		<pre id="pagejson"></pre>
-		<script>
+		<script type="text/javascript" >
 		var obj = <?php echo json_encode($entry)?>; 
 
 		$("#pagejson").html(JSON.stringify(obj, null, 4));
@@ -209,7 +209,7 @@ ol.slats li p span.meta {
 	    $entry["answer"]="";
 		?>
 		<pre id="qajson"></pre>
-		<script>
+		<script type="text/javascript" >
 		var obj = <?php echo json_encode($entry)?>; 
 
 		$("#qajson").html(JSON.stringify(obj, null, 4));
@@ -221,7 +221,7 @@ ol.slats li p span.meta {
 	    array_shift($entry);
 		?>
 		<pre id="rssjson"></pre>
-		<script>
+		<script type="text/javascript" >
 		var obj = <?php echo json_encode($entry)?>; 
 		$("#rssjson").html(JSON.stringify(obj, null, 4));
 		</script>
@@ -231,7 +231,7 @@ ol.slats li p span.meta {
 	    array_shift($entry);
 		?>
 		<pre id="postjson"></pre>
-		<script>
+		<script type="text/javascript" >
 		var obj = <?php echo json_encode($entry)?>; 
 		$("#postjson").html(JSON.stringify(obj, null, 4));
 		</script>
@@ -258,7 +258,7 @@ ol.slats li p span.meta {
 	    array_shift($entry);
 		?>
 		<pre id="notificationjson"></pre>
-		<script>
+		<script type="text/javascript" >
 		var obj = <?php echo json_encode($entry)?>; 
 		$("#notificationjson").html(JSON.stringify(obj, null, 4));
 		</script>
@@ -288,7 +288,7 @@ ol.slats li p span.meta {
 	    $entry["annuaireElu"] = array();
 		?>
 		<pre id="cpjson"></pre>
-		<script>
+		<script type="text/javascript" >
 		var obj = <?php echo json_encode($entry)?>; 
 		$("#cpjson").html(JSON.stringify(obj, null, 4));
 		</script>
@@ -304,7 +304,7 @@ ol.slats li p span.meta {
 	    $entry["2014"][0]["program"] = array();
 		?>
 		<pre id="candidatsjson"></pre>
-		<script>
+		<script type="text/javascript" >
 		var obj = <?php echo json_encode($entry)?>; 
 		$("#candidatsjson").html(JSON.stringify(obj, null, 4));
 		</script>
@@ -327,7 +327,7 @@ ol.slats li p span.meta {
 	    array_shift($entry);
 		?>
 		<pre id="listsjson"></pre>
-		<script>
+		<script type="text/javascript" >
 		var obj = <?php echo json_encode($entry)?>; 
 
 		$("#listsjson").html(JSON.stringify(obj, null, 4));

@@ -438,7 +438,7 @@ function addaction(id,action)
     				"<span id='modalComment'>"+
     					'<textarea class="newComment wysiwygInput" rows="2" style="width: 100%" placeholder="Laisser un commentaire... (optionnel)"></textarea>'+
     				"</span><br>"+
-    				'<script>'+
+    				'<script type="text/javascript" >'+
     				'$(".wysiwygInput").off().on("focus", function(){ activateSummernote(".newComment");})'+
     				'<\/script>';
 

@@ -1,14 +1,22 @@
 <?php
-	$cs = Yii::app()->getClientScript();
+	/*$cs = Yii::app()->getClientScript();
 	if(!Yii::app()->request->isAjaxRequest)
 	{
 	  	$cssAnsScriptFilesModule = array(
 	  		'/plugins/nvd3/nv.d3.js',
 	  		);
 	  	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->request->baseUrl);
-  	}
+  	}*/
 	//$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-select/bootstrap-select.min.js' , CClientScript::POS_END);
+
+$cs = Yii::app()->getClientScript();
+$cssAnsScriptFilesModule = array(
+		'/plugins/d3/d3.js',
+		'/plugins/nvd3/nv.d3.js'
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule,Yii::app()->request->baseUrl);
 ?>
+
 
 <div class='panel panel-white'>
 	
