@@ -32,7 +32,7 @@
 
 
 <!-- end: PAGE CONTENT-->
-<script>
+<script type="text/javascript" >
 	var contextMap = {// "desc" 	: ["organization", "event"],
 					   "organization" 	: <?php echo json_encode($organization) ?>,
 					   "event" 			: <?php echo json_encode($events) ?>

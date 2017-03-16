@@ -13,9 +13,8 @@
 		<div class="panel-scroll height-230 ps-container">
 			<div class="padding-10">
 			
-				<?php 
-				
-				if(empty($pois)){ ?>
+			<?php 	
+			if(empty($pois)){ ?>
 				<div class="padding-10">
 					<blockquote class="no-margin">
 					<?php echo Yii::t("common","Ajouter des points d'interets à cet élément");  ?>
@@ -26,20 +25,44 @@
 				foreach ($pois as $p) { 
 				?>
 					<div style="border-bottom:1px solid #ccc" id="<?php echo "poi".(string)$p["_id"] ?>">
-						<?php 
+						<?php if(@$p["type"]){ ?>
+							<img style="width:40px;margin:5px" class="pull-left " src="<?php echo $this->module->assetsUrl ?>/images/thumb/default_<?php echo $p['type'] ?>.png" /> 
+						<?php  }
+
+						echo '<span class="text-bold text-large"><a href="javascript:toggle(\'.poi'.InflectorHelper::slugify($p["name"]).'\', \'.poiPanel\')">'.$p["name"].'</a></span>';
 						
-						echo '<a href="javascript:toggle(\'.poi'.InflectorHelper::slugify($p["name"]).'\', \'.poiPanel\')">'.$p["name"].'</a>';
-						
-						if(@$p["geo"]){?>
+						if(@$p["geo"])
+						{?>
 						<a href="javascript:showMap(true);"><i class="fa fa-map-marker"></i></a>
 						<?php }?>
+
 						<a href="javascript:collection.add2fav('poi','<?php echo (string)$p["_id"] ?>')" data-id="<?php echo (string)$p["_id"] ?>" class="pull-right poiStar star_poi_<?php echo (string)$p["_id"] ?>"><i class="fa star fa-star-o"></i></a>
+						
+						<?php 
+						$countImages = PHDB::count(Document::COLLECTION, array("type"=>"poi","id" => (string)$p['_id'] ));
+						if(@$countImages > 0){?>
+						<a href="javascript:album.show('<?php echo (string)$p["_id"] ?>','poi')" data-id="<?php echo (string)$p["_id"] ?>" class="pull-right"><i class="fa fa-photo"></i></a>
+						<?php }?>
+						
+						<br/>
+
+						<?php
+						if( @$p["type"] ){ ?>
+							<span class="text-bold text-large"><?php echo Yii::t("poi", $p["type"], null, Yii::app()->controller->module->id) ?></span><br/>
+						<?php  }?>
+						
+						
+						
 						
 						<div class="padding-10 poiPanel poi<?php echo InflectorHelper::slugify($p["name"])?> hide">
 
 							<?php 
 							if(@$p["description"]){ ?>
-							<div class=""><?php echo $p["description"] ?></div>
+							<div class="">
+							<?php 
+								echo $p["description"];
+								?>
+							</div>
 							<?php  }?>
 
 							<?php 
@@ -66,7 +89,7 @@
 								<a href="<?php echo $t?>" class="label label-inverse"><?php echo $t?></a> 
 							<?php } } ?>
 							<div class="space5"></div>
-							<?php if(@$p["creator"] == Yii::app()->session["userId"] ){?>
+							<?php if(@$p["creator"] == Yii::app()->session["userId"] || @$p["author"] == Yii::app()->session["userId"] ){?>
 								<a href="javascript:;" class="btn btn-xs btn-default text-red deleteThisBtn pull-right" data-type="poi" data-id="<?php echo (string)$p["_id"] ?>" ><i class="fa fa-trash"></i></a> 
 								<a href="javascript:;" class="btn btn-xs btn-default text-green editThisBtn pull-right"  data-type="poi" data-id="<?php echo (string)$p["_id"] ?>" ><i class="fa fa-pencil-square-o"></i></a>
 								<div class="space1"></div>
@@ -74,6 +97,7 @@
 						</div>
 
 					</div>
+					<div class="space5"></div>
 			<?php
 				}
 			}?>

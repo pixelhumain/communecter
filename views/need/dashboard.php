@@ -28,7 +28,7 @@
 	</div>
 </div>
 
-<script>
+<script type="text/javascript" >
 jQuery(document).ready(function() {
 	getAjax("#commentNeed",baseUrl+"/"+moduleId+"/comment/index/type/<?php echo $need["parentType"];?>/id/<?php echo $need["parentId"];?>",null,"html");
 });

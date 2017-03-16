@@ -16,7 +16,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme, Yii::app()->requ
 
 ?>
 
-<script>
+<script type="text/javascript" >
 var viewerMap = <?php if(isset($viewerMap)) echo json_encode($viewerMap); ?>;
 </script>
 
@@ -122,7 +122,7 @@ var viewerMap = <?php if(isset($viewerMap)) echo json_encode($viewerMap); ?>;
 	<p></p>
 </center></center></div>
 
-<script>
+<script type="text/javascript" >
 var d3data = [];
 var contextDatafile = {};
 var contextDataType = null;

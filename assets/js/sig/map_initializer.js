@@ -314,6 +314,21 @@
 
 											"poi" 				: "poi-marker-default",
 											"poi.video" 		: "poi-video-marker-default",
+											"poi.link" 			: "poi-marker-default",
+											"poi.geoJson" 		: "poi-marker-default",
+											"poi.compostPickup" : "poi-marker-default",
+											"poi.sharedLibrary" : "poi-marker-default",
+											"poi.artPiece" 		: "poi-marker-default",
+											"poi.recoveryCenter": "poi-marker-default",
+											"poi.trash" 		: "poi-marker-default",
+											"poi.history" 		: "poi-marker-default",
+											"poi.something2See" : "poi-marker-default",
+											"poi.funPlace" 		: "poi-marker-default",
+											"poi.place" 		: "poi-marker-default",
+											"poi.streetArts" 	: "poi-marker-default",
+											"poi.openScene" 	: "poi-marker-default",
+											"poi.stand" 		: "poi-marker-default",
+											"poi.parking" 		: "poi-marker-default",
 
 											"entry" 			: "entry-marker-default",
 											"action" 			: "action-marker-default",
@@ -478,6 +493,8 @@
 				imgProfilPath = baseUrl + element.author.profilImageUrl;
 			if(typeof element.profilThumbImageUrl !== "undefined" && element.profilThumbImageUrl != "") 
 				imgProfilPath =  baseUrl + element.profilThumbImageUrl;
+			if(typeof element.profilExternImageUrl !== "undefined" && element.profilExternImageUrl != "") 
+				imgProfilPath = element.profilExternImageUrl;
 			if( typeof element.typeSig !== "undefined" && element.typeSig == "city")
 				imgProfilPath =  assetPath + "/images/city/city_default_l.png";
 			return imgProfilPath;

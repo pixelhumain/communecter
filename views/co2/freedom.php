@@ -249,7 +249,7 @@
 
 <?php $this->renderPartial($layoutPath.'footer', array("subdomain"=>"freedom")); ?>
 
-<script>
+<script type="text/javascript" >
 
 <?php  $parent = Person::getById(@Yii::app()->session["userId"]); ?>
 

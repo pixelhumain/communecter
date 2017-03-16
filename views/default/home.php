@@ -132,6 +132,7 @@
 }*/
 .contact-map {	background:url(<?php echo $this->module->assetsUrl; ?>/images/people.jpg) bottom center repeat-x; background-size: 80%;background-color:#DFE7E9;  }
 .headSection {	background:url(<?php echo $this->module->assetsUrl; ?>/images/1+1=3.jpg?c=c) bottom center no-repeat; background-size: 80%;background-color:#fff;  }
+.peopleTalkBg {	background:url(<?php echo $this->module->assetsUrl; ?>/images/Delaunay_Pattern_Min.jpg) repeat; background-color:#fff;  }
 .keyword,.keyword1{margin-bottom: 3px;font-size:1.3em;}
 .keywordExplain,.usageExplain{font-size:1.3em;}
 .fa-caret-down{font-size:56px;line-height: 10px;}
@@ -489,10 +490,15 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 			<h1 class="homestead center text-white"><a href="#default.view.page.explain" class="lbh">Comprendre</a> les gros Mots <i class="fa fa-book fa-2x"></i></h1>
 		</div>
 	</div>
+<<<<<<< Updated upstream
 	<div class="col-sm-12 no-padding" style="background-color:#fff; max-width:100%; float:left;">
 		<div class="col-md-12 bg-red" style="width:100%;padding:8px 0px 8px 0%;">
 			<h1 class="homestead center text-white">Les amis de communecter</h1>
 		</div>
+=======
+
+	<div class="col-sm-12peopleTalkBg" id="friendsSection">
+>>>>>>> Stashed changes
 		<center>
 			<i class="fa fa-caret-down text-red"></i><br/>
 		</center>
@@ -522,6 +528,7 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		</div>
 		<div class="space20"></div>
 	</div>
+<<<<<<< Updated upstream
 
 	<div class="col-sm-12 no-padding" style="background-color:#E33551; max-width:100%; float:left;" id="teamSection">
 		<div class="col-md-12" style="background-color:#293A46;width:100%;padding:8px 0px 8px 0%;">
@@ -530,6 +537,10 @@ a.btn.btn-github:hover{	color: #4078C0;	border-color: #4078C0;}
 		<center>
 			<i class="fa fa-caret-down" style="color:#293A46;"></i><br/>
 		</center>
+=======
+	
+	<div class="col-sm-12 " style="background-color:#E33551; " id="teamSection">
+>>>>>>> Stashed changes
 		<center>
 			<i class="fa fa-caret-down" style="color:#fff"></i><br/>
 			<h1 class="homestead" style="color:#fff"><i class="fa fa-users headerIcon"></i><br/>Construction collaborative</h1>

@@ -398,7 +398,7 @@ $this->renderPartial('../default/panels/toolbar');
                 </div>
                 <div class="space20"></div>
                 <a href="javascript:elementLib.openForm(zonesDynForm)" class="btn btn-default">Zones</a>
-                <a href="javascript:cityFinder('city','<?php echo $city["name"];?>')" class="btn btn-default">Filiaires locales</a>  <a href="javascript:cityFinder('departement','<?php echo $city["depName"];?>')" class="btn btn-default">Filiaires département</a>  <a href="javascript:cityFinder('region','<?php echo $city["regionName"];?>')" class="btn btn-default">Filiaires région</a> 
+                <a href="javascript:cityFinderObj.finder('city','<?php echo $city["name"];?>')" class="btn btn-default">Filiaires locales</a>  <a href="javascript:cityFinderObj.finder('departement','<?php echo $city["depName"];?>')" class="btn btn-default">Filiaires département</a>  <a href="javascript:cityFinderObj.finder('region','<?php echo $city["regionName"];?>')" class="btn btn-default">Filiaires région</a> 
         <!--       </div>
             </div>
            
@@ -481,7 +481,7 @@ $this->renderPartial('../default/panels/toolbar');
 
 <!-- end: PAGE CONTENT-->
 
-<script>
+<script type="text/javascript" >
 
 var zones =  <?php echo json_encode($zones) ?>;
 var postalCodesDynForm =  <?php echo json_encode($postalCodes) ?>;
@@ -1035,16 +1035,14 @@ var cityFinderObj = {
                                             classes : slugify("<?php echo @$value["name"]?>")+"Btn kickerBtn",
                                             action : "javascript:;",
                                             click : function(){
-                                                cityFinderSearch( scopeType, "<?php echo @$value["name"]?>", "<?php echo @$value["icon"]?>", <?php echo json_encode( @$value["tags"] );?> ) 
+                                                cityFinderObj.search( scopeType, "<?php echo @$value["name"]?>", "<?php echo @$value["icon"]?>", <?php echo json_encode( @$value["tags"] );?> ) 
                                             }
       }, 
     <?php }
     } ?>
-  }
-};
-
-function cityFinder(type,where)
-{
+  },
+  finder : function (type,where)
+  {
     scopeType = type;
     if( type == "region" ) 
         scopeName = 'region : <?php echo $city["regionName"];?>';
@@ -1081,7 +1079,45 @@ function cityFinder(type,where)
                         });
                         $(".menuSmallLeftMenu").prepend("<h2 class='homestead'>Trier</h2>")
                     });
-}
+  },
+  search : function  ( type, what, icon, tags ) 
+  { 
+      searchTypes = ["events","projects","organizations"];
+      var params = {
+          name : "",
+          searchTag : tags,
+          searchBy : "CODE_POSTAL_INSEE",
+          indexMax : 200,
+          indexMin : 0,
+          searchType : searchTypes,
+          tpl : "list",
+          otherCollectionList : function() {
+            var strHTML = "<h2 class='homestead'>Thématiques</h2>"+
+                  js_templates.loop( cityFinderObj.list,"linkList",{ classes : "menuThemeBtn" });
+            $("#listCollections").append(strHTML);
+            $(".menuThemeBtn").on("click",function() { 
+              cityFinderObj.list[ $(this).data('key') ].click();
+            }); 
+          }
+      };
+
+      delete params.searchLocalityCODE_POSTAL;
+      delete params.searchLocalityREGION;
+      delete params.searchLocalityDEPARTEMENT;
+      if( type == "region" ) 
+          params.searchLocalityREGION = ['<?php echo $city["regionName"];  ?>'];
+      if( type == "departement" ) 
+          params.searchLocalityDEPARTEMENT = ["<?php echo $city["depName"];  ?>"];
+      else 
+          params.searchLocalityCODE_POSTAL = postalCodes;
+      
+      console.dir(params);
+      smallMenu.openAjax( baseUrl+'/'+moduleId+'/search/globalautocomplete',
+                     what, icon, 'yellow',
+                     '<a href="javascript:cityFinderObj.finder(scopeType,scopeName)"><i class="fa fa-th text-grey"></i></a> <i class="fa fa-angle-right"></i> <i class="fa fa-map-marker text-yellow"></i> '+scopeName ,
+                     params );
+  } 
+};
 
 <?php 
 $cps = array();
@@ -1095,43 +1131,6 @@ var cityRegion = "<?php echo $city["region"];?>";
 var cityDep = "<?php echo $city["dep"];?>";
 var scopeType = null;
 var scopeName = null;
-function  cityFinderSearch( type, what, icon, tags ) 
-{ 
-    searchTypes = ["events","projects","organizations"];
-    var params = {
-        name : "",
-        searchTag : tags,
-        searchBy : "CODE_POSTAL_INSEE",
-        indexMax : 200,
-        indexMin : 0,
-        searchType : searchTypes,
-        tpl : "list",
-        otherCollectionList : function() {
-          var strHTML = "<h2 class='homestead'>Thématiques</h2>"+
-                js_templates.loop( cityFinderObj.list,"linkList",{ classes : "menuThemeBtn" });
-          $("#listCollections").append(strHTML);
-          $(".menuThemeBtn").on("click",function() { 
-            cityFinderObj.list[ $(this).data('key') ].click();
-          }); 
-        }
-    };
-
-    delete params.searchLocalityCODE_POSTAL;
-    delete params.searchLocalityREGION;
-    delete params.searchLocalityDEPARTEMENT;
-    if( type == "region" ) 
-        params.searchLocalityREGION = ['<?php echo $city["regionName"];  ?>'];
-    if( type == "departement" ) 
-        params.searchLocalityDEPARTEMENT = ["<?php echo $city["depName"];  ?>"];
-    else 
-        params.searchLocalityCODE_POSTAL = postalCodes;
-    
-    console.dir(params);
-    smallMenu.openAjax( baseUrl+'/'+moduleId+'/search/globalautocomplete',
-                   what, icon, 'yellow',
-                   '<a href="javascript:cityFinder(scopeType,scopeName)"><i class="fa fa-th text-grey"></i></a> <i class="fa fa-angle-right"></i> <i class="fa fa-map-marker text-yellow"></i> '+scopeName ,
-                   params );
-}
 
 function  initCurrentCityZones() { 
     $.each(postalCodesDynForm,function (i,c){

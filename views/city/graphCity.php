@@ -1,14 +1,17 @@
 <?php
-	$cs = Yii::app()->getClientScript();
+	/*$cs = Yii::app()->getClientScript();
 	// if(!Yii::app()->request->isAjaxRequest)
 	// {
 	  	$cssAnsScriptFilesModule = array(
 	  		'/plugins/nvd3/nv.d3.js'
 	  	);
-	  	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->request->baseUrl);
-  	// }
-	//$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/select2/select2.js' , CClientScript::POS_END);
-	//$cs->registerScriptFile(Yii::app()->theme->baseUrl. '/assets/plugins/bootstrap-select/bootstrap-select.min.js' , CClientScript::POS_END);
+	  	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->request->baseUrl);*/
+$cs = Yii::app()->getClientScript();
+$cssAnsScriptFilesModule = array(
+		'/plugins/d3/d3.js',
+		'/plugins/nvd3/nv.d3.js'
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule,Yii::app()->request->baseUrl);
 ?>
 <style>
 	.chart{

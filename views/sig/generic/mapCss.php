@@ -5,7 +5,7 @@
 
 		$mapHeight   = ( isset( $sigParams["mapHeight"]))   ? $sigParams["mapHeight"]   : 400;
 		$mapColor    = ( isset( $sigParams["mapColor"]))    ? $sigParams["mapColor"]    : '';
-		$mapTop 	 = ( isset( $sigParams["mapTop"] ))     ? $sigParams["mapTop"]      	: 0;
+		$mapTop 	 = ( isset( $sigParams["mapTop"] ))     ? $sigParams["mapTop"]      : 0;
 
 		$mapBtnBgColor       = ( isset( $sigParams["mapBtnBgColor"])) 			? $sigParams["mapBtnBgColor"] 			: '#384C5D';
 		$mapBtnColor 	     = ( isset( $sigParams["mapBtnColor"]))   			? $sigParams["mapBtnColor"]   			: '#fff';
@@ -48,7 +48,7 @@
 	.<?php echo $moduleName; ?>
 	#right_tool_map{
 		height:<?php echo (int)$mapHeight - 60; ?>px;
-		top:<?php echo (int)$mapTop + 30; ?>px;
+		top:<?php echo (int)$mapTop + 30; ?>px!important;
 	}
 	.<?php echo $moduleName; ?> .right_tool_map_header,
 	.<?php echo $moduleName; ?> .panel_map,

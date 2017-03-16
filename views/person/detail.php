@@ -37,7 +37,7 @@ $this->renderPartial('../default/panels/toolbar');
 </div>
 
 
-<script>
+<script type="text/javascript" >
 
 jQuery(document).ready(function() {
 	var images = <?php echo json_encode($images) ?>;

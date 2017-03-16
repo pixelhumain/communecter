@@ -18,7 +18,7 @@
   	// }
 
 ?>
-<script>
+<script type="text/javascript">
     //Title
     setTitle("Espace administrateur : Statistiques","cog");
 
@@ -26,7 +26,7 @@
 <!-- ***** CITOYENS ***** -->
 <h4>Evolution du nombre de communecté</h4>
 <div id="chartCitoyens"></div>
-<script>
+<script type="text/javascript">
 
 var chartCitoyens = c3.generate({
     bindto: '#chartCitoyens',
@@ -56,7 +56,7 @@ chartCitoyens.load({
 <!-- CREATIONS -->
 <h4>Evolution du nombre d'organisations, d'événements et de projets</h4>
 <div id="chartCreations"></div>
-<script>
+<script type="text/javascript">
 
 var chartCreations = c3.generate({
     bindto: '#chartCreations',
@@ -93,7 +93,7 @@ chartCreations.legend.hide('citoyens');
 
 <!--<h4>Evolution du nombre de communecté</h4>
 <div id="chartAll"></div>
-<script>
+<script type="text/javascript" >
 
 var chartAll = c3.generate({
     bindto: '#chartAll',

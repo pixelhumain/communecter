@@ -19,7 +19,7 @@ $this->renderPartial('../default/menu_deprecated/multi_scope', array("me"=>$me))
 
 </span>
 
-<script>
+<script type="text/javascript" >
 jQuery(document).ready(function() {
 	
 	showEmptyMsg();

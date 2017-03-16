@@ -3,7 +3,7 @@ $cs = Yii::app()->getClientScript();
 
 $cs->registerScriptFile(Yii::app()->getModule('githubs')->assetsUrl."/bootstrap-wysihtml5/lib/js/jquery-1.7.2.min.js" , CClientScript::POS_HEAD);
 ?>
-<script>
+<script type="text/javascript" >
 $(document).ready(function(){
  
     var i = $('input').size() + 1;

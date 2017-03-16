@@ -26,8 +26,6 @@
 
       if(@$media["imageBackground"])
         $srcMainImg = Yii::app()->createUrl($media["imageBackground"]);
-
-
 	?>
 
   
@@ -97,12 +95,12 @@
                               Element::getFaIcon($media["object"]["objectType"]) : ""; ?>
               <h4 class="no-padding">
                 <a target="_blank" 
-                   href="#k.page.type.<?php echo @$media["object"]["objectType"]; ?>.id.<?php echo @$media["object"]["id"]; ?>">
+                   href="#co2.page.type.<?php echo @$media["object"]["objectType"]; ?>.id.<?php echo @$media["object"]["id"]; ?>">
                    <i class="fa fa-<?php echo $faIcon; ?>"></i> <?php echo @$media["name"]; ?>
                 </a>
               </h4>
               <?php if(@$media["startDate"]) { ?>
-                <?php echo date($media["startDate"]->sec); ?>
+                <?php echo date(@$media["startDate"]->sec); ?>
               <?php } ?>
             <?php } ?>
             <p><?php echo $media["text"]; ?></p>
