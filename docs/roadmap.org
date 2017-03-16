@@ -100,7 +100,8 @@ Liste des notifications déjà lues => #370 #453
 * ************************************************************  
 ** @Tib 
   [ ] annonces
-    [ ] top level types
+    [X] top level types
+    [ ] differents filtre apr section
     [ ] mes annonces
   * bugs
     [ ] dynSurvey photos

@@ -78,13 +78,6 @@ var trad = {"areyousuretodelete" : "<?php echo Yii::t("common", "Are you sure yo
 "followers":"<?php echo Yii::t("common","followers"); ?>",
 "address" : "<?php echo Yii::t("common","Address") ?>",
 
-"all" : "Tous", 
-"sharing" : "À partager", 
-"donation" : "À donner", 
-"forsale" : "À vendre",  
-"forrent" : "À louer", 
-"lookingfor" : "À la recherche",  
-"job" : "Offre d'emplois" 
 
 };
 
