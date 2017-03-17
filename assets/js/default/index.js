@@ -121,9 +121,10 @@ function showMap(show)
 
   //chargement de la carte
 
+  if(typeof currentScrollTop == "undefined")
+  	currentScrollTop = $('html').scrollTop();
 
-
-	mylog.log("showMap");
+	mylog.log("showMap !", show);
 	if(show === undefined) show = !isMapEnd;
 	if(show){
 		isMapEnd =true;
