@@ -79,11 +79,12 @@ var trad = {"areyousuretodelete" : "<?php echo Yii::t("common", "Are you sure yo
 "address" : "<?php echo Yii::t("common","Address") ?>",
 
 
-"Project maturity" : <?php echo Yii::t("project","Project maturity",null,Yii::app()->controller->module->id)?>,
-"idea" : <?php echo Yii::t("project","idea",null,Yii::app()->controller->module->id)?>,
-"started" : <?php echo Yii::t("project","started",null,Yii::app()->controller->module->id)?>, 
-"development" : <?php echo Yii::t("project","development",null,Yii::app()->controller->module->id)?>,
-"testing" : <?php echo Yii::t("project","testing",null,Yii::app()->controller->module->id)?>,
+"Project maturity" : "<?php echo Yii::t("project","Project maturity",null,Yii::app()->controller->module->id)?>",
+"idea" : "<?php echo Yii::t("project","idea",null,Yii::app()->controller->module->id)?>",
+"started" : "<?php echo Yii::t("project","started",null,Yii::app()->controller->module->id)?>", 
+"development" : "<?php echo Yii::t("project","development",null,Yii::app()->controller->module->id)?>",
+"testing" : "<?php echo Yii::t("project","testing",null,Yii::app()->controller->module->id)?>",
+
 
 "all" : "Tous", 
 "sharing" : "À partager", 
