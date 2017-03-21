@@ -1314,9 +1314,26 @@ function formatData(formData, collection,ctrl) {
 							key : formData.source
 						}
 	}
+
+
+
 									
 	if( typeof formData.tags != "undefined" && formData.tags != "" )
 		formData.tags = formData.tags.split(",");
+
+	// input de tags différents
+	var nbListTags = 1 ;
+	while(jsonHelper.notNull("formData.tags"+nbListTags)){
+		tagsSave=formData["tags"+nbListTags].split(",");
+		if(!formData.tags)formData.tags = [];
+		$.each(tagsSave, function(i, e) {
+			formData.tags.push(e);
+		});
+		delete formData["tags"+nbListTags];
+		nbListTags++;
+	}
+
+
 	removeEmptyAttr(formData);
 
 	mylog.dir(formData);

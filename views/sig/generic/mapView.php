@@ -76,6 +76,9 @@
 			
 			<!-- 	PSEUDO SEARCH -->
 			<div id="map_pseudo_filters">
+				<a class="reset" href="javascript:;">
+		            <center><i class="fa fa-refresh"></i>Réinitialiser</center>
+		        </a>
 				<input class="form-control date-range active" type="text" id="input_name_filter" placeholder="filtrer par nom ...">
 			</div>
 			<!-- 	PSEUDO SEARCH -->

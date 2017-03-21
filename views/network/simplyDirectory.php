@@ -226,6 +226,16 @@ console.log("searchPrefTag", searchPrefTag);
 	   chargement();
 	  //startSearch(0, indexStepInit);
 	});
+
+	$('.reset').off().on('click', function() {
+	  $('.tagFilter').removeClass('active');
+	  $('.villeFilter').removeClass('active');
+	  $('.categoryFilter').removeClass('active');
+	  $('#input_name_filter').val('');
+	  tagsActived = {};
+	  chargement();
+	});
+
 	<?php if(isset($params['mode']) && $params['mode'] == "client"){ ?>
 
 		//Charger tous les éléments
