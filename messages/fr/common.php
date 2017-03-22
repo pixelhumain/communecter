@@ -35,7 +35,7 @@ return array(
 
 	"Oops! You are stuck at " => "Oops! Vous êtes bloqué en ",
 	"Unfortunately the page you were looking for could not be found." => "Malheureusement la page que vous cherchez est introuvable",
-	"It may be temporarily unavailable, moved or no longer exist." => "Elle est peut etre temporairement indisponible, déplacée ou n'existe plus.",
+	"It may be temporarily unavailable, moved or no longer exist." => "Elle est peut être temporairement indisponible, déplacée ou n'existe plus.",
 	"Check the URL you entered for any mistakes and try again." => "Vérifier l'URL et rééssayez",
 	"Return home" => "Retour Accueil",
 
