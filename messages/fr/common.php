@@ -30,14 +30,14 @@ return array(
 	"Required Fields" => "Champs obligatoires",
 	"Change password" => "Changez le mot de passe",
 
-	"The current user is not valid : please login." => "Cet utilisateur n'est pas loggué",
+	"The current user is not valid : please login." => "L'utilisateur actuelle n'est pas valide : Veuillez-vous identifier.",
 	"Incomplete Request." => "Demande Incomplète",
 
-	"Oops! You are stuck at " => "Oops! Vous etes bloqué en ",
+	"Oops! You are stuck at " => "Oops! Vous êtes bloqué en ",
 	"Unfortunately the page you were looking for could not be found." => "Malheureusement la page que vous cherchez est introuvable",
-	"It may be temporarily unavailable, moved or no longer exist." => "Elle est peut etre temporairement indisponible, déplacé ou n'existe plus.",
+	"It may be temporarily unavailable, moved or no longer exist." => "Elle est peut etre temporairement indisponible, déplacée ou n'existe plus.",
 	"Check the URL you entered for any mistakes and try again." => "Vérifier l'URL et rééssayez",
-	"Return home" => "Retour Acceuil",
+	"Return home" => "Retour Accueil",
 
 	"Follow this person" => "Suivre cette personne",
 	"Follow this organization" => "Suivre cette organisation",
@@ -47,7 +47,7 @@ return array(
 	"Documentation" => "Documentation",
 
 	"Save Processing"=> "Enregistrement en cours",
-	"Understanding newspaper and news stream"=> "Comprendre le journal et le fil d&apos;actualité",
+	"Understanding newspaper and news stream"=> "Comprendre le journal et le fil d'actualité",
 
 	"Short description" => "Description courte",	
 	
