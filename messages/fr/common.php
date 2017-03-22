@@ -30,7 +30,7 @@ return array(
 	"Required Fields" => "Champs obligatoires",
 	"Change password" => "Changez le mot de passe",
 
-	"The current user is not valid : please login." => "L'utilisateur actuelle n'est pas valide : Veuillez-vous identifier.",
+	"The current user is not valid : please login." => "L'utilisateur actuel n'est pas valide : Veuillez-vous identifier.",
 	"Incomplete Request." => "Demande Incomplète",
 
 	"Oops! You are stuck at " => "Oops! Vous êtes bloqué en ",
