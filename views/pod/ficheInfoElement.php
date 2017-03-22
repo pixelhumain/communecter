@@ -765,8 +765,12 @@ if($showOdesc == true){
 	var icon = '<?php echo Element::getFaIcon($type); ?>';
 	var speudoTelegram = '<?php echo @$element["socialNetwork"]["telegram"]; ?>';
 	var organizer = <?php echo json_encode($organizer) ?>;
-	//var tags = <?php echo json_encode($tags)?>;
+	var alltags = <?php if(isset($tags)) echo json_encode($tags); else echo json_encode(array())?> ;
 
+
+	if(typeof networkTags != "undefined" && networkTags != null && networkTags.length > 0){
+		alltags = networkTags ;
+	}
 	//var contentKeyBase = "<?php echo isset($contentKeyBase) ? $contentKeyBase : ""; ?>";
 	//By default : view mode
 	//var images = <?php echo json_encode($images) ?>;
@@ -1313,7 +1317,7 @@ if($showOdesc == true){
 		 	mode: 'popup',
 		 	value: returnttags(),
 		 	select2: {
-		 		tags: <?php if(isset($tags)) echo json_encode($tags); else echo json_encode(array())?>,
+		 		tags: alltags,
 		 		tokenSeparators: [","],
 		 		width: 200,
 		 		dropdownCssClass: 'select2-hidden'

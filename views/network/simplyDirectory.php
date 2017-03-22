@@ -215,17 +215,17 @@ console.log("searchPrefTag", searchPrefTag);
 	/******** EVENTS ********/
 
 
-	$('#reset').off().on('click', function() {
+	/*$('#reset').off().on('click', function() {
 	  /*searchTag = allsearchTag;
 	  searchLocalityNAME = allsearchLocalityNAME;
 	  searchCategory = allsearchCategory;*/
-	  $('.tagFilter').removeClass('active');
+	/*  $('.tagFilter').removeClass('active');
 	  $('.villeFilter').removeClass('active');
 	  $('.categoryFilter').removeClass('active');
 	  tagsActived = {};
 	   chargement();
 	  //startSearch(0, indexStepInit);
-	});
+	});*/
 
 	$('.reset').off().on('click', function() {
 	  $('.tagFilter').removeClass('active');
@@ -1133,7 +1133,7 @@ function showMapNetwork(show)
 }
 var topMenuActivated = true;
 function showMenuNetwork(show){ 
-
+	mylog.log("showMenuNetwork", show);
 	if(typeof show == "undefined") 
 		show = $("#main-top-menu").css("opacity") == 1;
 	
@@ -1141,7 +1141,8 @@ function showMenuNetwork(show){
 		$("#titleMapTop").show( 700 );
 		$("#btn-menu-launch").show( 700 );
 		$("#btn-toogle-map").html("<i class='fa fa-list'></i>");
-		$("#btn-toogle-map").attr("data-original-title", "Tableau de bord");
+		$("#btn-toogle-map").attr("data-original-title", "Annuaire");
+		$("#btn-toogle-map").attr("title", "Annuaire");
 		$(".main-menu-left").hide( 700 );
 		$("#menuTopList").hide( 700 );
 		$(".main-top-menu").removeClass("bg-white");
