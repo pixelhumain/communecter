@@ -1315,7 +1315,7 @@ function andAndOr(allFiltres){
 
 
 
-function updateMap(){
+function updateMap(searchVal){
 	mylog.log("updateMap", tagsActived, disableActived);
 
 	var params = ((typeof networkJson.filter == "undefined" && typeof networkJson.filter.paramsFiltre == "undefined") ? null :  networkJson.filter.paramsFiltre);
@@ -1364,7 +1364,11 @@ function updateMap(){
 						(	typeof v.typeSig != "undefined" && 
 							$.inArray( v.typeSig, typesActived ) >= 0  ) ) &&
 					( rolesActived.length == 0  || 
-						(isLinks(v, elementNetwork[0]) ) ) ) {
+						(isLinks(v, elementNetwork[0]) ) ) && 
+
+					( 	(typeof searchVal == "undefined") || 
+						( 	v.name.search( new RegExp( searchVal, "i" ) ) >= 0 || 
+							v.address.addressLocality.search( new RegExp( searchVal, "i" ) ) >= 0 ) ) )  {
 					
 					filteredList = addTabMap(v, filteredList);
 					$("#"+v.id).show();
@@ -1372,7 +1376,10 @@ function updateMap(){
 			});
 		});
 	}else{
-		if( disableActived == true || citiesActived.length > 0 || typesActived.length > 0 || rolesActived.length > 0)  {
+		if( disableActived == true || citiesActived.length > 0 || 
+			typesActived.length > 0 || rolesActived.length > 0 || 
+			typeof searchVal != "undefined" )  {
+
 			$.each(contextMapNetwork,function(k,v){
 				
 				//mylog.log("here", disableActived, v.address.addressLocality, $.inArray( v.address.addressLocality, citiesActived ) );
@@ -1386,7 +1393,11 @@ function updateMap(){
 						(	typeof v.typeSig != "undefined" && 
 							$.inArray( v.typeSig, typesActived ) >= 0  ) ) &&
 					( rolesActived.length == 0  || 
-						(isLinks(v, elementNetwork[0]) ) ) )  {
+						(isLinks(v, elementNetwork[0]) ) )  && 
+
+					( 	(typeof searchVal == "undefined") || 
+						( 	v.name.search( new RegExp( searchVal, "i" ) ) >= 0 || 
+							v.address.addressLocality.search( new RegExp( searchVal, "i" ) ) >= 0 ) ) )  {
 					filteredList = addTabMap(v, filteredList);
 					$("#"+v.id).show();
 				}
@@ -1403,6 +1414,32 @@ function updateMap(){
 	Sig.showMapElements(Sig.map,filteredList);
 	$.unblockUI();
 }
+
+
+
+function searchMapTest(parentClass, searchVal) { 
+	mylog.log("searchDir searchVal",searchVal);           
+	if(searchVal.length>2 ){
+		$.each( $(".menuSmallBlockUI .searchEntityContainer") ,function (i,k) { 
+			var found = null;
+			if( $(this).find(".entityName").text().search( new RegExp( searchVal, "i" ) ) >= 0 || 
+				$(this).find(".entityLocality").text().search( new RegExp( searchVal, "i" ) ) >= 0 || 
+				$(this).find(".tagsContainer").text().search( new RegExp( searchVal, "i" ) ) >= 0 )
+			{
+				//mylog.log("found");
+				found = 1;
+			}
+
+			if(found)
+				$(this).removeClass('hide');
+			else
+				$(this).addClass('hide');
+		});
+
+		toggleParentsTest(".menuSmallBlockUI .searchEntityContainer ");
+	} else
+		toggleEmptyParentSectionTest(parentClass,null, ".menuSmallBlockUI .searchEntityContainer " ,1);
+};
 
 function addTabMap(element, tab){
 	//mylog.log("addTabMap",element, tab);

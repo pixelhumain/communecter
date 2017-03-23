@@ -50,8 +50,14 @@
 				//thisMap.on('moveend', function(e) { thisSig.checkListElementMap(thisMap); });
 				//losque on effectue une recherche dans le champs de texte
 				$(this.cssModuleName + " #input_name_filter" ).keyup(function (){ 
-					mylog.log("input_name_filter", thisMap);
+					mylog.log("input_name_filter", thisMap, $(this).val());
+					if(typeof $(this).val() != "undefined" && typeof networkJson != "undefined"){
+						mylog.log("ici", $(this).val());
+						updateMap($(this).val());
+					}
 					thisSig.checkListElementMap(thisMap); });
+					mylog.log(typeof $(this).val());
+					
 				//lorsqu'on active/désactive le filtre par zone
 				$(this.cssModuleName + " #chk-scope").click(function (){ thisSig.checkListElementMap(thisMap); });
 			}

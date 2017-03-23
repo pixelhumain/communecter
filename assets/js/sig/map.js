@@ -247,7 +247,6 @@
 
 						$(this.cssModuleName + " .item_map_list_" + objectId).click(function()
 						{	
-							mylog.log("MYPOSITION 22!!");
 							thisSig.map.panTo(center, {"animate" : true });
 							thisSig.checkListElementMap(thisSig.map);
 							thisSig.myMarker.openPopup();
@@ -598,7 +597,6 @@
 								if($.inArray(type, this.notClusteredTag) > -1)
 								$(this.cssModuleName + " .item_map_list_" + objectId).click(function()
 								{	thisMap.panTo(coordinates, {"animate" : true });
-									mylog.log("LALALA 2");
 									thisSig.checkListElementMap(thisMap);
 									marker.openPopup();
 								});
@@ -616,7 +614,6 @@
 								$(this.cssModuleName + " .item_map_list_" + objectId).click(function(){	
 									//toastr.success('click on element not in map');
 									//mylog.dir(thisData);
-									mylog.log("LALALA 3", thisData);
 									thisSig.showModalItemNotLocated(thisData);
 								});	
 							}	
@@ -745,7 +742,7 @@
 						
 							//au click sur un element de la liste de droite, on zoom pour déclusturiser, et on ouvre la bulle
 							$(thisSig.cssModuleName + " .item_map_list_" + feature.properties.id).click(function(){
-								mylog.log("LALALA feature", feature, layer);
+								
 								thisSig.allowMouseoverMaker = false;
 								var coordinates =  [feature.geometry.coordinates[1], 
 													feature.geometry.coordinates[0]];
@@ -754,7 +751,7 @@
 								var visibleOne = null;
 								if(typeof layer != "undefined")
 									visibleOne = Sig.markersLayer.getVisibleParent(layer);
-								mylog.log("visibleOne", visibleOne);
+
 								if(typeof visibleOne != "undefined"){
 									if(typeof visibleOne._childCount != "undefined"){
 										var i = 0;
@@ -770,7 +767,6 @@
 									}
 									else{
 										if(typeof visibleOne._spiderLeg == "undefined")	{
-											mylog.log("here");
 											thisMap.fire("click");
 											thisMap.setZoom(15, {"animate" : false });
 											thisMap.panTo(coordinates, {"animate" : false });
@@ -779,7 +775,7 @@
 										}
 									}
 								}
-								mylog.log("thisMap", thisMap);
+								//mylog.log("thisMap", thisMap);
 								thisSig.checkListElementMap(thisMap);
 								thisSig.currentMarkerToOpen = layer;
 								thisSig.currentMarkerPopupOpen = layer;
