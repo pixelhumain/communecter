@@ -1,7 +1,7 @@
 [
 	{
-	    "key" : "organizationStandart",
-	    "name" : "Organization Standart",
+	    "key" : "organizationStandard",
+	    "name" : "Organization Standard",
 	    "typeElement" : "organization",
 	    "fields" : {
 	        "Nom de l'organisme" : "name",
@@ -36,8 +36,8 @@
 	    }
 	},
 	{
-	    "key" : "personStandart",
-	    "name" : "Person Standart",
+	    "key" : "personStandard",
+	    "name" : "Person Standard",
 	    "typeElement" : "person",
 	    "fields" : {
 	        "Nom" : "name",
@@ -45,8 +45,8 @@
 	    }
     },
     {
-	    "key" : "eventStandart",
-	    "name" : "Event Standart",
+	    "key" : "eventStandard",
+	    "name" : "Event Standard",
 	    "typeElement" : "event",
 	    "fields" : {
 	        "Nom" : "name",
@@ -77,8 +77,8 @@
 	    }
     },
     {
-	    "key" : "projetStandart",
-	    "name" : "Projet Standart",
+	    "key" : "projetStandard",
+	    "name" : "Projet Standard",
 	    "typeElement" : "project",
 	    "fields" : {
 	        "Nom" : "name",

@@ -585,6 +585,7 @@ var loadableUrls = {
     "#adminpublic.index" : {title:'SOURCE ADMIN', icon : 'download'},
     "#adminpublic.createfile" : {title:'IMPORT DATA', icon : 'download'},
     "#adminpublic.adddata" : {title:'ADDDATA ', icon : 'download'},
+    "#admin.cleantags" : {title : 'CLEAN TAGS', icon : 'download'},
     "#default.directory" : {title:'COMMUNECTED DIRECTORY', icon : 'connectdevelop', menuId:"menu-btn-directory"},
     "#default.news" : {title:'COMMUNECTED NEWS ', icon : 'rss', menuId:"menu-btn-news" },
     "#default.agenda" : {title:'COMMUNECTED AGENDA ', icon : 'calendar', menuId:"menu-btn-agenda"},
