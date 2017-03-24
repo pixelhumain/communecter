@@ -87,6 +87,7 @@ console.log("searchPrefTag", searchPrefTag);
    var citiesActived = ( ((typeof params.request.searchLocalityNAME == "undefined") || params == null) ? [] : params.request.searchLocalityNAME);
    var typesActived = [] ;
    var rolesActived = [] ;
+   var searchValNetwork = "";
 
   jQuery(document).ready(function() {
   	if(typeof params.filter.linksTag != "undefined"){
@@ -1315,7 +1316,7 @@ function andAndOr(allFiltres){
 
 
 
-function updateMap(searchVal){
+function updateMap(){
 	mylog.log("updateMap", tagsActived, disableActived);
 
 	var params = ((typeof networkJson.filter == "undefined" && typeof networkJson.filter.paramsFiltre == "undefined") ? null :  networkJson.filter.paramsFiltre);
@@ -1344,6 +1345,8 @@ function updateMap(searchVal){
 		test = orAndAnd(tagsActived);
 
 	mylog.log("test", test);
+
+	mylog.log("searchValNetwork", searchValNetwork);
 	var filteredList = [];
 	var add = false;
 	$(".searchEntity").hide();
@@ -1366,9 +1369,13 @@ function updateMap(searchVal){
 					( rolesActived.length == 0  || 
 						(isLinks(v, elementNetwork[0]) ) ) && 
 
-					( 	(typeof searchVal == "undefined") || 
+					/*( 	(typeof searchVal == "undefined") || 
 						( 	v.name.search( new RegExp( searchVal, "i" ) ) >= 0 || 
-							v.address.addressLocality.search( new RegExp( searchVal, "i" ) ) >= 0 ) ) )  {
+							v.address.addressLocality.search( new RegExp( searchVal, "i" ) ) >= 0 ) ) )  {*/
+
+					( 	searchValNetwork.length == 0 || 
+						( 	v.name.search( new RegExp( searchValNetwork, "i" ) ) > 0 || 
+							v.address.addressLocality.search( new RegExp( searchValNetwork, "i" ) ) > 0 ) ) )  {
 					
 					filteredList = addTabMap(v, filteredList);
 					$("#"+v.id).show();
@@ -1378,7 +1385,7 @@ function updateMap(searchVal){
 	}else{
 		if( disableActived == true || citiesActived.length > 0 || 
 			typesActived.length > 0 || rolesActived.length > 0 || 
-			typeof searchVal != "undefined" )  {
+			searchValNetwork.length > 0)  {
 
 			$.each(contextMapNetwork,function(k,v){
 				
@@ -1395,9 +1402,16 @@ function updateMap(searchVal){
 					( rolesActived.length == 0  || 
 						(isLinks(v, elementNetwork[0]) ) )  && 
 
-					( 	(typeof searchVal == "undefined") || 
+					/*( 	(typeof searchVal == "undefined") || 
 						( 	v.name.search( new RegExp( searchVal, "i" ) ) >= 0 || 
-							v.address.addressLocality.search( new RegExp( searchVal, "i" ) ) >= 0 ) ) )  {
+							v.address.addressLocality.search( new RegExp( searchVal, "i" ) ) >= 0 ) ) )  {*/
+
+
+					( 	searchValNetwork.length == 0 || 
+						( 	v.name.search( new RegExp( searchValNetwork, "i" ) ) > 0 || 
+							v.address.addressLocality.search( new RegExp( searchValNetwork, "i" ) ) >  0 ) ) )  {
+
+
 					filteredList = addTabMap(v, filteredList);
 					$("#"+v.id).show();
 				}
@@ -1414,32 +1428,6 @@ function updateMap(searchVal){
 	Sig.showMapElements(Sig.map,filteredList);
 	$.unblockUI();
 }
-
-
-
-function searchMapTest(parentClass, searchVal) { 
-	mylog.log("searchDir searchVal",searchVal);           
-	if(searchVal.length>2 ){
-		$.each( $(".menuSmallBlockUI .searchEntityContainer") ,function (i,k) { 
-			var found = null;
-			if( $(this).find(".entityName").text().search( new RegExp( searchVal, "i" ) ) >= 0 || 
-				$(this).find(".entityLocality").text().search( new RegExp( searchVal, "i" ) ) >= 0 || 
-				$(this).find(".tagsContainer").text().search( new RegExp( searchVal, "i" ) ) >= 0 )
-			{
-				//mylog.log("found");
-				found = 1;
-			}
-
-			if(found)
-				$(this).removeClass('hide');
-			else
-				$(this).addClass('hide');
-		});
-
-		toggleParentsTest(".menuSmallBlockUI .searchEntityContainer ");
-	} else
-		toggleEmptyParentSectionTest(parentClass,null, ".menuSmallBlockUI .searchEntityContainer " ,1);
-};
 
 function addTabMap(element, tab){
 	//mylog.log("addTabMap",element, tab);

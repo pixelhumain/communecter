@@ -53,7 +53,8 @@
 					mylog.log("input_name_filter", thisMap, $(this).val());
 					if(typeof $(this).val() != "undefined" && typeof networkJson != "undefined"){
 						mylog.log("ici", $(this).val());
-						updateMap($(this).val());
+						searchValNetwork = $(this).val() ;
+						updateMap();
 					}
 					thisSig.checkListElementMap(thisMap); });
 					mylog.log(typeof $(this).val());
