@@ -126,6 +126,10 @@ $userId = Yii::app()->session["userId"] ;
 				<input type="text" id="pathElement" name="pathElement" value="">
 			</div>
 		</div>
+		<div id="divJson" class="col-sm-12 col-xs-12">
+			<label for="pathElementJson"><?php echo Yii::t("common", "Path to Elements"); ?> :</label>
+			<input type="text" id="pathElementJson" name="pathElementJson" value="">
+		</div>
 		<div id="divCsv" class="col-sm-12 col-xs-12">
 			<div class="col-sm-4 col-xs-12">
 				<label for="selectSeparateur"><?php echo Yii::t("common", "Séparateur"); ?> : </label>
@@ -180,6 +184,8 @@ $userId = Yii::app()->session["userId"] ;
 		</table>
 		<div class="col-sm-12 col-xs-12">
 			<div class="col-sm-6 col-xs-12">
+
+				<a href="javascript:;" id="saveMapping" class="btn btn-primary pull-right"><?php echo Yii::t("common", "Save Mapping"); ?></a>
 				<label for="inputKey">Key : </label>
 				<input class="" placeholder="Key a attribuer à l'ensemble des données importer" id="inputKey" name="inputKey" value="">
 			</div>
@@ -196,6 +202,7 @@ $userId = Yii::app()->session["userId"] ;
 				<input id="checkboxTest" name="checkboxTest" type="checkbox" data-on-text="<?php echo Yii::t("common","Yes") ?>" data-off-text="<?php echo Yii::t("common","No") ?>" name="my-checkbox" checked></input>
 				</label>
 			</div>
+
 			<div class="col-sm-6 col-xs-12" id="divNbTest">
 				<label for="inputNbTest">Nombre d'entités à tester max(900) : </label>
 				<input class="" placeholder="" id="inputNbTest" name="inputNbTest" value="5">
@@ -206,13 +213,15 @@ $userId = Yii::app()->session["userId"] ;
 				<label for="nameInvitor">Author Invite: </label>
 				<input class="" placeholder="" id="nameInvitor" name="nameInvitor" value="">
 			</div>
-			<div class="col-sm-12 col-xs-12" id="divMessage">
+			<div class="col-sm-12 col-xs-12" id="divMessaFge">
 				<textarea id="msgInvite" class="" rows="3">Message Invite</textarea>
 			</div>
 		</div>
 		<div class="col-sm-12 col-xs-12">
 			<a href="javascript:;" id="btnPreviousStep" class="btn btn-danger margin-top-15"><?php echo Yii::t("common", "Previous step"); ?></a>
 			<a href="javascript:;" id="btnNextStep2" class="btn btn-success margin-top-15"><?php echo Yii::t("common", "Next step"); ?></a>
+
+
 		</div>
 	</div>
 
@@ -277,6 +286,7 @@ jQuery(document).ready(function() {
 	$("#divFile").hide();
 	$("#divCsv").hide();
 	$("#divUrl").hide();
+	$("#divJson").hide();
 	$("#menu-step-mapping").hide();
 	$("#menu-step-visualisation").hide();
 	bindCreateFile();
@@ -311,7 +321,7 @@ function bindCreateFile(){
 	$("#btnNextStep").off().on('click', function(e){
 		mylog.log($("#selectTypeSource").val(), file.length);
   		if($("#chooseElement").val() == "-1"){
-  			toastr.error("Vous devez sélectionner un type d'éléments");
+  			toastr.error("Vous devez sélectionner un type d'élément");
   			return false ;
   		}
   		else if($("#selectTypeSource").val() == "-1"){
@@ -475,7 +485,7 @@ function preStep2(){
 	        		typeElement : typeElement,
 	        		nameFile : nameFile,
 	        		typeFile : typeFile,
-	        		pathObject : $('#pathObject').val(),
+	        		pathObject : $('#pathElementJson').val(),
 			        key : inputKey,
 			        warnings : $("#checkboxWarnings").is(':checked')
 			    }
@@ -546,8 +556,12 @@ function stepTwo(){
 		path : $("#pathElement").val()
 	};
 
-	if(typeFile == "json" || typeFile == "js" || typeFile == "geojson")
+	mylog.log(file);
+
+	if(typeFile == "json" || typeFile == "js" || typeFile == "geojson") {
 		params["file"] = file ;
+		params["path"] = $("#pathElementJson").val();
+	}
 	else
 		file = csvToArray(csvFile, $("#selectSeparateur").val(), $("#selectSeparateurText").val())
 
@@ -564,13 +578,13 @@ function stepTwo(){
         		createStepTwo(data);
         	}
         	else{
-
+        		toastr.error("Impossible de récupérer la donnée");
         	}
 
         }
 	});
 }
-function bindUpdate(data){
+function bindUpdate(){
 	$(".deleteLineMapping").off().on('click', function(){
   		$(this).parent().parent().remove();
   	});
@@ -611,9 +625,11 @@ function bindUpdate(data){
 		  				file.push(newLigne);
 		  			});*/
 		  			$("#divCsv").show();
+		  			$("#divJson").hide();
 				}
 				else if(typeFile == "json" || typeFile == "js" || typeFile == "geojson") {
 					$("#divCsv").hide();
+					$("#divJson").show();
 					file.push(e.target.result);
 	  			}
 			};
