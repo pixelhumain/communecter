@@ -227,11 +227,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 					<i class='fa fa-download'></i><span class="hidden-sm hidden-xs"></span>
 				</a>
 			<?php } ?>
-				<?php if ($type == Organization::COLLECTION && $edit==true && empty($element["disabled"])) { ?>
+				<?php if (Authorisation::canDeleteElement(@$element["id"], $type, Yii::app()->session["userId"])) {
+				//($type == Organization::COLLECTION && $edit==true && empty($element["disabled"])) { ?>
 					<div class="btn-group pull-right">
 						<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"><span><i class="fa fa-trash"></i></span><span class="caret"></span></button>
 						<ul class="dropdown-menu" role="menu">
+						<?php if ($type == Organization::COLLECTION) { ?>
 							<li><a href="javascript:;" id="disableOrga" class="margin-right-5 tooltips"><i class="fa fa-times text-red"></i> <?php echo Yii::t("common","Disable")?></a> </li>
+						<?php } ?>
 							<li><a href="javascript:;" id="deleteElement" class="margin-right-5 tooltips"><i class="fa fa-times text-red"></i> <?php echo Yii::t("common","Delete")?></a> </li>
 						</ul>
 					</div>
@@ -1045,6 +1048,7 @@ if($showOdesc == true){
 					    	success: function(data){
 						    	if(data.result){
 									toastr.success(data.msg);
+									loadByHash("#default.live");
 						    	}else{
 						    		toastr.error(data.msg);
 						    	}
