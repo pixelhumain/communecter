@@ -228,7 +228,7 @@ console.log("searchPrefTag", searchPrefTag);
 	  //startSearch(0, indexStepInit);
 	});*/
 
-	$('.reset').off().on('click', function() {
+	$('.reset').on('click', function() {
 	  $('.tagFilter').removeClass('active');
 	  $('.villeFilter').removeClass('active');
 	  $('.categoryFilter').removeClass('active');
@@ -1354,6 +1354,7 @@ function updateMap(){
 		$.each(test,function(keyTags,tags){
 			$.each(contextMapNetwork,function(k,v){
 				add = ( (verb == "and") ? and( tags, v.tags ) : or( tags, v.tags ) );
+				mylog.log("here2", v.name.search( new RegExp( searchValNetwork, "i" )) );
 				if(	add && 
 					( 	disableActived == false || 
 						(disableActived == true && typeof v.disabled != "undefined" && v.disabled == true) ) && 
@@ -1374,8 +1375,7 @@ function updateMap(){
 							v.address.addressLocality.search( new RegExp( searchVal, "i" ) ) >= 0 ) ) )  {*/
 
 					( 	searchValNetwork.length == 0 || 
-						( 	v.name.search( new RegExp( searchValNetwork, "i" ) ) > 0 || 
-							v.address.addressLocality.search( new RegExp( searchValNetwork, "i" ) ) > 0 ) ) )  {
+						( 	v.name.search( new RegExp( searchValNetwork, "i" ) ) > 0  ) ) )  {
 					
 					filteredList = addTabMap(v, filteredList);
 					$("#"+v.id).show();
@@ -1389,7 +1389,7 @@ function updateMap(){
 
 			$.each(contextMapNetwork,function(k,v){
 				
-				//mylog.log("here", disableActived, v.address.addressLocality, $.inArray( v.address.addressLocality, citiesActived ) );
+				mylog.log("here", v.name.search( new RegExp( searchValNetwork, "i" )) );
 				if(	( 	disableActived == false || 
 						(disableActived == true && typeof v.disabled != "undefined" && v.disabled == true) ) && 
 					( citiesActived.length == 0  || 
@@ -1408,8 +1408,7 @@ function updateMap(){
 
 
 					( 	searchValNetwork.length == 0 || 
-						( 	v.name.search( new RegExp( searchValNetwork, "i" ) ) > 0 || 
-							v.address.addressLocality.search( new RegExp( searchValNetwork, "i" ) ) >  0 ) ) )  {
+						( 	v.name.search( new RegExp( searchValNetwork, "i" ) ) > 0 ) ) ) {
 
 
 					filteredList = addTabMap(v, filteredList);

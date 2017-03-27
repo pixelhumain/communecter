@@ -77,8 +77,9 @@
 			<!-- 	PSEUDO SEARCH -->
 			<div id="map_pseudo_filters">
 				<input class="form-control date-range active" type="text" id="input_name_filter" placeholder="filtrer par nom ...">
-				<?php if(!empty(Yii::app()->params["theme"]) && Yii::app()->params["theme"] == "network"){ ?>
-					<a class="reset" href="javascript:;" >
+				<?php if( (!empty(Yii::app()->params["theme"]) && Yii::app()->params["theme"] == "network" )  || 
+							!empty($_GET["network"]) ) { ?>
+					<a href="javascript:;" class="reset tooltips" data-toggle="tooltip" data-placement="bottom" title="Réinitialise le champ de la recherche, ainsi que les filtres" >
 			            <center><i class="fa fa-refresh"></i>Réinitialiser</center>
 			        </a>
 				<?php	}?>
