@@ -74,13 +74,13 @@
 
 <script type="text/javascript">
 	
-	
+	var contentId = "<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>";
+
 	jQuery(document).ready(function() {
 		var id = "<?php echo $itemId ?>";
 		var sliderKey = "<?php echo Document::IMG_SLIDER; ?>";
 		var editFile = <?php echo ($editMode) ? 'true':'false'; ?>;
 		var type = "<?php echo $type ?>";
-		var contentId = "<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>";
 		var contentIdtoSend = "<?php echo $contentId ?>";
 		var resize = <?php echo (@$resize) ? 'true':'false'; ?>;
 		var imageName= "";
@@ -189,6 +189,10 @@
 			  		else
 			  			toastr.error(data.msg);
 			  },
+			  error : function(data) {
+			  	updateBtnUpload(false);
+			  	toastr.error("Une erreur est survenue : merci de contacter votre administrateur.");
+			  }
 			});
 		}));
 		
@@ -272,37 +276,41 @@
 			  	type: "POST",
 			  	url: baseUrl+"/"+moduleId+"/document/save",
 			  	data: doc,
-		      	dataType: "json"
-			}).done( function(data){
-		        if(data.result){
-		        	imagesPath.push(baseUrl+path);
-					$(".fileupload-preview img").css("max-height", "190px");
-					imageId = data.id["$id"];
-					setTimeout(function(){
-						/*$("#"+contentId+"_fileUpload").css("opacity", "1");
-						$("#"+contentId+"_photoUploading").css("display", "none");
-						$(".btn").removeClass("disabled");*/
+		      	dataType: "json", 
+		      	success: function(data) {
+			        if(data.result){
+			        	imagesPath.push(baseUrl+path);
+						$(".fileupload-preview img").css("max-height", "190px");
+						imageId = data.id["$id"];
+						setTimeout(function(){
+							/*$("#"+contentId+"_fileUpload").css("opacity", "1");
+							$("#"+contentId+"_photoUploading").css("display", "none");
+							$(".btn").removeClass("disabled");*/
+							updateBtnUpload(false);
+							mylog.log(typeof(updateSlider));
+					  		if(typeof(updateSlider) != "undefined" && typeof (updateSlider) == "function"){
+								updateSlider(path, data.id["$id"]);
+					  		}
+					  		if(typeof(updateSliderImage) !="undefined" && typeof(updateSliderImage) == "function" && "undefined" != typeof events[id]){
+					  			updateSliderImage(id, path);
+					  		}
+						}, 2000) 
+					    toastr.success(data.msg);
+					    //met à jour l'image de myMarker (marker sur MA position)
+					    Sig.initHomeBtn();
+					    //met à jour l'image de profil dans le menu principal
+					    updateMenuThumbProfil();
+
+					} else{
 						updateBtnUpload(false);
-						mylog.log(typeof(updateSlider));
-				  		if(typeof(updateSlider) != "undefined" && typeof (updateSlider) == "function"){
-							updateSlider(path, data.id["$id"]);
-				  		}
-				  		if(typeof(updateSliderImage) !="undefined" && typeof(updateSliderImage) == "function" && "undefined" != typeof events[id]){
-				  			updateSliderImage(id, path);
-				  		}
-					}, 2000) 
-				    toastr.success(data.msg);
-				    //met à jour l'image de myMarker (marker sur MA position)
-				    Sig.initHomeBtn();
-				    //met à jour l'image de profil dans le menu principal
-				    updateMenuThumbProfil();
-
-				} else{
-					updateBtnUpload(false);
-					toastr.error(data.msg);
-				}
-
-			});
+						toastr.error(data.msg);
+					}
+				},
+		      	error : function(data) {
+		      		updateBtnUpload(false);
+			  		toastr.error("Une erreur est survenue : merci de contacter votre administrateur.");
+			  	}
+			})
 		}
 		//met à jour l'image de profil dans le menu principal
 		function updateMenuThumbProfil(){ 
@@ -332,21 +340,20 @@
 		        mylog.log(Sig.userData.profilImageUrl);
 		        
 		    });
-		}
-
-		function updateBtnUpload(addDisable){ 
-			if(addDisable == true){
-				$("#"+contentId+"_fileUpload").css("opacity", "0.4");
-				$("#"+contentId+"_photoUploading").css("display", "block");
-				$(".btn-upload").addClass("disabled");
-			}else if(addDisable == false){
-				$("#"+contentId+"_fileUpload").css("opacity", "1");
-				$("#"+contentId+"_photoUploading").css("display", "none");
-				$(".btn").removeClass("disabled");
-			}
-		}
-		
+		}		
 	});
+
+	function updateBtnUpload(addDisable){ 
+		if(addDisable == true){
+			$("#"+contentId+"_fileUpload").css("opacity", "0.4");
+			$("#"+contentId+"_photoUploading").css("display", "block");
+			$(".btn-upload").addClass("disabled");
+		}else if(addDisable == false){
+			$("#"+contentId+"_fileUpload").css("opacity", "1");
+			$("#"+contentId+"_photoUploading").css("display", "none");
+			$(".btn").removeClass("disabled");
+		}
+	}
 
 	
 
