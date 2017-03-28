@@ -190,7 +190,7 @@ $controler = Element::getControlerByCollection($type);
 	}
 </style>
 
-<div class="row headerEntity bg-light">
+<div class="row headerEntity bg-light <?php if (@$deletePending) echo "deletePEnding"; ?>">
 	<?php if($type != "pixels" || !empty($viewer)) { ?>
 		<div class="col-lg-3 col-md-3 col-sm-3 col-xs-4 padding-10 center">
 			<?php   
