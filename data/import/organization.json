@@ -19,6 +19,7 @@
     "shortDescription" : "STRING",
     "url" : "STRING",
     "image" : "STRING",
+    "urlWiki" : "STRING",
     "urlFacebook" : "STRING",
     "urlTwitter" : "STRING",
     "source" : {
