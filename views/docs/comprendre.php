@@ -1,6 +1,8 @@
 <?php 
   $this->renderPartial("../docs/assets");
+  $slide = isset($_GET["slide"]) ? $_GET["slide"] : "";
 ?>
+
 <style>.btn-nav-in-doc { display: none !important; }</style>
 
 <!-- header -->
@@ -14,24 +16,22 @@
 <div id="docCarousel" class="carousel slide" data-ride="carousel">
   <!-- Round button indicators -->
   <ol class="carousel-indicators">
-    <li data-target="#docCarousel" data-slide-to="0" class="active"></li>
-    <li data-target="#docCarousel" data-slide-to="1" class=""></li>
-    <li data-target="#docCarousel" data-slide-to="2" class=""></li>
-    <li data-target="#docCarousel" data-slide-to="3" class=""></li>
-    <li data-target="#docCarousel" data-slide-to="4" class=""></li>
-    <li data-target="#docCarousel" data-slide-to="5" class=""></li>
-    <li data-target="#docCarousel" data-slide-to="6" class=""></li>
+    <li data-target="#docCarousel" data-slide-to="0" class="<?php if($slide=='ocdb') echo "active"; ?>"></li>
+    <li data-target="#docCarousel" data-slide-to="1" class="<?php if($slide=='openSystem') echo "active"; ?>"></li>
+    <li data-target="#docCarousel" data-slide-to="2" class="<?php if($slide=='import') echo "active"; ?>"></li>
+    <li data-target="#docCarousel" data-slide-to="3" class="<?php if($slide=='dda') echo "active"; ?>"></li>
+    <li data-target="#docCarousel" data-slide-to="4" class="<?php if($slide=='financement') echo "active"; ?>"></li>
+    <li data-target="#docCarousel" data-slide-to="5" class="<?php if($slide=='smarterre') echo "active"; ?>"></li>
   </ol>
 
   <!-- Wrapper for slides -->
   <div class="carousel-inner" role="listbox">
-    <div class="item active"><img src="<?php echo $this->module->assetsUrl; ?>/images/docs/comprendre/index.png" class="img-schemas img-responsive "></div>
-    <div class="item"><?php $this->renderPartial("../docs/comprendre/ocdb", array("renderPartial"=>true)); ?></div>
-    <div class="item"><?php $this->renderPartial("../docs/comprendre/openSystem", array("renderPartial"=>true)); ?></div>
-    <div class="item"><?php $this->renderPartial("../docs/comprendre/import", array("renderPartial"=>true)); ?></div>
-    <div class="item"><?php $this->renderPartial("../docs/comprendre/dda", array("renderPartial"=>true)); ?></div>
-    <div class="item"><?php $this->renderPartial("../docs/comprendre/financement", array("renderPartial"=>true)); ?></div>
-    <div class="item"><?php $this->renderPartial("../docs/comprendre/smarterre", array("renderPartial"=>true)); ?></div>
+    <div class="item <?php if($slide=='ocdb') echo "active"; ?>"><?php $this->renderPartial("../docs/comprendre/ocdb", array("renderPartial"=>true)); ?></div>
+    <div class="item <?php if($slide=='openSystem') echo "active"; ?>"><?php $this->renderPartial("../docs/comprendre/openSystem", array("renderPartial"=>true)); ?></div>
+    <div class="item <?php if($slide=='import') echo "active"; ?>"><?php $this->renderPartial("../docs/comprendre/import", array("renderPartial"=>true)); ?></div>
+    <div class="item <?php if($slide=='dda') echo "active"; ?>"><?php $this->renderPartial("../docs/comprendre/dda", array("renderPartial"=>true)); ?></div>
+    <div class="item <?php if($slide=='financement') echo "active"; ?>"><?php $this->renderPartial("../docs/comprendre/financement", array("renderPartial"=>true)); ?></div>
+    <div class="item <?php if($slide=='smarterre') echo "active"; ?>"><?php $this->renderPartial("../docs/comprendre/smarterre", array("renderPartial"=>true)); ?></div>
   </div>
 
   <!-- Left and right SLIDER controls -->

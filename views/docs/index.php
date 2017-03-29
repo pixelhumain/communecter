@@ -100,11 +100,12 @@ $this->renderPartial("../docs/assets");
 						</div> 
 						<div class="panel-body">
 				        <ul class="points">
-				        	<li><i class='fa fa-arrow-right'></i> <a  class="lbh" href="#default.view.page.ocdb.dir.docs">OCDB : Open Common Database</a> </li>
-							<li><i class='fa fa-arrow-right'></i> <a  class="lbh" href="#default.view.page.openSystem.dir.docs">Open System (Code Social)</a></li>
-							<li><i class='fa fa-arrow-right'></i> <a  class="lbh" href="#default.view.page.import.dir.docs">Import Export API</a></li>
-							<i class='fa fa-arrow-right'></i> <a  class="lbh" href="#default.view.page.explain">Les gros mots</a>
-							<li class=""><i class='fa fa-arrow-right'></i> <a  class="lbh" href="#default.view.page.financement.dir.docs|comprendre">Transparence Financière</a> </li>
+				        	<li><i class='fa fa-arrow-right'></i> <a  class="lbh" href="#default.view.page.comprendre.dir.docs?slide=ocdb">OCDB : Open Common Database</a> </li>
+							<li><i class='fa fa-arrow-right'></i> <a  class="lbh" href="#default.view.page.comprendre.dir.docs?slide=openSystem">Open System (Code Social)</a></li>
+							<li><i class='fa fa-arrow-right'></i> <a  class="lbh" href="#default.view.page.comprendre.dir.docs?slide=import">Import Export API</a></li>
+							<i class='fa fa-arrow-right'></i> <a  class="lbh" href="#default.view.page.comprendre.dir.docs?slide=dda">DDA - Décider / Discuter / Agir</a>
+							<li class=""><i class='fa fa-arrow-right'></i> <a  class="lbh" href="#default.view.page.comprendre.dir.docs?slide=financement">Transparence Financière</a> 
+							<li class=""><i class='fa fa-arrow-right'></i> <a  class="lbh" href="#default.view.page.comprendre.dir.docs?slide=smarterre">Programme Smarterre</a> </li>
 				        </ul>
 				    </div>
 					</div>
@@ -164,8 +165,7 @@ $this->renderPartial("../docs/assets");
 							
 					        <ul class="points">
 					        	<li><i class='fa fa-arrow-right'></i> <a  class="lbh" href="#default.view.page.rd.dir.docs?slide=roadmap">Roadmap</a>  </li>
-					        	<li><i class='fa fa-arrow-right'></i> <a  class="lbh" href="#default.view.page.architecture.dir.docs?slide=roadmap">Architecture</a>  </li>
-					        	<li class="hidden"><i class='fa fa-arrow-right'></i> <a  class="lbh" href="#default.view.page.fin.dir.docs|slides">Wish Liste</a> </li>
+					        	<li><i class='fa fa-arrow-right'></i> <a  class="lbh" href="#default.view.page.rd.dir.docs?slide=architecture">Architecture</a>  </li>
 					        </ul>
 					    </div>
 					</div>
