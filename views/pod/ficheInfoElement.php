@@ -231,18 +231,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 				<a href="javascript:;" id="disableOrga" class="btn btn-sm btn-red tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Disable"); ?>" alt=""><i class="fa fa-trash"></i><span class="hidden-xs"> <?php echo Yii::t("common","Disable")?></span></a>
 				<a href="javascript:;" id="activedOrga" class="btn btn-sm btn-green tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Actived"); ?>" alt=""><i class="fa fa-check"></i><span class="hidden-xs"> <?php echo Yii::t("common","Actived")?></span></a>
 			<?php } ?>
-			<?php  if($type != Person::COLLECTION || 
-						Preference::showPreference($element, $type, "directory", Yii::app()->session["userId"])) {  
-				
-				$urlNetwork = Element::getUrlMyNetwork((string)$element["_id"], $type);
-				?>
-	            	
-
-	            	<a href='<?php  echo $urlNetwork ;?>' target="_blank" id="myNetwork" class='btn btn-sm btn-default tooltips' data-toggle="tooltip" data-placement="bottom" title="Le network est une carte où vous retrouver toutes les éléments que vous avez crée, dont vous etes membre ou admin." alt="">
-						<i class='fa fa-globe'></i> <span class="hidden-sm hidden-xs">Mon Network</span>
-					</a>
-
-			<?php } ?>
 		<?php } ?>
 		<a class="btn btn-sm btn-default tooltips" href="javascript:;" onclick="showDefinition('qrCodeContainerCl',true)" data-toggle="tooltip" data-placement="bottom" title='<?php echo Yii::t("common","Show the QRCode for ").Yii::t("common","this ".$controller); ?>'><i class="fa fa-qrcode"></i> <?php echo Yii::t("common","QR Code") ?></a>
 	</div>

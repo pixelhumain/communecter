@@ -1485,41 +1485,45 @@ function addTooltips(){
 
 function filterTags(tags){
 	mylog.log("filterTags", tags);
-	str = '<div class="panel-heading">'+
-          '<h4 class="panel-title" onclick="manageCollapse(\'tags\', \'false\')">'+
-            '<a data-toggle="collapse" href="#tags" style="color:#719FAB" data-label="tags">Tous les tags'+ 
-              '<i class="fa fa-chevron-right right" aria-hidden="true" id="fa_tags"></i>'+
-            '</a>'+
-          '</h4>'+
-        '</div>'+
-        '<div id="list_tags" class="panel-collapse collapse">'+
-          '<ul class="list-group no-margin">';
-          		$.each(tags,function(k,v){
-          			 str += '<li class="list-group-item"><input type="checkbox" class="checkbox tagFilterAuto" value="'+k+'" data-parent="tags" data-label="'+k+'"/>'+k+' (' +v+ ')</li>'
-          		});
-        str +=  '</ul> </div>';
+	if(typeof tags != "undefined" ){
+		str = '<div class="panel-heading">'+
+	          '<h4 class="panel-title" onclick="manageCollapse(\'tags\', \'false\')">'+
+	            '<a data-toggle="collapse" href="#tags" style="color:#719FAB" data-label="tags">Tous les tags'+ 
+	              '<i class="fa fa-chevron-right right" aria-hidden="true" id="fa_tags"></i>'+
+	            '</a>'+
+	          '</h4>'+
+	        '</div>'+
+	        '<div id="list_tags" class="panel-collapse collapse">'+
+	          '<ul class="list-group no-margin">';
+	          		$.each(tags,function(k,v){
+	          			 str += '<li class="list-group-item"><input type="checkbox" class="checkbox tagFilterAuto" value="'+k+'" data-parent="tags" data-label="'+k+'"/>'+k+' (' +v+ ')</li>'
+	          		});
+	        str +=  '</ul> </div>';
 
-    $("#divTagsMenu").append(str);
+	    $("#divTagsMenu").append(str);
+    }
 }
 
 
 function filterType(types){
 	mylog.log("filterType", types);
-	str = '<div class="panel-heading">'+
-          '<h4 class="panel-title" onclick="manageCollapse(\'types\', \'false\')">'+
-            '<a data-toggle="collapse" href="#types" style="color:#719FAB" data-label="types">Tous les types'+ 
-              '<i class="fa fa-chevron-right right" aria-hidden="true" id="fa_tags"></i>'+
-            '</a>'+
-          '</h4>'+
-        '</div>'+
-        '<div id="list_types" class="panel-collapse collapse">'+
-          '<ul class="list-group no-margin">';
-          		$.each(types,function(k,v){
-          			 str += '<li class="list-group-item"><input type="checkbox" class="checkbox typeFilterAuto" value="'+k+'" data-parent="types" data-label="'+k+'"/>'+trad[k]+' (' +v+ ')</li>'
-          		});
-        str +=  '</ul> </div>';
+	if(typeof tags != "undefined" ){
+		str = '<div class="panel-heading">'+
+	          '<h4 class="panel-title" onclick="manageCollapse(\'types\', \'false\')">'+
+	            '<a data-toggle="collapse" href="#types" style="color:#719FAB" data-label="types">Tous les types'+ 
+	              '<i class="fa fa-chevron-right right" aria-hidden="true" id="fa_tags"></i>'+
+	            '</a>'+
+	          '</h4>'+
+	        '</div>'+
+	        '<div id="list_types" class="panel-collapse collapse">'+
+	          '<ul class="list-group no-margin">';
+	          		$.each(types,function(k,v){
+	          			 str += '<li class="list-group-item"><input type="checkbox" class="checkbox typeFilterAuto" value="'+k+'" data-parent="types" data-label="'+k+'"/>'+trad[k]+' (' +v+ ')</li>'
+	          		});
+	        str +=  '</ul> </div>';
 
-    $("#divTypesMenu").append(str);
+	    $("#divTypesMenu").append(str);
+	}
 }
 
 function chargement(){
