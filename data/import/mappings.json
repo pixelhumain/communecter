@@ -12,6 +12,7 @@
 	        "Code_Country" : "address.addressCountry",
 	        "Email" : "email",
 	        "Site web" : "url",
+	        "Url Wiki des Communs" : "urlWiki",
 	        "Description courte" : "shortDescription",
 	        "Description Longue" : "description",
 	        "Latitude" : "geo.latitude",
