@@ -2,7 +2,7 @@
 
 return array(
 	
-	"crowdfunder" 	=> "Vous avez participer au financement participatif de Communecter",
+	"crowdfunder" 	=> "Vous avez participé au financement participatif de Communecter",
 	"developper" 	=> "Vous êtes un développeur de Communecter",
 	"opendata" 		=> "Vous contribuez à l&apos;Open Data",
 	

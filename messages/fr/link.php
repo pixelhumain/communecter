@@ -8,7 +8,7 @@
  */
 
 return array(
-	"The member's role has been removed with success" => "Le role de ce membre a été retiré",
+	"The member's role has been removed with success" => "Le role de ce membre a été retiré avec succés",
 	"Directory" => "Annuaire",
 	"Connect People or Organizations that are part of your Organization" => "Connecter des personnes ou des organisations à votre organisation",
 	"Remove this member" => "Retirer ce membre"

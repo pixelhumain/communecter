@@ -18,7 +18,7 @@ return array(
 	"You are not a person" => "Vous n'êtes pas une personne",
 	"Contribute to the project ansering  to this need !!" => "Contribuez au projet en répondant à ce besoin !!",
 	"Involve me" => "Se proposer",
-	"Need has enough helpers !!" => "Le besoin a trouvé ces volontaires !!",
+	"Need has enough helpers !!" => "Le besoin a trouvé assez de volontaires !!",
 	"HELPERS" => "VOLONTAIRES",
 	"HELPER" => "VOLONTAIRE",
 	"NEED DESCRIPTION" => "DESCRIPTION DU BESOIN",

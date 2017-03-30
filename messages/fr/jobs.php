@@ -7,7 +7,7 @@
  */
 
 return array(
-	"Share your Organizations Jobs Simply" => "Partager vos offres d'emploi simplement",
+	"Share your Organizations Jobs Simply" => "Partager vos offres d'emplois simplement",
 	"JOBS & COURSES" => "EMPLOIS ET FORMATIONS",
 	"Create a job Offer" => "Créer une offre d'emploi",
 	"The job offer has been removed successfully!!" => "L'offre a été retiré avec succés !!",
