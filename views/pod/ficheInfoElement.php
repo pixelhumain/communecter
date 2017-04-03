@@ -235,7 +235,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 						<?php if ($type == Organization::COLLECTION) { ?>
 							<li><a href="javascript:;" id="disableOrga" class="margin-right-5 tooltips"><i class="fa fa-times text-red"></i> <?php echo Yii::t("common","Disable")?></a> </li>
 						<?php } ?>
-							<li><a href="javascript:;" id="deleteElement" class="margin-right-5 tooltips"><i class="fa fa-times text-red"></i> <?php echo Yii::t("common","Delete")?></a> </li>
+							<li><a href="javascript:;" data-toggle="modal" data-target="#modal-delete-element" class="margin-right-5 tooltips"><i class="fa fa-times text-red" ></i> <?php echo Yii::t("common","Delete")?></a> </li>
 						</ul>
 					</div>
 			<?php } ?>
@@ -710,6 +710,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 	</div>
 </div>
 
+<?php $this->renderPartial('../element/confirmDeleteModal'); ?>
+
 <?php
 $emptyAddress = (empty($element["address"]["codeInsee"])?true:false);
 $showOdesc = true ;
@@ -1016,60 +1018,12 @@ if($showOdesc == true){
 			});	
 	    });
 
-	    $("#deleteElement").off().on("click", function(){
-	    	var url = baseUrl+"/"+moduleId+"/element/delete/id/"+contextData.id+"/type/"+contextData.type;
-	    	mylog.log("deleteElement", url);
-	    	var msg = "<?php echo Yii::t('common','Are you sure you want to delete this element ? </br> The element will be deleted : it will not be referenced in all their projects or events. But these last ones will not be deleted. Warning : <span class=\"text-red\"></span> this action can not be cancelled') ;?>" ;
-
-			//TODO SBAR - add the reason
-			bootbox.confirm({
-				message: msg + "<span class='text-red'></span>",
-				buttons: {
-					confirm: {
-						label: "<?php echo Yii::t('common','I confim the delete !');?>",
-						className: 'btn-warning'
-					},
-					cancel: {
-						label: "<?php echo Yii::t('common','No');?>",
-						className: 'btn-secondary'
-					}
-				},
-				callback: function (result) {
-					if (!result) {
-						return;
-					} else {
-						param = new Object;
-	    				param.reason = "Paske !";
-						$.ajax({
-					        type: "POST",
-					        url: url,
-					        data: param,
-					       	dataType: "json",
-					    	success: function(data){
-						    	if(data.result){
-									toastr.success(data.msg);
-									loadByHash("#default.live");
-						    	}else{
-						    		toastr.error(data.msg);
-						    	}
-						    },
-						    error: function(data){
-						    	toastr.error("Something went really bad ! Please contact the administrator.");
-						    }
-						});
-					}
-				}
-			});	
-	    });
-
 		$(".panel-btn-confidentiality .btn").click(function(){
 			var type = $(this).attr("type");
 			var value = $(this).attr("value");
 			$(".btn-group-"+type + " .btn").removeClass("active");
 			$(this).addClass("active");
 		});
-
-
 	}
 
 	function switchModeElement() {
