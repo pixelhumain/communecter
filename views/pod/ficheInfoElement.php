@@ -227,7 +227,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 					<i class='fa fa-download'></i><span class="hidden-sm hidden-xs"></span>
 				</a>
 			<?php } ?>
-				<?php if (Authorisation::canDeleteElement((String)$element["_id"], $type, Yii::app()->session["userId"])) {
+				<?php if (Authorisation::canDeleteElement((String)$element["_id"], $type, Yii::app()->session["userId"]) && !@$deletePending) {
 				//($type == Organization::COLLECTION && $edit==true && empty($element["disabled"])) { ?>
 					<div class="btn-group pull-right">
 						<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"><span><i class="fa fa-trash"></i></span><span class="caret"></span></button>
@@ -710,7 +710,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 	</div>
 </div>
 
-<?php $this->renderPartial('../element/confirmDeleteModal'); ?>
+<?php if (Authorisation::canDeleteElement((String)$element["_id"], $type, Yii::app()->session["userId"]) && !@$deletePending) $this->renderPartial('../element/confirmDeleteModal'); ?>
+<?php if (@$deletePending && Authorisation::isElementAdmin((String)$element["_id"], $type, Yii::app()->session["userId"])) $this->renderPartial('../element/confirmDeletePendingModal'); ?>
 
 <?php
 $emptyAddress = (empty($element["address"]["codeInsee"])?true:false);

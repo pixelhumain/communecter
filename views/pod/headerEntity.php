@@ -239,6 +239,11 @@ $controler = Element::getControlerByCollection($type);
 								<?php echo Yii::t("common", "Disabled"); ?>
 							</h1>
 						<?php } ?>
+						<?php if ($deletePending) { ?>
+							<h1 id="deletePendingHeader" class="text-red">
+								<?php echo Yii::t("common", "Delete Pending"); ?>
+							</h1>
+						<?php } ?>
 					</span>
 					<?php if(!empty($entity["parentId"]) && !empty($entity["parentType"])) {
 							$parentEvent = Element::getElementSimpleById($entity["parentId"], $entity["parentType"]);

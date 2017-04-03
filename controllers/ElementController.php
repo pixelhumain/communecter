@@ -23,10 +23,11 @@ class ElementController extends CommunecterController {
           'directory'             => 'citizenToolKit.controllers.element.DirectoryAction',
           'addmembers'             => 'citizenToolKit.controllers.element.AddMembersAction',
           'aroundme'              => 'citizenToolKit.controllers.element.AroundMeAction',
-          'updatefield' => 'citizenToolKit.controllers.element.UpdateFieldAction',
-          'save'        => 'citizenToolKit.controllers.element.SaveAction',
-          'delete'        => 'citizenToolKit.controllers.element.DeleteAction',
-          'get'        => 'citizenToolKit.controllers.element.GetAction'
+          'updatefield'           => 'citizenToolKit.controllers.element.UpdateFieldAction',
+          'save'                  => 'citizenToolKit.controllers.element.SaveAction',
+          'delete'                => 'citizenToolKit.controllers.element.DeleteAction',
+          'stopdelete'            => 'citizenToolKit.controllers.element.StopDeleteAction',
+          'get'                   => 'citizenToolKit.controllers.element.GetAction'
       );
   }
 }

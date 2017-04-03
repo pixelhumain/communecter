@@ -136,7 +136,8 @@ if($('#breadcum').length)
 	    				"isLinked" => @$isLinked,
 	    				"openEdition" => $openEdition,
 	    				"modeEdit" => @$modeEdit,
-	    				"controller" => $controller
+	    				"controller" => $controller,
+	    				"deletePending" => $deletePending
 	    			);
 	    			$this->renderPartial('../pod/ficheInfoElement',$params); 
 	    		?>
