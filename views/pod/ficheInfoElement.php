@@ -199,7 +199,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 <div class="panel panel-white">
 	<div class="panel-heading border-light padding-15" style="background-color: #dee2e680;">
 		<h4 class="panel-title text-dark"> 
-			<i class="fa fa-info-circle"></i> <?php echo Yii::t("common","Account info") ?>
+			<i class="fa fa-info-circle"></i> <?php echo Yii::t("common","Account info") ?>			
 		</h4>
 	</div>
 	<div id="divBtnDetail" class="panel-tools" >
@@ -227,7 +227,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 					<i class='fa fa-download'></i><span class="hidden-sm hidden-xs"></span>
 				</a>
 			<?php } ?>
-				<?php if (Authorisation::canDeleteElement(@$element["id"], $type, Yii::app()->session["userId"])) {
+				<?php if (Authorisation::canDeleteElement((String)$element["_id"], $type, Yii::app()->session["userId"])) {
 				//($type == Organization::COLLECTION && $edit==true && empty($element["disabled"])) { ?>
 					<div class="btn-group pull-right">
 						<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"><span><i class="fa fa-trash"></i></span><span class="caret"></span></button>
