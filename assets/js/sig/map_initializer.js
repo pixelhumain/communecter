@@ -49,7 +49,16 @@
 				//lorsque la vue de la carte change, on actualise la liste d'élément (rightList)
 				//thisMap.on('moveend', function(e) { thisSig.checkListElementMap(thisMap); });
 				//losque on effectue une recherche dans le champs de texte
-				$(this.cssModuleName + " #input_name_filter" ).keyup(function (){ thisSig.checkListElementMap(thisMap); });
+				$(this.cssModuleName + " #input_name_filter" ).keyup(function (){ 
+					mylog.log("input_name_filter", thisMap, $(this).val());
+					if(typeof $(this).val() != "undefined" && typeof networkJson != "undefined"){
+						mylog.log("ici", $(this).val());
+						searchValNetwork = $(this).val() ;
+						updateMap();
+					}
+					thisSig.checkListElementMap(thisMap); });
+					mylog.log(typeof $(this).val());
+					
 				//lorsqu'on active/désactive le filtre par zone
 				$(this.cssModuleName + " #chk-scope").click(function (){ thisSig.checkListElementMap(thisMap); });
 			}

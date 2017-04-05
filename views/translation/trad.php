@@ -64,6 +64,9 @@ var trad = {"areyousuretodelete" : "<?php echo Yii::t("common", "Are you sure yo
 		"suretodeletedecisionroom" : "<?php echo Yii::t("common","Are you sure you want to delete this  decision room") ?>",
 		"suretodeleteaction" : "<?php echo Yii::t("common","Are you sure you want to delete this action") ?>",
 		"suretodeleteactionroom" : "<?php echo Yii::t("common","Are you sure you want to delete this action room") ?>",
+		"projects" : "<?php echo Yii::t("common","Projects") ?>",
+		"events" : "<?php echo Yii::t("common","Events") ?>",
+		"organizations" : "<?php echo Yii::t("common","Organizations") ?>",
 };
 
 var tradCountry = {

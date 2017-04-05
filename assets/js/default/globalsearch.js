@@ -244,7 +244,7 @@ function autoCompleteSearchGS(search, indexMin, indexMax){
                   if(!loadingDataGS){
                     //startGlobalSearch(indexMin+indexStepGS, indexMax+indexStepGS);
                     //selectScopeLevelCommunexion(5);
-                    loadByHash("#default.directory");
+                    loadByHash("#default.directory?type=organizations");
                   }
                 });
                 

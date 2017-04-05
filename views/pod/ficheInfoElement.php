@@ -234,6 +234,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 						<ul class="dropdown-menu" role="menu">
 						<?php if ($type == Organization::COLLECTION) { ?>
 							<li><a href="javascript:;" id="disableOrga" class="margin-right-5 tooltips"><i class="fa fa-times text-red"></i> <?php echo Yii::t("common","Disable")?></a> </li>
+							<li><a href="javascript:;" id="activedOrga" class="btn btn-sm btn-green tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Actived"); ?>" alt=""><i class="fa fa-check"></i><span class="hidden-xs"> <?php echo Yii::t("common","Actived")?></span></a></li>
 						<?php } ?>
 							<li><a href="javascript:;" data-toggle="modal" data-target="#modal-delete-element" class="margin-right-5 tooltips"><i class="fa fa-times text-red" ></i> <?php echo Yii::t("common","Delete")?></a> </li>
 						</ul>
@@ -764,13 +765,31 @@ if($showOdesc == true){
 	var icon = '<?php echo Element::getFaIcon($type); ?>';
 	var speudoTelegram = '<?php echo @$element["socialNetwork"]["telegram"]; ?>';
 	var organizer = <?php echo json_encode($organizer) ?>;
-	//var tags = <?php echo json_encode($tags)?>;
+	var alltags = <?php if(isset($tags)) echo json_encode($tags); else echo json_encode(array())?> ;
 
+
+	if(typeof networkTags != "undefined" && networkTags != null && networkTags.length > 0){
+		alltags = networkTags ;
+	}
 	//var contentKeyBase = "<?php echo isset($contentKeyBase) ? $contentKeyBase : ""; ?>";
 	//By default : view mode
 	//var images = <?php echo json_encode($images) ?>;
 	
 	//var publics = <?php echo json_encode($publics) ?>;
+
+	if(edit == "true"){
+		if(disableElement == "1"){
+			$("#activedOrga").show();
+			$("#disableOrga").hide();
+		}
+		else{
+		 	$("#disableOrga").show();
+		 	$("#activedOrga").hide();
+		}
+	}else{
+		$("#disableOrga").hide();
+		 $("#activedOrga").hide();
+	}
 
 	jQuery(document).ready(function() {
 		activateEditableContext();
@@ -1009,14 +1028,46 @@ if($showOdesc == true){
 					    	success: function(data){
 						    	if(data.result){
 									toastr.success(data.msg);
+									$("#disabledHeader").show();
+									$("#activedOrga").show();
+									$("#disableOrga").hide();		
 						    	}else{
 						    		toastr.error(data.msg);
+						    		$("#disabledHeader").hide();
+						    		$("#disableOrga").show();
+					 				$("#activedOrga").hide();
 						    	}
 						    }
 						});
 					}
 				}
 			});	
+
+	    $("#activedOrga").off().on("click", function(){
+	    	var params = {
+	    		pk : contextData.id,
+				name : "disabled",
+				value : null
+	    	};
+	    	$.ajax({
+		        type: "POST",
+		        url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
+		        data: params,
+		       	dataType: "json",
+		    	success: function(data){
+			    	if(data.result){
+						toastr.success(data.msg);
+						$("#disabledHeader").hide();
+						$("#disableOrga").show();
+		 				$("#activedOrga").hide();
+			    	}else{
+			    		toastr.error(data.msg);
+			    		$("#disabledHeader").show();
+			    		$("#activedOrga").show();
+						$("#disableOrga").hide();
+			    	}
+			    }
+			});
 	    });
 
 		$(".panel-btn-confidentiality .btn").click(function(){
@@ -1285,7 +1336,7 @@ if($showOdesc == true){
 		 	mode: 'popup',
 		 	value: returnttags(),
 		 	select2: {
-		 		tags: <?php if(isset($tags)) echo json_encode($tags); else echo json_encode(array())?>,
+		 		tags: alltags,
 		 		tokenSeparators: [","],
 		 		width: 200,
 		 		dropdownCssClass: 'select2-hidden'
