@@ -286,7 +286,7 @@ function autocompleteFormAddress(currentScopeType, scopeValue){
     					if($.inArray(valueCP.name, allCities)<0){ 
 	    					allCities.push(valueCP.name);
 		    				if(notEmpty(value.geoShape))
-		    				inseeGeoSHapes[insee] = value.geoShape.coordinates[0];
+		    				inseeGeoSHapes[insee] = value.geoShape.coordinates;
 		    				var val = valueCP.postalCode; 
 		    				var lbl = valueCP.name ;
 		    				var lblList = valueCP.name + ", " +valueCP.postalCode ;

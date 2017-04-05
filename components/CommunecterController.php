@@ -413,6 +413,7 @@ class CommunecterController extends Controller
       "save" => array("href" => "/ph/communecter/element/save"),
       "get" => array("href" => "/ph/communecter/element/get"),
       "delete" => array("href" => "/ph/communecter/element/delete"),
+      "network" => array("href" => "/ph/communecter/element/network"),
     ),
     "k" => array(
       "web"               => array('href' => "/ph/communecter/k/web",               "public" => true),

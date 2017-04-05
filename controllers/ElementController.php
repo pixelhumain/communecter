@@ -28,6 +28,7 @@ class ElementController extends CommunecterController {
           'delete'        => 'citizenToolKit.controllers.element.DeleteAction',
           'get'        => 'citizenToolKit.controllers.element.GetAction',
           'updateblock'          => 'citizenToolKit.controllers.element.UpdateBlockAction',
+          "network" => 'citizenToolKit.controllers.element.NetworkAction',
       );
   }
 }

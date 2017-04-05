@@ -246,7 +246,8 @@
 						this.listId = new Array(objectId);
 
 						$(this.cssModuleName + " .item_map_list_" + objectId).click(function()
-						{	thisSig.map.panTo(center, {"animate" : true });
+						{	
+							thisSig.map.panTo(center, {"animate" : true });
 							thisSig.checkListElementMap(thisSig.map);
 							thisSig.myMarker.openPopup();
 						});
@@ -428,23 +429,38 @@
 				//si le polygone existe déjà on le supprime
 				if(this.mapPolygon != null) this.map.removeLayer(this.mapPolygon);
 				//puis on charge le nouveau polygone
-				this.mapPolygon = L.polygon(polygonPoints, {
-										color: '#FFF', 
-										opacity:0.7,
-										fillColor: '#71A4B4', 
-										fillOpacity:0.3,  
-										weight:'2px', 
-										smoothFactor:0.5}).addTo(this.map);
+				if (Array.isArray(polygonPoints[0][0][0])) {
+					this.mapPolygon = L.multiPolygon(polygonPoints, {
+											color: '#FFF', 
+											opacity:0.7,
+											fillColor: '#71A4B4', 
+											fillOpacity:0.3,  
+											weight:'2px', 
+											smoothFactor:0.5}).addTo(this.map);
+				} else {
+					this.mapPolygon = L.polygon(polygonPoints, {
+											color: '#FFF', 
+											opacity:0.7,
+											fillColor: '#71A4B4', 
+											fillOpacity:0.3,  
+											weight:'2px', 
+											smoothFactor:0.5}).addTo(this.map);
+				}
 			};
 
 			this.Sig.inversePolygon = function(polygon){
 				var inversedPoly = new Array();
 				mylog.log("inversePolygon");
 				if(typeof polygon != "undefined" && polygon != null){
-					$.each(polygon, function(key, value){
-						var lat = value[0];
-						var lng = value[1];
-						inversedPoly.push(new Array(lng, lat));
+					$.each(polygon, function(key, value) {
+						//multishape
+						if (Array.isArray(value[0])) {
+							inversedPoly.push(Sig.inversePolygon(value));
+						} else {
+							var lat = value[0];
+							var lng = value[1];
+							inversedPoly.push(new Array(lng, lat));
+						}
 					});
 				}
 				mylog.dir(inversedPoly);
@@ -741,6 +757,7 @@
 						
 							//au click sur un element de la liste de droite, on zoom pour déclusturiser, et on ouvre la bulle
 							$(thisSig.cssModuleName + " .item_map_list_" + feature.properties.id).click(function(){
+								
 								thisSig.allowMouseoverMaker = false;
 								var coordinates =  [feature.geometry.coordinates[1], 
 													feature.geometry.coordinates[0]];
@@ -749,7 +766,7 @@
 								var visibleOne = null;
 								if(typeof layer != "undefined")
 									visibleOne = Sig.markersLayer.getVisibleParent(layer);
-								
+
 								if(typeof visibleOne != "undefined"){
 									if(typeof visibleOne._childCount != "undefined"){
 										var i = 0;
@@ -773,6 +790,7 @@
 										}
 									}
 								}
+								//mylog.log("thisMap", thisMap);
 								thisSig.checkListElementMap(thisMap);
 								thisSig.currentMarkerToOpen = layer;
 								thisSig.currentMarkerPopupOpen = layer;

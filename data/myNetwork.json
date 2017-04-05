@@ -1,0 +1,70 @@
+{
+    "name" : "MyNetwork",
+    "mode" : "server",
+    "skin" : {
+        "logo" : "",
+        "title" : "My Network",
+        "shortDescription" : "My Network",
+        "displayScope" : false,
+        "docs":true,
+        "displayCommunexion" : true,
+        "displayNotifications" : false,
+        "profilBar" : false,
+        "breadcrum" : true,
+        "displayButtonGridList" : false,
+        "class" : {
+            "mainContainer" : false
+        },
+        "iconeAdd" : false,
+        "iconeSearchPlus" : false,
+        "loginTitle": "",
+        "front" : {
+            "organization" : true,
+            "project" : true,
+            "event" : true,
+            "community" : true,
+            "dda" : true,
+            "live" : false,
+            "search" : false,
+            "need" : false,
+            "poi" : false
+        },
+        "menu" : {
+            "aroundMe" : false,
+            "connectLink" : false,
+            "add" : true,
+            "detail" : true,
+            "news" : true,
+            "directory" : true,
+            "gallery" : true
+        }
+    },
+    "filter" : {
+        "types" : true
+    },
+    "add" : {
+        "organization" : true,
+        "event" : true,
+        "project" : true
+    },
+    "result" : {
+        "displayImage" : true,
+        "displayType" : true,
+        "fullLocality" : true,
+        "datesEvent" : false,
+        "displayShortDescription" : true
+    },
+    "request" : {
+        "sourceKey" :[
+            ""
+        ],
+        "oneElement" : true,
+        "pagination" : 100000,
+        "searchType" : [
+            "organizations",
+            "citoyens",
+            "events",
+            "projects"
+        ]
+    }
+}

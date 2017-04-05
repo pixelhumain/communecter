@@ -224,6 +224,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 					<i class='fa fa-download'></i><span class="hidden-sm hidden-xs"></span>
 				</a>
 			<?php } ?>
+			<?php if ($type == Organization::COLLECTION && $edit==true ) { ?>
+				<a href="javascript:;" id="disableOrga" class="btn btn-sm btn-red tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Disable"); ?>" alt=""><i class="fa fa-trash"></i><span class="hidden-xs"> <?php echo Yii::t("common","Disable")?></span></a>
+				<a href="javascript:;" id="activedOrga" class="btn btn-sm btn-green tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Actived"); ?>" alt=""><i class="fa fa-check"></i><span class="hidden-xs"> <?php echo Yii::t("common","Actived")?></span></a>
+			<?php } ?>
 		<?php } ?>
 		<a class="btn btn-sm btn-default tooltips" href="javascript:;" onclick="showDefinition('qrCodeContainerCl',true)" data-toggle="tooltip" data-placement="bottom" title='<?php echo Yii::t("common","Show the QRCode for ").Yii::t("common","this ".$controller); ?>'><i class="fa fa-qrcode"></i> <?php echo Yii::t("common","QR Code") ?></a>
 	</div>
@@ -236,7 +240,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 		<div class="col-md-12 col-lg-12 col-xs-12 no-padding text-dark lbl-info-details">
 			<i class="fa fa-map-marker"></i>  <?php echo Yii::t("common","Information") ?>
 			<?php if($edit==true || $openEdition==true ){?>
-				<a href="javascript:;" id="btn-update-info" class="tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Update Contact information");?>"><i class="fa text-red fa-pencil"></i></a>
+				<a href="javascript:;" id="btn-update-info" class="tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Update general information");?>"><i class="fa text-red fa-pencil"></i></a>
 				<?php } ?>
 		</div>
 		<div class="col-md-12">
@@ -746,13 +750,31 @@ if($showOdesc == true){
 	//var icon = '<?php echo Element::getFaIcon($type); ?>';
 	var speudoTelegram = '<?php echo @$element["socialNetwork"]["telegram"]; ?>';
 	var organizer = <?php echo json_encode($organizer) ?>;
-	//var tags = <?php echo json_encode($tags)?>;
+	var alltags = <?php if(isset($tags)) echo json_encode($tags); else echo json_encode(array())?> ;
 
+
+	if(typeof networkTags != "undefined" && networkTags != null && networkTags.length > 0){
+		alltags = networkTags ;
+	}
 	//var contentKeyBase = "<?php echo isset($contentKeyBase) ? $contentKeyBase : ""; ?>";
 	//By default : view mode
 	//var images = <?php //echo json_encode($images) ?>;
 	
 	//var publics = <?php //echo json_encode($publics) ?>;
+
+	if(edit == "true"){
+		if(disableElement == "1"){
+			$("#activedOrga").show();
+			$("#disableOrga").hide();
+		}
+		else{
+		 	$("#disableOrga").show();
+		 	$("#activedOrga").hide();
+		}
+	}else{
+		$("#disableOrga").hide();
+		 $("#activedOrga").hide();
+	}
 
 	jQuery(document).ready(function() {
 		//activateEditableContext();
@@ -773,25 +795,25 @@ if($showOdesc == true){
 		if(!emptyAddress)
 			$("#btn-view-map").removeClass('hidden');
 
-		$("#btn-update-geopos").off().on( "click", function(){
+		$("#btn-update-geopos").click(function () { 
 			updateLocalityEntities();
 		});
 
-		$("#btn-add-geopos").off().on( "click", function(){
+		$("#btn-add-geopos").click(function () { 
 			updateLocalityEntities();
 		});
 
 		
 
-		$("#btn-update-organizer").off().on( "click", function(){
+		$("#btn-update-organizer").click(function () { 
 			updateOrganizer();
 		});
-		/*$("#btn-add-organizer").off().on( "click", function(){
+		/*$("#btn-add-organizer").click(function () { 
 			updateOrganizer();
 		});*/
 
 
-		$("#btn-remove-geopos").off().on( "click", function(){
+		$("#btn-remove-geopos").click(function () { 
 			var msg = "<?php echo Yii::t('common','Are you sure you want to delete the locality') ;?>" ;
 			if(contextData.type == "<?php echo Person::COLLECTION; ?>")
 				msg = "<?php echo Yii::t('common',"Are you sure you want to delete the locality ? You can't vote anymore in the citizen council of your city."); ?> ";
@@ -888,7 +910,7 @@ if($showOdesc == true){
 	function bindDynFormEditable(){
 
 		
-		$("#btn-update-when").off().on( "click", function(){
+		$("#btn-update-when").click(function () { 
 
 			var properties = {
 				block : typeObjLib["hidden"],
@@ -972,7 +994,7 @@ if($showOdesc == true){
 		});
 
 
-		$("#btn-update-info").off().on( "click", function(){
+		$("#btn-update-info").click(function () { 
 
 			var properties = {
 				block : typeObjLib.hidden,
@@ -1219,7 +1241,7 @@ if($showOdesc == true){
 			elementLib.editDynForm("Modifier les informations générales", "fa-pencil", properties, "", dataUpdate, saveUrl, onLoads, beforeSave, afterSave);
 		});
 
-		$("#btn-update-contact").off().on( "click", function(){
+		$("#btn-update-contact").click(function () { 
 			mylog.log("---------------btn-update-contact---------------------");
 			var properties = {
 				email : typeObjLib["email"],
@@ -1333,7 +1355,7 @@ if($showOdesc == true){
 			elementLib.editDynForm("Modifier les coordonnées", "fa-pencil", properties, "initUpdateInfo", dataUpdate, saveUrl, onLoads, beforeSave, afterSave);
 		});
 
-		$("#btn-update-desc").off().on( "click", function(){
+		$("#btn-update-desc").click(function () { 
 			var properties = {
 				description : typeObjLib["description"],
 				shortDescription : typeObjLib["description"],
@@ -1474,6 +1496,55 @@ if($showOdesc == true){
 	    	
 	    });
 
+	    $("#disableOrga").off().on("click", function(){
+	    	$.ajax({
+		        type: "POST",
+		        url: baseUrl+"/"+moduleId+"/organization/disabled/id/"+contextData.id,
+		        //data: param,
+		       	dataType: "json",
+		    	success: function(data){
+			    	if(data.result){
+						toastr.success(data.msg);
+						$("#disabledHeader").show();
+						$("#activedOrga").show();
+						$("#disableOrga").hide();		
+			    	}else{
+			    		toastr.error(data.msg);
+			    		$("#disabledHeader").hide();
+			    		$("#disableOrga").show();
+		 				$("#activedOrga").hide();
+			    	}
+			    }
+			});
+	    });
+
+	    $("#activedOrga").off().on("click", function(){
+	    	var params = {
+	    		pk : contextData.id,
+				name : "disabled",
+				value : null
+	    	};
+	    	$.ajax({
+		        type: "POST",
+		        url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
+		        data: params,
+		       	dataType: "json",
+		    	success: function(data){
+			    	if(data.result){
+						toastr.success(data.msg);
+						$("#disabledHeader").hide();
+						$("#disableOrga").show();
+		 				$("#activedOrga").hide();
+			    	}else{
+			    		toastr.error(data.msg);
+			    		$("#disabledHeader").show();
+			    		$("#activedOrga").show();
+						$("#disableOrga").hide();
+			    	}
+			    }
+			});
+	    });
+
 		$(".panel-btn-confidentiality .btn").click(function(){
 			var type = $(this).attr("type");
 			var value = $(this).attr("value");
@@ -1543,6 +1614,192 @@ if($showOdesc == true){
 				$(value).addClass("hidden");
 			else
 				$(value).removeClass("hidden"); 
+		});
+	}
+	
+
+	function activateEditableContext() {
+		$.fn.editable.defaults.mode = 'popup';
+		$.fn.editable.defaults.container='body';
+		$('.editable-context').editable({
+			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
+			title : $(this).data("title"),
+			onblur: 'submit',
+			/*success: function(response, newValue) {
+				mylog.log(response, newValue);
+				if(! response.result) return response.msg; //msg will be shown in editable form
+    		},*/
+    		success : function(data) {
+    			mylog.log("hello", data);
+				if(data.result) {
+					toastr.success(data.msg);
+					loadActivity=true;
+
+					if(typeof data.name != "undefined" && $('#nameHeader').length ){
+						$('#nameHeader').html(data.name);
+					}	
+				}
+				else 
+					return data.msg;
+			}
+
+		});
+
+		$('.socialIcon').editable({
+			display: function(value) {
+				manageSocialNetwork($(this), value);
+			},
+			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
+			mode: 'popup',
+			success : function(data) {
+				mylog.log("herehehre", data);
+				//mylog.log(data.telegramAccount, typeof data.telegramAccount);
+				if(typeof data.telegramAccount != "undefined" && data.telegramAccount.length > 0){
+					speudoTelegram = data.telegramAccount.trim();
+					$('#telegramAccount').attr('href', 'https://web.telegram.org/#/im?p=@'+speudoTelegram);
+					$('#telegramAccount').html('<i class="fa telegramAccount text-white"></i>'+speudoTelegram);
+					
+				}
+				if(typeof data.facebookAccount != "undefined" && data.facebookAccount.length > 0){
+					pseudoFacebook = data.facebookAccount.trim();
+					$('#facebookAccount').attr('href', pseudoFacebook);
+				}
+				if(typeof data.twitterAccount != "undefined" && data.twitterAccount.length > 0){
+					pseudoTwitter = data.TwitterAccount.trim();
+					$('#twitterAccount').attr('href', pseudoTwitter);
+				}
+				if(typeof data.gitHubAccount != "undefined" && data.gitHubAccount.length > 0){
+					pseudoGithub = data.gitHubAccount.trim();
+					$('#gitHubAccount').attr('href', pseudoGithub);
+				}
+				if(typeof data.skypeAccount != "undefined" && data.skypeAccount.length > 0){
+					pseudoSkype = data.skypeAccount.trim();
+					$('#skypeAccount').attr('href', pseudoSkype);
+				}
+				if(typeof data.gpplusAccount != "undefined" && data.gpplusAccount.length > 0){
+					pseudoGpplus = data.gpplusAccount.trim();
+					$('#gpplusAccount').attr('href', pseudoGpplus);
+				}
+
+			}
+		}); 
+
+
+		//Type Organization
+		 $('#type').editable({
+		 	url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType, 
+		 	value: '<?php echo (isset($element["type"])) ? $element["type"] : ""; ?>',
+		 	placement: 'bottom',
+		 	source: function() {
+		 		return types;
+		 	},
+		 	success : function(data) {
+				if(data.result) {
+					toastr.success(data.msg);
+					loadActivity=true;
+					if(typeof data.type != "undefined" && $('#typeHeader').length ){
+						$('#typeHeader').html(data.type);
+					}
+				}
+				else 
+					return data.msg;
+			}
+		 });
+
+		$('#birthDate').editable({
+			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType, 
+			mode: 'popup',
+			placement: "right",
+			format: 'yyyy-mm-dd',   
+	    	viewformat: 'dd/mm/yyyy',
+	    	datepicker: {
+	            weekStart: 1,
+	        },
+	        showbuttons: true
+		});
+
+		/*$('#tags').editable({
+	        url: baseUrl+"/"+moduleId+"/element/updatefield", //this url will not be used for creating new user, it is only for update
+	        mode : 'popup',
+	        value: <?php echo (isset($person["tags"])) ? json_encode(implode(",", $person["tags"])) : "''"; ?>,
+	        select2: {
+	            tags: <?php if(isset($tags)) echo json_encode($tags); else echo json_encode(array())?>,
+	            tokenSeparators: [","],
+	            width: 200,
+	            dropdownCssClass: 'select2-hidden'
+	        }
+	    });*/
+
+		//Select2 tags
+		$('#tags').editable({
+			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
+		 	mode: 'popup',
+		 	value: returnttags(),
+		 	select2: {
+		 		tags: alltags,
+		 		tokenSeparators: [","],
+		 		width: 200,
+		 		dropdownCssClass: 'select2-hidden'
+		 	},
+		 	success : function(data) {
+		 		mylog.log("TAGS", data);
+				if(data.result) {
+					toastr.success(data.msg);
+					loadActivity=true;
+					var str = "";
+					if($('#divTagsHeader').length ){
+						
+						$.each(data.tags, function (key, tag){
+							str +=	'<div class="tag label label-danger pull-right" data-val="'+tag+'">'+
+										'<i class="fa fa-tag"></i>'+tag+
+									'</div>';
+							if(typeof globalTheme == "undefined" || globalTheme != "network")
+								addTagToMultitag(tag);
+						});
+						
+					}
+					$('#divTagsHeader').html(str);	
+				}
+				else 
+					return data.msg;
+			}
+		});
+
+
+		$('#mobile').editable({
+	        url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
+	        mode : 'popup',
+	        value: <?php echo (isset($element["telephone"]["mobile"])) ? json_encode(implode(",", $element["telephone"]["mobile"])) : "''"; ?>,
+	    	success : function(data) {
+				if(data.result)
+					toastr.success(data.msg);
+				else 
+					toastr.error(data.msg);
+			}
+	    });
+
+	    $('#fax').editable({
+	        url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
+	        mode : 'popup',
+	        value: <?php echo (isset($element["telephone"]["fax"])) ? json_encode(implode(",", $element["telephone"]["fax"])) : "''"; ?>,
+	    	success : function(data) {
+				if(data.result)
+					toastr.success(data.msg);
+				else 
+					toastr.error(data.msg);
+			}
+	    }); 
+
+		$('#fixe').editable({
+			url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType, 
+			mode: 'popup',
+			value: <?php echo (isset($element["telephone"]["fixe"])) ? json_encode(implode(",", $element["telephone"]["fixe"])) : "''"; ?>,
+			success : function(data) {
+				if(data.result)
+					toastr.success(data.msg);
+				else 
+					toastr.error(data.msg);
+			}
 		});
 		
 	}
