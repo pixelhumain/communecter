@@ -1175,7 +1175,7 @@ function showMenuNetwork(show){
 //console.log( and( ["atelier","commun"], [ "mobilité", "atelier", "commun", "tiers-lieux" ] ));
 //console.log( and( ["coco","atelier"], [ "mobilité", "atelier", "commun", "tiers-lieux" ] ));
 //console.log( and( ["coco","atelier",'commun'], [ "mobilité", "atelier", "commun", "tiers-lieux" ] ));
-function and(tags,tagList)
+/*function and(tags,tagList)
 {
 	var res = true ;
 	$.each(tags,function(i,t){
@@ -1186,23 +1186,51 @@ function and(tags,tagList)
 		}
 	});
 	return res;
+}*/
+
+function and(tags,tagList)
+{
+	var res = true ;
+	$.each(tags,function(i,t){
+	
+		reg = new RegExp("^"+t+"$","i");
+		if( inArrayRegex(tagList,reg) == false ){
+    		res = false;
+	        return false;
+	    }
+	});
+	return res;
 }
 
 //if just one or many tags exist returns true
-//console.log( or( [], [ "mobilité", "atelier", "commun", "tiers-lieux" ] ));
-//console.log( or( ["atelier"], [ "mobilité", "atelier", "commun", "tiers-lieux" ] ));
-//console.log( or( ["atelier","coco"], [ "mobilité", "atelier", "commun", "tiers-lieux" ] ));
-//console.log( or( ["atelier","commun"], [ "mobilité", "atelier", "commun", "tiers-lieux" ] ));
-//console.log( or( ["coco","atelier"], [ "mobilité", "atelier", "commun", "tiers-lieux" ] ));
-//console.log( or( ["coco","n"], [ "mobilité", "atelier", "commun", "tiers-lieux" ] ));
+/*console.log( or( [], [ "mobilité", "atelier", "commun", "tiers-lieux" ] ));
+console.log( or( ["atelier"], [ "mobilité", "atelier", "commun", "tiers-lieux" ] ));
+console.log( or( ["atelier","coco"], [ "mobilité", "atelier", "commun", "tiers-lieux" ] ));
+console.log( or( ["atelier","commun"], [ "mobilité", "atelier", "commun", "tiers-lieux" ] ));
+console.log( or( ["coco","atelier"], [ "mobilité", "atelier", "commun", "tiers-lieux" ] ));
+console.log( or( ["coco","n"], [ "mobilité", "atelier", "commun", "tiers-lieux" ] ));*/
 function or(tags,tagList)
 {
 	res = (!tags.length) ? true :false;
-
 	$.each(tags,function(i,t){
-	//console.log("is '",t,"' in ",tagList);
-		if( $.inArray( t, tagList ) !== -1 )
+		reg = new RegExp("^"+t+"$","i");
+		if( inArrayRegex(tagList,reg) !== false ){
+    		res = true;
+	        return false;
+	    }
+		
+	});
+	return res;
+}
+
+
+function inArrayRegex(tab,regex){
+	res = false;
+	$.each(tab,function(i,t){
+		if(t.match(regex)){
 			res = true;
+			return false
+		}
 	});
 	return res;
 }
