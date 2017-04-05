@@ -802,7 +802,7 @@ if($showOdesc == true){
 		bindAboutPodElement();
 		$("#btn-update-locality").click(function(){
 			Sig.showMapElements(Sig.map, mapData);
-		});*/
+		});
 
 		if(!emptyAddress)
 			$("#btn-view-map").removeClass('hidden');
