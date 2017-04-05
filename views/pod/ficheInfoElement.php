@@ -1042,7 +1042,8 @@ if($showOdesc == true){
 					}
 				}
 			});	
-
+		});
+		
 	    $("#activedOrga").off().on("click", function(){
 	    	var params = {
 	    		pk : contextData.id,
