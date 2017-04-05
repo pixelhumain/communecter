@@ -302,6 +302,7 @@ if($('#breadcum').length)
 														"openEdition" => $openEdition));
 				?>
 			</div>
+			<?php } 
 			if (($type==Project::COLLECTION || $type==Organization::COLLECTION || $type==Event::COLLECTION)){ ?>
 
 	    		<?php if(!@$front || (@$front && $front["event"]==true)){ ?>
@@ -348,7 +349,7 @@ if($('#breadcum').length)
 
 
 			<?php if ($type==Organization::COLLECTION){ 
-				if(!@$front || (@$front && $front["project"]))					{ 
+				if(!@$front || (@$front && $front["project"])) { 
 			?>
 			<div class="col-xs-12">
 	 			<?php $this->renderPartial('../pod/projectsList',array( "projects" => @$projects, 
@@ -361,7 +362,7 @@ if($('#breadcum').length)
 			<?php }
 			} ?>
 			<?php if($type==Project::COLLECTION || $type==Organization::COLLECTION || $type==Event::COLLECTION  || $type==Person::COLLECTION ){ 
-				if(!@$front || (@$front && $front["poi"]))					{ 
+				if(!@$front || (@$front && $front["poi"])) { 
 			?> 
 			<div class="col-xs-12">
 				<?php   

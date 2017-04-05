@@ -327,6 +327,7 @@ function validateConnection(parentType, parentId, childId, childType, linkOption
 		success: function(data) {
 			if (data.result) {
 				if (typeof callback == "function") callback(parentType, parentId, childId, childType, linkOption);
+				else{toastr.success(data.msg); loadByHash(location.hash);}
 			} else {
 				toastr.error(data.msg);
 			}
