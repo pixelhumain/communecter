@@ -169,8 +169,8 @@ return array(
 	"{who} added a new Voting Room on {where}" => "{who} a ajouté une salle de décision sur {where}",
 	"{who} added a new Discussion Room on {where}" => "{who} a ajouté une salle de discussion sur {where}",
 	"{who} added a new Actions List on {where}" => "{who} a ajouté une salle d'action sur {where}",
-	"{who} added a new Proposal {what} in {where}" => "{who} a ajouté une Proposition {what} dans {where}",
-	"{who} added a new Action {what} in {where}" => "{who} a ajouté une Action {what} dans {where}",
+	"{who} added a new Proposal {what} in {where}" => "{who} a ajouté une proposition {what} dans {where}",
+	"{who} added a new Action {what} in {where}" => "{who} a ajouté une action {what} dans {where}",
 	"{who} voted on {what} in {where}" => "{who} a voté sur {what} dans {where}",
 
 	"Archive" => "Archiver",

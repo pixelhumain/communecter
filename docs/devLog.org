@@ -11,6 +11,11 @@
 ----------------------------------------------------
 ----------------------------------------------------
 ----------------------------------------------------
+----------------------------------------------------
+* Version 0.2
+** @Bouboule : Bash de reprise des data dans les chart des projets
+/communecter/datamigration/RefactorChartProjectData
+----------------------------------------------------
 * Hot fix 0.16.3
 ** @Rapha : Corrige les mauvais types des organisations
 db.organizations.find({$and: [ { type :  { $ne: "NGO" } }, { type :  { $ne: "Group" } } , { type :  { $ne: "LocalBusiness" } }, { type :  { $ne: "GovernmentOrganization" } } ] }

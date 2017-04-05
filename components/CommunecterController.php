@@ -101,17 +101,30 @@ class CommunecterController extends Controller
       "downloadfile" => array("href" => "/ph/communecter/admin/downloadfile"),
       "createfile" => array("href" => "/ph/communecter/admin/createfile"),
       "mailerrordashboard" => array("href" => "/ph/communecter/admin/mailerrordashboard"),
+      "cities" => array("href" => "/ph/communecter/admin/cities"),
     ),
     
     "adminpublic" => array(
       "index"    => array("href" => "/ph/communecter/adminpublic/index"),
+      "adddata"    => array("href" => "/ph/communecter/adminpublic/adddata"),
+      "adddataindb"    => array("href" => "/ph/communecter/adminpublic/adddataindb"),
+      "createfile" => array("href" => "/ph/communecter/adminpublic/createfile"),
+      "sourceadmin" => array("href" => "/ph/communecter/adminpublic/sourceadmin"),
+      
+    ),
+    "collections" => array(
+      "add"    => array("href" => "/ph/communecter/collections/add"),
+      "list"    => array("href" => "/ph/communecter/collections/list"),
+      "crud"    => array("href" => "/ph/communecter/collections/crud"),
     ),
     "default" => array(
       "index"                => array("href" => "/ph/communecter/default/index", "public" => true),
       "directory"            => array("href" => "/ph/communecter/default/directory", "public" => true),
+      "directoryjs"            => array("href" => "/ph/communecter/default/directoryjs", "public" => true),
       "agenda"               => array("href" => "/ph/communecter/default/agenda", "public" => true),
       "news"                 => array("href" => "/ph/communecter/default/news", "public" => true),
       "home"                 => array("href" => "/ph/communecter/default/home", "public" => true),
+      "apropos"              => array("href" => "/ph/communecter/default/apropos", "public" => true),
       "add"                  => array("href" => "/ph/communecter/default/add"),
       "view"                 => array("href" => "/ph/communecter/default/view", "public" => true),
       "dir"                  => array("href" => "/ph/communecter/default/dir", "public" => true),
@@ -143,6 +156,7 @@ class CommunecterController extends Controller
       'getinfoadressbyinsee'  => array("href" => "/ph/communecter/city/getinfoadressbyinsee"),
       'cityexists'          => array("href" => "/ph/communecter/city/cityexists"),
       'autocompletemultiscope'          => array("href" => "/ph/communecter/city/autocompletemultiscope"),
+      "save"               => array("href" => "/ph/communecter/city/save", "public" => true),
       'getdepandregion'          => array("href" => "/ph/communecter/city/getdepandregion"),
     ),
     "news"=> array(
@@ -311,6 +325,12 @@ class CommunecterController extends Controller
       "directory"       => array("href"=>"/ph/communecter/project/directory", "public" => true),
       "updatesettings"  => array('href'=>"/ph/communecter/project/updatesettings"),
     ),
+    "chart" => array(
+	    "addchartsv"      => array("href" => "/ph/communecter/chart/addchartsv"),
+		"index"      => array("href" => "/ph/communecter/chart/index"),
+		"editchart"       => array("href" => "/ph/communecter/chart/editchart"),
+		"get"       => array("href" => "/ph/communecter/chart/get"),
+    ),
     "job"=> array(
       "edit"    => array("href" => "/ph/communecter/job/edit"),
       "public"  => array("href" => "/ph/communecter/job/public"),
@@ -384,6 +404,7 @@ class CommunecterController extends Controller
       "getnotifications"          => array("href" => "/ph/communecter/notification/get","json" => true),
       "marknotificationasread"    => array("href" => "/ph/communecter/notification/remove"),
       "markallnotificationasread" => array("href" => "/ph/communecter/notification/removeall"),
+      "update" => array("href" => "/ph/communecter/notification/update")
     ),
     "gamification"=> array(
       "index" => array("href" => "/ph/communecter/gamification/index"),
@@ -465,8 +486,12 @@ class CommunecterController extends Controller
       $prepareData = false;
       //once the token is check => remove the token from the post
       unset($_POST["X-Auth-Token"]);
+    } 
+    //Api access through REST 
+    //no need to prepare interface data
+    else if (!Yii::app()->session[ "userId" ] &&  isset($_SERVER['PHP_AUTH_USER']) && Authorisation::isValidUser($_SERVER['PHP_AUTH_USER'],$_SERVER['PHP_AUTH_PW'])) {
+      $prepareData = false;
     }
-      //} 
     //}
     else if( (!isset( $page["public"] ) ) && (!isset( $page["json"] ))
       && !in_array(Yii::app()->controller->id."/".Yii::app()->controller->action->id, $pagesWithoutLogin)
@@ -477,6 +502,7 @@ class CommunecterController extends Controller
           //echo "<script type='text/javascript'> checkIsLoggued('".Yii::app()->session['userId']."'); </script>";
          
     }
+    
     if( isset( $_GET["backUrl"] ) )
       Yii::app()->session["requestedUrl"] = $_GET["backUrl"];
     /*if( !isset(Yii::app()->session['logguedIntoApp']) || Yii::app()->session['logguedIntoApp'] != $this->module->id)

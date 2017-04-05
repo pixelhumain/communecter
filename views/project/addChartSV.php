@@ -8,15 +8,23 @@ $cssAnsScriptFilesTheme = array(
 	'/plugins/select2/select2.min.js',
 	//autosize
 	//'/plugins/autosize/jquery.autosize.min.js',
-
 	'/plugins/jQuery-Knob/js/jquery.knob.js',
+	'/plugins/jquery.dynSurvey/jquery.dynForm.js',
+	'/plugins/jQuery-Smart-Wizard/js/jquery.smartWizard.js',
+	'/plugins/jquery-validation/dist/jquery.validate.min.js',
+	'/js/jsonHelper.js',
+	'/plugins/jquery.dynSurvey/jquery.dynSurvey.js',
 	//'/assets/js/ui-sliders.js',
 );
 
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->request->baseUrl);
+$cssAnsScriptFilesModule = array(
+	//Data helper
+	'/js/dataHelpers.js',
+);
+HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 ?>
 <style>
-
 .borderHover{
 	background-color: rgba(0,  0,  0, 0.04);
 	border-radius:5px;
@@ -36,110 +44,14 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->reque
   border-radius: 25px;
 }
 </style>
-<?php 
+<?php
 if(!@$_GET["renderPartial"])
 	$this->renderPartial('../pod/headerEntity', array("entity"=>$project, "type" => Project::COLLECTION, "openEdition" => $openEdition, "edit" => $edit, "firstView" => "addchart"));  
 ?>
-<div id="addchartPad">
-	<div id="editProjectChart">
-		<div class="noteWrap panel-white col-md-12">
-			<h3><?php echo Yii::t("project","Add project's properties",null,Yii::app()->controller->module->id) ?></h3>
-			<form class="form-chart">
-				<input type="hidden" value="<?php echo $itemId; ?>" class="projectId"/>
-				<div class="row">
-					<div class="col-md-12">
-						<label for="properties">
-							<?php echo Yii::t("project","Degree of project's openness (0% = very closed, 100% = very opened)",null,Yii::app()->controller->module->id) ?>			
-						</label>
-						<div class="col-md-12">
-						<?php if (isset($properties) && !empty($properties)){
-							foreach ($properties as $key => $val){ 
-							if($key!="avancement" && $key!="partenaire"){
-						?>
-							<div class="col-md-4 form-property">
-								<div class="removeProperty hide"><span class="glyphicon glyphicon-remove"></span></div>
-								<h4 style="text-align:center;width:200px;"><?php echo $key; ?></h4>
-								<input class="knob project-property" name="<?php echo $key; ?>" value="<?php if (!empty($val)) echo $val; else echo 0;?>" data-fgcolor="#66EE66" data-anglearc="250" data-angleoffset="-125" style="height: 66px; position: absolute; vertical-align: middle; margin-top: 66px; margin-left: -152px; border: 0px none; background: transparent none repeat scroll 0% 0%; font: bold 40px Arial; text-align: center; color: rgb(102, 238, 102); padding: 0px;">		
-						<?php if ($key=="gouvernance"){ ?>
-							<label for="properties">
-								Ouverture en terme de décisions, de partenaires, de parties prenantes
-							</label>
-						<?php } else if ($key=="partage"){ ?>
-							<label for="properties">
-								À combien le projet sert le bien communs?
-							</label>
-						<?php }else if ($key=="solidaire"){ ?>
-							<label for="properties">
-								À quel point le projet sert-il l'utilité sociale, le développement durable
-							</label>
-						<?php }else if ($key=="local"){ ?>
-							<label for="properties">
-								Quel est l'impact géographique du projet?
-							</label>
-						<?php } ?>
-						</div>
-					<?php 		} 
-							} 
-						} else { ?>
-							<div class="col-md-4 form-property">
-								<div class="removeProperty hide"><span class="glyphicon glyphicon-remove"></span></div>
-								<h4 style="text-align:center;width:200px;">Gouvernance</h4>
-								<input class="knob project-property" name="gouvernance" value="0" data-fgcolor="#66EE66" data-anglearc="250" data-angleoffset="-125" style="height: 66px; position: absolute; vertical-align: middle; margin-top: 66px; margin-left: -152px; border: 0px none; background: transparent none repeat scroll 0% 0%; font: bold 40px Arial; text-align: center; color: rgb(102, 238, 102); padding: 0px;">			
-								<label for="properties">
-									Ouverture en terme de décisions, de partenaires, de parties prenantes
-								</label>
-							</div>
-							<div class="col-md-4 form-property">
-								<div class="removeProperty hide"><span class="glyphicon glyphicon-remove"></span></div>
-								<h4 style="text-align:center;width:200px;">Partage</h4>
-								<input class="knob project-property" value="0" name="partage" data-fgcolor="#66EE66" data-anglearc="250" data-angleoffset="-125" style="height: 66px; position: absolute; vertical-align: middle; margin-top: 66px; margin-left: -152px; border: 0px none; background: transparent none repeat scroll 0% 0%; font: bold 40px Arial; text-align: center; color: rgb(102, 238, 102); padding: 0px;">			
-								<label for="properties">
-									À combien le projet sert le bien communs?			
-								</label>	
-							</div>
-							<div class="col-md-4 form-property">
-								<div class="removeProperty hide"><span class="glyphicon glyphicon-remove"></span></div>
-								<h4 style="text-align:center;width:200px;">Solidaire</h4>
-								<input class="knob project-property" value="0" name="solidaire" data-fgcolor="#66EE66" data-anglearc="250" data-angleoffset="-125" style="height: 66px; position: absolute; vertical-align: middle; margin-top: 66px; margin-left: -152px; border: 0px none; background: transparent none repeat scroll 0% 0%; font: bold 40px Arial; text-align: center; color: rgb(102, 238, 102); padding: 0px;">			
-								<label for="properties">
-									À quel point le projet est-il d'utilité sociale, du développement durable, etc.?
-								</label>
-							</div>
-							<div class="col-md-4 form-property">
-								<div class="removeProperty hide"><span class="glyphicon glyphicon-remove"></span></div>
-								<h4 style="text-align:center;width:200px;">Local</h4>
-								<input class="knob project-property" value="0" name="local" data-fgcolor="#66EE66" data-anglearc="250" data-angleoffset="-125" style="height: 66px; position: absolute; vertical-align: middle; margin-top: 66px; margin-left: -152px; border: 0px none; background: transparent none repeat scroll 0% 0%; font: bold 40px Arial; text-align: center; color: rgb(102, 238, 102); padding: 0px;">			
-								<label for="properties">
-									Quel est l'impact géographique du projet?
-								</label>
-							</div>
-							<?php } ?>
-							<div class="col-md-4">
-								<h4 style="text-align:center;width:200px;"></h4>
-									<div class="flexslider" style="margin-top:35px;">
-								<div id="infoPodOrga" class="padding-10">
-									<blockquote> 
-										<i class="fa fa-puzzle-piece fa-2x text-blue"></i>	<?php echo Yii::t("project","Add<br/>A new<br/>Property",null,Yii::app()->controller->module->id) ?>
-										<br/>
-										<a href="#" class="addProperties" style="display: inline; opacity: 1; left: 0px;">
-											<i class="fa fa-plus"></i> <?php echo Yii::t("common","ADD"); ?>
-										</a>
-									</blockquote>
-									
-								</div>
-								
-							</div>
-							</div>
-						</div>
-					</div>
-					<div class="">
-						<div class="row center">
-			    	        <button class="btn btn-primary" >Enregistrer</button>
-						</div>
-					</div>
-				</div>
-			</form>
-		</div>
+<div id="editProjectChart">
+	<div class="noteWrap col-md-8 col-sm-12 col-xs-12 col-md-offset-2">
+		<h3><?php echo Yii::t("project","Evaluate your projet as commons") ?></h3>
+		<form id="opendata"></form>
 	</div>
 </div>
 <?php if(!isset($_GET["renderPartial"])){ ?>
@@ -147,9 +59,232 @@ if(!@$_GET["renderPartial"])
 <?php } ?>
 <script type="text/javascript">
 var countProperties=<?php echo json_encode(count($properties)); ?>;
-var projectId = $(".form-chart .projectId").val();
+var parentId = "<?php echo (string)$project["_id"]; ?>";
+var properties = <?php echo json_encode($properties); ?>;
+console.log(properties);
+var form1 = {
+        "jsonSchema" : {
+            "title" : "Partage",
+            "type" : "object",
+            "properties" : {
+                "separator1":{
+                    "title":" Quels sont les communs proches ou similaires ? Ont il été contactés pour essayer de mutualiser avec eux ? Comment le commun est travaillé pour favoriser sa réplication, sa diffusion ?"
+                },
+                "description" : {
+                    "inputType" : "textarea",
+                    "placeholder" : "Description",
+                    "value":""
+                },
+                "value" : {
+                    "inputType" : "select",
+                    "placeholder" : "------- Veuillez saisir une valeur ----------",
+                    "options":{
+	                    "0":"Ne souhaite pas",
+	                    "20":"Pas applicable",
+	                    "40":"Souhait mais pas démarré",
+						"60":"Démarré",
+						"80":"En progression",
+						"100":"Réalisé",
+                    }
+                }
+            },
+        },
+        "collection":"partage"
+    };
+
+var form2 = {
+         "jsonSchema" : {
+            "title" : "Gouvernance",
+            "type" : "object",
+            "properties" : {
+                "separator1":{
+                    "title":"Comment est pensée la gouvernance pour permettre à tous de s'approprier le commun sans pour autant réduire l'initiative individuelle ?"
+                },
+                "description" : {
+                    "inputType" : "textarea",
+                    "placeholder" : "Description",
+                },
+                "value" : {
+                    "inputType" : "select",
+                    "placeholder" : "------- Veuillez saisir une valeur ----------",
+                    "options":{
+	                    "0":"Ne souhaite pas",
+	                    "20":"Pas applicable",
+	                    "40":"Souhait mais pas démarré",
+						"60":"Démarré",
+						"80":"En progression",
+						"100":"Réalisé",
+                    }
+                }
+            }
+        }
+    };
+
+var form3 = {
+         "jsonSchema" : {
+            "title" : "Partenaires",
+            "type" : "object",
+            "properties" : {
+                "separator1":{
+                    "title":"Quelle manière le commun a t'il de nouer des partenariats avec des acteurs privés et publics ? Quelles approches utilisées ?"
+                },
+                "description" : {
+                    "inputType" : "textarea",
+                    "placeholder" : "Description"
+                },
+                "value" : {
+                    "inputType" : "select",
+                    "placeholder" : "------- Veuillez saisir une valeur ----------",
+                    "options":{
+	                    "0":"Ne souhaite pas",
+	                    "20":"Pas applicable",
+	                    "40":"Souhait mais pas démarré",
+						"60":"Démarré",
+						"80":"En progression",
+						"100":"Réalisé",
+                    }
+				}
+            }
+        }
+};
+var form4 = {
+         "jsonSchema" : {
+            "title" : "Juridique",
+            "type" : "object",
+            "properties" : {
+                "separator1":{
+                    "title":"Quels choix juridique pour protéger le caractère commun du projet ?"
+                },
+                "description" : {
+                    "inputType" : "textarea",
+                    "placeholder" : "Description"
+                },
+                "value" : {
+                    "inputType" : "select",
+                    "placeholder" : "------- Veuillez saisir une valeur ----------",
+                    "options":{
+	                    "0":"Ne souhaite pas",
+	                    "20":"Pas applicable",
+	                    "40":"Souhait mais pas démarré",
+						"60":"Démarré",
+						"80":"En progression",
+						"100":"Réalisé",
+                    }
+                }
+            }
+        }
+};
+var form5 = {
+         "jsonSchema" : {
+            "title" : "Financement",
+            "type" : "object",
+            "properties" : {
+                "separator1":{
+                    "title":"Quelle logique de financement par les usagers et partenaires ainsi que de redistribution financière dans le commun ?"
+                },
+                "description" : {
+                    "inputType" : "textarea",
+                    "placeholder" : "Description"
+                },
+                "value" : {
+                    "inputType" : "select",
+                    "placeholder" : "------- Veuillez saisir une valeur ----------",
+                    "options":{
+	                    "0":"Ne souhaite pas",
+	                    "20":"Pas applicable",
+	                    "40":"Souhait mais pas démarré",
+						"60":"Démarré",
+						"80":"En progression",
+						"100":"Réalisé",
+                    }
+                }
+            }
+        }
+};
+var form6 = {
+         "jsonSchema" : {
+            "title" : "Contribution",
+            "type" : "object",
+            "properties" : {
+                "separator1":{
+                    "title":"Comment le projet permet il la contribution à tous et sur le long terme ? Quels moyens pour rendre visibles les actions ?"
+                },
+                "description" : {
+                    "inputType" : "textarea",
+                    "placeholder" : "Description"
+                },
+                "value" : {
+                    "inputType" : "select",
+                    "placeholder" : "------- Veuillez saisir une valeur ----------",
+                    "options":{
+	                    "0":"Ne souhaite pas",
+	                    "20":"Pas applicable",
+	                    "40":"Souhait mais pas démarré",
+						"60":"Démarré",
+						"80":"En progression",
+						"100":"Réalisé",
+                    }
+                }
+            }
+        }
+};
+
 jQuery(document).ready(function() {
-	setTitle("Editer la charte","puzzle-piece");
+    /* **************************************
+    *   Using the dynForm
+    - declare a destination point
+    - a formDefinition
+    - the onLoad method
+    - the onSave method
+    ***************************************** */
+    
+    var form = $.dynSurvey({
+        surveyId : "#opendata",
+        surveyObj : { 
+            "section1":{dynForm : form1, key : "partage" },
+            "section2":{dynForm : form2, key : "gouvernance" },
+            "section3":{dynForm : form3, key : "partenaires" },
+            "section4":{dynForm : form4, key : "finance" },
+            "section5":{dynForm : form5, key : "juridique" },
+			"section6":{dynForm : form6, key : "contribution" }
+        },
+                surveyValues : properties,
+        onSave : function(params) {
+			//console.dir( $(params.surveyId).serializeFormJSON() );
+			var result = {};
+			console.log(params.surveyObj);
+			$.each( params.surveyObj,function(section,sectionObj) { 
+				result[sectionObj.key] = {};
+				console.log(sectionObj.dynForm.jsonSchema.properties);
+				$.each( sectionObj.dynForm.jsonSchema.properties,function(field,fieldObj) { 
+					console.log(sectionObj.key+"."+field, $("#"+section+" #"+field).val() );
+					if( fieldObj.inputType ){
+						result[sectionObj.key][field] = $("#"+section+" #"+field).val();
+					}
+				});
+			});
+			console.dir( result );
+			$.ajax({
+        	  type: "POST",
+        	  url: params.savePath,
+        	  data: {properties:result, parentId: parentId},
+              dataType: "json"
+        	}).done( function(data){
+                toastr.success("Project chart well updated");
+                loadByHash("#project.detail.id."+parentId);
+               // if( afterDynBuildSave && typeof afterDynBuildSave == "function" )
+                 //   afterDynBuildSave(data.map,data.id);
+                console.info('saved successfully !');
+
+        	});
+		},
+        collection : "commonsChart",
+	    key : "SCSurvey",
+		savePath : baseUrl+"/"+moduleId+"/project/editchart"
+		
+
+    });
+	$(".moduleLabel").html("<span style='font-size:20px;'>Charte, valeurs, code social</span>");
 	knobInit();
     $(".addProperties").click(function(){
 	   newProperty=addNewProperties();
@@ -249,15 +384,18 @@ function runChartFormValidation() {
 		    .done(function (data,myNewChart) 
 		    {
 			   if (data.result==true) {   
-		        	toastr.success("<?php echo Yii::t("common",'Properties updated successfully') ?>");
+		        	toastr.success('Project properties succesfully update');
 		        	$.unblockUI();
-		        	var chartToLoad=true;
+					openMainPanelFromPanel( '/project/detail/id/'+projectId, 'Project : <?php if(@$projectName) echo addslashes($projectName) ?>',"fa-lightbulb-o", projectId );
+	//////// LAST FROM DEVELOPMENT ////////////////
+		        	/*var chartToLoad=true;
 		        	showElementPad("detail");
 		        	if(typeof updateChart != "undefined" && typeof updateChart == "function"){
 			        	updateChart(data.properties, data.properties.length);
-			        }
+			        }*/
+	//////// ENND LAST FROM DEVELOPMENT /////////////
 		        } else {
-		           toastr.error('<?php echo Yii::t("common","Something Went Wrong")?>');
+		           toastr.error('Something Went Wrong');
 		        }
 		   	});	
 		}
@@ -281,9 +419,22 @@ function bindprojectSubViewchart() {
 			}
 		});
 	});
+	$(".close-subview-button").off().on("click", function(e) {
+		$(".close-subviews").trigger("click");
+		e.prinviteDefault();
+	});
 };
 
-
+var subViewElement, subViewContent, subViewIndex;
+function hideEditChart() {
+	openMainPanelFromPanel( '/project/detail/id/'+projectId, 'Project : <?php if(@$projectName) echo addslashes($projectName) ?>',"fa-lightbulb-o", projectId );
+};
+// enables the edit form 
+function editChart() {
+	$(".close-chart-edit").off().on("click", function() {
+		$(".back-subviews").trigger("click");
+	});
+};
 function addNewProperties(){
 	$newProperty='<div class="col-md-4 form-property">'+
 				'<h4 style="text-align:center;width:200px;">Nouvelle propriété</h4>'+

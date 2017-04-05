@@ -124,8 +124,10 @@
 
 		<div class="btn-group btn-group-lg btn-group-map input-search-place">
 		<?php if($sigParams['useResearchTools']){ ?>
-			<input type="text" class="pull-left input-search-place-in-map txt-find-place" id="txt-find-place" placeholder="rechercher un lieu" style="margin-top:2px;">
-			<button type="button" class="btn btn-map pull-right" id="btn-find-more"><i class="fa fa-ellipsis-h"></i></button>
+			<input type="text" class="pull-left input-search-place-in-map txt-find-place" id="txt-find-place" 
+					placeholder="rechercher un lieu, une addresse" style="margin-top:2px;">
+			<!-- <button type="button" class="btn btn-map pull-right" id="btn-find-more"><i class="fa fa-ellipsis-h"></i></button> -->
+			<button type="button" class="btn btn-map pull-right hidden" id="btn-search"><i class="fa fa-map-marker"></i></button>
 				
 			<div class="" class="pull-right">
 			  	<div class="hidden" id="full-research">

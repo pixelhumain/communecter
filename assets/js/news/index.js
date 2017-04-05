@@ -647,7 +647,7 @@ function showFormBlock(bool){
 	}
 }
 
-function getUrlContent(){
+function getUrlContent(){ console.log("getUrlContent getUrlContent");
     //user clicks previous thumbail
     $("body").on("click","#thumb_prev", function(e){        
         if(img_arr_pos>0) 
@@ -938,7 +938,7 @@ function saveNews(){
 				},
 			},
 			messages : {
-				getUrl : "* Please write something",
+				getUrl : "* "+trad["emptymsg"],
 				goSaveNews: "* Image is still loading"
 
 			},

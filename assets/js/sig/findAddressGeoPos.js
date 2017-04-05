@@ -177,7 +177,7 @@ function callGeoWebService(providerName, requestPart, countryCode, success, erro
 			});
 		}
 	}else{
-		toastr.error('provider inconnu');
+		toastr.error('provider inconnu', providerName);
 		return false;
 	}
 }
@@ -377,44 +377,6 @@ function addResultsInForm(commonGeoObj, countryCode){
 		NE_lng = $(this).data("lng");
 		updateHtmlInseeLatLon();
 	});
-
-/*	
-	//clear map
-	var thisSig = Sig;
-	if(markerListEntity != null)
-	$.each(markerListEntity, function(){
-		mapEntity.removeLayer(this);
-	});
-	markerListEntity = new Array();
-
-	Sig.clearPolygon();
-	Sig.listId = new Array();
-	
-	//clear list
-	showMsgListRes("");
-
-	//show objs in map && list
-	var totalShown = 0;
-	$.each(commonGeoObj, function(key, obj){
-		mylog.log("obj.countryCode > " + obj.countryCode.toLowerCase() 
-					+ " == " + countryCode.toLowerCase() + " < countryCode");
-
-		//verifie que le countryCode correspond au choix dans le formulaire, 
-		//et que la donnée a au moins un nom ou un code postal
-		if(obj.countryCode.toLowerCase() == countryCode.toLowerCase() && 
-		   (//typeof obj.cityName != "undefined" || 
-		   typeof obj.postalCode != "undefined")){ totalShown++;
-				showOneElementOnMap(obj, mapEntity);
-		}
-	});
-	//var markersLayerAddress = L.featureGroup(markerListEntity);
-	if(totalShown>0){
-		mapEntity.fitBounds(L.featureGroup(markerListEntity).getBounds(), { 'maxZoom' : 14 });
-		mapEntity.zoomOut();
-	}
-	mylog.log("total : " + totalShown);
-	return totalShown;
-*/
 }
 
 function getFullAddress(obj){

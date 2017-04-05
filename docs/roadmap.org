@@ -20,26 +20,282 @@ De plus ce projet apparait comme ancien projet sur l'organisation "Nuit Debout S
 A la base j'avais mis une date de fin qui avait été dépassée, 
 j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
 
+* ************************************************************   
+
+* optim
+[.2] SEO finir 
+    http://embed.ly/docs/explore/oembed?url=https%3A%2F%2Fwww.communecter.org%2F%23event.detail.id.57e2422a40bb4e7727c4c9d2
+    http://phantomjs.org/
+    https://prerender.io/documentation
+
+* Global
+[.2] Ne plus etre bloquer pour ouvrir des pays => #1261, #323
+  - utilisant le localiseur et une validation que tout est bon pour ajouter une city 
+  - ouverture par pays validé en amont 
+
+[.2] internationalisation traduction
+[.2] la charte ethique en 10 pts 
+  - Liberté 
+  - respect total de l'autre 
+  - un outil pur faire société 
+[.2] bouton share (Social) non intrusif 
+[.2 spec] reflechir First Connect , show notifications, hot news ....  
+[.2] pouvoir ajouter des url d'image plutôt que d'uploader les photos ou le copier coller
+[.2] code cleaning : => #634, #961, #755, #419
+  - typeSIG=ctrl=collection 
+  - Vocabulaire (proposal = action = rooms = action rooms...)
+  - theme => suppression des anciennes vues
+Refactor Directory2 vers Résultat de recherche
+ - normaliser l'affichage de Directory2 (communauté) pour le mettre comme les resultats de recherche
+ => #275, #493
+
+ * Elements
+[.2] event + project : change organiser #632
+ *** Location amélioration 
+      [.2] ajouter une colonne mes lieux préférés, click et rempli
+      [.2] ajouter par element  
+    [.2] selecteur de target utilisant mon repertoire et le design du dashboard
+      - switcher from form to selection dash
+      - onSelect == onclick fill form fields and switch back to form
+    [ ] auto complete custom list [[http://jqueryui.com/autocomplete/#custom-data]]
+        [[http://stackoverflow.com/questions/3488016/using-html-in-jquery-ui-autocomplete]]
+Report Abuse on element
+
+** Event ideas 
+  [.2] agenda : les events prennent pas la durée sur plusieurs jours
+  [.2] affiché les event mois precedent et suivant
+
+  [.2] Duplication d'event
+  [.21] Best place calculator : utilisant la position des participants
+  [.2] parent Event : load param ajax : show only ongoing or event to come 
+  When subevent , prefill location => #1017
+  Type d'événement : liste ouverte #663
+  Pouvoir choisir en lieu Online pour les events #663
+
+** Needs
+  [.2 spéc] Finir Besoin Ressource compétence () 
+  [.2 spec] visualisation de la banque des besoins =>#1260 + #490
+
+** POI
+  [.2] affiché sur la carte un type geoJson 
+
+* City 
+[.2] city bread crumb ( cp, insee, agglo, departement, region)  
+[.2] ajouter une photo de votre ville 
+    - baniere 
+[.2] refactor péi_insee-cp en péi_insee_cp
+[.2] city kicker thematique grace a des tags bien choisit ouvrant la recherche avec les resultat locaux de la thématique 
+
+** Notifications
+Notification intelligentes => 685
+Liste des notifications déjà lues => #370 #453
+
 * ************************************************************    
 * Version 0.2  : en cours
 * ************************************************************  
 
+** @Clem 
+  [.2] interoperability : communecrter + wikidata +@Tib
+  [.2] add POI to news
+
+** @Rapha 
+  [.2] connecter a des sources events externes (RSS)  => #523, #986
+  [.2] globaliser le system de Tokens et utilisation API Communecter =>#341 (Auth) + #1262
+  [.2] page city : ajouter quartier isis, qpv , maison et conseil de quartier =>#1258, #277
+  [.2] finir la belgique => #1259
+  * Import / Export 
+  [.2] RSS (Personne, Orga, Projet, event, city, region, thematique, tags) => #523
+
+
+** @Tango 
+   * Tags
+  [.2] suggestion de tag : section sous la baniere de categorie de tags => #1255, #1018, #350, #989
+    - sport / alternative/ agriculture /santé ...etc 
+    on click on decouvre une selection de tags, facilement ajoutable 
+    - pour voir combien d'acteur oeuvre dans une thematique
+  * Recherche 
+  [.2] rajouter le nombre de lien dans les résultats (ex : nb membre orga, nb contrib project, etc) =>1256
+  
+** @Sylvain 
+  [.2] delete element : avec regle stricte  => #1061, #1026, #268, #757
+  * API 
+  [.2] replicaset dédié aux utilisateur de l'api 
+
+
 ** @Tib 
   [X] Finance Transparente
-  [ ] add to favorite 
-  [ ] Count requests DB per page
+  [X] Finder
+    [ ] url direct sur le finder 
+    [ ] url open + recherche 
+    [X] Ctrl+Alt+F : recherche type finder dans un design dashboard =>1257
+    [X] connect with multi scope and tags
+    [X] right click on tag, add to scope or activate filter
+    * bugs 
+      [ ] search : 974
+      [ ] finder : no crossing between location search and tags
+  [ ] City Finder - City Filiaire 
+    [X] mono tag, multi types, multi cp
+    smallMenu.openAjax( baseUrl+'/'+moduleId+'/search/globalautocomplete',
+                   "Communs",
+                   'fa-laptop',
+                   'yellow',
+                   "<i class='fa fa-map-marker text-yellow'></i> Nantes",
+                   {
+                     name:"#commun",
+                     //searchTag:["informaticien","tic","digital","numerique"],
+                     tpl:"list",
+                     searchBy : "CODE_POSTAL_INSEE",
+                     //searchLocalityREGION : ["REUNION"],
+                     searchLocalityCODE_POSTAL : ["44800","44300"],
+                     //searchLocalityDEPARTEMENT : "974",
+                     indexMax : 200,
+                     indexMin : 0,
+                     searchType : ["events","projects","organizations"]
+                   })
+    [X] multi tags, multi types on a region 
+    smallMenu.openAjax( baseUrl+'/'+moduleId+'/search/globalautocomplete',
+                   "TIC",
+                   'fa-laptop',
+                   'yellow',
+                   "<i class='fa fa-map-marker text-yellow'></i> La Reunion",
+                   {
+                     name:"",
+                     searchTag:["informaticien","tic","digital","numerique"],
+                     tpl:"list",
+                     searchBy : "CODE_POSTAL_INSEE",
+                     searchLocalityREGION : ["REUNION"],
+                     //searchLocalityCODE_POSTAL : ["44800"],
+                     //searchLocalityDEPARTEMENT : "974",
+                     indexMax : 200,
+                     indexMin : 0,
+                     searchType : ["events","projects","organizations"]
+                   })
+    * todo 
+      [ ] build not empty category lists
+      [ ] click on map-marker icon , shows the map of the content 
+      [ ] menu predefined tags 
+      [ ] cross with location
+      [ ] manage large cities, with many elements 
+    * wish list
+      [ ] add element into a predefined tag
+      [ ] propose related tags
+      [ ] click 974, can change on region scope
+      [ ] click TIC, can change tags
+  [X] Directories 
+    [X] hide tools 
+    [X] Mon repertoire 
+    - smallMenu.openAjax(baseUrl+'/'+moduleId+'/person/directory?tpl=json','Mon repertoire','fa-book','red')
+    [X] Person Directory 
+    - smallMenu.openAjax(baseUrl+'/'+moduleId+'/person/directory/id/57394d37f6ca4709228b4572?tpl=json',"Directory",'fa-book','red','<i class="fa fa-user text-yellow"></i> Tib Kat')
+    [X] project Directory 
+    - smallMenu.openAjax(baseUrl+'/'+moduleId+'/project/directory/id/56c1a474f6ca47a8378b45ef?tpl=json','Directory','fa-book','yellow','<i class="fa fa-lightbulb-o text-purple"></i> Communecter')
+      :question: ??? @Clement : pourquoi on a plusieur map sur la data people, contributors, followers ?
+      [X] add contextData in response json to fill name dynamically 
+    [X] event Directory 
+    - smallMenu.openAjax(baseUrl+'/'+moduleId+'/event/directory/id/586784f8f6ca474366980880?tpl=json','Directory','fa-book','yellow','<i class="fa fa-calendar text-orange"></i> Clic a Clak')
+    [X] orga Directory 
+    - smallMenu.openAjax(baseUrl+'/'+moduleId+'/organization/directory/id/54edb794f6b95c3c2a000941?tpl=json','Directory','fa-book','yellow','<i class="fa fa-group text-green"></i> Open Atlas')
+  [X] Collections
+    - smallMenu.openAjax(baseUrl+'/'+moduleId+'/collections/list/col/krops','krops','fa-folder-open','yellow')
+    [X] favorites.{type}.id on persons data
+    [X] increment element favoriteCount
+    [X] add btn on elements
+    [X] maybe use right click, on any link > add to fav
+    [X] onclickfav tags > active css
+    [X] apply multi tag cumulation
+    [X] moved favorites into collections.favorites
+    [X] collection library viewer and connect to collections/list/col/surf
+    [X] add new collection
+    [X] add to collection from contextMenu
+    [X] delete a collection
+    [X] rebuild collection list 
+    [X] rename collection
+    [X] pod collection 
+    [X] after add reload collections menu 
+    [X] in directory click droit tag add to multi tag
+    [X] template engine prototype with menuSmall Collections
+    [X] switch title add/remove
+    * wish list: 
+      [ ] collection kanban interface
+      [ ] view collection on map 
+      [ ] sub colections
+      [ ] collections on all elements
+      - must be admin of element
+      - what would we put inside ?
+      [ ] group add : list to collection  
+      [ ] open from url 
+    * bugs 
+      [ ] persisting location, 
+      [ ] contextmenu on nowList
+  * bugs
+    [ ] city > click orga pas de résultat
+    [ ] elements count on city
+  [X] API : push Thing push 
+  [X] API : Basic authentcation using username or email + pwd
+    * todo 
+    [ ] encrypt username and pwd when giving out token accesses 
+  [X] my POIs
+  [ ] my calendar
+    [[http://127.0.0.1/ph/#event.calendarview.id.585bdfdaf6ca47b6118b4583.type.person]]
+    [X] my created events
+    [X] events I participate in 
+    [ ] events : right click, participate to event
+    * wishlist
+        [ ] show all events of my links, with posibility to choose to hide anyone of them 
+        [ ] add automatically any events from this organization or project to my calendar
+  [ ] INTEGRATTE MARKDOWN wisiwig
+  [ ] add photo  
+  [ ] notification à la création d'un dda
+  [ ] Count requests DB per page 
+
+  [ ] cut up communecter.js into sub files
+  [ ] cacher des sections sont mon element 
   [ ] header du live ou dans en ce moment
     - les events favoris du territoire
   [ ] PPT explication des 25 use cases
     [X] use runSlide()
     [ ] finish use cases scenario 
     [ ] activate pourquoi btn in header
-  [ ] interoperability : communecrter + wikidata +@CLEM 
+  [ ] interoperability : communecter + wikidata +@CLEM 
   [ ] Quick Add Bookmarklets
-  [ ] add photo
   [ ] Element Trombinoscope 
-  [ ] INTEGRATTE MARKDOWN wisiwig
-
+  [new] section pro 
+    [ ] ajouter une annonce (besoin , proposition)
+      [ ] organisation / professionel : santé, TIC, BTP
+        [ ] api pole emploi
+        [ ] remplacement 
+        [ ] emploi
+        [ ] cession
+        [ ] stagiaire 
+        [ ] assistanat
+        [ ] collaborateur 
+        [ ] mission humanitaire
+      [ ] immobilier 
+        [ ] location 
+        [ ] vente
+      [ ] person : status personnel 
+        [ ] cherche travail 
+        [ ] cherche/propose formation 
+        [ ] charche partenariat
+        [ ] cherche/propose benevolat 
+        [ ] aimerait apprendre 
+    [ ] abonnement a des alerts
+  [new] url builder url.get(type,what,id)
+  [new] follow un tag : envoie de notif si nouvel element 
+  [new] linky / Connect / INTEResting CONNECTions
+    - basé sur le finder + scope + tags
+  [new] film viewer
+    [ ] special POI with 3 questions
+    [ ] a film is a collection of type webdocu+question
+    [ ] each poi
+      [ ] is part of the collection , poi.collection : zordi
+      [ ] holds , 3 questions each question is connected to another poi 
+      [ ] when the poi.type.video stops playing , ask the 3 questions 
+  [new] page pour reflechir 
+    une page qui pousse a l'action, qui fait reflechir, et utiliser les outils de la plateforme 
+  [new] connecter les POI à des source ousite externe ex : randopitons.re
+  [ ] expliquer ce qu'est un commun
+  [ ] test a light mobile version
   * DDA
   [ ] Quand la liste est vide , faire une page explication avec des kickers pour creer des espaces
   [ ] bug : sur archiver , persiste dans les listes 
@@ -70,6 +326,116 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
       [ ] POST
     [ ] refaire le design
 
+** @Bouboule 
+    *** CHART
+  [1][X] Create common and open Chart for project and organization
+  [1][X] Bash de reprise des données sur project dans properties.chart
+    *** NOTIFICATIONS
+  [1][X] Create notificationTree
+  [1][X] Simplification of method with $construct
+  [1][ ] Add method to get intelligent Notifications
+  [1]  [X] Simple action on same notification with different author
+  [1]  [ ] Limit of time (1 day Or two day?)
+  [1]  [X] Update community to notify if one is out of element
+  [1][X] Documentations
+  [1][ ] Commons method called to construct notification
+  [1]  [X] /Follow/ => TEST OK
+  [1]  [X] /Ask/ to become member or admin => TEST OK
+  [1]  [X] /Accept/ an admin or member (include new sublevel in notficationTree) => TEST OK
+  [1]  [X] /Invite/ => TEST OK
+  [1]    [X] Generalize invitation as event for organization and project
+  [1]  [X] /Confirm/ an invitation to join a element => TEST OK
+  [1]  [X] /Join/ for creator of event, member of orga or project => TEST OK
+  [1]  [X] /Like/Unlike/Comment => TEST OK ++
+  [1]  [X] /Add/ => TEST OK 
+  [1]  [X] /Post/ => TEST OK ++
+  [1]  [X] /Vote/ => TEST OK
+  [ ] [ ] "isUnseen" => "isNotViewed" 
+      *** Test all use case up (around 12 hours)
+  [1]  [X] TEST OK
+      *** Wishlist   
+  [2]  [ ] /Leave/ 
+  [2]  [ ] /Refuse/
+  [3]  [ ] /Update/
+  [2][ ] Update or delete notification
+  [2]  [ ] Ask to Become => remove object if empty delete notification side
+  [2]  [ ] Confirm to become => delete notification on user side
+  [1][X] Community to notify
+  [1]  [X] method
+      *** WishList
+  [2][ ] City 
+  [2]   [ ] Creator && community participating && community subscribing to theme or citizen council
+  [2][ ] Create model notificationTree.php
+  [1][X] View of notification
+  [1]  [X] Get new model of notification
+  [1]  [X] Create $or in condition to get old notification 
+  [1]    [X] Create bash on notify.id in datamigration => ph/communecter/datamigration/UpOldNotifications
+  [1]  [X] Plug notifification time on updated
+  [1]  [X] Use unSee && unRead label in notifcation
+  [1]    [X] Count unsee notification
+  [1]    [X] Onclick notif, check this notif as read
+  [1]    [X] Onclick mark all as read, update all notif as read
+  [1]    [X] Create delete btn
+  [1]  [X] Bug on lbh load
+    *** Wishlist
+  [2]  [ ] Separate invitation validation && become friend from others notifications
+  [2]    [ ] Add validation btn on community validation
+  [2]  [ ] View of notification by element
+  [2]    [ ] Confirm push on head
+  *** MAIL
+  [2][X] Template for use case
+  [2]  [X] someoneAskToBecome (Admin || Member=
+  [2]  [X] someoneInvitingYou
+  [2]  [X] someoneValidate invitation or demand to author
+  [2]  [X] Follow me [Insert new follow if notif is not view]
+  [2][ ] Insert daily mail
+  [2][ ] Not send email if user is connected and have active view on communecter.org
+  [2][ ] Result of vote
+  *** PREFERENCES
+  [2][ ] Add inscription on citizen consult that I will follow OR specific room (news + notif + mail)
+  [2][ ] Mailing on add something in element and comment/Like/unlike on element where I am linking
+  [2][ ] daily  Report
+  [2]  [ ] Add parameters (everyday [default], 2days, 3days, every week) [beginning on Monday]
+  [2]  [ ] Activity Report
+  [2]    [ ] New events with tags &&/|| scope I subscribe
+  [2]    [ ] New organization with tags &&/|| scope I subscribe
+  [2]    [ ] New projects with tags &&/|| scope I subscribe
+  [2]    [ ] New item on element that I am linking
+  [2]  [ ] Followers on element where I am linking
+  *** NEWS
+  [2][ ] View of like, unlike 
+  [2][ ] Get news form friends
+  [1][X] Bash of object.type inbstead of object.objectType (!!!important with notification reactor!!!!)
+    => ph/communecter/datamigration/ObjectObjectTypeNewsToObjectType
+  *** LINK
+  [1][X] Add confirmation if someone link me to orga or projet (as event) -- ValdiateLink
+  [1][X] Rework pod/userList to get invitations
+  [2][ ] Friend relation between persons ?? (community to notify, messaging, see information ??) 
+  *** ADMIN COMMUNICATION
+  [3][ ] Creation of news letter 
+  [3]  [ ] Choose scope or theme community
+  [3]  [ ] To all
+  [3]  [ ] See view of newsletter 
+  *** BUGS
+  [1][X] Notification
+    [1][X] /ADD/ Problem of url on add => id of object and not target
+    [1][X] /FOLLOW/ Make usecase following you or target
+    [1][X] /FOLLOW/ => no repeat on notify when I follow a user
+    [1][X] /VALIDATE/ => undefined community
+    [1][X] /VALIDATE/ => undefined object on check and update because go to update (add object exist in query)
+    [1][X] BUG BUG BUG
+  [1][X] Link
+    [1][X] If isPendingAdmin or toBeValidated as member user is consedering as member in right access
+      [1][X] change method Project::getContibutorsByProjectId && Organization::getMembersByOrganizationId
+      [1][X] Add label ToBeValidated on user asking to be admin not being member yet
+    [1][X] Menu btn => if I am member he purpose me to follow
+    [1][X] No disconnect btn if I am member of an element
+    [1][X] Two disconnect btn on event
+  [1][X] Project
+    [1][X] Project with event without address => bug on gantt indexAction
+  *** Questions
+    *** Event
+      [ ] Declare me as admin when there are admins => no confirmation asking but directly join ?
 * ************************************************************    
 * Version 0.16 (début oct) : en PROD
 * ************************************************************    
@@ -125,7 +491,6 @@ j'ai modifié la date de fin, mais ce projet reste dans "ancien projet"
   [X] page admin avec les erreurs de mails
 [ ] Stocker les images en S3
 [X] passer configDB en externe configdb.example.php
-[ ] mon calendar 
 [ ] filtrer par type d'event
 [ ] event modifier l'organisateur
 [ ] améliorer la verification d'existence d'elements

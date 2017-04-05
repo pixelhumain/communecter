@@ -33,6 +33,7 @@
 						if(@$p["geo"]){?>
 						<a href="javascript:showMap(true);"><i class="fa fa-map-marker"></i></a>
 						<?php }?>
+						<a href="javascript:collection.add2fav('poi','<?php echo (string)$p["_id"] ?>')" data-id="<?php echo (string)$p["_id"] ?>" class="pull-right poiStar star_poi_<?php echo (string)$p["_id"] ?>"><i class="fa star fa-star-o"></i></a>
 						
 						<div class="padding-10 poiPanel poi<?php echo InflectorHelper::slugify($p["name"])?> hide">
 
@@ -82,6 +83,9 @@
 
 	<script type="text/javascript">
 		
+		$(".poiStar").each(function(i,el){
+			collection.applyColor("poi",$(el).data('id'));
+		})
 		$(".deleteThisBtn").off().on("click",function () 
 		{
 			mylog.log("deleteThisBtn click");
@@ -122,6 +126,6 @@
 	        var btnClick = $(this);
 	        var id = $(this).data("id");
 	        var type = $(this).data("type");
-	        editElement(type,id);
+	        elementLib.editElement(type,id);
 		});
 	</script>

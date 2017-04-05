@@ -281,9 +281,6 @@ if($('#breadcum').length)
 				            </div>
 				        </div>
 				    </div>
-					
-					
-
 			    </div>
 		<?php 	} 
 			} ?>
@@ -298,36 +295,15 @@ if($('#breadcum').length)
 														"userCategory" => Yii::t("common","Community"), 
 														"contentType" => $type,
 														"countStrongLinks" => $countStrongLinks,
-														"countLowLinks" => $countLowLinks,
+														"countLowLinks" => @$countLowLinks,
+														"countInvitations" => $countInvitations,
 														"admin" => $edit, 
 														"invitedMe" => @$invitedMe,
 														"openEdition" => $openEdition));
-
-				/*$this->renderPartial('../pod/usersList', array(  "event"=> $event,
-														"users" => $attending,
-														"userCategory" => Yii::t("event","ATTENDEES",null,Yii::app()->controller->module->id), 
-														"contentType" => Event::COLLECTION,
-														"admin" => $admin,
-														"countLowLinks" => $invitedNumber,
-														"countStrongLinks"=> $attendeeNumber,
-														"invitedMe" => @$invitedMe));*/
 				?>
 			</div>
-			<?php } /*?>
-			 <div class="col-xs-12">
-				<?php 
-					$urls = ( empty($element["urls"]) ? array() : $element["urls"] ) ;
-					$this->renderPartial('../pod/urlsList',array( 	"urls" => $urls, 
-																	"contextId" => (String) $element["_id"],
-																	"contextType" => $controller,
-																	"authorised" => $edit,
-																	"openEdition" => $openEdition));
-				?>						  
-			</div>
-
-			*/ 
-
 			if (($type==Project::COLLECTION || $type==Organization::COLLECTION || $type==Event::COLLECTION)){ ?>
+
 	    		<?php if(!@$front || (@$front && $front["event"]==true)){ ?>
 				<div class="col-xs-12">
 					<?php 
@@ -353,13 +329,14 @@ if($('#breadcum').length)
 			<?php } ?>
 
 
-			<?php if (($type==Project::COLLECTION)){ ?>
+			<?php if ($type==Project::COLLECTION || $type==Organization::COLLECTION){ ?>
 			<div class="col-xs-12">
 				<?php
 					if(empty($element["properties"]["chart"])) $element["properties"]["chart"] = array();
-					$this->renderPartial('../project/pod/projectChart',array(
+					$this->renderPartial('../chart/index',array(
 											"itemId" => (string)$element["_id"], 
 											"itemName" => $element["name"], 
+											"parentType" => $type, 
 											"properties" => $element["properties"]["chart"],
 											"admin" =>$edit,
 											"isDetailView" => 1,

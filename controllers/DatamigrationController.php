@@ -11,7 +11,51 @@ class DatamigrationController extends CommunecterController {
   protected function beforeAction($action) {
 	return parent::beforeAction($action);
   }
-
+  public function actionObjectObjectTypeNewsToObjectType(){
+  	// Check in mongoDB
+  	//// db.getCollection('news').find({"object.objectType": {'$exists':true}})
+  	// Check number of news to formated
+  	//// db.getCollection('news').find({"object.objectType": {'$exists':true}}).count()
+  	$news=PHDB::find(News::COLLECTION,array("object.objectType"=>array('$exists'=>true)));
+  	$nbNews=0;
+  	foreach($news as $key => $data){
+  		$newObject=array("id"=>$data["object"]["id"], "type"=> $data["object"]["objectType"]);
+		PHDB::update(News::COLLECTION,
+			array("_id" => $data["_id"]) , 
+			array('$set' => array("object" => $newObject))
+		);
+  		$nbNews++;
+  	}
+  	echo "nombre de news traitées:".$nbNews." news";
+  }
+  public function actionUpOldNotifications(){
+  	// Update notify.id 
+  	$notifications=PHDB::find(ActivityStream::COLLECTION,array("notify.id"=>array('$exists'=>true)));
+  	$nbNotifications=0;
+  	//print_r($notifications);
+  	foreach($notifications as $key => $data){
+  		//print_r($data["notify"]["id"]);
+  		$update=false;
+  		$newArrayId=array();
+  		foreach($data["notify"]["id"] as $val){
+			if(gettype($val)=="string"){
+				//echo($val);
+  				$newArrayId[$val]=array("isUnsee"=>true,"isUnread"=>true);
+  				$update=true;
+  			}
+  		}
+  		if($update){
+  			//print_r($newArrayId);
+			PHDB::update(ActivityStream::COLLECTION,
+				array("_id" => $data["_id"]) , 
+				array('$set' => array("notify.id" => $newArrayId))
+			);
+			$nbNotifications++;
+		}
+  		
+  	}
+  	echo "nombre de notifs traitées:".$nbNotifications." notifs";
+  }
   public function actionKnowsToFollows(){
 	 $persons=PHDB::find(Person::COLLECTION);
 	foreach($persons as $key => $data){
@@ -961,7 +1005,29 @@ class DatamigrationController extends CommunecterController {
 		}		
 		echo  "NB Element mis à jours: " .$nbelement."<br>" ;
 	}
+	public function actionRefactorChartProjectData(){
+		$projects = PHDB::find(Project::COLLECTION, array("properties.chart" => array('$exists' => 1)));
+		foreach($projects as $data){
+			echo "////////// <br/>";
+			echo (string)$data["_id"]."<br/>";
+			$chart=array();
+			$chart["open"]=array();
+			foreach($data["properties"]["chart"] as $key => $value){
+				$values=array("description"=>"", "value" => $value);
+				$chart["open"][$key]=array();
+				$chart["open"][$key]=$values;
+				//echo $value."<br/>";
+			}
+			echo "NEW OBJECT<br/>";
+			print_r($chart);
+			PHDB::update(Project::COLLECTION,
+				array("_id" => new MongoId((string)$data["_id"])),
+				array('$set' => array("properties.chart"=> $chart))
+			);
 
+			echo "////////// <br/>";
+		}
+	}
 
 	public function actionFixBugCoutryReunion(){
 		$nbelement = 0 ;
@@ -1033,9 +1099,9 @@ class DatamigrationController extends CommunecterController {
 		$nbelement = 0 ;
 		foreach ($types as $keyType => $type) {
 			$elements = PHDB::find($type, array("source" => array('$exists' => 1)));
-
 			if(!empty($elements)){
 				foreach (@$elements as $keyElt => $elt) {
+
 					if(!empty($elt["source"])){
 						$newsource = array();
 						if(!empty($elt["source"]["key"]) && empty($elt["source"]["keys"])){
@@ -1047,7 +1113,9 @@ class DatamigrationController extends CommunecterController {
 								$newsource["url"] = $elt["source"]["url"];
 							if(!empty($elt["source"]["id"])){
 								if(!empty($elt["source"]["id"]['$numberLong']))
+
 									$newsource["id"] = $elt["source"]["id"]['$numberLong'];
+
 								else
 									$newsource["id"] = $elt["source"]["id"];
 							}
@@ -1056,6 +1124,7 @@ class DatamigrationController extends CommunecterController {
 							
 							$nbelement ++ ;
 							$elt["modifiedByBatch"][] = array("RefactorSource" => new MongoDate(time()));
+
 							try {
 								$res = PHDB::update( $type, 
 							  		array("_id"=>new MongoId($keyElt)),
@@ -1066,6 +1135,7 @@ class DatamigrationController extends CommunecterController {
 								die();
 							}
 							echo "Elt mis a jour : ".$type." et l'id ".$keyElt."<br>" ;
+
 
 						}
 					}

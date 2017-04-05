@@ -6,10 +6,7 @@
 	);
 	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 
-	$cssAnsScriptFiles = array(
-	'/assets/css/circle.css',
-	);
-	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFiles, Yii::app()->theme->baseUrl);
+	
 
 	$cssAnsScriptFilesBase = array(
 		//X-editable
