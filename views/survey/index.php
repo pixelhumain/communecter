@@ -658,7 +658,7 @@
                     <br>Référencez et partagez <b>une par une</b>,
                     <br>les propositions qui concernent cet espace
                     <br><br>
-                    <button class="btn btn-success" onclick='openForm("entry","sub")''>
+                    <button class="btn btn-success" onclick='elementLib.openForm("entry","sub")''>
                       <i class="fa fa-plus"></i> Ajouter une proposition
                     </button>
                   </blockquote>
