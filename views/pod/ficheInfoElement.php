@@ -227,6 +227,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 					<i class='fa fa-download'></i><span class="hidden-sm hidden-xs"></span>
 				</a>
 			<?php } ?>
+			<?php if ($type == Organization::COLLECTION && $edit==true ) { ?>
+				<a href="javascript:;" id="disableOrga" class="btn btn-sm btn-red tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Disable"); ?>" alt=""><i class="fa fa-trash"></i><span class="hidden-xs"> <?php echo Yii::t("common","Disable")?></span></a>
+				<a href="javascript:;" id="activedOrga" class="btn btn-sm btn-green tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Actived"); ?>" alt=""><i class="fa fa-check"></i><span class="hidden-xs"> <?php echo Yii::t("common","Actived")?></span></a>
+			<?php } ?>
 		<?php } ?>
 		<a class="btn btn-sm btn-default tooltips" href="javascript:;" onclick="showDefinition('qrCodeContainerCl',true)" data-toggle="tooltip" data-placement="bottom" title='<?php echo Yii::t("common","Show the QRCode for ").Yii::t("common","this ".$controller); ?>'><i class="fa fa-qrcode"></i> <?php echo Yii::t("common","QR Code") ?></a>
 
@@ -751,13 +755,31 @@ if($showOdesc == true){
 	var icon = '<?php echo Element::getFaIcon($type); ?>';
 	var speudoTelegram = '<?php echo @$element["socialNetwork"]["telegram"]; ?>';
 	var organizer = <?php echo json_encode($organizer) ?>;
-	//var tags = <?php echo json_encode($tags)?>;
+	var alltags = <?php if(isset($tags)) echo json_encode($tags); else echo json_encode(array())?> ;
 
+
+	if(typeof networkTags != "undefined" && networkTags != null && networkTags.length > 0){
+		alltags = networkTags ;
+	}
 	//var contentKeyBase = "<?php echo isset($contentKeyBase) ? $contentKeyBase : ""; ?>";
 	//By default : view mode
 	//var images = <?php echo json_encode($images) ?>;
 	
 	//var publics = <?php echo json_encode($publics) ?>;
+
+	if(edit == "true"){
+		if(disableElement == "1"){
+			$("#activedOrga").show();
+			$("#disableOrga").hide();
+		}
+		else{
+		 	$("#disableOrga").show();
+		 	$("#activedOrga").hide();
+		}
+	}else{
+		$("#disableOrga").hide();
+		 $("#activedOrga").hide();
+	}
 
 	jQuery(document).ready(function() {
 		activateEditableContext();
@@ -884,6 +906,7 @@ if($showOdesc == true){
 				switchModeElement();
 			}
 		}
+		mylog.log("htmlspecialchars");
 	});
 
 	function bindAboutPodElement() {
@@ -965,6 +988,55 @@ if($showOdesc == true){
 				});
 	    	}
 	    	
+	    });
+
+	    $("#disableOrga").off().on("click", function(){
+	    	$.ajax({
+		        type: "POST",
+		        url: baseUrl+"/"+moduleId+"/organization/disabled/id/"+contextData.id,
+		        //data: param,
+		       	dataType: "json",
+		    	success: function(data){
+			    	if(data.result){
+						toastr.success(data.msg);
+						$("#disabledHeader").show();
+						$("#activedOrga").show();
+						$("#disableOrga").hide();		
+			    	}else{
+			    		toastr.error(data.msg);
+			    		$("#disabledHeader").hide();
+			    		$("#disableOrga").show();
+		 				$("#activedOrga").hide();
+			    	}
+			    }
+			});
+	    });
+
+	    $("#activedOrga").off().on("click", function(){
+	    	var params = {
+	    		pk : contextData.id,
+				name : "disabled",
+				value : null
+	    	};
+	    	$.ajax({
+		        type: "POST",
+		        url: baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType,
+		        data: params,
+		       	dataType: "json",
+		    	success: function(data){
+			    	if(data.result){
+						toastr.success(data.msg);
+						$("#disabledHeader").hide();
+						$("#disableOrga").show();
+		 				$("#activedOrga").hide();
+			    	}else{
+			    		toastr.error(data.msg);
+			    		$("#disabledHeader").show();
+			    		$("#activedOrga").show();
+						$("#disableOrga").hide();
+			    	}
+			    }
+			});
 	    });
 
 		$(".panel-btn-confidentiality .btn").click(function(){
@@ -1235,7 +1307,7 @@ if($showOdesc == true){
 		 	mode: 'popup',
 		 	value: returnttags(),
 		 	select2: {
-		 		tags: <?php if(isset($tags)) echo json_encode($tags); else echo json_encode(array())?>,
+		 		tags: alltags,
 		 		tokenSeparators: [","],
 		 		width: 200,
 		 		dropdownCssClass: 'select2-hidden'

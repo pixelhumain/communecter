@@ -111,9 +111,12 @@ function showMarkerNewElement(modePC){
 		$('[name="newElement_dep"]').val(NE_dep);
 		$('[name="newElement_region"]').val(NE_region);
 		$('[name="newElement_country"]').val(NE_country);
-		$("#newElement_btnValidateAddress").prop('disabled', (NE_country==""?true:false));
+		$("#newElement_btnValidateAddress").prop('disabled', (NE_insee==""?true:false));
 		if(NE_insee != ""){
 			$("#divStreetAddress").removeClass("hidden");
+			$("#divPostalCode").removeClass("hidden");
+			$("#divCity").removeClass("hidden");
+		}else if(NE_country != ""){
 			$("#divPostalCode").removeClass("hidden");
 			$("#divCity").removeClass("hidden");
 		}
@@ -431,6 +434,8 @@ function autocompleteFormAddress(currentScopeType, scopeValue){
     				$.each(value.postalCodes, function(key, valueCP){ mylog.log(allCities);
     					if($.inArray(valueCP.name, allCities)<0){ 
 	    					allCities.push(valueCP.name);
+		    				if(notEmpty(value.geoShape))
+		    					inseeGeoSHapes[insee] = value.geoShape.coordinates;
 		    				var val = valueCP.postalCode; 
 		    				var lbl = valueCP.name ;
 		    				var lblList = valueCP.name + ", " +valueCP.postalCode ;
@@ -729,6 +734,7 @@ function initUpdateLocality(address, geo, type, index){
 		if(index)
 			addressesIndex = index ;
 		initDropdown();
+		getDepAndRegion();
 	}else{
 		NE_insee = "";NE_lat = "";NE_lng = "";NE_city = "";
 		NE_cp = "";NE_street = "";NE_country = "";NE_dep = "";NE_region = "";
@@ -740,6 +746,33 @@ function initUpdateLocality(address, geo, type, index){
 	if(typeof contextMap == "undefined")
 		contextMap = [];
 	showMarkerNewElement();
+}
+
+function getDepAndRegion(){
+	if(typeof NE_dep == "undefined" || NE_dep == "" || typeof NE_region == "undefined" || NE_region == ""){
+		$.ajax({
+	        type: "POST",
+	        url: baseUrl+"/"+moduleId+"/city/getDepAndRegion/",
+	        data: {insee : NE_insee},
+	       	dataType: "json",
+	    	success: function(data){
+	    		mylog.log("getDepAndRegion", data);
+		    	
+		    	if(data.depName){
+		    		NE_dep = data.depName;
+					
+		    	}else{
+		    		NE_dep = "";
+		    	}
+
+		    	if(data.regionName){
+		    		NE_region = data.regionName;
+				}else{
+		    		NE_region = "";
+		    	}
+		    }
+		});
+	}
 }
 
 function initAddLocality(type, index){

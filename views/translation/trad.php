@@ -59,12 +59,14 @@ var trad = {"areyousuretodelete" : "<?php echo Yii::t("common", "Are you sure yo
 		"mustacceptCGU" : "<?php echo Yii::t("login","You must validate the CGU to sign up.") ?>",
 		"usernamenotunique" : "<?php echo Yii::t("login","The user name is not unique : please change it.")?>",
 		"somethingwentwrong" : "<?php echo Yii::t("login","Something went really bad : contact your administrator !")?>",
-
 		"suredeletelocality" : "<?php echo Yii::t("common","Are you sure you want to delete the locality")?>",
 		
 		"udpateorganizer" : "<?php echo Yii::t("event","Update the organizer") ?>",
 		"emptymsg" : "<?php echo Yii::t("news","Please write something") ?>",
-
+		"address" : "<?php echo Yii::t("common","Address") ?>",
+		"projects" : "<?php echo Yii::t("common","Projects") ?>",
+		"events" : "<?php echo Yii::t("common","Events") ?>",
+		"organizations" : "<?php echo Yii::t("common","Organizations") ?>",
 };
 
 var tradCountry = {
@@ -75,6 +77,6 @@ var tradCountry = {
 	"MQ":"Martinique",
 	"YT":"Mayotte",
 	"NC":"Nouvelle-Calédonie",
-	"RE":"Réunion",
+	"RE":"La Réunion",
     "PM":"St Pierre et Miquelon",
 };

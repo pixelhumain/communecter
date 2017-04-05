@@ -388,7 +388,7 @@ function follow(parentType, parentId, childId, childType, callback){
 		dataType: "json",
 		success: function(data) {
 			if(data.result){
-				if (formData.parentType)
+				if (formData.parentType && typeof networkJson == "undefined")
 					addFloopEntity(formData.parentId, formData.parentType, data.parentEntity);
 				toastr.success(data.msg);	
 				if (typeof callback == "function") 
@@ -452,7 +452,8 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
 								dataType: "json",
 								success: function(data) {
 									if(data.result){
-										addFloopEntity(data.parent["_id"]["$id"], data.parentType, data.parent);
+										if(typeof networkJson == "undefined")
+											addFloopEntity(data.parent["_id"]["$id"], data.parentType, data.parent);
 										toastr.success(data.msg);	
 										loadByHash(location.hash);
 									}
@@ -501,7 +502,8 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
 								dataType: "json",
 								success: function(data) {
 									if(data.result){
-										addFloopEntity(data.parent["_id"]["$id"], data.parentType, data.parent);
+										if(typeof networkJson == "undefined")
+											addFloopEntity(data.parent["_id"]["$id"], data.parentType, data.parent);
 										toastr.success(data.msg);	
 										loadByHash(location.hash);
 									}
@@ -591,11 +593,10 @@ var loadableUrls = {
 	"#default.apropos" : {title:'COMMUNECTED HOME ', icon : 'star',"menu":"homeShortcuts"},
 	"#default.twostepregister" : {title:'TWO STEP REGISTER', icon : 'home', "menu":"homeShortcuts"},
 	"#default.view.page" : {title:'FINANCEMENT PARTICIPATIF ', icon : 'euro'},
-	
 	//"#home" : {"alias":"#default.home"},
     "#stat.chartglobal" : {title:'STATISTICS ', icon : 'bar-chart'},
     "#stat.chartlogs" : {title:'STATISTICS ', icon : 'bar-chart'},
-
+    "#network.savoir" : {title:"En savoir plus" , icon : 'plus'},
     "#default.live" : {title:"FLUX'Direct" , icon : 'heartbeat', menuId:"menu-btn-live"},
 	"#default.login" : {title:'COMMUNECTED AGENDA ', icon : 'calendar'},
 	"#project.addcontributorsv" : {title:'Add contributors', icon : 'plus'},
@@ -687,15 +688,14 @@ function jsController(hash){
  var CoAllReadyLoad = false;
 //back sert juste a differencier un load avec le back btn
 //ne sert plus, juste a savoir d'ou vient drait l'appel
-function loadByHash( hash , back ) { 
-
+function loadByHash( hash , back ) {
 	/* court circuit du lbh pour changer le type du directory si on est déjà sur une page directory */
 	// mylog.log("IS DIRECTORY ? ", 
 	// 			hash.indexOf("#default.directory"), 
 	// 			location.hash.indexOf("#default.directory"), CoAllReadyLoad);
 	if(typeof globalTheme != "undefined" && globalTheme=="network"){
-		if( hash.indexOf("#network.simplydirectory") >= 0 &&
-			location.hash.indexOf("#network.simplydirectory") >= 0 || hash=="#" || hash==""){ 
+		if( hash.indexOf("#network") >= 0 &&
+			location.hash.indexOf("#network") >= 0 || hash=="#" || hash==""){ 
 		}
 		else{
 			count=$(".breadcrumAnchor").length;
@@ -704,7 +704,8 @@ function loadByHash( hash , back ) {
 				count=1;
 			breadcrumGuide(count, hash);
 		}
-		return;
+		
+		return ;
 	}
 
 	if( hash.indexOf("#default.directory") >= 0 &&
@@ -781,6 +782,14 @@ function loadByHash( hash , back ) {
 	}*/
 }
 
+function decodeHtml(str) {
+	mylog.log("decodeHtml", str);
+    var txt = document.createElement("textarea");
+    txt.innerHTML = str;
+    mylog.log("decodeHtml",  txt.value);
+    return txt.value;
+}
+
 function setTitle(str, icon, topTitle,keywords,shortDesc) { 
 	if(icon != "")
 		icon = ( icon.indexOf("<i") >= 0 ) ? icon : "<i class='fa fa-"+icon+"'></i> ";
@@ -830,6 +839,12 @@ function searchByHash (hash)
 	if( searchT.length > 3 && searchT[3] == "map" )
 		mapEnd = true;
 	return mapEnd;
+}
+
+function markdownToHtml (str) { 
+	var converter = new showdown.Converter(),
+	res = converter.makeHtml(str);
+	return res;
 }
 
 function checkMenu(urlObj, hash){
@@ -1568,8 +1583,22 @@ function copyMapForm2Dynform(locationObj) {
 		centerLocation = elementLocation;
 		elementLocation.center = true;
 	}
-	mylog.dir(elementLocations);
-	//elementLocation.push(positionObj);
+									
+	if( typeof formData.tags != "undefined" && formData.tags != "" )
+		formData.tags = formData.tags.split(",");
+
+	// input de tags différents
+	var nbListTags = 1 ;
+	while(jsonHelper.notNull("formData.tags"+nbListTags)){
+		tagsSave=formData["tags"+nbListTags].split(",");
+		if(!formData.tags)formData.tags = [];
+		$.each(tagsSave, function(i, e) {
+			formData.tags.push(e);
+		});
+		delete formData["tags"+nbListTags];
+		nbListTags++;
+	}
+	removeEmptyAttr(formData);
 }
 
 function addLocationToForm(locationObj)
@@ -1599,15 +1628,70 @@ function addLocationToForm(locationObj)
 	countLocation++;
 }
 
-function copyPCForm2Dynform(postalCodeObj) { 
-	mylog.warn("---------------copyPCForm2Dynform----------------");
-	mylog.log("postalCodeObj", postalCodeObj);
-	elementPostalCode = postalCodeObj;
-	mylog.log("elementPostalCode", elementPostalCode);
-	elementPostalCodes.push(elementPostalCode);
-	mylog.log("elementPostalCodes", elementPostalCodes);
-	mylog.dir(elementPostalCodes);
-	//elementPostalCode.push(positionObj);
+function saveElement ( formId,collection,ctrl,saveUrl ) { 
+	mylog.warn("saveElement",formId,collection);
+	formData = $(formId).serializeFormJSON();
+	mylog.log("before",formData);
+	formData = formatData(formData,collection,ctrl);
+	formData.medias = [];
+	$(".resultGetUrl").each(function(){
+		if($(this).html() != ""){
+			mediaObject=new Object;	
+			if($(this).find(".type").val()=="url_content"){
+				mediaObject.type=$(this).find(".type").val();
+				if($(this).find(".name").length)
+					mediaObject.name=$(this).find(".name").val();
+				if($(this).find(".description").length)
+					mediaObject.description=$(this).find(".description").val();
+				mediaObject.content=new Object;
+				mediaObject.content.type=$(this).find(".media_type").val(),
+				mediaObject.content.url=$(this).find(".url").val(),
+				mediaObject.content.image=$(this).find(".img_link").val();
+				if($(this).find(".size_img").length)
+					mediaObject.content.imageSize=$(this).find(".size_img").val();
+				if($(this).find(".video_link_value").length)
+					mediaObject.content.videoLink=$(this).find(".video_link_value").val();
+			}
+			else{
+				mediaObject.type=$(this).find(".type").val(),
+				mediaObject.countImages=$(this).find(".count_images").val(),
+				mediaObject.images=[];
+				$(".imagesNews").each(function(){
+					mediaObject.images.push($(this).val());	
+				});
+			}
+			formData.medias.push(mediaObject);
+		}
+	});
+	$.ajax( {
+    	type: "POST",
+    	url: (saveUrl) ? saveUrl : baseUrl+"/"+moduleId+"/element/save",
+    	data: formData,
+    	dataType: "json",
+    	success: function(data){
+    		mylog.warn("saveElement ajax result");
+    		mylog.dir(data);
+			if(data.result == false){
+                toastr.error(data.msg);
+                //reset save btn 
+                $("#btn-submit-form").html('Valider <i class="fa fa-arrow-circle-right"></i>').prop("disabled",false).one(function() { 
+					$( settings.formId ).submit();	        	
+		        });
+           	}
+            else { 
+                toastr.success(data.msg);
+                $('#ajax-modal').modal("hide");
+                //clear the unecessary DOM 
+                $("#ajaxFormModal").html('');
+                if(data.url)
+                	loadByHash( data.url );
+                else if(data.id)
+	        		loadByHash( '#'+ctrl+'.detail.id.'+data.id )
+	        	if(data.map && $.inArray(collection, ["events","organizations","projects","citoyens"] ) !== -1 && typeof networkJson == "undefined")
+	        		addFloopEntity(data.id, collection, data.map);
+            }
+    	}
+    });
 }
 
 function addPostalCodeToForm(postalCodeObj)
@@ -2368,6 +2452,14 @@ var elementLib = {
 			DYNFORM SPEC TYPE OBJ
 ********************************** */
 var contextData = null;
+var uploadObj = {
+	type : null,
+	id : null,
+	set : function(type,id){
+		uploadObj.type = type;
+		uploadObj.id = id;
+	}
+};
 var typeObj = {
 	"themes":{ 
 		dynForm : {
@@ -3961,4 +4053,4 @@ function displayStartAndEndDate(event) {
 		}
 	}
 	return content;
-}
+};

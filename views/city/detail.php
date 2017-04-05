@@ -348,7 +348,8 @@ categs = <?php echo json_encode(OpenData::$categ) ?>;
 var city = <?php echo json_encode($city) ?>;
 //var cityKey = "<?php //echo City::getUnikey($city) ?>";
 var images = <?php echo json_encode($images) ?>;
-var contentKeyBase = "<?php echo $contentKeyBase ?>";
+//Issue #1335 => var not used and impact profil image upload
+//var contentKeyBase = "<?php echo $contentKeyBase ?>";
 var events = <?php echo json_encode($events) ?>;
 var liveScopeType = "global";
 

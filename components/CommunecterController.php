@@ -157,6 +157,7 @@ class CommunecterController extends Controller
       'cityexists'          => array("href" => "/ph/communecter/city/cityexists"),
       'autocompletemultiscope'          => array("href" => "/ph/communecter/city/autocompletemultiscope"),
       "save"               => array("href" => "/ph/communecter/city/save", "public" => true),
+      'getdepandregion'          => array("href" => "/ph/communecter/city/getdepandregion"),
     ),
     "news"=> array(
       "index"   => array( "href" => "/ph/communecter/news/index", "public" => true,'title' => "Fil d'actualités - N.E.W.S", "subTitle"=>"Nord.Est.West.Sud","pageTitle"=>"Fil d'actualités - N.E.W.S"),
@@ -177,7 +178,6 @@ class CommunecterController extends Controller
     "network" => array(
       "simplydirectory"    => array("href" => "/ph/communecter/network/simplydirectory")
     ),
-
     "rooms"=> array(
       "index"    => array("href" => "/ph/communecter/rooms/index"),
       "saveroom" => array("href" => "/ph/communecter/rooms/saveroom"),
@@ -429,27 +429,22 @@ class CommunecterController extends Controller
       "directory"           => array("href" => "/ph/communecter/element/directory", "public" => true),
       "directory2"          => array("href" => "/ph/communecter/element/directory2", "public" => true),
       "addmembers"          => array("href" => "/ph/communecter/element/addmembers", "public" => true),
-      "aroundme"            => array("href" => "/ph/communecter/element/aroundme"),
-      "save"                => array("href" => "/ph/communecter/element/save"),
-      "savecontact"         => array("href" => "/ph/communecter/element/savecontact"),
-      "get"                 => array("href" => "/ph/communecter/element/get"),
-      "delete"              => array("href" => "/ph/communecter/element/delete"),
+      "aroundme"    => array("href" => "/ph/communecter/element/aroundme"),
+      "save" => array("href" => "/ph/communecter/element/save"),
+      "get" => array("href" => "/ph/communecter/element/get"),
+      "delete" => array("href" => "/ph/communecter/element/delete"),
+      "network" => array("href" => "/ph/communecter/element/network"),
     ),
-    "co2" => array(
-      "index"             => array('href' => "/ph/communecter/co2/index",               "public" => true),
-      "web"               => array('href' => "/ph/communecter/co2/web",               "public" => true),
-      "websearch"         => array('href' => "/ph/communecter/co2/websearch",         "public" => true),
-      "live"              => array('href' => "/ph/communecter/co2/live",              "public" => true),
-      "referencement"     => array('href' => "/ph/communecter/co2/referencement",     "public" => true),
-      "savereferencement" => array('href' => "/ph/communecter/co2/savereferencement", "public" => true),
-      "freedom"            => array('href' => "/ph/communecter/co2/freedom",            "public" => true),
-      "agenda"            => array('href' => "/ph/communecter/co2/agenda",            "public" => true),
-      "mediacrawler"      => array('href' => "/ph/communecter/co2/mediacrawler",      "public" => false),
-      "page"              => array('href' => "/ph/communecter/co2/page",              "public" => true),
-      "social"            => array('href' => "/ph/communecter/co2/social",            "public" => true),
-      "agenda"             => array('href' => "/ph/communecter/co2/agenda",           "public" => true),
-      "power"             => array('href' => "/ph/communecter/co2/power",             "public" => true),
-      "superadmin"        => array('href' => "/ph/communecter/co2/superadmin",        "public" => false),
+    "k" => array(
+      "web"               => array('href' => "/ph/communecter/k/web",               "public" => true),
+      "websearch"         => array('href' => "/ph/communecter/k/websearch",         "public" => true),
+      "live"              => array('href' => "/ph/communecter/k/live",              "public" => true),
+      "referencement"     => array('href' => "/ph/communecter/k/referencement",     "public" => true),
+      "savereferencement" => array('href' => "/ph/communecter/k/savereferencement", "public" => true),
+      "agenda"            => array('href' => "/ph/communecter/k/agenda",            "public" => true),
+      "mediacrawler"      => array('href' => "/ph/communecter/k/mediacrawler",      "public" => true),
+      "page"              => array('href' => "/ph/communecter/k/page",              "public" => true),
+      "social"            => array('href' => "/ph/communecter/k/social",            "public" => true),
       ),
     "siteurl" => array(
       "incnbclick"        => array('href' => "ph/communecter/siteurl/incnbclick")

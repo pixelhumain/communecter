@@ -13,6 +13,7 @@ var mode = "view";
 
 function buildLineHTML(newsObj,idSession,update)
 {
+	mylog.log("buildLineHTML",newsObj,idSession,update);
 	addForm=false;
 	if(typeof(contextParentType) == "undefined")
 		contextParentType="citoyens";
@@ -172,12 +173,16 @@ function buildLineHTML(newsObj,idSession,update)
 			if(newsObj.startDate && newsObj.endDate){
 				if(typeof(newsObj.startDate) == "object")
 					var startDate = new Date( parseInt(newsObj.startDate.sec)*1000 );
+				else if(typeof(newsObj.startDateSec) != "undefined")
+					var startDate = new Date( parseInt(newsObj.startDateSec)*1000 );
 				else
 					var startDate = new Date( parseInt(newsObj.startDate)*1000 );
 				var startMonth = months[startDate.getMonth()];
 				var startDay = (startDate.getDate() < 10) ?  "0"+startDate.getDate() : startDate.getDate();
 				if(typeof(newsObj.endDate) == "object")
 					var endDate = new Date( parseInt(newsObj.endDate.sec)*1000 );
+				else if(typeof(newsObj.endDateSec) != "undefined")
+					var endDate = new Date( parseInt(newsObj.endDateSec)*1000 );
 				else
 					var endDate = new Date( parseInt(newsObj.endDate)*1000 );
 				var endMonth = months[endDate.getMonth()];

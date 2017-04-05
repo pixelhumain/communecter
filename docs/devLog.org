@@ -16,6 +16,43 @@
 ** @Bouboule : Bash de reprise des data dans les chart des projets
 /communecter/datamigration/RefactorChartProjectData
 ----------------------------------------------------
+* Hot fix 0.16.3
+** @Rapha : Corrige les mauvais types des organisations
+db.organizations.find({$and: [ { type :  { $ne: "NGO" } }, { type :  { $ne: "Group" } } , { type :  { $ne: "LocalBusiness" } }, { type :  { $ne: "GovernmentOrganization" } } ] }
+).forEach(function(doc)
+{
+  if(typeof doc.type != "undefined"){
+    if(doc.type == "Entreprise" )
+      db.organizations.update({"_id":doc._id},{'$set':{'type': 'LocalBusiness'}});
+
+    if(doc.type == "Association" )
+      db.organizations.update({"_id":doc._id},{'$set':{'type': 'NGO'}});
+
+    if(doc.type == "Groupe Gouvernemental" )
+      db.organizations.update({"_id":doc._id},{'$set':{'type': 'GovernmentOrganization'}});
+
+    if(doc.type == "Groupe" )
+      db.organizations.update({"_id":doc._id},{'$set':{'type': 'Group'}});
+
+    print( '"'+doc.name+'" => '+ doc.type ); 
+  }else{
+    db.organizations.update({"_id":doc._id},{'$set':{'type': 'Group'}});
+    print( '"'+doc.name+'" => else' ); 
+  }
+});
+
+* Hot Fix 0.16.1
+** @Rapha : enleve l'encodage en html sur les noms des éléments
+/communecter/datamigration/NameHtmlSpecialCharsDecode
+
+** @Rapha : Ajoute les nom des dep et régions au addresse des elements
+/communecter/datamigration/AddDepAndRegionAndCountryInAddress
+
+** @Sylvain : ajout des paramètres rocketChat dans paramsconfig
+//rocketchat params
+'rocketchatEnabled' => false,
+'rocketchatURL' => "http://chat.lescommuns.org",
+
 * Hot Fix 0.16
 ** @Rapha : Fix Organisation avec country = Réunion
 /communecter/datamigration/FixBugCoutryReunion

@@ -10,12 +10,12 @@
 		"Only one comment" => "limite : 1 commentaire",
 		"No limit comments" => "",
 
-		"You can reply to a comment" => "",
-		"You can not reply to a comment" => "",
-		"The discussion is anonymous" => "",
+		"You can reply to a comment" => "Vous pouvez répondre à un commentaire",
+		"You can not reply to a comment" => "Vous ne pouvez pas répondre à un commentaire",
+		"The discussion is anonymous" => "Cette discussion est anonyme",
 		'Refresh to see the new comments' => "Rafraichir pour voir les nouveaux commentaires",
         'New Comments Refresh' => "Nouveaux Commentaires",
-        'New Comment(s) Click to Refresh' => 'nouveau(x) commentaires, click pour voir'
+        'New Comment(s) Click to Refresh' => 'Nouveau(x) commentaires, Cliquez pour actualiser'
 		
 	)
 

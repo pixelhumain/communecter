@@ -10,7 +10,9 @@
 ?>  
   
   <?php if(@$_GET['type']!="") { ?>
-      <?php $typeSelected = $_GET['type']; ?>
+      <?php $typeSelected = $_GET['type']; 
+          
+        ?>
       <?php if($typeSelected == "persons") $typeSelected = "citoyens" ; ?>
       <?php $spec = Element::getElementSpecsByType($typeSelected); ?>
       <h2 class="text-left pull-left" style="margin-left:10px; margin-top:15px; width:90%;">
@@ -24,7 +26,7 @@
           <i class="fa fa-<?php echo $spec["icon"]; ?>"></i> Liste des  <?php echo $typeName; ?>
         </span>
       </h2>
-     <?php } ?>
+     <?php }else{ $typeSelected = Organization::COLLECTION; }?>
 
 <div class="row headerDirectory bg-white padding-15">
   <div class="col-md-12 no-padding pull-left" id="bar-tools-search" style="margin-top:0px; width:100%;">

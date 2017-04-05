@@ -94,7 +94,7 @@ function buildCalObj(eventObj) {
     if(eventObj.endDate && eventObj.endDate != "" ) {
       endDate = moment(eventObj.endDate).local();
     }
-    console.log("Start Date = "+startDate+" // End Date = "+endDate);
+    mylog.log("Start Date = "+startDate+" // End Date = "+endDate);
     
     var organiser = "";
     if("undefined" != typeof eventObj["links"] && "undefined" != typeof eventObj.links["organizer"]){
@@ -143,7 +143,7 @@ function showCalendar() {
         calendar.push( eventCal );
     });
   }
-  console.log(calendar);
+  mylog.log(calendar);
   dateToShow = new Date();
   $('#calendar').fullCalendar({
     header : {
