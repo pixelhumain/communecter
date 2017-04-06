@@ -44,7 +44,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	if($type != City::CONTROLLER && $type != "pixels" && !@$_GET["renderPartial"])
 		$this->renderPartial('../pod/headerEntity', 
 			array("entity"=>$parent, "type" => $type, "viewer" => @$viewer, 
-				  "firstView" => @$firstView, "openEdition" => @$openEdition, "edit" => $edit)); 
+				  "firstView" => @$firstView, "openEdition" => @$openEdition, "edit" => $edit, "deletePending" => $deletePending)); 
 ?>
 
 <?php 

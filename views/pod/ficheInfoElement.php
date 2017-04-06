@@ -477,8 +477,8 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 							$address .= '<span id="detailCountry_'.$ix.'">'.(( @$p["address"]["addressCountry"]) ? " ".OpenData::$phCountries[ $p["address"]["addressCountry"] ] : "").'</span>';
 							echo $address;?>
 
-							<a href='javascript:removeAddresses("<?php echo $ix ; ?>");'  class="addresses pull-right hidden tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Remove Locality");?>"><i class="fa text-red fa-trash-o"></i></a>
-							<a href='javascript:updateLocalityEntities("<?php echo $ix ; ?>", <?php echo json_encode($p);?>);' class=" pull-right tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Update Locality");?>"><i class="fa text-red fa-map-marker hidden addresses"></i></a>
+							<a href='javascript:removeAddresses("<?php echo $ix ; ?>");'  class="addresses pull-right tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Remove Locality");?>"><i class="fa text-red fa-trash-o"></i></a>
+							<a href='javascript:updateLocalityEntities("<?php echo $ix ; ?>", <?php echo json_encode($p);?>);' class=" pull-right tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Update Locality");?>"><i class="fa text-red fa-map-marker addresses"></i></a>
 							
 							
 						</div>
@@ -538,7 +538,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 				<?php if($type==Person::COLLECTION){
 					if(Preference::showPreference($element, $type, "birthDate", Yii::app()->session["userId"])){ ?>
 						<i class="fa fa-birthday-cake fa_birthDate hidden"></i> 
-						<a href="#" id="birthDate" data-type="date" data-title="<?php echo Yii::t("person","Birth date"); ?>" data-emptytext="<?php echo Yii::t("person","Birth date"); ?>" class=""><?php echo (isset($element["birthDate"])) ? date("d/m/Y", strtotime($element["birthDate"]))  : null; ?></a>
+						<span id="birthDate" ><?php echo (isset($element["birthDate"])) ? $element["birthDate"]  : null; ?></span>
 						<br>
 					<?php } 
 				} ?>
@@ -650,10 +650,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 		  		<a href='javascript:;' id="btn-update-desc" class="tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Update Description");?>"><i class="fa text-red fa-pencil"></i></a> <?php } ?>
 		  	</div>
 		  	<div>
-		  		<h3 class="text-blue">Courte :</h3>
+		  		<span class="titleField text-dark"><i class="fa fa-angle-right"></i> Courte :</span><br/>
 				<span id="shortDescription"  class=""><?php  echo (!empty($element["shortDescription"])) ? $element["shortDescription"] : ""; ?></span>
 				<input type="hidden" id="shortDescriptionMarkdown" name="shortDescriptionMarkdown" value="<?php echo (!empty($element['shortDescription'])) ? $element['shortDescription'] : ''; ?>">
-				<h3 class="text-blue">Longue :</h3>
+				<br/><span class="titleField text-dark"><i class="fa fa-angle-right"></i> Longue :</span><br/>
 				<span id="description"  class=""><?php  echo (!empty($element["description"])) ? $element["description"] : ""; ?></span>
 				<input type="hidden" id="descriptionMarkdown" name="descriptionMarkdown" value="<?php echo (!empty($element['description'])) ? $element['description'] : ''; ?>">
 			</div>		
@@ -794,7 +794,7 @@ if($showOdesc == true){
 		//activateEditableContext();
 		bindDynFormEditable();
 		initDate();
-		//inintDescs();
+		initDescs();
 		//manageAllDayElement(allDay);
 		//manageModeContextElement();
 		changeHiddenIconeElement(true);
@@ -1308,6 +1308,11 @@ if($showOdesc == true){
 
 		    	if($("#ajaxFormModal #birthDate").length && $("#ajaxFormModal #birthDate").val() ==  contextData.birthDate)
 		    		$("#ajaxFormModal #birthDate").remove();
+		    	else{
+		    		var dateformat = "DD/MM/YYYY";
+			    	$("#ajaxFormModal #birthDate").val( moment( $("#ajaxFormModal #birthDate").val(), dateformat).format());
+		    	}
+		    		
 
 		    	if($("#ajaxFormModal #fixe").length && $("#ajaxFormModal #fixe").val() ==  contextData.fixe)
 		    		$("#ajaxFormModal #fixe").remove();
@@ -1338,7 +1343,8 @@ if($showOdesc == true){
 					if(typeof data.resultGoods.values.birthDate != "undefined"){
 						mylog.log("update birthDate");
 						contextData.birthDate = data.resultGoods.values.birthDate;
-						$("#contentGeneralInfos #birthDate").html(contextData.birthDate);
+						//$("#contentGeneralInfos #birthDate").html(contextData.birthDate);
+						$("#contentGeneralInfos #birthDate").html(moment(contextData.birthDate).local().format("DD MM YYYY"));
 					}
 
 					if(typeof data.resultGoods.values.fixe != "undefined"){
@@ -1369,8 +1375,8 @@ if($showOdesc == true){
 
 		$("#btn-update-desc").click(function () { 
 			var properties = {
-				description : typeObjLib["description"],
 				shortDescription : typeObjLib["description"],
+				description : typeObjLib["description"],
 		        typeElement : typeObjLib["hidden"],
 		        block : typeObjLib["hidden"],
 		        isUpdate : typeObjLib["hiddenTrue"]
@@ -2098,6 +2104,9 @@ function initDate() {//DD/mm/YYYY hh:mm
     	$("#contentGeneralInfos #startDate").html(moment($("#contentGeneralInfos #startDate").html()).local().format(formatDateView));
     if($("#contentGeneralInfos #endDate").html() != "")
     	$("#contentGeneralInfos #endDate").html(moment($("#contentGeneralInfos #endDate").html()).local().format(formatDateView));
+
+    if($("#contentGeneralInfos #birthDate").html() != "")
+    	$("#contentGeneralInfos #birthDate").html(moment($("#contentGeneralInfos #birthDate").html()).local().format("DD MM YYYY"));
     $('#dateTimezone').attr('data-original-title', "Fuseau horaire : GMT " + moment().local().format("Z"));
 }
 
@@ -2130,8 +2139,8 @@ function descHtmlToMarkdown() {
 }
 
 
-function inintDescs() {
-	mylog.log("inintDescs");
+function initDescs() {
+	mylog.log("initDescs");
 	//descHtmlToMarkdown();
 	mylog.log("after");
 	$("#description").html(markdownToHtml($("#descriptionMarkdown").val()));
