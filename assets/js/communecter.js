@@ -2722,8 +2722,8 @@ var typeObjLib = {
 				        format: "d/m/Y",
 				        timepicker:false
 				    });
-				    startDate = moment($('#ajaxFormModal #startDate').val(), "DD/MM/YYYY HH:mm").format("DD/MM/YYYY");
-				    endDate = moment($('#ajaxFormModal #endDate').val(), "DD/MM/YYYY HH:mm").format("DD/MM/YYYY");
+				    startDate = moment($('#ajaxFormModal #startDateInput').val(), "DD/MM/YYYY HH:mm").format("DD/MM/YYYY");
+				    endDate = moment($('#ajaxFormModal #endDateInput').val(), "DD/MM/YYYY HH:mm").format("DD/MM/YYYY");
     			} else {
     				$(".dateInput").addClass("dateTimeInput");
     				$(".dateInput").removeClass("dateInput");
@@ -2735,11 +2735,11 @@ var typeObjLib = {
 						format: 'd/m/Y H:i'
 				    });
 				    
-    				startDate = moment($('#ajaxFormModal #startDate').val(), "DD/MM/YYYY").format("DD/MM/YYYY HH:mm");
-					endDate = moment($('#ajaxFormModal #endDate').val(), "DD/MM/YYYY").format("DD/MM/YYYY HH:mm");
+    				startDate = moment($('#ajaxFormModal #startDateInput').val(), "DD/MM/YYYY").format("DD/MM/YYYY HH:mm");
+					endDate = moment($('#ajaxFormModal #endDateInput').val(), "DD/MM/YYYY").format("DD/MM/YYYY HH:mm");
     			}
-			    if (startDate != "Invalid date") $('#ajaxFormModal #startDate').val(startDate);
-				if (endDate != "Invalid date") $('#ajaxFormModal #endDate').val(endDate);
+			    if (startDate != "Invalid date") $('#ajaxFormModal #startDateInput').val(startDate);
+				if (endDate != "Invalid date") $('#ajaxFormModal #endDateInput').val(endDate);
     		}
     	}
     },
@@ -2756,7 +2756,7 @@ var typeObjLib = {
         placeholder: "Date de fin",
         rules : { 
         	required : true,
-        	greaterThan: ["#ajaxFormModal #startDate","la date de début"],
+        	greaterThan: ["#ajaxFormModal #startDateInput","la date de début"],
         	duringDates: ["#startDateParent","#endDateParent","La date de fin"]
 	    }
     },
@@ -3143,8 +3143,8 @@ var typeObj = {
 			    			if(contextData.startDate && contextData.endDate ){
 			    				$("#ajaxFormModal").after("<input type='hidden' id='startDateParent' value='"+contextData.startDate+"'/>"+
 			    										  "<input type='hidden' id='endDateParent' value='"+contextData.endDate+"'/>");
-			    				$("#ajaxFormModal #startDate").after("<span id='parentstartDate'><i class='fa fa-warning'></i> date début du parent : "+moment( contextData.startDate).format('DD/MM/YYYY HH:mm')+"</span>");
-			    				$("#ajaxFormModal #endDate").after("<span id='parentendDate'><i class='fa fa-warning'></i> date de fin du parent : "+moment( contextData.endDate).format('DD/MM/YYYY HH:mm')+"</span>");
+			    				$("#ajaxFormModal #startDateInput").after("<span id='parentstartDate'><i class='fa fa-warning'></i> date début du parent : "+moment( contextData.startDate).format('DD/MM/YYYY HH:mm')+"</span>");
+			    				$("#ajaxFormModal #endDateInput").after("<span id='parentendDate'><i class='fa fa-warning'></i> date de fin du parent : "+moment( contextData.endDate).format('DD/MM/YYYY HH:mm')+"</span>");
 			    			}
 			    			//alert($("#ajaxFormModal #parentId").val() +" | "+$("#ajaxFormModal #parentType").val());
 			    		}
@@ -3174,16 +3174,16 @@ var typeObj = {
 			    		$("#ajaxFormModal #allDay").val(false);
 			    	if( typeof $("#ajaxFormModal #description").code === 'function' )
 			    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
-			    	//mylog.log($("#ajaxFormModal #startDate").val(),moment( $("#ajaxFormModal #startDate").val()).format('YYYY/MM/DD HH:mm'));
+			    	//mylog.log($("#ajaxFormModal #startDateInput").val(),moment( $("#ajaxFormModal #startDateInput").val()).format('YYYY/MM/DD HH:mm'));
 			    	
 			    	//Transform datetime before sending
 			    	var allDay = $("#ajaxFormModal #allDay").is(':checked');
 			    	var dateformat = "DD/MM/YYYY";
 			    	if (! allDay) 
 			    		var dateformat = "DD/MM/YYYY HH:mm"
-			    	$("#ajaxFormModal #startDate").val( moment( $("#ajaxFormModal #startDate").val(), dateformat).format());
-					$("#ajaxFormModal #endDate").val( moment( $("#ajaxFormModal #endDate").val(), dateformat).format());
-					//mylog.log($("#ajaxFormModal #startDate").val());
+			    	$("#ajaxFormModal #startDateInput").val( moment( $("#ajaxFormModal #startDateInput").val(), dateformat).format());
+					$("#ajaxFormModal #endDateInput").val( moment( $("#ajaxFormModal #endDateInput").val(), dateformat).format());
+					//mylog.log($("#ajaxFormModal #startDateInput").val());
 			    },
 			    properties : {
 			    	info : {
