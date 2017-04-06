@@ -11,6 +11,10 @@
 ----------------------------------------------------
 ----------------------------------------------------
 ----------------------------------------------------
+* Hot fix 0.17
+** @Rapha
+
+
 * Hot fix 0.16.3
 ** @Rapha : Corrige les mauvais types des organisations
 db.organizations.find({$and: [ { type :  { $ne: "NGO" } }, { type :  { $ne: "Group" } } , { type :  { $ne: "LocalBusiness" } }, { type :  { $ne: "GovernmentOrganization" } } ] }
