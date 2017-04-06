@@ -287,7 +287,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 <?php 
 
 if($type != City::CONTROLLER && !@$_GET["renderPartial"])
-	$this->renderPartial('../pod/headerEntity', array("entity"=>$element, "type" => $type, "openEdition" => $openEdition, "edit" => $edit, "links" => $links, "firstView" => "directory")); 
+	$this->renderPartial('../pod/headerEntity', array("entity"=>$element, "type" => $type, "openEdition" => $openEdition, "edit" => $edit, "links" => $links, "firstView" => "directory", "deletePending" => $deletePending)); 
 ?>
 <div class="" id="directoryPad">
 	<div class="col-md-12">
