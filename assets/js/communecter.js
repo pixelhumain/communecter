@@ -2624,20 +2624,6 @@ var typeObjLib = {
     	placeholder : "Avancement du projet",
     	options : avancementProject
     },
-    imageAddPhoto : {
-    	inputType : "uploader",
-    	showUploadBtn : true,
-    	init : function() { 
-    		setTimeout( function()
-    		{
-        		$('#trigger-upload').click(function() {
-		        	$('.fine-uploader-manual-trigger').fineUploader('uploadStoredFiles');
-		        	loadByHash(location.hash);
-        			$('#ajax-modal').modal("hide");
-		        });
-        	},500);
-    	}
-    },
     image :function(str) { 
     	url = (str) ? str : location.hash;
     	return {
@@ -3003,12 +2989,9 @@ var typeObj = {
 			    	//elementLib.setMongoId('poi');
 			    },
 				afterSave : function(){
-					if( $('.fine-uploader-manual-trigger').fineUploader('getUploads').length > 0 )
-				    	$('.fine-uploader-manual-trigger').fineUploader('uploadStoredFiles');
-				    else {
-				    	elementLib.closeForm();	
-				    	loadByHash( location.hash );
-				    }
+					elementLib.closeForm();	
+				    loadByHash( location.hash );
+				    
 			    },
 			    properties : {
 			    	info : {
@@ -3086,12 +3069,9 @@ var typeObj = {
 			    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
 			    },
 			    afterSave : function(){
-					if( $('.fine-uploader-manual-trigger').fineUploader('getUploads').length > 0 )
-				    	$('.fine-uploader-manual-trigger').fineUploader('uploadStoredFiles');
-				    else {
-				    	elementLib.closeForm();
-				    	loadByHash( location.hash );	
-				    }
+					elementLib.closeForm();
+				    loadByHash( location.hash );	
+				    
 			    },
 			    properties : {
 			    	info : {
@@ -3183,12 +3163,9 @@ var typeObj = {
 			    //	elementLib.setMongoId('events');
 			    },
 			    afterSave : function(){
-					if( $('.fine-uploader-manual-trigger').fineUploader('getUploads').length > 0 )
-				    	$('.fine-uploader-manual-trigger').fineUploader('uploadStoredFiles');
-				    else {
-				    	elementLib.closeForm();
-				    	loadByHash( location.hash );	
-				    }
+					elementLib.closeForm();
+				    loadByHash( location.hash );	
+				    
 			    },
 			    beforeSave : function(){
 			    	//alert("onBeforeSave");
@@ -3341,12 +3318,9 @@ var typeObj = {
 			    	//elementLib.setMongoId('projects');
 			    },
 			    afterSave : function(){
-					if( $('.fine-uploader-manual-trigger').fineUploader('getUploads').length > 0 )
-				    	$('.fine-uploader-manual-trigger').fineUploader('uploadStoredFiles');
-				    else {
-				    	elementLib.closeForm();
-				    	loadByHash( location.hash );	
-				    }
+					elementLib.closeForm();
+				    loadByHash( location.hash );	
+				    
 			    },
 			    beforeSave : function(){
 			    	if( typeof $("#ajaxFormModal #description").code === 'function' ) 
