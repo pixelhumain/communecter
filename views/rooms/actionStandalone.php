@@ -224,7 +224,7 @@
 
 			<div class="col-md-12 text-dark" style="font-size:15px">
 				<hr style="margin-top:0px">
-				<?php echo $action["message"]; ?>
+				<?php echo empty($action["message"]) ? "" : $action["message"]; ?>
 				<hr>
 			</div>
 			<div class="col-md-7 text-dark" style="font-size:15px">
