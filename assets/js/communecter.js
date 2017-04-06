@@ -3333,6 +3333,7 @@ var typeObj = {
 		            },
 			        name : typeObjLib.nameProject,
 		            parentType : typeObjLib.hidden,
+		            parentId : typeObjLib.hidden,
 		            //image : typeObjLib.image("#project.detail.id."+uploadObj.id),
 		            location : typeObjLib.location,
 		            tags :typeObjLib.tags,
