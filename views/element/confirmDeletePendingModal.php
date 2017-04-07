@@ -10,7 +10,7 @@
       </div>
       <div class="modal-body text-dark">
         <p>
-        	<?php echo Yii::t('common',"This element is in status 'delete pending'. It will be deleted in X days.") ;?>
+        	<?php echo Yii::t('common',"This element is in status 'delete pending'. It will be deleted in {nbDaysBeforeDelete} days.", array("{nbDaysBeforeDelete}"=>Element::NB_DAY_BEFORE_DELETE)) ;?>
         </p>
         <br>
         <?php echo Yii::t('common',"As an admin of this element, if you think it's a mistake you can stop the process.") ;?>
@@ -39,13 +39,13 @@
 	    	success: function(data){
 		    	if(data.result){
 					toastr.success(data.msg);
-					//reload
+					loadByHash(location.hash);
 		    	}else{
 		    		toastr.error(data.msg);
 		    	}
 		    },
 		    error: function(data){
-		    	toastr.error("Something went really bad ! Please contact the administrator.");
+		    	toastr.error("<?php echo Yii::t('common',"Something went really bad ! Please contact the administrator.") ;?>");
 		    }
 		});
 	});
