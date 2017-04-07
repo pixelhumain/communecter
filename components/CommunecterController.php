@@ -311,6 +311,12 @@ class CommunecterController extends Controller
       "directory"       => array("href"=>"/ph/communecter/project/directory", "public" => true),
       "updatesettings"  => array('href'=>"/ph/communecter/project/updatesettings"),
     ),
+    "chart" => array(
+      "addchartsv"      => array("href" => "/ph/communecter/chart/addchartsv"),
+      "index"      => array("href" => "/ph/communecter/chart/index"),
+      "editchart"       => array("href" => "/ph/communecter/chart/editchart"),
+      "get"       => array("href" => "/ph/communecter/chart/get"),
+    ),
     "job"=> array(
       "edit"    => array("href" => "/ph/communecter/job/edit"),
       "public"  => array("href" => "/ph/communecter/job/public"),
