@@ -379,10 +379,10 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 						<span><?php echo Yii::t("common","All day")?> : </span> <span id="allDay" class="" ><?php echo (isset($element["allDay"]) ? Yii::t("common","Yes") : Yii::t("common","No") ); ?></span>
 					</div>
 					<?php } ?>
-					<div class="col-md-6 col-xs-12 no-padding">
+					<div id="divStartDate" class="col-md-6 col-xs-12 hidden no-padding">
 						<span><?php echo Yii::t("common","From") ?> </span><span id="startDate" class="" ><?php echo (isset($element["startDate"]) ? $element["startDate"] : "" ); ?></span>
 					</div>
-					<div class="col-md-6 col-xs-12 no-padding">
+					<div id="divEndDate" class="col-md-6 col-xs-12 hidden no-padding">
 						<span><?php echo Yii::t("common","To") ?></span> <span id="endDate" class=""><?php echo (isset($element["endDate"]) ? $element["endDate"] : "" ); ?></span> 
 					</div>
 				</div>
@@ -963,21 +963,23 @@ if($showOdesc == true){
 
 			var beforeSave = function(){
 				mylog.log("beforeSave");
+				var allDay = $("#ajaxFormModal #allDay").is(':checked');
 		    	if($("#ajaxFormModal #allDay").length && $("#ajaxFormModal #allDay").val() == contextData.allDay)
 		    		$("#ajaxFormModal #allDay").remove();
 
-		    	if($("#ajaxFormModal #startDate").length && $("#ajaxFormModal #startDate").val() ==  contextData.startDate)
-		    		$("#ajaxFormModal #startDate").remove();
+		    	if($("#ajaxFormModal #startDateInput").length && $("#ajaxFormModal #startDateInput").val() ==  contextData.startDate)
+		    		$("#ajaxFormModal #startDateInput").remove();
 
-		    	if($("#ajaxFormModal #endDate").length && $("#ajaxFormModal #endDate").val() ==  contextData.endDate)
-		    		$("#ajaxFormModal #endDate").remove();
+		    	if($("#ajaxFormModal #endDateInput").length && $("#ajaxFormModal #endDateInput").val() ==  contextData.endDate)
+		    		$("#ajaxFormModal #endDateInput").remove();
 
-		    	var allDay = $("#ajaxFormModal #allDay").is(':checked');
+		    	
 		    	var dateformat = "DD/MM/YYYY";
 		    	if (! allDay) 
 		    		var dateformat = "DD/MM/YYYY HH:mm"
-		    	$("#ajaxFormModal #startDate").val( moment( $("#ajaxFormModal #startDate").val(), dateformat).format());
-				$("#ajaxFormModal #endDate").val( moment( $("#ajaxFormModal #endDate").val(), dateformat).format());
+		    	$("#ajaxFormModal #startDateInput").val( moment( $("#ajaxFormModal #startDateInput").val(), dateformat).format());
+				$("#ajaxFormModal #endDateInput").val( moment( $("#ajaxFormModal #endDateInput").val(), dateformat).format());
+		    	
 		    };
 
 			var afterSave = function(data){
@@ -990,11 +992,13 @@ if($showOdesc == true){
 					if(typeof data.resultGoods.values.endDate != "undefined"){
 						contextData.startDate = data.resultGoods.values.startDate;
 						$("#contentGeneralInfos #startDate").html(moment(contextData.startDate).local().format(formatDateView));
+						$("#divStartDate").removeClass("hidden");
 					}  
 					if(typeof data.resultGoods.values.endDate != "undefined"){
 						contextData.endDate = data.resultGoods.values.endDate;
 						$("#contentGeneralInfos #endDate").html(moment(contextData.endDate).local().format(formatDateView));
-					}  
+						$("#divEndDate").removeClass("hidden");
+					} 
 					updateCalendar();
 				}
 
@@ -2100,6 +2104,17 @@ function changeNetwork(id, url, str){
 }
 
 function initDate() {//DD/mm/YYYY hh:mm
+	if( typeof contextData.startDate != "undefined" && contextData.startDate != "" )
+		$("#divStartDate").removeClass("hidden");
+	else
+		$("#divStartDate").addClass("hidden");
+
+	if( typeof contextData.endDate != "undefined" && contextData.endDate != "" )
+		$("#divEndDate").removeClass("hidden");
+	else
+		$("#divEndDate").addClass("hidden");
+
+
 	if($("#contentGeneralInfos #startDate").html() != "")
     	$("#contentGeneralInfos #startDate").html(moment($("#contentGeneralInfos #startDate").html()).local().format(formatDateView));
     if($("#contentGeneralInfos #endDate").html() != "")

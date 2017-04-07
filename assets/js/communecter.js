@@ -2978,8 +2978,7 @@ var typeObj = {
 			    },
 			    beforeSave : function(){
 			    	
-			    	if( typeof $("#ajaxFormModal #description").code === 'function' )  
-			    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
+			    	
 			    	if($('#ajaxFormModal #parentId').val() == "" && $('#ajaxFormModal #parentType').val() ){
 				    	$('#ajaxFormModal #parentId').val( userId );
 				    	$("#ajaxFormModal #parentType").val( "citoyens" ); 
@@ -3061,12 +3060,17 @@ var typeObj = {
 			    title : trad.addOrganization,
 			    icon : "group",
 			    type : "object",
+			    onLoads : {
+			    	markdown : function(){
+						mylog.log("#btn-update-desc #ajaxFormModal #description");
+						activateMarkdown("#ajaxFormModal #description");
+					}
+			    },
 			    beforeBuild : function(){
 			    	//elementLib.setMongoId('organizations');
 			    },
 			    beforeSave : function(){
-			    	if (typeof $("#ajaxFormModal #description").code === 'function' ) 
-			    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
+			    	
 			    },
 			    afterSave : function(){
 					elementLib.closeForm();
@@ -3093,13 +3097,6 @@ var typeObj = {
 		            email : typeObjLib.emailOptionnel,
 			        description : typeObjLib.description,
 		            url : typeObjLib.url,
-			        /*telephone : {
-			        	placeholder : "Téléphne",
-			            inputType : "text",
-			            init : function(){
-			            	$(".telephonetext").css("display","none");
-			            }
-			        },*/
 		            "preferences[publicFields]" : typeObjLib.hiddenArray,
 		            "preferences[privateFields]" : typeObjLib.hiddenArray,
 		            "preferences[isOpenData]" : typeObjLib.hiddenTrue,
@@ -3128,6 +3125,7 @@ var typeObj = {
 			    	//pour creer un subevnt depuis un event existant
 			    	"subEvent" : function(){
 			    		//alert(contextData.type);
+			    		activateMarkdown("#ajaxFormModal #description");
 			    		if(contextData.type == "events"){
 			    			$("#ajaxFormModal #parentId").removeClass('hidden');
 			    		
@@ -3172,8 +3170,6 @@ var typeObj = {
 			    	
 			    	if( !$("#ajaxFormModal #allDay").val())
 			    		$("#ajaxFormModal #allDay").val(false);
-			    	if( typeof $("#ajaxFormModal #description").code === 'function' )
-			    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
 			    	//mylog.log($("#ajaxFormModal #startDateInput").val(),moment( $("#ajaxFormModal #startDateInput").val()).format('YYYY/MM/DD HH:mm'));
 			    	
 			    	//Transform datetime before sending
@@ -3312,6 +3308,7 @@ var typeObj = {
 			    			$("#ajaxFormModal #parentId").val( contextData.id );
 			    		 	$("#ajaxFormModal #parentType").val( contextData.type ); 
 			    		 	$("#ajax-modal-modal-title").html($("#ajax-modal-modal-title").html()+" sur "+contextData.name );
+			    		 	activateMarkdown("#ajaxFormModal #description");
 			    	}
 			    },
 			    beforeBuild : function(){
@@ -3323,8 +3320,6 @@ var typeObj = {
 				    
 			    },
 			    beforeSave : function(){
-			    	if( typeof $("#ajaxFormModal #description").code === 'function' ) 
-			    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
 			    },
 			    properties : {
 			    	info : {
@@ -3446,8 +3441,6 @@ var typeObj = {
 			    },
 			    beforeSave : function(){
 			    	
-			    	if( typeof $("#ajaxFormModal #message").code === 'function' )  
-			    		$("#ajaxFormModal #message").val( $("#ajaxFormModal #message").code() );
 			    },
 			    properties : {
 			    	info : {
@@ -3545,8 +3538,6 @@ var typeObj = {
 			    	}
 			    },
 			    beforeSave : function(){
-			    	if( typeof $("#ajaxFormModal #message").code === 'function' ) 
-			    		$("#ajaxFormModal #message").val( $("#ajaxFormModal #message").code() );
 			    },
 			    properties : {
 			    	info : {

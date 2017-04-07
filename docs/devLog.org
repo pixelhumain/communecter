@@ -11,8 +11,9 @@
 ----------------------------------------------------
 ----------------------------------------------------
 ----------------------------------------------------
-* Hot fix 0.17
-** @Rapha
+* Version 0.17
+** @Rapha : Ajout un attribu descriptionHtml = true
+/communecter/datamigration/DescInHtml
 
 
 * Hot fix 0.16.3
