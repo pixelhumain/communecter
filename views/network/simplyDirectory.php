@@ -1381,7 +1381,10 @@ function updateMap(){
 	if(test.length > 0){
 		$.each(test,function(keyTags,tags){
 			$.each(contextMapNetwork,function(k,v){
-				add = ( (verb == "and") ? and( tags, v.tags ) : or( tags, v.tags ) );
+				if(typeof v.tags != "undefined" && v.tags != null)
+					add = ( (verb == "and") ? and( tags, v.tags ) : or( tags, v.tags ) );
+				else
+					add= false;
 				mylog.log("here2", v.name, searchValNetwork, v.name.search( new RegExp( searchValNetwork, "i" )) );
 				if(	add && 
 					( 	disableActived == false || 
