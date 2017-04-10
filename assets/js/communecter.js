@@ -956,7 +956,7 @@ function showAjaxPanel (url,title,icon, mapEnd) {
         		uploadObj.type = contextData.type;
         		uploadObj.id = contextData.id;
         	}
-        	if(debug){
+        	/*if(debug){
         		getAjax(null, baseUrl+'/'+moduleId+"/log/dbaccess", function(data){ 
         			if(prevDbAccessCount == 0){
         				dbAccessCount = parseInt(data);
@@ -969,18 +969,19 @@ function showAjaxPanel (url,title,icon, mapEnd) {
         			//$(".dbAccessBtn").remove();
         			//$(".menu-info-profil").prepend('<span class="text-red dbAccessBtn" ><i class="fa fa-database text-red text-bold fa-2x"></i> '+dbAccessCount+' <a href="javascript:clearDbAccess();"><i class="fa fa-times text-red text-bold"></i></a></span>');
         		},null);
-        	}
+        	}*/
 
 		},"html");
 	}, 800);
 }
+/*
 prevDbAccessCount = 0; 
 function clearDbAccess() { 
 	getAjax(null, baseUrl+'/'+moduleId+"/log/clear", function(data){ 
 		$(".dbAccessBtn").remove();
 		prevDbAccessCount = 0; 
 	});
-}
+}*/
 /* ****************
 visualize all tagged elements on a map
 **************/

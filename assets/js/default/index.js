@@ -125,7 +125,7 @@ function showMap(show)
 		isMapEnd =true;
 		showNotif(false);
 
-		currentScrollTop = $('html').scrollTop();
+		//currentScrollTop = $('html').scrollTop();
 		
 
 		//$("#mapLegende").html("");
@@ -180,12 +180,12 @@ function showMap(show)
      							//top: 50,
      							opacity:1
 						      }, 'slow' );
-		setTimeout(function(){ 
+		/*setTimeout(function(){ 
 			$(".main-container").show();
 			$('html, body').stop().animate({
 	            scrollTop: currentScrollTop
 	        }, 500, ''); 
-		}, 100);
+		}, 100);*/
 
 		//hideFormInMap();
 
