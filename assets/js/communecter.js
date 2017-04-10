@@ -2785,11 +2785,11 @@ var typeObj = {
 			            	});
 			            }
 			        },
-			        tags :{
+			       /* tags :{
 		              inputType : "tags",
 		              placeholder : "Vos Tags",
 		              values : tagsList
-		            },
+		            },*/
 		           /* image :{
 		            	inputType : "uploader",
 		            	afterUploadComplete : function(){
@@ -2797,9 +2797,9 @@ var typeObj = {
 			                loadByHash( "#person.detail.id."+uploadObj.id );	
 					    },
 		            },*/
-		            location : {
+		            /*location : {
 		               inputType : "location"
-		            },
+		            },*/
 		           /* formshowers : {
 		                inputType : "custom",
 		                html:
