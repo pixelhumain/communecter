@@ -2742,8 +2742,90 @@ var typeObj = {
 			    }
 			}
 		}},
-	"citoyen" : {col:"citoyens" , ctrl:"person"},
-	"citoyens" : {col:"citoyens" , ctrl:"person",color:"yellow",icon:"user"},
+	"citoyen" : {
+		col:"citoyens" , 
+		ctrl:"person",
+		icon : "user",
+		titleClass : "bg-yellow",
+		color:"yellow",
+		bgClass : "bgPerson",
+		dynForm : {
+		    jsonSchema : {
+			    title : "Editer vos informations",
+			    icon : "user",
+			    type : "object",
+			    beforeBuild : function(){
+			    	//elementLib.setMongoId('citoyens');
+			    },
+			    beforeSave : function(){
+			    	if (typeof $("#ajaxFormModal #description").code === 'function' ) 
+			    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
+			    },
+			    afterSave : function(){
+					//if( $('.fine-uploader-manual-trigger').fineUploader('getUploads').length > 0 )
+				    //	$('.fine-uploader-manual-trigger').fineUploader('uploadStoredFiles');
+				    //else {
+				    	elementLib.closeForm();
+				    	loadByHash( location.hash );	
+				    //}
+			    },
+			    properties : {
+			    	info : {
+		                inputType : "custom",
+		                html:"<p><i class='fa fa-info-circle'></i> Editer vos informations</p>",
+		            },
+			        name : {
+			        	placeholder : "Nom",
+			            inputType : "text",
+			            rules : { required : true },
+			            init : function(){
+			            	$("#ajaxFormModal #name ").off().on("blur",function(){
+			            		if($("#ajaxFormModal #name ").val().length > 3 )
+				            		globalSearch($(this).val(),["citoyens"]);
+			            	});
+			            }
+			        },
+			        tags :{
+		              inputType : "tags",
+		              placeholder : "Vos Tags",
+		              values : tagsList
+		            },
+		           /* image :{
+		            	inputType : "uploader",
+		            	afterUploadComplete : function(){
+					    	elementLib.closeForm();
+			                loadByHash( "#person.detail.id."+uploadObj.id );	
+					    },
+		            },*/
+		            location : {
+		               inputType : "location"
+		            },
+		           /* formshowers : {
+		                inputType : "custom",
+		                html:
+						"<a class='btn btn-default text-dark w100p' href='javascript:;' onclick='$(\".emailtext,.descriptionwysiwyg,.urltext\").slideToggle();activateSummernote(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (email, desc, urls, telephone)</a>",
+		            },*/
+		            email : {
+			        	placeholder : "Email",
+			            inputType : "text",
+			            init : function(){
+			            	//$(".emailtext").css("display","none");
+			            }
+			        },
+			        
+			        description : {
+		                inputType : "wysiwyg",
+	            		placeholder : "Décrire c'est partager",
+			            init : function(){
+			            	activateSummernote("#ajaxFormModal #description");
+			            	//$(".descriptionwysiwyg").css("display","none");
+			            }
+		            }
+			    }
+			}
+		}
+	},
+	"citoyens" : {col:"citoyens" , ctrl:"citoyen",color:"yellow",icon:"user"},
 	"siteurl":{ 
 		col:"siteurl",
 		ctrl:"siteurl",
