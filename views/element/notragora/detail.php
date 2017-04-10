@@ -211,8 +211,14 @@
 			<?php echo @$element["name"]; ?>
 			<!-- <button class="btn btn-default btn-follow"><i class="fa fa-star"></i> SUIVRE</button> -->
 			<?php if(  Authorisation::canEditItem( Yii::app()->session["userId"], $_GET["type"], (string)$_GET["id"])){?>
-			<button class="btn btn-default" onclick='elementLib.editElement("<?php echo @$_GET["type"]; ?>","<?php echo (string)@$element["_id"]; ?>")' ><i class="fa fa-pencil text-red"></i> Edit</button>
-			<?php } ?>
+			<a href='javascript:' class="btn btn-default" onclick='elementLib.editElement("<?php echo @$_GET["type"]; ?>","<?php echo (string)@$element["_id"]; ?>")' ><i class="fa fa-pencil"></i> Edit</a>
+
+			<?php if ((string)$_GET["id"]==Yii::app()->session["userId"]){ ?>
+				<a href='javascript:' id="changePasswordBtn" class='btn btn-default text-red pull-right'>
+					<i class='fa fa-key'></i> <?php echo Yii::t("common","Change password"); ?>  		
+				</a>
+			<?php	}
+			} ?>
 		</div>
 		<div class="col-md-12 padding-15 menubar">
 			<button class="btn btn-default btn-menubar" id="btn-menu-home">A PROPOS</button>
@@ -417,7 +423,10 @@
   	var pois = <?php echo json_encode($entitiesPois); ?>
 
 	jQuery(document).ready(function() {
-	
+		$("#changePasswordBtn").click(function () {
+  			mylog.log("changePasswordbuttton");
+  	 		loadByHash('#person.changepassword.id.'+userId+'.mode.initSV', false);
+  	  	});
 		$(".btn-full-desc").click(function(){
             var sectionKey = $(this).data("sectionkey");
             if($("section#"+sectionKey+" .item-desc").hasClass("fullheight")){
@@ -433,7 +442,7 @@
 		$("#nbMember").html(nbMember);
 		$("#nbMemberTotal").html(nbAdmin+nbMember);
 
-		var url = "news/index/type/"+contextType+"/id/"+contextId+"?isFirst=1&";
+		/*var url = "news/index/type/"+contextType+"/id/"+contextId+"?isFirst=1&";
 		console.log("URL", url);
 		if(contextType=="projects" || contextType=="citoyens"){
 			ajaxPost('#timeline-page', baseUrl+'/'+moduleId+'/'+url+"renderPartial=true&tpl=co2&nbCol=2", 
@@ -441,7 +450,7 @@
 				function(){ 
 					
 			},"html");
-		}
+		}*/
 		if(contextType=="poi"){
 			getAjax('#comment-page',baseUrl+'/'+moduleId+"/comment/index/type/"+contextType+"/id/"+contextId,function(){ 
 					
@@ -482,7 +491,7 @@
 
 		});
 		$(".editThisBtn").off().on("click",function (){
-	        $(this).empty().html('<i class="fa fa-spinner fa-spin"></i>');
+	        $(this).empty(t).html('<i class="fa fa-spinner fa-spin"></i>');
 	        var btnClick = $(this);
 	        var id = $(this).data("id");
 	        var type = $(this).data("type");
