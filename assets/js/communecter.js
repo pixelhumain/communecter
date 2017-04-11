@@ -2646,6 +2646,13 @@ var typeObjLib = {
         inputType : "textarea",
 		placeholder : "Décrire c'est partager"
     },
+
+    shortDescription : {
+        inputType : "textarea",
+		placeholder : "...",
+		label : "Description courte",
+		rules : { maxlength: 140 }
+    },
     tags : {
 		inputType : "tags",
 		placeholder : "Ajouter des tags",
@@ -3822,21 +3829,32 @@ var typeObj = {
 		}},*/
 };
 
+function convertMardownToHtml(text) { 
+	var converter = new showdown.Converter();
+	return converter.makeHtml(text);
+}
+
 function activateMarkdown(elem) { 
 	mylog.log("activateMarkdown", elem);
 
 	markdownParams = {
 			savable:false,
 			iconlibrary:'fa',
+			language:'fr',
 			onPreview: function(e) {
 				var previewContent = "";
-			    mylog.log(e.isDirty());
+			   /* mylog.log(e.isDirty());
 			    if (e.isDirty()) {
 			    	var converter = new showdown.Converter(),
 			    		text      = e.getContent(),
 			    		previewContent      = converter.makeHtml(text);
 			    } else {
 			    	previewContent = "Default content";
+			    }*/
+			    if (e.isDirty()) {
+			    	previewContent = convertMardownToHtml(e.getContent());
+			    } else {
+			    	previewContent = convertMardownToHtml($(elem).val());
 			    }
 			    return previewContent;
 		  	},
@@ -3857,6 +3875,26 @@ function activateMarkdown(elem) {
 
 			$.getScript( baseUrl+"/plugins/bootstrap-markdown/js/bootstrap-markdown.js", function( data, textStatus, jqxhr ) {
 				mylog.log("elem", elem);
+
+				$.fn.markdown.messages['fr'] = {
+					'Bold': trad.Bold,
+					'Italic': trad.Italic,
+					'Heading': trad.Heading,
+					'URL/Link': trad['URL/Link'],
+					'Image': trad.Image,
+					'List': trad.List,
+					'Preview': trad.Preview,
+					'strong text': trad['strong text'],
+					'emphasized text': trad['strong text'],
+					'heading text': trad[''],
+					'enter link description here': trad['enter link description here'],
+					'Insert Hyperlink': trad['Insert Hyperlink'],
+					'enter image description here': trad['enter image description here'],
+					'Insert Image Hyperlink': trad['Insert Image Hyperlink'],
+					'enter image title here': trad['enter image title here'],
+					'list text here': trad['list text here']
+				};
+
 				$(elem).markdown(markdownParams);
 			});
 

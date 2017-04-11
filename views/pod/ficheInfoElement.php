@@ -282,7 +282,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 		</div>
 
 		<?php if($type==Person::COLLECTION){ ?>
-				<div class="socialNetwork col-md-12">
+				<div class="socialNetwork col-md-12 hidden">
 					<div class="col-md-12 no-padding">
 						<?php 
 							$facebook = (!empty($element["socialNetwork"]["facebook"])? $element["socialNetwork"]["facebook"]:"#") ;
@@ -385,6 +385,11 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 					<div id="divEndDate" class="col-md-6 col-xs-12 hidden no-padding">
 						<span><?php echo Yii::t("common","To") ?></span> <span id="endDate" class=""><?php echo (isset($element["endDate"]) ? $element["endDate"] : "" ); ?></span> 
 					</div>
+					<?php if(empty($element["startDate"])) { ?>
+						<div id="emptyDate" class="col-xs-12 no-padding">
+							<span>Pas de date</span>
+						</div>
+					<?php } ?>
 				</div>
 			</div>
 		<?php } ?>
@@ -641,20 +646,29 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 			<a href="#" id="shortDescription" data-type="wysihtml5" data-original-title="<?php //echo Yii::t($controller,"Write the ".$controller."'s short description",null,Yii::app()->controller->module->id) ?>" data-emptytext="<?php //echo Yii::t("common","Short description",null,Yii::app()->controller->module->id); ?>" class=""><?php //echo (!empty($element["shortDescription"])) ? $element["shortDescription"] : ""; ?></a>	
 		</div> -->
 
+		
+
 		<div class="col-xs-12 no-padding margin-top-10">
 		  	<div class="text-dark lbl-info-details">
 		  		<i class="fa fa-angle-down"></i> Description
 		  		<?php if($edit==true || $openEdition==true ){?>
 		  		<a href='javascript:;' id="btn-update-desc" class="tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Update Description");?>"><i class="fa text-red fa-pencil"></i></a> <?php } ?>
 		  	</div>
-		  	<div>
-		  		<span class="titleField text-dark"><i class="fa fa-angle-right"></i> Courte :</span><br/>
-				<span id="shortDescription"  class=""><?php  echo (!empty($element["shortDescription"])) ? $element["shortDescription"] : ""; ?></span>
-				<input type="hidden" id="shortDescriptionMarkdown" name="shortDescriptionMarkdown" value="<?php echo (!empty($element['shortDescription'])) ? $element['shortDescription'] : ''; ?>">
-				<br/><span class="titleField text-dark"><i class="fa fa-angle-right"></i> Longue :</span><br/>
-				<span id="description"  class=""><?php  echo (!empty($element["description"])) ? $element["description"] : ""; ?></span>
-				<input type="hidden" id="descriptionMarkdown" name="descriptionMarkdown" value="<?php echo (!empty($element['description'])) ? $element['description'] : ''; ?>">
-			</div>		
+		  	<div class="col-md-12">
+				<div class="no-padding col-md-12">
+			  		<div id="divShortDescription">
+				  		<span class="titleField text-dark"><i class="fa fa-angle-right"></i> Courte :</span><br/>
+						<span id="shortDescription"  class=""><?php  echo (!empty($element["shortDescription"])) ? $element["shortDescription"] : ""; ?></span>
+						<input type="hidden" id="shortDescriptionMarkdown" name="shortDescriptionMarkdown" value="<?php echo (!empty($element['shortDescription'])) ? $element['shortDescription'] : ''; ?>">
+					</div>
+					<br/>
+					<div id="divDescription">
+						<span class="titleField text-dark"><i class="fa fa-angle-right"></i> Longue :</span><br/>
+						<span id="description"  class=""><?php  echo (!empty($element["description"])) ? $element["description"] : ""; ?></span>
+						<input type="hidden" id="descriptionMarkdown" name="descriptionMarkdown" value="<?php echo (!empty($element['description'])) ? $element['description'] : ''; ?>">
+					</div>
+				</div>		
+			</div>
 		</div>
 	</div>
 </div>
@@ -796,6 +810,7 @@ if($showOdesc == true){
 		//manageAllDayElement(allDay);
 		//manageModeContextElement();
 		changeHiddenIconeElement(true);
+		changeHiddenFieldsNetwork();
 		//manageDivEditElement();
 		bindAboutPodElement();
 		//collection.applyColor(contextData.type,contextData.id);
@@ -985,6 +1000,7 @@ if($showOdesc == true){
 			var afterSave = function(data){
 				mylog.dir(data);
 				if(data.result && data.resultGoods.result){
+					moment.locale('fr');
 					if(typeof data.resultGoods.values.allDay != "undefined"){
 						contextData.allDay = data.resultGoods.values.allDay;
 						$("#contentGeneralInfos #allDay").html(contextData.allDay);
@@ -993,6 +1009,7 @@ if($showOdesc == true){
 						contextData.startDate = data.resultGoods.values.startDate;
 						$("#contentGeneralInfos #startDate").html(moment(contextData.startDate).local().format(formatDateView));
 						$("#divStartDate").removeClass("hidden");
+						$("#emptyDate").addClass("hidden");
 					}  
 					if(typeof data.resultGoods.values.endDate != "undefined"){
 						contextData.endDate = data.resultGoods.values.endDate;
@@ -1211,31 +1228,31 @@ if($showOdesc == true){
 					if(typeof data.resultGoods.values.facebookAccount != "undefined"){
 						contextData.facebookAccount = data.resultGoods.values.facebookAccount.trim();
 						var iconNetwork = ((contextData.facebookAccount=="")?"":'<i class="fa fa-facebook"></i>');
-						changeNetwork('#contentGeneralInfos #facebookAccount', contextData.facebookAccount, iconNetwork);
+						changeNetwork('#facebookAccount', contextData.facebookAccount, iconNetwork);
 					}
 
 					if(typeof data.resultGoods.values.twitterAccount != "undefined"){
 						contextData.twitterAccount = data.resultGoods.values.twitterAccount.trim();
 						var iconNetwork = ((contextData.twitterAccount=="")?"":'<i class="fa fa-twitter"></i>');
-						changeNetwork('#contentGeneralInfos #twitterAccount', contextData.twitterAccount, iconNetwork);
+						changeNetwork('#twitterAccount', contextData.twitterAccount, iconNetwork);
 					}
 
 					if(typeof data.resultGoods.values.gitHubAccount != "undefined"){
 						contextData.gitHubAccount = data.resultGoods.values.gitHubAccount.trim();
 						var iconNetwork = ((contextData.gitHubAccount=="")?"":'<i class="fa fa-github"></i>');
-						changeNetwork('#contentGeneralInfos #gitHubAccount', contextData.gitHubAccount, iconNetwork);
+						changeNetwork('#gitHubAccount', contextData.gitHubAccount, iconNetwork);
 					}
 
 					if(typeof data.resultGoods.values.skypeAccount != "undefined"){
 						contextData.skypeAccount = data.resultGoods.values.skypeAccount.trim();
 						var iconNetwork = ((contextData.skypeAccount=="")?"":'<i class="fa fa-skype"></i>');
-						changeNetwork('#contentGeneralInfos #skypeAccount', contextData.skypeAccount, iconNetwork);
+						changeNetwork('#skypeAccount', contextData.skypeAccount, iconNetwork);
 					}
 
 					if(typeof data.resultGoods.values.gpplusAccount != "undefined"){
 						contextData.gpplusAccount = data.resultGoods.values.gpplusAccount.trim();
 						var iconNetwork = ((contextData.gpplusAccount=="")?"":'<i class="fa fa-google-plus"></i>');
-						changeNetwork('#contentGeneralInfos #gpplusAccount', contextData.gpplusAccount, iconNetwork);
+						changeNetwork('#gpplusAccount', contextData.gpplusAccount, iconNetwork);
 					}
 
 					if(typeof data.resultGoods.values.type != "undefined"){
@@ -1251,6 +1268,7 @@ if($showOdesc == true){
 				}
 				elementLib.closeForm();
 				changeHiddenIconeElement(false);
+				changeHiddenFieldsNetwork();
 			};
 			
 			var saveUrl = baseUrl+"/"+moduleId+"/element/updateblock/";
@@ -1282,7 +1300,7 @@ if($showOdesc == true){
 			if(contextData.url.length > 0)
 				dataUpdate.url = contextData.url;
 			if(typeof contextData.birthDate != "undefined" && contextData.birthDate.length > 0)
-				dataUpdate.birthDate = contextData.birthDate;
+				dataUpdate.birthDate = moment(contextData.birthDate).local().format("DD/MM/YYYY");
 			if(contextData.fixe.length > 0)
 				dataUpdate.fixe = contextData.fixe;
 			if(contextData.mobile.length > 0)
@@ -1301,7 +1319,7 @@ if($showOdesc == true){
 				}
 			};
 
-			;
+			
 			var beforeSave = function(){
 				mylog.log("beforeSave");
 		    	if($("#ajaxFormModal #url").length && $("#ajaxFormModal #url").val() == contextData.url)
@@ -1310,7 +1328,7 @@ if($showOdesc == true){
 		    	if($("#ajaxFormModal #email").length && $("#ajaxFormModal #email").val() == contextData.email)
 		    		$("#ajaxFormModal #email").remove();
 
-		    	if($("#ajaxFormModal #birthDate").length && $("#ajaxFormModal #birthDate").val() ==  contextData.birthDate)
+		    	if($("#ajaxFormModal #birthDate").length && $("#ajaxFormModal #birthDate").val() ==  moment(contextData.birthDate).local().format("DD/MM/YYYY"))
 		    		$("#ajaxFormModal #birthDate").remove();
 		    	else{
 		    		var dateformat = "DD/MM/YYYY";
@@ -1379,7 +1397,7 @@ if($showOdesc == true){
 
 		$("#btn-update-desc").click(function () { 
 			var properties = {
-				shortDescription : typeObjLib["description"],
+				shortDescription : typeObjLib["shortDescription"],
 				description : typeObjLib["description"],
 		        typeElement : typeObjLib["hidden"],
 		        block : typeObjLib["hidden"],
@@ -1398,6 +1416,7 @@ if($showOdesc == true){
 				markdown : function(){
 					mylog.log("#btn-update-desc #ajaxFormModal #description");
 					activateMarkdown("#ajaxFormModal #description");
+					bindDesc("#ajaxFormModal");
 				}
 			};
 			var beforeSave = null ;
@@ -1658,6 +1677,25 @@ if($showOdesc == true){
 				$(value).removeClass("hidden"); 
 		});
 	}
+
+	function changeHiddenFieldsNetwork() { 
+		mylog.log("-----------------changeHiddenFieldsNetwork----------------------");
+		//
+		listFields = [	"facebookAccount", "twitterAccount", "gpplusAccount", "gitHubAccount", "skypeAccount", "telegramAccount"];
+		find = false;
+		$.each(listFields, function(i,value) {
+			mylog.log("listFields", value, typeof contextData[value]);
+			if(typeof contextData[value] != "undefined" && contextData[value].length > 0)
+				find=true;
+		});
+		mylog.log("find", find);
+		if(find == true)
+			$(".socialNetwork").removeClass("hidden");
+		else
+			$(".socialNetwork").addClass("hidden");
+		mylog.log("-----------------changeHiddenFieldsNetwork END----------------------");
+	}
+	
 	
 
 	function activateEditableContext() {
@@ -2104,6 +2142,7 @@ function changeNetwork(id, url, str){
 }
 
 function initDate() {//DD/mm/YYYY hh:mm
+	moment.locale('fr');
 	if( typeof contextData.startDate != "undefined" && contextData.startDate != "" )
 		$("#divStartDate").removeClass("hidden");
 	else
@@ -2121,7 +2160,7 @@ function initDate() {//DD/mm/YYYY hh:mm
     	$("#contentGeneralInfos #endDate").html(moment($("#contentGeneralInfos #endDate").html()).local().format(formatDateView));
 
     if($("#contentGeneralInfos #birthDate").html() != "")
-    	$("#contentGeneralInfos #birthDate").html(moment($("#contentGeneralInfos #birthDate").html()).local().format("DD MM YYYY"));
+    	$("#contentGeneralInfos #birthDate").html(moment($("#contentGeneralInfos #birthDate").html()).local().format("DD/MM/YYYY"));
     $('#dateTimezone').attr('data-original-title', "Fuseau horaire : GMT " + moment().local().format("Z"));
 }
 
@@ -2161,5 +2200,14 @@ function initDescs() {
 	$("#description").html(markdownToHtml($("#descriptionMarkdown").val()));
 	//$("#shortDescriptionHeader").html(markdownToHtml($("#shortDescriptionMarkdown").val()));
 }
+
+function bindDesc(parent){
+		$(".maxlengthTextarea").off().keyup(function(){
+			var name = "#" + $(this).attr("id") ;
+			mylog.log(".maxlengthTextarea", parent+" "+name, $(this).attr("id"), $(parent+" "+name).val().length, $(this).val().length);
+			$(parent+" #maxlength"+$(this).attr("id")).html($(parent+" "+name).val().length);
+			maxlengthshortDescription
+		});
+	}
 
 </script>
