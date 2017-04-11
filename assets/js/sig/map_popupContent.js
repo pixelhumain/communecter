@@ -148,8 +148,10 @@
 			if(type == "organizations") typeElement = "organization";
 			if(type == "events") 		typeElement = "event";
 			if(type == "projects") 		typeElement = "project";
-			mylog.log("type", type);
+			if(type.indexOf("poi.") >= 0)typeElement = "poi";
+			mylog.log("type", type, typeElement);
 			
+			//data.type = typeElement;
 			var icon = 'fa-'+ this.getIcoByType(data);
 
 			var onclick = "";
