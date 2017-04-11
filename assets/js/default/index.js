@@ -108,11 +108,11 @@ function checkScroll(){
 
 function showMap(show)
 {
-
+  //console.log("SHOW MAP", show, mapBg);
   if(mapBg == null) return;
 
 	//if(typeof Sig == "undefined") { alert("Pas de SIG"); return; } 
-	mylog.log("typeof SIG : ", typeof Sig);
+	//mylog.log("typeof SIG : ", typeof Sig);
 	if(typeof Sig == "undefined") show = false;
 
   //chargement de la carte
@@ -149,12 +149,12 @@ function showMap(show)
 		$(".main-menu-left").hide(); //addClass("inSig");
 		$("body").addClass("inSig");
 
-		$(".main-container").animate({
+		$(".my-main-container").animate({
      							//top: -1000,
      							opacity:0,
 						      }, 'slow' );
 
-		setTimeout(function(){ $(".main-container").hide(); }, 100);
+		//setTimeout(function(){ $(".main-container").hide(); }, 100);
 		var timer = setTimeout("Sig.constructUI()", 1000);
 		
 	}else{
@@ -176,7 +176,7 @@ function showMap(show)
 		//$(".menu-left-container hr").css({opacity:1} );
 		//$(".main-menu-left").removeClass("inSig");
 		$("body").removeClass("inSig");
-		$(".main-container").animate({
+		$(".my-main-container").animate({
      							//top: 50,
      							opacity:1
 						      }, 'slow' );
