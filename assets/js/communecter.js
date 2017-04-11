@@ -2910,7 +2910,7 @@ var typeObj = {
 		bgClass : "bgOrga",
 		dynForm : {
 		    jsonSchema : {
-			    title : trad.addOrganization,
+			    title : "Ajouter un groupe de travail",
 			    icon : "group",
 			    type : "object",
 			    beforeBuild : function(){
@@ -2931,7 +2931,7 @@ var typeObj = {
 			    properties : {
 			    	info : {
 		                inputType : "custom",
-		                html:"<p><i class='fa fa-info-circle'></i> Si vous voulez créer une nouvelle organisation de façon à le rendre plus visible : c'est le bon endroit !!<br>Vous pouvez ainsi organiser l'équipe projet, planifier les tâches, échanger, prendre des décisions ...</p>",
+		                html:"<p><i class='fa fa-info-circle'></i> Si vous voulez créer un nouveau groupe de travail de façon à le rendre plus visible : c'est le bon endroit !!</p>",
 		            },
 			        name : {
 			        	placeholder : "Nom",
@@ -2949,14 +2949,12 @@ var typeObj = {
 		                html:"<div id='similarLink'><div id='listSameName'></div></div>",
 		            },
 			        type :{
-		            	inputType : "select",
-		            	placeholder : "Type d'organisation",
-		            	rules : { required : true },
-		            	options : organizationTypes
+		            	inputType : "hidden",
+		            	value : "Group"
 		            },
 		            role :{
 		            	inputType : "select",
-		            	placeholder : "Quel est votre rôle dans cette organisation ?",
+		            	placeholder : "Quel est votre rôle dans ce groupe de travail ?",
 		            	rules : { required : true },
 		            	//value : "admin",
 		            	options : {
@@ -2967,7 +2965,7 @@ var typeObj = {
 		            },
 		            tags :{
 		              inputType : "tags",
-		              placeholder : "Tags ou Types de l'organisation",
+		              placeholder : "Tags ou Types du groupe de travail",
 		              values : tagsList
 		            },
 		            image :{
