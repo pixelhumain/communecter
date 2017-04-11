@@ -181,7 +181,7 @@ function showMap(show)
      							opacity:1
 						      }, 'slow' );
 		setTimeout(function(){ 
-			$(".main-container").show();
+			$(".my-main-container").show();
 			$('html, body').stop().animate({
 	            scrollTop: currentScrollTop
 	        }, 500, ''); 
