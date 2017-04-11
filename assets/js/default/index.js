@@ -176,6 +176,7 @@ function showMap(show)
 		//$(".menu-left-container hr").css({opacity:1} );
 		//$(".main-menu-left").removeClass("inSig");
 		$("body").removeClass("inSig");
+		$(".main-menu-left").show();
 		$(".my-main-container").animate({
      							//top: 50,
      							opacity:1
