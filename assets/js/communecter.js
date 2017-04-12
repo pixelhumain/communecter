@@ -2437,7 +2437,7 @@ var elementLib = {
 			        $("#ajax-modal-modal-title").html("<i class='fa fa-"+elementObj.dynForm.jsonSchema.icon+"'></i> "+elementObj.dynForm.jsonSchema.title);
 			        $("#ajax-modal-modal-body").append("<div class='space20'></div>");
 			        //alert(afterLoad+"|"+typeof elementObj.dynForm.jsonSchema.onLoads[afterLoad]);
-
+			        bindDesc("#ajaxFormModal");
 			        if( notNull(afterLoad) && elementObj.dynForm.jsonSchema.onLoads )
 			        {
 				        if( typeof elementObj.dynForm.jsonSchema.onLoads[afterLoad] == "function" )
@@ -2678,6 +2678,7 @@ var typeObjLib = {
 		placeholder : "Ajouter un e-mail",
 		inputType : "text",
         label : "E-mail",
+        rules : { email: true }
 	},
     emailOptionnel : {
 		placeholder : "Email du responsable",
@@ -2686,12 +2687,14 @@ var typeObjLib = {
 			$(".emailtext").css("display","none");
 		},
         label : "E-mail",
+        rules : { email: true }
 	},
 	url : {
         inputType :"text",
         "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
         placeholder : "Site web",
         label : "Url",
+        rules : { url: true }
     },
     urlOptionnel : {
         inputType :"text",
@@ -2702,6 +2705,7 @@ var typeObjLib = {
             $(".urltext").css("display","none");
         },
         label : "Url",
+        rules : { url: true }
     },
     urls : {
     	placeholder : "url",
@@ -3100,8 +3104,7 @@ var typeObj = {
 			    type : "object",
 			    onLoads : {
 			    	markdown : function(){
-						mylog.log("#btn-update-desc #ajaxFormModal #description");
-						activateMarkdown("#ajaxFormModal #description");
+						bindDesc("#ajaxFormModal");
 					}
 			    },
 			    beforeBuild : function(){
@@ -3133,7 +3136,7 @@ var typeObj = {
 						"<a class='btn btn-default text-dark w100p' href='javascript:;' onclick='$(\".emailtext,.descriptiontextarea,.urltext\").slideToggle();activateMarkdown(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (email, desc, urls, telephone)</a>",
 		            },
 		            email : typeObjLib.emailOptionnel,
-			        description : typeObjLib.description,
+			        shortDescription : typeObjLib.shortDescription,
 		            url : typeObjLib.url,
 		            "preferences[publicFields]" : typeObjLib.hiddenArray,
 		            "preferences[privateFields]" : typeObjLib.hiddenArray,
@@ -3163,7 +3166,7 @@ var typeObj = {
 			    	//pour creer un subevnt depuis un event existant
 			    	"subEvent" : function(){
 			    		//alert(contextData.type);
-			    		activateMarkdown("#ajaxFormModal #description");
+			    		bindDesc("#ajaxFormModal");
 			    		if(contextData.type == "events"){
 			    			$("#ajaxFormModal #parentId").removeClass('hidden');
 			    		
@@ -3218,6 +3221,7 @@ var typeObj = {
 			    	$("#ajaxFormModal #startDateInput").val( moment( $("#ajaxFormModal #startDateInput").val(), dateformat).format());
 					$("#ajaxFormModal #endDateInput").val( moment( $("#ajaxFormModal #endDateInput").val(), dateformat).format());
 					//mylog.log($("#ajaxFormModal #startDateInput").val());
+
 			    },
 			    properties : {
 			    	info : {
@@ -3312,7 +3316,7 @@ var typeObj = {
 		                inputType : "custom",
 		                html:"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".descriptionwysiwyg,.urltext\").slideToggle();activateSummernote(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (desc, urls)</a>",
 		            },
-			        description : typeObjLib.descriptionOptionnel,
+			        shortDescription : typeObjLib.shortDescription,
 		            url : typeObjLib.urlOptionnel,
 		            "preferences[publicFields]" : typeObjLib.hiddenArray,
 		            "preferences[privateFields]" : typeObjLib.hiddenArray,
@@ -3346,7 +3350,7 @@ var typeObj = {
 			    			$("#ajaxFormModal #parentId").val( contextData.id );
 			    		 	$("#ajaxFormModal #parentType").val( contextData.type ); 
 			    		 	$("#ajax-modal-modal-title").html($("#ajax-modal-modal-title").html()+" sur "+contextData.name );
-			    		 	activateMarkdown("#ajaxFormModal #description");
+			    		 	bindDesc("#ajaxFormModal");
 			    	}
 			    },
 			    beforeBuild : function(){
@@ -3374,7 +3378,7 @@ var typeObj = {
 		                inputType : "custom",
 		                html:"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".descriptionwysiwyg,.urltext\").slideToggle();activateSummernote(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (desc, urls)</a>",
 		            },
-			        description : typeObjLib.descriptionOptionnel,
+			        shortDescription : typeObjLib.shortDescription,
 		            url : typeObjLib.urlOptionnel,
 		            "preferences[publicFields]" : typeObjLib.hiddenArray,
 		            "preferences[privateFields]" :typeObjLib.hiddenArray,
@@ -3930,3 +3934,13 @@ function activateMarkdown(elem) {
 
 	$(elem).before('La syntaxe Mardown utilisé pour la description. Si vous souhaitez <a href="https://michelf.ca/projets/php-markdown/syntaxe/" target="_blank">en savoir plus</a>');
 };
+
+
+function bindDesc(parent){
+	$(".maxlengthTextarea").off().keyup(function(){
+		var name = "#" + $(this).attr("id") ;
+		mylog.log(".maxlengthTextarea", parent+" "+name, $(this).attr("id"), $(parent+" "+name).val().length, $(this).val().length);
+		$(parent+" #maxlength"+$(this).attr("id")).html($(parent+" "+name).val().length);
+		maxlengthshortDescription
+	});
+}

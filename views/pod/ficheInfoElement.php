@@ -1315,7 +1315,7 @@ if($showOdesc == true){
 			var onLoads = {
 				initUpdateInfo : function(){
 					mylog.log("initUpdateInfo");
-					$(".emailtext").slideToggle();
+					//$(".emailtext").slideToggle();
 				}
 			};
 
@@ -1349,6 +1349,7 @@ if($showOdesc == true){
 			var afterSave = function(data){
 				mylog.dir(data);
 				if(data.result && data.resultGoods.result){
+					mylog.log("data.resultGoods.values", data.resultGoods.values);
 					if(typeof data.resultGoods.values.email != "undefined"){
 						mylog.log("update email");
 						contextData.email = data.resultGoods.values.email;
@@ -1359,7 +1360,7 @@ if($showOdesc == true){
 						mylog.log("update url");
 						contextData.url = data.resultGoods.values.url;
 						$("#contentGeneralInfos #url").html(contextData.url);
-						$("#contentGeneralInfos #url").attr("href", url);
+						$("#contentGeneralInfos #url").attr("href", contextData.url);
 					}  
 						
 					if(typeof data.resultGoods.values.birthDate != "undefined"){
@@ -1372,7 +1373,7 @@ if($showOdesc == true){
 					if(typeof data.resultGoods.values.fixe != "undefined"){
 						mylog.log("update fixe");
 						contextData.fixe = parsePhone(data.resultGoods.values.fixe);
-						$("#contentGeneralInfos #fixe").html(str);
+						$("#contentGeneralInfos #fixe").html(contextData.fixe );
 					}
 
 					if(typeof data.resultGoods.values.mobile != "undefined"){
@@ -2201,13 +2202,6 @@ function initDescs() {
 	//$("#shortDescriptionHeader").html(markdownToHtml($("#shortDescriptionMarkdown").val()));
 }
 
-function bindDesc(parent){
-		$(".maxlengthTextarea").off().keyup(function(){
-			var name = "#" + $(this).attr("id") ;
-			mylog.log(".maxlengthTextarea", parent+" "+name, $(this).attr("id"), $(parent+" "+name).val().length, $(this).val().length);
-			$(parent+" #maxlength"+$(this).attr("id")).html($(parent+" "+name).val().length);
-			maxlengthshortDescription
-		});
-	}
+
 
 </script>
