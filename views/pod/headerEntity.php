@@ -235,11 +235,12 @@ $controler = Element::getControlerByCollection($type);
 						</i> <label id="nameHeader" class="">
 								<?php echo @$entity["name"]; ?>
 							</label>
-						
+						<?php if(@$entity["disabled"]) { ?>
 							<h1 id="disabledHeader" class="text-red">
 								<?php echo Yii::t("common", "Organization Disabled"); ?>
 							</h1>
 						<?php } ?>
+					<?php } ?>
 						<?php if ($deletePending) { ?>
 							<h1 id="deletePendingHeader" class="text-red">
 								<?php echo Yii::t("common", "Delete Pending"); ?>
@@ -585,13 +586,6 @@ var contextData = {
 			echo "'endDate':'".$entity["endDate"]."'"; ?>
 };	
 var disableElement = '<?php if(!empty($entity["disabled"])) echo $entity["disabled"]; else echo "false"; ?>';
-mylog.log("disableElement", typeof disableElement, disableElement);
-if(disableElement == "1"){
-	mylog.log("disableElement", disableElement);
-	$("#disabledHeader").show();
-}else{
-	$("#disabledHeader").hide();
-}
 
 var contextMap = [];
 // If come from directoryAction => contextMap is already load
