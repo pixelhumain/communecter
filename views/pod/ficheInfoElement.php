@@ -656,15 +656,15 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 		  	</div>
 		  	<div class="col-md-12">
 				<div class="no-padding col-md-12">
-			  		<div id="divShortDescription">
+			  		<div id="divShortDescription" class="col-xs-12">
 				  		<span class="titleField text-dark"><i class="fa fa-angle-right"></i> Courte :</span><br/>
-						<span id="shortDescription"  class=""><?php  echo (!empty($element["shortDescription"])) ? $element["shortDescription"] : ""; ?></span>
+						<span id="shortDescription"   class="col-xs-12" style="word-wrap: break-word;"><?php  echo (!empty($element["shortDescription"])) ? $element["shortDescription"] : ""; ?></span>
 						<input type="hidden" id="shortDescriptionMarkdown" name="shortDescriptionMarkdown" value="<?php echo (!empty($element['shortDescription'])) ? $element['shortDescription'] : ''; ?>">
 					</div>
 					<br/>
-					<div id="divDescription">
+					<div id="divDescription"  class="col-xs-12">
 						<span class="titleField text-dark"><i class="fa fa-angle-right"></i> Longue :</span><br/>
-						<span id="description"  class=""><?php  echo (!empty($element["description"])) ? $element["description"] : ""; ?></span>
+						<span id="description"   class="col-xs-12" style="word-wrap: break-word;"><?php  echo (!empty($element["description"])) ? $element["description"] : ""; ?></span>
 						<input type="hidden" id="descriptionMarkdown" name="descriptionMarkdown" value="<?php echo (!empty($element['description'])) ? $element['description'] : ''; ?>">
 					</div>
 				</div>		
