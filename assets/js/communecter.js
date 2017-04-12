@@ -2960,7 +2960,7 @@ var typeObj = {
 		            	options : {
 		            		admin : trad.administrator,
 							member : trad.member,
-							creator : trad.justCitizen
+							creator : "Juste un utilisateur de notragora qui veut ajouter un groupe de travail"
 		            	}
 		            },
 		            tags :{
