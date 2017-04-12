@@ -656,15 +656,15 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 		  	</div>
 		  	<div class="col-md-12">
 				<div class="no-padding col-md-12">
-			  		<div id="divShortDescription">
+			  		<div id="divShortDescription" class="col-xs-12">
 				  		<span class="titleField text-dark"><i class="fa fa-angle-right"></i> Courte :</span><br/>
-						<span id="shortDescription"  class=""><?php  echo (!empty($element["shortDescription"])) ? $element["shortDescription"] : ""; ?></span>
+						<span id="shortDescription"   class="col-xs-12" style="word-wrap: break-word;"><?php  echo (!empty($element["shortDescription"])) ? $element["shortDescription"] : ""; ?></span>
 						<input type="hidden" id="shortDescriptionMarkdown" name="shortDescriptionMarkdown" value="<?php echo (!empty($element['shortDescription'])) ? $element['shortDescription'] : ''; ?>">
 					</div>
 					<br/>
-					<div id="divDescription">
+					<div id="divDescription"  class="col-xs-12">
 						<span class="titleField text-dark"><i class="fa fa-angle-right"></i> Longue :</span><br/>
-						<span id="description"  class=""><?php  echo (!empty($element["description"])) ? $element["description"] : ""; ?></span>
+						<span id="description"   class="col-xs-12" style="word-wrap: break-word;"><?php  echo (!empty($element["description"])) ? $element["description"] : ""; ?></span>
 						<input type="hidden" id="descriptionMarkdown" name="descriptionMarkdown" value="<?php echo (!empty($element['description'])) ? $element['description'] : ''; ?>">
 					</div>
 				</div>		
@@ -1227,32 +1227,32 @@ if($showOdesc == true){
 
 					if(typeof data.resultGoods.values.facebookAccount != "undefined"){
 						contextData.facebookAccount = data.resultGoods.values.facebookAccount.trim();
-						var iconNetwork = ((contextData.facebookAccount=="")?"":'<i class="fa fa-facebook"></i>');
-						changeNetwork('#facebookAccount', contextData.facebookAccount, iconNetwork);
+						var iconNetwork = ((contextData.facebookAccount=="")?"":"<i class='fa fa-facebook'></i>");
+						changeNetwork('.socialNetwork #facebookAccount', contextData.facebookAccount, iconNetwork);
 					}
 
 					if(typeof data.resultGoods.values.twitterAccount != "undefined"){
 						contextData.twitterAccount = data.resultGoods.values.twitterAccount.trim();
 						var iconNetwork = ((contextData.twitterAccount=="")?"":'<i class="fa fa-twitter"></i>');
-						changeNetwork('#twitterAccount', contextData.twitterAccount, iconNetwork);
+						changeNetwork('.socialNetwork #twitterAccount', contextData.twitterAccount, iconNetwork);
 					}
 
 					if(typeof data.resultGoods.values.gitHubAccount != "undefined"){
 						contextData.gitHubAccount = data.resultGoods.values.gitHubAccount.trim();
 						var iconNetwork = ((contextData.gitHubAccount=="")?"":'<i class="fa fa-github"></i>');
-						changeNetwork('#gitHubAccount', contextData.gitHubAccount, iconNetwork);
+						changeNetwork('.socialNetwork #gitHubAccount', contextData.gitHubAccount, iconNetwork);
 					}
 
 					if(typeof data.resultGoods.values.skypeAccount != "undefined"){
 						contextData.skypeAccount = data.resultGoods.values.skypeAccount.trim();
 						var iconNetwork = ((contextData.skypeAccount=="")?"":'<i class="fa fa-skype"></i>');
-						changeNetwork('#skypeAccount', contextData.skypeAccount, iconNetwork);
+						changeNetwork('.socialNetwork #skypeAccount', contextData.skypeAccount, iconNetwork);
 					}
 
 					if(typeof data.resultGoods.values.gpplusAccount != "undefined"){
 						contextData.gpplusAccount = data.resultGoods.values.gpplusAccount.trim();
 						var iconNetwork = ((contextData.gpplusAccount=="")?"":'<i class="fa fa-google-plus"></i>');
-						changeNetwork('#gpplusAccount', contextData.gpplusAccount, iconNetwork);
+						changeNetwork('.socialNetwork #gpplusAccount', contextData.gpplusAccount, iconNetwork);
 					}
 
 					if(typeof data.resultGoods.values.type != "undefined"){
@@ -2136,7 +2136,7 @@ function buildSelect(id, field, fieldObj,formValues) {
 
 
 function changeNetwork(id, url, str){
-	mylog.log("changeNetwork", id, url, str);
+	mylog.log("changeNetwork", id, url, typeof str, str);
 	$(id).attr('href', url);
 	$(id).html(str);
 }

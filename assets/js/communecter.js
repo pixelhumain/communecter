@@ -2520,7 +2520,8 @@ var typeObjLib = {
 	name : {
     	placeholder : "Nom",
         inputType : "text",
-        rules : { required : true }
+        rules : { required : true },
+        label : "Nom",
     },
     nameOrga : {
     	placeholder : "Nom",
@@ -2531,7 +2532,8 @@ var typeObjLib = {
         		if($("#ajaxFormModal #name ").val().length > 3 )
             		globalSearch($(this).val(),["organizations"]);
         	});
-        }
+        },
+        label : "Nom",
     },
     nameEvent : {
     	placeholder : "Nom",
@@ -2543,7 +2545,8 @@ var typeObjLib = {
         		if($("#ajaxFormModal #name ").val().length > 3 )
         			globalSearch($(this).val(),["events"]);
         	});
-        }
+        },
+        label : "Nom",
     },
     nameProject : {
     	placeholder : "Nom",
@@ -2556,7 +2559,8 @@ var typeObjLib = {
         		if($("#ajaxFormModal #name ").val().length > 3 )
         			globalSearch($(this).val(),["projects"]);
         	});
-        }
+        },
+        label : "Nom",
     },
     namePerson : {
     	placeholder : "Nom",
@@ -2567,7 +2571,8 @@ var typeObjLib = {
         		if($("#ajaxFormModal #name ").val().length > 3 )
         			globalSearch($(this).val(),["persons"],true);
         	});
-        }
+        },
+        label : "Nom",
     },
     nameOrganiser : {
     	placeholder : "Nom",
@@ -2580,7 +2585,8 @@ var typeObjLib = {
         		if($("#ajaxFormModal #name ").val().length > 3 )
         			globalSearch($(this).val(),["projects", "events", "organizations"]);
         	});
-        }
+        },
+        label : "Nom",
     },
     username : {
     	placeholder : "username",
@@ -2601,7 +2607,8 @@ var typeObjLib = {
             		$("#listSameName").html("<div class='col-sm-12 light-border"+color+"'> <i class='fa fa-eye'></i> "+msg+" : </div>");
             	}
             });
-        }
+        },
+        label : "Speudo",
     },
     similarLink : {
         inputType : "custom",
@@ -2611,18 +2618,21 @@ var typeObjLib = {
     	inputType : "select",
     	placeholder : "Type d'organisation",
     	rules : { required : true },
-    	options : organizationTypes
+    	options : organizationTypes,
+        label : "Type d\'organisation",
     },
     typeEvent :{
     	inputType : "select",
     	placeholder : "Type d\'évènement",
     	options : eventTypes,
-    	rules : { required : true }
+    	rules : { required : true },
+        label : "Type d\'évènement",
     },
    	avancementProject :{
     	inputType : "select",
     	placeholder : "Avancement du projet",
-    	options : avancementProject
+    	options : avancementProject,
+        label : "Avancement du projet",
     },
     image :function(str) { 
     	url = (str) ? str : location.hash;
@@ -2640,11 +2650,13 @@ var typeObjLib = {
 		placeholder : "Décrire c'est partager",
 		init : function(){
         	$(".descriptionOptionneltextarea").css("display","none");
-        }
+        },
+        label : "Description",
     },
     description : {
         inputType : "textarea",
-		placeholder : "Décrire c'est partager"
+		placeholder : "Décrire c'est partager",
+		label : "Description Longue",
     },
 
     shortDescription : {
@@ -2656,26 +2668,30 @@ var typeObjLib = {
     tags : {
 		inputType : "tags",
 		placeholder : "Ajouter des tags",
-		values : tagsList
+		values : tagsList,
+        label : "Tags",
 	},
 	location : {
        inputType : "location"
     },
     email : {
 		placeholder : "Ajouter un e-mail",
-		inputType : "text"
+		inputType : "text",
+        label : "E-mail",
 	},
     emailOptionnel : {
 		placeholder : "Email du responsable",
 		inputType : "text",
 		init : function(){
 			$(".emailtext").css("display","none");
-		}
+		},
+        label : "E-mail",
 	},
 	url : {
         inputType :"text",
         "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
-        placeholder : "Site web"
+        placeholder : "Site web",
+        label : "Url",
     },
     urlOptionnel : {
         inputType :"text",
@@ -2684,7 +2700,8 @@ var typeObjLib = {
         init:function(){
             getMediaFromUrlContent("#url", ".resultGetUrl0",0);
             $(".urltext").css("display","none");
-        }
+        },
+        label : "Url",
     },
     urls : {
     	placeholder : "url",
@@ -2692,7 +2709,8 @@ var typeObjLib = {
         value : [],
         init:function(){
             getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);	
-        }
+        },
+        label : "Urls",
     },
     urlsOptionnel : {
         inputType : "array",
@@ -2701,7 +2719,8 @@ var typeObjLib = {
         init:function(){
             getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
         	$(".urlsarray").css("display","none");	
-        }
+        },
+        label : "url, informations supplémentaires, actions à faire, etc",
     },
     allDay : {
     	inputType : "checkbox",
@@ -2756,7 +2775,8 @@ var typeObjLib = {
         rules : { 
         	required : true,
         	duringDates: ["#startDateParent","#endDateParent","La date de début"]
-    	}
+    	},
+        label : "Date de début",
     },
     endDateInput : {
         inputType : "datetime",
@@ -2765,52 +2785,63 @@ var typeObjLib = {
         	required : true,
         	greaterThan: ["#ajaxFormModal #startDateInput","la date de début"],
         	duringDates: ["#startDateParent","#endDateParent","La date de fin"]
-	    }
+	    },
+        label : "Date de fin",
     },
     telegram : {
         inputType :"text",
-        placeholder : "Votre Speudo Telegram"
+        placeholder : "Votre Speudo Telegram",
+        label : "Telegram",
     },
     skype : {
         inputType :"text",
         "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
-        placeholder : "Lien vers Skype"
+        placeholder : "Lien vers Skype",
+        label : "Skype",
     },
     facebook : {
         inputType :"text",
         "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
-        placeholder : "Lien vers Facebook"
+        placeholder : "Lien vers Facebook",
+        label : "Facebook",
     },
     github : {
         inputType :"text",
         "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
-        placeholder : "Lien vers Git Hub"
+        placeholder : "Lien vers Git Hub",
+        label : "Git Hub",
     },
     googleplus : {
         inputType :"text",
         "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
-        placeholder : "Lien vers Google Plus"
+        placeholder : "Lien vers Google Plus",
+        label : "Google Plus",
     },
     twitter : {
         inputType :"text",
         "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
-        placeholder : "Lien vers Twitter"
+        placeholder : "Lien vers Twitter",
+        label : "Twitter",
     },
     birthDate : {
         inputType : "date",
-        placeholder: "Date d'anniversaire'"
+        placeholder: "Date d'anniversaire",
+        label : "Date d'anniversaire",
     },
     phone :{
       	inputType : "text",
-      	placeholder : "Saisir les numéros de téléphone séparer par une virgule"
+      	placeholder : "Saisir les numéros de téléphone séparer par une virgule",
+        label : "Phone",
     },
     mobile :{
       	inputType : "text",
-      	placeholder : "Saisir les numéros de portable séparer par une virgule"
+      	placeholder : "Saisir les numéros de portable séparer par une virgule",
+        label : "Mobile",
     },
     fax :{
       	inputType : "text",
-      	placeholder : "Saisir les numéros de fax séparer par une virgule"
+      	placeholder : "Saisir les numéros de fax séparer par une virgule",
+        label : "Fax",
     },
     hidden :{
       	inputType : "hidden"
@@ -3838,30 +3869,22 @@ function activateMarkdown(elem) {
 	mylog.log("activateMarkdown", elem);
 
 	markdownParams = {
-			savable:false,
-			iconlibrary:'fa',
-			language:'fr',
-			onPreview: function(e) {
-				var previewContent = "";
-			   /* mylog.log(e.isDirty());
-			    if (e.isDirty()) {
-			    	var converter = new showdown.Converter(),
-			    		text      = e.getContent(),
-			    		previewContent      = converter.makeHtml(text);
-			    } else {
-			    	previewContent = "Default content";
-			    }*/
-			    if (e.isDirty()) {
-			    	previewContent = convertMardownToHtml(e.getContent());
-			    } else {
-			    	previewContent = convertMardownToHtml($(elem).val());
-			    }
-			    return previewContent;
-		  	},
-		  	onSave: function(e) {
-		  		mylog.log(e);
-		  	},
-		}
+		savable:false,
+		iconlibrary:'fa',
+		language:'fr',
+		onPreview: function(e) {
+			var previewContent = "";
+		    if (e.isDirty()) {
+		    	previewContent = convertMardownToHtml(e.getContent());
+		    } else {
+		    	previewContent = convertMardownToHtml($(elem).val());
+		    }
+		    return previewContent;
+	  	},
+	  	onSave: function(e) {
+	  		mylog.log(e);
+	  	},
+	}
 
 	if( !$('script[src="'+baseUrl+'/plugins/bootstrap-markdown/js/bootstrap-markdown.js"]').length ){
 		mylog.log("activateMarkdown if");
@@ -3904,4 +3927,6 @@ function activateMarkdown(elem) {
 		mylog.log("activateMarkdown else");
 		$(elem).markdown(markdownParams);
 	}
+
+	$(elem).before('La syntaxe Mardown utilisé pour la description. Si vous souhaitez <a href="https://michelf.ca/projets/php-markdown/syntaxe/" target="_blank">en savoir plus</a>');
 };
