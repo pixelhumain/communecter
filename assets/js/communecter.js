@@ -2802,30 +2802,35 @@ var typeObjLib = {
         "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
         placeholder : "Lien vers Skype",
         label : "Skype",
+        rules : { url: true }
     },
     facebook : {
         inputType :"text",
         "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
         placeholder : "Lien vers Facebook",
         label : "Facebook",
+        rules : { url: true }
     },
     github : {
         inputType :"text",
         "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
         placeholder : "Lien vers Git Hub",
         label : "Git Hub",
+        rules : { url: true }
     },
     googleplus : {
         inputType :"text",
         "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
         placeholder : "Lien vers Google Plus",
         label : "Google Plus",
+        rules : { url: true }
     },
     twitter : {
         inputType :"text",
         "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
         placeholder : "Lien vers Twitter",
         label : "Twitter",
+        rules : { url: true }
     },
     birthDate : {
         inputType : "date",

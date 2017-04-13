@@ -57,6 +57,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 		font-size:14px;
 		font-weight: 300;
 	}
+
+	#description:after {content: ""; display: block; clear: both}
+
 	#profil_imgPreview{
       max-height:400px;
       width:100%;
@@ -664,8 +667,9 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 					<br/>
 					<div id="divDescription"  class="col-xs-12">
 						<span class="titleField text-dark"><i class="fa fa-angle-right"></i> Longue :</span><br/>
-						<span id="description"   class="col-xs-12" style="word-wrap: break-word;"><?php  echo (!empty($element["description"])) ? $element["description"] : ""; ?></span>
-						<input type="hidden" id="descriptionMarkdown" name="descriptionMarkdown" value="<?php echo (!empty($element['description'])) ? $element['description'] : ''; ?>">
+						<span id="description"   class="col-xs-12" 
+						style="word-wrap: break-word; overflow:hidden;"><?php  echo (!empty($element["description"])) ? $element["description"] : ""; ?></span>
+						<input type="hidden" id="descriptionMarkdown" name="descriptionMarkdown" value='<?php echo (!empty($element["description"])) ? $element["description"] : ""; ?>'>
 					</div>
 				</div>		
 			</div>
