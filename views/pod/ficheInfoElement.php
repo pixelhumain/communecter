@@ -1182,6 +1182,9 @@ if($showOdesc == true){
 			elementLib.editDynForm("Modifier les coordonnées", "fa-pencil", properties, "", dataUpdate, saveUrl, onLoads, beforeSave, afterSave);
 		});
 
+
+		
+
 		$("#btn-update-contact").off().on( "click", function(){
 
 			var properties = {
@@ -1294,6 +1297,8 @@ if($showOdesc == true){
 			var saveUrl = baseUrl+"/"+moduleId+"/element/updateblock/type/"+contextType;
 			elementLib.editDynForm("Modifier les coordonnées", "fa-pencil", properties, "initUpdateInfo", dataUpdate, saveUrl, onLoads, beforeSave, afterSave);
 		});
+
+		
 
 		$("#btn-update-desc").off().on( "click", function(){
 			var dataUpdate = { value : $("#descriptionMarkdown").val() } ;
