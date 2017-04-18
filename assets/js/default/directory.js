@@ -449,7 +449,9 @@ var directory = {
                 if("undefined" != typeof o.profilImageUrl && o.profilImageUrl != ""){
                   imgProfil= "<img class='img-responsive' src='"+baseUrl+o.profilImageUrl+"'/>";
                 }
-                if(typeObj[itemType] && typeObj[itemType].col == "poi" && typeof o.medias != "undefined" && typeof o.medias[0].content.image != "undefined")
+                if(typeObj[itemType] && typeObj[itemType].col == "poi" 
+                  && typeof o.medias != "undefined" && typeof o.medias[0] != "undefined" 
+                  && typeof o.medias[0].content != "undefined"  && typeof o.medias[0].content.image != "undefined")
                   imgProfil= "<img class='img-responsive' src='"+o.medias[0].content.image+"'/>";
                 
                 var htmlIco ="<i class='fa "+ ico +" fa-2x bg-"+color+"'></i>";

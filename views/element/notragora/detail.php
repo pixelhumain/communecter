@@ -220,6 +220,10 @@
 				</a>
 			<?php	}
 			} ?>
+			<?php if (Authorisation::canDeleteElement((String)$element["_id"], $type, Yii::app()->session["userId"]) && !@$deletePending) {
+				//($type == Organization::COLLECTION && $edit==true && empty($element["disabled"])) { ?>
+					<a href="javascript:;" data-toggle="modal" data-target="#modal-delete-element" class="btn btn-default"><i class="fa fa-trash text-red" ></i> <?php echo Yii::t("common","Delete")?></a>
+			<?php } ?>
 		</div>
 		<div class="col-md-12 padding-15 menubar">
 			<button class="btn btn-default btn-menubar" id="btn-menu-home">A PROPOS</button>
@@ -370,7 +374,9 @@
 		<?php }}}} ?>
 	</div>	
 
-
+<?php if (Authorisation::canDeleteElement((String)$element["_id"], $type, Yii::app()->session["userId"]) && !@$deletePending) $this->renderPartial('../element/confirmDeleteModal'); ?>
+<?php if (@$deletePending && Authorisation::isElementAdmin((String)$element["_id"], $type, Yii::app()->session["userId"])) $this->renderPartial('../element/confirmDeletePendingModal'); ?>
+	
 <script type="text/javascript">
 
 	var peopleReference = false;
