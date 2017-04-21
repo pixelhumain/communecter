@@ -678,7 +678,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 </div>
 
 <?php if (Authorisation::canDeleteElement((String)$element["_id"], $type, Yii::app()->session["userId"]) && !@$deletePending) $this->renderPartial('../element/confirmDeleteModal'); ?>
-<?php if (@$deletePending && Authorisation::isElementAdmin((String)$element["_id"], $type, Yii::app()->session["userId"])) $this->renderPartial('../element/confirmDeletePendingModal'); ?>
+<?php if (@$deletePending && (Authorisation::isElementAdmin((String)$element["_id"], $type, Yii::app()->session["userId"]) || Authorisation::isUserSuperAdmin(Yii::app()->session["userId"]))) $this->renderPartial('../element/confirmDeletePendingModal'); ?>
 
 <?php
 $emptyAddress = (empty($element["address"]["codeInsee"])?true:false);
