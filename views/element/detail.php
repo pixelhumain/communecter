@@ -361,8 +361,8 @@ if($('#breadcum').length)
 			</div>
 			<?php }
 			} ?>
-			<?php if($type==Project::COLLECTION || $type==Organization::COLLECTION || $type==Event::COLLECTION  || $type==Person::COLLECTION ){ 
-				if(!@$front || (@$front && $front["poi"])) { 
+			<?php if($type==Project::COLLECTION || $type==Organization::COLLECTION || $type==Event::COLLECTION){ 
+				if(!@$front || (@$front && $front["poi"]))					{ 
 			?> 
 			<div class="col-xs-12">
 				<?php   

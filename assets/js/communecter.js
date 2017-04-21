@@ -2438,7 +2438,7 @@ var elementLib = {
 			        $("#ajax-modal-modal-title").html("<i class='fa fa-"+elementObj.dynForm.jsonSchema.icon+"'></i> "+elementObj.dynForm.jsonSchema.title);
 			        $("#ajax-modal-modal-body").append("<div class='space20'></div>");
 			        //alert(afterLoad+"|"+typeof elementObj.dynForm.jsonSchema.onLoads[afterLoad]);
-
+			        bindDesc("#ajaxFormModal");
 			        if( notNull(afterLoad) && elementObj.dynForm.jsonSchema.onLoads )
 			        {
 				        if( typeof elementObj.dynForm.jsonSchema.onLoads[afterLoad] == "function" )
@@ -2521,7 +2521,8 @@ var typeObjLib = {
 	name : {
     	placeholder : "Nom",
         inputType : "text",
-        rules : { required : true }
+        rules : { required : true },
+        label : "Nom",
     },
     nameOrga : {
     	placeholder : "Nom",
@@ -2532,7 +2533,8 @@ var typeObjLib = {
         		if($("#ajaxFormModal #name ").val().length > 3 )
             		globalSearch($(this).val(),["organizations"]);
         	});
-        }
+        },
+        label : "Nom",
     },
     nameEvent : {
     	placeholder : "Nom",
@@ -2544,7 +2546,8 @@ var typeObjLib = {
         		if($("#ajaxFormModal #name ").val().length > 3 )
         			globalSearch($(this).val(),["events"]);
         	});
-        }
+        },
+        label : "Nom",
     },
     nameProject : {
     	placeholder : "Nom",
@@ -2557,7 +2560,8 @@ var typeObjLib = {
         		if($("#ajaxFormModal #name ").val().length > 3 )
         			globalSearch($(this).val(),["projects"]);
         	});
-        }
+        },
+        label : "Nom",
     },
     namePerson : {
     	placeholder : "Nom",
@@ -2568,7 +2572,8 @@ var typeObjLib = {
         		if($("#ajaxFormModal #name ").val().length > 3 )
         			globalSearch($(this).val(),["persons"],true);
         	});
-        }
+        },
+        label : "Nom",
     },
     nameOrganiser : {
     	placeholder : "Nom",
@@ -2581,7 +2586,8 @@ var typeObjLib = {
         		if($("#ajaxFormModal #name ").val().length > 3 )
         			globalSearch($(this).val(),["projects", "events", "organizations"]);
         	});
-        }
+        },
+        label : "Nom",
     },
     username : {
     	placeholder : "username",
@@ -2602,7 +2608,8 @@ var typeObjLib = {
             		$("#listSameName").html("<div class='col-sm-12 light-border"+color+"'> <i class='fa fa-eye'></i> "+msg+" : </div>");
             	}
             });
-        }
+        },
+        label : "Speudo",
     },
     similarLink : {
         inputType : "custom",
@@ -2612,18 +2619,21 @@ var typeObjLib = {
     	inputType : "select",
     	placeholder : "Type d'organisation",
     	rules : { required : true },
-    	options : organizationTypes
+    	options : organizationTypes,
+        label : "Type d\'organisation",
     },
     typeEvent :{
     	inputType : "select",
     	placeholder : "Type d\'évènement",
     	options : eventTypes,
-    	rules : { required : true }
+    	rules : { required : true },
+        label : "Type d\'évènement",
     },
    	avancementProject :{
     	inputType : "select",
     	placeholder : "Avancement du projet",
-    	options : avancementProject
+    	options : avancementProject,
+        label : "Avancement du projet",
     },
     image :function(str) { 
     	url = (str) ? str : location.hash;
@@ -2641,35 +2651,51 @@ var typeObjLib = {
 		placeholder : "Décrire c'est partager",
 		init : function(){
         	$(".descriptionOptionneltextarea").css("display","none");
-        }
+        },
+        label : "Description",
     },
     description : {
         inputType : "textarea",
-		placeholder : "Décrire c'est partager"
+		placeholder : "Décrire c'est partager",
+		label : "Description Longue",
+    },
+
+    shortDescription : {
+        inputType : "textarea",
+		placeholder : "...",
+		label : "Description courte",
+		rules : { maxlength: 140 }
     },
     tags : {
 		inputType : "tags",
 		placeholder : "Ajouter des tags",
-		values : tagsList
+		values : tagsList,
+        label : "Tags",
 	},
 	location : {
        inputType : "location"
     },
     email : {
 		placeholder : "Ajouter un e-mail",
-		inputType : "text"
+		inputType : "text",
+        label : "E-mail",
+        rules : { email: true }
 	},
     emailOptionnel : {
 		placeholder : "Email du responsable",
 		inputType : "text",
 		init : function(){
 			$(".emailtext").css("display","none");
-		}
+		},
+        label : "E-mail",
+        rules : { email: true }
 	},
 	url : {
         inputType :"text",
         "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
-        placeholder : "Site web"
+        placeholder : "Site web",
+        label : "Url",
+        rules : { url: true }
     },
     urlOptionnel : {
         inputType :"text",
@@ -2678,7 +2704,9 @@ var typeObjLib = {
         init:function(){
             getMediaFromUrlContent("#url", ".resultGetUrl0",0);
             $(".urltext").css("display","none");
-        }
+        },
+        label : "Url",
+        rules : { url: true }
     },
     urls : {
     	placeholder : "url",
@@ -2686,7 +2714,8 @@ var typeObjLib = {
         value : [],
         init:function(){
             getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);	
-        }
+        },
+        label : "Urls",
     },
     urlsOptionnel : {
         inputType : "array",
@@ -2695,7 +2724,8 @@ var typeObjLib = {
         init:function(){
             getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
         	$(".urlsarray").css("display","none");	
-        }
+        },
+        label : "url, informations supplémentaires, actions à faire, etc",
     },
     allDay : {
     	inputType : "checkbox",
@@ -2750,7 +2780,8 @@ var typeObjLib = {
         rules : { 
         	required : true,
         	duringDates: ["#startDateParent","#endDateParent","La date de début"]
-    	}
+    	},
+        label : "Date de début",
     },
     endDateInput : {
         inputType : "datetime",
@@ -2759,52 +2790,68 @@ var typeObjLib = {
         	required : true,
         	greaterThan: ["#ajaxFormModal #startDateInput","la date de début"],
         	duringDates: ["#startDateParent","#endDateParent","La date de fin"]
-	    }
+	    },
+        label : "Date de fin",
     },
     telegram : {
         inputType :"text",
-        placeholder : "Votre Speudo Telegram"
+        placeholder : "Votre Speudo Telegram",
+        label : "Telegram",
     },
     skype : {
         inputType :"text",
         "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
-        placeholder : "Lien vers Skype"
+        placeholder : "Lien vers Skype",
+        label : "Skype",
+        rules : { url: true }
     },
     facebook : {
         inputType :"text",
         "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
-        placeholder : "Lien vers Facebook"
+        placeholder : "Lien vers Facebook",
+        label : "Facebook",
+        rules : { url: true }
     },
     github : {
         inputType :"text",
         "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
-        placeholder : "Lien vers Git Hub"
+        placeholder : "Lien vers Git Hub",
+        label : "Git Hub",
+        rules : { url: true }
     },
     googleplus : {
         inputType :"text",
         "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
-        placeholder : "Lien vers Google Plus"
+        placeholder : "Lien vers Google Plus",
+        label : "Google Plus",
+        rules : { url: true }
     },
     twitter : {
         inputType :"text",
         "custom" : "<div class='resultGetUrl resultGetUrl0 col-sm-12'></div>",
-        placeholder : "Lien vers Twitter"
+        placeholder : "Lien vers Twitter",
+        label : "Twitter",
+        rules : { url: true }
     },
     birthDate : {
         inputType : "date",
-        placeholder: "Date d'anniversaire'"
+        placeholder: "Date d'anniversaire",
+        label : "Date d'anniversaire",
     },
     phone :{
       	inputType : "text",
-      	placeholder : "Saisir les numéros de téléphone séparer par une virgule"
+      	placeholder : "Saisir les numéros de téléphone séparer par une virgule",
+        label : "Phone",
     },
     mobile :{
       	inputType : "text",
-      	placeholder : "Saisir les numéros de portable séparer par une virgule"
+      	placeholder : "Saisir les numéros de portable séparer par une virgule",
+        label : "Mobile",
     },
     fax :{
       	inputType : "text",
-      	placeholder : "Saisir les numéros de fax séparer par une virgule"
+      	placeholder : "Saisir les numéros de fax séparer par une virgule",
+        label : "Fax",
     },
     hidden :{
       	inputType : "hidden"
@@ -2979,8 +3026,7 @@ var typeObj = {
 			    },
 			    beforeSave : function(){
 			    	
-			    	if( typeof $("#ajaxFormModal #description").code === 'function' )  
-			    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
+			    	
 			    	if($('#ajaxFormModal #parentId').val() == "" && $('#ajaxFormModal #parentType').val() ){
 				    	$('#ajaxFormModal #parentId').val( userId );
 				    	$("#ajaxFormModal #parentType").val( "citoyens" ); 
@@ -3062,12 +3108,16 @@ var typeObj = {
 			    title : trad.addOrganization,
 			    icon : "group",
 			    type : "object",
+			    onLoads : {
+			    	markdown : function(){
+						bindDesc("#ajaxFormModal");
+					}
+			    },
 			    beforeBuild : function(){
 			    	//elementLib.setMongoId('organizations');
 			    },
 			    beforeSave : function(){
-			    	if (typeof $("#ajaxFormModal #description").code === 'function' ) 
-			    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
+			    	
 			    },
 			    afterSave : function(){
 					elementLib.closeForm();
@@ -3092,15 +3142,8 @@ var typeObj = {
 						"<a class='btn btn-default text-dark w100p' href='javascript:;' onclick='$(\".emailtext,.descriptiontextarea,.urltext\").slideToggle();activateMarkdown(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (email, desc, urls, telephone)</a>",
 		            },
 		            email : typeObjLib.emailOptionnel,
-			        description : typeObjLib.description,
+			        shortDescription : typeObjLib.shortDescription,
 		            url : typeObjLib.url,
-			        /*telephone : {
-			        	placeholder : "Téléphne",
-			            inputType : "text",
-			            init : function(){
-			            	$(".telephonetext").css("display","none");
-			            }
-			        },*/
 		            "preferences[publicFields]" : typeObjLib.hiddenArray,
 		            "preferences[privateFields]" : typeObjLib.hiddenArray,
 		            "preferences[isOpenData]" : typeObjLib.hiddenTrue,
@@ -3129,6 +3172,7 @@ var typeObj = {
 			    	//pour creer un subevnt depuis un event existant
 			    	"subEvent" : function(){
 			    		//alert(contextData.type);
+			    		bindDesc("#ajaxFormModal");
 			    		if(contextData.type == "events"){
 			    			$("#ajaxFormModal #parentId").removeClass('hidden');
 			    		
@@ -3173,8 +3217,6 @@ var typeObj = {
 			    	
 			    	if( !$("#ajaxFormModal #allDay").val())
 			    		$("#ajaxFormModal #allDay").val(false);
-			    	if( typeof $("#ajaxFormModal #description").code === 'function' )
-			    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
 			    	//mylog.log($("#ajaxFormModal #startDateInput").val(),moment( $("#ajaxFormModal #startDateInput").val()).format('YYYY/MM/DD HH:mm'));
 			    	
 			    	//Transform datetime before sending
@@ -3185,6 +3227,7 @@ var typeObj = {
 			    	$("#ajaxFormModal #startDateInput").val( moment( $("#ajaxFormModal #startDateInput").val(), dateformat).format());
 					$("#ajaxFormModal #endDateInput").val( moment( $("#ajaxFormModal #endDateInput").val(), dateformat).format());
 					//mylog.log($("#ajaxFormModal #startDateInput").val());
+
 			    },
 			    properties : {
 			    	info : {
@@ -3279,7 +3322,7 @@ var typeObj = {
 		                inputType : "custom",
 		                html:"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".descriptionwysiwyg,.urltext\").slideToggle();activateSummernote(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (desc, urls)</a>",
 		            },
-			        description : typeObjLib.descriptionOptionnel,
+			        shortDescription : typeObjLib.shortDescription,
 		            url : typeObjLib.urlOptionnel,
 		            "preferences[publicFields]" : typeObjLib.hiddenArray,
 		            "preferences[privateFields]" : typeObjLib.hiddenArray,
@@ -3313,6 +3356,7 @@ var typeObj = {
 			    			$("#ajaxFormModal #parentId").val( contextData.id );
 			    		 	$("#ajaxFormModal #parentType").val( contextData.type ); 
 			    		 	$("#ajax-modal-modal-title").html($("#ajax-modal-modal-title").html()+" sur "+contextData.name );
+			    		 	bindDesc("#ajaxFormModal");
 			    	}
 			    },
 			    beforeBuild : function(){
@@ -3324,8 +3368,6 @@ var typeObj = {
 				    
 			    },
 			    beforeSave : function(){
-			    	if( typeof $("#ajaxFormModal #description").code === 'function' ) 
-			    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
 			    },
 			    properties : {
 			    	info : {
@@ -3342,7 +3384,7 @@ var typeObj = {
 		                inputType : "custom",
 		                html:"<a class='btn btn-default  text-dark w100p' href='javascript:;' onclick='$(\".descriptionwysiwyg,.urltext\").slideToggle();activateSummernote(\"#ajaxFormModal #description\");'><i class='fa fa-plus'></i> options (desc, urls)</a>",
 		            },
-			        description : typeObjLib.descriptionOptionnel,
+			        shortDescription : typeObjLib.shortDescription,
 		            url : typeObjLib.urlOptionnel,
 		            "preferences[publicFields]" : typeObjLib.hiddenArray,
 		            "preferences[privateFields]" :typeObjLib.hiddenArray,
@@ -3447,8 +3489,6 @@ var typeObj = {
 			    },
 			    beforeSave : function(){
 			    	
-			    	if( typeof $("#ajaxFormModal #message").code === 'function' )  
-			    		$("#ajaxFormModal #message").val( $("#ajaxFormModal #message").code() );
 			    },
 			    properties : {
 			    	info : {
@@ -3546,8 +3586,6 @@ var typeObj = {
 			    	}
 			    },
 			    beforeSave : function(){
-			    	if( typeof $("#ajaxFormModal #message").code === 'function' ) 
-			    		$("#ajaxFormModal #message").val( $("#ajaxFormModal #message").code() );
 			    },
 			    properties : {
 			    	info : {
@@ -3832,28 +3870,31 @@ var typeObj = {
 		}},*/
 };
 
+function convertMardownToHtml(text) { 
+	var converter = new showdown.Converter();
+	return converter.makeHtml(text);
+}
+
 function activateMarkdown(elem) { 
 	mylog.log("activateMarkdown", elem);
 
 	markdownParams = {
-			savable:false,
-			iconlibrary:'fa',
-			onPreview: function(e) {
-				var previewContent = "";
-			    mylog.log(e.isDirty());
-			    if (e.isDirty()) {
-			    	var converter = new showdown.Converter(),
-			    		text      = e.getContent(),
-			    		previewContent      = converter.makeHtml(text);
-			    } else {
-			    	previewContent = "Default content";
-			    }
-			    return previewContent;
-		  	},
-		  	onSave: function(e) {
-		  		mylog.log(e);
-		  	},
-		}
+		savable:false,
+		iconlibrary:'fa',
+		language:'fr',
+		onPreview: function(e) {
+			var previewContent = "";
+		    if (e.isDirty()) {
+		    	previewContent = convertMardownToHtml(e.getContent());
+		    } else {
+		    	previewContent = convertMardownToHtml($(elem).val());
+		    }
+		    return previewContent;
+	  	},
+	  	onSave: function(e) {
+	  		mylog.log(e);
+	  	},
+	}
 
 	if( !$('script[src="'+baseUrl+'/plugins/bootstrap-markdown/js/bootstrap-markdown.js"]').length ){
 		mylog.log("activateMarkdown if");
@@ -3867,6 +3908,26 @@ function activateMarkdown(elem) {
 
 			$.getScript( baseUrl+"/plugins/bootstrap-markdown/js/bootstrap-markdown.js", function( data, textStatus, jqxhr ) {
 				mylog.log("elem", elem);
+
+				$.fn.markdown.messages['fr'] = {
+					'Bold': trad.Bold,
+					'Italic': trad.Italic,
+					'Heading': trad.Heading,
+					'URL/Link': trad['URL/Link'],
+					'Image': trad.Image,
+					'List': trad.List,
+					'Preview': trad.Preview,
+					'strong text': trad['strong text'],
+					'emphasized text': trad['strong text'],
+					'heading text': trad[''],
+					'enter link description here': trad['enter link description here'],
+					'Insert Hyperlink': trad['Insert Hyperlink'],
+					'enter image description here': trad['enter image description here'],
+					'Insert Image Hyperlink': trad['Insert Image Hyperlink'],
+					'enter image title here': trad['enter image title here'],
+					'list text here': trad['list text here']
+				};
+
 				$(elem).markdown(markdownParams);
 			});
 
@@ -3876,4 +3937,16 @@ function activateMarkdown(elem) {
 		mylog.log("activateMarkdown else");
 		$(elem).markdown(markdownParams);
 	}
+
+	$(elem).before('La syntaxe Mardown utilisé pour la description. Si vous souhaitez <a href="https://michelf.ca/projets/php-markdown/syntaxe/" target="_blank">en savoir plus</a>');
 };
+
+
+function bindDesc(parent){
+	$(".maxlengthTextarea").off().keyup(function(){
+		var name = "#" + $(this).attr("id") ;
+		mylog.log(".maxlengthTextarea", parent+" "+name, $(this).attr("id"), $(parent+" "+name).val().length, $(this).val().length);
+		$(parent+" #maxlength"+$(this).attr("id")).html($(parent+" "+name).val().length);
+		maxlengthshortDescription
+	});
+}

@@ -11,6 +11,11 @@
 ----------------------------------------------------
 ----------------------------------------------------
 ----------------------------------------------------
+* Version 0.17
+** @Rapha : Ajout un attribut descriptionHtml = true
+/communecter/datamigration/DescInHtml
+
+
 ----------------------------------------------------
 * Version 0.2
 ** @Bouboule : Bash de reprise des data dans les chart des projets

@@ -292,7 +292,7 @@
 
 				<div class="col-xs-12 text-dark" style="font-size:15px">
 					<hr style="margin-top:0px">
-					<?php echo $survey["message"]; ?>
+					<?php echo empty($survey["message"]) ? "" : $survey["message"]; ?>
 					<hr>
 					<h2 class="center homestead text-dark"><i class="fa fa-angle-down"></i><br>Espace de vote</h2>
 				</div>

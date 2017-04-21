@@ -14,7 +14,7 @@
                 },
                 "value" : {
                     "inputType" : "select",
-                    "placeholder" : "evaluate",
+                    "placeholder" : "---- Select a value ----",
                     "options":{
 	                    "0":"Ne souhaite pas",
 	                    "20":"Pas applicable",
@@ -42,7 +42,7 @@
                 },
                 "value" : {
                     "inputType" : "select",
-                    "placeholder" : "evaluate",
+                    "placeholder" : "---- Select a value ----",
                     "options":{
 	                    "0":"Ne souhaite pas",
 	                    "20":"Pas applicable",
@@ -70,7 +70,7 @@
                 },
                 "value" : {
                     "inputType" : "select",
-                    "placeholder" : "evaluate",
+                    "placeholder" : "---- Select a value ----",
                     "options":{
 	                    "0":"Ne souhaite pas",
 	                    "20":"Pas applicable",
@@ -98,7 +98,7 @@
                 },
                 "value" : {
                     "inputType" : "select",
-                    "placeholder" : "evaluate",
+                    "placeholder" : "---- Select a value ----",
                     "options":{
 	                    "0":"Ne souhaite pas",
 	                    "20":"Pas applicable",
@@ -126,7 +126,7 @@
                 },
                 "value" : {
                     "inputType" : "select",
-                    "placeholder" : "evaluate",
+                    "placeholder" : "---- Select a value ----",
                     "options":{
 	                    "0":"Ne souhaite pas",
 	                    "20":"Pas applicable",
@@ -154,7 +154,7 @@
                 },
                 "value" : {
                     "inputType" : "select",
-                    "placeholder" : "evaluate",
+                    "placeholder" : "---- Select a value ----",
                     "options":{
 	                    "0":"Ne souhaite pas",
 	                    "20":"Pas applicable",

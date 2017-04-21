@@ -326,10 +326,10 @@ class CommunecterController extends Controller
       "updatesettings"  => array('href'=>"/ph/communecter/project/updatesettings"),
     ),
     "chart" => array(
-	    "addchartsv"      => array("href" => "/ph/communecter/chart/addchartsv"),
-		"index"      => array("href" => "/ph/communecter/chart/index"),
-		"editchart"       => array("href" => "/ph/communecter/chart/editchart"),
-		"get"       => array("href" => "/ph/communecter/chart/get"),
+      "addchartsv"      => array("href" => "/ph/communecter/chart/addchartsv"),
+      "index"      => array("href" => "/ph/communecter/chart/index"),
+      "editchart"       => array("href" => "/ph/communecter/chart/editchart"),
+      "get"       => array("href" => "/ph/communecter/chart/get"),
     ),
     "job"=> array(
       "edit"    => array("href" => "/ph/communecter/job/edit"),
@@ -452,6 +452,10 @@ class CommunecterController extends Controller
       ),
     "siteurl" => array(
       "incnbclick"        => array('href' => "ph/communecter/siteurl/incnbclick")
+    ),
+    "cron" => array(
+      "docron"                    => array('href' => "ph/communecter/cron/docron"),
+      "checkdeletepending"        => array('href' => "ph/communecter/cron/checkdeletepending")
     ),
   );
 

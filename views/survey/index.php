@@ -54,7 +54,7 @@
       <ul class="dropdown-menu">
         <?php if (ActionRoom::canAdministrate(Yii::app()->session["userId"], (string)$where["survey"]["_id"])) {?>
         <li>
-          <a href="javascript:;" class="actionRoomDelete" onclick="actionRoomDelete('<?php echo (string)$where["survey"]["_id"] ?>', this, '<?php echo $room['parentId']; ?>')" data-id="<?php echo (string)$where["survey"]["_id"] ?>"><small><i class="fa fa-times"></i> Supprimer</small></a>
+          <a href="javascript:;" class="actionRoomDelete" onclick="actionRoomDelete('<?php echo (string)$where["survey"]["_id"] ?>', this, '<?php echo $where["survey"]['parentId']; ?>')" data-id="<?php echo (string)$where["survey"]["_id"] ?>"><small><i class="fa fa-times"></i> Supprimer</small></a>
         </li>
         <?php } ?>
         <li>
@@ -320,7 +320,7 @@
         $tagBlock = "";
         $cpBlock = "";
         $name = $entry["name"];
-        $message = substr($entry["message"],0,280);
+        $message = empty($entry["message"]) ? "" : substr($entry["message"],0,280);
         $email =  (isset($entry["email"])) ? $entry["email"] : "";
         $cpList = (isset($entry["cp"])) ? $entry["cp"] : "";
         if( !isset($_GET["cp"]) && $entry["type"] == Survey::TYPE_SURVEY )
@@ -391,7 +391,7 @@
         $surveyIsClosed = (isset($entry["dateEnd"]) && $entry["dateEnd"] < time() ) ;
         $surveyHasVoted = (isset($voteLinksAndInfos["hasVoted"]) && $voteLinksAndInfos["hasVoted"] == true) ? true : false;
         
-        $content = ($entry["type"]==Survey::TYPE_ENTRY) ? "".$entry["message"]:"";
+        $content = ($entry["type"]==Survey::TYPE_ENTRY) ? "".@$entry["message"]:"";
 
        
         $moderatelink = (  @$where["type"]==Survey::TYPE_ENTRY && $isModerator && isset( $entry["applications"][Yii::app()->controller->module->id]["cleared"] ) && $entry["applications"][Yii::app()->controller->module->id]["cleared"] == false ) ? "<a class='btn golink' href='javascript:moderateEntry(\"".$entry["_id"]."\",1)'><i class='fa fa-plus ' ></i></a><a class='btn alertlink' href='javascript:moderateEntry(\"".$entry["_id"]."\",0)'><i class='fa fa-minus ' ></i></a>" :"";

@@ -231,7 +231,7 @@ border: 1px solid #E4E4E4;
         $tagBlock = "-";//<i class='fa fa-info-circle'></i> Aucun tag";
         $cpBlock = "";
         $name = $entry["name"];
-        $message = substr($entry["message"],0,280);
+        $shortMessage = empty($entry["message"]) ? "" : substr($entry["message"],0,280);
         $email =  (isset($entry["email"])) ? $entry["email"] : "";
         $cpList = (isset($entry["cp"])) ? $entry["cp"] : "";
         if( !isset($_GET["cp"]) && $entry["type"] == Survey::TYPE_SURVEY )
@@ -281,14 +281,14 @@ border: 1px solid #E4E4E4;
         //checks if the user is a follower of the entry
         $followingEntry = ( $logguedAndValid && Action::isUserFollowing($entry,Action::ACTION_FOLLOW) ) ? "myentries":"";
 
-        $message = "<div class='text-dark no-border message-propostal'>".$message."</div>";
+        $message = "<div class='text-dark no-border message-propostal'>".$shortMessage."</div>";
         
         /* **************************************
         Rendering Each block
         ****************************************/
         $hrefComment = "#commentsForm";
         $commentCount = 0;
-        $content = ($entry["type"]==ActionRoom::TYPE_ACTION) ? "".$entry["message"]:"";
+        $content = ($entry["type"]==ActionRoom::TYPE_ACTION) ? "".$shortMessage:"";
 
        
         $moderatelink = (   @$entry["applications"][Yii::app()->controller->module->id]["cleared"]  && 
