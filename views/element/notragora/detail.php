@@ -162,7 +162,6 @@
 	#profil_imgPreview{}
 </style>
 	<div class="col-lg-10 col-md-10 col-sm-9 no-padding" id="onepage">
-
 		<?php 
 		if ($type == "poi"){ 
 			if(@$element["type"]=="video" && @$element["medias"]){ 
@@ -173,6 +172,7 @@
 						<iframe class="embed-responsive-item fullScreen" src="<?php echo @$videoLink ?>" allowfullscreen></iframe>
 					</div>
 				</div>
+			<?php } ?>
 				<div class="col-md-12 col-sm-12 col-xs-12 text-dark center">
 					<h1 class="center"> 
 						<?php echo $element['name']; ?>
@@ -185,7 +185,7 @@
 						<?php } ?>
 					<?php } ?>
 				</div>
-		<?php } ?>
+		
 		<?php }else{ ?>
 				<div class="img-header">
 					
@@ -211,19 +211,26 @@
 			<?php echo @$element["name"]; ?>
 			<!-- <button class="btn btn-default btn-follow"><i class="fa fa-star"></i> SUIVRE</button> -->
 
-			<?php if(  Authorisation::canEditItem( Yii::app()->session["userId"], $_GET["type"], (string)$_GET["id"]) || Yii::app()->session["userId"] == @$element["creator"] ){?>
-			<a href='javascript:' class="btn btn-default" onclick='elementLib.editElement("<?php echo @$_GET["type"]; ?>","<?php echo (string)@$element["_id"]; ?>")' ><i class="fa fa-pencil"></i> Edit</a>
+			<?php 
+			if (!@$deletePending) {
+				if(  Authorisation::canEditItem( Yii::app()->session["userId"], $_GET["type"], (string)$_GET["id"]) || Yii::app()->session["userId"] == @$element["creator"] ){?>
+				<a href='javascript:' class="btn btn-default" onclick='elementLib.editElement("<?php echo @$_GET["type"]; ?>","<?php echo (string)@$element["_id"]; ?>")' ><i class="fa fa-pencil"></i> Edit</a>
 
-			<?php if ((string)$_GET["id"]==Yii::app()->session["userId"]){ ?>
-				<a href='javascript:' id="changePasswordBtn" class='btn btn-default text-red pull-right'>
-					<i class='fa fa-key'></i> <?php echo Yii::t("common","Change password"); ?>  		
-				</a>
-			<?php	}
-			} ?>
-			<?php if (Authorisation::canDeleteElement((String)$element["_id"], $type, Yii::app()->session["userId"]) && !@$deletePending) {
+				<?php if ((string)$_GET["id"]==Yii::app()->session["userId"]){ ?>
+					<a href='javascript:' id="changePasswordBtn" class='btn btn-default text-red pull-right'>
+						<i class='fa fa-key'></i> <?php echo Yii::t("common","Change password"); ?>  		
+					</a>
+				<?php	}
+				} ?>
+			<?php 
+			if ($type == Organization::COLLECTION && Authorisation::canDeleteElement((String)$element["_id"], $type, Yii::app()->session["userId"])) {
 				//($type == Organization::COLLECTION && $edit==true && empty($element["disabled"])) { ?>
 					<a href="javascript:;" data-toggle="modal" data-target="#modal-delete-element" class="btn btn-default"><i class="fa fa-trash text-red" ></i> <?php echo Yii::t("common","Delete")?></a>
-			<?php } ?>
+			<?php } 
+			} else {
+				echo " (Suppression en cours)";
+			}
+			?>
 		</div>
 		<div class="col-md-12 padding-15 menubar">
 			<button class="btn btn-default btn-menubar" id="btn-menu-home">A PROPOS</button>
@@ -375,8 +382,8 @@
 	</div>	
 
 <?php if (Authorisation::canDeleteElement((String)$element["_id"], $type, Yii::app()->session["userId"]) && !@$deletePending) $this->renderPartial('../element/confirmDeleteModal'); ?>
-<?php if (@$deletePending && Authorisation::isElementAdmin((String)$element["_id"], $type, Yii::app()->session["userId"])) $this->renderPartial('../element/confirmDeletePendingModal'); ?>
-	
+<?php if (@$deletePending && (Authorisation::isElementAdmin((String)$element["_id"], $type, Yii::app()->session["userId"]) || Authorisation::isUserSuperAdmin(Yii::app()->session["userId"]))) $this->renderPartial('../element/confirmDeletePendingModal'); ?>
+
 <script type="text/javascript">
 
 	var peopleReference = false;
@@ -390,6 +397,11 @@
 		nbMember = "<?php echo @$nbMember; ?>";
 		nbAdmin = "<?php echo @$nbAdmin; ?>";
   	}
+  	if(contextType=="poi"){
+		parentId = "<?php echo @$element["parentId"]; ?>";
+		parentType = "<?php echo @$element["parentType"]; ?>";
+  	}
+
   	<?php
   	$showOdesc = true ;
 	if(Person::COLLECTION == $type){
@@ -472,7 +484,7 @@
 	        var type = $(this).data("type");
 	        var urlToSend = baseUrl+"/"+moduleId+"/element/delete/type/"+type+"/id/"+id;
 	        
-	        bootbox.confirm("confirm please !!",
+	        bootbox.confirm("Etes vous sur de vouloir supprimer cet élément ?",
         	function(result) 
         	{
 				if (!result) {
@@ -486,11 +498,11 @@
 				    })
 				    .done(function (data) {
 				        if ( data && data.result ) {
-				        	toastr.info("élément effacé");
+				        	toastr.info("Cet élément a été effacé avec succès.");
 				        	$("#"+type+id).remove();
-				        	//window.location.href = "";
+				        	loadByHash("#"+parentType.substr(0, parentType.length - 1)+".detail.id."+parentId);
 				        } else {
-				           toastr.error("something went wrong!! please try again.");
+				           toastr.error("Une erreur est survenue : ".data.msg);
 				        }
 				    });
 				}
