@@ -94,9 +94,9 @@ $countries= OpenData::getCountriesList();
 							}
 						}else if($value["object"]["displayName"]=="telephone.fax" 
 									|| $value["object"]["displayName"]=="telephone.mobile" 
-										|| $value["object"]["displayName"]=="telephone.fixe"
-											|| $value["object"]["displayName"]=="tags"){
-							if( !empty($value["object"]["displayValue"]){
+									|| $value["object"]["displayName"]=="telephone.fixe"
+									|| $value["object"]["displayName"]=="tags"){
+							if( !empty($value["object"]["displayValue"])){
 								foreach ($value["object"]["displayValue"] as $key => $tel) {
 									if($key > 0)
 										echo ", ";
