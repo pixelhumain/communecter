@@ -236,7 +236,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 							<li><a href="javascript:;" id="disableOrga" class="margin-right-5 tooltips"><i class="fa fa-times text-red"></i> <?php echo Yii::t("common","Disable")?></a> </li>
 							<li><a href="javascript:;" id="activedOrga" class="btn btn-sm btn-green tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Actived"); ?>" alt=""><i class="fa fa-check"></i><span class="hidden-xs"> <?php echo Yii::t("common","Actived")?></span></a></li>
 						<?php } ?>
-							<li><a href="javascript:;" data-toggle="modal" data-target="#modal-delete-element" class="margin-right-5 tooltips"><i class="fa fa-times text-red" ></i> <?php echo Yii::t("common","Delete")?></a> </li>
+							<li><a href="javascript:$('.modal-footer').show();" data-toggle="modal" data-target="#modal-delete-element" class="margin-right-5 tooltips"><i class="fa fa-times text-red" ></i> <?php echo Yii::t("common","Delete")?></a> </li>
 						</ul>
 					</div>
 			<?php } ?>
@@ -678,7 +678,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 </div>
 
 <?php if (Authorisation::canDeleteElement((String)$element["_id"], $type, Yii::app()->session["userId"]) && !@$deletePending) $this->renderPartial('../element/confirmDeleteModal'); ?>
-<?php if (@$deletePending && Authorisation::isElementAdmin((String)$element["_id"], $type, Yii::app()->session["userId"])) $this->renderPartial('../element/confirmDeletePendingModal'); ?>
+<?php if (@$deletePending && (Authorisation::isElementAdmin((String)$element["_id"], $type, Yii::app()->session["userId"]) || Authorisation::isUserSuperAdmin(Yii::app()->session["userId"]))) $this->renderPartial('../element/confirmDeletePendingModal'); ?>
 
 <?php
 $emptyAddress = (empty($element["address"]["codeInsee"])?true:false);
