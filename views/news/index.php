@@ -254,6 +254,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 .timeline_element .timeline_text{
 	font-size:14px !important;
+	white-space: pre-line;
 }
 .timeline_element .img-responsive{
 	max-height:300px !important;
