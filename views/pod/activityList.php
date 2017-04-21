@@ -71,7 +71,7 @@ $countries= OpenData::getCountriesList();
 							echo $contextTypeLabel;
 						echo ": <span style='color: #21b384;'>";
 						if($value["object"]["displayName"]=="address" || $value["object"]["displayName"]=="addresses"){
-							if(@$value["object"]["displayValue"]){
+							if( !empty($value["object"]["displayValue"]) ) {
 								if (@$value["object"]["displayValue"]["address"]){
 									$address = $value["object"]["displayValue"]["address"];
 									$geo = @$value["object"]["displayValue"]["geo"];
@@ -89,17 +89,19 @@ $countries= OpenData::getCountriesList();
 							//echo $value["object"]["displayValue"]["postalCode"]." ".$value["object"]["displayValue"]["addressLocality"];
 						else if($value["object"]["displayName"]=="address.addressCountry"){
 							foreach($countries as $country){
-								if($country["value"]==$value["object"]["displayValue"])
+								if( !empty($value["object"]["displayValue"]) && $country["value"]==$value["object"]["displayValue"])
 									echo $country["text"];
 							}
 						}else if($value["object"]["displayName"]=="telephone.fax" 
 									|| $value["object"]["displayName"]=="telephone.mobile" 
 										|| $value["object"]["displayName"]=="telephone.fixe"
 											|| $value["object"]["displayName"]=="tags"){
-							foreach ($value["object"]["displayValue"] as $key => $tel) {
-								if($key > 0)
-									echo ", ";
-								echo $tel;
+							if( !empty($value["object"]["displayValue"]){
+								foreach ($value["object"]["displayValue"] as $key => $tel) {
+									if($key > 0)
+										echo ", ";
+									echo $tel;
+								}
 							}
 						} else if (@$value["object"]["displayName"] == "organizer") {
 							if (empty($value["object"]["displayValue"]) || $value["object"]["displayValue"]["organizerType"] == "dontKnow") {
