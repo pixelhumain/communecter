@@ -246,6 +246,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 		<?php } ?>
 		<a class="btn btn-sm btn-default tooltips" href="javascript:;" onclick="showDefinition('qrCodeContainerCl',true)" data-toggle="tooltip" data-placement="bottom" title='<?php echo Yii::t("common","Show the QRCode for ").Yii::t("common","this ".$controller); ?>'><i class="fa fa-qrcode"></i> <?php echo Yii::t("common","QR Code") ?></a>
 
+		<a class="btn btn-sm btn-default tooltips star_<?php echo $type ?>_<?php echo $element["_id"] ?>" href="javascript:collection.add2fav('<?php echo $type ?>','<?php echo $element["_id"] ?>');" data-toggle="tooltip" data-placement="bottom" title='<?php echo Yii::t("common","Add this my favorites ") ?>'><i class="fa fa-star-o"></i></a>
 	</div>
 	<div id="activityContent" class="panel-body no-padding hide">
 		<h2 class="homestead text-dark" style="padding:40px;">
@@ -673,7 +674,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 						<span class="titleField text-dark"><i class="fa fa-angle-right"></i> Longue :</span><br/>
 						<span id="description"   class="col-xs-12" 
 						style="word-wrap: break-word; overflow:hidden;"><?php  echo (!empty($element["description"])) ? $element["description"] : ""; ?></span>
-						<input type="hidden" id="descriptionMarkdown" name="descriptionMarkdown" value='<?php echo (!empty($element["description"])) ? $element["description"] : ""; ?>'>
+						<span id="descriptionMarkdown" name="descriptionMarkdown"  class="col-xs-12 hidden" ><?php echo (!empty($element["description"])) ? $element["description"] : ""; ?></span>
 					</div>
 				</div>		
 			</div>
@@ -1415,7 +1416,7 @@ if($showOdesc == true){
 				block : "description",
 		        id : contextData.id,
 		        typeElement : contextData.type,
-		        description : $("#contentGeneralInfos #descriptionMarkdown").val(),
+		        description : $("#contentGeneralInfos #descriptionMarkdown").html(),
 				shortDescription : $("#contentGeneralInfos #shortDescriptionMarkdown").val()
 			};
 
@@ -1434,15 +1435,15 @@ if($showOdesc == true){
 						mylog.log("update shortDescription");
 						contextData.shortDescription = data.resultGoods.values.shortDescription;
 						$("#contentGeneralInfos #shortDescription").html(contextData.shortDescription);
-						$("#shortDescriptionHeader").html(contextData.shortDescription);
-						$("#contentGeneralInfos #shortDescriptionMarkdown").val(contextData.shortDescription);
+						$("#shortDescriptionHeader").html(data.resultGoods.values.shortDescription);
+						$("#contentGeneralInfos #shortDescriptionMarkdown").val(data.resultGoods.values.shortDescription);
 					}
 
 					if(typeof data.resultGoods.values.description != "undefined"){
 						mylog.log("update description");
 						contextData.description = data.resultGoods.values.description;
-						$("#contentGeneralInfos #description").html(markdownToHtml(contextData.description));
-						$("#contentGeneralInfos #descriptionMarkdown").val(contextData.description);
+						$("#contentGeneralInfos #description").html(markdownToHtml(data.resultGoods.values.description));
+						$("#contentGeneralInfos #descriptionMarkdown").html(data.resultGoods.values.description);
 					}
 				}
 				elementLib.closeForm();	
@@ -2184,16 +2185,18 @@ function descHtmlToMarkdown() {
 			var paramSpan = {
 			  filter: ['span'],
 			  replacement: function(innerHTML, node) {
-			    //console.log("innerHTML", innerHTML);
-			    //console.log("node", node);
 			    return innerHTML;
 			  }
 			}
 
-			var converters = { converters: [paramSpan] };
+			var paramDiv = {
+			  filter: ['div'],
+			  replacement: function(innerHTML, node) {
+			    return innerHTML;
+			  }
+			}
 
-
-
+			var converters = { converters: [paramSpan, paramDiv] };
 			var descToMarkdown = toMarkdown( $("#contentGeneralInfos #description").html(),converters ) ;
 			mylog.log("descToMarkdown", descToMarkdown);
     		$("#contentGeneralInfos #descriptionMarkdown").html(descToMarkdown);
@@ -2211,6 +2214,7 @@ function descHtmlToMarkdown() {
 		    	success: function(data){
 		    		mylog.log("here");
 			    	toastr.success(data.msg);
+			    	
 			    }
 			});
 			mylog.log("param", param);
@@ -2221,9 +2225,11 @@ function descHtmlToMarkdown() {
 
 function initDescs() {
 	mylog.log("initDescs");
-	descHtmlToMarkdown();
+	if(edit =="true" || openEdition=="true")
+		descHtmlToMarkdown();
 	mylog.log("after");
-	$("#description").html(markdownToHtml($("#descriptionMarkdown").val()));
+	$("#contentGeneralInfos #description").html(markdownToHtml($("#contentGeneralInfos #descriptionMarkdown").html()));
+
 	//$("#shortDescriptionHeader").html(markdownToHtml($("#shortDescriptionMarkdown").val()));
 }
 
