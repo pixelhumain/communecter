@@ -26,6 +26,9 @@ $cssAnsScriptFilesTheme = array(
 //'/plugins/to-markdown/to-markdown.js',
 
 );
+$cssAnsScriptFilesTheme = array(
+	'/plugins/to-markdown/to-markdown.js'
+);
 
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->request->baseUrl);
 
@@ -243,7 +246,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 		<?php } ?>
 		<a class="btn btn-sm btn-default tooltips" href="javascript:;" onclick="showDefinition('qrCodeContainerCl',true)" data-toggle="tooltip" data-placement="bottom" title='<?php echo Yii::t("common","Show the QRCode for ").Yii::t("common","this ".$controller); ?>'><i class="fa fa-qrcode"></i> <?php echo Yii::t("common","QR Code") ?></a>
 
-		<a class="btn btn-sm btn-default tooltips star_<?php echo $type ?>_<?php echo $element["_id"] ?>" href="javascript:collection.add2fav('<?php echo $type ?>','<?php echo $element["_id"] ?>');" data-toggle="tooltip" data-placement="bottom" title='<?php echo Yii::t("common","Add this my favorites ") ?>'><i class="fa fa-star-o"></i></a>
 	</div>
 	<div id="activityContent" class="panel-body no-padding hide">
 		<h2 class="homestead text-dark" style="padding:40px;">
@@ -2171,9 +2173,28 @@ function initDate() {//DD/mm/YYYY hh:mm
 
 function descHtmlToMarkdown() {
 	mylog.log("htmlToMarkdown");
-	if(typeof contextData.descriptionHTML != "undefined" && contextData.descriptionHTML == "1"){
-		if($("#contentGeneralInfos #description").html() != ""){
-			var descToMarkdown = toMarkdown($("#contentGeneralInfos #descriptionMarkdown").val()) ;
+
+	if(typeof contextData.descriptionHTML != "undefined" && contextData.descriptionHTML == "1") {
+		
+		mylog.log("htmlToMarkdown 2 ", contextData.descriptionHTML);
+		if( $("#contentGeneralInfos #description").html() != "" ){
+			mylog.log("htmlToMarkdown 3 ", $("#contentGeneralInfos #description").html());
+
+
+			var paramSpan = {
+			  filter: ['span'],
+			  replacement: function(innerHTML, node) {
+			    //console.log("innerHTML", innerHTML);
+			    //console.log("node", node);
+			    return innerHTML;
+			  }
+			}
+
+			var converters = { converters: [paramSpan] };
+
+
+
+			var descToMarkdown = toMarkdown( $("#contentGeneralInfos #description").html(),converters ) ;
 			mylog.log("descToMarkdown", descToMarkdown);
     		$("#contentGeneralInfos #descriptionMarkdown").html(descToMarkdown);
 			var param = new Object;
@@ -2200,7 +2221,7 @@ function descHtmlToMarkdown() {
 
 function initDescs() {
 	mylog.log("initDescs");
-	//descHtmlToMarkdown();
+	descHtmlToMarkdown();
 	mylog.log("after");
 	$("#description").html(markdownToHtml($("#descriptionMarkdown").val()));
 	//$("#shortDescriptionHeader").html(markdownToHtml($("#shortDescriptionMarkdown").val()));
