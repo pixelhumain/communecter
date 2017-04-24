@@ -169,7 +169,7 @@ function buildLineHTML(newsObj,idSession,update)
 		}
 	}
 	else{
-		if(newsObj.object.type=="events" || newsObj.object.type=="needs"){
+		if(newsObj.object.objectType=="events" || newsObj.object.objectType=="needs"){
 			if(newsObj.startDate && newsObj.endDate){
 				if(typeof(newsObj.startDate) == "object")
 					var startDate = new Date( parseInt(newsObj.startDate.sec)*1000 );
@@ -189,7 +189,7 @@ function buildLineHTML(newsObj,idSession,update)
 				var endDay = (endDate.getDate() < 10) ?  "0"+endDate.getDate() : endDate.getDate();
 			}
 			var objectLocality = "";
-			if (newsObj.object.type=="needs")
+			if (newsObj.object.objectType=="needs")
 				objectLocality=newsObj.target.address.addressLocality;
 			else 
 				if(typeof newsObj.scope != "undefined")
@@ -497,30 +497,30 @@ function buildHtmlUrlAndActionObject(obj){
 		}
 	}
 	else{
-		if(obj.object.type =="citoyens"){
+		if(obj.object.objectType =="citoyens"){
 			redirectTypeUrl="person";
 			id=obj.object.id;
 			urlParent="";
 		} 
-		else if(obj.object.type =="organizations"){
+		else if(obj.object.objectType =="organizations"){
 			redirectTypeUrl="organization";
 			id=obj.object.id;
 			urlParent="";
 			titleAction = "a créé une organisation";
 		} 
-		else if(obj.object.type =="events"){
+		else if(obj.object.objectType =="events"){
 			redirectTypeUrl="event";
 			id=obj.object.id;
 			urlParent="";
 			titleAction = "a posté un évènement";
 		} 
-		else if(obj.object.type =="projects"){
+		else if(obj.object.objectType =="projects"){
 			redirectTypeUrl="project";
 			id=obj.object.id;
 			urlParent="";
 			titleAction = "a créé un projet";
 		}
-		else if(obj.object.type =="needs"){
+		else if(obj.object.objectType =="needs"){
 			redirectTypeUrl="need";
 			id=obj.object.id;
 			urlParent="";
@@ -539,7 +539,7 @@ function builHtmlAuthorImageObject(obj){ //mylog.log("[[[[[[[[[[[[[[[[[[[[[[[[[[
 	var colorIcon="blue";
 	if(typeof(obj.icon) != "undefined"){
 		icon = "fa-" + Sig.getIcoByType({type : obj.type});
-		colorIcon = Sig.getIcoColorByType({type : obj.object.type});
+		colorIcon = Sig.getIcoColorByType({type : obj.object.objectType});
 		if (icon == "fa-circle")
 			icon = obj.icon;
 	}
@@ -567,7 +567,7 @@ function builHtmlAuthorImageObject(obj){ //mylog.log("[[[[[[[[[[[[[[[[[[[[[[[[[[
 					imgProfilPath = obj.target.profilThumbImageUrl;
 					var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='" + baseUrl + imgProfilPath + "'></div>" + flag ; 
 				}else {
-					if(obj.object.type=="organizations")
+					if(obj.object.objectType=="organizations")
 						var iconStr = "<div class='thumbnail-profil text-center' style='overflow:hidden;'><i class='fa fa-group' style='font-size:50px;'></i></div>"+flag;
 					else
 						var iconStr = "<div class='thumbnail-profil'><img height=50 width=50 src='" + imgProfilPath + "'></div>" + flag ; 

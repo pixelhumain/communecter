@@ -96,7 +96,7 @@ function showNotif(show){
 
     if(show){ 
     	$('#notificationPanelSearch').show("fast");
-    	markAllAsSeen();
+    	//markAllAsSeen();
 	}
 	else 	 $('#notificationPanelSearch').hide("fast");
 }
