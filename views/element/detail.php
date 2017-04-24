@@ -296,7 +296,7 @@ if($('#breadcum').length)
 														"contentType" => $type,
 														"countStrongLinks" => $countStrongLinks,
 														"countLowLinks" => @$countLowLinks,
-														"countInvitations" => $countInvitations,
+														"countInvitations" => @$countInvitations,
 														"admin" => $edit, 
 														"invitedMe" => @$invitedMe,
 														"openEdition" => $openEdition));
@@ -333,7 +333,7 @@ if($('#breadcum').length)
 			<?php if ($type==Project::COLLECTION || $type==Organization::COLLECTION){ ?>
 			<div class="col-xs-12">
 				<?php
-					if(empty($element["properties"]["chart"])) $element["properties"]["chart"] = array();
+					/*if(empty($element["properties"]["chart"])) $element["properties"]["chart"] = array();
 					$this->renderPartial('../chart/index',array(
 											"itemId" => (string)$element["_id"], 
 											"itemName" => $element["name"], 
@@ -341,7 +341,7 @@ if($('#breadcum').length)
 											"properties" => $element["properties"]["chart"],
 											"admin" =>$edit,
 											"isDetailView" => 1,
-											"openEdition" => $openEdition));
+											"openEdition" => $openEdition));*/
 				?>						  
 			</div>
 			<?php } ?>

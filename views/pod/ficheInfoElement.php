@@ -26,6 +26,9 @@ $cssAnsScriptFilesTheme = array(
 //'/plugins/to-markdown/to-markdown.js',
 
 );
+$cssAnsScriptFilesTheme = array(
+	'/plugins/to-markdown/to-markdown.js'
+);
 
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->request->baseUrl);
 
@@ -2171,9 +2174,28 @@ function initDate() {//DD/mm/YYYY hh:mm
 
 function descHtmlToMarkdown() {
 	mylog.log("htmlToMarkdown");
-	if(typeof contextData.descriptionHTML != "undefined" && contextData.descriptionHTML == "1"){
-		if($("#contentGeneralInfos #description").html() != ""){
-			var descToMarkdown = toMarkdown($("#contentGeneralInfos #descriptionMarkdown").val()) ;
+
+	if(typeof contextData.descriptionHTML != "undefined" && contextData.descriptionHTML == "1") {
+		
+		mylog.log("htmlToMarkdown 2 ", contextData.descriptionHTML);
+		if( $("#contentGeneralInfos #description").html() != "" ){
+			mylog.log("htmlToMarkdown 3 ", $("#contentGeneralInfos #description").html());
+
+
+			var paramSpan = {
+			  filter: ['span'],
+			  replacement: function(innerHTML, node) {
+			    //console.log("innerHTML", innerHTML);
+			    //console.log("node", node);
+			    return innerHTML;
+			  }
+			}
+
+			var converters = { converters: [paramSpan] };
+
+
+
+			var descToMarkdown = toMarkdown( $("#contentGeneralInfos #description").html(),converters ) ;
 			mylog.log("descToMarkdown", descToMarkdown);
     		$("#contentGeneralInfos #descriptionMarkdown").html(descToMarkdown);
 			var param = new Object;
@@ -2200,7 +2222,7 @@ function descHtmlToMarkdown() {
 
 function initDescs() {
 	mylog.log("initDescs");
-	//descHtmlToMarkdown();
+	descHtmlToMarkdown();
 	mylog.log("after");
 	$("#description").html(markdownToHtml($("#descriptionMarkdown").val()));
 	//$("#shortDescriptionHeader").html(markdownToHtml($("#shortDescriptionMarkdown").val()));
