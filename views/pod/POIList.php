@@ -84,7 +84,7 @@
 	<script type="text/javascript">
 		
 		$(".poiStar").each(function(i,el){
-			collection.applyColor("poi",$(el).data('id'));
+			//collection.applyColor("poi",$(el).data('id'));
 		})
 		$(".deleteThisBtn").off().on("click",function () 
 		{
