@@ -145,6 +145,7 @@ jQuery(document).ready(function() {
 	$(".searchIcon").attr("title","Mode Recherche ciblé (ne concerne que cette page)");*/
     $('.tooltips').tooltip();
     searchPage = true;
+    mylog.log("Yo");
 	startSearch(true);
 	$(".titleNowEvents .btnhidden").hide();
 });
@@ -164,7 +165,7 @@ function startSearch(isFirst){
 
 
 function loadLiveNow () { 
-
+	mylog.log("loadLiveNow 1");
     var searchParams = {
       "name":$('.input-global-search').val(),
       "tpl":"/pod/nowList",
