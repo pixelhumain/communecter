@@ -34,9 +34,24 @@
 ?>
 <?php if($contextType == "actionRooms"){ ?>
     <h1 class="text-dark" style="font-size: 25px;margin-top: 20px;">
-      <i class="fa fa-angle-down"></i> <i class="fa fa-comment"></i> <span class="homestead"> Espace de discussion</span> 
-      <?php //echo $context["name"]; ?>
+      <i class="fa fa-comment"></i> <span class="homestead"> Espace de discussion</span> 
+      <div class="btn dropdown no-padding" style="padding-left:10px !important;">
+        <a class="dropdown-toggle" type="button" data-toggle="dropdown" style="color:#8b91a0;">
+          <i class="fa fa-cog"></i>  <i class="fa fa-angle-down"></i>
+        </a>
+        <ul class="dropdown-menu">
+          <?php if (ActionRoom::canAdministrate(Yii::app()->session["userId"], (string)$context["_id"])) {?>
+          <li>
+            <a href="javascript:;" class="actionRoomDelete" onclick="actionRoomDelete('<?php echo (string)$context["_id"] ?>', this)" data-id="<?php echo $parentId ?>"><small><i class="fa fa-times"></i> Supprimer</small></a>
+          </li>
+          <?php } ?>
+          <li>
+            <a href="javascript:;" class="actionRoomReport" onclick="actionRoomReportAbuse('<?php echo (string)$context["_id"] ?>', this)" data-id="<?php echo $parentId ?>"><small><i class="fa fa-flag"></i> Reporter au modérateur</small></a>
+          </li>
+        </ul>
+      </div>
     </h1> 
+
 <?php } ?>
 
 
@@ -72,6 +87,7 @@
 <script type="text/javascript">
 var images = <?php echo json_encode($images) ?>;
 var latestComments = <?php echo time(); ?>;
+var contextId = '<?php echo (string)$context["_id"] ?>';
 jQuery(document).ready(function() {
 	
 	<?php if($contextType == "actionRooms"){ ?>

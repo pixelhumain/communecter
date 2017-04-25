@@ -15,8 +15,7 @@ class SurveyController extends CommunecterController {
 		  return parent::beforeAction($action);
   	}
 
-    public function actions()
-  {
+    public function actions() {
       return array(
           'index'        => 'citizenToolKit.controllers.survey.IndexAction',
           'indexPod'     => 'citizenToolKit.controllers.survey.IndexAction',
@@ -25,12 +24,11 @@ class SurveyController extends CommunecterController {
           'graph'        => 'citizenToolKit.controllers.survey.GraphAction',
           'savesession'  => 'citizenToolKit.controllers.survey.SaveSessionAction',
           'moderate'     => 'citizenToolKit.controllers.survey.ModerateAction',
-          //'delete'       => 'citizenToolKit.controllers.survey.DeleteAction',
+          'delete'       => 'citizenToolKit.controllers.survey.DeleteAction',
           'close'        => 'citizenToolKit.controllers.survey.CloseAction',
           'addaction'    => 'citizenToolKit.controllers.action.AddActionAction',
           'editentry'    => 'citizenToolKit.controllers.survey.EditEntryAction',
           "fastaddentry" => 'citizenToolKit.controllers.survey.FastAddEntryAction',
-          
       );
   }
   

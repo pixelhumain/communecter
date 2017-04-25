@@ -5,7 +5,6 @@
   HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, Yii::app()->theme->baseUrl);
   
   $cssAnsScriptFilesModule = array(
-    //'/css/default/directory.css',
     '/js/default/directory.js',
     '/js/default/responsive-calendar.js',
   );
@@ -93,7 +92,7 @@
           <a id="btn-month-before" class="" data-go="prev"><div class="btn"><i class="fa fa-arrow-left"></i></div></a>
           <h4 class="text-white"><span data-head-month></span> <span data-head-year></span></h4>
           <a id="btn-month-next" class="" data-go="next"><div class="btn"><i class="fa fa-arrow-right"></i></div></a>
-          <a href="javascript:loadByHash('#event.eventsv');" class="btn text-white pull-right" style="margin-top:3px;">
+          <a href="javascript:elementLib.openForm('event');" class="btn text-white pull-right" style="margin-top:3px;">
             <i class="fa fa-plus"></i> <i class="fa fa-calendar"></i> ajouter un événement
           </a>
       </div>

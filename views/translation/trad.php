@@ -27,7 +27,7 @@ var trad = {"areyousuretodelete" : "<?php echo Yii::t("common", "Are you sure yo
 		"reportanabuse": "<?php echo Yii::t("common", "Report an abuse")?>",
 		"You are not following" : "<?php echo Yii::t("common", "You are not following")?>",
 		"suretodeletenews" : "<?php echo Yii::t("common","Are you sure you want to delete this news") ?>",
-		"successdeletenews":"<?php echo Yii::t("common","News has been successfully delated") ?>",
+		"successdeletenews":"<?php echo Yii::t("common","News has been successfully deleted") ?>",
 		"successsavenews":"<?php echo Yii::t("common","News added successfully!") ?>",
 		"nomorenews":"<?php echo Yii::t("common","No more news") ?>",
 		"somethingwrong":"<?php echo Yii::t("common","Something went wrong!") ?>",
@@ -55,15 +55,49 @@ var trad = {"areyousuretodelete" : "<?php echo Yii::t("common", "Are you sure yo
 		"addEvent" : "<?php echo Yii::t("common","Add an Event") ?>",
 		"addOrganization" : "<?php echo Yii::t("common","Add an Organization") ?>",
 		"chooseCountry" : "<?php echo Yii::t("common","Choose a country") ?>",
+		"LoginFirst" : "<?php echo Yii::t("common","Please Login First") ?>",
 		"mustacceptCGU" : "<?php echo Yii::t("login","You must validate the CGU to sign up.") ?>",
 		"usernamenotunique" : "<?php echo Yii::t("login","The user name is not unique : please change it.")?>",
 		"somethingwentwrong" : "<?php echo Yii::t("login","Something went really bad : contact your administrator !")?>",
+		"suredeletelocality" : "<?php echo Yii::t("common","Are you sure you want to delete the locality")?>",
+		
+		"udpateorganizer" : "<?php echo Yii::t("event","Update the organizer") ?>",
+		"emptymsg" : "<?php echo Yii::t("news","Please write something") ?>",
 		"address" : "<?php echo Yii::t("common","Address") ?>",
-
-
+		"suretodeletediscuss" : "<?php echo Yii::t("common","Are you sure you want to delete this chat room") ?>",
+		"suretodeletesurvey" : "<?php echo Yii::t("common","Are you sure you want to delete this survey") ?>",
+		"suretodeletedecisionroom" : "<?php echo Yii::t("common","Are you sure you want to delete this  decision room") ?>",
+		"suretodeleteaction" : "<?php echo Yii::t("common","Are you sure you want to delete this action") ?>",
+		"suretodeleteactionroom" : "<?php echo Yii::t("common","Are you sure you want to delete this action room") ?>",
 		"projects" : "<?php echo Yii::t("common","Projects") ?>",
 		"events" : "<?php echo Yii::t("common","Events") ?>",
 		"organizations" : "<?php echo Yii::t("common","Organizations") ?>",
+
+
+
+		"NGO" : "<?php echo Yii::t("common","NGO") ?>",
+		"LocalBusiness" : "<?php echo Yii::t("common","LocalBusiness") ?>",
+		"Group" :"<?php echo Yii::t("common","Group") ?>",
+		"GovernmentOrganization" : "<?php echo Yii::t("common","GovernmentOrganization") ?>",
+
+		"character(s)" : "<?php echo Yii::t("common","character(s)") ?>",
+
+		'Bold' : "<?php echo Yii::t("common","Bold") ?>", 
+		'Italic' : "<?php echo Yii::t("common","Italic") ?>", 
+		'Heading' : "<?php echo Yii::t("common","Heading") ?>",
+		'URL/Link' : "<?php echo Yii::t("common","URL/Link") ?>",
+		'Image' : "<?php echo Yii::t("common","Image") ?>",
+		'List' : "<?php echo Yii::t("common","List") ?>",
+		'Preview' : "<?php echo Yii::t("common","Preview") ?>", 
+		'strong text' : "<?php echo Yii::t("common","strong text") ?>", 
+		'emphasized text' : "<?php echo Yii::t("common","emphasized text") ?>",
+		'heading text' : "<?php echo Yii::t("common","heading text") ?>",
+		'enter link description here' : "<?php echo Yii::t("common","enter link description here") ?>", 
+		'Insert Hyperlink' : "<?php echo Yii::t("common","Insert Hyperlink") ?>",
+		'enter image description here' : "<?php echo Yii::t("common","enter image description here") ?>",
+		'Insert Image Hyperlink' : "<?php echo Yii::t("common","Insert Image Hyperlink") ?>",
+		'enter image title here' : "<?php echo Yii::t("common","enter image title here") ?>",
+		'list text here' : "<?php echo Yii::t("common","list text here") ?>",
 };
 
 var tradCountry = {

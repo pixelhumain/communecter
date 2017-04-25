@@ -231,7 +231,7 @@ border: 1px solid #E4E4E4;
         $tagBlock = "-";//<i class='fa fa-info-circle'></i> Aucun tag";
         $cpBlock = "";
         $name = $entry["name"];
-        $message = substr($entry["message"],0,280);
+        $shortMessage = empty($entry["message"]) ? "" : substr($entry["message"],0,280);
         $email =  (isset($entry["email"])) ? $entry["email"] : "";
         $cpList = (isset($entry["cp"])) ? $entry["cp"] : "";
         if( !isset($_GET["cp"]) && $entry["type"] == Survey::TYPE_SURVEY )
@@ -281,14 +281,14 @@ border: 1px solid #E4E4E4;
         //checks if the user is a follower of the entry
         $followingEntry = ( $logguedAndValid && Action::isUserFollowing($entry,Action::ACTION_FOLLOW) ) ? "myentries":"";
 
-        $message = "<div class='text-dark no-border message-propostal'>".$message."</div>";
+        $message = "<div class='text-dark no-border message-propostal'>".$shortMessage."</div>";
         
         /* **************************************
         Rendering Each block
         ****************************************/
         $hrefComment = "#commentsForm";
         $commentCount = 0;
-        $content = ($entry["type"]==ActionRoom::TYPE_ACTION) ? "".$entry["message"]:"";
+        $content = ($entry["type"]==ActionRoom::TYPE_ACTION) ? "".$shortMessage:"";
 
        
         $moderatelink = (   @$entry["applications"][Yii::app()->controller->module->id]["cleared"]  && 
@@ -447,7 +447,22 @@ border: 1px solid #E4E4E4;
     <div class="panel-white" style="display:inline-block; width:100%;">
    
         <h1 class="text-dark" style="font-size: 25px;margin-top: 20px;">
-          <i class="fa fa-caret-down"></i> <i class="fa fa-cogs"></i> <span class="homestead">Espace d'action : </span> <?php echo $room["name"]; ?> 
+          <i class="fa fa-caret-down"></i> <i class="fa fa-cogs"></i> <span class="homestead">Espace d'action : </span> <?php echo $room["name"]; ?>
+          <div class="btn dropdown no-padding" style="padding-left:10px !important;">
+            <a class="dropdown-toggle" type="button" data-toggle="dropdown" style="color:#8b91a0;">
+              <i class="fa fa-cog"></i>  <i class="fa fa-angle-down"></i>
+            </a>
+            <ul class="dropdown-menu">
+              <?php if (ActionRoom::canAdministrate(Yii::app()->session["userId"], (string)$room["_id"])) {?>
+              <li>
+                <a href="javascript:;" class="actionRoomDelete" onclick="actionRoomDelete('<?php echo (string)$room["_id"] ?>', this, '<?php echo $room['parentId']; ?>')" data-id="<?php echo $room["_id"] ?>"><small><i class="fa fa-times"></i> Supprimer</small></a>
+              </li>
+              <?php } ?>
+              <li>
+                <a href="javascript:;" class="actionRoomReport" onclick="actionRoomReportAbuse('<?php echo (string)$room["_id"] ?>', this)" data-id="<?php echo $room["_id"] ?>"><small><i class="fa fa-flag"></i> Reporter au modérateur</small></a>
+              </li>
+            </ul>
+          </div>
         </h1>
 
         <?php 
@@ -526,7 +541,7 @@ border: 1px solid #E4E4E4;
                   <br>Référencez et partagez <b>une par une</b>,
                   <br>les tâches qui concernent cet espace
                   <br><br>
-                  <button class="btn btn-success" onclick='openForm("action","sub"); $(".datepicker").css("zIndex","12000");'>
+                  <button class="btn btn-success" onclick='elementLib.openForm("action","sub"); $(".datepicker").css("zIndex","12000");'>
                     <i class="fa fa-plus"></i> Ajouter une action
                   </button>
                 </blockquote>

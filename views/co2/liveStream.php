@@ -1,8 +1,12 @@
 <?php 
+
+    $timezone = 'Pacific/Noumea';
 		$pair = false;
 		foreach($medias as $key => $media){ 
 			$class = $pair ? "timeline-inverted" : "";
 			$pair = !$pair;
+
+   
 	?>
 
       <li class="<?php echo $class; ?>">
@@ -11,15 +15,15 @@
           <div class="timeline-heading text-center">
             
                	<h5 class="text-left srcMedia">
-              		<small class="ilyaL"><i class="fa fa-clock-o"></i> <?php echo Translate::pastTime($media["date"], "date"); ?></small>
+              		<small class="ilyaL"><i class="fa fa-clock-o"></i> <?php echo Translate::pastTime($media["date"], "date", $timezone); ?></small>
                   <img src="<?php echo Yii::app()->theme->baseUrl."/assets/img/medias/".$media["srcMedia"]; ?>.png" height=40>
-              	  <small class="ilyaR"><i class="fa fa-clock-o"></i> <?php echo Translate::pastTime($media["date"], "date"); ?></small>
-                  <a href="<?php echo $media["href"]; ?>" target="_blank" class="link-read-media margin-top-10"><i class="fa fa-angle-right"></i> Lire</a>
+              	  <small class="ilyaR"><i class="fa fa-clock-o"></i> <?php echo Translate::pastTime($media["date"], "date", $timezone); ?></small>
+                  <a href="<?php echo $media["href"]; ?>" target="_blank" class="link-read-media margin-top-10 hidden-xs"><i class="fa fa-angle-right"></i> Lire</a>
                 </h5>
               
 
               
-          	<?php if(@$media["img"]){ ?>
+          	  <?php if(@$media["img"]){ ?>
               	<a class="block bg-black" target="_blank" href="<?php echo $media["href"]; ?>">
           			<img class="img-responsive" src="<?php echo $media["img"]; ?>" />
               	</a>

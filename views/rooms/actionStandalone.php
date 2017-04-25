@@ -76,35 +76,40 @@
 
 	<div class="col-md-12">
 		<!-- start: REGISTER BOX -->
-		<div class="box-vote box-pod">	
+		<div class="box-vote box-pod">
 			<h1 class="text-dark" style="font-size: 17px;margin-top: 20px;">
-				<i class="fa fa-angle-down"></i> 
-				<span class="homestead"><i class="fa fa-archive"></i><?php echo Yii::t("common","Action room"); ?> :</span> 
-				<a href="javascript:showRoom('actions', '<?php echo $parentSpace["_id"]; ?>')">
+				<i class="fa fa-angle-right"></i> 
+				<span class="homestead"><i class="fa fa-cogs"></i> <?php echo Yii::t("common","Action room"); ?> :</span>
+					<a href="javascript:showRoom('actions', '<?php echo $parentSpace["_id"]; ?>')">
 					<?php echo $parentSpace["name"];?> 
 				</a>
-				<hr>
 			</h1>
-			
 			<div class="col-md-12 voteinfoSection">
-
-
-
-				<div class="col-md-6 no-padding margin-bottom-15">
-					<?php if( @($organizer) ){ ?>
-						<span class="text-red" style="font-size:13px; font-weight:500;">
-							<i class="fa fa-angle-right"></i> 
-							<?php echo Yii::t("rooms","Made by ",null,Yii::app()->controller->module->id) ?> 
-							<a style="font-size:14px;" href="javascript:<?php echo @$organizer['link'] ?>" class="text-dark">
-								<?php echo @$organizer['name'] ?>
+				<div class="col-md-8 no-padding margin-bottom-15">								
+					<h1 class="text-dark" style="font-size: 25px;margin-top: 20px;margin-right: 10px">
+						<i class="fa fa-angle-down"></i>
+						<span class="homestead"><i class="fa fa-cogs"></i> Action :</span>
+						<a style="font-size:25px !important;">
+							 <?php echo $action["name"] ?>
+						</a>
+						<div class="btn dropdown no-padding" style="padding-left:10px !important;">
+							<a class="dropdown-toggle" type="button" data-toggle="dropdown" style="color:#8b91a0;">
+							<i class="fa fa-cog"></i>  <i class="fa fa-angle-down"></i>
 							</a>
-						</span><br/>
-					<?php }	?>
-					<span class="text-extra-large text-bold text-dark col-md-12" style="font-size:25px !important;">
-						<i class="fa fa-file-text"></i> <?php echo  $action["name"] ?>
-					</span>
-				</div>	
-				<div class="col-md-6">
+							<ul class="dropdown-menu">
+								<?php if (Actions::canAdministrate(Yii::app()->session["userId"], (string)$action["_id"])) {?>
+								<li>
+									<a href="javascript:;" class="surveyDelete" onclick="actionDelete('<?php echo (string)$action["_id"] ?>', this, '<?php echo $room["parentId"] ?>')" data-id="<?php echo $action["_id"] ?>"><small><i class="fa fa-times"></i> Supprimer</small></a>
+								</li>
+								<?php } ?>
+								<li>
+									<a href="javascript:;" class="surveyReport" onclick="actionReportAbuse('<?php echo (string)$action["_id"] ?>', this)" data-id="<?php echo $action["_id"] ?>"><small><i class="fa fa-flag"></i> Reporter au modérateur</small></a>
+								</li>
+							</ul>
+			      		</div>
+			      	</h1>
+				</div>
+				<div class="col-md-4">
 					<div class="box-ajaxTools">
 						<?php if (  isset(Yii::app()->session["userId"]) && $action["organizerId"] == Yii::app()->session["userId"] )  { ?>
 							<a class="tooltips btn btn-default  " href="javascript:" 
@@ -133,7 +138,7 @@
 				<?php 
 				$this->renderPartial('../pod/fileupload', 
 								array("itemId" => $action['_id'],
-									  "type" => ActionRoom::COLLECTION_ACTIONS,
+									  "type" => Actions::COLLECTION,
 									  "resize" => false,
 									  "contentId" => Document::IMG_PROFIL,
 									  "editMode" => Authorisation::canEditItem(Yii::app()->session['userId'],$parentType,$parentId),
@@ -155,7 +160,15 @@
 				</div>
 			</div>
 
-			<div class="col-md-8 col-tool-vote text-dark" style="margin-bottom: 10px; margin-top: 10px; font-size:15px;">			
+			<div class="col-md-8 col-tool-vote text-dark" style="margin-bottom: 10px; margin-top: 10px; font-size:15px;">			<?php if( @($organizer) ){ ?>
+						<span>
+							<i class="fa fa-angle-right"></i> 
+							<?php echo Yii::t("rooms","Made by ",null,Yii::app()->controller->module->id) ?> 
+							<a style="font-size:14px;" href="javascript:<?php echo @$organizer['link'] ?>" class="text-dark">
+								<?php echo @$organizer['name'] ?>
+							</a>
+						</span><br/>
+					<?php }	?>
 					<?php
 						//if no assignee , no startDate no end Date
 				        $statusLbl = Yii::t("rooms", "Todo", null, Yii::app()->controller->module->id);
@@ -211,7 +224,7 @@
 
 			<div class="col-md-12 text-dark" style="font-size:15px">
 				<hr style="margin-top:0px">
-				<?php echo $action["message"]; ?>
+				<?php echo empty($action["message"]) ? "" : $action["message"]; ?>
 				<hr>
 			</div>
 			<div class="col-md-7 text-dark" style="font-size:15px">
@@ -239,7 +252,7 @@
 											"users" => $contributors,
 											"countStrongLinks" => $countStrongLinks, 
 											"userCategory" => Yii::t("common","COMMUNITY"), 
-											"contentType" => ActionRoom::COLLECTION_ACTIONS,
+											"contentType" => Actions::COLLECTION,
 											"admin" => true	)); 
 					}
 				?>
@@ -411,5 +424,27 @@ function move( type,destId ){
 		    });
 		}
 	});
+}
+
+function actionDelete(id, $this, parentId){
+  bootbox.confirm(trad["suretodeleteaction"], 
+    function(result) {
+      if (result) {
+        $.ajax({
+              type: "POST",
+              url: baseUrl+"/"+moduleId+"/rooms/deleteaction/id/"+id,
+          dataType: "json",
+              success: function(data){
+                if (data.result) {               
+                  toastr.success(data.msg);
+                  showRoom('all', parentId);
+                } else {
+                  toastr.error(data.msg);
+                }
+            }
+        });
+      }
+    }
+  )
 }
 </script>

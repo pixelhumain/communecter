@@ -184,7 +184,7 @@
 									<i class="fa fa-<?php echo @$icon ?> fa-2x"></i> 
 								</td>
 								<td><i class="fa <?php echo $iconColor ?> fa-<?php echo @$icon ?> " style="width:25px;text-align:center;"></i> <a class="entryname" <?php echo $link;?> ><?php if(isset($e["name"]))echo $e["name"]?></a></td>
-								<td class=""><i class="fa fa-bars"></i> <?php echo PHDB::count(ActionRoom::COLLECTION_ACTIONS,array('room'=>(string)$e["_id"])) ?> <?php //echo Yii::t("rooms", "propositions", null, $moduleId); ?></td>
+								<td class=""><i class="fa fa-bars"></i> <?php echo PHDB::count(Actions::COLLECTION,array('room'=>(string)$e["_id"])) ?> <?php //echo Yii::t("rooms", "propositions", null, $moduleId); ?></td>
 								<td class="hidden"><i class="fa fa-users"></i> //<?php //echo PHDB::count(Survey::COLLECTION,array('survey'=>(string)$e["_id"])) ?> <?php //echo Yii::t("rooms", "propositions", null, $moduleId); ?></td>
 								
 								<?php if( $_GET["type"] == Person::COLLECTION ){?>

@@ -21,13 +21,15 @@ class ElementController extends CommunecterController {
           'detail'                => 'citizenToolKit.controllers.element.DetailAction',
           'getalllinks'           => 'citizenToolKit.controllers.element.GetAllLinksAction',
           'directory'             => 'citizenToolKit.controllers.element.DirectoryAction',
-          'addmembers'             => 'citizenToolKit.controllers.element.AddMembersAction',
+          'addmembers'            => 'citizenToolKit.controllers.element.AddMembersAction',
           'aroundme'              => 'citizenToolKit.controllers.element.AroundMeAction',
-          'updatefield' => 'citizenToolKit.controllers.element.UpdateFieldAction',
-          'save'        => 'citizenToolKit.controllers.element.SaveAction',
-          'delete'        => 'citizenToolKit.controllers.element.DeleteAction',
-          'get'        => 'citizenToolKit.controllers.element.GetAction',
-          "network" => 'citizenToolKit.controllers.element.NetworkAction',
+          'updatefield'           => 'citizenToolKit.controllers.element.UpdateFieldAction',
+          'save'                  => 'citizenToolKit.controllers.element.SaveAction',
+          'delete'                => 'citizenToolKit.controllers.element.DeleteAction',
+          'stopdelete'            => 'citizenToolKit.controllers.element.StopDeleteAction',
+          'updateblock'          => 'citizenToolKit.controllers.element.UpdateBlockAction',
+          'get'                   => 'citizenToolKit.controllers.element.GetAction',
+          "network"               => 'citizenToolKit.controllers.element.NetworkAction',
       );
   }
 }

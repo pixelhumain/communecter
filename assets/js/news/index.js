@@ -425,12 +425,11 @@ function deleteNews(id, $this){
 					$(".deleteImageIdName"+id).each(function(){
 						deleteInfo=$(this).val().split("|");
 						deleteImage(deleteInfo[0],deleteInfo[1],true);
-						
 					});
 				}
 				if ($("#deleteImageCommunevent"+id).length){
-						imageId=$("#deleteImageCommunevent"+id).val();
-						deleteImage(imageId,"",true,true);
+					imageId=$("#deleteImageCommunevent"+id).val();
+					deleteImage(imageId,"",true,true);
 				}
 
 				$.ajax({
@@ -439,7 +438,7 @@ function deleteNews(id, $this){
 					dataType: "json",
 					//data: {"newsId": idNews},
 		        	success: function(data){
-			        	if (data) {               
+			        	if (data.result) {               
 							toastr.success(trad["successdeletenews"] + "!!");
 							liParent=$this.parents().eq(4);
 							if (typeof(offset) != "undefined")
@@ -449,6 +448,9 @@ function deleteNews(id, $this){
 						} else {
 				            toastr.error(trad["somethingwrong"] + " " + trad["tryagain"]);
 				        }
+				    },
+				    error : function() {
+				    	toastr.error(trad["somethingwrong"] + " " + trad["tryagain"]);
 				    }
 				});
 			}
@@ -645,7 +647,7 @@ function showFormBlock(bool){
 	}
 }
 
-function getUrlContent(){
+function getUrlContent(){ console.log("getUrlContent getUrlContent");
     //user clicks previous thumbail
     $("body").on("click","#thumb_prev", function(e){        
         if(img_arr_pos>0) 
@@ -936,7 +938,7 @@ function saveNews(){
 				},
 			},
 			messages : {
-				getUrl : "* Please write something",
+				getUrl : "* "+trad["emptymsg"],
 				goSaveNews: "* Image is still loading"
 
 			},

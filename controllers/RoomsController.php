@@ -17,6 +17,7 @@ class RoomsController extends CommunecterController {
 	    return array(
 	        'index'       	=> 'citizenToolKit.controllers.actionRoom.IndexAction',
 			'saveroom'   	=> 'citizenToolKit.controllers.actionRoom.SaveRoomAction',
+			'deleteroom'   	=> 'citizenToolKit.controllers.actionRoom.DeleteRoomAction',
 			'editroom'		=> 'citizenToolKit.controllers.actionRoom.EditRoomAction',
 			'external'		=> 'citizenToolKit.controllers.actionRoom.ExternalAction',
 			'actions'		=> 'citizenToolKit.controllers.actionRoom.ActionsAction',
@@ -24,9 +25,10 @@ class RoomsController extends CommunecterController {
 			'editaction'	=> 'citizenToolKit.controllers.actionRoom.EditActionAction',
 			'saveaction'	=> 'citizenToolKit.controllers.actionRoom.SaveActionAction',
 			'closeaction'	=> 'citizenToolKit.controllers.actionRoom.CloseActionAction',
+			'deleteaction'	=> 'citizenToolKit.controllers.actionRoom.DeleteActionAction',
 			'assignme'		=> 'citizenToolKit.controllers.actionRoom.AssignMeAction',
 			"fastaddaction" => 'citizenToolKit.controllers.actionRoom.FastAddActionAction',
-			'move'        => 'citizenToolKit.controllers.actionRoom.MoveAction',
+			'move'	        => 'citizenToolKit.controllers.actionRoom.MoveAction',
 	    );
 	}
 }

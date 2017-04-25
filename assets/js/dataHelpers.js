@@ -137,7 +137,8 @@ function addCustomValidators() {
     		return false;
     }, "Invalid : please stick to given values.");
 
-    jQuery.validator.addMethod("greaterThan", function(value, element, params) {    
+    jQuery.validator.addMethod("greaterThan", function(value, element, params) {   
+    	mylog.log("greaterThan", value, element, params) ;
 	    if (!/Invalid|NaN/.test(new Date(value))) {
 	        return moment(value, "DD/MM/YYYY HH:mm").isAfter(moment($(params[0]).val(), "DD/MM/YYYY HH:mm"));
 	    }    

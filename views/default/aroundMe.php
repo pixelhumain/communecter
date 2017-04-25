@@ -1,8 +1,9 @@
 <?php 
-  HtmlHelper::registerCssAndScriptsFiles( array('/assets/css/default/directory.css'), Yii::app()->theme->baseUrl);
-  HtmlHelper::registerCssAndScriptsFiles( array('/js/default/directory.js') , $this->module->assetsUrl);
+ $cssAnsScriptFilesModule = array(
+    '/js/default/directory.js',
+  );
+  HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 ?>
-
 <style>
   
   #grid_around{
@@ -102,7 +103,7 @@ jQuery(document).ready(function() {
 
   //showMap(true);
 	if(notEmpty(elementsMap)){ 
-      var str = showResultsDirectoryHtml(elementsMap);
+      var str = directory.showResultsDirectoryHtml(elementsMap);
       $("#grid_around").html(str);
       initBtnLink();
       refreshUIAroundMe(elementsMap); 
@@ -214,7 +215,7 @@ function refreshAroundMe(radius){
         window.history.replaceState( {} , "", new_URL );
 
         setTimeout(function(){ 
-          var str = showResultsDirectoryHtml(data.all);
+          var str = directory.showResultsDirectoryHtml(data.all);
           $("#grid_around").html(str);
           initBtnLink();
           refreshUIAroundMe(data.all); 

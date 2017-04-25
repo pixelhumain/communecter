@@ -94,7 +94,10 @@ function showNotif(show){
     	else show = false;
     }
 
-    if(show) $('#notificationPanelSearch').show("fast");
+    if(show){ 
+    	$('#notificationPanelSearch').show("fast");
+    	//markAllAsSeen();
+	}
 	else 	 $('#notificationPanelSearch').hide("fast");
 }
 
@@ -521,8 +524,9 @@ function selectScopeLevelCommunexion(level){
 	if(level == 4) endMsg = "Votre région " + regionNameCommunexion;
 	if(level == 5) endMsg = "Tout le réseau";
 	
+
 	if(!communexionActivated)
-    toogleCommunexion();
+    	toogleCommunexion();
 
 	$(".lbl-scope-list").html("<i class='fa fa-check'></i> " + endMsg);
 

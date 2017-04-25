@@ -4,6 +4,9 @@ $cssAnsScriptFilesTheme = array(
 	'/plugins/Chart.js/Chart.min.js',
 	'/plugins/jquery.qrcode/jquery-qrcode.min.js',
 	'/plugins/Chart.js/Chart.min.js',
+	'/plugins/showdown/showdown.min.js',
+	//'/plugins/bootstrap-markdown/js/bootstrap-markdown.js',
+	//'/plugins/bootstrap-markdown/css/bootstrap-markdown.min.css'
 	//'/plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css',
 	//'/plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js' , 
 
@@ -190,7 +193,7 @@ $controler = Element::getControlerByCollection($type);
 	}
 </style>
 
-<div class="row headerEntity bg-light">
+<div class="row headerEntity bg-light <?php if (@$deletePending) echo "deletePEnding"; ?>">
 	<?php if($type != "pixels" || !empty($viewer)) { ?>
 		<div class="col-lg-3 col-md-3 col-sm-3 col-xs-4 padding-10 center">
 			<?php   
@@ -205,7 +208,7 @@ $controler = Element::getControlerByCollection($type);
 																  "show" => true,
 																  "editMode" => $edit,
 																  "image" => $images,
-																  "openEdition" => $openEdition)); 
+																  "openEdition" => $openEdition) ); 
 			//	$profilThumbImageUrl = Element::getImgProfil(@$entity, "profilMediumImageUrl", $this->module->assetsUrl);
 			?>
 			<button class="col-xs-12 center btn btn-default text-azure" style="margin-left:10px;" onclick="showMap(true)">
@@ -219,14 +222,12 @@ $controler = Element::getControlerByCollection($type);
 					<?php if($type == Organization::COLLECTION || $type == Event::COLLECTION){ ?>
 						<h2 class="text-left no-margin <?php if (!@$entity["type"] && !empty($entity["type"])) echo "hide" ?>" style="font-weight:100; font-size:19px;">
 								<i class="fa fa-angle-right"></i> 
-								<label id="typeHeader" class="text-dark">
-									<?php
-									if($type == Event::COLLECTION)
-										echo Yii::t(Element::getCommonByCollection($type), @$entity["type"], null, Yii::app()->controller->module->id); 
-									else
-										echo Yii::t("common", @$entity["type"]); 
-									?>
-								</label>
+								<label id="typeHeader" class="text-dark"><?php
+								if($type == Event::COLLECTION)
+									echo Yii::t(Element::getCommonByCollection($type), @$entity["type"], null, Yii::app()->controller->module->id); 
+								else
+									echo Yii::t("common", @$entity["type"]); 
+								?></label>
 						</h2>
 					<?php } ?>
 					<span class="lbl-entity-name">
@@ -234,10 +235,17 @@ $controler = Element::getControlerByCollection($type);
 						</i> <label id="nameHeader" class="">
 								<?php echo @$entity["name"]; ?>
 							</label>
-						
+						<?php if(@$entity["disabled"]) { ?>
 							<h1 id="disabledHeader" class="text-red">
 								<?php echo Yii::t("common", "Organization Disabled"); ?>
 							</h1>
+						<?php } ?>
+					<?php } ?>
+						<?php if ($deletePending) { ?>
+							<h1 id="deletePendingHeader" class="text-red">
+								<?php echo Yii::t("common", "Delete Pending"); ?>
+							</h1>
+						<?php } ?>
 					</span>
 					<?php if(!empty($entity["parentId"]) && !empty($entity["parentType"])) {
 							$parentEvent = Element::getElementSimpleById($entity["parentId"], $entity["parentType"]);
@@ -284,22 +292,19 @@ $controler = Element::getControlerByCollection($type);
 						$val=80;
 					else 
 						$val=100;
-					echo "<label id='labelProgressStyle'>".Yii::t("project",$entity["properties"]["avancement"],null,Yii::app()->controller->module->id)."</label>";
+					echo "<label id='labelProgressStyleHeader'>".Yii::t("project",$entity["properties"]["avancement"],null,Yii::app()->controller->module->id)."</label>";
 				}  
 				if(isset($entity["properties"]["avancement"])){ ?>
-					<progress id="progressStyle" max="100" value="<?php echo $val;?>" class="progressStyle">
+					<progress id="progressStyleHeader" max="100" value="<?php echo $val;?>" class="progressStyle">
 					</progress>
 				<?php } else { ?>
-					<progress id="progressStyle" max="100" value="0" class="progressStyle hide">
+					<progress id="progressStyleHeader" max="100" value="0" class="progressStyle hide">
 					</progress>
 				<?php } ?>
 			</div>
 			<?php } ?>
-			<div id="shortDescriptionHeader" class="col-lg-12 col-xs-12 no-padding hidden-xs">
-				<?php echo (isset($entity["shortDescription"])) ? $entity["shortDescription"] : null; ?>
-			</div>
 
-
+			<div id="shortDescriptionHeader" class="col-lg-12 col-xs-12 no-padding hidden-xs"><?php echo (isset($entity["shortDescription"])) ? $entity["shortDescription"] : null; ?></div>
 		</div>
 		
 
@@ -384,12 +389,7 @@ $controler = Element::getControlerByCollection($type);
 					} ?>
 				</div>
 			</div>
-			
-			
 		</div>
-	<?php }else{ ?>
-		
-	<?php } ?>
 
 	<div class="modal fade" role="dialog" id="modal-confidentiality">
 	  <div class="modal-dialog">
@@ -586,13 +586,6 @@ var contextData = {
 			echo "'endDate':'".$entity["endDate"]."'"; ?>
 };	
 var disableElement = '<?php if(!empty($entity["disabled"])) echo $entity["disabled"]; else echo "false"; ?>';
-mylog.log("disableElement", typeof disableElement, disableElement);
-if(disableElement == "1"){
-	mylog.log("disableElement", disableElement);
-	$("#disabledHeader").show();
-}else{
-	$("#disabledHeader").hide();
-}
 
 var contextMap = [];
 // If come from directoryAction => contextMap is already load
@@ -664,8 +657,8 @@ var mapUrl = {
 		},
 	"addchart":
 		{
-			"url"  : "project/addchartsv/id/<?php echo (string)$entity["_id"] ?>?", 
-			"hash" : "project.addchartsv.id.<?php echo (string)$entity["_id"] ?>",
+			"url"  : "chart/addchartsv/type/<?php echo $type ?>/id/<?php echo (string)$entity["_id"] ?>?", 
+			"hash" : "chart.addchartsv.type.<?php echo $type ?>.id.<?php echo (string)$entity["_id"] ?>",
 			"data" : null
 	
 		},
@@ -688,6 +681,7 @@ var listElementView = [	'detail', 'detail.edit', 'news', 'directory', 'gallery',
 jQuery(document).ready(function() {
 	setTitle(decodeHtml(element.name),contextIcon);	
 	mylog.log("loadAllLinks-------", loadAllLinks);
+	
 	if(loadAllLinks){
 		$.ajaxSetup({ cache: true});
 		$.ajax({
@@ -755,9 +749,37 @@ jQuery(document).ready(function() {
 		});
     });
 
+    $("#btn-update-shortdesc").off().on( "click", function(){
+		var dataUpdate = { value : $("#shortDescriptionMarkdown").val() } ;
+		var properties = {
+			value : typeObjLib["description"],
+			pk : {
+	            inputType : "hidden",
+	            value : contextData.id
+	        },
+			name: {
+	            inputType : "hidden",
+	            value : "shortDescription"
+	        }
+		};
+
+		var onLoads = null;
+		var beforeSave = null ;
+		var afterSave = function(data){
+			$("#shortDescriptionHeader").val(data.shortDescription);
+			elementLib.closeForm();
+		};
+		
+		var saveUrl = baseUrl+"/"+moduleId+"/element/updatefields/type/"+contextType;
+		elementLib.editDynForm("Modifier la description court", "fa-pencil", properties, null, dataUpdate, saveUrl, onLoads, beforeSave, afterSave);
+	});
+
+
 	
 
 });
+
+
 
 function showElementPad(type, id){
 	currentView=type;

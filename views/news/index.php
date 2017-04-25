@@ -22,7 +22,6 @@ $cssAnsScriptFilesModule = array(
 	'/plugins/jquery-mentions-input-master/lib/jquery.events.input.js',
 	
 );
-error_log("BasURL : ".Yii::app()->request->baseUrl);
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->request->baseUrl);
 
 $cssAnsScriptFilesModule = array(
@@ -45,7 +44,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	if($type != City::CONTROLLER && $type != "pixels" && !@$_GET["renderPartial"])
 		$this->renderPartial('../pod/headerEntity', 
 			array("entity"=>$parent, "type" => $type, "viewer" => @$viewer, 
-				  "firstView" => @$firstView, "openEdition" => @$openEdition, "edit" => $edit)); 
+				  "firstView" => @$firstView, "openEdition" => @$openEdition, "edit" => $edit, "deletePending" => $deletePending)); 
 ?>
 
 <?php 
@@ -255,6 +254,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 .timeline_element .timeline_text{
 	font-size:14px !important;
+	white-space: pre-line;
 }
 .timeline_element .img-responsive{
 	max-height:300px !important;
@@ -309,6 +309,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
     margin: 0 0 10px 0 !important;
     display: block;
 }
+
 </style>
 <!--<textarea class="mention"></textarea>-->
 
@@ -610,6 +611,7 @@ foreach($news as $key => $oneNews){
 
 <?php if (@$news && !empty($news)){ ?>
 var news = <?php echo json_encode(@$news)?>;
+console.log("NEWSSS", news);
 <?php }else { ?>
 var news = "";
 <?php } ?>

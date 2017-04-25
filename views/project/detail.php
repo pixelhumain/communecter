@@ -55,7 +55,11 @@ $this->renderPartial('../default/panels/toolbar');
 					?>
 					<?php 
 						if(!empty($properties) || $admin==true){
-							$this->renderPartial('pod/projectChart',array("itemId" => (string)$project["_id"], "itemName" => $project["name"], "properties" => $properties, "admin" =>$admin,"isDetailView" => 1)); 
+							$this->renderPartial('pod/projectChart',array("itemId" => (string)$project["_id"], 
+																		"itemName" => $project["name"], 
+																		"properties" => $properties, 
+																		"admin" =>$admin,
+																)); 
 						}
 					?>
 				</div>

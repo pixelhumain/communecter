@@ -15,7 +15,7 @@ if( isset($parent) ){
 	$parentName=$parent["name"];
 }
 if(!@$_GET["renderPartial"])
-		$this->renderPartial('../pod/headerEntity', array("entity"=>$parent, "type" => $itemType, "openEdition" => $openEdition, "edit" => $edit, "firstView" => "gallery")); 
+		$this->renderPartial('../pod/headerEntity', array("entity"=>$parent, "type" => $itemType, "openEdition" => $openEdition, "edit" => $edit, "firstView" => "gallery", "deletePending" => $deletePending)); 
 
 ?>
 <!-- start: PAGE CONTENT -->

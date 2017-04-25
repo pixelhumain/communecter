@@ -169,14 +169,15 @@ return array(
 	"{who} added a new Voting Room on {where}" => "{who} a ajouté une salle de décision sur {where}",
 	"{who} added a new Discussion Room on {where}" => "{who} a ajouté une salle de discussion sur {where}",
 	"{who} added a new Actions List on {where}" => "{who} a ajouté une salle d'action sur {where}",
-	"{who} added a new Proposal {what} in {where}" => "{who} a ajouté une Proposition {what} dans {where}",
-	"{who} added a new Action {what} in {where}" => "{who} a ajouté une Action {what} dans {where}",
+	"{who} added a new Proposal {what} in {where}" => "{who} a ajouté une proposition {what} dans {where}",
+	"{who} added a new Action {what} in {where}" => "{who} a ajouté une action {what} dans {where}",
 	"{who} voted on {what} in {where}" => "{who} a voté sur {what} dans {where}",
 
 	"Archive" => "Archiver",
 	"This will hide and Archive this Decision Room" => "Archiver le contenu de cet espace",
 	"Create an Action for your community" => "Créer une nouvelle action dans cet espace",
 	"Understanding action list" => "Comprendre les listes d'actions",
+	"Understanding actions" => "Comprendre les actions",
 
 	"Moved Succesfully to " => "Déplacé avec Succés vers ",
     "Moved Succesfully to Decision room : " => "Déplacé avec Succés vers la salle de décision : ",

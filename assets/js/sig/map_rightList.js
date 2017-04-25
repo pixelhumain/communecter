@@ -172,7 +172,8 @@
 
 			var elemType = ("undefined" != typeof element['typeSig']) ? element['typeSig'] : "";
 
-			if(elemType == "siteurl") return this.createItemRigthListMapSiteurl(element, thisMarker, thisMap);
+			if(elemType == "url") return this.createItemRigthListMapSiteurl(element, thisMarker, thisMap);
+			if(elemType == "address") return this.createItemRigthListMapAddress(element, thisMarker, thisMap);
 			//mylog.dir(element);
 
 			var thisSig = this;
@@ -306,11 +307,7 @@
 			//return l'élément html
 		    var button = '<div class="element-right-list siteurl" id="element-right-list-'+thisSig.getObjectId(allElement)+'">' +
 		    				'<button class="item_map_list item_map_list_'+ thisSig.getObjectId(allElement) +'">'
-		    					//+ "<div class='left-col'>"
-		    					//+ 	"<div class='thumbnail-profil'><img height=50 width=50 src='" + imgProfilPath + "'></div>"						
-		    					//+ 	"<div class='ico-type-account'>"+icons+"</div>"
 		    					
-		    					//+ "</div>"
 								+ "<div class='right-col'>";
 						
 						if("" != name)
@@ -332,29 +329,10 @@
 
 							address += element['address']['addressLocality'] ? element['address']['addressLocality'] : "";
 						}
-						// if("undefined" != typeof allElement['tags'] && allElement['tags'] != null){
-						// 	button	+= 	"<div class='info_item items_map_list'>";
-						// 	var totalTags = 0;
-						// 	if(typeof allElement['tags'] != "undefined" && allElement['tags'] != null){
-						// 		$.each(allElement['tags'], function(index, value){ totalTags++;
-						// 			if(totalTags<4)
-						// 			button	+= 	"<a href='javascript:' class='tag_item_map_list'>#" + value + " </a>";
-						// 		});
-						// 	}
-						// 	button	+= 	"</div>";
-						// }
-						// button	+= 	"<br>";
+						
 						if(address!="")
 						button	+= 	"<div class='info_item siteurl_desc pull-left text-dark'>" + address + "</div>";
 								
-						//if("undefined" != typeof element['address'] && "undefined" != typeof element['address']['addressCountry'] )
-						//button	+= 	"<div class='info_item country_item_map_list inline'>" + element['address']['addressCountry'] + "</div>";
-						
-						//if("undefined" != typeof element['cp'] )
-						//button	+= 	"<div class='info_item country_item_map_list inline' style='font-size: 15px; font-weight: 300;'>" + element['cp'] + "</div>";
-								
-						//if("undefined" != typeof element['telephone'])
-						//button	+= 	"<div class='info_item telephone_item_map_list inline'>" + element['telephone'] + "</div>";
 						
 						
 				button += 	'</div>';
@@ -367,8 +345,92 @@
 						 '<div>';
 
 			$(this.cssModuleName + " #liste_map_element").append(button);
+			//toastr.success(JSON.stringify(name + " " + markerPosition));
+		};
 
+		//***
+		//renvoi un item (html) pour la liste de droite
+		Sig.createItemRigthListMapAddress = function(element, thisMarker, thisMap){
 
+			var elemType = ("undefined" != typeof element['typeSig']) ? element['typeSig'] : "";
+
+			//mylog.dir(element);
+
+			var thisSig = this;
+			var objectId = thisSig.getObjectId(this);
+			var allElement = element;
+			var element = (typeof element.author != "undefined") ? element.author : element;
+
+			//rassemble le nom de la ville au CP
+			var place = "";
+			if(element['streetNumber'] != null) place += "<span class='letter-blue'>"+element['streetNumber']+"</span>";
+			
+			if(element['street'] != null) {
+				if(place!="") place += " ";
+				place += '<b>'+ element['street']+'</b>';
+			}
+
+			if(element['cityName'] != null) {
+				if(place!="") place += " ";
+				place +=  "<span class='letter-red'>"+element['cityName']+"</span>";
+			}
+
+			if(element['postalCode'] != null) {
+				//if(place!="") place += " ";
+				//place +=  "<span class='letter-'>"+element['postalCode']+"</span>";
+			}
+
+			
+			//récupère l'url de l'icon a afficher
+			var ico = thisSig.getIcoByType(allElement);
+			var color = thisSig.getIcoColorByType(allElement);
+
+			var icons = '<i class="fa fa-'+ ico + ' fa-'+ color +'"></i>';
+
+			//recuperation de l'image de profil (ou image par defaut)
+			var imgProfilPath =  Sig.getThumbProfil(element);
+
+			//return l'élément html
+		    var button = '<div class="element-right-list siteurl" id="element-right-list-'+thisSig.getObjectId(allElement)+'">' +
+		    				'<button class="item_map_list item_map_list_'+ thisSig.getObjectId(allElement) +'">'
+		    				+ "<div class='padding-10 text-left'>";
+						
+						if(place != "")
+						button	+= 	"<div class='info_item text-dark' style='font-size:14px;'>"+
+										"<i class='fa fa-map-marker fa-2x letter-red' style='margin-left:-6px;'></i> " + 
+										place + 
+									"</div>";
+						//if("" != url)
+						//button	+= 	"<div class='info_item siteurl_url letter-green'>" + url + "</div>";
+						//if("" != description)
+						//button	+= 	"<div class='info_item siteurl_desc'>" + description + "</div>";
+						
+						// var address = "";
+						// if("undefined" != typeof element['address']){
+						// 	if("undefined" != typeof element['address']['streetAddress'] || "undefined" != typeof element['address']['addressLocality'])
+						// 		address = "<i class='fa fa-map-marker' style='margin-left:-6px;'></i> ";
+
+						// 	address += element['address']['streetAddress'] ? element['address']['streetAddress'] : "";
+							
+						// 	if(typeof element['address']['streetAddress'] != "undefined" && "undefined" != typeof element['address']['addressLocality'])
+						// 		address+=", ";
+
+						// 	address += element['address']['addressLocality'] ? element['address']['addressLocality'] : "";
+						// }
+						
+						// if(address!="")
+						// button	+= 	"<div class='info_item siteurl_desc pull-left text-dark'>" + address + "</div>";
+														
+						
+				button += 	'</div>';
+
+				
+				button += '<div class="separation"></div>';
+				
+				button += 	'</button>' +
+						 '<div>';
+
+			$(this.cssModuleName + " #liste_map_element").append(button);
 			//toastr.success(JSON.stringify(name + " " + markerPosition));
 		};
 

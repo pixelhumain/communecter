@@ -36,6 +36,7 @@ $cssAnsScriptFilesModule = array(
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 $element["name"] = htmlspecialchars($element["name"]);
+
 // Initialize $front array()
 // - Define which element is visible following current theme (communecter, network, notragora)
 if(@Yii::app()->params["front"]) $front = Yii::app()->params["front"];
@@ -49,7 +50,7 @@ else if(@$networkJson && @$networkJson["skin"]["menu"]) $menuConfig = $networkJs
     $('head').append('<link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.1/jquery-editable/css/jquery-editable.css" rel="stylesheet" />');
     $.fn.poshytip={defaults:null};
 </script>
-<script>
+<script type="text/javascript" >
 if($('#breadcum').length)
 	$('#breadcum').html('<i class="fa fa-search fa-2x" style="padding-top: 10px;padding-left: 20px;"></i><i class="fa fa-chevron-right fa-1x" style="padding: 10px 10px 0px 10px;""></i><a href="javascript:;" onclick="reverseToRepertory();">Répertoire</a><i class="fa fa-chevron-right fa-1x" style="padding: 10px 10px 0px 10px;""></i><?php echo addslashes($element["name"]); ?>');
 </script>
@@ -70,7 +71,8 @@ if($('#breadcum').length)
 	</style>
 <?php 
 	if($type != City::CONTROLLER && $type != Poi::COLLECTION && !@$_GET["renderPartial"])
-		$this->renderPartial('../pod/headerEntity', array("entity"=>$element, "type" => $type, "openEdition" => $openEdition, "edit" => $edit, "firstView" => "detail","menuConfig"=>@$menuConfig, "users" => $members)); 
+		$this->renderPartial('../pod/headerEntity', array("entity"=>$element, "type" => $type, "openEdition" => $openEdition, "edit" => $edit, "firstView" => "detail","menuConfig"=>@$menuConfig, "users" => $members, "deletePending" => $deletePending)); 
+
 		//End isset renderPartial
 ?>
 <div class="row" id="detailPad">
@@ -78,7 +80,6 @@ if($('#breadcum').length)
 		<div class="col-xs-12 col-md-12">
 			<?php if ($type == "poi"){ ?>
 			<?php if($element["type"]=="video" && @$element["medias"]){ 
-				
 				$videoLink=str_replace ( "autoplay=1" , "autoplay=0" , @$element["medias"][0]["content"]["videoLink"]  );
 			?>
 				<div class="col-xs-12">
@@ -108,7 +109,7 @@ if($('#breadcum').length)
 	    				"edit" => @$edit,
 	    				"isLinked" => @$isLinked,
 	    				"openEdition" => $openEdition,
-	    				"modeEdit" => @$modeEdit,
+	    				//"modeEdit" => @$modeEdit,
 	    				"controller" => $controller
 	    			);
 	    			$this->renderPartial('../poi/ficheInfo',$params); 
@@ -122,21 +123,23 @@ if($('#breadcum').length)
 	    				"element" => $element,
 						"tags" => $tags, 
 						"images" => array("profil"=>array($element["profilImageUrl"])),
-						"elementTypes" => @$listTypes,
-						"countries" => $countries,
-						"typeIntervention" => @$typeIntervention,
-						"NGOCategories" => @$NGOCategories,
-						"localBusinessCategories" => @$localBusinessCategories,
+						//"elementTypes" => @$listTypes,
+						//"countries" => $countries,
+						//"typeIntervention" => @$typeIntervention,
+						//"NGOCategories" => @$NGOCategories,
+						//"localBusinessCategories" => @$localBusinessCategories,
 	    				"contextMap" => @$contextMap,
-	    				"publics" => @$public,
+	    				//"publics" => @$public,
 						"type" => @$type,
 						"organizer" =>@$organizer,
 	    				"contentKeyBase" => "profil",
 	    				"edit" => @$edit,
 	    				"isLinked" => @$isLinked,
 	    				"openEdition" => $openEdition,
-	    				"modeEdit" => @$modeEdit,
-	    				"controller" => $controller
+	    				//"modeEdit" => @$modeEdit,
+	    				"controller" => $controller,
+	    				"deletePending" => $deletePending
+
 	    			);
 	    			$this->renderPartial('../pod/ficheInfoElement',$params); 
 	    		?>
@@ -249,36 +252,33 @@ if($('#breadcum').length)
 				                <div class="col-md-12 no-padding" style="margin-top:20px">
 
 				                    <div class="col-xs-6  center text-yellow btnSubTitle">
-				                        <a href="javascript:openForm('person')" class="btn btn-discover bg-yellow">
-
+				                        <!-- <a href="javascript:elementLib.openForm('person')" class="btn btn-discover bg-yellow"> -->
+				                        <a href="#person.invite" class="btn btn-discover bg-yellow lbh">
 				                          <i class="fa fa-user"></i>
 				                        </a><br/><span class="discover-subtitle">Une personne</span>
 				                    </div>
 				                    
 				                    <div class="col-xs-6  center text-green btnSubTitle">
-				                        <a href="javascript:openForm('organization')" class="btn btn-discover bg-green">
+				                        <a href="javascript:elementLib.openForm('organization')" class="btn btn-discover bg-green">
 				                          <i class="fa fa-group"></i>
 				                        </a>
 				                        <br/><span class="discover-subtitle">Organisation</span>
 				                    </div>
 									<?php if(!@$front || (@$front && $front["event"])){ ?>
 				                    <div class="col-xs-6  center text-orange btnSubTitle">
-				                        <a href="javascript:openForm('event')" class="btn btn-discover bg-orange">
+				                        <a href="javascript:elementLib.openForm('event')" class="btn btn-discover bg-orange">
 				                          <i class="fa fa-calendar"></i>
 				                        </a><br/><span class="discover-subtitle">Évènement</span>
 				                    </div>
 				                    <?php } ?>
 				                    <div class="col-xs-6  center text-purple btnSubTitle">
-				                        <a href="javascript:openForm('project')" class="btn btn-discover bg-purple">
+				                        <a href="javascript:elementLib.openForm('project')" class="btn btn-discover bg-purple">
 				                          <i class="fa fa-lightbulb-o"></i>
 				                        </a><br/><span class="discover-subtitle">Projet</span>
 				                    </div>
-
 				                </div>
-
 				              </div>
 				            </div>
-				           
 				        </div>
 				    </div>
 			    </div>
@@ -295,23 +295,16 @@ if($('#breadcum').length)
 														"userCategory" => Yii::t("common","Community"), 
 														"contentType" => $type,
 														"countStrongLinks" => $countStrongLinks,
-														"countLowLinks" => $countLowLinks,
+														"countLowLinks" => @$countLowLinks,
+														"countInvitations" => @$countInvitations,
 														"admin" => $edit, 
 														"invitedMe" => @$invitedMe,
 														"openEdition" => $openEdition));
-
-				/*$this->renderPartial('../pod/usersList', array(  "event"=> $event,
-														"users" => $attending,
-														"userCategory" => Yii::t("event","ATTENDEES",null,Yii::app()->controller->module->id), 
-														"contentType" => Event::COLLECTION,
-														"admin" => $admin,
-														"countLowLinks" => $invitedNumber,
-														"countStrongLinks"=> $attendeeNumber,
-														"invitedMe" => @$invitedMe));*/
 				?>
 			</div>
-			<?php } ?>
-	    	<?php if (($type==Project::COLLECTION || $type==Organization::COLLECTION || $type==Event::COLLECTION)){ ?>
+			<?php } 
+			if (($type==Project::COLLECTION || $type==Organization::COLLECTION || $type==Event::COLLECTION)){ ?>
+
 	    		<?php if(!@$front || (@$front && $front["event"]==true)){ ?>
 				<div class="col-xs-12">
 					<?php 
@@ -337,17 +330,18 @@ if($('#breadcum').length)
 			<?php } ?>
 
 
-			<?php if (($type==Project::COLLECTION)){ ?>
+			<?php if ($type==Project::COLLECTION || $type==Organization::COLLECTION){ ?>
 			<div class="col-xs-12">
 				<?php
-					if(empty($element["properties"]["chart"])) $element["properties"]["chart"] = array();
-					$this->renderPartial('../project/pod/projectChart',array(
+					/*if(empty($element["properties"]["chart"])) $element["properties"]["chart"] = array();
+					$this->renderPartial('../chart/index',array(
 											"itemId" => (string)$element["_id"], 
 											"itemName" => $element["name"], 
+											"parentType" => $type, 
 											"properties" => $element["properties"]["chart"],
 											"admin" =>$edit,
 											"isDetailView" => 1,
-											"openEdition" => $openEdition));
+											"openEdition" => $openEdition));*/
 				?>						  
 			</div>
 			<?php } ?>
@@ -355,7 +349,7 @@ if($('#breadcum').length)
 
 
 			<?php if ($type==Organization::COLLECTION){ 
-				if(!@$front || (@$front && $front["project"]))					{ 
+				if(!@$front || (@$front && $front["project"])) { 
 			?>
 			<div class="col-xs-12">
 	 			<?php $this->renderPartial('../pod/projectsList',array( "projects" => @$projects, 
@@ -371,24 +365,24 @@ if($('#breadcum').length)
 				if(!@$front || (@$front && $front["poi"]))					{ 
 			?> 
 			<div class="col-xs-12">
-				<?php   $pois = PHDB::find(Poi::COLLECTION,array("parentId"=>(String) $element["_id"],"parentType"=>$type));
-						$this->renderPartial('../pod/POIList', array( "pois"=>$pois));
+				<?php   
+				$pois = PHDB::find(Poi::COLLECTION,array("parentId"=>(String) $element["_id"],"parentType"=>$type));
+				$this->renderPartial('../pod/POIList', array( "pois"=>$pois));
+				?>
+	    	</div>	
+	    	
+			<div class="col-xs-12">
+				<?php 
+				//$classifieds = PHDB::find( Classified::COLLECTION,array("parentId"=>(String) $element["_id"],"parentType"=>$type));
+				//$this->renderPartial('../pod/classifieds', array( "pois"=>$classifieds));
 				?>
 	    	</div>	
 	    	<?php }
-		    } ?>
-	    	<?php if( !$type==Event::COLLECTION && ( !@$front || (@$front && $front["need"]==true))){ ?>
-	    	<div class="col-xs-12 needsPod">	
-				<?php $this->renderPartial('../pod/needsList',array( 	"needs" => @$needs, 
-																		"parentId" => (String) $element["_id"],
-																		"parentType" => $type,
-																		"isAdmin" => @$edit,
-																		"parentName" => $element["name"],
-																		"openEdition" => $openEdition
-																	  )); ?>
 
-			</div>
-			<?php } ?>
+		    } ?>
+	    	
+
+			
 		</div>
 
 		<div class="col-md-8 col-xs-12 no-padding pull-left">

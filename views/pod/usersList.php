@@ -73,11 +73,11 @@
 			
 		</div> 
 		<div class="panel-tools">
-			<?php if ( @$admin && $contentType != ActionRoom::COLLECTION_ACTIONS ) { ?>
+			<?php if ( @$admin && $contentType != Actions::COLLECTION ) { ?>
 					<a class="btn btn-xs btn-default tooltips" href="javascript:;" onclick="showElementPad('directory');" data-placement="bottom" data-original-title="<?php echo $tooltips ?>">
 						<i class="fa fa-cog "></i> <?php echo Yii::t("common","Manage"); ?>
 					</a>								
-			<?php } else if ($contentType != ActionRoom::COLLECTION_ACTIONS){ ?>
+			<?php } else if ($contentType != Actions::COLLECTION){ ?>
 				<a class="btn btn-xs btn-default tooltips" href="javascript:;" onclick="showElementPad('directory');" data-placement="bottom" data-original-title="<?php echo $tooltips ?>">
 						<i class="fa fa-eye"></i> <?php echo Yii::t("common","Visualize"); ?>
 					</a>								
