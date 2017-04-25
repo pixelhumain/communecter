@@ -256,7 +256,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 	<div id="divInformation" class="col-sm-12 col-md-12 padding-15">
 		<div class="col-md-12 col-lg-12 col-xs-12 no-padding text-dark lbl-info-details">
 			<i class="fa fa-map-marker"></i>  <?php echo Yii::t("common","Information") ?>
-			<?php if($edit==true || $openEdition==true ){?>
+			<?php if (@Yii::app()->session["userId"] && ($edit==true || $openEdition==true) ) {?>
 				<a href="javascript:;" id="btn-update-info" class="tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Update general information");?>"><i class="fa text-red fa-pencil"></i></a>
 				<?php } ?>
 		</div>
@@ -376,7 +376,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 				<div class="col-md-12 col-lg-12 col-xs-12 no-padding">
 					<div class="text-dark lbl-info-details margin-top-10">
 						<a id="dateTimezone" href="javascript:;" class="tooltips text-dark" data-original-title="" data-toggle="tooltip" data-placement="right"><i class="fa fa-clock-o"></i>&nbsp;<?php echo Yii::t("common","When") ?> ?</a>
-						<?php if($edit==true || $openEdition==true ){?>
+						<?php if(@Yii::app()->session["userId"] && ( $edit==true || $openEdition==true)){?>
 						<a href="javascript:;" id="btn-update-when" class="tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Update When");?>"><i class="fa text-red fa-pencil"></i></a>
 						<?php } ?>
 					</div>
@@ -452,28 +452,27 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 						
 
 						<?php 
-						
-						if(empty($element["address"]) && $type!=Person::COLLECTION && ($edit==true || $openEdition==true )){
-							echo '	<a href="javascript:;" class="addresses btn btn-danger btn-sm" id="btn-update-geopos">
-										<i class="fa fa-map-marker"></i>
-										<span class="hidden-sm">'.Yii::t("common","Add a primary address").'</span>
-									</a>' ;
-						}else if(empty($element["address"]["codeInsee"]) && $type==Person::COLLECTION && ($edit==true || $openEdition==true )) {
-							echo '<br/><a href="javascript:;" class="cobtn btn btn-danger btn-sm" style="margin: 10px 0px;">'.Yii::t("common", "Connect to your city").'</a> <a href="javascript:;" class="whycobtn btn btn-default btn-sm explainLink" style="margin: 10px 0px;" data-id="explainCommunectMe" >'. Yii::t("common", "Why ?").'</a>';
-						}else{
-							echo '<a href="javascript:;" id="btn-remove-geopos" class="pull-right tooltips" data-toggle="tooltip" data-placement="bottom" title="'.Yii::t("common","Remove Locality").'">
-										<i class="fa text-red fa-trash-o"></i>
-									</a>
-									<a href="javascript:;" id="btn-update-geopos" class="pull-right tooltips" data-toggle="tooltip" data-placement="bottom" title="'.Yii::t("common","Update Locality").'" >
-										<i class="fa text-red fa-map-marker"></i>
-									</a> ';	
+						if (@Yii::app()->session["userId"]) {
+							if(empty($element["address"]) && $type!=Person::COLLECTION && ($edit==true || $openEdition==true )){
+								echo '	<a href="javascript:;" class="addresses btn btn-danger btn-sm" id="btn-update-geopos">
+											<i class="fa fa-map-marker"></i>
+											<span class="hidden-sm">'.Yii::t("common","Add a primary address").'</span>
+										</a>' ;
+							}else if(empty($element["address"]["codeInsee"]) && $type==Person::COLLECTION && ($edit==true || $openEdition==true )) {
+								echo '<br/><a href="javascript:;" class="cobtn btn btn-danger btn-sm" style="margin: 10px 0px;">'.Yii::t("common", "Connect to your city").'</a> <a href="javascript:;" class="whycobtn btn btn-default btn-sm explainLink" style="margin: 10px 0px;" data-id="explainCommunectMe" >'. Yii::t("common", "Why ?").'</a>';
+							}else{
+								echo '<a href="javascript:;" id="btn-remove-geopos" class="pull-right tooltips" data-toggle="tooltip" data-placement="bottom" title="'.Yii::t("common","Remove Locality").'">
+											<i class="fa text-red fa-trash-o"></i>
+										</a>
+										<a href="javascript:;" id="btn-update-geopos" class="pull-right tooltips" data-toggle="tooltip" data-placement="bottom" title="'.Yii::t("common","Update Locality").'" >
+											<i class="fa text-red fa-map-marker"></i>
+										</a> ';	
+							}
 						}
 						?>
-						
-
 					</div>
 
-				<?php if($type!=Person::COLLECTION && !empty($element["address"]) && ($edit==true || $openEdition==true )) { ?>
+				<?php if($type!=Person::COLLECTION && !empty($element["address"]) && @Yii::app()->session["userId"] && ($edit==true || $openEdition==true) ) { ?>
 					<a href='javascript:updateLocalityEntities("<?php echo count(@$element["addresses"]) ; ?>");' id="btn-add-geopos" class="btn btn-danger btn-sm col-xs-12 addresses" style="margin: 10px 0px;">
 						<i class="fa fa-plus" style="margin:0px !important;"></i> 
 						<span class="hidden-sm"><?php echo Yii::t("common","Add a secondary address"); ?></span>
@@ -486,12 +485,14 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 							$address = '<i class="fa fa-circle"></i> <span id="detailStreetAddress_'.$ix.'">'.(( @$p["address"]["streetAddress"]) ? $p["address"]["streetAddress"]."<br/>" : "").'</span>';
 							$address .= '<span id="detailCity">'.(( @$p["address"]["postalCode"]) ? $p["address"]["postalCode"] : "")." ".(( @$p["address"]["addressLocality"]) ? $p["address"]["addressLocality"] : "").'</span>';
 							$address .= '<span id="detailCountry_'.$ix.'">'.(( @$p["address"]["addressCountry"]) ? " ".OpenData::$phCountries[ $p["address"]["addressCountry"] ] : "").'</span>';
-							echo $address;?>
+							echo $address;
+							if (@Yii::app()->session["userId"]) {
+							?>
 
-							<a href='javascript:removeAddresses("<?php echo $ix ; ?>");'  class="addresses pull-right tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Remove Locality");?>"><i class="fa text-red fa-trash-o"></i></a>
-							<a href='javascript:updateLocalityEntities("<?php echo $ix ; ?>", <?php echo json_encode($p);?>);' class=" pull-right tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Update Locality");?>"><i class="fa text-red fa-map-marker addresses"></i></a>
-							
-							
+								<a href='javascript:removeAddresses("<?php echo $ix ; ?>");'  class="addresses pull-right tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Remove Locality");?>"><i class="fa text-red fa-trash-o"></i></a>
+								<a href='javascript:updateLocalityEntities("<?php echo $ix ; ?>", <?php echo json_encode($p);?>);' class=" pull-right tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Update Locality");?>"><i class="fa text-red fa-map-marker addresses"></i></a>
+								
+							<?php } ?>
 						</div>
 				<?php 	} 
 					} ?>
@@ -541,7 +542,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 			<div class="col-md-6 col-sm-6 col-xs-12">
 				<div class="text-dark lbl-info-details margin-top-10">
 					<i class="fa fa-angle-down"></i> <?php echo Yii::t("common","Contact information"); ?>
-					<?php if( $edit==true || $openEdition==true ){?>
+					<?php if(@Yii::app()->session["userId"] && ($edit==true || $openEdition==true) ) {?>
 					<a href='javascript:;' id="btn-update-contact" class="tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Update Contact information");?>"><i class="fa text-red fa-pencil"></i></a>
 					<?php } ?>
 				</div>
@@ -596,7 +597,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 			<div class="col-md-12 col-lg-12 col-xs-12 no-padding" style="padding-right:10px !important; padding-bottom:5px !important">
 				<div class="text-dark lbl-info-details margin-top-10">
 					<i class="fa fa-angle-down"></i> <?php echo ucfirst(Yii::t("common","organizer")) ?>
-					<?php if( $edit==true || $openEdition==true ){?>
+					<?php if(@Yii::app()->session["userId"] && ($edit==true || $openEdition==true )){?>
 						<a href='javascript:;' id="btn-update-organizer" class="tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("event","Update the organizer");?>"><i class="fa text-red fa-pencil"></i></a>
 					<?php } ?>
 				</div>
@@ -659,7 +660,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 		<div class="col-xs-12 no-padding margin-top-10">
 		  	<div class="text-dark lbl-info-details">
 		  		<i class="fa fa-angle-down"></i> Description
-		  		<?php if($edit==true || $openEdition==true ){?>
+		  		<?php if(@Yii::app()->session["userId"] && ($edit==true || $openEdition==true )){?>
 		  		<a href='javascript:;' id="btn-update-desc" class="tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Update Description");?>"><i class="fa text-red fa-pencil"></i></a> <?php } ?>
 		  	</div>
 		  	<div class="col-md-12">
