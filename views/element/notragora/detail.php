@@ -15,6 +15,40 @@
 ?>
 
 <style>
+	.acceptBtn{
+		border-radius:3px !important;
+		color: white;
+		background-color: #71CE4E;
+		padding: 5px 10px;
+		margin-top: 5px;
+	}
+	.acceptBtn:hover{
+		color: #71CE4E !important;
+		background-color: white;
+		border: 1px solid #71CE4E;
+	}
+	.acceptBtn i{
+		font-size:12px;
+	}
+	.refuseBtn{
+		border-radius:3px !important;
+		color: white;
+		background-color: #E33551;
+		padding: 5px 10px;
+		margin-top: 5px;
+	}
+	.refuseBtn:hover{
+		color: #E33551 !important;
+		background-color: white;
+		border: 1px solid #E33551;
+	}
+	.refuseBtn i{
+		font-size:12px;
+	}
+	.waitAnswer{
+		position:absolute;
+		left:38px;
+	}
 	.col-members{
 		background-color: #fff !important;
 	    min-height: 100%;
@@ -231,7 +265,7 @@
 				echo " (Suppression en cours)";
 			}
 			?>
-			<?php if(@Yii::app()->session["userId"]){ ?>
+			<?php if(@Yii::app()->session["userId"] && $type==Organization::COLLECTION){ ?>
 			<div class="linkBtn pull-right">
 			<?php if($type != Person::COLLECTION && isset($element["_id"]) && isset(Yii::app()->session["userId"]) && 
 	                Link::isLinked((string)$element["_id"], $type, Yii::app()->session["userId"])){ ?>
@@ -376,16 +410,17 @@
                 </div>
                 </div>
 			</div>
-		<?php } else { ?>
+		<?php } else if($type==Organization::COLLECTION) { ?>
 			<h3>Membres du groupe (<span id="nbMemberTotal"></span>)</h3>
 			<hr>
 			<h4>Administrateurs (<span id="nbAdmin"></span>)</h4>
 
 			<?php 
 				$nbAdmin = 0;
+				$nbAdminPending=0;
 				if(@$members && !empty($members)) {
 					foreach($members as $key => $member){ 
-						if(@$member["isAdmin"] == true){ $nbAdmin++;
+						if(@$member["isAdmin"] == true && !@$member["isAdminPending"]){ $nbAdmin++;
 						$profilThumbImageUrl = Element::getImgProfil($member, "profilThumbImageUrl", $this->module->assetsUrl);
 						$spec = Element::getElementSpecsByType( @$member["type"] );
 			?>
@@ -396,19 +431,25 @@
 								<br/><span style="font-style: italic;font-size: 10px;position: absolute;bottom: 0px;left: 38px;">En attente d'inscription</span>
 							<?php } ?>
 						</a>
-		<?php }}} ?>
-
-		<div class="col-md-12 no-padding margin-top-5">
-			<hr>
-			<h4>Membres (<span id="nbMember"></span>)</h4>
-		</div>
+			<?php 		} else if(@$member["isAdmin"] == true && @$member["isAdminPending"]) $nbAdminPending++;
+					}
+			} 
+			if($nbAdmin==0){ ?>
+					<span style="font-style: italic;">Pas d'admin sur ce groupe de travail</span>
+			<?php } ?>
+				
+			<div class="col-md-12 no-padding margin-top-5">
+				<hr>
+				<h4>Membres (<span id="nbMember"></span>)</h4>
+			</div>
 
 		<?php 
 			//var_dump($members);
 			$nbMember = 0;
+			$nbMemberPending=0;
 			if(@$members && !empty($members)) {
 				foreach($members as $key => $member){ 
-					if(!isset($member["isAdmin"]) || @$member["isAdmin"]==false){ $nbMember++;
+					if((!isset($member["isAdmin"]) || @$member["isAdmin"]==false) && !@$member["toBeValidated"]){ $nbMember++;
 					$profilThumbImageUrl = Element::getImgProfil($member, "profilThumbImageUrl", $this->module->assetsUrl);
 					$spec = Element::getElementSpecsByType( @$member["type"] );
 		?>
@@ -419,9 +460,110 @@
 					<br/><span style="font-style: italic;font-size: 10px;position: absolute;bottom: 0px;left: 38px;">En attente d'inscription</span>
 				<?php } ?>
 			</a>
-		<?php }}}
+		<?php }else if((!isset($member["isAdmin"]) || @$member["isAdmin"]==false) && @$member["toBeValidated"]) $nbMemberPending++;
+		}}
 			if($nbMember==0){ ?>
 				<span style="font-style: italic;">Pas de membres sur ce groupe de travail</span>
+			<?php }
+			if($nbMemberPending > 0 || $nbAdminPending > 0){ ?>
+				<div class="col-md-12 no-padding margin-top-5">
+					<hr>
+					<h4>En attente de réponse (<span id="nbPending"></span>)</h4>
+				</div>
+				<?php if($nbAdminPending > 0){ ?>
+					<span style="font-style:italic;"> Pour administrer </span>
+				<?php foreach($members as $key => $member){ 
+						if(@$member["isAdmin"] == true && @$member["isAdminPending"]){
+						$profilThumbImageUrl = Element::getImgProfil($member, "profilThumbImageUrl", $this->module->assetsUrl);
+						$spec = Element::getElementSpecsByType( @$member["type"] );
+				?>
+						<div class="col-md-12 no-padding margin-top-5 elipsis">
+							<img class="img-circle" src="<?php echo $profilThumbImageUrl; ?>" height=35 width=35> 
+							<a href="#<?php echo $spec["hash"]; echo @$member["id"]?>"  class="lbh username-min waitAnswer"><?php echo @$member["name"]; ?></a>
+							<?php if(@Yii::app()->session["userId"] && $type != Person::COLLECTION && Authorisation::canEditItem(Yii::app()->session['userId'], $type, (String)$element["_id"])){ ?>
+							<div style="font-style: italic;font-size: 10px;position: absolute;bottom: 0px;left: 38px;">
+								<a href='javascript:;' class='label refuseBtn pull-right' 
+									onclick='var $this=$(this); disconnectTo("<?php echo $type ?>", 
+									"<?php echo (string)$element["_id"] ?>", 
+									"<?php echo $key ?>", 
+									"<?php echo Person::COLLECTION ?>", 
+									"members", 
+									function() {
+										toastr.success("<?php echo Yii::t("common", "Answer well registered") ?>!!");
+										$this.parents().eq(1).remove();
+								},
+								"<?php echo Link::IS_ADMIN_PENDING ?>");' 
+								style='margin-right: 5px;'>
+									<i class="fa fa-remove"></i> Refuser
+								</a>
+								<a href='javascript:;' 
+									class='label acceptBtn pull-right'
+									onclick='var $this=$(this); validateConnection("<?php echo $type ?>", 
+										"<?php echo (string)$element["_id"] ?>", 
+										"<?php echo $key ?>", 
+										"<?php echo Person::COLLECTION ?>", 
+										"isAdminPending", 
+										function() {
+											toastr.success("<?php echo Yii::t("common", "New admin well register") ?>!!");
+											loadByHash(location.hash);
+										});' 
+									style='margin-right: 5px;'>
+										<i class="fa fa-check"></i> Accepter
+								</a>
+							 </div>
+							 <?php } ?>
+						</div>
+				<?php 	} 
+					}
+				?>
+				<?php } ?>
+				<?php if($nbMemberPending > 0){ ?>
+					<span style="font-style:italic;"> Pour rejoindre </span>
+				<?php foreach($members as $key => $member){ 
+						if(!@$member["isAdminPending"] && @$member["toBeValidated"]){
+						$profilThumbImageUrl = Element::getImgProfil($member, "profilThumbImageUrl", $this->module->assetsUrl);
+						$spec = Element::getElementSpecsByType( @$member["type"] );
+				?>
+						<div class="col-md-12 no-padding margin-top-5 elipsis">
+							<img class="img-circle" src="<?php echo $profilThumbImageUrl; ?>" height=35 width=35> 
+							<a href="#<?php echo $spec["hash"]; echo @$member["id"]?>"  class="lbh username-min waitAnswer"><?php echo @$member["name"]; ?></a>
+							<?php if(@Yii::app()->session["userId"] && $type != Person::COLLECTION && Authorisation::canEditItem(Yii::app()->session['userId'], $type, (String)$element["_id"])){ ?>
+							<div style="font-style: italic;font-size: 10px;position: absolute;bottom: 0px;left: 38px;">
+								<a href='javascript:;' class='label refuseBtn pull-right' 
+									onclick='var $this=$(this); disconnectTo("<?php echo $type ?>", 
+									"<?php echo (string)$element["_id"] ?>", 
+									"<?php echo $key ?>", 
+									"<?php echo Person::COLLECTION ?>", 
+									"members", 
+									function() {
+										toastr.success("<?php echo Yii::t("common", "Answer well registered") ?>!!");
+										$this.parents().eq(1).remove();
+								},
+								"<?php echo Link::IS_ADMIN_PENDING ?>");' 
+								style='margin-right: 5px;'>
+									<i class="fa fa-remove"></i> Refuser
+								</a>
+								<a href='javascript:;' 
+									class='label acceptBtn pull-right'
+									onclick='var $this=$(this); validateConnection("<?php echo $type ?>", 
+										"<?php echo (string)$element["_id"] ?>", 
+										"<?php echo $key ?>", 
+										"<?php echo Person::COLLECTION ?>", 
+										"<?php echo Link::TO_BE_VALIDATED; ?>", 
+										function() {
+											toastr.success("<?php echo Yii::t("common", "New member well register") ?>!!");
+											loadByHash(location.hash);
+										});' 
+									style='margin-right: 5px;'>
+										<i class="fa fa-check"></i> Accepter
+								</a>
+							 </div>
+							 <?php } ?>
+						</div>
+				<?php 	} 
+					}
+				?>
+				<?php } ?>
 			<?php }
 			if(@Yii::app()->session["userId"] && $type != Person::COLLECTION && Authorisation::canEditItem(Yii::app()->session['userId'], $type, (String)$element["_id"])){ ?>
 			<div class="col-md-12 no-padding margin-top-5">
@@ -452,10 +594,13 @@
   	var contextId = "<?php echo (string)$element["_id"] ?>";
   	var nbMember = 0;
   	var nbAdmin = 0;
+  	var nbMemberPending = 0;
+  	var nbPending = 0;
 
   	if(contextType=="organizations"){
 		nbMember = "<?php echo @$nbMember; ?>";
 		nbAdmin = "<?php echo @$nbAdmin; ?>";
+		nbPending= "<?php echo @$nbMemberPending+@$nbAdminPending ?>";
   	}
   	if(contextType=="poi"){
 		parentId = "<?php echo @$element["parentId"]; ?>";
@@ -519,6 +664,7 @@
 		$(".tooltips").tooltip();
 		$("#nbAdmin").html(nbAdmin);
 		$("#nbMember").html(nbMember);
+		$("#nbPending").html(nbPending);
 		$("#nbMemberTotal").html(parseInt(nbAdmin)+parseInt(nbMember));
 
 		/*var url = "news/index/type/"+contextType+"/id/"+contextId+"?isFirst=1&";
