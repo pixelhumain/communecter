@@ -223,10 +223,10 @@
 				<?php	}
 				} ?>
 			<?php 
-			if ($type == Organization::COLLECTION && Authorisation::canDeleteElement((String)$element["_id"], $type, Yii::app()->session["userId"])) {
-				//($type == Organization::COLLECTION && $edit==true && empty($element["disabled"])) { ?>
+			if ($type == Organization::COLLECTION || $type == Project::COLLECTION ) {
+				if (Authorisation::canDeleteElement((String)$element["_id"], $type, Yii::app()->session["userId"])) { ?>
 					<a href="javascript:;" data-toggle="modal" data-target="#modal-delete-element" class="btn btn-default"><i class="fa fa-trash text-red" ></i> <?php echo Yii::t("common","Delete")?></a>
-			<?php } 
+			<?php }}
 			} else {
 				echo " (Suppression en cours)";
 			}
