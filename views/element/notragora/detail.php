@@ -231,6 +231,41 @@
 				echo " (Suppression en cours)";
 			}
 			?>
+			<?php if(@Yii::app()->session["userId"]){ ?>
+			<div class="linkBtn pull-right">
+			<?php if($type != Person::COLLECTION && isset($element["_id"]) && isset(Yii::app()->session["userId"]) && 
+	                Link::isLinked((string)$element["_id"], $type, Yii::app()->session["userId"])){ ?>
+		            <a href="javascript" class="btn text-red tooltips pull-right" 
+		            		data-placement="bottom"
+		            		data-toggle='modal' 
+							data-original-title="Quitter ce groupe de travail"
+							onclick="disconnectTo('<?php echo $type ?>','<?php echo (string)$element["_id"] ?>','<?php echo Yii::app()->session["userId"] ?>','<?php echo Person::COLLECTION ?>','members')">
+		            	<i class="fa fa-unlink disconnectBtnIcon"></i> <?php echo Yii::t( "common", "Leave") ?>
+		            </a>
+		  	    <?php } 
+		  	    if(!@$element["links"]["members"][Yii::app()->session["userId"]]){ ?>
+	            	<a href="javascript" class="btn tooltips pull-right" 
+		            		data-placement="bottom"
+		            		data-toggle='modal' 
+							data-original-title="<?php echo Yii::t( "common", "Devenir membre de ce groupe de travail") ?>"
+							onclick="connectTo('<?php echo $type ?>','<?php echo (string)$element["_id"] ?>','<?php echo Yii::app()->session["userId"] ?>','<?php echo Person::COLLECTION ?>','member','<?php echo addslashes($element["name"]) ?>')">
+		            	<i class="fa fa-user-plus becomeAdminBtn"></i> <?php echo Yii::t( "common", "Become member") ?>
+		            </a>
+	           <?php }else{
+	                //Ask Admin button
+	                if ($type != Person::COLLECTION 
+	                    && !in_array(Yii::app()->session["userId"], Authorisation::listAdmins((string)$element["_id"], $type,true)) ) { ?>
+	                	<a href="javascript" class="btn tooltips pull-right" 
+		            		data-placement="bottom"
+		            		data-toggle='modal' 
+							data-original-title="<?php echo Yii::t( "common", "Devenir administrateur de ce groupe de travail") ?>"
+							onclick="connectTo('<?php echo $type ?>','<?php echo (string)$element["_id"] ?>','<?php echo Yii::app()->session["userId"] ?>','<?php echo Person::COLLECTION ?>','admin','<?php echo addslashes($element["name"]) ?>')">
+		            	<i class="fa fa-user-plus becomeAdminBtn"></i> <?php echo Yii::t( "common", "Become admin") ?>
+		            	</a>
+	                <?php }
+	            } ?>
+	            </div>
+	        <?php } ?>
 		</div>
 		<div class="col-md-12 padding-15 menubar">
 			<button class="btn btn-default btn-menubar" id="btn-menu-home">A PROPOS</button>
