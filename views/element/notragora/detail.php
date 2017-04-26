@@ -214,7 +214,7 @@
 			<?php 
 			if (!@$deletePending) {
 				if(  Authorisation::canEditItem( Yii::app()->session["userId"], $_GET["type"], (string)$_GET["id"]) || Yii::app()->session["userId"] == @$element["creator"] ){?>
-				<a href='javascript:' class="btn btn-default" onclick='elementLib.editElement("<?php echo @$_GET["type"]; ?>","<?php echo (string)@$element["_id"]; ?>")' ><i class="fa fa-pencil"></i> Edit</a>
+				<a href='javascript:' class="btn" onclick='elementLib.editElement("<?php echo @$_GET["type"]; ?>","<?php echo (string)@$element["_id"]; ?>")' ><i class="fa fa-pencil"></i> Edit</a>
 
 				<?php if ((string)$_GET["id"]==Yii::app()->session["userId"]){ ?>
 					<a href='javascript:' id="changePasswordBtn" class='btn btn-default text-red pull-right'>
@@ -225,7 +225,7 @@
 			<?php 
 			if ($type == Organization::COLLECTION || $type == Project::COLLECTION ) {
 				if (Authorisation::canDeleteElement((String)$element["_id"], $type, Yii::app()->session["userId"])) { ?>
-					<a href="javascript:;" data-toggle="modal" data-target="#modal-delete-element" class="btn btn-default"><i class="fa fa-trash text-red" ></i> <?php echo Yii::t("common","Delete")?></a>
+					<a href="javascript:;" data-toggle="modal" data-target="#modal-delete-element" class="btn text-red"><i class="fa fa-trash" ></i> <?php echo Yii::t("common","Delete")?></a>
 			<?php }}
 			} else {
 				echo " (Suppression en cours)";
@@ -357,6 +357,9 @@
 						<a href="#<?php echo $spec["hash"]; echo @$member["id"]?>"  class="lbh col-md-12 no-padding margin-top-5 elipsis">
 							<img class="img-circle" src="<?php echo $profilThumbImageUrl; ?>" height=35 width=35> 
 							<span class="username-min"><?php echo @$member["name"]; ?></span>
+							<?php if (@$member["pending"]){ ?>
+								<br/><span style="font-style: italic;font-size: 10px;position: absolute;bottom: 0px;left: 38px;">En attente d'inscription</span>
+							<?php } ?>
 						</a>
 		<?php }}} ?>
 
@@ -377,8 +380,30 @@
 			<a href="#<?php echo $spec["hash"]; echo @$member["id"]?>"  class="lbh col-md-12 no-padding margin-top-5 elipsis">
 				<img class="img-circle" src="<?php echo $profilThumbImageUrl; ?>" height=35 width=35> 
 				<span class="username-min"><?php echo @$member["name"]; ?></span>
+				<?php if (@$member["pending"]){ ?>
+					<br/><span style="font-style: italic;font-size: 10px;position: absolute;bottom: 0px;left: 38px;">En attente d'inscription</span>
+				<?php } ?>
 			</a>
-		<?php }}}} ?>
+		<?php }}}
+			if($nbMember==0){ ?>
+				<span style="font-style: italic;">Pas de membres sur ce groupe de travail</span>
+			<?php }
+			if(@Yii::app()->session["userId"] && $type != Person::COLLECTION && Authorisation::canEditItem(Yii::app()->session['userId'], $type, (String)$element["_id"])){ ?>
+			<div class="col-md-12 no-padding margin-top-5">
+				<hr>
+				<button class="btn btn-default btn-menubar btn-menu-element btn-menu-element-addmembers tooltips" 
+						data-toggle='modal' 
+						data-placement="bottom"
+						data-original-title="Ajouter des membres à ce groupe de travail"
+						data-target='#modal-scope' >
+					<i class="fa fa-send"></i> Inviter des membres
+				</button>
+				</div>
+			<?php  
+  				$this->renderPartial('../element/addMembersFromMyContacts',array("type"=>$type, "parentId" =>(string)$element['_id'], "users"=>@$members)); 
+				}
+			}
+		?>
 	</div>	
 
 <?php if (Authorisation::canDeleteElement((String)$element["_id"], $type, Yii::app()->session["userId"]) && !@$deletePending) $this->renderPartial('../element/confirmDeleteModal'); ?>
@@ -393,7 +418,7 @@
   	var nbMember = 0;
   	var nbAdmin = 0;
 
-  	if(contextType=="projects"){
+  	if(contextType=="organizations"){
 		nbMember = "<?php echo @$nbMember; ?>";
 		nbAdmin = "<?php echo @$nbAdmin; ?>";
   	}
@@ -456,10 +481,10 @@
                 $(this).html("<i class='fa fa-minus-circle'></i>");
             }
         });
-
+		$(".tooltips").tooltip();
 		$("#nbAdmin").html(nbAdmin);
 		$("#nbMember").html(nbMember);
-		$("#nbMemberTotal").html(nbAdmin+nbMember);
+		$("#nbMemberTotal").html(parseInt(nbAdmin)+parseInt(nbMember));
 
 		/*var url = "news/index/type/"+contextType+"/id/"+contextId+"?isFirst=1&";
 		console.log("URL", url);
