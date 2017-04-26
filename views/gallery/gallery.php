@@ -71,7 +71,7 @@ if(!@$_GET["renderPartial"])
 </style>
 <div class="row" id="galleryPad">
 	<div class="col-xs-12">
-		<div class="panel panel-white">
+		<div class="">
 			<div class="panel-body">
 				<div class="controls">
 					<ul class="nav nav-pills">

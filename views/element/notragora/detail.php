@@ -304,6 +304,9 @@
 		<div class="col-md-12 padding-15 menubar">
 			<button class="btn btn-default btn-menubar" id="btn-menu-home">A PROPOS</button>
 			<button class="btn btn-default btn-menubar" id="btn-menu-stream">CARNET DE BORD</button>
+			<?php if( $type == Organization::COLLECTION){?>
+				<button class="btn btn-default btn-menubar" id="btn-menu-gallery">GALERIE PHOTOS</button>
+			<?php } ?>
 			<?php if( $type != Person::COLLECTION){?>
 				<button class="btn btn-default btn-menubar" id="btn-menu-directory-poi">PRODUCTIONS</button>
 			<?php } ?>
@@ -376,6 +379,9 @@
 		</div>
 
 		<div id="section-stream" class="col-md-6 col-md-offset-1">
+			
+		</div>
+		<div id="section-gallery" class="col-md-12">
 			
 		</div>
 
@@ -758,6 +764,17 @@ function initMenuDetail(){
     	var url = "news/index/type/"+contextType+"/id/"+contextId+"?isFirst=1&";
 		console.log("URL", url);
 		ajaxPost('#section-stream', baseUrl+'/'+moduleId+'/'+url+"renderPartial=true&tpl=co2&nbCol=1", 
+			null,
+			function(){ 
+				
+		},"html");
+    });
+	$("#btn-menu-gallery").click(function(){
+    	hideAllSections();
+    	$("#section-gallery").show();
+    	var url = "gallery/index/type/"+contextType+"/id/"+contextId;
+		console.log("URL", url);
+		ajaxPost('#section-gallery', baseUrl+'/'+moduleId+'/'+url+"?renderPartial=true", 
 			null,
 			function(){ 
 				
