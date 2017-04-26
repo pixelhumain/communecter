@@ -805,6 +805,7 @@ function initMenuDetail(){
 
 function hideAllSections(){
 	$("#section-home").hide();
+	$("#section-gallery").hide();
 	$("#section-stream").hide().html("");
 	$("#section-directory").hide();
 }
