@@ -50,7 +50,7 @@
 				</div>
 				<div class="fileupload-preview fileupload-exists thumbnail container-fluid" id="<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>_imgNewPreview"></div>
 				<?php
-				if(isset($editMode) && $editMode || isset($openEdition) && $openEdition){ ?>
+				if(@Yii::app()->session["userId"] && (isset($editMode) && $editMode || isset($openEdition) && $openEdition)){ ?>
 				<div class="user-image-buttons">
 					<span class="btn btn-blue btn-file btn-upload fileupload-new btn-sm" id="<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>_photoAddBtn" ><span class="fileupload-new"><i class="fa fa-plus"></i> <span class="hidden-xs">Photo</span></span>
 						<input type="file" accept=".gif, .jpg, .png" name="avatar" id="<?php if(isset($podId)) echo $podId.'_'.$contentId; else echo $contentId ?>_avatar">
