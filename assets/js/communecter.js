@@ -1309,7 +1309,7 @@ function  bindExplainLinks() {
 
 function  bindLBHLinks() { 
 	$(".lbh").on("click",function(e) {  		
-		e.preventDefault();
+		e.stopPropagation();
 		mylog.warn("***************************************");
 		mylog.warn("bindLBHLinks",$(this).attr("href"));
 		mylog.warn("***************************************");
