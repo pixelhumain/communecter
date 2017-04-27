@@ -7,12 +7,12 @@ class CommunecterController extends Controller
 {
   public $version = "v0.1.4";
   public $versionDate = "29/07/2016 19:12";
-  public $title = "Communectez";
-  public $subTitle = "se connecter à sa commune";
-  public $pageTitle = "Communecter, se connecter à sa commune";
+  public $title = "NotrAgora";
+  public $subTitle = "Hors Cadre";
+  public $pageTitle = "NotrAgora - Hors Cadre";
   public static $moduleKey = "communecter";
   public $keywords = "communecter,connecter, commun,commune, réseau, sociétal, citoyen, société, territoire, participatif, social, smarterre,tiers lieux, ";
-  public $description = "Communecter : Connecter à sa commune, inter connecter les communs, un réseau sociétal pour un citoyen connecté et acteur au centre de sa société.";
+  public $description = "NotrAgora - Plateforme internet contributive";
   public $projectName = "";
   public $projectImage = "/images/CTK.png";
   public $projectImageL = "/images/logo.png";

@@ -442,6 +442,7 @@
   	var pois = <?php echo json_encode($entitiesPois); ?>
 
 	jQuery(document).ready(function() {
+		setTitle("<span id='main-title-menu'>'<?php echo $element["name"]?>'</span>",'<?php echo $element["name"]?>', '<?php echo $element["name"]?>');
 		$("#changePasswordBtn").click(function () {
   			mylog.log("changePasswordbuttton");
   	 		loadByHash('#person.changepassword.id.'+userId+'.mode.initSV', false);
