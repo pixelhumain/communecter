@@ -205,9 +205,9 @@
         <div class="form-group" id="addMemberSection">
 
         	<input type="radio" value="citoyens" name="memberType" data-fa="user" checked> <i class="fa fa-user"></i> un citoyen
-        	<?php if($type != "events"){ ?>
-        		<input type="radio" value="organizations" name="memberType" data-fa="group" style="margin-left:25px;"> <i class="fa fa-group"></i> une organisation
-        	<?php } ?>
+        	<?php //if($type != "events"){ ?>
+        		<!--<input type="radio" value="organizations" name="memberType" data-fa="group" style="margin-left:25px;"> <i class="fa fa-group"></i> une organisation -->
+        	<?php //} ?>
 			<div class="input-group">
 		      <span class="input-group-addon" id="basic-addon1">
 		        <i class="fa fa-user text-dark searchIcon tooltips" id="fa-type-contact-mail"></i>
@@ -246,11 +246,11 @@ var elementId = "<?php echo $parentId; ?>"
 var myContactsMembers = getFloopContacts(); //""; <?php //echo json_encode($myContacts) ?>
 var listContact = new Array();
 var newMemberInCommunity = false;
-
+var reloadOnClose=false;
 var contactTypes = [{ name : "people", color: "yellow", icon:"user", label:"Citoyens" }];
 
-if(elementType != "<?php echo Event::COLLECTION ?>")
-	contactTypes.push({ name : "organizations", color: "green", icon:"group", label:"Organisations" });
+//if(elementType != "<?php echo Event::COLLECTION ?>")
+//	contactTypes.push({ name : "organizations", color: "green", icon:"group", label:"Organisations" });
 
 
 var users = <?php echo json_encode(@$users) ?>;
@@ -378,9 +378,8 @@ function bindEventScopeModal(){
 	});
 
 	$("#btn-cancel").click(function(){
-		if(newMemberInCommunity && (currentView=="detail" || currentView=="directory")) {
+		if(reloadOnClose) 
 			loadByHash(location.hash);
-		}
 	});
 	$("#btn-save").click(function(){
 		sendInvitation();
@@ -737,7 +736,7 @@ function sendInvitation(){
         	else {
         		toastr.success(data.msg);
         		mylog.log(data);
-        		$.each(data.newMembers, function(k, newMember){
+        		/*$.each(data.newMembers, function(k, newMember){
 	        		mylog.log("neewsMens >>>>");
 	        		mylog.log(newMember);
 	        		//setValidationTable(newMember,newMember.childType, true);
@@ -752,9 +751,9 @@ function sendInvitation(){
 					if(typeof(mapUrl.directory.load) != "undefined" && mapUrl.directory.load)
 						mapUrl.directory.load = false;
 				}
-				if(currentView=="detail" || currentView=="directory"){
+				if(currentView=="detail" || currentView=="directory"){*/
 					loadByHash(location.hash);
-				}
+				//}
 				$.unblockUI();
         	}
         	mylog.log(data.result);   
@@ -805,7 +804,7 @@ function sendInvitationMailAddMember(){ mylog.log("sendInvitationMailAddMember")
                	mapType = data.newElementType;
                	if(data.newElementType=="<?php echo Person::COLLECTION ?>")
                		mapType="people";
-               	contextMap[mapType].push(data.newElement);
+               //	contextMap[mapType].push(data.newElement);
                	//Minus 1 on number of invit
                	if ($("#addMembers #memberId").val().length==0){
 	               	var count = parseInt($("#numberOfInvit").data("count")) - 1;
@@ -820,9 +819,10 @@ function sendInvitationMailAddMember(){ mylog.log("sendInvitationMailAddMember")
                 $('#addMembers #organizationType').val("");
 				$("#addMembers #memberIsAdmin").val("false");
 				$('#addMembers #memberEmail').parents().eq(1).show();
-				$("[name='my-checkbox']").bootstrapSwitch('state', false);
+				$//("[name='my-checkbox']").bootstrapSwitch('state', false);
 				$("#loader-send-mail-invite").html('');
 				//showSearch();
+				reloadOnClose=true;
 				if(typeof(mapUrl) != "undefined"){
 					if(typeof(mapUrl.detail.load) != "undefined" && mapUrl.detail.load)
 						mapUrl.detail.load = false;
