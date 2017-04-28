@@ -46,14 +46,13 @@
 	// var allSearchType = <?php echo json_encode($params['request']['searchType']); ?>;
   <?php } ?>
   //********** FILTERS **********
-   console.log(<?php echo json_encode($params) ?>);
   <?php
 
   $allSearchParams = array("mainTag", "sourceKey", "searchType", "searchTag","searchCategory","searchLocalityNAME","searchLocalityCODE_POSTAL_INSEE","searchLocalityDEPARTEMENT","searchLocalityINSEE","searchLocalityREGION");
   foreach ($allSearchParams as $oneSearchParam) {
 	//In params set with value
 	if(isset($params['request'][$oneSearchParam]) && is_array($params['request'][$oneSearchParam])){ ?>
-	<?php echo "var ".$oneSearchParam;?> = <?php echo json_encode($params['request'][$oneSearchParam]); ?>;
+	<?php echo "var ".$oneSearchParam;?>    = <?php echo json_encode($params['request'][$oneSearchParam]); ?>;
 	<?php echo "var all".$oneSearchParam;?> = <?php echo json_encode($params['request'][$oneSearchParam]); ?>;
   <?php
 	}//Set with no value
@@ -62,6 +61,9 @@
 	   <?php echo "var all".$oneSearchParam;?> = [];
 	<?php }
   }?>
+
+
+
   var allElement = new Array();
   var allTags = new Object();
   var allTypes = new Object();
@@ -75,7 +77,15 @@ console.log("searchPrefTag", searchPrefTag);
   <?php if(isset($params['request']['pagination']) && $params['request']['pagination'] > 0){ ?>
 	indexStepInit = <?php echo $params['request']['pagination'] ;?>;
   <?php } ?>
+
+	if(	typeof params.request != "undefined" && params.request != null &&  
+		typeof params.request.pagination != "undefined" && params.request.pagination != null &&
+		params.request.pagination > 0)
+		indexStepInit = params.request.pagination;
+	console.log("indexStepInit", indexStepInit);
+
   var indexStep = indexStepInit;
+  console.log("indexStep", indexStep);
   var currentIndexMin = 0;
   var currentIndexMax = indexStep;
   var scrollEnd = false;
@@ -97,6 +107,14 @@ console.log("searchPrefTag", searchPrefTag);
    			}
    		});
    	}
+
+   	if(	typeof params.request != "undefined" && params.request != null &&  
+		typeof params.request.pagination != "undefined" && params.request.pagination != null &&
+		params.request.pagination > 0)
+		indexStepInit = params.request.pagination;
+	console.log("indexStepInit", indexStepInit);
+
+  	indexStep = indexStepInit;
 	 bindLBHLinks();
 	  addTooltips();
 	  if(location.hash == "" || location.hash == "#network.simplydirectory")
@@ -163,7 +181,7 @@ console.log("searchPrefTag", searchPrefTag);
 	<?php } else { ?>
 	  $('#searchBarText').keyup(function(e){
 		  clearTimeout(timeoutSearch);
-		  timeoutSearch = setTimeout(function(){ startSearch(0, indexStepInit); }, 800);
+		  timeoutSearch = setTimeout(function(){ startSearchSimply(0, indexStepInit); }, 800);
 	  });
 	<?php } ?>
 	/***** CHANGE THE VIEW PARAMS  *****/
@@ -225,15 +243,24 @@ console.log("searchPrefTag", searchPrefTag);
 	  $('.categoryFilter').removeClass('active');
 	  tagsActived = {};
 	   chargement();
-	  //startSearch(0, indexStepInit);
+	  //startSearchSimply(0, indexStepInit);
 	});*/
 
 	$('.reset').on('click', function() {
+		console.log(".reset");
 	  $('.tagFilter').removeClass('active');
+	  $(".tagFilter").removeAttr("checked");
 	  $('.villeFilter').removeClass('active');
+	  $('.villeFilter').removeAttr("checked");
 	  $('.categoryFilter').removeClass('active');
+	  $('.categoryFilter').removeAttr("checked");
 	  $('#input_name_filter').val('');
 	  tagsActived = {};
+	  disableActived = false;
+	  citiesActived = ( ((typeof networkJson.request.searchLocalityNAME == "undefined") || networkJson == null) ? [] : networkJson.request.searchLocalityNAME);
+	  typesActived = [] ;
+	  rolesActived = [] ;
+	  searchValNetwork = "";
 	  chargement();
 	});
 
@@ -253,7 +280,7 @@ console.log("searchPrefTag", searchPrefTag);
 			  var heightWindow = $(window).height();
 			  if( ($(this).scrollTop() + heightWindow) >= heightContainer-150){
 				// console.log("scroll MAX");
-				startSearch(currentIndexMin+indexStep, currentIndexMax+indexStep);
+				startSearchSimply(currentIndexMin+indexStep, currentIndexMax+indexStep);
 			  }
 			}
 		}
@@ -277,12 +304,13 @@ console.log("searchPrefTag", searchPrefTag);
 	  //});
 	<?php } ?>
 	//initBtnScopeList();
-	startSearch(0, indexStepInit);
+	console.log("indexStepInit2", indexStepInit);
+	startSearchSimply(0, indexStepInit);
   });
 
 
-function startSearch(indexMin, indexMax){
-	 console.log("startSearch2", indexMin, indexMax, indexStep);
+function startSearchSimply(indexMin, indexMax){
+	 console.log("startSearchSimply2", indexMin, indexMax, indexStep);
 	$("#listTagClientFilter").html('spiner');
 	if(loadingData) return;
 	loadingData = true;
@@ -309,7 +337,7 @@ function startSearch(indexMin, indexMax){
 		if(levelCommunexion == 4) locality = inseeCommunexion;
 		if(levelCommunexion == 5) locality = "";
 	  }
-	  autoCompleteSearch(name, locality, indexMin, indexMax);
+	  autoCompleteSearchSimply(name, locality, indexMin, indexMax);
 }
 
 function addSearchType(type){
@@ -414,7 +442,8 @@ var mix = "";
 <?php } ?>
 
 
-function autoCompleteSearch(name, locality, indexMin, indexMax){
+function autoCompleteSearchSimply(name, locality, indexMin, indexMax){
+	mylog.log("autoCompleteSearchSimply", name, locality, indexMin, indexMax);
 	var levelCommunexionName = { 1 : "INSEE",
 							 2 : "CODE_POSTAL_INSEE",
 							 3 : "DEPARTEMENT",
@@ -463,7 +492,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 	var data = {
 	  "name" : name,
 	  "locality" : "xxxx",
-	  "searchType" : searchType,
+	  "searchType" : allsearchType,
 	  "searchTag" : searchTagGlobal,
 	  "filtreTag" : searchTagsSimply,
 	  "searchLocalityNAME" : searchLocalityNAME,
@@ -739,7 +768,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 						//(au cas où le scroll n'ait pas lancé le chargement comme prévu)
 						$("#btnShowMoreResult").mouseenter(function(){
 							if(!loadingData){
-								startSearch(indexMin+indexStep, indexMax+indexStep);
+								startSearchSimply(indexMin+indexStep, indexMax+indexStep);
 								$("#btnShowMoreResult").mouseenter(function(){});
 							}
 						});
@@ -786,7 +815,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 
   function setSearchValue(value){
 	$("#searchBarText").val(value);
-	startSearch(0, 100);
+	startSearchSimply(0, 100);
   }
   function manageTagFilter(tag){
 	var index = tagsFilter.indexOf(tag);
@@ -868,7 +897,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 	  if(tag == "all"){
 		searchTag = [];
 		$('.tagFilter[value="all"]').addClass('active');
-		startSearch(0, indexStepInit);
+		startSearchSimply(0, indexStepInit);
 		return;
 	  }
 	  else{
@@ -878,7 +907,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 	  	removeSearchTag(tag);
 	  else 
 	  	addSearchTag(tag);*/
-	  //startSearch(0, indexStepInit);
+	  //startSearchSimply(0, indexStepInit);
 		/*tags = "";
 		$.each( $( ".favElBtn.active" ) ,function( i,o ) { 
 			tags += "."+$(o).data("tag")+",";
@@ -896,7 +925,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 	  if(ville == "all"){
 		searchLocalityNAME = [];
 		$('.villeFilter[value="all"]').addClass('active');
-		startSearch(0, indexStepInit);
+		startSearchSimply(0, indexStepInit);
 		return;
 	  }
 	  else{
@@ -904,7 +933,7 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 	  }
 	  if (index > -1) removeSearchVille(ville);
 	  else addSearchVille(ville);
-	  startSearch(0, indexStepInit);*/
+	  startSearchSimply(0, indexStepInit);*/
 	  var checked = $(this).is( ':checked' );
 	  var ville = $(this).attr("value");
 	  cityActivedUpdate(checked, ville);
@@ -919,12 +948,12 @@ function autoCompleteSearch(name, locality, indexMin, indexMax){
 	  else{
 		addSearchCategory(category);
 	  }
-	  startSearch(0, indexStepInit);
+	  startSearchSimply(0, indexStepInit);
 	});
 
 	$(".disableCheckbox").off().click(function(e){
 		/*seeDisable = (($(this).is(':checked') == false) ? false : true); 
-		startSearch(0, indexStepInit);*/
+		startSearchSimply(0, indexStepInit);*/
 		
 		disableActived = ( (disableActived == false) ? true : false );
 		 chargement();
