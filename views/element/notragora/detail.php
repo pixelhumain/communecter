@@ -228,7 +228,6 @@
 							$images=array("profil"=> array($element["profilMediumImageUrl"]));
 						else 
 							$images="";	
-
 						$this->renderPartial('../pod/fileupload', array(  "itemId" => (string) $element["_id"],
 																		  "type" => $type,
 																		  "resize" => false,
@@ -246,23 +245,25 @@
 			<!-- <button class="btn btn-default btn-follow"><i class="fa fa-star"></i> SUIVRE</button> -->
 
 			<?php 
-			if (!@$deletePending) {
-				if(  Authorisation::canEditItem( Yii::app()->session["userId"], $_GET["type"], (string)$_GET["id"]) || Yii::app()->session["userId"] == @$element["creator"] ){?>
-				<a href='javascript:' class="btn" onclick='elementLib.editElement("<?php echo @$_GET["type"]; ?>","<?php echo (string)@$element["_id"]; ?>")' ><i class="fa fa-pencil"></i> Edit</a>
+			if(@Yii::app()->session["userId"]) {
+				if (!@$deletePending) {
+					if(  Authorisation::canEditItem( Yii::app()->session["userId"], $_GET["type"], (string)$_GET["id"]) || Yii::app()->session["userId"] == @$element["creator"] ){?>
+					<a href='javascript:' class="btn" onclick='elementLib.editElement("<?php echo @$_GET["type"]; ?>","<?php echo (string)@$element["_id"]; ?>")' ><i class="fa fa-pencil"></i> Edit</a>
 
-				<?php if ((string)$_GET["id"]==Yii::app()->session["userId"]){ ?>
-					<a href='javascript:' id="changePasswordBtn" class='btn btn-default text-red pull-right'>
-						<i class='fa fa-key'></i> <?php echo Yii::t("common","Change password"); ?>  		
-					</a>
-				<?php	}
-				} ?>
-			<?php 
-			if ($type == Organization::COLLECTION || $type == Project::COLLECTION ) {
-				if (Authorisation::canDeleteElement((String)$element["_id"], $type, Yii::app()->session["userId"])) { ?>
-					<a href="javascript:;" data-toggle="modal" data-target="#modal-delete-element" class="btn text-red"><i class="fa fa-trash" ></i> <?php echo Yii::t("common","Delete")?></a>
-			<?php }}
-			} else {
-				echo " (Suppression en cours)";
+					<?php if ((string)$_GET["id"]==Yii::app()->session["userId"]){ ?>
+						<a href='javascript:' id="changePasswordBtn" class='btn btn-default text-red pull-right'>
+							<i class='fa fa-key'></i> <?php echo Yii::t("common","Change password"); ?>  		
+						</a>
+					<?php	}
+					}
+					if ($type == Organization::COLLECTION || $type == Project::COLLECTION ) {
+						if (Authorisation::canDeleteElement((String)$element["_id"], $type, Yii::app()->session["userId"])) { ?>
+							<a href="javascript:;" data-toggle="modal" data-target="#modal-delete-element" class="btn text-red"><i class="fa fa-trash" ></i> <?php echo Yii::t("common","Delete")?></a>
+					<?php }
+					}
+				} else {
+					echo " (Suppression en cours)";
+				}
 			}
 			?>
 			<?php if(@Yii::app()->session["userId"] && $type==Organization::COLLECTION){ ?>
