@@ -774,9 +774,15 @@
 		        	//liParent.fadeOut();
 		        	$("#item-comment-"+id).html("");
 		        	$('.nbComments').html((parseInt($('.nbComments').html()) || 0) - 1);
-		        	if (data.comment.contextType=="news"){
-							$(".newsAddComment[data-id='"+data.comment.contextId+"']").children().children(".nbNewsComment").text(parseInt($('.nbComments').html()) || 0 );
-						}
+		        	if (contextType=="news"){
+						var count = $("#newsFeed"+context["_id"]["$id"]+" .nbNewsComment").html();
+						if(!notEmpty(count)) count = 0;
+							count = parseInt(count);
+						var newCount = count - 1;
+						var labelCom = (newCount>1) ? "commentaires" : "commentaire";
+						$("#newsFeed"+context["_id"]["$id"]+" .lblComment").html("<i class='fa fa-comment'></i> <span class='nbNewsComment'>"+newCount+"</span> "+labelCom);
+						$("#newsFeed"+context["_id"]["$id"]+" .newsAddComment").data('count', newCount);
+					}
 				} else {
 		            toastr.error("Quelque chose a buggé"); //j'adore cette alert ;) !
 		        }
