@@ -278,7 +278,7 @@
 	jQuery(document).ready(function() {
 
 		var idTextArea = '#textarea-new-comment<?php echo $idComment; ?>';
-		bindEventTextArea(idTextArea, idComment, false, "");
+		bindEventTextArea(idTextArea, idComment, false, "", false);
 		bindEventActions();
 
 		mylog.log(".comments-list-<?php echo $idComment; ?> .text-comment");
@@ -290,8 +290,8 @@
 		$(".tooltips").tooltip();
 	});
 
-	function bindEventTextArea(idTextArea, idComment, isAnswer, parentCommentId){
-
+	function bindEventTextArea(idTextArea, idComment, isAnswer, parentCommentId, isUpdate){
+		console.log("bindEventTextArea : "+isUpdate);
 		var idUx = (parentCommentId == "") ? idComment : parentCommentId;
 		
 		$(idTextArea).css('height', "34px");
@@ -301,7 +301,12 @@
 		$(idTextArea).on('keyup ', function(e){
 			if(e.which == 13 && !e.shiftKey && $(idTextArea).val() != "" && $(idTextArea).val() != " ") {
 	            //submit form via ajax, this is not JS but server side scripting so not showing here
-	            saveComment($(idTextArea).val(), parentCommentId);
+	            if (isUpdate) {
+	            	updateComment(idComment,$("#textarea-new-comment"+idComment).val());
+	            } else {
+	            	saveComment($(idTextArea).val(), parentCommentId);	
+	            }
+	            
 	            $(idTextArea).val("");
 	            $(idTextArea).css('height', "34px");
         	}
@@ -536,7 +541,7 @@
 
 		$("#comments-list-"+parentCommentId).prepend(html);
 
-		bindEventTextArea('#textarea-new-comment'+parentCommentId, idComment, true, parentCommentId);
+		bindEventTextArea('#textarea-new-comment'+parentCommentId, idComment, true, parentCommentId, false);
 	}
 
 
@@ -821,7 +826,7 @@
 
 		boxComment.on("shown.bs.modal", function() {
 		  $.unblockUI();
-		  bindEventTextArea('#textarea-new-comment'+idComment, idComment, false);
+		  bindEventTextArea('#textarea-new-comment'+idComment, idComment, false, "", true);
 		});
 
 		boxComment.on("hide.bs.modal", function() {
@@ -833,6 +838,7 @@
 		updateField("Comment",id,"text",newText,false);
 		$('#item-comment-'+id+' .text-comment').html(newText);
 		toastr.success("Votre commentaire a bien été modifié");
+		bootbox.hideAll();
 	}
 
 	function linkify(inputText) {
