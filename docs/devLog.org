@@ -13,8 +13,17 @@
 ----------------------------------------------------
 ----------------------------------------------------
 * Version 0.2
+** @Sylvain
+** ParamsConfig
+- Ajouter le theme = CO2
+- defaultController = CO2
+** Config Apache
+- Changer le module de destination => CO2
+
+
 ** @Bouboule : Bash de reprise des data dans les chart des projets
 /communecter/datamigration/RefactorChartProjectData
+
 ----------------------------------------------------
 
 * Version 0.17
