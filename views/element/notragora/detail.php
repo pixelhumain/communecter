@@ -654,7 +654,7 @@
   	var pois = <?php echo json_encode($entitiesPois); ?>
 
 	jQuery(document).ready(function() {
-		var elementName = "<?php echo htmlentities($element["name"])?>";
+		var elementName = "<?php echo addslashes($element["name"])?>";
 		setTitle("<span id='main-title-menu'>"+elementName+"</span>",elementName, elementName);
 		$("#changePasswordBtn").click(function () {
   			mylog.log("changePasswordbuttton");
