@@ -42,7 +42,7 @@ echo CHtml::scriptFile(Yii::app()->request->baseUrl. '/plugins/DataTables/media/
 									<a href="#" data-toggle="dropdown" class="btn btn-red dropdown-toggle btn-sm"><i class="fa fa-cog"></i> <span class="caret"></span></a>
 									<ul class="dropdown-menu pull-right dropdown-dark" role="menu">
 										<li>
-											<a href="javascript:;" data-type="person" data-id="<?php echo $mailError->id ?>" class="margin-right-5 deleteThisUserBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-1x stack-right-bottom text-danger"></i></span> Delete this user </a></li>
+											<a href="javascript:;" data-type="person" data-id="<?php echo $mailError->personId ?>" class="margin-right-5 deleteThisUserBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-1x stack-right-bottom text-danger"></i></span> Delete this user </a></li>
 									</ul>
 								</div>
 							</td>							
