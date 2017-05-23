@@ -1050,6 +1050,7 @@ function getAjaxFiche(url, breadcrumLevel){
 	  else
 		urlType=urlSplit[0]+"s";
 	  
+	  mylog.log("urlSplit", urlSplit)
 	  urlHash="#element."+urlSplit[1]+".type."+urlType+".id."+urlSplit[3];
   }
 
@@ -1591,6 +1592,7 @@ function chargement(){
 	processingBlockUi();
 	setTimeout(function(){ updateMap(); }, 1000);
 }
+
 function bindAutocomplete(){
 	$(".tagFilterAuto").off().click(function(e){
 		
@@ -1602,7 +1604,6 @@ function bindAutocomplete(){
 		chargement();
 		
 	});
-
 
 	$(".typeFilterAuto").off().click(function(e){
 	 
