@@ -566,7 +566,7 @@ function autoCompleteSearchSimply(name, locality, indexMin, indexMax){
 					bindAutocomplete();
 					str = "";
 					var city, postalCode = "";
-					var mapElements = new Array();
+					mapElements = new Array();
 					allTags = data.filters;
 
 					//parcours la liste des résultats de la recherche
