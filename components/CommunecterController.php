@@ -464,6 +464,10 @@ class CommunecterController extends Controller
     "siteurl" => array(
       "incnbclick"        => array('href' => "ph/communecter/siteurl/incnbclick")
     ),
+    "cron" => array(
+      "docron"                    => array('href' => "ph/communecter/cron/docron"),
+      "checkdeletepending"        => array('href' => "ph/communecter/cron/checkdeletepending")
+    ),
   );
 
   function initPage(){
