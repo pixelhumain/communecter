@@ -100,7 +100,7 @@ console.log("searchPrefTag", searchPrefTag);
    var searchValNetwork = "";
 
   jQuery(document).ready(function() {
-  	if(typeof params.filter.linksTag != "undefined"){
+  	if(typeof params.filter != "undefined" && typeof params.filter.linksTag != "undefined"){
    		$.each(params.filter.linksTag, function(index, value){ 
    			if(typeof value != "undefined"){
    				linksTagImages[value] = {};
@@ -469,22 +469,23 @@ function autoCompleteSearchSimply(name, locality, indexMin, indexMax){
 
 	var searchTagsSimply = {} ;
 	$.each(searchTagGlobal, function(i, o) {
+		if(typeof networkJson.filter != "undefined" && typeof networkJson.filter.linksTag != "undefined"){
+			$.each(networkJson.filter.linksTag, function(keyNet, valueNet){
 
-		$.each(networkJson.filter.linksTag, function(keyNet, valueNet){
+				if(typeof valueNet.tags[o] != "undefined"){
+					if(typeof searchTagsSimply[keyNet] == "undefined")
+					  searchTagsSimply[keyNet] = [];
 
-			if(typeof valueNet.tags[o] != "undefined"){
-				if(typeof searchTagsSimply[keyNet] == "undefined")
-				  searchTagsSimply[keyNet] = [];
-
-				if(typeof valueNet.tags[o] == "string")
-				  searchTagsSimply[keyNet].push(valueNet.tags[o]);
-				else{
-					$.each(valueNet.tags[o], function(keyTags, valueTags){
-					  searchTagsSimply[keyNet].push(valueTags);
-					});
-				}
-			}  
-		});
+					if(typeof valueNet.tags[o] == "string")
+					  searchTagsSimply[keyNet].push(valueNet.tags[o]);
+					else{
+						$.each(valueNet.tags[o], function(keyTags, valueTags){
+						  searchTagsSimply[keyNet].push(valueTags);
+						});
+					}
+				}  
+			});
+		}
 	});
 
 	mylog.log("searchTagsSimply", searchTagsSimply);
@@ -512,7 +513,7 @@ function autoCompleteSearchSimply(name, locality, indexMin, indexMax){
 	if(typeof params.request.sourceKey != "undefined")
 	  data.sourceKey = params.request.sourceKey;
 
-	if(typeof params.filter.paramsFiltre != "undefined")
+	if(typeof params.filter != "undefined" && typeof params.filter.paramsFiltre != "undefined")
 	  data.paramsFiltre = params.filter.paramsFiltre;
 
 	if(userConnected != null && typeof userConnected.roles.superAdmin != "undefined" && userConnected.roles.superAdmin == true)
@@ -876,20 +877,22 @@ function autoCompleteSearchSimply(name, locality, indexMin, indexMax){
 	  	var filtre = $(this).attr("value");
 	  	var parent = $(this).data("parent")
 	  	mylog.log("parent",parent);
-		$.each(networkJson.filter.linksTag, function(keyNet, valueNet){
-			if(typeof valueNet.tags[filtre] != "undefined"){
+	  	if(typeof networkJson.filter != "undefined" && typeof networkJson.filter.linksTag != "undefined"){
+			$.each(networkJson.filter.linksTag, function(keyNet, valueNet){
+				if(typeof valueNet.tags[filtre] != "undefined"){
 
-				if(typeof valueNet.tags[filtre] == "string"){
-					tagActivedUpdate(checked, valueNet.tags[filtre], parent);
-				}
-				else{
-					$.each(valueNet.tags[filtre], function(keyTags, valueTags){
-						//toggle("."+slugify(valueTags),".searchEntity",1);
-						tagActivedUpdate(checked, valueTags, parent);
-					});
-				}
-			}  
-		});
+					if(typeof valueNet.tags[filtre] == "string"){
+						tagActivedUpdate(checked, valueNet.tags[filtre], parent);
+					}
+					else{
+						$.each(valueNet.tags[filtre], function(keyTags, valueTags){
+							//toggle("."+slugify(valueTags),".searchEntity",1);
+							tagActivedUpdate(checked, valueTags, parent);
+						});
+					}
+				}  
+			});
+		}
 
 		 chargement();
 	  	
