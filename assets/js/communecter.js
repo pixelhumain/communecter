@@ -2297,6 +2297,8 @@ var elementLib = {
 			        		addFloopEntity(data.id, collection, data.map);	
 					}
 	            }
+	            uploadObj.type = null;
+	            uploadObj.id = null;
 	    	}
 	    });
 	},
@@ -2309,6 +2311,9 @@ var elementLib = {
 	{
 		mylog.warn("--------------- editElement "+type+" ---------------------",id);
 		//get ajax of the elemetn content
+		uploadObj.type = type;
+		uploadObj.id = id;
+		
 		$.ajax({
 	        type: "GET",
 	        url: baseUrl+"/"+moduleId+"/element/get/type/"+type+"/id/"+id,
@@ -2349,7 +2354,7 @@ var elementLib = {
 			  			}
 		  			}
 				}
-				elementLib.openForm(typeObj[type].ctrl,null, data.map);
+				elementLib.openForm( typeObj[type].ctrl, null, data.map );
 	        } else {
 	           toastr.error("something went wrong!! please try again.");
 	        }
@@ -2426,7 +2431,7 @@ var elementLib = {
 			      formValues : data,
 			      beforeBuild : function  () {
 			      	if( typeof elementObj.dynForm.jsonSchema.beforeBuild == "function" )
-				        	elementObj.dynForm.jsonSchema.beforeBuild();
+				        elementObj.dynForm.jsonSchema.beforeBuild();
 			      },
 			      onLoad : function  () {
 			        $("#ajax-modal-modal-title").html("<i class='fa fa-"+elementObj.dynForm.jsonSchema.icon+"'></i> "+elementObj.dynForm.jsonSchema.title);
@@ -2471,7 +2476,7 @@ var elementLib = {
 	//generate Id for upload feature of this element 
 	setMongoId : function(type) { 
 		uploadObj.type = type;
-		if( !$("#ajaxFormModal #id").val() )
+		if( !$("#ajaxFormModal #id").val() && uploadObj.id == null)
 		{
 			getAjax( null , baseUrl+"/api/tool/get/what/mongoId" , function(data){
 				uploadObj.id = data.id;

@@ -39,7 +39,7 @@
 	    	success: function(data){
 		    	if(data.result){
 					toastr.success(data.msg);
-					loadByHash("#default.live");
+					loadByHash("#default.directoryjs?type=organizations");
 		    	}else{
 		    		toastr.error(data.msg);
 		    	}
