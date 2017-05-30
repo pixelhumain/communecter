@@ -2297,8 +2297,8 @@ var elementLib = {
 			        		addFloopEntity(data.id, collection, data.map);	
 					}
 	            }
-	            uploadObj.type = null;
-	            uploadObj.id = null;
+	            //uploadObj.type = null;
+	            //uploadObj.id = null;
 	    	}
 	    });
 	},
@@ -2360,6 +2360,7 @@ var elementLib = {
 	        }
 	    });
 	},
+	//load the dynForm Definition requested
 	getDynFormObj : function(type, callback,afterLoad, data ){
 		if(typeof type == "object"){
 			specs = type;
@@ -2431,7 +2432,7 @@ var elementLib = {
 			      formValues : data,
 			      beforeBuild : function  () {
 			      	if( typeof elementObj.dynForm.jsonSchema.beforeBuild == "function" )
-				        elementObj.dynForm.jsonSchema.beforeBuild();
+				        elementObj.dynForm.jsonSchema.beforeBuild(data);
 			      },
 			      onLoad : function  () {
 			        $("#ajax-modal-modal-title").html("<i class='fa fa-"+elementObj.dynForm.jsonSchema.icon+"'></i> "+elementObj.dynForm.jsonSchema.title);
@@ -2476,7 +2477,8 @@ var elementLib = {
 	//generate Id for upload feature of this element 
 	setMongoId : function(type) { 
 		uploadObj.type = type;
-		if( !$("#ajaxFormModal #id").val() && uploadObj.id == null)
+		//alert("setMongoId");
+		if( !$("#ajaxFormModal #id").val())
 		{
 			getAjax( null , baseUrl+"/api/tool/get/what/mongoId" , function(data){
 				uploadObj.id = data.id;
@@ -2686,7 +2688,7 @@ var typeObj = {
 				    	$('.fine-uploader-manual-trigger').fineUploader('uploadStoredFiles');
 				    else {
 				    	elementLib.closeForm();	
-				    	loadByHash( location.hash );
+				    	loadByHash( "#element.detail.type.poi.id."+uploadObj.id );
 				    }
 			    },
 			    properties : {
@@ -2918,8 +2920,9 @@ var typeObj = {
 			    title : "Ajouter un groupe de travail",
 			    icon : "group",
 			    type : "object",
-			    beforeBuild : function(){
-			    	elementLib.setMongoId('organizations');
+			    beforeBuild : function(data){
+			    	if(typeof data.name == "undefined")
+			    		elementLib.setMongoId('organizations');
 			    },
 			    beforeSave : function(){
 			    	if (typeof $("#ajaxFormModal #description").code === 'function' ) 
@@ -2930,7 +2933,7 @@ var typeObj = {
 				    	$('.fine-uploader-manual-trigger').fineUploader('uploadStoredFiles');
 				    else {
 				    	elementLib.closeForm();
-				    	loadByHash( location.hash );	
+				    	loadByHash( '#element.detail.type.organizations.id.'+uploadObj.id );
 				    }
 			    },
 			    properties : {
