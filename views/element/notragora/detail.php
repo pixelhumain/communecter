@@ -61,7 +61,6 @@
 	}
 	.img-header{
 		max-height: 350px;
-		min-height: 350px;
 		width:100%;
 		overflow: hidden;
 		/*background-image: url("<?php echo Yii::app()->theme->baseUrl; ?>/assets/images/tropic.jpg");
