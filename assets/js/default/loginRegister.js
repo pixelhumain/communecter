@@ -122,7 +122,9 @@ var Login = function() {
 		    	  success: function(data){
 		    		  if(data.result)
 		    		  {
-		    		  	var url = requestedUrl;
+		    		  	console.log("login",data);
+		    		  	//alert();
+		    		  	/*var url = requestedUrl;
 		    		  	//mylog.warn(url,", has #"+url.indexOf("#"),"count / : ",url.split("/").length - 1 );
 		    		  	if(backUrl != null){
 		    		  		loadByHash(backUrl);
@@ -131,23 +133,23 @@ var Login = function() {
 		    		  		//mylog.log("login 1",url);
 		    		  		//reload to the url initialy requested
 		    		  		window.location.href = url;
-		        		} else {
-		        			if( url.split("/").length - 1 <= 3 ) {
+		        		} else { */
+		        			//if( url.split("/").length - 1 <= 3 ) {
 		        				//mylog.log("login 2",baseUrl+'#default.home');
 		        				//classic use case wherever you login from if not notifications/get/not/id...
 		        				//you stay on the current page
 		        				//if(location.hash == '#default.home')
-		        					window.location.reload();
+		        			//		window.location.reload();
 		        				/*else
 		        					window.location.href = baseUrl+'#default.home';*/
-		        			}
-		        			else {
+		        			//}
+		        			//else {
 		        				//mylog.log("login 3 reload");
 		        				//for urls like notifications/get/not/id...
-		        				window.location.href = baseUrl+'#default.live';
+		        				//window.location.href = baseUrl;
 		        				//window.location.reload();
-		        			}
-		        		}
+		        			//}
+		        		//}
 		    		  } else {
 		    		  	var msg;
 		    		  	if (data.msg == "notValidatedEmail") {

@@ -83,6 +83,7 @@
 	.section-title{
 		text-transform: uppercase;
 		font-weight: 700;
+		color: rgb(92,75,62) !important;
 	}
 
 	#description .btn-edit-section{
@@ -92,12 +93,12 @@
 
 	.col-members h3{
 		text-transform: uppercase;
-		color:grey;
+		color:rgb(92,75,62);
 		font-size: 0.7em;
 		font-weight: 700;
 	}
 	.col-members h4{
-		color:#b4b4b4;
+		color:rgb(92,75,62);
 		font-size: 0.9em;
 		font-weight: 700;
 
@@ -183,10 +184,11 @@
 
 	.fileupload, .fileupload-preview.thumbnail, .fileupload-new .thumbnail, 
 	.fileupload-new .thumbnail img, .fileupload-preview.thumbnail img {
-	    width: 100%!important;
-	    max-height:unset!important;
+	    width: auto !important;
 	}
-
+	.user-image{
+		background-color: black;
+	}
 	#fileuploadContainer{
 		margin:-1px!important;
 	}
