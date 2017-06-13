@@ -160,7 +160,7 @@ function initGrid(){
 				var htmlThumbail = '<li class="content_image_album mix '+k+' gallery-img no-padding" data-cat="1" id="'+v[i].id+'">'+
 							' <div class="portfolio-item">'+
 								' <a class="thumb-info" href="'+v[i].imagePath+'" data-lightbox="all">'+
-									' <img src="'+v[i].imageThumbPath+'" class="img-responsive" alt="">'+
+									' <img src="/communecter/document/resized/200x200'+v[i].imageThumbPath+'" class="img-responsive" alt="">'+
 								' </a>' +
 								//' <div class="chkbox"></div>' +
 								htmlBtn +
