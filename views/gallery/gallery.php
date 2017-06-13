@@ -15,7 +15,7 @@ if( isset($parent) ){
 	$parentName=$parent["name"];
 }
 if(!@$_GET["renderPartial"])
-		$this->renderPartial('../pod/headerEntity', array("entity"=>$parent, "type" => $itemType, "openEdition" => $openEdition, "edit" => $edit, "firstView" => "gallery")); 
+		$this->renderPartial('../pod/headerEntity', array("entity"=>$parent, "type" => $itemType, "openEdition" => $openEdition, "edit" => $edit, "firstView" => "gallery"));
 
 ?>
 <!-- start: PAGE CONTENT -->
@@ -77,7 +77,7 @@ if(!@$_GET["renderPartial"])
 					<ul class="nav nav-pills">
 						<?php  if( Authorisation::canParticipate( Yii::app()->session['userId'], $itemType, $itemId ) ) {  ?>
 						<li>
-							<a class="btn btn-danger" href="javascript:elementLib.openForm('addPhoto')"><i class="fa fa-upload"></i> <?php echo Yii::t("common","Add Photos"); ?></a>
+							<a class="btn btn-danger" href="javascript:elementLib.openForm('addPhoto')"><i class="fa fa-upload"></i> <?php echo Yii::t("common","Ajouter une image"); ?></a>
 						</li>
 						<?php  }  ?>
 						<li class="filter active" data-filter="all">
@@ -95,8 +95,8 @@ if(!@$_GET["renderPartial"])
 	</div>
 </div>
 <!-- end: PAGE CONTENT-->
-<?php if(!@$_GET["renderPartial"]){ 
-	// End div .pad-element-container if newspaper of orga, project, event and person 
+<?php if(!@$_GET["renderPartial"]){
+	// End div .pad-element-container if newspaper of orga, project, event and person
 	// Present in pod/headerEntity.php
 ?>
 </div>
@@ -109,9 +109,9 @@ var mapButton = {"media": "Media", "slider": "Album", "profil" : "Profil", "bann
 var itemId = "<?php echo $itemId; ?>";
 var itemType = "<?php echo $itemType; ?>";
 
-var authorizationToEdit = <?php echo (isset($canEdit) && $canEdit) ? 'true': 'false'; ?>; 
+var authorizationToEdit = <?php echo (isset($canEdit) && $canEdit) ? 'true': 'false'; ?>;
 var images = <?php echo json_encode($images); ?>;
-var contextName = "<?php echo addslashes(@$contextName); ?>";	
+var contextName = "<?php echo addslashes(@$contextName); ?>";
 var contextIcon = "<?php echo $contextIcon; ?>";
 jQuery(document).ready(function() {
  	activeMenuElement("gallery");
@@ -183,7 +183,7 @@ function initGrid(){
 	}else{
 		var htmlDefault = "<div class='center'>"+
 							"<i class='fa fa-picture-o fa-5x text-blue'></i>"+
-							"<br>No picture to show"+
+							"<br>Pas d'images disponibles"+
 						"</div>";
 		$('#Grid').append(htmlDefault);
 	}
@@ -201,7 +201,7 @@ function bindBtnGallery(){
 			var path=key;
 //		var path = $(this).data("path");
 		e.preventDefault();
-		bootbox.confirm("<?php echo Yii::t('common','Are you sure you want to delete') ?> <span class='text-red'>"+$(this).data("name")+"</span> ?", 
+		bootbox.confirm("<?php echo Yii::t('common','Are you sure you want to delete') ?> <span class='text-red'>"+$(this).data("name")+"</span> ?",
 			function(result) {
 				if(result){
 					$.ajax({

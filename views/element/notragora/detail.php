@@ -1,9 +1,9 @@
-<?php 
-	HtmlHelper::registerCssAndScriptsFiles( 
+<?php
+	HtmlHelper::registerCssAndScriptsFiles(
 		array(  '/css/onepage.css',
-				'/css/news/index.css',	
-				'/css/timeline2.css',	
-			  ) , 
+				'/css/news/index.css',
+				'/css/timeline2.css',
+			  ) ,
 	Yii::app()->theme->baseUrl. '/assets');
 
 	$cssAnsScriptFilesModule = array(
@@ -36,6 +36,7 @@
 		background-color: #E33551;
 		padding: 5px 10px;
 		margin-top: 5px;
+
 	}
 	.refuseBtn:hover{
 		color: #E33551 !important;
@@ -181,12 +182,12 @@
 	    color: rgba(255, 255,255, 0.8);
 	}
 
-	.fileupload, .fileupload-preview.thumbnail, .fileupload-new .thumbnail, 
+	.fileupload, .fileupload-preview.thumbnail, .fileupload-new .thumbnail,
 	.fileupload-new .thumbnail img, .fileupload-preview.thumbnail img {
 	    width: auto !important;
 	}
 	.user-image{
-		background-color: black;
+		background-color: white;
 	}
 	#fileuploadContainer{
 		margin:-1px!important;
@@ -197,9 +198,9 @@
 	#profil_imgPreview{}
 </style>
 	<div class="col-lg-10 col-md-10 col-sm-9 no-padding" id="onepage">
-		<?php 
-		if ($type == "poi"){ 
-			if(@$element["type"]=="video" && @$element["medias"]){ 
+		<?php
+		if ($type == "poi"){
+			if(@$element["type"]=="video" && @$element["medias"]){
 				$videoLink=str_replace ( "autoplay=1" , "autoplay=0" , @$element["medias"][0]["content"]["videoLink"]  );
 			?>
 				<div class="col-xs-12">
@@ -209,26 +210,26 @@
 				</div>
 			<?php } ?>
 				<div class="col-md-12 col-sm-12 col-xs-12 text-dark center">
-					<h1 class="center"> 
+					<h1 class="center">
 						<?php echo $element['name']; ?>
 					</h1>
-					<?php if(@Yii::app()->session["userId"]){ ?> 
+					<?php if(@Yii::app()->session["userId"]){ ?>
 						<?php if ($edit==true || ($openEdition == true )) { ?>
 							<a href="javascript:;" class="btn btn-xs text-dark editThisBtn"  data-type="poi" data-id="<?php echo (string)$element["_id"] ?>" ><i class="fa fa-pencil-square-o"></i> <?php echo Yii::t("common","Edit") ?></a>.
-							<a href="javascript:;" class="btn btn-xs text-red deleteThisBtn" data-type="poi" data-id="<?php echo (string)$element["_id"] ?>" ><i class="fa fa-trash"></i> <?php echo Yii::t("common","Delete") ?></a> 
+							<a href="javascript:;" class="btn btn-xs text-red deleteThisBtn" data-type="poi" data-id="<?php echo (string)$element["_id"] ?>" ><i class="fa fa-trash"></i> <?php echo Yii::t("common","Delete") ?></a>
 							<div class="space1"></div>
 						<?php } ?>
 					<?php } ?>
 				</div>
-		
+
 		<?php }else{ ?>
 				<div class="img-header">
-					
-					<?php 
+
+					<?php
 						if(@$element["profilMediumImageUrl"] && !empty($element["profilMediumImageUrl"]))
 							$images=array("profil"=> array($element["profilMediumImageUrl"]));
-						else 
-							$images="";	
+						else
+							$images="";
 						$this->renderPartial('../pod/fileupload', array(  "itemId" => (string) $element["_id"],
 																		  "type" => $type,
 																		  "resize" => false,
@@ -236,7 +237,7 @@
 																		  "show" => true,
 																		  "editMode" => $edit,
 																		  "image" => $images,
-																		  "openEdition" => $openEdition)); 
+																		  "openEdition" => $openEdition));
 					//	$profilThumbImageUrl = Element::getImgProfil(@$entity, "profilMediumImageUrl", $this->module->assetsUrl);
 					?>
 
@@ -245,15 +246,15 @@
 			<?php echo @$element["name"]; ?>
 			<!-- <button class="btn btn-default btn-follow"><i class="fa fa-star"></i> SUIVRE</button> -->
 
-			<?php 
+			<?php
 			if(@Yii::app()->session["userId"]) {
 				if (!@$deletePending) {
 					if(  Authorisation::canEditItem( Yii::app()->session["userId"], $_GET["type"], (string)$_GET["id"]) || Yii::app()->session["userId"] == @$element["creator"] ){?>
-					<a href='javascript:' class="btn" onclick='elementLib.editElement("<?php echo @$_GET["type"]; ?>","<?php echo (string)@$element["_id"]; ?>")' ><i class="fa fa-pencil"></i> Edit</a>
+					<a href='javascript:' class="btn" onclick='elementLib.editElement("<?php echo @$_GET["type"]; ?>","<?php echo (string)@$element["_id"]; ?>")' ><i class="fa fa-pencil"></i> Editer</a>
 
 					<?php if ((string)$_GET["id"]==Yii::app()->session["userId"]){ ?>
 						<a href='javascript:' id="changePasswordBtn" class='btn btn-default text-red pull-right'>
-							<i class='fa fa-key'></i> <?php echo Yii::t("common","Change password"); ?>  		
+							<i class='fa fa-key'></i> <?php echo Yii::t("common","Change password"); ?>
 						</a>
 					<?php	}
 					}
@@ -269,31 +270,31 @@
 			?>
 			<?php if(@Yii::app()->session["userId"] && $type==Organization::COLLECTION){ ?>
 			<div class="linkBtn pull-right">
-			<?php if($type != Person::COLLECTION && isset($element["_id"]) && isset(Yii::app()->session["userId"]) && 
+			<?php if($type != Person::COLLECTION && isset($element["_id"]) && isset(Yii::app()->session["userId"]) &&
 	                Link::isLinked((string)$element["_id"], $type, Yii::app()->session["userId"])){ ?>
-		            <a href="javascript" class="btn text-red tooltips pull-right" 
+		            <a href="javascript" class="btn text-red tooltips pull-right"
 		            		data-placement="bottom"
-		            		data-toggle='modal' 
+		            		data-toggle='modal'
 							data-original-title="Quitter ce groupe de travail"
 							onclick="disconnectTo('<?php echo $type ?>','<?php echo (string)$element["_id"] ?>','<?php echo Yii::app()->session["userId"] ?>','<?php echo Person::COLLECTION ?>','members')">
 		            	<i class="fa fa-unlink disconnectBtnIcon"></i> <?php echo Yii::t( "common", "Leave") ?>
 		            </a>
-		  	    <?php } 
+		  	    <?php }
 		  	    if(!@$element["links"]["members"][Yii::app()->session["userId"]]){ ?>
-	            	<a href="javascript" class="btn tooltips pull-right" 
+	            	<a href="javascript" class="btn tooltips pull-right"
 		            		data-placement="bottom"
-		            		data-toggle='modal' 
+		            		data-toggle='modal'
 							data-original-title="<?php echo Yii::t( "common", "Devenir membre de ce groupe de travail") ?>"
 							onclick="connectTo('<?php echo $type ?>','<?php echo (string)$element["_id"] ?>','<?php echo Yii::app()->session["userId"] ?>','<?php echo Person::COLLECTION ?>','member','<?php echo addslashes($element["name"]) ?>')">
 		            	<i class="fa fa-user-plus becomeAdminBtn"></i> <?php echo Yii::t( "common", "Become member") ?>
 		            </a>
 	           <?php }else{
 	                //Ask Admin button
-	                if ($type != Person::COLLECTION 
+	                if ($type != Person::COLLECTION
 	                    && !in_array(Yii::app()->session["userId"], Authorisation::listAdmins((string)$element["_id"], $type,true)) ) { ?>
-	                	<a href="javascript" class="btn tooltips pull-right" 
+	                	<a href="javascript" class="btn tooltips pull-right"
 		            		data-placement="bottom"
-		            		data-toggle='modal' 
+		            		data-toggle='modal'
 							data-original-title="<?php echo Yii::t( "common", "Devenir administrateur de ce groupe de travail") ?>"
 							onclick="connectTo('<?php echo $type ?>','<?php echo (string)$element["_id"] ?>','<?php echo Yii::app()->session["userId"] ?>','<?php echo Person::COLLECTION ?>','admin','<?php echo addslashes($element["name"]) ?>')">
 		            	<i class="fa fa-user-plus becomeAdminBtn"></i> <?php echo Yii::t( "common", "Become admin") ?>
@@ -321,12 +322,12 @@
 		</div>
 		<?php } ?>
 		<div id="section-home">
-			<?php   
+			<?php
 				$desc = array( array("shortDescription"=>@$element["description"]),
 	    					);
 
 	    		if(@$desc && sizeOf(@$desc)>0)
-	    		$this->renderPartial('../pod/sectionElements', 
+	    		$this->renderPartial('../pod/sectionElements',
 	    								array(  "items" => $desc,
 												"sectionKey" => "description",
 												"sectionTitle" => "Présentation",
@@ -342,24 +343,24 @@
 															  		"fontScale"=>3),
 											));
 	    	?>
-	    	
+
 
 			<?php if ($type == "poi"){ ?>
 				<div id="divTags" class="col-md-12 col-sm-12 col-xs-12 padding-10">
 					<?php if(@$element["tags"]){ ?>
-						<?php 
-							$i=0; 
-							foreach($element["tags"] as $tag){ 
-								if($i<6) { 
+						<?php
+							$i=0;
+							foreach($element["tags"] as $tag){
+								if($i<6) {
 									$i++;?>
 									<div class="tag label label-default" data-val="<?php echo  $tag; ?>" style="margin:5px;">
 										<i class="fa fa-tag"></i> <?php echo  $tag; ?>
 									</div>
 					<?php 		}
-							} 
-					} ?>		
+							}
+					} ?>
 				</div>
-			
+
 				<section id="timeline" class="inline-block col-md-12"  style="background-color: #f8f6f6;">
 		    		<h2 class="section-title text-dark">Commentaires</h2>
 					<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1">
@@ -368,7 +369,7 @@
 					</div>
 				</section>
 			<?php } else { ?>
-	    
+
 				<section id="timeline" class="bg-white inline-block col-md-12"  style="background-color: #f8f6f6;">
 		    		<h2 class="section-title text-dark">Historique</h2>
 					<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1">
@@ -381,10 +382,10 @@
 		</div>
 
 		<div id="section-stream" class="col-md-6 col-md-offset-1">
-			
+
 		</div>
 		<div id="section-gallery" class="col-md-12">
-			
+
 		</div>
 
 
@@ -394,7 +395,7 @@
 
 
 	<div class="col-lg-2 col-md-2 col-sm-3 col-members">
-		<?php if($type=="poi"){ 
+		<?php if($type=="poi"){
 				//var_dump($parent);
 				$spec = Element::getElementSpecsByType( @$parent["typeSig"] );
 			?>
@@ -407,13 +408,13 @@
 					$imgProfil = "<i class='fa fa-image fa-2x'></i>";
 					if(@$parent["profilImageUrl"] && !empty($parent["profilImageUrl"])){
 						$imgProfil= "<img class='img-responsive' src='".Yii::app()->createUrl($parent["profilImageUrl"])."'/>";
-            		} 
+            		}
 					echo $imgProfil;
                 	?>
 				</a>
 				<div class="padding-10 informations">
 				<a href='#<?php echo $spec["hash"]; echo @$parent["id"]?>' class='entityName text-dark lbh add2fav text-light-weight margin-bottom-5'>
-                    <?php echo @$parent["name"] ?> 
+                    <?php echo @$parent["name"] ?>
                 </a>
                 </div>
                 </div>
@@ -423,17 +424,17 @@
 			<hr>
 			<h4>Administrateurs (<span id="nbAdmin"></span>)</h4>
 
-			<?php 
+			<?php
 				$nbAdmin = 0;
 				$nbAdminPending=0;
 				if(@$members && !empty($members)) {
-					foreach($members as $key => $member){ 
+					foreach($members as $key => $member){
 						if(@$member["isAdmin"] == true && !@$member["isAdminPending"]){ $nbAdmin++;
 						$profilThumbImageUrl = Element::getImgProfil($member, "profilThumbImageUrl", $this->module->assetsUrl);
 						$spec = Element::getElementSpecsByType( @$member["type"] );
 			?>
 						<a href="#<?php echo $spec["hash"]; echo @$member["id"]?>"  class="lbh col-md-12 no-padding margin-top-5 elipsis">
-							<img class="img-circle" src="<?php echo $profilThumbImageUrl; ?>" height=35 width=35> 
+							<img class="img-circle" src="<?php echo $profilThumbImageUrl; ?>" height=35 width=35>
 							<span class="username-min"><?php echo @$member["name"]; ?></span>
 							<?php if (@$member["pending"]){ ?>
 								<br/><span style="font-style: italic;font-size: 10px;position: absolute;bottom: 0px;left: 38px;">En attente d'inscription</span>
@@ -441,28 +442,28 @@
 						</a>
 			<?php 		} else if(@$member["isAdmin"] == true && @$member["isAdminPending"]) $nbAdminPending++;
 					}
-			} 
+			}
 			if($nbAdmin==0){ ?>
 					<span style="font-style: italic;">Pas d'admin sur ce groupe de travail</span>
 			<?php } ?>
-				
+
 			<div class="col-md-12 no-padding margin-top-5">
 				<hr>
 				<h4>Membres (<span id="nbMember"></span>)</h4>
 			</div>
 
-		<?php 
+		<?php
 			//var_dump($members);
 			$nbMember = 0;
 			$nbMemberPending=0;
 			if(@$members && !empty($members)) {
-				foreach($members as $key => $member){ 
+				foreach($members as $key => $member){
 					if((!isset($member["isAdmin"]) || @$member["isAdmin"]==false) && !@$member["toBeValidated"]){ $nbMember++;
 					$profilThumbImageUrl = Element::getImgProfil($member, "profilThumbImageUrl", $this->module->assetsUrl);
 					$spec = Element::getElementSpecsByType( @$member["type"] );
 		?>
 			<a href="#<?php echo $spec["hash"]; echo @$member["id"]?>"  class="lbh col-md-12 no-padding margin-top-5 elipsis">
-				<img class="img-circle" src="<?php echo $profilThumbImageUrl; ?>" height=35 width=35> 
+				<img class="img-circle" src="<?php echo $profilThumbImageUrl; ?>" height=35 width=35>
 				<span class="username-min"><?php echo @$member["name"]; ?></span>
 				<?php if (@$member["pending"]){ ?>
 					<br/><span style="font-style: italic;font-size: 10px;position: absolute;bottom: 0px;left: 38px;">En attente d'inscription</span>
@@ -480,95 +481,95 @@
 				</div>
 				<?php if($nbAdminPending > 0){ ?>
 					<span style="font-style:italic;"> Pour administrer </span>
-				<?php foreach($members as $key => $member){ 
+				<?php foreach($members as $key => $member){
 						if(@$member["isAdmin"] == true && @$member["isAdminPending"]){
 						$profilThumbImageUrl = Element::getImgProfil($member, "profilThumbImageUrl", $this->module->assetsUrl);
 						$spec = Element::getElementSpecsByType( @$member["type"] );
 				?>
 						<div class="col-md-12 no-padding margin-top-5 elipsis">
-							<img class="img-circle" src="<?php echo $profilThumbImageUrl; ?>" height=35 width=35> 
+							<img class="img-circle" src="<?php echo $profilThumbImageUrl; ?>" height=35 width=35>
 							<a href="#<?php echo $spec["hash"]; echo @$member["id"]?>"  class="lbh username-min waitAnswer"><?php echo @$member["name"]; ?></a>
 							<?php if(@Yii::app()->session["userId"] && $type != Person::COLLECTION && Authorisation::canEditItem(Yii::app()->session['userId'], $type, (String)$element["_id"])){ ?>
 							<div style="font-style: italic;font-size: 10px;position: absolute;bottom: 0px;left: 38px;">
-								<a href='javascript:;' class='label refuseBtn pull-right' 
-									onclick='var $this=$(this); disconnectTo("<?php echo $type ?>", 
-									"<?php echo (string)$element["_id"] ?>", 
-									"<?php echo $key ?>", 
-									"<?php echo Person::COLLECTION ?>", 
-									"members", 
+								<a href='javascript:;' class='label refuseBtn pull-right'
+									onclick='var $this=$(this); disconnectTo("<?php echo $type ?>",
+									"<?php echo (string)$element["_id"] ?>",
+									"<?php echo $key ?>",
+									"<?php echo Person::COLLECTION ?>",
+									"members",
 									function() {
 										toastr.success("<?php echo Yii::t("common", "Answer well registered") ?>!!");
 										$this.parents().eq(1).remove();
 								},
-								"<?php echo Link::IS_ADMIN_PENDING ?>");' 
+								"<?php echo Link::IS_ADMIN_PENDING ?>");'
 								style='margin-right: 5px;'>
 									<i class="fa fa-remove"></i> Refuser
 								</a>
-								<a href='javascript:;' 
+								<a href='javascript:;'
 									class='label acceptBtn pull-right'
-									onclick='var $this=$(this); validateConnection("<?php echo $type ?>", 
-										"<?php echo (string)$element["_id"] ?>", 
-										"<?php echo $key ?>", 
-										"<?php echo Person::COLLECTION ?>", 
-										"isAdminPending", 
+									onclick='var $this=$(this); validateConnection("<?php echo $type ?>",
+										"<?php echo (string)$element["_id"] ?>",
+										"<?php echo $key ?>",
+										"<?php echo Person::COLLECTION ?>",
+										"isAdminPending",
 										function() {
 											toastr.success("<?php echo Yii::t("common", "New admin well register") ?>!!");
 											loadByHash(location.hash);
-										});' 
+										});'
 									style='margin-right: 5px;'>
 										<i class="fa fa-check"></i> Accepter
 								</a>
 							 </div>
 							 <?php } ?>
 						</div>
-				<?php 	} 
+				<?php 	}
 					}
 				?>
 				<?php } ?>
 				<?php if($nbMemberPending > 0){ ?>
 					<span style="font-style:italic;"> Pour rejoindre </span>
-				<?php foreach($members as $key => $member){ 
+				<?php foreach($members as $key => $member){
 						if(!@$member["isAdminPending"] && @$member["toBeValidated"]){
 						$profilThumbImageUrl = Element::getImgProfil($member, "profilThumbImageUrl", $this->module->assetsUrl);
 						$spec = Element::getElementSpecsByType( @$member["type"] );
 				?>
 						<div class="col-md-12 no-padding margin-top-5 elipsis">
-							<img class="img-circle" src="<?php echo $profilThumbImageUrl; ?>" height=35 width=35> 
+							<img class="img-circle" src="<?php echo $profilThumbImageUrl; ?>" height=35 width=35>
 							<a href="#<?php echo $spec["hash"]; echo @$member["id"]?>"  class="lbh username-min waitAnswer"><?php echo @$member["name"]; ?></a>
 							<?php if(@Yii::app()->session["userId"] && $type != Person::COLLECTION && Authorisation::canEditItem(Yii::app()->session['userId'], $type, (String)$element["_id"])){ ?>
 							<div style="font-style: italic;font-size: 10px;position: absolute;bottom: 0px;left: 38px;">
-								<a href='javascript:;' class='label refuseBtn pull-right' 
-									onclick='var $this=$(this); disconnectTo("<?php echo $type ?>", 
-									"<?php echo (string)$element["_id"] ?>", 
-									"<?php echo $key ?>", 
-									"<?php echo Person::COLLECTION ?>", 
-									"members", 
+								<a href='javascript:;' class='label refuseBtn pull-right'
+									onclick='var $this=$(this); disconnectTo("<?php echo $type ?>",
+									"<?php echo (string)$element["_id"] ?>",
+									"<?php echo $key ?>",
+									"<?php echo Person::COLLECTION ?>",
+									"members",
 									function() {
 										toastr.success("<?php echo Yii::t("common", "Answer well registered") ?>!!");
 										$this.parents().eq(1).remove();
 								},
-								"<?php echo Link::IS_ADMIN_PENDING ?>");' 
+								"<?php echo Link::IS_ADMIN_PENDING ?>");'
 								style='margin-right: 5px;'>
 									<i class="fa fa-remove"></i> Refuser
 								</a>
-								<a href='javascript:;' 
+								<a href='javascript:;'
 									class='label acceptBtn pull-right'
-									onclick='var $this=$(this); validateConnection("<?php echo $type ?>", 
-										"<?php echo (string)$element["_id"] ?>", 
-										"<?php echo $key ?>", 
-										"<?php echo Person::COLLECTION ?>", 
-										"<?php echo Link::TO_BE_VALIDATED; ?>", 
+									onclick='var $this=$(this); validateConnection("<?php echo $type ?>",
+										"<?php echo (string)$element["_id"] ?>",
+										"<?php echo $key ?>",
+										"<?php echo Person::COLLECTION ?>",
+										"<?php echo Link::TO_BE_VALIDATED; ?>",
 										function() {
 											toastr.success("<?php echo Yii::t("common", "New member well register") ?>!!");
 											loadByHash(location.hash);
-										});' 
+										});'
 									style='margin-right: 5px;'>
 										<i class="fa fa-check"></i> Accepter
 								</a>
 							 </div>
 							 <?php } ?>
 						</div>
-				<?php 	} 
+				<?php 	}
 					}
 				?>
 				<?php } ?>
@@ -576,20 +577,20 @@
 			if(@Yii::app()->session["userId"] && $type != Person::COLLECTION && Authorisation::canEditItem(Yii::app()->session['userId'], $type, (String)$element["_id"])){ ?>
 			<div class="col-md-12 no-padding margin-top-5">
 				<hr>
-				<button class="btn btn-default btn-menubar btn-menu-element btn-menu-element-addmembers tooltips" 
-						data-toggle='modal' 
+				<button class="btn btn-default btn-menubar btn-menu-element btn-menu-element-addmembers tooltips"
+						data-toggle='modal'
 						data-placement="bottom"
 						data-original-title="Ajouter des membres à ce groupe de travail"
 						data-target='#modal-scope' >
 					<i class="fa fa-send"></i> Inviter des membres
 				</button>
 				</div>
-			<?php  
-  				$this->renderPartial('../element/addMembersFromMyContacts',array("type"=>$type, "parentId" =>(string)$element['_id'], "users"=>@$members)); 
+			<?php
+  				$this->renderPartial('../element/addMembersFromMyContacts',array("type"=>$type, "parentId" =>(string)$element['_id'], "users"=>@$members));
 				}
 			}
 		?>
-	</div>	
+	</div>
 
 <?php if (Authorisation::canDeleteElement((String)$element["_id"], $type, Yii::app()->session["userId"]) && !@$deletePending) $this->renderPartial('../element/confirmDeleteModal'); ?>
 <?php if (@$deletePending && (Authorisation::isElementAdmin((String)$element["_id"], $type, Yii::app()->session["userId"]) || Authorisation::isUserSuperAdmin(Yii::app()->session["userId"]))) $this->renderPartial('../element/confirmDeletePendingModal'); ?>
@@ -619,7 +620,7 @@
   	$showOdesc = true ;
 	if(Person::COLLECTION == $type){
 		$showLocality = (Preference::showPreference($element, $type, "locality", Yii::app()->session["userId"])?true:false);
-		$showOdesc = ((Preference::isOpenData($element["preferences"]) && Preference::isPublic($element, "locality"))?true:false);	
+		$showOdesc = ((Preference::isOpenData($element["preferences"]) && Preference::isPublic($element, "locality"))?true:false);
 	}
   	$odesc = "" ;
 	if($showOdesc == true){
@@ -633,7 +634,7 @@
 		else if($type == Project::COLLECTION)
 			$odesc = $controller." : ".addslashes( strip_tags(json_encode(@$element["shortDescription"]))).",".addslashes(json_encode(@$element["address"]["streetAddress"])).",".@$element["address"]["postalCode"].",".@$element["address"]["addressLocality"].",".@$element["address"]["addressCountry"];
 	}
-		
+
 	?>
   	var contextData = {
 		name : "<?php echo addslashes($element["name"]) ?>",
@@ -643,15 +644,15 @@
 		otags : "<?php echo addslashes($element["name"]).",".$type.",communecter,".@$element["type"].",".addslashes(@implode(",", $element["tags"])) ?>",
 		creator : "<?php echo @$element["creator"] ?>",
 		odesc : <?php echo json_encode($odesc) ?>,
-		<?php 
+		<?php
 		if( @$element["startDate"] )
 			echo "'startDate':'".$element["startDate"]."',";
 		if( @$element["endDate"] )
 			echo "'endDate':'".$element["endDate"]."'"; ?>
-		
-	};	
+
+	};
   	<?php $entitiesPois = PHDB::find( Poi::COLLECTION, array("parentId"=>(String) $element["_id"],"parentType"=>$type)); ?>
-  	
+
   	var pois = <?php echo json_encode($entitiesPois); ?>
 
 	jQuery(document).ready(function() {
@@ -680,18 +681,18 @@
 		/*var url = "news/index/type/"+contextType+"/id/"+contextId+"?isFirst=1&";
 		console.log("URL", url);
 		if(contextType=="projects" || contextType=="citoyens"){
-			ajaxPost('#timeline-page', baseUrl+'/'+moduleId+'/'+url+"renderPartial=true&tpl=co2&nbCol=2", 
+			ajaxPost('#timeline-page', baseUrl+'/'+moduleId+'/'+url+"renderPartial=true&tpl=co2&nbCol=2",
 				null,
-				function(){ 
-					
+				function(){
+
 			},"html");
 		}*/
 		if(contextType=="poi"){
-			getAjax('#comment-page',baseUrl+'/'+moduleId+"/comment/index/type/"+contextType+"/id/"+contextId,function(){ 
-					
+			getAjax('#comment-page',baseUrl+'/'+moduleId+"/comment/index/type/"+contextType+"/id/"+contextId,function(){
+
 			},"html");
 		}
-		$(".deleteThisBtn").off().on("click",function () 
+		$(".deleteThisBtn").off().on("click",function ()
 		{
 			mylog.log("deleteThisBtn click");
 	        $(this).empty().html('<i class="fa fa-spinner fa-spin"></i>');
@@ -699,9 +700,9 @@
 	        var id = $(this).data("id");
 	        var type = $(this).data("type");
 	        var urlToSend = baseUrl+"/"+moduleId+"/element/delete/type/"+type+"/id/"+id;
-	        
+
 	        bootbox.confirm("Etes vous sur de vouloir supprimer cet élément ?",
-        	function(result) 
+        	function(result)
         	{
 				if (!result) {
 					btnClick.empty().html('<i class="fa fa-trash"></i>');
@@ -767,10 +768,10 @@ function initMenuDetail(){
     	$("#section-stream").show();
     	var url = "news/index/type/"+contextType+"/id/"+contextId+"?isFirst=1&";
 		console.log("URL", url);
-		ajaxPost('#section-stream', baseUrl+'/'+moduleId+'/'+url+"renderPartial=true&tpl=co2&nbCol=1", 
+		ajaxPost('#section-stream', baseUrl+'/'+moduleId+'/'+url+"renderPartial=true&tpl=co2&nbCol=1",
 			null,
-			function(){ 
-				
+			function(){
+
 		},"html");
     });
 	$("#btn-menu-gallery").click(function(){
@@ -778,10 +779,10 @@ function initMenuDetail(){
     	$("#section-gallery").show();
     	var url = "gallery/index/type/"+contextType+"/id/"+contextId;
 		console.log("URL", url);
-		ajaxPost('#section-gallery', baseUrl+'/'+moduleId+'/'+url+"?renderPartial=true", 
+		ajaxPost('#section-gallery', baseUrl+'/'+moduleId+'/'+url+"?renderPartial=true",
 			null,
-			function(){ 
-				
+			function(){
+
 		},"html");
     });
 
@@ -793,15 +794,15 @@ function initMenuDetail(){
 
     	//if( userId && userId == contextData.creator )
     	//	poisHtml = poisHtml;
-    	
+
     	$("#section-directory").html(poisHtml);
     	bindLBHLinks();
-		
+
 		// 	var type = "?type=poi";
- 		//  ajaxPost('#section-directory', baseUrl+'/'+moduleId+"/default/directory"+type, 
+ 		//  ajaxPost('#section-directory', baseUrl+'/'+moduleId+"/default/directory"+type,
 		// 	null,
-		// 	function(){ 
-				
+		// 	function(){
+
 		// },"html");
     });
 }
