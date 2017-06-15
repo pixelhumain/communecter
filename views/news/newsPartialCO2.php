@@ -1,22 +1,24 @@
-<?php 
+<?php
   $timezone = "";// @$timezone ? $timezone : 'Pacific/Noumea';
   $pair = @$pair ? $pair : false;
   $nbCol = @$nbCol ? $nbCol : 2;
+  $imgDefault = $this->module->assetsUrl.'/images/thumbnail-default.jpg';
+
  //echo $nbCol;
   if(sizeof($news)==0){
       echo "<div class='padding-15'><i class='fa fa-ban'></i>";
   }
 
    // var_dump($news);exit;
-		foreach($news as $key => $media){ 
+		foreach($news as $key => $media){
 			$class = $pair || ($nbCol == 1) ? "timeline-inverted" : "";
 			$pair = !$pair;
 
-      $thumbAuthor =  @$media['author']['profilThumbImageUrl'] ? 
-                      Yii::app()->createUrl('/'.@$media['author']['profilThumbImageUrl']) 
+      $thumbAuthor =  @$media['author']['profilThumbImageUrl'] ?
+                      Yii::app()->createUrl('/'.@$media['author']['profilThumbImageUrl'])
                       : $imgDefault;
 
-      $srcMainImg = "";              
+      $srcMainImg = "";
       if(@$media["media"]["images"])
         $srcMainImg = Yii::app()->createUrl("upload/".
                                             Yii::app()->controller->module->id."/".
@@ -28,12 +30,12 @@
         $srcMainImg = Yii::app()->createUrl($media["imageBackground"]);
 	?>
 
-  
+
   <li class="<?php echo $class; ?>">
     <div class="timeline-badge primary"><a><i class="glyphicon glyphicon-record" rel="tooltip"></i></a></div>
     <div class="timeline-panel">
       <div class="timeline-heading text-center">
-        
+
 
            	<h5 class="text-left srcMedia">
           		<small class="ilyaL">
@@ -46,9 +48,9 @@
                     <i class="fa fa-pencil-square"></i> a publié un message
                   <?php } ?>
                   <?php if($media["type"]=="activityStream") { ?>
-                    <?php $iconColor = Element::getColorIcon($media["object"]["objectType"]) ? 
+                    <?php $iconColor = Element::getColorIcon($media["object"]["objectType"]) ?
                                        Element::getColorIcon($media["object"]["objectType"]) : ""; ?>
-                    <i class="fa fa-plus-circle"></i> a créé un 
+                    <i class="fa fa-plus-circle"></i> a créé un
                     <span class="text-<?php echo @$iconColor; ?>">
                       <?php echo Yii::t("common", @$media["object"]["objectType"]); ?>
                     </span>
@@ -68,33 +70,33 @@
                     <i class="fa fa-pencil-square"></i> a publié un message
                   <?php } ?>
                   <?php if($media["type"]=="activityStream") { ?>
-                    <?php $iconColor = Element::getColorIcon($media["object"]["objectType"]) ? 
+                    <?php $iconColor = Element::getColorIcon($media["object"]["objectType"]) ?
                                        Element::getColorIcon($media["object"]["objectType"]) : ""; ?>
-                    <i class="fa fa-plus-circle"></i> a créé un 
+                    <i class="fa fa-plus-circle"></i> a créé un
                     <span class="text-<?php echo @$iconColor; ?>">
                       <?php echo Yii::t("common", @$media["object"]["objectType"]); ?>
                     </span>
                   <?php } ?>
                   </span>
                 </div>
-                
+
               </small>
 
               <a href="<?php echo @$media["href"]; ?>" target="_blank" class="link-read-media margin-top-10 hidden-xs img-circle">
                 <small>
-                  <i class="fa fa-clock-o"></i> 
+                  <i class="fa fa-clock-o"></i>
                   <?php echo Translate::pastTime(date($media["date"]->sec), "timestamp", $timezone); ?>
                 </small>
               </a>
             </h5>
-          
+
           <div class="timeline-body padding-10 col-md-12 text-left">
             <!-- <h4><a target="_blank" href="<?php echo @$media["href"]; ?>"><?php echo @$media["title"]; ?></a></h4> -->
             <?php if($media["type"]=="activityStream") { ?>
-              <?php $faIcon = Element::getFaIcon($media["object"]["objectType"]) ? 
+              <?php $faIcon = Element::getFaIcon($media["object"]["objectType"]) ?
                               Element::getFaIcon($media["object"]["objectType"]) : ""; ?>
               <h4 class="no-padding">
-                <a target="_blank" 
+                <a target="_blank"
                    href="#co2.page.type.<?php echo @$media["object"]["objectType"]; ?>.id.<?php echo @$media["object"]["id"]; ?>">
                    <i class="fa fa-<?php echo $faIcon; ?>"></i> <?php echo @$media["name"]; ?>
                 </a>
@@ -104,7 +106,7 @@
               <?php } ?>
             <?php } ?>
             <p><?php echo $media["text"]; ?></p>
-            
+
           </div>
 
           <?php if(@$srcMainImg != ""){ ?>
@@ -119,10 +121,10 @@
           <?php } ?>
 
 
-        
+
       </div>
-      
-      
+
+
       <div class="timeline-footer pull-left col-md-12 col-sm-12 col-xs-12 padding-top-5">
           <!-- <a class="btn-comment-media" data-media-id="<?php echo $media["_id"]; ?>"><i class="fa fa-comment"></i> Commenter</a> -->
           <!-- <a><i class="glyphicon glyphicon-thumbs-up"></i></a>
@@ -136,7 +138,7 @@
 <?php } ?>
 
   <script type="text/javascript">
-  
+
     jQuery(document).ready(function() {
 
       <?php if(!(@$isFirst == true) && @$limitDate && @$limitDate["created"]){ ?>
