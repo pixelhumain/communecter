@@ -115,7 +115,7 @@
 						$("#"+contentId+"_photoAdd").submit();
 					}else{
 						if(file && file.size > fileSizeMax){
-							toastr.error("<?php echo Yii::t('fileUpload','Size maximum '+round(Document::FILE_SIZE_MAX/1000000)+'Mo',null,Yii::app()->controller->module->id) ?>");
+							toastr.error("<?php echo Yii::t('fileUpload','Size maximum '+round(Document::getFileSizeLimit()/1000000)+'Mo',null,Yii::app()->controller->module->id) ?>");
 						}
 						/*$("#"+contentId+"_fileUpload").css("opacity", "1");
 						$("#"+contentId+"_photoUploading").css("display", "none");
