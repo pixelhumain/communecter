@@ -389,13 +389,6 @@
               </a>
             </li>
             <?php } ?>
-            <?php if(@$restricted){ ?>
-              <li>
-              <a href="javascript:;" id="scope-my-network" class="scopeShare" data-value="restricted"><h4 class="list-group-item-heading"><i class="fa fa-connectdevelop"></i> <?php echo ucfirst(Yii::t("common", "my network")) ?></h4>
-                <p class="list-group-item-text small"><?php echo $restricted ?></p>
-              </a>
-            </li>
-            <?php } ?>
             <?php if(@$public){ ?>
             <li>
               <a href="javascript:;" id="scope-my-wall" class="scopeShare" data-value="public"><h4 class="list-group-item-heading"><i class="fa fa-globe"></i> <?php echo ucfirst(Yii::t("common", "public")) ?></h4>
