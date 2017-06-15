@@ -72,7 +72,6 @@
 	
 	
 	jQuery(document).ready(function() {
-		var fileSizeMax = <?php echo Document::FILE_SIZE_MAX ?>;
 		var id = "<?php echo $itemId ?>";
 		var sliderKey = "<?php echo Document::IMG_SLIDER; ?>";
 		var editFile = <?php echo ($editMode) ? 'true':'false'; ?>;
