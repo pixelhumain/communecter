@@ -323,10 +323,11 @@ function bindAddData(){
 		        	$.each(data.resData, function(key, value2){
 		        		chaine += "<tr>" +
 		        					"<td>"+value2.name+"</td>"+
+		        					"<td>"+(notNull(value2.address) ? baseUrl+value2.address : "")+"</td>"+
 		        					"<td>"+value2.info+"</td>"+
-		        					"<td>"+baseUrl+value2.url+"</td>"+
+		        					"<td>"+(notNull(value2.url) ? baseUrl+value2.url : "")+"</td>"+
 		        					"<td>"+value2.type+"</td>"+
-		        					"<td>"+value2.id+"</td>"+
+		        					"<td>"+(notNull(value2.id) ? baseUrl+value2.id : "")+"</td>"+
 		        				"</tr>";
 		        		csv += "\n";
 		        		csv += '"'+value2.name+'";"'+value2.info+'";"'+baseUrl+value2.url+'";"'+value2.type+'";"'+value2.id+'";' ;
