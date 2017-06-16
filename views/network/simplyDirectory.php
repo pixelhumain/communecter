@@ -557,9 +557,11 @@ function autoCompleteSearchSimply(name, locality, indexMin, indexMax){
 					$.each(data.res, function(i, v) { if(v.length!=0){ countData++; } });
 
 					totalData += countData;
+					mylog.log("debug", networkJson.request.oneElement);
 					if(typeof networkJson.request.oneElement != "undefined" && networkJson.request.oneElement == true){
 						filterTags(data.filters.tags);
-						filterType(data.filters.types)
+						filterType(data.filters.types);
+						$("#divRolesMenu").removeClass("hidden");
 					}else{
 						$("#divRolesMenu").addClass("hidden");
 					}
