@@ -444,6 +444,7 @@ function bindEventScopeContactsModal(){
 }
 
 function buildModal(fieldObj, idUi){
+	mylog.log("buildModal", fieldObj, idUi);
 	//var fieldClass = " select2TagsInput select2ScopeInput";
     var fieldHTML = "";    		
 	fieldHTML += '<div class="modal fade" id="modal-scope" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">'+
@@ -503,7 +504,7 @@ function buildModal(fieldObj, idUi){
 				      '</div>'+
 				    '</div><!-- /.modal-content -->'+
 				  '</div><!-- /.modal-dialog -->';
-
+	mylog.log("idUi", idUi);
 	if($("body #"+idUi).length > 0) $("body #"+idUi).html(fieldHTML);
 	else $('body').prepend("<div id='"+idUi+"'>"+fieldHTML+"</div>");
 

@@ -31,8 +31,6 @@
 }
 
 
-
-
 /* design alpha tango*/
 .main-col-search{
 	background-image: url("<?php echo $this->module->assetsUrl; ?>/images/bg/tango-circle-bg-yellow.png");
