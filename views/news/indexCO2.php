@@ -1,4 +1,4 @@
-<?php 
+<?php
 $cssAnsScriptFilesModule = array(
   '/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css',
   '/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysiwyg-color.css',
@@ -6,10 +6,10 @@ $cssAnsScriptFilesModule = array(
   '/plugins/x-editable/css/bootstrap-editable.css',
   '/plugins/select2/select2.css',
   //X-editable...
-  '/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js' , 
-  '/plugins/x-editable/js/bootstrap-editable.js' , 
-  '/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' , 
-  '/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , 
+  '/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js' ,
+  '/plugins/x-editable/js/bootstrap-editable.js' ,
+  '/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' ,
+  '/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' ,
   '/plugins/wysihtml5/wysihtml5.js',
   '/plugins/jquery.scrollTo/jquery.scrollTo.min.js',
   '/plugins/ScrollToFixed/jquery-scrolltofixed-min.js',
@@ -20,7 +20,7 @@ $cssAnsScriptFilesModule = array(
   '/plugins/jquery-mentions-input-master/jquery.mentionsInput.js',
   '/plugins/jquery-mentions-input-master/jquery.mentionsInput.css',
   '/plugins/jquery-mentions-input-master/lib/jquery.events.input.js',
-  
+
 );
 //error_log("BasURL : ".Yii::app()->request->baseUrl);
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->request->baseUrl);
@@ -77,10 +77,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
   .get_url_input {
     font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   }
-  
-  input#addImage{
-    display: none;
-  }
 
 #formCreateNewsTemp .form-create-news-container, #formActivity{
     max-width: 700px;
@@ -89,7 +85,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 </style>
 
 <div class="col-md-12 col-sm-12 no-padding margin-bottom-15" style="padding-left:25px!important;">
-  <?php //var_dump($params); 
+  <?php //var_dump($params);
         $params = array(
                   "type" => $type,
                   "contextParentId" => $contextParentId,
@@ -104,7 +100,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
   </div>
 
 <ul class="timeline inline-block" id="news-list">
-  
+
     <?php $this->renderPartial('newsPartialCO2', array("news"=>$news,
                                                        "pair"=>$pair,
                                                        "nbCol"=>$nbCol,
@@ -124,7 +120,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
   var isLive = true;
 
   var indexStep = currentIndexMax;
-  var dateLimit = 0;  
+  var dateLimit = 0;
 
   var initLimitDate = <?php echo json_encode(@$limitDate) ?>;
 
@@ -147,7 +143,7 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 
 console.log("NEWS", news);
 jQuery(document).ready(function() {
-  
+
   showFormBlock(false);
   initForm();
 
@@ -160,7 +156,7 @@ jQuery(document).ready(function() {
 
 function initForm(){ console.log("initForm initForm");
   getMediaFromUrlContent(".get_url_input",".results",1);
-  
+
   setTimeout(function(){
     $("#btn-submit-form").on("click",function(){
       saveNews();
@@ -203,7 +199,7 @@ function initForm(){ console.log("initForm initForm");
       }
       });
   }
-  
+
   $('textarea.mention').mentionsInput({
     onDataRequest:function (mode, query, callback) {
         if(stopMention)
@@ -235,9 +231,9 @@ function initForm(){ console.log("initForm initForm");
                     object.avatar = avatar;
                     object.type = key;
                     var findInLocal = _.findWhere(mentionsContact, {
-                  name: retdata[key][id].name, 
+                  name: retdata[key][id].name,
                   type: key
-                }); 
+                });
                 if(typeof(findInLocal) == "undefined")
                   mentionsContact.push(object);
                 }
@@ -248,7 +244,7 @@ function initForm(){ console.log("initForm initForm");
             callback.call(this, data);
             mylog.log(callback);
             }
-        } 
+        }
       })
     }
     });
@@ -264,7 +260,7 @@ function initTags(){
   /////// A réintégrer pour la version last
   var $scrollElement = $(".my-main-container");
 
-  
+
   $('#tags').select2({tags:tagsNews});
   $("#tags").select2('val', "");
 }

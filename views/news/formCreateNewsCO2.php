@@ -326,12 +326,9 @@
       <?php if((@$canManageNews && $canManageNews==true) || (@$isLive && $isLive == true)){ ?>
       <div class="user-image-buttons">
         <form method="post" id="photoAddNews" enctype="multipart/form-data">
-          <span class="btn btn-white btn-file fileupload-new btn-sm"  <?php if (!$authorizedToStock){ ?> onclick="addMoreSpace();" <?php } ?>>
+          <span class="btn btn-white btn-file fileupload-new btn-sm"  >
           <span class="fileupload-new"><i class="fa fa-picture-o fa-x"></i> </span>
-            <?php if ($authorizedToStock){ ?>
               <input type="file" accept=".gif, .jpg, .png" name="newsImage" id="addImage" onchange="showMyImage(this);">
-            <?php } ?>
-
           </span>
         </form>
       </div>
@@ -414,14 +411,25 @@
         <?php if($contextParentType == Organization::COLLECTION || $contextParentType == Project::COLLECTION){ ?>
         <div class="dropdown no-padding pull-right">
           <a data-toggle="dropdown" class="btn btn-default" id="btn-toogle-dropdown-targetIsAuthor" href="#">
-          <?php if(@$parent["profilThumbImageUrl"]){ ?>
-            <img height=20 width=20 src='<?php echo Yii::app()->getRequest()->getBaseUrl(true).$parent["profilThumbImageUrl"] ?>'>
+          <?php if(@ Yii::app()->session["user"]["profilThumbImageUrl"]){ ?>
+            <img height=20 width=20 src='<?php echo Yii::app()->getRequest()->getBaseUrl(true).Yii::app()->session["user"]["profilThumbImageUrl"]; ?>'>
           <?php } else{ ?>
-            <img height=20 width=20 src='<?php echo $this->module->assetsUrl.'/images/thumb/default_'.$contextParentType.'.png' ?>'>
+            <img height=20 width=20 src='<?php echo $this->module->assetsUrl.'/images/thumb/default_citoyens.png' ?>'>
           <?php } ?>
             <i class="fa fa-caret-down" style="font-size:inherit;"></i>
           </a>
           <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+            <li>
+              <a href="javascript:;" class="targetIsAuthor" data-value="0"><h4 class="list-group-item-heading">
+                <?php if(@ Yii::app()->session["user"]["profilThumbImageUrl"]){ ?>
+                  <img height=20 width=20 src='<?php echo Yii::app()->getRequest()->getBaseUrl(true).Yii::app()->session["user"]["profilThumbImageUrl"]; ?>'>
+                <?php } else {  ?>
+                  <img height=20 width=20 src='<?php echo $this->module->assetsUrl.'/images/thumb/default_citoyens.png' ?>'>
+                <?php } ?>
+                <?php echo ucfirst(Yii::t("common", "Moi")) ?></h4>
+                <p class="list-group-item-text small"><?php echo "Je suis l'auteur" ?></p>
+              </a>
+            </li>
             <li>
               <a href="javascript:;" class="targetIsAuthor" data-value="1">
                 <h4 class="list-group-item-heading">
@@ -432,17 +440,6 @@
                 <?php } ?>
                 <?php echo $contextName ?></h4>
                 <p class="list-group-item-text small">Afficher <?php echo $contextName ?> comme auteur</p>
-              </a>
-            </li>
-            <li>
-              <a href="javascript:;" class="targetIsAuthor" data-value="0"><h4 class="list-group-item-heading">
-                <?php if(@ Yii::app()->session["user"]["profilThumbImageUrl"]){ ?>
-                <img height=20 width=20 src='<?php echo Yii::app()->getRequest()->getBaseUrl(true).Yii::app()->session["user"]["profilThumbImageUrl"]; ?>'>
-                <?php } else {  ?>
-                  <img height=20 width=20 src='<?php echo $this->module->assetsUrl.'/images/thumb/default_citoyens.png' ?>'>
-                <?php } ?>
-                <?php echo ucfirst(Yii::t("common", "Moi")) ?></h4>
-                <p class="list-group-item-text small"><?php echo "Je suis l'auteur" ?></p>
               </a>
             </li>
           </ul>
