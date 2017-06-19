@@ -394,13 +394,6 @@
               </a>
             </li>
             <?php } ?>
-            <?php if (@$private && $contextParentType==Person::COLLECTION){ ?>
-            <li>
-              <a href="javascript:;" id="scope-my-network" class="scopeShare" data-value="private"><h4 class="list-group-item-heading"><i class="fa fa-lock"></i> <?php echo ucfirst(Yii::t("common", "private")) ?></h4>
-                <p class="list-group-item-text small"><?php echo $private ?></p>
-              </a>
-            </li>
-            <?php } ?>
             <!--<li>
               <a href="#" id="scope-select" data-toggle="modal" data-target="#modal-scope"><i class="fa fa-plus"></i> Selectionner</a>
             </li>-->
@@ -430,7 +423,7 @@
                 <p class="list-group-item-text small"><?php echo "Je suis l'auteur" ?></p>
               </a>
             </li>
-            <li>
+            <?php /*<li>
               <a href="javascript:;" class="targetIsAuthor" data-value="1">
                 <h4 class="list-group-item-heading">
                 <?php if(@$parent["profilThumbImageUrl"]){ ?>
@@ -441,7 +434,7 @@
                 <?php echo $contextName ?></h4>
                 <p class="list-group-item-text small">Afficher <?php echo $contextName ?> comme auteur</p>
               </a>
-            </li>
+            </li>*/ ?>
           </ul>
           <input type="hidden" id="authorIsTarget" value="1"/>
         </div>
