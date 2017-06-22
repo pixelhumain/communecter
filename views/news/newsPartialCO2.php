@@ -243,13 +243,7 @@
   	        	if (data.result) {
   		        	mylog.log(data);
   					toastr.success("<?php echo Yii::t("common","News has been successfully delated")?>");
-  					//liParent=$this.parents().eq(2);
-  		        	//liParent.fadeOut();
-  		        	/*$("#item-comment-"+id).html("");
-  		        	$('.nbComments').html((parseInt($('.nbComments').html()) || 0) - 1);
-  		        	if (data.comment.contextType=="news"){
-  							$(".newsAddComment[data-id='"+data.comment.contextId+"']").children().children(".nbNewsComment").text(parseInt($('.nbComments').html()) || 0 );
-  						}*/
+  					loadByHash(location.hash);
   				} else {
   		            toastr.error("Quelque chose a buggé"); //j'adore cette alert ;) !
   		        }
