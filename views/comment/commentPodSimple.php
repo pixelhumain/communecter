@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 	$cssAnsScriptFilesModule = array(
 		'/js/news/autosize.js',
@@ -6,14 +6,14 @@
 	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
 
 	function multiple10($nb, $total){ //error_log("multiple1000 : " . $nb. "  - ".$total);
-		for($i=0;$i<$total;$i+=10){ 
+		for($i=0;$i<$total;$i+=10){
 			if($i==$nb) error_log( "multiple10 : " . $i);
 			if($i==$nb) return true;
 		}
 		return false;
 	}
 
-?>	
+?>
 <style>
 	.textarea-new-comment{
 		max-width: 100%;
@@ -32,7 +32,7 @@
 		margin-left: -10px;
 		margin-top: -5px;
 		padding: 10px;
-		<?php } ?> 
+		<?php } ?>
 		background-color: rgba(231, 231, 231, 0.62);
 	}
 	.content-comment{
@@ -43,10 +43,10 @@
 	    margin-left: 45px;
 	    margin-top: 5px;
 	}
-	
+
 	.ctnr-txtarea{
 		position: absolute;
-		right:10px; 
+		right:10px;
 		left:50px;
 	}
 
@@ -55,11 +55,9 @@
 	}
 
 	.content-comment .tool-action-comment{
-		display: none;
+		display: inline;
 	}
-	.content-comment:hover .tool-action-comment{
-		display: inherit;
-	}
+	
 	.content-comment .fa-reply{
 		font-size:14px;
 		margin-right:5px;
@@ -82,11 +80,11 @@
 				  "editMode" => $canComment,
 				  "image" => $images,
 				   "parentType" => $parentType,
-				   "parentId" => $parentId, 
-			)); 
+				   "parentId" => $parentId,
+			));
 		}
 		echo "</div>";
-	
+
 	  	$icon = (@$context["status"] == ActionRoom::STATE_ARCHIVED) ? "download" : "comments";
       	$archived = (@$context["status"] == ActionRoom::STATE_ARCHIVED) ? "<span class='text-small helvetica'>(ARCHIVED)</span>" : "";
       	$color = (@$context["status"] == ActionRoom::STATE_ARCHIVED) ? "text-red " : "text-dark";
@@ -103,18 +101,18 @@
 <div class="footer-comments row">
 
 	<?php //image profil user connected + input new comment
-		$profilThumbImageUrlUser = ""; 
+		$profilThumbImageUrlUser = "";
 
 		if(isset(Yii::app()->session["userId"])){
 		$me = Person::getMinimalUserById(Yii::app()->session["userId"]);
-		$profilThumbImageUrlUser = Element::getImgProfil($me, "profilThumbImageUrl", $this->module->assetsUrl); 
+		$profilThumbImageUrlUser = Element::getImgProfil($me, "profilThumbImageUrl", $this->module->assetsUrl);
 	?>
-		<img src="<?php echo $profilThumbImageUrlUser; ?>" class="img-responsive pull-left" 
+		<img src="<?php echo $profilThumbImageUrlUser; ?>" class="img-responsive pull-left"
 			 style="margin-right:6px;height:32px; border-radius:3px;">
 
 		<div id="container-txtarea-<?php echo $idComment; ?>">
 			<div style="" class="ctnr-txtarea">
-				<textarea rows="1" style="height:1em;" class="form-control textarea-new-comment" 
+				<textarea rows="1" style="height:1em;" class="form-control textarea-new-comment"
 						  id="textarea-new-comment<?php echo $idComment; ?>" placeholder="Votre commentaire..."></textarea>
 			</div>
 		</div>
@@ -122,7 +120,7 @@
 
 	<div id="comments-list-<?php echo $idComment; ?>">
 
-		<?php 
+		<?php
 			$assetsUrl = $this->module->assetsUrl;
 			function showCommentTree($comments, $assetsUrl, $idComment, $canComment, $level){
 				$count = 0;
@@ -134,36 +132,36 @@
 				if($nbTotalComments == 0) return;
 				//if($nbTotalComments == 0 && $level == 2) echo "Aucune commentaire";
 
-		 		
-				foreach ($comments as $key => $comment) { 
-			 		$count++; 
-					$profilThumbImageUrl = Element::getImgProfil($comment["author"], "profilThumbImageUrl", $assetsUrl); 
+
+				foreach ($comments as $key => $comment) {
+			 		$count++;
+					$profilThumbImageUrl = Element::getImgProfil($comment["author"], "profilThumbImageUrl", $assetsUrl);
 					if($hidden > 0) $hiddenClass = "hidden hidden-".$hidden;
 		?>
 					<div class="col-xs-12 no-padding margin-top-5 item-comment <?php echo $hiddenClass; ?>" id="item-comment-<?php echo $comment["_id"]; ?>">
 
-						<img src="<?php echo $profilThumbImageUrl; ?>" class="img-responsive pull-left" 
+						<img src="<?php echo $profilThumbImageUrl; ?>" class="img-responsive pull-left"
 							 style="margin-right:10px;height:32px; border-radius:3px;">
-					
-						<span class="pull-left content-comment">						
+
+						<span class="pull-left content-comment">
 							<span class="text-black">
-								<span class="text-dark"><strong><?php echo $comment["author"]["name"]; ?></strong></span> 
+								<span class="text-dark"><strong><?php echo $comment["author"]["name"]; ?></strong></span>
 								<span class="text-comment <?php echo (@$comment['reportAbuseCount']&&$comment['reportAbuseCount']>=5)?'text-red-light':'' ?>">
 									<?php echo $comment["text"]; ?>
 								</span>
 							</span><br>
 							<span>
 							<?php if(isset(Yii::app()->session["userId"])){ ?>
-								 
+
 								<?php if(@$canComment){ ?>
-								<?php 
+								<?php
 									$lblReply = "Répondre";
 									if(sizeOf($comment["replies"])==1) $lblReply = "<i class='fa fa-reply fa-rotate-180'></i>" . sizeOf($comment["replies"])." réponse";
 									if(sizeOf($comment["replies"])>1) $lblReply = "<i class='fa fa-reply fa-rotate-180'></i>" . sizeOf($comment["replies"])." réponses";
 								?>
-									<a class="" href="javascript:answerComment('<?php echo $idComment; ?>', '<?php echo $comment["_id"]; ?>')"><?php echo $lblReply; ?></a> 
+									<a class="" href="javascript:answerComment('<?php echo $idComment; ?>', '<?php echo $comment["_id"]; ?>')"><?php echo $lblReply; ?></a>
 								<?php } ?>
-								<?php 
+								<?php
 									$myId = Yii::app()->session["userId"]; $iVoted = "";
 									$voteUpCount = @$comment['voteUpCount'] ? $comment['voteUpCount'] : 0;
 									$voteDownCount = @$comment['voteDownCount'] ? $comment['voteDownCount'] : 0;
@@ -177,25 +175,25 @@
 										data-voted="<?php echo $iVoted!='' ? 'true' : 'false'; ?>"
 										data-id="<?php echo $comment["_id"]; ?>" data-countcomment="<?php echo $voteUpCount; ?>"
 										data-toggle="tooltip" data-placement="top" title="J'aime">
-										<span class="count"><?php echo @$voteUpCount; ?></span> 
+										<span class="count"><?php echo @$voteUpCount; ?></span>
 										<i class='fa fa-thumbs-up'></i>
-									</a> 
+									</a>
 									<a  href="javascript:"
 										class="tooltips commentVoteDown <?php echo $iVoted=='down' ? 'text-orange' : ''; ?>"
 										data-voted="<?php echo $iVoted!='' ? 'true' : 'false'; ?>"
 										data-id="<?php echo $comment["_id"]; ?>" data-countcomment="<?php echo @$voteDownCount; ?>"
 										data-toggle="tooltip" data-placement="top" title="Je n'aime pas">
-										<span class="count"><?php echo @$voteDownCount; ?></span> 
+										<span class="count"><?php echo @$voteDownCount; ?></span>
 										<i class='fa fa-thumbs-down'></i>
 									</a>
-									
+
 									<?php if($reportAbuseCount > 1){ ?>
 									<a style="margin-left:5px; margin-right:5px;" href="javascript:"
 										class="tooltips commentReportAbuse <?php echo $iVoted=='abuse' ? 'text-red' : 'text-red-light'; ?>"
 										data-voted="<?php echo $iVoted!='' ? 'true' : 'false'; ?>"
 										data-id="<?php echo $comment["_id"]; ?>" data-countcomment="<?php echo @$reportAbuseCount; ?>"
 										data-toggle="tooltip" data-placement="top" title="Signaler un abus">
-										<span class="count"><?php echo $reportAbuseCount; ?></span> 
+										<span class="count"><?php echo $reportAbuseCount; ?></span>
 										<i class='fa fa-flag'></i>
 									</a>
 									<?php } ?>
@@ -207,11 +205,11 @@
 											data-voted="<?php echo $iVoted!='' ? 'true' : 'false'; ?>"
 											data-id="<?php echo $comment["_id"]; ?>" data-countcomment="<?php echo @$reportAcommentbuseCount; ?>"
 											data-toggle="tooltip" data-placement="top" title="Signaler un abus">
-											<span class="count"><?php echo $reportAbuseCount; ?></span> 
+											<span class="count"><?php echo $reportAbuseCount; ?></span>
 											<i class='fa fa-flag'></i>
 										</a>
 										<?php } ?>
-										
+
 										<?php if(@$comment["author"]["id"] == Yii::app()->session["userId"]){ ?>
 											<a style="margin-left:5px; margin-right:5px;"  class="tooltips"
 											   data-toggle="tooltip" data-placement="top" title="Modifier"
@@ -220,7 +218,7 @@
 											<a class="tooltips"
 											   data-toggle="tooltip" data-placement="top" title="Supprimer"
 											   href="javascript:confirmDeleteComment('<?php echo $comment["_id"]; ?>',$(this))"><i class='fa fa-times'></i>
-											</a>				
+											</a>
 										<?php } ?>
 
 									</div>
@@ -242,7 +240,7 @@
 						</div>
 		<?php 		} //if (multiple10 ?>
 
-		
+
 
 		<?php 	} //$.each ?>
 		<?php 	if($hidden > 0){ ?>
@@ -256,7 +254,7 @@
 		?>
 
 		<?php showCommentTree($comments, $assetsUrl, $idComment, $canComment, 1); ?>
-					
+
 	</div><!-- id="comments-list-<?php echo $idComment; ?>" -->
 
 </div><!-- class="footer-comments" -->
@@ -267,7 +265,7 @@
 	var contextType = "<?php echo $contextType; ?>";
 	var idComment = "<?php echo $idComment; ?>";
 	var comments = <?php echo json_encode($comments); ?>;
-	
+
 	var context = <?php echo json_encode($context)?>;
 
 	// mylog.log("context");
@@ -293,7 +291,7 @@
 	function bindEventTextArea(idTextArea, idComment, isAnswer, parentCommentId){
 
 		var idUx = (parentCommentId == "") ? idComment : parentCommentId;
-		
+
 		$(idTextArea).css('height', "34px");
 		$("#container-txtarea-"+idUx).css('height', "34px");
 		autosize($(idTextArea));
@@ -320,7 +318,7 @@
 		$('.commentVoteUp').off().on("click",function(){
 			id=$(this).data("id");
 			mylog.log("thisData voted : ",  $(this).data("voted"));
-			//if($(this).data("voted")=="true") 
+			//if($(this).data("voted")=="true")
 			//	alert(typeof $(this).data("voted"));
 			if((!$(this).hasClass("text-green") && $(this).data("voted")==true)){
 				if($(".commentReportAbuse[data-id='"+id+"']").hasClass("text-red")){
@@ -344,7 +342,7 @@
 				else{
 					toastr.info("<?php echo Yii::t("common", "Remove your last opinion before") ?>");
 				}
-			}else{	
+			}else{
 				method= $(this).hasClass("text-orange");
 				actionOnComment($(this),'<?php echo Action::ACTION_VOTE_DOWN ?>', method);
 				disableOtherAction(id, '.commentVoteDown', method);
@@ -356,7 +354,7 @@
 			id=$(this).data("id");
 			if($(this).data("voted")=="true")
 				toastr.info("<?php echo Yii::t("common", "Remove your last opinion before") ?>");
-			else{	
+			else{
 				if($(".commentVoteUp[data-id='"+id+"']").hasClass("text-green") || $(".commentVoteDown[data-id='"+id+"']").hasClass("text-orange")){
 					toastr.info("<?php echo Yii::t("common", "You can't make any actions on this comment after reporting abuse !") ?>");
 				}
@@ -369,7 +367,7 @@
 			actionAbuseComment($(this), "<?php echo Comment::STATUS_DELETED ?>", "");
 		});
 	}
-	
+
 
 	function showOneComment(textComment, idComment, isAnswer, idNewComment){
 		textComment = linkify(textComment);
@@ -377,8 +375,8 @@
 
 						'<img src="<?php echo @$profilThumbImageUrlUser; ?>" class="img-responsive pull-left" '+
 						'	 style="margin-right:10px;height:32px; border-radius:3px;">'+
-					
-						'<span class="pull-left content-comment">'+						
+
+						'<span class="pull-left content-comment">'+
 						'	<span class="text-black">'+
 						'		<span class="text-dark"><strong><?php echo @$me["name"]; ?></strong></span><br>'+
 						'		<span class="text-comment">'	+ textComment + "</span>" +
@@ -386,7 +384,7 @@
 							'<span class="">' +
 								<?php if(@$canComment){ ?>
 							'		<a class="" href=\'javascript:answerComment(\"<?php echo $idComment; ?>\", \"'+idNewComment+'\")\'>Répondre</a> '+
-								<?php } ?> 
+								<?php } ?>
 								<?php if(isset(Yii::app()->session["userId"])){ ?>
 
 							'		<a class="tooltips commentVoteUp" style="margin-left:5px;margin-right:5px;"'+
@@ -401,14 +399,14 @@
 							'				data-id="'+idNewComment+'" data-countcomment="0"	' +
 							'				data-toggle="tooltip" data-placement="top" title="Je n\'aime pas"'+
 							'			  	href="javascript:">0 <i class="fa fa-thumbs-down"></i></a> ' +
-							
+
 							'<div class="tool-action-comment">' +
 							'		<a class="tooltips commentReportAbuse" style="margin-left:5px;margin-right:5px;"'+
 							'			   	data-voted="false"'+
 							'				data-id="'+idNewComment+'" data-countcomment="0"	' +
 							'				data-toggle="tooltip" data-placement="top" title="Signaler un abus"'+
 							'			  	href="javascript:">0 <i class="fa fa-flag"></i></a> '+
-									
+
 							'		<a style="margin-left:5px; margin-right:5px;"  class="tooltips"'+
 							'			   data-toggle="tooltip" data-placement="top" title="Modifier"'+
 							'			   href=\'javascript:editComment(\"'+idNewComment+'\")\'><i class="fa fa-pencil"></i></a>'+
@@ -421,9 +419,9 @@
 							//'			<a class="" href=\'javascript:modifyComment(\"'+idNewComment+'\")\'>Modifier</a>'+
 								<?php } ?>
 							'</span>'+
-						'</span>'+	
+						'</span>'+
 						'<div id="comments-list-'+idNewComment+'" class="pull-left col-md-11 no-padding answerCommentContainer"></div>' +
-							
+
 					'</div>';
 
 		if(!isAnswer){
@@ -471,12 +469,12 @@
 			type: 'post',
 			global: false,
 			dataType: 'json',
-			success: 
+			success:
 				function(data) {
 					if(!data.result){
 						toastr.error(data.msg);
 					}
-					else { 
+					else {
 						toastr.success(data.msg);
 						var count = $("#newsFeed"+context["_id"]["$id"]+" .nbNewsComment").html();
 						if(!notEmpty(count)) count = 0;
@@ -491,7 +489,7 @@
 						// 	$("#newsFeed"+context["_id"]["$id"]+" .lblComment").html("<i class='fa fa-comment'></i> <span class='nbNewsComment'>1</span> commentaire");
 						// 	$("#newsFeed"+context["_id"]["$id"]+" .newsAddComment").data('count', 1);
 						}
-						
+
 						// $('.nbComments').html((parseInt($('.nbComments').html()) || 0) + 1);
 						// if (data.newComment.contextType=="news"){
 						// 	$(".newsAddComment[data-id='"+data.newComment.contextId+"']").children().children(".nbNewsComment").text(parseInt($('.nbComments').html()) || 0);
@@ -500,26 +498,26 @@
 						latestComments = data.time;
 
 						var isAnswer = parentCommentId!="";
-						showOneComment(textComment, parentCommentId, isAnswer, data.id.$id);   
-						bindEventActions();    
+						showOneComment(textComment, parentCommentId, isAnswer, data.id.$id);
+						bindEventActions();
 					}
 				},
-			error: 
+			error:
 				function(data) {
 					toastr.error('<?php echo Yii::t("comment","Error calling the serveur : contact your administrator.") ?>');
 				}
 		});
-		
+
 	}
 
 
 	function answerComment(idComment, parentCommentId){ mylog.log("answerComment");
-		
+
 		if(!$("#comments-list-"+parentCommentId).hasClass("hidden"))
 			$("#comments-list-"+parentCommentId).addClass("hidden");
 		else
 			$("#comments-list-"+parentCommentId).removeClass("hidden");
-		
+
 		//si l'input existe déjà on sort
 		if($('#container-txtarea-'+parentCommentId).length > 0) return;
 
@@ -527,7 +525,7 @@
 
 						'<img src="<?php echo @$profilThumbImageUrlUser; ?>" class="img-responsive pull-left" '+
 						'	 style="margin-right:10px;height:32px; border-radius:3px;">'+
-					
+
 						'<div class="ctnr-txtarea">' +
 							'<textarea rows="1" style="height:1em;" class="form-control textarea-new-comment" ' +
 									    'id="textarea-new-comment'+parentCommentId+'" placeholder="Votre réponse..."></textarea>' +
@@ -553,7 +551,7 @@
 		  	"<label><input type='radio' name='reason' value='Mention de source erronée'>Mention de source erronée</label><br>"+
 		  	"<label><input type='radio' name='reason' value='Violations des droits auteur'>Violations des droits d\'auteur</label><br><br>"+
 		  	"<input type='text' class='form-control' style='text-align:left;' id='reasonComment' placeholder='Laisser un commentaire...'/><br>"+
-		  	"Votre signalement sera envoyé aux administrateurs du réseau,<br> qui le traiteront conformément aux <a href='javascript:'>conditions d'utilisations</a><br>" + 
+		  	"Votre signalement sera envoyé aux administrateurs du réseau,<br> qui le traiteront conformément aux <a href='javascript:'>conditions d'utilisations</a><br>" +
 			"<span class='text-red'><i class='fa fa-info-circle'></i> Tout signalement est définitif, vous ne pourrez pas l'annuler</span><br>" +
 			"<hr>" +
 			"<span class=''><i class='fa fa-arrow-right'></i> Le contenu sera signalé par un <i class='fa fa-flag text-red'></i> s'il fait l'objet d'au moins 2 signalements</span><br>" +
@@ -610,12 +608,12 @@
 			type: 'post',
 			global: false,
 			dataType: 'json',
-			success: 
+			success:
 				function(data) {
 	    			if(!data.result){
 	                    toastr.error(data.msg);
 	               	}
-	                else { 
+	                else {
 	                    if (data.userAllreadyDidAction) {
 	                    	toastr.info('<?php echo Yii::t("comment","You already declare this comment as abused.") ?>');
 	                    } else {
@@ -633,7 +631,7 @@
 						}
 	                }
 	            },
-	        error: 
+	        error:
 	        	function(data) {
 	        		toastr.error('<?php echo Yii::t("comment","Error calling the serveur : contact your administrator.") ?>');
 	        	}
@@ -657,12 +655,12 @@
 			type: 'post',
 			global: false,
 			dataType: 'json',
-			success: 
+			success:
 				function(data) {
 	    			if(!data.result){
 	                    toastr.error(data.msg);
 	               	}
-	                else { 
+	                else {
 	                    if (data.userAllreadyDidAction) {
 	                    	toastr.info("You already vote on this comment.");
 	                    } else {
@@ -677,8 +675,8 @@
 			                    if(data.inc>=1)
 			                    	toastr.success("<?php echo Yii::t("common", "Your vote has been successfully added") ?>");
 			                    else
-									toastr.success("<?php echo Yii::t("common","Your vote has been successfully removed") ?>");	 
-							}                   
+									toastr.success("<?php echo Yii::t("common","Your vote has been successfully removed") ?>");
+							}
 		                   // toastr.success(data.msg);
 
 							comment.data( "count" , count+data.inc );
@@ -687,7 +685,7 @@
 						}
 	                }
 	            },
-	        error: 
+	        error:
 	        	function(data) {
 	        		toastr.error("Error calling the serveur : contact your administrator.");
 	        	}
@@ -767,8 +765,8 @@
 			dataType: "json",
 			//data: {"newsId": idNews},
 	    	success: function(data){
-	        	if (data.result) {    
-		        	mylog.log(data);           
+	        	if (data.result) {
+		        	mylog.log(data);
 					toastr.success("<?php echo Yii::t("common","Comment successfully deleted")?>");
 					//liParent=$this.parents().eq(2);
 		        	//liParent.fadeOut();

@@ -1,9 +1,9 @@
 
 <?php
   // if($type != City::CONTROLLER && $type != "pixels" && !@$_GET["renderPartial"])
-  //   $this->renderPartial('../pod/headerEntity', 
-  //     array("entity"=>$parent, "type" => $type, "viewer" => @$viewer, 
-  //         "firstView" => @$firstView, "openEdition" => @$openEdition, "edit" => $edit)); 
+  //   $this->renderPartial('../pod/headerEntity',
+  //     array("entity"=>$parent, "type" => $type, "viewer" => @$viewer,
+  //         "firstView" => @$firstView, "openEdition" => @$openEdition, "edit" => $edit));
 ?>
 <style>
   .tools_bar{
@@ -67,7 +67,7 @@
   float: left;
   width: 24px;
   height: 22px;
-  cursor: hand; 
+  cursor: hand;
   cursor: pointer;
 }
 .thumb_sel .next_thumb:hover {
@@ -157,12 +157,12 @@
 }
 
 </style>
-<?php 
+<?php
   $isLive = isset($_GET["isLive"]) ? true : false;
   $contextName = "";
   $contextIcon = "bookmark fa-rotate-270";
   $contextTitle = "";
-  $imgProfil = $this->module->assetsUrl . "/images/news/profile_default_l.png"; 
+  $imgProfil = $this->module->assetsUrl . "/images/news/profile_default_l.png";
   $textForm = Yii::t("common","Write a public message visible on the wall of selected places");
   if( isset($type) && $type == Organization::COLLECTION && isset($parent) ){
     Menu::organization( $parent );
@@ -172,15 +172,15 @@
     $contextTitle = Yii::t("common","Participants");
     $restricted = Yii::t("common","Visible to all on this wall and published on community's network");
     $titleRestricted = "Restreint";
-    $private = Yii::t("common","Visible only to the members"); 
+    $private = Yii::t("common","Visible only to the members");
     $titlePrivate = "Privé";
-    $scopeBegin= ucfirst(Yii::t("common", "private"));  
+    $scopeBegin= ucfirst(Yii::t("common", "private"));
     $public = true;
     $iconBegin= "lock";
     $headerName= "Journal de l'organisation";//.$contextName;
     $topTitle= "Journal de l'organisation";//.$contextName;
     if(@$canManageNews && $canManageNews==true)
-      $textForm = Yii::t("common","Post a message in the wall of")." ".$contextName.", ".Yii::t("common","publicly shared or this community");
+      $textForm = Yii::t("common","Post a message in the wall of")." ".$contextName.", ".Yii::t("common","publicly shared or to this community");
     else
       $textForm = Yii::t("common","Write a private message to")." ".$contextName;
   }
@@ -188,7 +188,7 @@
     if((@$isLive && $isLive==true) || !@Yii::app()->session["userId"] || (Yii::app()->session["userId"] !=$contextParentId)){
       //Visible de tous sur
       //Menu::person($parent);
-    
+
       $contextName =addslashes($parent["name"]);
       $contextIcon = "<i class='fa fa-circle text-yellow'></i> <i class='fa fa-user text-dark'></i> ";
       $contextTitle =  Yii::t("common", "DIRECTORY of")." ".$contextName;
@@ -196,7 +196,7 @@
         $restricted = Yii::t("common","Visible to all");
         $private = Yii::t("common","Visible only to me");
         $textForm = Yii::t("common","Write a public message visible on the wall of selected places");
-      } 
+      }
       if(Yii::app()->session["userId"] ==$contextParentId){
         $headerName= "Mon journal";
         $topTitle = $headerName;
@@ -214,7 +214,7 @@
       $private = Yii::t("common","Visible only to me");
       $textForm = Yii::t("common","Published a message in your wall for your network");
     }
-    $scopeBegin= ucfirst(Yii::t("common", "my network")); 
+    $scopeBegin= ucfirst(Yii::t("common", "my network"));
     $iconBegin= "connectdevelop";
   }
   else if( isset($type) && $type == Project::COLLECTION && isset($parent) ){
@@ -223,8 +223,8 @@
     $contextIcon = "lightbulb-o";
     $contextTitle = Yii::t("common", "Contributors of project");
     $restricted = Yii::t("common","Visible to all on this wall and published on community's network");
-    $private = Yii::t("common","Visible only to the project's contributors"); 
-    $scopeBegin= ucfirst(Yii::t("common", "private"));  
+    $private = Yii::t("common","Visible only to the project's contributors");
+    $scopeBegin= ucfirst(Yii::t("common", "private"));
     $iconBegin= "lock";
     $public = true;
     $headerName= "Journal du projet";//.$contextName;
@@ -239,7 +239,7 @@
     $contextIcon = "calendar";
     $contextTitle = Yii::t("common", "Contributors of event");
     $restricted = Yii::t("common","Visible to all on this wall and published on community's network");
-    $scopeBegin= ucfirst(Yii::t("common", "my network")); 
+    $scopeBegin= ucfirst(Yii::t("common", "my network"));
     $iconBegin= "connectdevelop";
     $headerName= "Journal de l'événement";//.$contextName;
     $topTitle = "Journal de l'événement";//.$contextName;
@@ -254,7 +254,7 @@
     $contextName = Yii::t("common","City")." : ".$city["name"];
     $contextIcon = "university";
     $contextTitle = Yii::t("common", "DIRECTORY Local network of")." ".$city["name"];
-    $scopeBegin= "Public";  
+    $scopeBegin= "Public";
     $iconBegin= "globe";
     $headerName= "Actualités de ".$city["name"];
     $topTitle = ""; //$headerName;
@@ -272,7 +272,7 @@
   $imgProfil = "";
   if($contextParentType != "city"){
     Menu::news($type);
-    //$this->renderPartial('../default/panels/toolbar'); 
+    //$this->renderPartial('../default/panels/toolbar');
   }
 ?>
 
@@ -283,31 +283,31 @@
 
   <?php if(false) { ?>
     <div class="col-xs-12" style="margin-top: 10px; margin-bottom: 10px; margin-left: 0px;padding: 0px 10px;"  id="list_type_news">
-      
+
       <div class="btn-group btn-group-sm inline-block" id="menu-type-news">
-        <button class="btn btn-default btn-type-news tooltips text-dark active" 
+        <button class="btn btn-default btn-type-news tooltips text-dark active"
             data-toggle="tooltip" data-placement="top" title="Messages" data-type="news">
-          <i class="fa fa-check-circle-o search_news hidden"></i> <i class="fa fa-rss"></i> 
+          <i class="fa fa-check-circle-o search_news hidden"></i> <i class="fa fa-rss"></i>
           <span class="hidden-xs hidden-sm hidden-md">Message</span>
         </button>
-        <button class="btn btn-default btn-type-news tooltips text-dark" 
+        <button class="btn btn-default btn-type-news tooltips text-dark"
             data-toggle="tooltip" data-placement="top" title="Idée" data-type="idea">
-          <i class="fa fa-circle-o search_organizations hidden"></i> <i class="fa fa-info-circle"></i> 
+          <i class="fa fa-circle-o search_organizations hidden"></i> <i class="fa fa-info-circle"></i>
           <span class="hidden-xs hidden-sm hidden-md">Idée</span>
         </button>
-        <button class="btn btn-default btn-type-news tooltips text-dark" 
+        <button class="btn btn-default btn-type-news tooltips text-dark"
             data-toggle="tooltip" data-placement="top" title="Question" data-type="question">
-          <i class="fa fa-circle-o search_projects hidden"></i> <i class="fa fa-question-circle"></i> 
+          <i class="fa fa-circle-o search_projects hidden"></i> <i class="fa fa-question-circle"></i>
           <span class="hidden-xs hidden-sm hidden-md">Question</span>
         </button>
-        <button class="btn btn-default btn-type-news tooltips text-dark" 
+        <button class="btn btn-default btn-type-news tooltips text-dark"
             data-toggle="tooltip" data-placement="top" title="Annonce" data-type="announce">
-          <i class="fa fa-circle-o search_events hidden"></i> <i class="fa fa-ticket"></i> 
+          <i class="fa fa-circle-o search_events hidden"></i> <i class="fa fa-ticket"></i>
           <span class="hidden-xs hidden-sm hidden-md">Annonce</span>
         </button>
-        <button class="btn btn-default btn-type-news tooltips text-dark" 
+        <button class="btn btn-default btn-type-news tooltips text-dark"
             data-toggle="tooltip" data-placement="top" title="Information" data-type="information">
-          <i class="fa fa-circle-o search_needs hidden"></i> <i class="fa fa-newspaper-o"></i> 
+          <i class="fa fa-circle-o search_needs hidden"></i> <i class="fa fa-newspaper-o"></i>
           <span class="hidden-xs hidden-sm hidden-md">Information</span>
         </button>
       </div>
@@ -326,12 +326,9 @@
       <?php if((@$canManageNews && $canManageNews==true) || (@$isLive && $isLive == true)){ ?>
       <div class="user-image-buttons">
         <form method="post" id="photoAddNews" enctype="multipart/form-data">
-          <span class="btn btn-white btn-file fileupload-new btn-sm"  <?php if (!$authorizedToStock){ ?> onclick="addMoreSpace();" <?php } ?>>
+          <span class="btn btn-white btn-file fileupload-new btn-sm"  >
           <span class="fileupload-new"><i class="fa fa-picture-o fa-x"></i> </span>
-            <?php if ($authorizedToStock){ ?>
               <input type="file" accept=".gif, .jpg, .png" name="newsImage" id="addImage" onchange="showMyImage(this);">
-            <?php } ?>
-            
           </span>
         </form>
       </div>
@@ -339,13 +336,13 @@
     </div>
 
     <form id='form-news' class="col-sm-12 no-padding">
-      
+
       <input type="hidden" id="parentId" name="parentId" value="<?php if($contextParentType != "city") echo $contextParentId; else echo Yii::app()->session["userId"]; ?>"/>
-      <input type="hidden" id="parentType" name="parentType" value="<?php if($contextParentType != "city") echo $contextParentType; else echo Person::COLLECTION; ?>"/> 
-      
+      <input type="hidden" id="parentType" name="parentType" value="<?php if($contextParentType != "city") echo $contextParentType; else echo Person::COLLECTION; ?>"/>
+
       <input type="hidden" id="typeNews" name="type" value="news"/>
 
-      <input  type="text" id="falseInput" onclick="javascript:showFormBlock(true);" 
+      <input  type="text" id="falseInput" onclick="javascript:showFormBlock(true);"
           class="col-xs-12 col-md-12" placeholder="Exprimez-vous ..."   style="padding:15px;"/>
 
       <div class="extract_url">
@@ -359,26 +356,26 @@
         </div>
       </div>
       <div class="form-group tagstags col-sm-12 no-padding">
-          <input id="tags" type="" data-type="select2" name="tags" placeholder="#Tags" value="" style="width:100%;">        
+          <input id="tags" type="" data-type="select2" name="tags" placeholder="#Tags" value="" style="width:100%;">
       </div>
       <div class="form-actions no-padding" style="display: block;">
-        
+
         <div id="scopeListContainer" class="list_tags_scopes col-md-12 no-padding margin-bottom-10"></div>
 
         <div class="col-md-12 no-padding">
           <hr class="submit">
-          
+
           <button id="btn-submit-form" type="submit" class="btn btn-success pull-right">Envoyer <i class="fa fa-arrow-circle-right"></i></button>
 
 
-        <?php if((@$canManageNews && $canManageNews==true) 
-              || (@Yii::app()->session["userId"] 
-              && $contextParentType==Person::COLLECTION 
+        <?php if((@$canManageNews && $canManageNews==true)
+              || (@Yii::app()->session["userId"]
+              && $contextParentType==Person::COLLECTION
               && Yii::app()->session["userId"]==$contextParentId)){ ?>
-        
+
         <!--<div id="tagScopeListContainer" class="list_tags_scopes col-xs-12 no-padding"></div>
         <input type="hidden" name="scope" value="public"/>-->
-        
+
         <div class="dropdown col-md-6 no-padding">
           <a data-toggle="dropdown" class="btn btn-default" id="btn-toogle-dropdown-scope" href="#"><i class="fa fa-<?php echo $iconBegin ?>"></i> <?php echo $scopeBegin ?> <i class="fa fa-caret-down" style="font-size:inherit;"></i></a>
           <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
@@ -386,13 +383,6 @@
             <li>
               <a href="javascript:;" id="scope-my-network" class="scopeShare" data-value="private"><h4 class="list-group-item-heading"><i class="fa fa-lock"></i> <?php echo ucfirst(Yii::t("common", "private")) ?></h4>
                 <p class="list-group-item-text small"><?php echo $private ?></p>
-              </a>
-            </li>
-            <?php } ?>
-            <?php if(@$restricted){ ?>
-              <li>
-              <a href="javascript:;" id="scope-my-network" class="scopeShare" data-value="restricted"><h4 class="list-group-item-heading"><i class="fa fa-connectdevelop"></i> <?php echo ucfirst(Yii::t("common", "my network")) ?></h4>
-                <p class="list-group-item-text small"><?php echo $restricted ?></p>
               </a>
             </li>
             <?php } ?>
@@ -404,58 +394,51 @@
               </a>
             </li>
             <?php } ?>
-            <?php if (@$private && $contextParentType==Person::COLLECTION){ ?>
-            <li>
-              <a href="javascript:;" id="scope-my-network" class="scopeShare" data-value="private"><h4 class="list-group-item-heading"><i class="fa fa-lock"></i> <?php echo ucfirst(Yii::t("common", "private")) ?></h4>
-                <p class="list-group-item-text small"><?php echo $private ?></p>
-              </a>
-            </li>
-            <?php } ?>
             <!--<li>
               <a href="#" id="scope-select" data-toggle="modal" data-target="#modal-scope"><i class="fa fa-plus"></i> Selectionner</a>
             </li>-->
           </ul>
-        </div>  
+        </div>
 
-        
+
         <?php if($contextParentType == Organization::COLLECTION || $contextParentType == Project::COLLECTION){ ?>
         <div class="dropdown no-padding pull-right">
           <a data-toggle="dropdown" class="btn btn-default" id="btn-toogle-dropdown-targetIsAuthor" href="#">
-          <?php if(@$parent["profilThumbImageUrl"]){ ?>
-            <img height=20 width=20 src='<?php echo Yii::app()->getRequest()->getBaseUrl(true).$parent["profilThumbImageUrl"] ?>'>
+          <?php if(@ Yii::app()->session["user"]["profilThumbImageUrl"]){ ?>
+            <img height=20 width=20 src='<?php echo Yii::app()->getRequest()->getBaseUrl(true).Yii::app()->session["user"]["profilThumbImageUrl"]; ?>'>
           <?php } else{ ?>
-            <img height=20 width=20 src='<?php echo $this->module->assetsUrl.'/images/thumb/default_'.$contextParentType.'.png' ?>'>  
+            <img height=20 width=20 src='<?php echo $this->module->assetsUrl.'/images/thumb/default_citoyens.png' ?>'>
           <?php } ?>
             <i class="fa fa-caret-down" style="font-size:inherit;"></i>
           </a>
           <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
             <li>
-              <a href="javascript:;" class="targetIsAuthor" data-value="1">
-                <h4 class="list-group-item-heading">
-                <?php if(@$parent["profilThumbImageUrl"]){ ?>
-                  <img height=20 width=20 src='<?php echo Yii::app()->getRequest()->getBaseUrl(true).$parent["profilThumbImageUrl"] ?>'>
-                <?php } else { ?>
-                  <img height=20 width=20 src='<?php echo $this->module->assetsUrl.'/images/thumb/default_'.$contextParentType.'.png' ?>'>  
-                <?php } ?>
-                <?php echo $contextName ?></h4>
-                <p class="list-group-item-text small">Afficher <?php echo $contextName ?> comme auteur</p>
-              </a>
-            </li>
-            <li>
               <a href="javascript:;" class="targetIsAuthor" data-value="0"><h4 class="list-group-item-heading">
                 <?php if(@ Yii::app()->session["user"]["profilThumbImageUrl"]){ ?>
-                <img height=20 width=20 src='<?php echo Yii::app()->getRequest()->getBaseUrl(true).Yii::app()->session["user"]["profilThumbImageUrl"]; ?>'>
+                  <img height=20 width=20 src='<?php echo Yii::app()->getRequest()->getBaseUrl(true).Yii::app()->session["user"]["profilThumbImageUrl"]; ?>'>
                 <?php } else {  ?>
-                  <img height=20 width=20 src='<?php echo $this->module->assetsUrl.'/images/thumb/default_citoyens.png' ?>'>  
+                  <img height=20 width=20 src='<?php echo $this->module->assetsUrl.'/images/thumb/default_citoyens.png' ?>'>
                 <?php } ?>
                 <?php echo ucfirst(Yii::t("common", "Moi")) ?></h4>
                 <p class="list-group-item-text small"><?php echo "Je suis l'auteur" ?></p>
               </a>
             </li>
+            <?php /*<li>
+              <a href="javascript:;" class="targetIsAuthor" data-value="1">
+                <h4 class="list-group-item-heading">
+                <?php if(@$parent["profilThumbImageUrl"]){ ?>
+                  <img height=20 width=20 src='<?php echo Yii::app()->getRequest()->getBaseUrl(true).$parent["profilThumbImageUrl"] ?>'>
+                <?php } else { ?>
+                  <img height=20 width=20 src='<?php echo $this->module->assetsUrl.'/images/thumb/default_'.$contextParentType.'.png' ?>'>
+                <?php } ?>
+                <?php echo $contextName ?></h4>
+                <p class="list-group-item-text small">Afficher <?php echo $contextName ?> comme auteur</p>
+              </a>
+            </li>*/ ?>
           </ul>
           <input type="hidden" id="authorIsTarget" value="1"/>
-        </div>  
-          <?php } ?>    
+        </div>
+          <?php } ?>
         <?php } ?>
 
 
@@ -464,17 +447,17 @@
           <?php /* ?>
           <input type="hidden" name="cityInsee" value=""/>
           <input type="hidden" id="cityPostalCode" name="cityPostalCode" value=""/>
-          <p class="text-xs hidden-xs" style="position:absolute;bottom:20px;"><?php echo Yii::t("news","News sent to") ?>:</p> 
+          <p class="text-xs hidden-xs" style="position:absolute;bottom:20px;"><?php echo Yii::t("news","News sent to") ?>:</p>
           <div class="badge cityBadge" style="position:absolute;bottom:10px;">
           </div><?php */ ?>
           <input type="hidden" name="scope" value="public"/>
         <?php } ?>
-                  
-        
+
+
         <?php if((@$canManageNews && $canManageNews=="true") || (
-            @Yii::app()->session["userId"] && 
+            @Yii::app()->session["userId"] &&
             $contextParentType==Person::COLLECTION && Yii::app()->session["userId"]==$contextParentId)){ ?>
-        
+
             <?php if($contextParentType==Organization::COLLECTION || $contextParentType==Project::COLLECTION){ ?>
               <input type="hidden" name="scope" value="private"/>
             <?php } else if($contextParentType==Event::COLLECTION || $contextParentType==Person::COLLECTION){ ?>
@@ -484,7 +467,7 @@
             <?php } ?>
 
         <?php }else{ if($contextParentType==Event::COLLECTION){?>
-          
+
           <input type="hidden" name="scope" value="restricted"/>
 
         <?php } else { ?>

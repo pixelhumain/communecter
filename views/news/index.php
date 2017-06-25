@@ -1,4 +1,4 @@
-<?php 
+<?php
 $cssAnsScriptFilesModule = array(
 	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css',
 	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysiwyg-color.css',
@@ -6,10 +6,10 @@ $cssAnsScriptFilesModule = array(
 	'/plugins/x-editable/css/bootstrap-editable.css',
 	'/plugins/select2/select2.css',
 	//X-editable...
-	'/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js' , 
-	'/plugins/x-editable/js/bootstrap-editable.js' , 
-	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' , 
-	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' , 
+	'/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js' ,
+	'/plugins/x-editable/js/bootstrap-editable.js' ,
+	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js' ,
+	'/plugins/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5.js' ,
 	'/plugins/wysihtml5/wysihtml5.js',
 	'/plugins/jquery.scrollTo/jquery.scrollTo.min.js',
 	'/plugins/ScrollToFixed/jquery-scrolltofixed-min.js',
@@ -20,12 +20,12 @@ $cssAnsScriptFilesModule = array(
 	'/plugins/jquery-mentions-input-master/jquery.mentionsInput.js',
 	'/plugins/jquery-mentions-input-master/jquery.mentionsInput.css',
 	'/plugins/jquery-mentions-input-master/lib/jquery.events.input.js',
-	
+
 );
 HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->request->baseUrl);
 
 $cssAnsScriptFilesModule = array(
-	//'/css/news/index.css',	
+	//'/css/news/index.css',
 	'/css/news/newsSV.css',
 	);
 	HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule,Yii::app()->theme->baseUrl."/assets");
@@ -37,22 +37,22 @@ $cssAnsScriptFilesModule = array(
 	//'/js/news/autosize.js',
 );
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->assetsUrl);
-?>	
+?>
 	<!-- start: PAGE CONTENT -->
 
 <?php
 	if($type != City::CONTROLLER && $type != "pixels" && !@$_GET["renderPartial"])
-		$this->renderPartial('../pod/headerEntity', 
-			array("entity"=>$parent, "type" => $type, "viewer" => @$viewer, 
-				  "firstView" => @$firstView, "openEdition" => @$openEdition, "edit" => $edit)); 
+		$this->renderPartial('../pod/headerEntity',
+			array("entity"=>$parent, "type" => $type, "viewer" => @$viewer,
+				  "firstView" => @$firstView, "openEdition" => @$openEdition, "edit" => $edit));
 ?>
 
-<?php 
+<?php
 	//$isLive = isset($_GET["isLive"]) ? true : false;
 	$contextName = "";
 	$contextIcon = "bookmark fa-rotate-270";
 	$contextTitle = "";
-	$imgProfil = $this->module->assetsUrl . "/images/news/profile_default_l.png"; 
+	$imgProfil = $this->module->assetsUrl . "/images/news/profile_default_l.png";
 	$textForm = Yii::t("common","Write a public message visible on the wall of selected places");
 	if( isset($type) && $type == Organization::COLLECTION && isset($parent) ){
 		Menu::organization( $parent );
@@ -62,15 +62,15 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$contextTitle = Yii::t("common","Participants");
 		$restricted = Yii::t("common","Visible to all on this wall and published on community's network");
 		$titleRestricted = "Restreint";
-		$private = Yii::t("common","Visible only to the members"); 
+		$private = Yii::t("common","Visible only to the members");
 		$titlePrivate = "Privé";
-		$scopeBegin= ucfirst(Yii::t("common", "private"));	
+		$scopeBegin= ucfirst(Yii::t("common", "private"));
 		$public = true;
 		$iconBegin= "lock";
 		$headerName= "Journal de l'organisation";//.$contextName;
 		$topTitle= "Journal de l'organisation";//.$contextName;
 		if(@$canManageNews && $canManageNews==true)
-			$textForm = Yii::t("common","Post a message in the wall of")." ".$contextName.", ".Yii::t("common","publicly shared or this community");
+			$textForm = Yii::t("common","Post a message in the wall of")." ".$contextName.", ".Yii::t("common","publicly shared or to this community");
 		else
 			$textForm = Yii::t("common","Write a private message to")." ".$contextName;
 	}
@@ -78,7 +78,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		if((@$isLive && $isLive==true) || !@Yii::app()->session["userId"] || (Yii::app()->session["userId"] !=$contextParentId)){
 			//Visible de tous sur
 			//Menu::person($parent);
-		
+
 			$contextName =addslashes($parent["name"]);
 			$contextIcon = "<i class='fa fa-circle text-yellow'></i> <i class='fa fa-user text-dark'></i> ";
 			$contextTitle =  Yii::t("common", "DIRECTORY of")." ".$contextName;
@@ -86,7 +86,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				$restricted = Yii::t("common","Visible to all");
 				$private = Yii::t("common","Visible only to me");
 				$textForm = Yii::t("common","Write a public message visible on the wall of selected places");
-			}	
+			}
 			if(Yii::app()->session["userId"] ==$contextParentId){
 				$headerName= "Mon journal";
 				$topTitle = $headerName;
@@ -104,7 +104,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 			$private = Yii::t("common","Visible only to me");
 			$textForm = Yii::t("common","Published a message in your wall for your network");
 		}
-		$scopeBegin= ucfirst(Yii::t("common", "my network"));	
+		$scopeBegin= ucfirst(Yii::t("common", "my network"));
 		$iconBegin= "connectdevelop";
 	}
 	else if( isset($type) && $type == Project::COLLECTION && isset($parent) ){
@@ -113,8 +113,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$contextIcon = "lightbulb-o";
 		$contextTitle = Yii::t("common", "Contributors of project");
 		$restricted = Yii::t("common","Visible to all on this wall and published on community's network");
-		$private = Yii::t("common","Visible only to the project's contributors"); 
-		$scopeBegin= ucfirst(Yii::t("common", "private"));	
+		$private = Yii::t("common","Visible only to the project's contributors");
+		$scopeBegin= ucfirst(Yii::t("common", "private"));
 		$iconBegin= "lock";
 		$public = true;
 		$headerName= "Journal du projet";//.$contextName;
@@ -129,7 +129,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$contextIcon = "calendar";
 		$contextTitle = Yii::t("common", "Contributors of event");
 		$restricted = Yii::t("common","Visible to all on this wall and published on community's network");
-		$scopeBegin= ucfirst(Yii::t("common", "my network"));	
+		$scopeBegin= ucfirst(Yii::t("common", "my network"));
 		$iconBegin= "connectdevelop";
 		$headerName= "Journal de l'événement";//.$contextName;
 		$topTitle = "Journal de l'événement";//.$contextName;
@@ -144,7 +144,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		$contextName = Yii::t("common","City")." : ".$city["name"];
 		$contextIcon = "university";
 		$contextTitle = Yii::t("common", "DIRECTORY Local network of")." ".$city["name"];
-		$scopeBegin= "Public";	
+		$scopeBegin= "Public";
 		$iconBegin= "globe";
 		$headerName= "Actualités de ".$city["name"];
 		$topTitle = ""; //$headerName;
@@ -162,7 +162,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	$imgProfil = "";
 	if($contextParentType != "city"){
 		Menu::news($type);
-		//$this->renderPartial('../default/panels/toolbar'); 
+		//$this->renderPartial('../default/panels/toolbar');
 	}
 ?>
 <style>
@@ -227,7 +227,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 	float: left;
 	width: 24px;
 	height: 22px;
-	cursor: hand; 
+	cursor: hand;
 	cursor: pointer;
 }
 .thumb_sel .next_thumb:hover {
@@ -313,9 +313,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 <!--<textarea class="mention"></textarea>-->
 
 
-<?php 
+<?php
 	if($isLive)
-		$this->renderPartial('../news/podBtnTypeNews', array("type"=>$type, "filterTypeNews"=>@$filterTypeNews)); 
+		$this->renderPartial('../news/podBtnTypeNews', array("type"=>$type, "filterTypeNews"=>@$filterTypeNews));
 ?>
 
 <!-- <div id="newLiveFeedForm" class="col-xs-12 no-padding margin-bottom-10"></div> -->
@@ -324,31 +324,31 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 
 	<?php if(false) { ?>
 		<div class="col-xs-12" style="margin-top: 10px; margin-bottom: 10px; margin-left: 0px;padding: 0px 10px;"  id="list_type_news">
-		  
+
 		  <div class="btn-group btn-group-sm inline-block" id="menu-type-news">
-		    <button class="btn btn-default btn-type-news tooltips text-dark active" 
+		    <button class="btn btn-default btn-type-news tooltips text-dark active"
 		    		data-toggle="tooltip" data-placement="top" title="Messages" data-type="news">
-		      <i class="fa fa-check-circle-o search_news hidden"></i> <i class="fa fa-rss"></i> 
+		      <i class="fa fa-check-circle-o search_news hidden"></i> <i class="fa fa-rss"></i>
 		      <span class="hidden-xs hidden-sm hidden-md">Message</span>
 		    </button>
-		    <button class="btn btn-default btn-type-news tooltips text-dark" 
+		    <button class="btn btn-default btn-type-news tooltips text-dark"
 		    		data-toggle="tooltip" data-placement="top" title="Idée" data-type="idea">
-		      <i class="fa fa-circle-o search_organizations hidden"></i> <i class="fa fa-info-circle"></i> 
+		      <i class="fa fa-circle-o search_organizations hidden"></i> <i class="fa fa-info-circle"></i>
 		      <span class="hidden-xs hidden-sm hidden-md">Idée</span>
 		    </button>
-		    <button class="btn btn-default btn-type-news tooltips text-dark" 
+		    <button class="btn btn-default btn-type-news tooltips text-dark"
 		    		data-toggle="tooltip" data-placement="top" title="Question" data-type="question">
-		      <i class="fa fa-circle-o search_projects hidden"></i> <i class="fa fa-question-circle"></i> 
+		      <i class="fa fa-circle-o search_projects hidden"></i> <i class="fa fa-question-circle"></i>
 		      <span class="hidden-xs hidden-sm hidden-md">Question</span>
 		    </button>
-		    <button class="btn btn-default btn-type-news tooltips text-dark" 
+		    <button class="btn btn-default btn-type-news tooltips text-dark"
 		    		data-toggle="tooltip" data-placement="top" title="Annonce" data-type="announce">
-		      <i class="fa fa-circle-o search_events hidden"></i> <i class="fa fa-ticket"></i> 
+		      <i class="fa fa-circle-o search_events hidden"></i> <i class="fa fa-ticket"></i>
 		      <span class="hidden-xs hidden-sm hidden-md">Annonce</span>
 		    </button>
-		    <button class="btn btn-default btn-type-news tooltips text-dark" 
+		    <button class="btn btn-default btn-type-news tooltips text-dark"
 		    		data-toggle="tooltip" data-placement="top" title="Information" data-type="information">
-		      <i class="fa fa-circle-o search_needs hidden"></i> <i class="fa fa-newspaper-o"></i> 
+		      <i class="fa fa-circle-o search_needs hidden"></i> <i class="fa fa-newspaper-o"></i>
 		      <span class="hidden-xs hidden-sm hidden-md">Information</span>
 		    </button>
 		  </div>
@@ -370,7 +370,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 						<?php if ($authorizedToStock){ ?>
 							<input type="file" accept=".gif, .jpg, .png" name="newsImage" id="addImage" onchange="showMyImage(this);">
 						<?php } ?>
-						
+
 					</span>
 				</form>
 			</div>
@@ -378,13 +378,13 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		</div>
 
 		<form id='form-news' class="col-sm-12 no-padding">
-			
+
 			<input type="hidden" id="parentId" name="parentId" value="<?php if($contextParentType != "city") echo $contextParentId; else echo Yii::app()->session["userId"]; ?>"/>
-			<input type="hidden" id="parentType" name="parentType" value="<?php if($contextParentType != "city") echo $contextParentType; else echo Person::COLLECTION; ?>"/> 
-			
+			<input type="hidden" id="parentType" name="parentType" value="<?php if($contextParentType != "city") echo $contextParentType; else echo Person::COLLECTION; ?>"/>
+
 			<input type="hidden" id="typeNews" name="type" value="news"/>
 
-			<input 	type="text" id="falseInput" onclick="javascript:showFormBlock(true);" 
+			<input 	type="text" id="falseInput" onclick="javascript:showFormBlock(true);"
 					class="col-xs-12 col-md-12" placeholder="Exprimez-vous ..."   style="padding:15px;"/>
 
 			<div class="extract_url">
@@ -398,26 +398,26 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				</div>
 			</div>
 			<div class="form-group tagstags col-sm-12 no-padding">
-			    <input id="tags" type="" data-type="select2" name="tags" placeholder="#Tags" value="" style="width:100%;">		    
+			    <input id="tags" type="" data-type="select2" name="tags" placeholder="#Tags" value="" style="width:100%;">
 			</div>
 			<div class="form-actions no-padding" style="display: block;">
-				
+
 				<div id="scopeListContainer" class="list_tags_scopes col-md-12 no-padding margin-bottom-10"></div>
 
 				<div class="col-md-12 no-padding">
 					<hr class="submit">
-					
+
 					<button id="btn-submit-form" type="submit" class="btn btn-green pull-right">Envoyer <i class="fa fa-arrow-circle-right"></i></button>
 
 
-				<?php if((@$canManageNews && $canManageNews==true) 
-							|| (@Yii::app()->session["userId"] 
-							&& $contextParentType==Person::COLLECTION 
+				<?php if((@$canManageNews && $canManageNews==true)
+							|| (@Yii::app()->session["userId"]
+							&& $contextParentType==Person::COLLECTION
 							&& Yii::app()->session["userId"]==$contextParentId)){ ?>
-				
+
 				<!--<div id="tagScopeListContainer" class="list_tags_scopes col-xs-12 no-padding"></div>
 				<input type="hidden" name="scope" value="public"/>-->
-				
+
 				<div class="dropdown col-md-6 no-padding">
 					<a data-toggle="dropdown" class="btn btn-default" id="btn-toogle-dropdown-scope" href="#"><i class="fa fa-<?php echo $iconBegin ?>"></i> <?php echo $scopeBegin ?> <i class="fa fa-caret-down" style="font-size:inherit;"></i></a>
 					<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
@@ -454,16 +454,16 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 							<a href="#" id="scope-select" data-toggle="modal" data-target="#modal-scope"><i class="fa fa-plus"></i> Selectionner</a>
 						</li>-->
 					</ul>
-				</div>	
+				</div>
 
-				
+
 				<?php if($contextParentType == Organization::COLLECTION || $contextParentType == Project::COLLECTION){ ?>
 				<div class="dropdown no-padding pull-right">
 					<a data-toggle="dropdown" class="btn btn-default" id="btn-toogle-dropdown-targetIsAuthor" href="#">
 					<?php if(@$parent["profilThumbImageUrl"]){ ?>
 						<img height=20 width=20 src='<?php echo Yii::app()->getRequest()->getBaseUrl(true).$parent["profilThumbImageUrl"] ?>'>
 					<?php } else{ ?>
-						<img height=20 width=20 src='<?php echo $this->module->assetsUrl.'/images/thumb/default_'.$contextParentType.'.png' ?>'>	
+						<img height=20 width=20 src='<?php echo $this->module->assetsUrl.'/images/thumb/default_'.$contextParentType.'.png' ?>'>
 					<?php } ?>
 						<i class="fa fa-caret-down" style="font-size:inherit;"></i>
 					</a>
@@ -474,7 +474,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 								<?php if(@$parent["profilThumbImageUrl"]){ ?>
 									<img height=20 width=20 src='<?php echo Yii::app()->getRequest()->getBaseUrl(true).$parent["profilThumbImageUrl"] ?>'>
 								<?php } else { ?>
-									<img height=20 width=20 src='<?php echo $this->module->assetsUrl.'/images/thumb/default_'.$contextParentType.'.png' ?>'>	
+									<img height=20 width=20 src='<?php echo $this->module->assetsUrl.'/images/thumb/default_'.$contextParentType.'.png' ?>'>
 								<?php } ?>
 								<?php echo $contextName ?></h4>
 								<p class="list-group-item-text small">Afficher <?php echo $contextName ?> comme auteur</p>
@@ -485,7 +485,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 								<?php if(@ Yii::app()->session["user"]["profilThumbImageUrl"]){ ?>
 								<img height=20 width=20 src='<?php echo Yii::app()->getRequest()->getBaseUrl(true).Yii::app()->session["user"]["profilThumbImageUrl"]; ?>'>
 								<?php } else {  ?>
-									<img height=20 width=20 src='<?php echo $this->module->assetsUrl.'/images/thumb/default_citoyens.png' ?>'>	
+									<img height=20 width=20 src='<?php echo $this->module->assetsUrl.'/images/thumb/default_citoyens.png' ?>'>
 								<?php } ?>
 								<?php echo ucfirst(Yii::t("common", "Moi")) ?></h4>
 								<p class="list-group-item-text small"><?php echo "Je suis l'auteur" ?></p>
@@ -493,8 +493,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 						</li>
 					</ul>
 					<input type="hidden" id="authorIsTarget" value="1"/>
-				</div>	
-					<?php } ?>		
+				</div>
+					<?php } ?>
 				<?php } ?>
 
 
@@ -503,17 +503,17 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 					<?php /* ?>
 					<input type="hidden" name="cityInsee" value=""/>
 					<input type="hidden" id="cityPostalCode" name="cityPostalCode" value=""/>
-					<p class="text-xs hidden-xs" style="position:absolute;bottom:20px;"><?php echo Yii::t("news","News sent to") ?>:</p> 
+					<p class="text-xs hidden-xs" style="position:absolute;bottom:20px;"><?php echo Yii::t("news","News sent to") ?>:</p>
 					<div class="badge cityBadge" style="position:absolute;bottom:10px;">
 					</div><?php */ ?>
 					<input type="hidden" name="scope" value="public"/>
 				<?php } ?>
-									
-				
+
+
 				<?php if((@$canManageNews && $canManageNews=="true") || (
-						@Yii::app()->session["userId"] && 
+						@Yii::app()->session["userId"] &&
 						$contextParentType==Person::COLLECTION && Yii::app()->session["userId"]==$contextParentId)){ ?>
-				
+
 						<?php if($contextParentType==Organization::COLLECTION || $contextParentType==Project::COLLECTION){ ?>
 							<input type="hidden" name="scope" value="private"/>
 						<?php } else if($contextParentType==Event::COLLECTION || $contextParentType==Person::COLLECTION){ ?>
@@ -523,7 +523,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 						<?php } ?>
 
 				<?php }else{ if($contextParentType==Event::COLLECTION){?>
-					
+
 					<input type="hidden" name="scope" value="restricted"/>
 
 				<?php } else { ?>
@@ -558,7 +558,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 				<div id="top" class="no-padding panel-body">
 					<div id="tagFilters" class="optionFilter pull-left center col-md-10" style="display:none;" ></div>
 					<div id="scopeFilters" class="optionFilter pull-left center col-md-10" style="display:none;" ></div>
-		
+
 					<div id="timeline" class="col-md-12">
 						<div class="timeline col-md-12 no-padding">
 							<div class="newsTL">
@@ -576,8 +576,8 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 		</div>
 	</div>
 </div>
-<?php if(!@$_GET["renderPartial"] && ($contextParentType==Project::COLLECTION || $contextParentType==Event::COLLECTION || $contextParentType==Organization::COLLECTION || ($contextParentType==Person::COLLECTION && (!@Yii::app()->session["userId"] || (@Yii::app()->session["userId"] && Yii::app()->session["userId"]!= $contextParentId) && (@$isLive && $isLive != true))))){ 
-	// End div .pad-element-container if newspaper of orga, project, event and person 
+<?php if(!@$_GET["renderPartial"] && ($contextParentType==Project::COLLECTION || $contextParentType==Event::COLLECTION || $contextParentType==Organization::COLLECTION || ($contextParentType==Person::COLLECTION && (!@Yii::app()->session["userId"] || (@Yii::app()->session["userId"] && Yii::app()->session["userId"]!= $contextParentId) && (@$isLive && $isLive != true))))){
+	// End div .pad-element-container if newspaper of orga, project, event and person
 	// Present in pod/headerEntity.php
 ?>
 </div>
@@ -585,12 +585,12 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule, $this->module->
 <div id="modal_scope_extern" class="form-create-news-container hide"></div>
 
 
-<?php 
+<?php
 foreach($news as $key => $oneNews){
 	if(@$news[$key]["type"] && $news[$key]["type"] != "activityStream")
 		$news[$key]["typeSig"] = $news[$key]["type"];
 	//else
-		//$news[$key]["typeSig"] = "news";	
+		//$news[$key]["typeSig"] = "news";
 }
 ?>
 
@@ -636,7 +636,7 @@ var contextParentType = <?php echo json_encode(@$contextParentType) ?>;
 var contextParentId = <?php echo json_encode(@$contextParentId) ?>;
 var countEntries = 0;
 var offset="";
-var	dateLimit = 0;	
+var	dateLimit = 0;
 var lastOffset="";
 var streamType="news";
 var months = ["<?php echo Yii::t('common','january') ?>", "<?php echo Yii::t('common','febuary') ?>", "<?php echo Yii::t('common','march') ?>", "<?php echo Yii::t('common','april') ?>", "<?php echo Yii::t('common','may') ?>", "<?php echo Yii::t('common','june') ?>", "<?php echo Yii::t('common','july') ?>", "<?php echo Yii::t('common','august') ?>", "<?php echo Yii::t('common','september') ?>", "<?php echo Yii::t('common','october') ?>", "<?php echo Yii::t('common','november') ?>", "<?php echo Yii::t('common','december') ?>"];
@@ -663,8 +663,8 @@ var mentionsContact = [];
 
 var stopMention = false;
 var element = null;
-	
-jQuery(document).ready(function() 
+
+jQuery(document).ready(function()
 {
 
 	currentTypeSearchSend = "search";
@@ -682,7 +682,7 @@ jQuery(document).ready(function()
 	}
 	//canManageNews="";
 	//Modif SBAR
-	//$(".my-main-container").off(); 
+	//$(".my-main-container").off();
 	if(contextParentType=="pixels"){
 		tagsNews=["bug","idea"];
 	}
@@ -692,7 +692,7 @@ jQuery(document).ready(function()
 	/////// A réintégrer pour la version last
 	var $scrollElement = $(".my-main-container");
 
-	
+
 	$('#tags').select2({tags:tagsNews});
 	$("#tags").select2('val', "");
 	if(contextParentType != "city")
@@ -707,19 +707,19 @@ jQuery(document).ready(function()
 	<?php } ?>
 	//<span class='text-red'><i class='fa fa-rss'></i> Fil d'actus de</span>
 	//if(contextParentType!="city"){
-		
+
 		//if(contextParentId == idSession)
-		/*$(".moduleLabel").html("<i class='fa fa-rss'></i> Mon fil d'actus" + 
+		/*$(".moduleLabel").html("<i class='fa fa-rss'></i> Mon fil d'actus" +
 								"<img class='img-profil-parent' src='<?php echo $imgProfil; ?>'>");
 		else
-		$(".moduleLabel").html("<span class='text-red'><i class='fa fa-rss'></i> Fil d'actus de</span> <?php echo addslashes(@$contextName); ?>" + 
+		$(".moduleLabel").html("<span class='text-red'><i class='fa fa-rss'></i> Fil d'actus de</span> <?php echo addslashes(@$contextName); ?>" +
 								"<img class='img-profil-parent' src='<?php echo $imgProfil; ?>'>");*/
-		
-		
+
+
 	/*}else{
-		
+
 	}*/
-	
+
 	// SetTimeout => Problem of sequence in js script reader
 	setTimeout(function(){
 		//loadStream(currentIndexMin+indexStep, currentIndexMax+indexStep);
@@ -731,7 +731,7 @@ jQuery(document).ready(function()
 			dateLimit=initLimitDate.created.sec;
 		else
 			dateLimit=initLimitDate.created;
-		
+
 		$(".my-main-container").bind("scroll",function(){ //mylog.log(loadingData, scrollEnd);
 		    if(!loadingData && !scrollEnd){
 		          var heightContainer = $(".my-main-container")[0].scrollHeight;
@@ -751,7 +751,7 @@ jQuery(document).ready(function()
 		$('.tooltips').tooltip();
 	},100);
 	getMediaFromUrlContent(".get_url_input",".results",1);
-	
+
 	setTimeout(function(){
 		$("#btn-submit-form").on("click",function(){
 			saveNews();
@@ -791,7 +791,7 @@ jQuery(document).ready(function()
 			}
 	  	});
 	}
-	
+
 	$('textarea.mention').mentionsInput({
 	  onDataRequest:function (mode, query, callback) {
 		  	if(stopMention)
@@ -852,9 +852,9 @@ jQuery(document).ready(function()
 					        	object.avatar = avatar;
 					        	object.type = key;
 					        	var findInLocal = _.findWhere(mentionsContact, {
-									name: retdata[key][id].name, 
+									name: retdata[key][id].name,
 									type: key
-								}); 
+								});
 								if(typeof(findInLocal) == "undefined")
 									mentionsContact.push(object);
 					 			}
@@ -865,7 +865,7 @@ jQuery(document).ready(function()
 						callback.call(this, data);
 						mylog.log(callback);
 		  			}
-				}	
+				}
 			})
 	  }
   	});
