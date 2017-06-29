@@ -1,5 +1,5 @@
 //Retrieve the countries in ajax and return an array of value
-//The selectType change the value key : 
+//The selectType change the value key :
 //for select input : {"value":"FR", "text":"France"}
 //for select2 input : {"id":"FR", "text":"France"}
 function getCountries(selectType) {
@@ -17,7 +17,7 @@ function getCountries(selectType) {
 				} else {
 					result.push({"value" : value.value, "text" :value.text});
 				}
-			}) 
+			})
 		}
 	});
 	return result;
@@ -121,7 +121,7 @@ function addCustomValidators() {
     	} else {
     		return true;
     	}
-    }, "Invalid username : Only characters A-Z, a-z, 0-9 and '-' are  acceptable.");
+    }, "Nom d'utilisateur invalide : Seuls les caractères A-Z, a-z, 0-9 et '-' sont acceptés.");
 
 	jQuery.validator.addMethod("uniqueUserName", function(value, element) {
 	    //Check unique username
@@ -131,31 +131,31 @@ function addCustomValidators() {
 	jQuery.validator.addMethod("inArray", function(value, element) {
 	    //Check authorized caracters
 		test = $.inArray( element, value );
-    	if (test >= 0) 
+    	if (test >= 0)
     		return true;
     	else
     		return false;
     }, "Invalid : please stick to given values.");
 
-    jQuery.validator.addMethod("greaterThan", function(value, element, params) {    
+    jQuery.validator.addMethod("greaterThan", function(value, element, params) {
 	    if (!/Invalid|NaN/.test(new Date(value))) {
 	        return moment(value, "DD/MM/YYYY HH:mm").isAfter(moment($(params[0]).val(), "DD/MM/YYYY HH:mm"));
-	    }    
-	    return isNaN(value) && isNaN($(params[0]).val()) || (Number(value) > Number($(params[0]).val())); 
+	    }
+	    return isNaN(value) && isNaN($(params[0]).val()) || (Number(value) > Number($(params[0]).val()));
 	},'Doit ètre aprés {1}.');
 
-	jQuery.validator.addMethod("greaterThanNow", function(value, element, params) {   
-		mylog.log(value," < ",new Date()); 
-	    return moment(value, params[0]).isAfter(moment()); 
+	jQuery.validator.addMethod("greaterThanNow", function(value, element, params) {
+		mylog.log(value," < ",new Date());
+	    return moment(value, params[0]).isAfter(moment());
 	},"Doit être après la date d'aujourd'hui.");
 
-	jQuery.validator.addMethod("duringDates", function(value, element, params) {  
+	jQuery.validator.addMethod("duringDates", function(value, element, params) {
 		if( $(params[0]).val() && $(params[1]).val() ){
 			//console.warn(moment(value, "DD/MM/YYYY HH:mm"),moment($(params[0]).val()),moment($(params[1]).val()));
-	    	return (moment(value, "DD/MM/YYYY HH:mm").isSameOrAfter(moment($(params[0]).val())) 
+	    	return (moment(value, "DD/MM/YYYY HH:mm").isSameOrAfter(moment($(params[0]).val()))
 	    		&& moment(value, "DD/MM/YYYY HH:mm").isSameOrBefore(moment($(params[1]).val())));
 	    	//return  ( new Date(value) >= new Date( $(params[0]).val() ) && new Date(value) <= new Date($(params[1]).val()) );
-		} 
+		}
 		return true;
 	},"Cette date est exterieure à l'évènement parent.");
 }
@@ -196,14 +196,14 @@ function dateToStr(date, lang, inline, fullMonth){ //work with date formated : y
 	}
 	//mylog.log(date);
 	if(lang == "fr"){
-		//(year, month, day, hours, minutes, seconds, milliseconds) 
+		//(year, month, day, hours, minutes, seconds, milliseconds)
 		//mylog.log("convert format date", date);
 		var year 	= date.substr(0, 4);
 		var month 	= date.substr(5, 2);//getMonthStr(date.substr(5, 2), lang);
 		var day 	= date.substr(8, 2);
 		var hours 	= date.substr(11, 2);
 		var minutes = date.substr(14, 2);
-		
+
 
 		var str = day + "/" + month + "/" + year;
 
@@ -213,7 +213,7 @@ function dateToStr(date, lang, inline, fullMonth){ //work with date formated : y
 		if(!inline) str += "</br>";
 		else str += " - ";
 		str += hours + "h" + minutes;
-		
+
 		return str;
 	}
 
@@ -262,7 +262,7 @@ function getFullTextCountry(codeCountry){
 function csvToArray(csv, separateur, separateurText){
 
 	var lines = csv.split("\n");
-				
+
 	var result = [];
 	$.each(lines, function(key, value){
 		var colonnes = value.split(separateur);
@@ -279,10 +279,9 @@ function csvToArray(csv, separateur, separateurText){
 					newColonnes.push(valueCol);
 				}
 			}
-			
+
 		});
 			result.push(newColonnes);
 	});
 	return result;
 }
-

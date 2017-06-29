@@ -110,12 +110,12 @@
 						$(".fileupload-preview img").css("width", "auto");
 					}
 					var file = document.getElementById(contentId+'_avatar').files[0];
-					if(file && file.size < 2097152){
+					if(file && file.size < fileSizeMax){
 						
 						$("#"+contentId+"_photoAdd").submit();
 					}else{
-						if(file && file.size > 2097152){
-							toastr.error("<?php echo Yii::t('fileUpload','Size maximum 2Mo',null,Yii::app()->controller->module->id) ?>");
+						if(file && file.size > fileSizeMax){
+							toastr.error("<?php echo Yii::t('fileUpload','Size maximum '+round(Document::getFileSizeLimit()/1000000)+'Mo',null,Yii::app()->controller->module->id) ?>");
 						}
 						/*$("#"+contentId+"_fileUpload").css("opacity", "1");
 						$("#"+contentId+"_photoUploading").css("display", "none");
