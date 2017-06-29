@@ -101,7 +101,7 @@
       <?php }else{ ?>
         <div class="col-md-10 col-sm-10 padding-10" id="dropdown_search"></div>
       <?php } ?>
-      <div id="listTags" class="col-sm-2 col-md-2 text-left"></div>
+      <div id="listTags" class="col-xs-12 col-sm-2 col-md-2 text-left"></div>
       
   </div>
 
