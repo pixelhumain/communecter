@@ -1062,7 +1062,7 @@ function showAllNews(){
 	$(".newsFeed").show();
 	$('.optionFilter').hide();
 }
-function initFormImages(){
+function initFormImages(docType){
 	$("#photoAddNews").on('submit',(function(e) {
 		e.preventDefault();
 		if(contextParentType=="city" || contextParentType=="pixels"){
