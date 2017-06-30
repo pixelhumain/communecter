@@ -760,7 +760,7 @@ jQuery(document).ready(function()
 
 	//Sig.restartMap();
 	//Sig.showMapElements(Sig.map, news);
-	initFormImages();
+	initFormImages(docType);
 	console.log(myContacts);
 	if(myContacts != null){
 		$.each(myContacts["people"], function (key,value){
