@@ -174,9 +174,9 @@
     $titleRestricted = "Restreint";
     $private = Yii::t("common","Visible only to the members");
     $titlePrivate = "Privé";
-    $scopeBegin= ucfirst(Yii::t("common", "private"));
+    $scopeBegin= ucfirst(Yii::t("common", "public"));
     $public = true;
-    $iconBegin= "lock";
+    $iconBegin= "globe";
     $headerName= "Journal de l'organisation";//.$contextName;
     $topTitle= "Journal de l'organisation";//.$contextName;
     if(@$canManageNews && $canManageNews==true)
@@ -379,18 +379,18 @@
         <div class="dropdown col-md-6 no-padding">
           <a data-toggle="dropdown" class="btn btn-default" id="btn-toogle-dropdown-scope" href="#"><i class="fa fa-<?php echo $iconBegin ?>"></i> <?php echo $scopeBegin ?> <i class="fa fa-caret-down" style="font-size:inherit;"></i></a>
           <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+            <?php if(@$public){ ?>
+              <li>
+                <a href="javascript:;" id="scope-my-wall" class="scopeShare" data-value="public"><h4 class="list-group-item-heading"><i class="fa fa-globe"></i> <?php echo ucfirst(Yii::t("common", "public")) ?></h4>
+                  <!--<div class="small" style="padding-left:12px;">-->
+                  <p class="list-group-item-text small"><?php echo Yii::t("common","Visible to all and posted on cities' live")?></p>
+                </a>
+              </li>
+              <?php } ?>
             <?php if (@$private && ($contextParentType==Project::COLLECTION || $contextParentType==Organization::COLLECTION)){ ?>
             <li>
               <a href="javascript:;" id="scope-my-network" class="scopeShare" data-value="private"><h4 class="list-group-item-heading"><i class="fa fa-lock"></i> <?php echo ucfirst(Yii::t("common", "private")) ?></h4>
                 <p class="list-group-item-text small"><?php echo $private ?></p>
-              </a>
-            </li>
-            <?php } ?>
-            <?php if(@$public){ ?>
-            <li>
-              <a href="javascript:;" id="scope-my-wall" class="scopeShare" data-value="public"><h4 class="list-group-item-heading"><i class="fa fa-globe"></i> <?php echo ucfirst(Yii::t("common", "public")) ?></h4>
-                <!--<div class="small" style="padding-left:12px;">-->
-              <p class="list-group-item-text small"><?php echo Yii::t("common","Visible to all and posted on cities' live")?></p>
               </a>
             </li>
             <?php } ?>
