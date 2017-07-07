@@ -323,7 +323,7 @@
     </div>
 
     <div class="tools_bar bg-white">
-      <?php if((@$canManageNews && $canManageNews==true) || (@$isLive && $isLive == true)){ ?>
+      <?php //if((@$canManageNews && $canManageNews==true) || (@$isLive && $isLive == true)){ ?>
       <div class="user-image-buttons">
         <form method="post" id="photoAddNews" enctype="multipart/form-data">
           <span class="btn btn-white btn-file fileupload-new btn-sm"  >
@@ -332,7 +332,7 @@
           </span>
         </form>
       </div>
-      <?php } ?>
+      <?php //} ?>
     </div>
 
     <form id='form-news' class="col-sm-12 no-padding">
