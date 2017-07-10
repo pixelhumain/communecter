@@ -1148,7 +1148,7 @@ function showMyImage(fileInput) {
 		toastr.info("Merci d'attendre le chargement de l'image");
 	}
 	else if (fileInput.files[0].size > fileSizeMax){
-		toastr.info("Merci de réduire la taille de l'image à moins de "+round(fileSizeMax/1000000)+"Mo");
+		toastr.info("Merci de réduire la taille de l'image à moins de "+Math.round(fileSizeMax/1000000)+"Mo");
 	}
 	else {
 		countImg=$("#results img").length;
