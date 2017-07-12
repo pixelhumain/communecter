@@ -1145,10 +1145,10 @@ function addMoreSpace(){
 }
 function showMyImage(fileInput) {
 	if($(".noGoSaveNews").length){
-		toastr.info("Wait the end of image loading");
+		toastr.info("Merci d'attendre le chargement de l'image");
 	}
-	else if (fileInput.files[0].size > 2097152){
-		toastr.info("Please reduce your image before to 2Mo");
+	else if (fileInput.files[0].size > fileSizeMax){
+		toastr.info("Merci de réduire la taille de l'image à moins de "+Math.round(fileSizeMax/1000000)+"Mo");
 	}
 	else {
 		countImg=$("#results img").length;
