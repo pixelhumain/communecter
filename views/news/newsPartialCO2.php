@@ -34,12 +34,14 @@
   <li class="<?php echo $class; ?>">
     <div class="timeline-badge primary"><a><i class="glyphicon glyphicon-record" rel="tooltip"></i></a></div>
     <div class="timeline-panel" id='panel-<?php echo @$media["_id"]; ?>'>
+      <?php if(@$media["author"]["id"] == Yii::app()->session["userId"] || Authorisation::isUserSuperAdmin(Yii::app()->session["userId"]) || Authorisation::isOrganizationAdmin(Yii::app()->session["userId"],$media["target"]["id"])){ ?>
       <div class="btn dropdown pull-right no-padding" style="padding-left:10px !important;"><a class="dropdown-toggle" type="button" data-toggle="dropdown" style="color:#8b91a0;padding:5px;"><i class="fa fa-cog"></i>  <i class="fa fa-angle-down"></i></a>
         <ul class="dropdown-menu">
           <li><a href="javascript:;" class="editMessage" onclick="editMessage('<?php echo @$media["_id"]; ?>')" ><small><i class="fa fa-pencil"></i> Modifier la publication</small></a></li>
           <li><a href="javascript:;" class="deleteMessage" onclick="confirmDeleteMessage('<?php echo @$media["_id"]; ?>',$(this))" ><small><i class="fa fa-times"></i> Supprimer</small></a></li>
         </ul>
       </div>
+      <?php } ?>
       <div class="timeline-heading text-center">
 
 
