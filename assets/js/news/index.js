@@ -999,7 +999,7 @@ function saveNews(){
 
 				newNews.parentId = $("#form-news #parentId").val(),
 				newNews.parentType = $("#form-news #parentType").val(),
-				newNews.scope = $("input[name='scope']").val(),
+				newNews.scope = "public", //$("input[name='scope']").val(),
 				newNews.type = $("input[name='type']").val(),
 				newNews.text = $("#form-news #get_url").val();
 				if($('#authorIsTarget').length && $('#authorIsTarget').val()==1)
