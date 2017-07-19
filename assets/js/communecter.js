@@ -3147,7 +3147,7 @@ var typeObj = {
 		            "preferences[publicFields]" : typeObjLib.hiddenArray,
 		            "preferences[privateFields]" : typeObjLib.hiddenArray,
 		            "preferences[isOpenData]" : typeObjLib.hiddenTrue,
-		            "preferences[isOpenEdition]" : typeObjLib.hiddenTrue
+		            "preferences[isOpenEdition]" : typeObjLib.hidden
 			    }
 			}
 		}
