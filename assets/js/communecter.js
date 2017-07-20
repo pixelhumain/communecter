@@ -1,5 +1,5 @@
 var countPoll = 0;
-$(document).ready(function() { 
+$(document).ready(function() {
 	initSequence();
 	setTimeout( function () { checkPoll() }, 10000);
 	document.onkeyup = checkKeycode;
@@ -11,13 +11,13 @@ var slides = {
 	explain1 : function() { showDefinition("explainCommunectMe")},
 	live : function() { loadByHash("#default.live")},
 	explain2 : function() { showDefinition("explainCartographiedeReseau")},
-	event : function() { loadByHash("#event.detail.id.57bb4078f6ca47cb6c8b457d")}, 
+	event : function() { loadByHash("#event.detail.id.57bb4078f6ca47cb6c8b457d")},
 	explain3 : function() { showDefinition("explainDemoPart")},
-	orga : function() { loadByHash("#organization.detail.id.57553776f6ca47b37da93c2d")}, 
+	orga : function() { loadByHash("#organization.detail.id.57553776f6ca47b37da93c2d")},
 	explain4 : function() { showDefinition("explainCommunecter")},
 	project : function() { loadByHash("#project.detail.id.56c1a474f6ca47a8378b45ef")},
 	explain5 : function() { showDefinition("explainProxicity")},
-	person : function() { loadByHash("#person.detail.id.54eda798f6b95cb404000903")} 
+	person : function() { loadByHash("#person.detail.id.54eda798f6b95cb404000903")}
 };
 function runslide(cmd)
 {
@@ -29,7 +29,7 @@ function runslide(cmd)
 	if( prevStep != null ){
 		slides[ steps[prevStep] ]();
 		prevStep = ( prevStep < steps.length - 1 ) ? prevStep+1  : 0;
-		setTimeout( function () { 
+		setTimeout( function () {
 			runslide();
 		 }, 8000);
 	}
@@ -38,16 +38,16 @@ function runslide(cmd)
 function checkPoll(){
 	countPoll++;
 	mylog.log("countPoll",countPoll,"currentUrl",currentUrl);
-	//refactor check Log to use only one call with pollParams 
+	//refactor check Log to use only one call with pollParams
 	//returning multple server checks in a unique ajax call
 	if(userId){
 		_checkLoggued();
 		if(typeof refreshNotifications != "undefined")
 		refreshNotifications();
 	}
-	
-	//according to the loaded page 
-	//certain checks can be made  
+
+	//according to the loaded page
+	//certain checks can be made
 	if(currentUrl.indexOf( "#comment.index.type.actionRooms.id" ) >= 0 )
 		checkCommentCount();
 
@@ -96,9 +96,9 @@ function openModal(key,collection,id,tpl,savePath,isSub){
 	$.ajax({
 	  type: "POST",
 	  url: baseUrl+"/common/GetMicroformat/key/"+key,
-	  data: { "key" : key, 
-	  		  "template" : tpl, 
-	  		  "collection" : collection, 
+	  data: { "key" : key,
+	  		  "template" : tpl,
+	  		  "collection" : collection,
 	  		  "id" : id,
 	  		  "savePath" : savePath,
 	  		  "isSub" : isSub },
@@ -106,17 +106,17 @@ function openModal(key,collection,id,tpl,savePath,isSub){
 			  $("#flashInfoLabel").html(data.title);
 			  $("#flashInfoContent").html(data.content);
 			  $("#flashInfoSaveBtn").html('<a class="btn btn-warning " href="javascript:;" onclick="$(\'#flashForm\').submit(); return false;"  >Enregistrer</a>');
-		
+
 	  },
 	  dataType: "json"
 	});
 }
 
-function updateField(type,id,name,value,reload){ 
-    	
+function updateField(type,id,name,value,reload){
+
 	$.ajax({
 	  type: "POST",
-	  url: baseUrl+"/"+moduleId+"/"+type+"/updatefield", 
+	  url: baseUrl+"/"+moduleId+"/"+type+"/updatefield",
 	  data: { "pk" : id ,"name" : name, "value" : value },
 	  success: function(data){
 		if(data.result) {
@@ -125,7 +125,7 @@ function updateField(type,id,name,value,reload){
         		loadByHash(location.hash);
 		}
         else
-        	toastr.error(data.msg);  
+        	toastr.error(data.msg);
 	  },
 	  dataType: "json"
 	});
@@ -135,7 +135,7 @@ function updateField(type,id,name,value,reload){
 /* global JS tools */
 /* *************************** */
 var mylog = (function () {
-    
+
     return {
         log: function() {
           if(debug){
@@ -196,7 +196,7 @@ function showEvent(id){
 
 //In this javascript file you can find a bunk of functional functions
 //Calling Actions in ajax. Can be used easily on views
-function connectPerson(connectUserId, callback) 
+function connectPerson(connectUserId, callback)
 {
 	mylog.log("connect Person");
 	$.ajax({
@@ -217,16 +217,16 @@ function connectPerson(connectUserId, callback)
 			$.unblockUI();
 			toastr.error('Something Went Wrong !');
 		}
-		
+
 	});
-	
+
 }
 
 
-/*function disconnectPerson(idToDisconnect, typeToDisconnect, nameToDisconnect, callback) 
+/*function disconnectPerson(idToDisconnect, typeToDisconnect, nameToDisconnect, callback)
 {
 
-	bootbox.confirm(trad.areyousure+" <span class='text-red'>"+nameToDisconnect+"</span> "+trad.connection+" ?", 
+	bootbox.confirm(trad.areyousure+" <span class='text-red'>"+nameToDisconnect+"</span> "+trad.connection+" ?",
 		function(result) {
 			if (!result) {
 				return;
@@ -237,7 +237,7 @@ function connectPerson(connectUserId, callback)
 				url: urlToSend,
 				dataType: "json",
 				success: function(data){
-					if ( data && data.result ) {               
+					if ( data && data.result ) {
 						toastr.info("You are not following this person anymore.");
 						if (typeof callback == "function") callback(idToDisconnect, typeToDisconnect, nameToDisconnect);
 					} else {
@@ -257,7 +257,7 @@ function disconnectTo(parentType,parentId,childId,childType,connectType, callbac
 	$(".disconnectBtnIcon").removeClass("fa-unlink").addClass("fa-spinner fa-spin");
 	var formData = {
 		"childId" : childId,
-		"childType" : childType, 
+		"childType" : childType,
 		"parentType" : parentType,
 		"parentId" : parentId,
 		"connectType" : connectType,
@@ -287,7 +287,7 @@ function disconnectTo(parentType,parentId,childId,childType,connectType, callbac
 									type="people";
 								removeFloopEntity(data.parentId, type);
 								toastr.success("Le lien a été supprimé avec succès");
-								if (typeof callback == "function") 
+								if (typeof callback == "function")
 									callback();
 								else
 									loadByHash(location.hash);
@@ -306,14 +306,14 @@ function disconnectTo(parentType,parentId,childId,childType,connectType, callbac
             	}
             }
         }
-    });      
+    });
 };
 
 // Javascript function used to validate a link between parent and child (ex : member, admin...)
 function validateConnection(parentType, parentId, childId, childType, linkOption, callback) {
 	var formData = {
 		"childId" : childId,
-		"childType" : childType, 
+		"childType" : childType,
 		"parentType" : parentType,
 		"parentId" : parentId,
 		"linkOption" : linkOption,
@@ -332,13 +332,13 @@ function validateConnection(parentType, parentId, childId, childType, linkOption
 				toastr.error(data.msg);
 			}
 		},
-	});  
+	});
 }
 function follow(parentType, parentId, childId, childType, callback){
 	$(".followBtn").removeClass("fa-link").addClass("fa-spinner fa-spin");
 	var formData = {
 		"childId" : childId,
-		"childType" : childType, 
+		"childType" : childType,
 		"parentType" : parentType,
 		"parentId" : parentId,
 	};
@@ -351,8 +351,8 @@ function follow(parentType, parentId, childId, childType, callback){
 			if(data.result){
 				if (formData.parentType && typeof networkJson == "undefined")
 					addFloopEntity(formData.parentId, formData.parentType, data.parentEntity);
-				toastr.success(data.msg);	
-				if (typeof callback == "function") 
+				toastr.success(data.msg);
+				if (typeof callback == "function")
 					callback();
 				else
 					loadByHash(location.hash);
@@ -369,13 +369,13 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
 		$(".becomeAdminBtn").removeClass("fa-user-plus").addClass("fa-spinner fa-spin");
 	var formData = {
 		"childId" : childId,
-		"childType" : childType, 
+		"childType" : childType,
 		"parentType" : parentType,
 		"parentId" : parentId,
 		"connectType" : connectType,
 	};
 	mylog.log(formData);
-	
+
 	if(connectType!="admin" && connectType !="attendee"){
 		bootbox.dialog({
                 title: trad["suretojoin"+parentType]+" "+trad["as"+connectType]+" ?",
@@ -415,7 +415,7 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
 									if(data.result){
 										if(typeof networkJson == "undefined")
 											addFloopEntity(data.parent["_id"]["$id"], data.parentType, data.parent);
-										toastr.success(data.msg);	
+										toastr.success(data.msg);
 										loadByHash(location.hash);
 									}
 									else{
@@ -425,7 +425,7 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
 											toastr.error(data.msg);
 									}
 								},
-							});  
+							});
                         }
                     },
                     cancel: {
@@ -465,7 +465,7 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
 									if(data.result){
 										if(typeof networkJson == "undefined")
 											addFloopEntity(data.parent["_id"]["$id"], data.parentType, data.parent);
-										toastr.success(data.msg);	
+										toastr.success(data.msg);
 										loadByHash(location.hash);
 									}
 									else{
@@ -475,7 +475,7 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
 											toastr.error(data.msg);
 									}
 								},
-							});   
+							});
                         }
                     },
                     cancel: {
@@ -487,9 +487,9 @@ function connectTo(parentType, parentId, childId, childType, connectType, parent
                     }
                 }
             }
-        );      
+        );
 	}
-}		
+}
 
 var loadableUrls = {
 	"#organization.addorganizationform" : {title:"ADD AN ORGANIZATION ", icon : "users","login":true},
@@ -576,7 +576,7 @@ function jsController(hash){
 		if( hash.indexOf(urlIndex) >= 0 )
 		{
 			checkMenu(urlObj, hash);
-		
+
 			endPoint = loadableUrls[urlIndex];
 			mylog.log("jsController 2",endPoint,"login",endPoint.login,endPoint.hash );
 			if( typeof endPoint.login == undefined || !endPoint.login || ( endPoint.login && userId ) ){
@@ -584,7 +584,7 @@ function jsController(hash){
 				if( endPoint.alias ){
 					endPoint = jsController(endPoint.alias);
 					return false;
-				} 
+				}
 				if( endPoint.aliasParam ){
 					hashT=hash.split(".");
 					alias=endPoint.aliasParam;
@@ -595,15 +595,15 @@ function jsController(hash){
 								alias = alias.replace("$"+v, paramId);
 							}
 						});
-					});		
-					endPoint = jsController(alias);	
+					});
+					endPoint = jsController(alias);
 					return false;
-				} 
+				}
 				// an action can be connected to a url, and executed
 				if( endPoint.action && typeof endPoint.action == "function"){
 					endPoint.action(hash);
 				} else {
-					//classic url management : converts urls by replacing dots to slashes and ajax retreiving and showing the content 
+					//classic url management : converts urls by replacing dots to slashes and ajax retreiving and showing the content
 					extraParams = (endPoint.urlExtraParam) ? "?"+endPoint.urlExtraParam : "";
 					urlExtra = (endPoint.urlExtra) ? endPoint.urlExtra : "";
 					//execute actions before teh ajax request
@@ -611,7 +611,7 @@ function jsController(hash){
 					if( endPoint.preaction && typeof endPoint.preaction == "function")
 						res = endPoint.preaction(hash);
 					//hash can be iliased
-					if (endPoint.hash) 
+					if (endPoint.hash)
 						hash = endPoint.hash;
 					if(hash.indexOf("?") >= 0){
 						hashT=hash.split("?");
@@ -624,7 +624,7 @@ function jsController(hash){
 					}
 					path = hash.replace( "#","" ).replace( /\./g,"/" );
 					showAjaxPanel( '/'+path+urlExtra+extraParams, endPoint.title,endPoint.icon, res );
-					
+
 					if(endPoint.menu)
 						$("."+endPoint.menu).removeClass("hide");
 				}
@@ -646,12 +646,12 @@ function jsController(hash){
 //ne sert plus, juste a savoir d'ou vient drait l'appel
 function loadByHash( hash , back ) {
 	/* court circuit du lbh pour changer le type du directory si on est déjà sur une page directory */
-	// mylog.log("IS DIRECTORY ? ", 
-	// 			hash.indexOf("#default.directory"), 
+	// mylog.log("IS DIRECTORY ? ",
+	// 			hash.indexOf("#default.directory"),
 	// 			location.hash.indexOf("#default.directory"), CoAllReadyLoad);
 	if(typeof globalTheme != "undefined" && globalTheme=="network"){
 		if( hash.indexOf("#network") >= 0 &&
-			location.hash.indexOf("#network") >= 0 || hash=="#" || hash==""){ 
+			location.hash.indexOf("#network") >= 0 || hash=="#" || hash==""){
 		}
 		else{
 			count=$(".breadcrumAnchor").length;
@@ -660,12 +660,12 @@ function loadByHash( hash , back ) {
 				count=1;
 			breadcrumGuide(count, hash);
 		}
-		
+
 		return ;
 	}
 
 	if( hash.indexOf("#default.directory") >= 0 &&
-		location.hash.indexOf("#default.directory") >= 0 && CoAllReadyLoad==true){ 
+		location.hash.indexOf("#default.directory") >= 0 && CoAllReadyLoad==true){
 		var n = hash.indexOf("type=")+5;
 		var type = hash.substr(n);
 		mylog.log("CHANGE directory", type);
@@ -688,7 +688,7 @@ function loadByHash( hash , back ) {
 
 	$(".searchIcon").removeClass("fa-file-text-o").addClass("fa-search");
 	searchPage = false;
-	
+
 
 	//alert("loadByHash"+hash);
     mylog.warn("loadByHash",hash,back);
@@ -717,17 +717,17 @@ function loadByHash( hash , back ) {
     else if( hash.indexOf("#city.directory") >= 0 ){
         hashT = hash.split(".");
         showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" ), 'KESS KISS PASS in this '+typesLabels[hashT[3]],'rss' );
-    } 
+    }
 	/*else if( hash.indexOf("#need.addneedsv") >= 0 ){
 	        hashT = hash.split(".");
 	        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" ), 'ADD NEED '+typesLabels[hashT[3]],'cubes' );
-	} 
+	}
 	else if( hash.indexOf("#need.addneedsv") >= 0 ){
 	        hashT = hash.split(".");
 	        showAjaxPanel( '/'+hash.replace( "#","" ).replace( /\./g,"/" ), 'ADD NEED '+typesLabels[hashT[3]],'cubes' );
 	} */
 
-    else 
+    else
         showAjaxPanel( '/default/home', 'Home Communecter ','home' );
 
     location.hash = hash;
@@ -746,7 +746,7 @@ function decodeHtml(str) {
     return txt.value;
 }
 
-function setTitle(str, icon, topTitle,keywords,shortDesc) { 
+function setTitle(str, icon, topTitle,keywords,shortDesc) {
 	if(icon != "")
 		icon = ( icon.indexOf("<i") >= 0 ) ? icon : "<i class='fa fa-"+icon+"'></i> ";
 	$(".moduleLabel").html( icon +" "+ str);
@@ -757,7 +757,7 @@ function setTitle(str, icon, topTitle,keywords,shortDesc) {
 		$('meta[name="keywords"]').attr("content",keywords);
 	else
 		$('meta[name="keywords"]').attr("content","communecter,connecter, commun,commune, réseau, sociétal, citoyen, société, territoire, participatif, social, smarterre");
-	
+
 	if(notNull(shortDesc))
 		$('meta[name="description"]').attr("content",shortDesc);
 	else
@@ -767,12 +767,12 @@ function setTitle(str, icon, topTitle,keywords,shortDesc) {
 //ex : #search:bretagneTelecom:all
 //#search:#fablab
 //#search:#fablab:all:map
-function searchByHash (hash) 
-{ 
+function searchByHash (hash)
+{
 	var mapEnd = false;
 	var searchT = hash.split(':');
 	// 1 : is the search term
-	var search = searchT[1]; 
+	var search = searchT[1];
 	scopeBtn = null;
 	// 2 : is the scope
 	if( searchT.length > 2 )
@@ -790,14 +790,14 @@ function searchByHash (hash)
 	$(".input-global-search").val(search);
 	//startGlobalSearch();
 	if( scopeBtn )
-		$(scopeBtn).trigger("click"); 
+		$(scopeBtn).trigger("click");
 
 	if( searchT.length > 3 && searchT[3] == "map" )
 		mapEnd = true;
 	return mapEnd;
 }
 
-function markdownToHtml (str) { 
+function markdownToHtml (str) {
 	var converter = new showdown.Converter(),
 	res = converter.makeHtml(str);
 	return res;
@@ -818,24 +818,24 @@ function checkIsLoggued(uId){
 	if( uId == "" ||  typeof uId == "undefined" ){
 		mylog.warn("");
 		toastr.error("<h1>Section Sécuriser, Merci de vous connecter!</h1>");
-		
+
 		setTitle("Section Sécuriser", "user-secret");
 
 		backUrl = location.hash;
 		showPanel( "box-login" );
-    	
+
     	resetUnlogguedTopBar();
-	}else 
+	}else
 		return true;
 }
-function resetUnlogguedTopBar() { 
-	//put anything that needs to be reset 
+function resetUnlogguedTopBar() {
+	//put anything that needs to be reset
 	//replace the loggued toolBar nav by log buttons
 	$('.topMenuButtons').html('<button class="btn-top btn btn-success  hidden-xs" onclick="showPanel(\'box-register\');"><i class="fa fa-plus-circle"></i> <span class="hidden-sm hidden-md hidden-xs">Sinscrire</span></button>'+
 							  ' <button class="btn-top btn bg-red  hidden-xs" style="margin-right:10px;" onclick="showPanel(\'box-login\');"><i class="fa fa-sign-in"></i> <span class="hidden-sm hidden-md hidden-xs">Se connecter</span></button>');
 }
 
-function _checkLoggued() { 
+function _checkLoggued() {
 	$.ajax({
 	  type: "POST",
 	  url: baseUrl+"/"+moduleId+"/person/logged",
@@ -851,16 +851,16 @@ function _checkLoggued() {
 }
 
 /* ****************
-Generic non-ajax panel loading process 
+Generic non-ajax panel loading process
 **************/
-function showPanel(box,callback){ 
+function showPanel(box,callback){
 	$(".my-main-container").scrollTop(0);
 
   	$(".box").hide(200);
   	showNotif(false);
-  	
+
   	if(isMapEnd) showMap(false);
-			
+
 	mylog.log("showPanel");
 	//showTopMenu(false);
 	$(".main-col-search").animate({ top: -1500, opacity:0 }, 500 );
@@ -873,25 +873,25 @@ function showPanel(box,callback){
 }
 
 /* ****************
-Generic ajax panel loading process 
+Generic ajax panel loading process
 loads any REST Url endpoint returning HTML into the content section
 also switches the global Title and Icon
 **************/
-var rand = Math.floor((Math.random() * 7) + 1); 
+var rand = Math.floor((Math.random() * 7) + 1);
 var urlImgRand = proverbs[rand];
-function  processingBlockUi() { 
+function  processingBlockUi() {
 	$.blockUI({
 	 	message : '<h4 style="font-weight:300" class=" text-dark padding-10"><i class="fa fa-spin fa-circle-o-notch"></i><br>Chargement en cours...</h4>' //+
 	    //"<img style='max-width:60%; margin-bottom:20px;' src='"+urlImgRand+"'>"
 	 });
 }
-function showAjaxPanel (url,title,icon, mapEnd) { 
+function showAjaxPanel (url,title,icon, mapEnd) {
 	//$(".main-col-search").css("opacity", 0);
 	mylog.log("showAjaxPanel",url,"TITLE",title);
 	hideScrollTop = false;
 
 	showNotif(false);
-			
+
 	//$(".main-col-search").animate({ top: -1500, opacity:0 }, 800 );
 
 	setTimeout(function(){
@@ -908,18 +908,18 @@ function showAjaxPanel (url,title,icon, mapEnd) {
 	icon = (icon) ? " <i class='fa fa-"+icon+"'></i> " : "";
 	$(".panelTitle").html(icon+title).fadeIn();
 	mylog.log("GETAJAX",icon+title);
-	
+
 	showTopMenu(true);
 	userIdBefore = userId;
 	setTimeout(function(){
-		 getAjax('.main-col-search', baseUrl+'/'+moduleId+url, function(data){ 
+		 getAjax('.main-col-search', baseUrl+'/'+moduleId+url, function(data){
 			/*if(!userId && userIdBefore != userId )
 				window.location.reload();*/
 
 
-			//$(".main-col-search").slideDown(); 
-			initNotifications(); 
-			
+			//$(".main-col-search").slideDown();
+			initNotifications();
+
 			bindExplainLinks();
 			bindTags();
 			bindLBHLinks();
@@ -930,12 +930,12 @@ function showAjaxPanel (url,title,icon, mapEnd) {
 				showMap(true);
 			// setTimeout(function(){
 			// 	mylog.log("call timeout MAP MAP");
-			// 	getAjax('#mainMap',baseUrl+'/'+moduleId+"/search/mainmap",function(){ 
+			// 	getAjax('#mainMap',baseUrl+'/'+moduleId+"/search/mainmap",function(){
 			// 		toastr.info('<i class="fa fa-check"></i> Cartographie activée');
-			// 		showMap(false); 
+			// 		showMap(false);
 			// 		$("#btn-toogle-map").show(400);
 			// 		//mylog.log("getAJAX OK timeout MAIN MAP");
-					
+
 			// 	},"html");
 			// }, 2000);
 
@@ -945,33 +945,33 @@ function showAjaxPanel (url,title,icon, mapEnd) {
 /* ****************
 visualize all tagged elements on a map
 **************/
-function showTagOnMap (tag) { 
+function showTagOnMap (tag) {
 
 	mylog.log("showTagOnMap",tag);
 
-	var data = { 	 "name" : tag, 
+	var data = { 	 "name" : tag,
 		 			 "locality" : "",
-		 			 "searchType" : [ "persons" ], 
+		 			 "searchType" : [ "persons" ],
 		 			 //"searchBy" : "INSEE",
-            		 "indexMin" : 0, 
-            		 "indexMax" : 500  
+            		 "indexMin" : 0,
+            		 "indexMax" : 500
             		};
 
         //setTitle("", "");$(".moduleLabel").html("<i class='fa fa-spin fa-circle-o-notch'></i> Les acteurs locaux : <span class='text-red'>" + cityNameCommunexion + ", " + cpCommunexion + "</span>");
-		
+
 		$.blockUI({
 			message : "<h1 class='homestead text-red'><i class='fa fa-spin fa-circle-o-notch'></i> Recherches des collaborateurs ...</h1>"
 		});
 
 		showMap(true);
-		
+
 		$.ajax({
 	      type: "POST",
 	          url: baseUrl+"/" + moduleId + "/search/globalautocomplete",
 	          data: data,
 	          dataType: "json",
 	          error: function (data){
-	             mylog.log("error"); mylog.dir(data);          
+	             mylog.log("error"); mylog.dir(data);
 	          },
 	          success: function(data){
 	            if(!data){ toastr.error(data.content); }
@@ -993,19 +993,19 @@ function showTagOnMap (tag) {
 /* ****************
 show a definition in the focus menu panel
 **************/
-function showDefinition( id,copySection ){ 
+function showDefinition( id,copySection ){
 
 	setTimeout(function(){
 		mylog.log("showDefinition",id,copySection);
 		$(".hover-info,.hover-info2").hide();
 		$(".main-col-search").animate({ opacity:0.3 }, 400 );
-		
+
 		if(copySection){
 			contentHTML = $("."+id).html();
 			if(copySection != true)
 				contentHTML = copySection;
 			$(".hover-info2").css("display" , "inline").html( contentHTML );
-			bindExplainLinks()	
+			bindExplainLinks()
 		}
 		else {
 			$(".hover-info").css("display" , "inline");
@@ -1020,7 +1020,7 @@ var timeoutHover = setTimeout(function(){}, 0);
 var hoverPersist = false;
 var positionMouseMenu = "out";
 
-function activateHoverMenu () { 
+function activateHoverMenu () {
 	//mylog.log("enter all");
 	positionMouseMenu = "in";
 	$(".main-col-search").animate({ opacity:0.3 }, 400 );
@@ -1037,18 +1037,18 @@ function activateHoverMenu () {
 	}, 1000);
 }
 
-function openMenuSmall () { 
+function openMenuSmall () {
 	menuContent = $(".menuSmall").html();
-	$.blockUI({ 
-		title:    'Welcome to your page', 
+	$.blockUI({
+		title:    'Welcome to your page',
 		message : menuContent,
 		onOverlayClick: $.unblockUI,
-        css: { 
-         //    border: 'none', 
-         //    padding: '15px', 
-         //    backgroundColor: 'rgba(0,0,0,0.7)', 
-         //    '-webkit-border-radius': '10px', 
-         //    '-moz-border-radius': '10px', 
+        css: {
+         //    border: 'none',
+         //    padding: '15px',
+         //    backgroundColor: 'rgba(0,0,0,0.7)',
+         //    '-webkit-border-radius': '10px',
+         //    '-moz-border-radius': '10px',
          //    color: '#fff' ,
         	// "cursor": "pointer"
         },
@@ -1066,8 +1066,8 @@ function openMenuSmall () {
 }
 
 var selection;
-function  bindHighlighter() { 
-	//mylog.clear();  
+function  bindHighlighter() {
+	//mylog.clear();
 	mylog.log("bindHighlighter");
   	mylog.dir(window.getSelection());
 	$(".my-main-container").bind('mouseup', function(e){
@@ -1091,7 +1091,7 @@ function  bindHighlighter() {
 	});
 }
 
-function  bindTags() { 
+function  bindTags() {
 	mylog.log("bindTags");
 	//var tagClasses = ".tag,.label tag_item_map_list"
 	$(".tag,.label tag_item_map_list").off().on('click', function(e){
@@ -1105,22 +1105,22 @@ function  bindTags() {
 				toastr.success("Le tag \""+tag+"\" ajouté à vos favoris");
 			else
 				toastr.info("Le tag \""+tag+"\" est déjà dans vos tags favoris");
-			
+
 		//} else {
 		//	toastr.error("must be loggued");
 		//}
 	});
 }
 
-function  bindExplainLinks() { 
-	$(".explainLink").click(function() {  
+function  bindExplainLinks() {
+	$(".explainLink").click(function() {
 	    showDefinition( $(this).data("id") );
 	    return false;
 	 });
 }
 
-function  bindLBHLinks() { 
-	$(".lbh").off().on("click",function(e) {  		
+function  bindLBHLinks() {
+	$(".lbh").off().on("click",function(e) {
 		e.preventDefault();
 		mylog.warn("***************************************");
 		mylog.warn("bindLBHLinks",$(this).attr("href"));
@@ -1168,7 +1168,7 @@ function hideSearchResults(){
           $(searchFeed).html( str );
       }
       $(".search-loader").html("<i class='fa fa-ban'></i>");
-	    
+
 }
 function getFooterScopeChanged(method){
 	var str = 	'<div class="padding-15" id="footerDropdown">';
@@ -1176,7 +1176,7 @@ function getFooterScopeChanged(method){
 	    str += 		'<button class="btn btn-default" onclick="'+method+'"><i class="fa fa-refresh"></i> Relancer la recherche</button>'+
 	    	   		"<span style='' class='text-dark padding-10'><i class='fa fa-angle-right'></i> Les critères ont changés</span><br/>";
 	    str +=  "</div>";
-	return str;  
+	return str;
 }
 
 function reloadNewsSearch(){
@@ -1194,8 +1194,8 @@ maybe movebale into Element.js
 
 
 
-function  buildQRCode(type,id) { 
-		
+function  buildQRCode(type,id) {
+
 	$(".qrCode").qrcode({
 	    text: baseUrl+"/#"+typeObj[type].ctrl+".detail.id."+id,//'{type:"'+type+'",_id:"'+id+'"}',
 	    render: 'image',
@@ -1216,8 +1216,8 @@ function  buildQRCode(type,id) {
 	});
 }
 
-function activateSummernote(elem) { 
-		
+function activateSummernote(elem) {
+
 	if( !$('script[src="'+baseUrl+'/plugins/summernote/dist/summernote.min.js"]').length )
 	{
 		$("<link/>", {
@@ -1230,7 +1230,7 @@ function activateSummernote(elem) {
 		  //mylog.log( textStatus ); // Success
 		  //mylog.log( jqxhr.status ); // 200
 		  //mylog.log( "Load was performed." );
-		  
+
 		  $(".btnEditAdv").hide();
 		  $(elem).summernote({
 				toolbar: [
@@ -1258,29 +1258,29 @@ function activateSummernote(elem) {
 ********************************** */
 
 
-function formatData(formData, collection,ctrl) { 
+function formatData(formData, collection,ctrl) {
 	mylog.warn("formatData");
 	formData.collection = collection;
 	formData.key = ctrl;
-	
+
 	if(elementLocation){
 		//formData.multiscopes = elementLocation;
 		formData.address = centerLocation.address;
 		formData.geo = centerLocation.geo;
 		formData.geoPosition = centerLocation.geoPosition;
 		if( elementLocations.length ){
-			$.each( elementLocations,function (i,v) { 
+			$.each( elementLocations,function (i,v) {
 				if( notNull(v) && notNull(v.center) )
 					elementLocations.splice(i, 1);
 			});
 			formData.addresses = elementLocations;
 		}
 	}
-	
+
 	formData.medias = [];
 	$(".resultGetUrl").each(function(){
 		if($(this).html() != ""){
-			mediaObject=new Object;	
+			mediaObject=new Object;
 			if($(this).find(".type").val()=="url_content"){
 				mediaObject.type=$(this).find(".type").val();
 				if($(this).find(".name").length)
@@ -1301,7 +1301,7 @@ function formatData(formData, collection,ctrl) {
 				mediaObject.countImages=$(this).find(".count_images").val(),
 				mediaObject.images=[];
 				$(".imagesNews").each(function(){
-					mediaObject.images.push($(this).val());	
+					mediaObject.images.push($(this).val());
 				});
 			}
 			formData.medias.push(mediaObject);
@@ -1309,7 +1309,7 @@ function formatData(formData, collection,ctrl) {
 	});
 	if( typeof formData.source != "undefined" && formData.source != "" ){
 		formData.source = { insertOrign : "network",
-							keys : [ 
+							keys : [
 								formData.source
 							],
 							key : formData.source
@@ -1318,7 +1318,7 @@ function formatData(formData, collection,ctrl) {
 
 
 
-									
+
 	if( typeof formData.tags != "undefined" && formData.tags != "" )
 		formData.tags = formData.tags.split(",");
 
@@ -1341,8 +1341,8 @@ function formatData(formData, collection,ctrl) {
 	return formData;
 }
 
-function saveElement ( formId,collection,ctrl,saveUrl ) 
-{ 
+function saveElement ( formId,collection,ctrl,saveUrl )
+{
 	mylog.warn("saveElement",formId,collection);
 	formData = $(formId).serializeFormJSON();
 	mylog.log("before",formData);
@@ -1350,7 +1350,7 @@ function saveElement ( formId,collection,ctrl,saveUrl )
 	formData.medias = [];
 	$(".resultGetUrl").each(function(){
 		if($(this).html() != ""){
-			mediaObject=new Object;	
+			mediaObject=new Object;
 			if($(this).find(".type").val()=="url_content"){
 				mediaObject.type=$(this).find(".type").val();
 				if($(this).find(".name").length)
@@ -1371,7 +1371,7 @@ function saveElement ( formId,collection,ctrl,saveUrl )
 				mediaObject.countImages=$(this).find(".count_images").val(),
 				mediaObject.images=[];
 				$(".imagesNews").each(function(){
-					mediaObject.images.push($(this).val());	
+					mediaObject.images.push($(this).val());
 				});
 			}
 			formData.medias.push(mediaObject);
@@ -1387,15 +1387,15 @@ function saveElement ( formId,collection,ctrl,saveUrl )
     		mylog.dir(data);
 			if(data.result == false){
                 toastr.error(data.msg);
-                //reset save btn 
-                $("#btn-submit-form").html('Valider <i class="fa fa-arrow-circle-right"></i>').prop("disabled",false).one(function() { 
-					$( settings.formId ).submit();	        	
+                //reset save btn
+                $("#btn-submit-form").html('Valider <i class="fa fa-arrow-circle-right"></i>').prop("disabled",false).one(function() {
+					$( settings.formId ).submit();
 		        });
            	}
-            else { 
+            else {
                 toastr.success(data.msg);
                 $('#ajax-modal').modal("hide");
-                //clear the unecessary DOM 
+                //clear the unecessary DOM
                 $("#ajaxFormModal").html('');
                 if(data.url)
                 	loadByHash( data.url );
@@ -1419,9 +1419,9 @@ function editElement(type,id){
     .done(function (data) {
         if ( data && data.result ) {
         	//toastr.info(type+" found");
-        	
+
 			//onLoad fill inputs
-			//will be sued in the dynform  as update 
+			//will be sued in the dynform  as update
 			data.map.id = data.map["_id"]["$id"];
 			delete data.map["_id"];
 			//mylog.dir(data);
@@ -1432,7 +1432,7 @@ function editElement(type,id){
     });
 }
 
-function openForm (type, afterLoad,data) { 
+function openForm (type, afterLoad,data) {
     //mylog.clear();
     $.unblockUI();
     mylog.warn("--------------- Open Form "+type+" ---------------------",data);
@@ -1461,11 +1461,11 @@ function openForm (type, afterLoad,data) {
 	  	afterLoad = ( notNull(afterLoad) ) ? afterLoad : null;
 	  	data = ( notNull(data) ) ? data : {};
 	  	buildDynForm(specs, afterLoad, data);
-	} else 
+	} else
 		toastr.error("Ce type ou ce formulaire n'est pas déclaré");
 }
 
-function buildDynForm(elementObj, afterLoad,data) { 
+function buildDynForm(elementObj, afterLoad,data) {
 	mylog.warn("--------------- buildDynForm", elementObj, afterLoad,data);
 	if(userId)
 	{
@@ -1477,13 +1477,13 @@ function buildDynForm(elementObj, afterLoad,data) {
 		        $("#ajax-modal-modal-title").html("<i class='fa fa-"+elementObj.dynForm.jsonSchema.icon+"'></i> "+elementObj.dynForm.jsonSchema.title);
 		        $("#ajax-modal-modal-body").append("<div class='space20'></div>");
 		        //alert(afterLoad+"|"+typeof elementObj.dynForm.jsonSchema.onLoads[afterLoad]);
-		        if( notNull(afterLoad) && elementObj.dynForm.jsonSchema.onLoads 
-		        	&& elementObj.dynForm.jsonSchema.onLoads[afterLoad] 
+		        if( notNull(afterLoad) && elementObj.dynForm.jsonSchema.onLoads
+		        	&& elementObj.dynForm.jsonSchema.onLoads[afterLoad]
 		        	&& typeof elementObj.dynForm.jsonSchema.onLoads[afterLoad] == "function" )
 		        	elementObj.dynForm.jsonSchema.onLoads[ afterLoad](data);
 		        //incase we need a second global post process
-		        if( notNull(afterLoad) && elementObj.dynForm.jsonSchema.onLoads 
-		        	&& elementObj.dynForm.jsonSchema.onLoads[afterLoad] 
+		        if( notNull(afterLoad) && elementObj.dynForm.jsonSchema.onLoads
+		        	&& elementObj.dynForm.jsonSchema.onLoads[afterLoad]
 		        	&& typeof elementObj.dynForm.jsonSchema.onLoads.onload == "function" )
 		        	elementObj.dynForm.jsonSchema.onLoads.onload();
 		        bindLBHLinks();
@@ -1504,7 +1504,7 @@ function buildDynForm(elementObj, afterLoad,data) {
 		    }
 		});
 		mylog.dir(form);
-	} else 
+	} else
 		alert('Vous devez etre loggué');
 };
 
@@ -1519,7 +1519,7 @@ var uploadObj = {
 };
 
 
-function  firstOptions() { 
+function  firstOptions() {
 	var res = {
 		"dontKnow":"Je ne sais pas",
 	};
@@ -1527,7 +1527,7 @@ function  firstOptions() {
 	return res;
  }
 
-function myAdminList (ctypes) { 
+function myAdminList (ctypes) {
 	var myList = {};
 	if(userId){
 		//types in MyContacts
@@ -1554,12 +1554,12 @@ function myAdminList (ctypes) {
 }
 
 function globalSearch(searchValue,types){
-	
+
 	searchType = (types) ? types : ["organizations", "projects", "events", "needs"];
 
-	var data = { 	 
+	var data = {
 		"name" : searchValue,
-		// "locality" : "", a otpimiser en utilisant la localité 
+		// "locality" : "", a otpimiser en utilisant la localité
 		"searchType" : searchType,
 		"indexMin" : 0,
 		"indexMax" : 50
@@ -1605,7 +1605,7 @@ function globalSearch(searchValue,types){
 				compt++;
   				//str += "<li class='li-dropdown-scope'><a href='javascript:initAddMeAsMemberOrganizationForm(\""+key+"\")'><i class='fa "+mapIconTop[value.type]+"'></i> " + value.name + "</a></li>";
   			});
-			
+
 			if (compt > 0) {
 				$("#listSameName").html("<div class='col-sm-12 light-border text-red'> <i class='fa fa-eye'></i> Verifiez si cet élément n'existe pas déjà : </div>"+str);
 				//bindLBHLinks();
@@ -1615,13 +1615,13 @@ function globalSearch(searchValue,types){
           }
  	});
 
-	
+
 }
 var elementLocation = null;
 var centerLocation = null;
 var elementLocations = [];
 var countLocation = 0;
-function copyMapForm2Dynform(locationObj) { 
+function copyMapForm2Dynform(locationObj) {
 	//if(!elementLocation)
 	//	elementLocation = [];
 	mylog.log("locationObj", locationObj);
@@ -1656,7 +1656,7 @@ function addLocationToForm(locationObj)
 		btnSuccess = "btn-success";
 		locCenter = "<span class='lblcentre'>(localité centrale)</span>";
 	}
-	
+
 	strHTML = "<a href='javascript:removeLocation("+countLocation+")' class=' locationEl"+countLocation+" btn'> <i class='text-red fa fa-times'></i></a>"+
 			  "<span class='locationEl"+countLocation+" locel text-azure'>"+strHTML+"</span> "+
 			  "<a href='javascript:setAsCenter("+countLocation+")' class='centers center"+countLocation+" locationEl"+countLocation+" btn btn-xs "+btnSuccess+"'> <i class='fa fa-map-marker'></i>"+locCenter+"</a> <br/>";
@@ -1678,7 +1678,7 @@ function setAsCenter(ix){
 
 	$(".centers").removeClass('btn-success');
 	$(".lblcentre").remove();
-	$.each(elementLocations,function(i, v) { 
+	$.each(elementLocations,function(i, v) {
 		if( v.center)
 			delete v.center;
 	})
@@ -1704,48 +1704,48 @@ function activeMenuElement(page) {
 }
 
 function shadowOnHeader() {
-	var y = $(".my-main-container").scrollTop(); 
+	var y = $(".my-main-container").scrollTop();
     if (y > 0) {  $('.main-top-menu').addClass('shadow'); }
     else { $('.main-top-menu').removeClass('shadow'); }
 }
 function getMediaFromUrlContent(className, appendClassName,nbParent){
     //user clicks previous thumbail
     lastUrl = "";
-    $("body").on("click","#thumb_prev", function(e){        
-        if(img_arr_pos>0) 
+    $("body").on("click","#thumb_prev", function(e){
+        if(img_arr_pos>0)
         {
             img_arr_pos--; //thmubnail array position decrement
-            
+
             //replace with new thumbnail
             $("#extracted_thumb").html('<img src="'+extracted_images[img_arr_pos]+'" width="100" height="100">'+selectThumb);
-            
+
             //replace thmubnail position text
             $("#total_imgs").html((img_arr_pos) +' of '+ total_images);
         }
     });
-    
+
     //user clicks next thumbail
-    $("body").on("click","#thumb_next", function(e){        
+    $("body").on("click","#thumb_next", function(e){
         if(img_arr_pos<total_images)
         {
             img_arr_pos++; //thmubnail array position increment
-            
+
             //replace with new thumbnail
             $("#extracted_thumb").html('<img src="'+extracted_images[img_arr_pos]+'" width="100" height="100">'+selectThumb);
-            
+
             //replace thmubnail position text
             $("#total_imgs").html((img_arr_pos) +' of '+ total_images);
         }
     });
     var getUrl  = $(className); //url to extract from text field
     var appendClassName = appendClassName;
-    getUrl.bind("input keyup",function(e) { //user types url in text field        
+    getUrl.bind("input keyup",function(e) { //user types url in text field
         //url to match in the text field
         var $this = $(this);
         if($this.parents().eq(nbParent).find(appendClassName).html()=="" || (e.which==32 || e.which==13)){
 
 	        var match_url = new RegExp("(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?");
-	        if (match_url.test(getUrl.val())) 
+	        if (match_url.test(getUrl.val()))
 	        {
 		        mylog.log(getUrl.val().match(match_url));
 		        if(lastUrl != getUrl.val().match(match_url)[0]){
@@ -1766,17 +1766,17 @@ function getMediaFromUrlContent(className, appendClassName,nbParent){
 						data: {'url': extracted_url_send},
 						type: 'post',
 						dataType: 'json',
-						success: function(data){        
-			                mylog.log(data); 
+						success: function(data){
+			                mylog.log(data);
 		                    content = getMediaCommonHtml(data,"save");
 		                    //load results in the element
 		                    //return content;
-		                   //$("#results").html(content); 
+		                   //$("#results").html(content);
 		                    $this.parents().eq(nbParent).find(appendClassName).html(content).slideDown();
 		                    //$this.parents().eq(nbParent).slideDown();
 		                    if($this.parent().find(".dynFormUrlsWarning").length > 0)
-			                   $this.parent().find(".dynFormUrlsWarning").remove(); 
-		                    
+			                   $this.parent().find(".dynFormUrlsWarning").remove();
+
 		                    $(".removeMediaUrl").click(function(){
 			                    $trigger=$(this).parents().eq(1).find(className);
 							    $this.parents().eq(nbParent).find(appendClassName).empty().hide();
@@ -1798,7 +1798,7 @@ function getMediaFromUrlContent(className, appendClassName,nbParent){
 		                    $this.parents().eq(nbParent).find(appendClassName).slideDown();
 		                    toastr.warning("L'url "+extracted_url+" ne pointe vers aucun site ou un problème est survenu à son extraction");
 		                    if ($("#ajaxFormModal").is(":visible") && $this.parent().find(".dynFormUrlsWarning").length <= 0)
-								$this.parent().append( "<span class='text-red dynFormUrlsWarning'>* Ceci n'est pas un url valide.</span>" );         	
+								$this.parent().append( "<span class='text-red dynFormUrlsWarning'>* Ceci n'est pas un url valide.</span>" );
 		                    $(".removeMediaUrl").click(function(){
 			                    $trigger=$(this).parents().eq(1).find(className);
 							    $this.parents().eq(nbParent).find(appendClassName).empty().hide();
@@ -1808,14 +1808,14 @@ function getMediaFromUrlContent(className, appendClassName,nbParent){
 		                    //$("#results").html(content); //append received data into the element
 		                    //$("#results").slideDown(); //show results with slide down effect
 		                    $this.parents().eq(nbParent).find(".loading_indicator").hide(); //hide loading indicator image
-						}	
+						}
 	                });
 				}
         	} else if ($("#ajaxFormModal").is(":visible") && $this.parent().find(".dynFormUrlsWarning").length <= 0){
-				$this.parent().append( "<span class='text-red dynFormUrlsWarning'>* Ceci n'est pas un url valide.</span>" );         	
+				$this.parent().append( "<span class='text-red dynFormUrlsWarning'>* Ceci n'est pas un url valide.</span>" );
         	}
         }
-    }); 
+    });
 }
 function getMediaCommonHtml(data,action,id){
 	if(typeof(data.images)!="undefined"){
@@ -1832,7 +1832,7 @@ function getMediaCommonHtml(data,action,id){
 
             aVideo='<a href="#" class="videoSignal text-white center"><i class="fa fa-3x fa-play-circle-o"></i><input type="hidden" class="videoLink" value="'+data.content.videoLink+'"/></a>';
             inputToSave+="<input type='hidden' class='video_link_value' value='"+data.content.videoLink+"'/>"+
-            "<input type='hidden' class='media_type' value='video_link' />";   
+            "<input type='hidden' class='media_type' value='video_link' />";
 		}
         else{
             aVideo="";
@@ -1856,9 +1856,9 @@ function getMediaCommonHtml(data,action,id){
         if(data.content.type=="img_link"){
 	        if(typeof(data.content.imageId) != "undefined"){
 		       inc_image += "<input type='hidden' id='deleteImageCommunevent"+id+"' value='"+data.content.imageId+"'/>";
-		       titleImg = "De l&apos;application communevent"; 
+		       titleImg = "De l&apos;application communevent";
 		    }else
-		    	titleImg = "Image partagée"; 
+		    	titleImg = "Image partagée";
 	        inc_image += "<a class='thumb-info' href='"+data.content.image+"' data-title='"+titleImg+"'  data-lightbox='allimgcontent'>";
 	    }
         inc_image +='<img src="'+data.content.image+'" width="'+width+'" height="'+height+'">';
@@ -1879,13 +1879,13 @@ function getMediaCommonHtml(data,action,id){
                 countThumbail="";
             }
             inc_image = '<div class="'+extractClass+'  col-xs-4" id="extracted_thumb">'+aVideo+'<img src="'+data.images[0]+'" width="'+width+'" height="'+height+'">'+selectThumb+'</div>';
-      		inputToSave+="<input type='hidden' class='img_link' value='"+data.images[0]+"'/>";      
+      		inputToSave+="<input type='hidden' class='img_link' value='"+data.images[0]+"'/>";
         }else{
             inc_image ='';
             countThumbail='';
         }
     }
-    
+
     //content to be loaded in #results element
 	if(data.content==null)
 		data.content="";
@@ -1897,14 +1897,14 @@ function getMediaCommonHtml(data,action,id){
 		mediaUrl="";
 	if(typeof(data.description) !="undefined" && typeof(data.name) != "undefined" && data.description !="" && data.name != ""){
 		contentMedia='<div class="extracted_content col-xs-8 padding-20"><h4><a href="'+mediaUrl+'" target="_blank" class="lastUrl text-dark">'+data.name+'</a></h4><p>'+data.description+'</p>'+countThumbail+'</div>';
-		inputToSave+="<input type='hidden' class='description' value='"+data.description+"'/>"; 
+		inputToSave+="<input type='hidden' class='description' value='"+data.description+"'/>";
 		inputToSave+="<input type='hidden' class='name' value='"+data.name+"'/>";
 	}
 	else{
 		contentMedia="";
 	}
 	inputToSave+="<input type='hidden' class='url' value='"+mediaUrl+"'/>";
-	inputToSave+="<input type='hidden' class='type' value='url_content'/>"; 
+	inputToSave+="<input type='hidden' class='type' value='url_content'/>";
 	content="";
 	if(action == "save")
 		content += '<a href="javascript:;" class="removeMediaUrl"><i class="fa fa-times"></i></a>';
@@ -1912,7 +1912,7 @@ function getMediaCommonHtml(data,action,id){
     return content;
 }
 
-function myContactLabel (type,id) { 
+function myContactLabel (type,id) {
 	if(typeof myContacts != "undefined" && myContacts[type]){
 		$.each( myContacts[type], function( key,val ){
 			if( id == val["_id"]["$id"] ){
@@ -1925,7 +1925,7 @@ function myContactLabel (type,id) {
 
 
 function shadowOnHeader() {
-	var y = $(".my-main-container").scrollTop(); 
+	var y = $(".my-main-container").scrollTop();
     if (y > 0) {  $('.main-top-menu').addClass('shadow'); }
     else { $('.main-top-menu').removeClass('shadow'); }
 }
@@ -1939,7 +1939,7 @@ var keycodeObj = {"backspace":8,"tab":9,"enter":13,"shift":16,"ctrl":17,"alt":18
 "x":88,"y":89,"z":90,"left window key":91,"right window key":92,"select key":93,"numpad 0":96,"numpad 1":97,"numpad 2":98,"numpad 3":99,"numpad 4":100,"numpad 5":101,
 "numpad 6":102,"numpad 7":103,"numpad 8":104,"numpad 9":105,"multiply":106,"add":107,"subtract":109,"decimal point":110,"divide":111,"f1":112,"f2":113,"f3":114,
 "f4":115,"f5":116,"f6":117,"f7":118,"f8":119,"f9":120,"f10":121,"f11":122,"f12":123,"num lock":144,"scroll lock":145,"semi-colon":186,"equal sign":187,
-"comma":188,"dash":189,"period":190,"forward slash":191,"grave accent":192,"open bracket":219,"back slash":220,"close braket":221,"single quote":222};		
+"comma":188,"dash":189,"period":190,"forward slash":191,"grave accent":192,"open bracket":219,"back slash":220,"close braket":221,"single quote":222};
 
 var keyMap = {
 	"112" : function(){ $(".menu-name-profil").trigger('click') },//f1
@@ -1958,7 +1958,7 @@ var keyMapCombo = {
 };
 var keyMapCtrlCombo = {
 	"83" : function(){$(".menu-name-profil").trigger('click')},//s save an element > open dashboard
-	"80" : function(){showMap(true)},//p switch view 
+	"80" : function(){showMap(true)},//p switch view
 	"70" : function(){elementLib.openForm('person')},//f open finder
 };
 
@@ -1986,12 +1986,12 @@ function autoCompleteInviteSearch(search){
 	if (search.length < 3) { return }
 	tabObject = [];
 
-	var data = { 
+	var data = {
 		"search" : search,
 		"searchMode" : "personOnly"
 	};
-	
-	
+
+
 	ajaxPost("", moduleId+'/search/searchmemberautocomplete', data,
 		function (data){
 			mylog.log(data);
@@ -1999,7 +1999,7 @@ function autoCompleteInviteSearch(search){
 			var compt = 0;
 			var city, postalCode = "";
 			if(data["citoyens"].length > 0){
-				$.each(data["citoyens"], function(k, v) { 
+				$.each(data["citoyens"], function(k, v) {
 					city = "";
 					mylog.log(v);
 					postalCode = "";
@@ -2015,21 +2015,21 @@ function autoCompleteInviteSearch(search){
 		 				}
 		  				str += 	"<li class='li-dropdown-scope'>" +
 		  						"<a href='javascript:setInviteInput("+compt+")'>"+htmlIco+" "+v.name ;
-	
+
 		  				if(typeof postalCode != "undefined")
 		  					str += "<br/>"+postalCode+" "+city;
 		  					//str += "<span class='city-search'> "+postalCode+" "+city+"</span>" ;
 		  				str += "</a></li>";
-	
+
 		  				compt++;
 	  				}
 				});
 			}
-			
+
 			$("#newInvite #dropdown_searchInvite").html(str);
 			$("#newInvite #dropdown_searchInvite").css({"display" : "inline" });
 		}
-	);	
+	);
 }
 
 function communecterUser(){
@@ -2059,7 +2059,7 @@ function updateLocalityEntities(addressesIndex, addressesLocality){
 			geo = null ;
 		}
 		mylog.log(address, geo, contextData.type, addressesIndex);
-		initUpdateLocality(address, geo, contextData.type, addressesIndex); 
+		initUpdateLocality(address, geo, contextData.type, addressesIndex);
 	}
 }
 
@@ -2078,7 +2078,7 @@ function cityKeyPart(unikey, part){
 // Utility for events date
 //*********************************************************************************
 function manageTimestampOnDate() {
-	$.each($(".date2format"), function(k, v) { 
+	$.each($(".date2format"), function(k, v) {
 		var dates = "";
 		var dateFormat = "DD-MM-YYYY HH:mm";
 		if ($(this).data("allday") == true) {
@@ -2098,7 +2098,7 @@ function displayStartAndEndDate(event) {
 	if("undefined" != typeof event['startDate'] && "undefined" != typeof event['endDate']){
 		//var start = dateToStr(data['startDate'], "fr", true);
 		//var end = dateToStr(data['endDate'], "fr", true);
-		
+
 		var startDateMoment = moment(event['startDate']).local();
 		var endDateMoment = moment(event['endDate']).local();
 
@@ -2107,25 +2107,25 @@ function displayStartAndEndDate(event) {
 
 		var hour1 = "Toute la journée";
 		var hour2 = "Toute la journée";
-		if(event["allDay"] == false || event["allDay"] == null) { 	
+		if(event["allDay"] == false || event["allDay"] == null) {
 			hour1 = startDateMoment.format("HH:mm");
 			hour2 = endDateMoment.format("HH:mm");
 		}
 		//si la date de debut == la date de fin
 		if( startDate == endDate) {
 			content += "<div class='info_item startDate_item_map_list double'><i class='fa fa-caret-right'></i> Le " + startDate;
-			
-			if(event["allDay"] == true) { 		
+
+			if(event["allDay"] == true) {
 				content += "</br><i class='fa fa-caret-right'></i> " + hour1;
 			} else {
 				content += "</br><i class='fa fa-caret-right'></i> " + hour1 + " - " + hour2;
 			}
 			content += "</div>";
 		} else {
-			content += "<div class='info_item startDate_item_map_list double'><i class='fa fa-caret-right'></i> Du " + 
+			content += "<div class='info_item startDate_item_map_list double'><i class='fa fa-caret-right'></i> Du " +
 								startDate + " - " + hour1 +
 							"</div>" +
-				   		  	"<div class='info_item startDate_item_map_list double'><i class='fa fa-caret-right'></i> Au " + 
+				   		  	"<div class='info_item startDate_item_map_list double'><i class='fa fa-caret-right'></i> Au " +
 				   		  		endDate +  " - " + hour2 +
 				   		  	"</div></br>";
 		}
@@ -2138,29 +2138,29 @@ function displayStartAndEndDate(event) {
 ********************************** */
 
 var elementLib = {
-	formatData : function (formData, collection,ctrl) { 
+	formatData : function (formData, collection,ctrl) {
 		mylog.warn("formatData");
 		formData.collection = collection;
 		formData.key = ctrl;
-		
+
 		if(elementLocation){
 			//formData.multiscopes = elementLocation;
 			formData.address = centerLocation.address;
 			formData.geo = centerLocation.geo;
 			formData.geoPosition = centerLocation.geoPosition;
 			if( elementLocations.length ){
-				$.each( elementLocations,function (i,v) { 
+				$.each( elementLocations,function (i,v) {
 					if( notNull(v) && notNull(v.center) )
 						elementLocations.splice(i, 1);
 				});
 				formData.addresses = elementLocations;
 			}
 		}
-		
+
 		formData.medias = [];
 		$(".resultGetUrl").each(function(){
 			if($(this).html() != ""){
-				mediaObject=new Object;	
+				mediaObject=new Object;
 				if($(this).find(".type").val()=="url_content"){
 					mediaObject.type=$(this).find(".type").val();
 					if($(this).find(".name").length)
@@ -2181,7 +2181,7 @@ var elementLib = {
 					mediaObject.countImages=$(this).find(".count_images").val(),
 					mediaObject.images=[];
 					$(".imagesNews").each(function(){
-						mediaObject.images.push($(this).val());	
+						mediaObject.images.push($(this).val());
 					});
 				}
 				formData.medias.push(mediaObject);
@@ -2189,13 +2189,13 @@ var elementLib = {
 		});
 		if( typeof formData.source != "undefined" && formData.source != "" ){
 			formData.source = { insertOrign : "network",
-								keys : [ 
+								keys : [
 									formData.source
 								],
 								key : formData.source
 							}
 		}
-		
+
 		if( typeof formData.tags != "undefined" && formData.tags != "" )
 			formData.tags = formData.tags.split(",");
 
@@ -2227,8 +2227,8 @@ var elementLib = {
 		return formData;
 	},
 
-	saveElement : function  ( formId,collection,ctrl,saveUrl,afterSave ) 
-	{ 
+	saveElement : function  ( formId,collection,ctrl,saveUrl,afterSave )
+	{
 		mylog.warn("saveElement",formId,collection);
 		formData = $(formId).serializeFormJSON();
 		mylog.log("before",formData);
@@ -2236,7 +2236,7 @@ var elementLib = {
 		formData.medias = [];
 		$(".resultGetUrl").each(function(){
 			if($(this).html() != ""){
-				mediaObject=new Object;	
+				mediaObject=new Object;
 				if($(this).find(".type").val()=="url_content"){
 					mediaObject.type=$(this).find(".type").val();
 					if($(this).find(".name").length)
@@ -2257,7 +2257,7 @@ var elementLib = {
 					mediaObject.countImages=$(this).find(".count_images").val(),
 					mediaObject.images=[];
 					$(".imagesNews").each(function(){
-						mediaObject.images.push($(this).val());	
+						mediaObject.images.push($(this).val());
 					});
 				}
 				formData.medias.push(mediaObject);
@@ -2274,13 +2274,13 @@ var elementLib = {
 	    		mylog.dir(data);
 				if(data.result == false){
 	                toastr.error(data.msg);
-	                //reset save btn 
-	                $("#btn-submit-form").html('Valider <i class="fa fa-arrow-circle-right"></i>').prop("disabled",false).one(function() { 
-						$( settings.formId ).submit();	        	
+	                //reset save btn
+	                $("#btn-submit-form").html('Valider <i class="fa fa-arrow-circle-right"></i>').prop("disabled",false).one(function() {
+						$( settings.formId ).submit();
 			        });
 	           	}
 	            else {
-	            	if(typeof data.msg != "undefined") 
+	            	if(typeof data.msg != "undefined")
 	            		toastr.success(data.msg);
 	            	else{
 	            		if(typeof data.resultGoods != "undefined" && typeof data.resultGoods.msg != "undefined")
@@ -2292,7 +2292,7 @@ var elementLib = {
 	            	if(data.map && $.inArray(collection, ["events","organizations","projects","citoyens"] ) !== -1)
 			        	addFloopEntity(data.id, collection, data.map);
 
-	            	if (typeof afterSave == "function") 
+	            	if (typeof afterSave == "function")
 	            		afterSave(data);
 	            	else{
 						elementLib.closeForm();
@@ -2307,8 +2307,8 @@ var elementLib = {
 	},
 	closeForm : function() {
 		$('#ajax-modal').modal("hide");
-	    //clear the unecessary DOM 
-	    $("#ajaxFormModal").html(''); 
+	    //clear the unecessary DOM
+	    $("#ajaxFormModal").html('');
 	},
 	editElement : function (type,id)
 	{
@@ -2322,9 +2322,9 @@ var elementLib = {
 	    .done(function (data) {
 	        if ( data && data.result ) {
 	        	//toastr.info(type+" found");
-	        	
+
 				//onLoad fill inputs
-				//will be sued in the dynform  as update 
+				//will be sued in the dynform  as update
 				data.map.id = data.map["_id"]["$id"];
 				delete data.map["_id"];
 				mylog.dir(data);
@@ -2370,9 +2370,9 @@ var elementLib = {
 			if( notNull(specs.col) ) uploadObj.type = specs.col;
     		callback(specs, afterLoad, data);
 		}else {
-			lazyLoad( baseUrl+'/plugins/'+type+'_dynform.js', 
+			lazyLoad( baseUrl+'/plugins/'+type+'_dynform.js',
 				null,
-				function() { 
+				function() {
 				  	alert(dynForm);
 				  	typeObj[type] = dynForm;
 					specs = typeObj[type];
@@ -2381,7 +2381,7 @@ var elementLib = {
 			 });
 		}
 	},
-	openForm : function  (type, afterLoad,data) { 
+	openForm : function  (type, afterLoad,data) {
 	    //mylog.clear();
 	    $.unblockUI();
 	    mylog.warn("--------------- Open Form "+type+" ---------------------",data);
@@ -2395,7 +2395,7 @@ var elementLib = {
 	    if(userId)
 		{
 			formType = type;
-			elementLib.getDynFormObj(type, function() { 
+			elementLib.getDynFormObj(type, function() {
 				elementLib.starBuild(specs,afterLoad,data);
 			},afterLoad, data);
 		} else {
@@ -2418,10 +2418,10 @@ var elementLib = {
 	  	$('.modal-footer').hide();
 	  	$('#ajax-modal').modal("show");
 	  	afterLoad = ( notNull(afterLoad) ) ? afterLoad : null;
-	  	data = ( notNull(data) ) ? data : {}; 
+	  	data = ( notNull(data) ) ? data : {};
 	  	elementLib.buildDynForm(specs, afterLoad, data);
 	},
-	buildDynForm : function (elementObj, afterLoad,data) { 
+	buildDynForm : function (elementObj, afterLoad,data) {
 		mylog.warn("--------------- buildDynForm", elementObj, afterLoad,data);
 		if(userId)
 		{
@@ -2475,8 +2475,8 @@ var elementLib = {
 		}
 	},
 
-	//generate Id for upload feature of this element 
-	setMongoId : function(type) { 
+	//generate Id for upload feature of this element
+	setMongoId : function(type) {
 		/*uploadObj.type = type;
 		if( !$("#ajaxFormModal #id").val() )
 		{
@@ -2604,7 +2604,7 @@ var typeObjLib = {
             			msg = "Username est bon";
             			color = " text-green"
             		}
-            		
+
             		$("#listSameName").html("<div class='col-sm-12 light-border"+color+"'> <i class='fa fa-eye'></i> "+msg+" : </div>");
             	}
             });
@@ -2635,14 +2635,14 @@ var typeObjLib = {
     	options : avancementProject,
         label : "Avancement du projet",
     },
-    image :function(str) { 
+    image :function(str) {
     	url = (str) ? str : location.hash;
     	return {
 	    	inputType : "uploader",
-	    	label : "Images de profil et album", 
+	    	label : "Images de profil et album",
 	    	afterUploadComplete : function(){
 		    	elementLib.closeForm();
-	            loadByHash( url );	
+	            loadByHash( url );
 		    	}
     	}
     },
@@ -2713,7 +2713,7 @@ var typeObjLib = {
         inputType : "array",
         value : [],
         init:function(){
-            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);	
+            getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
         },
         label : "Urls",
     },
@@ -2723,7 +2723,7 @@ var typeObjLib = {
         value : [],
         init:function(){
             getMediaFromUrlContent(".addmultifield0", ".resultGetUrl0",0);
-        	$(".urlsarray").css("display","none");	
+        	$(".urlsarray").css("display","none");
         },
         label : "url, informations supplémentaires, actions à faire, etc",
     },
@@ -2747,7 +2747,7 @@ var typeObjLib = {
     				$(".dateTimeInput").addClass("dateInput");
     				$(".dateTimeInput").removeClass("dateTimeInput");
     				$('.dateInput').datetimepicker('destroy');
-    				$(".dateInput").datetimepicker({ 
+    				$(".dateInput").datetimepicker({
 				        autoclose: true,
 				        lang: "fr",
 				        format: "d/m/Y",
@@ -2759,13 +2759,13 @@ var typeObjLib = {
     				$(".dateInput").addClass("dateTimeInput");
     				$(".dateInput").removeClass("dateInput");
     				$('.dateTimeInput').datetimepicker('destroy');
-    				$(".dateTimeInput").datetimepicker({ 
+    				$(".dateTimeInput").datetimepicker({
 	       				weekStart: 1,
 						step: 15,
 						lang: 'fr',
 						format: 'd/m/Y H:i'
 				    });
-				    
+
     				startDate = moment($('#ajaxFormModal #startDateInput').val(), "DD/MM/YYYY").format("DD/MM/YYYY HH:mm");
 					endDate = moment($('#ajaxFormModal #endDateInput').val(), "DD/MM/YYYY").format("DD/MM/YYYY HH:mm");
     			}
@@ -2777,7 +2777,7 @@ var typeObjLib = {
     startDateInput : {
         inputType : "datetime",
         placeholder: "Date de début",
-        rules : { 
+        rules : {
         	required : true,
         	duringDates: ["#startDateParent","#endDateParent","La date de début"]
     	},
@@ -2786,7 +2786,7 @@ var typeObjLib = {
     endDateInput : {
         inputType : "datetime",
         placeholder: "Date de fin",
-        rules : { 
+        rules : {
         	required : true,
         	greaterThan: ["#ajaxFormModal #startDateInput","la date de début"],
         	duringDates: ["#startDateParent","#endDateParent","La date de fin"]
@@ -2863,10 +2863,10 @@ var typeObjLib = {
 			    var search = $('#inviteSearch').val();
 			    if(search.length>2){
 			    	clearTimeout(timeout);
-					timeout = setTimeout('autoCompleteInviteSearch("'+encodeURI(search)+'")', 500); 
+					timeout = setTimeout('autoCompleteInviteSearch("'+encodeURI(search)+'")', 500);
 				}else{
-				 	$("#newInvite #dropdown_searchInvite").css({"display" : "none" });	
-				}	
+				 	$("#newInvite #dropdown_searchInvite").css({"display" : "none" });
+				}
 			});
         }
     },
@@ -2877,7 +2877,7 @@ var typeObjLib = {
             required : true
         },
         init:function(){
-        	$(".invitedUserEmailtext").css("display","none");	 
+        	$(".invitedUserEmailtext").css("display","none");
         }
     },
     poiTypes :{
@@ -2907,7 +2907,7 @@ var typeObjLib = {
     dateEnd :{
     	inputType : "date",
     	placeholder : "Fin de la période de vote",
-    	rules : { 
+    	rules : {
     		required : true,
     		greaterThanNow : ["DD/MM/YYYY"]
     	}
@@ -2915,7 +2915,7 @@ var typeObjLib = {
 };
 
 var typeObj = {
-	"themes":{ 
+	"themes":{
 		dynForm : {
 		    jsonSchema : {
 			    title : "Theme Switcher ?",
@@ -2924,13 +2924,13 @@ var typeObj = {
 			    properties : {
 			    	custom :{
 		            	inputType : "custom",
-		            	html : function() { 
-		            		return "<div class='menuSmallMenu'>"+js_templates.loop( [ 
+		            	html : function() {
+		            		return "<div class='menuSmallMenu'>"+js_templates.loop( [
 			            		{ label : "ph dori", classes:"bg-dark", icon:"fa-bullseye", action : "javascript:window.location.href = moduleId+'?theme=ph-dori'"},
 			            		{ label : "notragora", classes:"bg-grey", icon:"fa-video-camera ", action : "javascript:window.location.href = moduleId+'?theme=notragora'"},
 			            		{ label : "C02", classes:"bg-red", icon:"fa-search", action : "javascript:window.location.href = moduleId+'?theme=CO2'"},
 			            		{ label : "network", classes:"bg-orange", icon:"fa-bars", action : "javascript:window.location.href = moduleId+'?theme=network'"},
-			            		
+
 		            		], "col_Link_Label_Count", { classes : "bg-red kickerBtn", parentClass : "col-xs-12 col-sm-4 "} )+"</div>";
 		            	}
 		            }
@@ -2938,7 +2938,7 @@ var typeObj = {
 			}
 		}
 	},
-	"addElement":{ 
+	"addElement":{
 		dynForm : {
 		    jsonSchema : {
 			    title : "Ajouter un élément ?",
@@ -2947,8 +2947,8 @@ var typeObj = {
 			    properties : {
 			    	custom :{
 		            	inputType : "custom",
-		            	html : function() { 
-		            		return "<div class='menuSmallMenu'>"+js_templates.loop( [ 
+		            	html : function() {
+		            		return "<div class='menuSmallMenu'>"+js_templates.loop( [
 			            		{ label : "event", classes:"bg-"+typeObj["event"].color, icon:"fa-"+typeObj["event"].icon, action : "javascript:elementLib.openForm('event')"},
 			            		{ label : "organization", classes:"bg-"+typeObj["organization"].color, icon:"fa-"+typeObj["organization"].icon, action : "javascript:elementLib.openForm('organization')"},
 			            		{ label : "project", classes:"bg-"+typeObj["project"].color, icon:"fa-"+typeObj["project"].icon, action : "javascript:elementLib.openForm('project')"},
@@ -2966,7 +2966,7 @@ var typeObj = {
 		}
 	},
 	"person" : {
-		col : "citoyens" , 
+		col : "citoyens" ,
 		ctrl : "person",
 		titleClass : "bg-yellow",
 		bgClass : "bgPerson",
@@ -3003,7 +3003,7 @@ var typeObj = {
 		}},
 	"persons" : {col:"citoyens" , ctrl:"person"},
 	"people" : {col:"citoyens" , ctrl:"person",color:"yellow"},
-	"poi":{ 
+	"poi":{
 		col:"poi",
 		ctrl:"poi",
 		color:"azure",
@@ -3020,25 +3020,25 @@ var typeObj = {
 			    		if(contextData.type && contextData.id )
 			    		{
 		    				$('#ajaxFormModal #parentId').val(contextData.id);
-			    			$("#ajaxFormModal #parentType").val( contextData.type ); 
+			    			$("#ajaxFormModal #parentType").val( contextData.type );
 			    		}
 			    	}
 			    },
 			    beforeSave : function(){
-			    	
-			    	
+
+
 			    	if($('#ajaxFormModal #parentId').val() == "" && $('#ajaxFormModal #parentType').val() ){
 				    	$('#ajaxFormModal #parentId').val( userId );
-				    	$("#ajaxFormModal #parentType").val( "citoyens" ); 
+				    	$("#ajaxFormModal #parentType").val( "citoyens" );
 				    }
 			    },
 			    beforeBuild : function(){
 			    	//elementLib.setMongoId('poi');
 			    },
 				afterSave : function(){
-					elementLib.closeForm();	
+					elementLib.closeForm();
 				    loadByHash( location.hash );
-				    
+
 			    },
 			    properties : {
 			    	info : {
@@ -3063,7 +3063,7 @@ var typeObj = {
 		}},
 	"citoyen" : {col:"citoyens" , ctrl:"person"},
 	"citoyens" : {col:"citoyens" , ctrl:"person",color:"yellow",icon:"user"},
-	"siteurl":{ 
+	"siteurl":{
 		col:"siteurl",
 		ctrl:"siteurl",
 		dynForm : {
@@ -3076,7 +3076,7 @@ var typeObj = {
 			    	subPoi : function(){
 			    		if(contextData.type && contextData.id ){
 		    				$('#ajaxFormModal #parentId').val(contextData.id);
-			    			$("#ajaxFormModal #parentType").val( contextData.type ); 
+			    			$("#ajaxFormModal #parentType").val( contextData.type );
 			    		}
 			    	}
 			    },
@@ -3096,9 +3096,9 @@ var typeObj = {
 			    }
 			}
 		}},
-	"organization" : { 
-		col:"organizations", 
-		ctrl:"organization", 
+	"organization" : {
+		col:"organizations",
+		ctrl:"organization",
 		icon : "group",
 		titleClass : "bg-green",
 		color:"green",
@@ -3117,12 +3117,12 @@ var typeObj = {
 			    	//elementLib.setMongoId('organizations');
 			    },
 			    beforeSave : function(){
-			    	
+
 			    },
 			    afterSave : function(){
 					elementLib.closeForm();
-				    loadByHash( location.hash );	
-				    
+				    loadByHash( location.hash );
+
 			    },
 			    properties : {
 			    	info : {
@@ -3147,7 +3147,7 @@ var typeObj = {
 		            "preferences[publicFields]" : typeObjLib.hiddenArray,
 		            "preferences[privateFields]" : typeObjLib.hiddenArray,
 		            "preferences[isOpenData]" : typeObjLib.hiddenTrue,
-		            "preferences[isOpenEdition]" : typeObjLib.hiddenTrue
+		            "preferences[isOpenEdition]" : typeObjLib.hidden
 			    }
 			}
 		}
@@ -3175,15 +3175,15 @@ var typeObj = {
 			    		bindDesc("#ajaxFormModal");
 			    		if(contextData.type == "events"){
 			    			$("#ajaxFormModal #parentId").removeClass('hidden');
-			    		
+
 		    				if( $('#ajaxFormModal #parentId > optgroup > option[value="'+contextData.id+'"]').length == 0 )
 			    				$('#ajaxFormModal #parentId > optgroup[label="events"]').prepend('<option value="'+contextData.id+'" selected>Fait parti de : '+contextData.name+'</option>');
 			    			else if ( contextData && contextData.id ){
 				    			$("#ajaxFormModal #parentId").val( contextData.id );
 			    			}
-			    			
+
 			    			if( contextData && contextData.type )
-			    				$("#ajaxFormModal #parentType").val( contextData.type ); 
+			    				$("#ajaxFormModal #parentType").val( contextData.type );
 
 			    			if(contextData.startDate && contextData.endDate ){
 			    				$("#ajaxFormModal").after("<input type='hidden' id='startDateParent' value='"+contextData.startDate+"'/>"+
@@ -3209,20 +3209,20 @@ var typeObj = {
 			    },
 			    afterSave : function(){
 					elementLib.closeForm();
-				    loadByHash( location.hash );	
-				    
+				    loadByHash( location.hash );
+
 			    },
 			    beforeSave : function(){
 			    	//alert("onBeforeSave");
-			    	
+
 			    	if( !$("#ajaxFormModal #allDay").val())
 			    		$("#ajaxFormModal #allDay").val(false);
 			    	//mylog.log($("#ajaxFormModal #startDateInput").val(),moment( $("#ajaxFormModal #startDateInput").val()).format('YYYY/MM/DD HH:mm'));
-			    	
+
 			    	//Transform datetime before sending
 			    	var allDay = $("#ajaxFormModal #allDay").is(':checked');
 			    	var dateformat = "DD/MM/YYYY";
-			    	if (! allDay) 
+			    	if (! allDay)
 			    		var dateformat = "DD/MM/YYYY HH:mm"
 			    	$("#ajaxFormModal #startDateInput").val( moment( $("#ajaxFormModal #startDateInput").val(), dateformat).format());
 					$("#ajaxFormModal #endDateInput").val( moment( $("#ajaxFormModal #endDateInput").val(), dateformat).format());
@@ -3245,7 +3245,7 @@ var typeObj = {
 		            	"groupOptions" : myAdminList( ["organizations","projects"] ),
 			            init : function(){
 			            	$("#ajaxFormModal #organizerId").off().on("change",function(){
-			            		
+
 			            		organizerId = $(this).val();
 			            		if(organizerId == "dontKnow" )
 			            			organizerType = "dontKnow";
@@ -3285,7 +3285,7 @@ var typeObj = {
 			            			}
 			            			//Search in my contacts list
 			            			if(typeof myContacts != "undefined") {
-				            			$.each(myContacts.events,function (i,evObj) { 
+				            			$.each(myContacts.events,function (i,evObj) {
 				            				if( evObj["_id"]["$id"] == parentId){
 				            					mylog.warn("event found in my contact list: ",evObj.startDate+"|"+evObj.endDate);
 				            					startDateParent = evObj.startDate;
@@ -3309,7 +3309,7 @@ var typeObj = {
 		            endDateInput : typeObjLib.endDateInput,
 		            location : typeObjLib.location,
 		            tags : typeObjLib.tags,
-		            
+
 		            /*public : {
 		            	inputType : "hidden",
 		            	"switch" : {
@@ -3354,7 +3354,7 @@ var typeObj = {
 			    	//pour creer un subevnt depuis un event existant
 			    	"sub" : function(){
 			    			$("#ajaxFormModal #parentId").val( contextData.id );
-			    		 	$("#ajaxFormModal #parentType").val( contextData.type ); 
+			    		 	$("#ajaxFormModal #parentType").val( contextData.type );
 			    		 	$("#ajax-modal-modal-title").html($("#ajax-modal-modal-title").html()+" sur "+contextData.name );
 			    		 	bindDesc("#ajaxFormModal");
 			    	}
@@ -3364,8 +3364,8 @@ var typeObj = {
 			    },
 			    afterSave : function(){
 					elementLib.closeForm();
-				    loadByHash( location.hash );	
-				    
+				    loadByHash( location.hash );
+
 			    },
 			    beforeSave : function(){
 			    },
@@ -3398,8 +3398,8 @@ var typeObj = {
 	"city" : {col:"cities",ctrl:"city"},
 	"cities" : {
 		col:"cities",
-		ctrl:"city", 
-		titleClass : "bg-red", 
+		ctrl:"city",
+		titleClass : "bg-red",
 		icon : "university",
 		color:"red",
 		dynForm : {
@@ -3488,7 +3488,7 @@ var typeObj = {
 			    	}
 			    },
 			    beforeSave : function(){
-			    	
+
 			    },
 			    properties : {
 			    	info : {
@@ -3505,12 +3505,12 @@ var typeObj = {
 		            			/*filling the seclect*/
 			            		if(notNull(window.myVotesList)){
 			            			html = buildSelectGroupOptions( window.myVotesList);
-			            			$("#survey").append(html); 
+			            			$("#survey").append(html);
 			            		} else {
 			            			getAjax( null , baseUrl+"/" + moduleId + "/rooms/index/type/citoyens/id/"+userId+"/view/data/fields/votes" , function(data){
 			            			    window.myVotesList = {};
-			            			    $.each( data.votes , function( k,v ) 
-			            			    { 
+			            			    $.each( data.votes , function( k,v )
+			            			    {
 			            			    	parentName = "";
 				            			    if(!window.myVotesList[ v.parentType]){
 				            			    	var label = ( v.parentType == "cities" && cpCommunexion && v.parentId.indexOf(cpCommunexion) ) ? cityNameCommunexion : v.parentType;
@@ -3520,18 +3520,18 @@ var typeObj = {
 				            			    	//if(notNull(myContactsById[v.parentType]) && notNull(myContactsById[v.parentType][v['_id']['$id']]))
 				            			    	//parentName = myContactsById[v.parentType][v['_id']['$id']].name;
 				            			    }*/
-			            			    	window.myVotesList[ v.parentType].options[v['_id']['$id'] ] = v.name+parentName; 
-			            			    }); 
-			            			    //run through myContacts to fill parent names 
+			            			    	window.myVotesList[ v.parentType].options[v['_id']['$id'] ] = v.name+parentName;
+			            			    });
+			            			    //run through myContacts to fill parent names
 			            			    mylog.dir(window.myVotesList);
-			            			    
+
 			            			    html = buildSelectGroupOptions(window.myVotesList);
 										$("#survey").append(html);
 										if(contextData && contextData.id)
 											$("#ajaxFormModal #survey").val( contextData.id );
 								    } );
 			            		}
-			            		/*$("#survey").change(function() { 
+			            		/*$("#survey").change(function() {
 			            			mylog.dir( $(this).val().split("_"));
 			            		});*/
 
@@ -3605,11 +3605,11 @@ var typeObj = {
 		            			/*filling the seclect*/
 			            		if(notNull(window.myActionsList)){
 			            			html = buildSelectGroupOptions( window.myActionsList);
-			            			$("#room").append(html); 
+			            			$("#room").append(html);
 			            		} else {
 			            			getAjax( null , baseUrl+"/" + moduleId + "/rooms/index/type/citoyens/id/"+userId+"/view/data/fields/actions" , function(data){
 			            			    window.myActionsList = {};
-			            			    $.each( data.actions , function( k,v ) 
+			            			    $.each( data.actions , function( k,v )
 			            			    { mylog.log(v.parentType,v.parentId);
 			            			    	if(v.parentType){
 					            			    if( !window.myActionsList[ v.parentType] ){
@@ -3617,9 +3617,9 @@ var typeObj = {
 					            			    	window.myActionsList[ v.parentType] = {"label":label};
 					            			    	window.myActionsList[ v.parentType].options = {};
 					            			    }
-				            			    	window.myActionsList[v.parentType].options[v['_id']['$id'] ] = v.name; 
+				            			    	window.myActionsList[v.parentType].options[v['_id']['$id'] ] = v.name;
 				            			    }
-			            			    }); 
+			            			    });
 			            			    mylog.dir(window.myActionsList);
 			            			    html = buildSelectGroupOptions(window.myActionsList);
 										$("#room").append(html);
@@ -3662,7 +3662,7 @@ var typeObj = {
 		            },
 		            parentId :{
 		            	inputType : "hidden",
-		            	value : userId	
+		            	value : userId
 		            },
 		            parentType : {
 			            inputType : "hidden",
@@ -3675,7 +3675,7 @@ var typeObj = {
 	"rooms" : {col:"actions",ctrl:"room",color:"azure",icon:"gavel"},
 	"discuss" : {col:"actionRooms",ctrl:"room"}
 	/*"contactPoint" : {
-		col : "contact" , 
+		col : "contact" ,
 		ctrl : "person",
 		titleClass : "bg-blue",
 		bgClass : "bgPerson",
@@ -3693,11 +3693,11 @@ var typeObj = {
 			    		if( contextData && contextData.id )
 	    					$("#ajaxFormModal #parentId").val( contextData.id );
 		    			if( contextData && contextData.type )
-		    				$("#ajaxFormModal #parentType").val( contextData.type ); 
+		    				$("#ajaxFormModal #parentType").val( contextData.type );
 					}
 			    },
 			    afterSave : function(){
-			    	elementLib.closeForm();	
+			    	elementLib.closeForm();
 			    	loadByHash(location.hash);
 			    },
 			    properties : {
@@ -3723,7 +3723,7 @@ var typeObj = {
 			    }
 			}
 		}},
-	"classified":{ 
+	"classified":{
 		col:"classified",
 		ctrl:"classified",
 		color:"azure",
@@ -3733,15 +3733,15 @@ var typeObj = {
 		    jsonSchema : {
 			    title : "Publier une annonce",
 			    icon : "bullhorn",
-			    type : "object",	    
+			    type : "object",
 			    onLoads : {
 			    	//pour creer un subevnt depuis un event existant
 			    	subPoi : function(){
 			    		if(contextData.type && contextData.id ){
 		    				$('#ajaxFormModal #parentId').val(contextData.id);
-			    			$("#ajaxFormModal #parentType").val( contextData.type ); 
+			    			$("#ajaxFormModal #parentType").val( contextData.type );
 			    		}
-			    		
+
 			    	}
 			    },
 			    beforeSave : function(){
@@ -3751,12 +3751,12 @@ var typeObj = {
 			    	if( $("#ajaxFormModal #subtype").val() )
 			    		tagAndTypes += ","+$("#ajaxFormModal #subtype").val();
 			    	$("#ajaxFormModal #tags").val( tagAndTypes );
-			    	
-			    	if( typeof $("#ajaxFormModal #description").code === 'function' )  
+
+			    	if( typeof $("#ajaxFormModal #description").code === 'function' )
 			    		$("#ajaxFormModal #description").val( $("#ajaxFormModal #description").code() );
 			    	if($('#ajaxFormModal #parentId').val() == "" && $('#ajaxFormModal #parentType').val() ){
 				    	$('#ajaxFormModal #parentId').val(userId);
-				    	$("#ajaxFormModal #parentType").val( "citoyens" ); 
+				    	$("#ajaxFormModal #parentType").val( "citoyens" );
 				    }
 			    },
 			    properties : {
@@ -3781,7 +3781,7 @@ var typeObj = {
 
 			            		$("#ajaxFormModal #subtype").val("");
 			            		fieldHTML = "";
-			            		$.each(classifiedSubTypes[ $(this).data('tag') ].subType, function(k,v) { 
+			            		$.each(classifiedSubTypes[ $(this).data('tag') ].subType, function(k,v) {
 			            			fieldHTML += '<a class="btn btn-link tagListEl subtypeBtn '+k+'Btn " data-tag="'+k+'" href="javascript:;">'+v+'</a>';
 			            		});
 			            		$(".subtypeSection").html(fieldHTML);
@@ -3811,7 +3811,7 @@ var typeObj = {
 			}
 		}},
 	"url" : {
-		col : "url" , 
+		col : "url" ,
 		ctrl : "url",
 		titleClass : "bg-blue",
 		bgClass : "bgPerson",
@@ -3829,7 +3829,7 @@ var typeObj = {
 			    		if( contextData && contextData.id )
 	    					$("#ajaxFormModal #parentId").val( contextData.id );
 		    			if( contextData && contextData.type )
-		    				$("#ajaxFormModal #parentType").val( contextData.type ); 
+		    				$("#ajaxFormModal #parentType").val( contextData.type );
 					}
 			    },
 			    afterSave : function(){
@@ -3870,12 +3870,12 @@ var typeObj = {
 		}},*/
 };
 
-function convertMardownToHtml(text) { 
+function convertMardownToHtml(text) {
 	var converter = new showdown.Converter();
 	return converter.makeHtml(text);
 }
 
-function activateMarkdown(elem) { 
+function activateMarkdown(elem) {
 	mylog.log("activateMarkdown", elem);
 
 	markdownParams = {
