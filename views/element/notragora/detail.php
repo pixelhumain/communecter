@@ -70,6 +70,99 @@
 	.main-col-search{
 		padding:0px;
 	}
+	.mix{
+		min-height: 100px;
+		/*width: 31.5%;*/
+		background-color: white;
+		display: inline-block;
+		border:1px solid #bbb;
+		margin-right : 1.5%;
+		border-radius: 10px;
+		padding:1%;
+		margin:-1px;
+		-webkit-box-shadow: 5px 5px 5px 0 rgba(0, 0, 0, 0.55);
+		-moz-box-shadow: 5px 5px 5px 0 rgba(0, 0, 0, 0.55);
+		box-shadow: 5px 5px 5px 0 rgba(0, 0, 0, 0.55);
+	}
+	#grid .followers{
+	display: none;
+}
+	.mix a{
+		color:black;
+		/*font-weight: bold;*/
+	}
+	.mix .imgDiv{
+		float:left;
+		width:30%;
+		background: ;
+		margin-top:0px;
+	}
+	.mix .detailDiv{
+		float:right;
+		width:70%;
+		margin-top:0px;
+		padding-left:10px;
+		text-align: left;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+	}
+
+	.mix .toolsDiv{
+		float:right;
+		width:20%;
+		margin-top:0px;
+		padding-left:10px;
+		text-align: left;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+		color:white;
+	}
+
+	.mix .text-xss{ font-size: 11px; }
+
+	#Grid{
+		margin-top: 20px;
+		background-color: transparent;
+		padding: 15px;
+		border-radius: 4px;
+		/*border-right: 1px solid #474747;*/
+		padding: 0px;
+		width:100%;
+	}
+	#Grid .mix{
+		margin-bottom: -1px !important;
+	}
+	#Grid .item_map_list{
+		padding:10px 10px 10px 0px;
+		margin-top:0px;
+		text-decoration:none;
+		background-color:white;
+		border: 1px solid rgba(0, 0, 0, 0.08); /*rgba(93, 93, 93, 0.15);*/
+	}
+	#Grid .item_map_list .left-col .thumbnail-profil{
+		width: 75px;
+		height: 75px;
+	}
+	#Grid .ico-type-account i.fa{
+		margin-left:11px !important;
+	}
+	#Grid .thumbnail-profil{
+		margin-left:10px;
+	}
+	#Grid .detailDiv a.text-xss{
+		font-size: 12px;
+		font-weight: 300;
+	}
+
+	.label.address.text-dark{
+		padding:0.4em 0.1em 0.4em 0em !important;
+	}
+	.detailDiv a.thumb-info.item_map_list_panel{
+		font-weight:500 !important;
+	}
+
 	.shadow {
 	    -webkit-box-shadow: none;
 	    -moz-box-shadow: none;
@@ -313,6 +406,9 @@
 			<?php if( $type != Person::COLLECTION){?>
 				<button class="btn btn-default btn-menubar" id="btn-menu-directory-poi">PRODUCTIONS</button>
 			<?php } ?>
+			<?php	if($type == Person::COLLECTION && Yii::app()->session['userId']==(String)$element["_id"]){ ?>
+				<button class="btn btn-default btn-menubar" id="btn-menu-directory-all">REPERTOIRE</button>
+			<?php	} ?>
 
 			<?php if(isset(Yii::app()->session["userId"]) && Yii::app()->session["userId"] == @$element["creator"]){ ?>
 			<button onclick='javascript:elementLib.openForm("poi","subPoi")' class='btn btn-default pull-right btn-menubar'>
@@ -388,11 +484,248 @@
 
 		</div>
 
+		<div id="section-directory" class="col-md-12">
 
-		<div id="section-directory" class="col-md-12"></div>
 	</div>
 
+	<div id="section-directory-all" class="col-md-12">
+	<ul id="Grid" class="pull-left  list-unstyled" style="display:none;">
+	<?php $organizations = PHDB::find(Organization::COLLECTION);
+	$memberId = Yii::app()->session["userId"];
+	$memberType = Person::COLLECTION;
+	$tags = array();
+	$tagsHTMLFull = "";
+	$scopes = array(
+		"codeInsee"=>array(),
+		"postalCode"=>array(),
+		"region"=>array(),
+		"addressLocality"=>array(),
+	);
+	$scopesHTMLFull = "";
+	foreach ($organizations as $e)
+		{
+			buildDirectoryLine($e, Organization::COLLECTION, Organization::CONTROLLER, Organization::ICON, $this->module->id,$tags,$scopes,$tagsHTMLFull,$scopesHTMLFull,1,"memberOf", $type, $_GET["id"]);
+		}
 
+
+	function buildDirectoryLine( $e, $collection, $type, $icon, $moduleId, &$tags, &$scopes, &$tagsHTMLFull,&$scopesHTMLFull,$manage, $connectType=null, $elementType=null,$elementId=null)
+	{
+		if((!@$e['_id']  && !@$e["id"] ) || !@$e['id'] || !@$e["name"] || $e["name"] == "" )
+			//return;
+		$actions = "";
+		$id = (@$e['_id']) ? $e["_id"] : "";
+
+		// Don't consider context element
+		if($id==$elementId && $collection==$elementType)
+			//return;
+
+		/* **************************************
+		* TYPE + ICON
+		***************************************** */
+		$img = '';
+		if ($e && !empty($e["profilThumbImageUrl"])){
+			$img = '<img class="thumbnail-profil" width="50" height="50" alt="image" src="'.Yii::app()->createUrl('/'.$e['profilThumbImageUrl']).'">';
+		}else{
+			$defaultImg=$collection;
+			$assetsUrl= Yii::app()->controller->module->assetsUrl;
+			if($collection == "followers" || $collection == "attendees" || $collection == "guests")
+				$defaultImg = Person::COLLECTION;
+			$img ='<img class="thumbnail-profil" width="50" height="50" alt="image" src="'.$assetsUrl.'/images/thumb/default_'.$defaultImg.'.png">';
+		}
+
+		/* **************************************
+		* TAGS FILTER
+		***************************************** */
+		$tagsClasses = "";
+		if(@$e["tags"]){
+			foreach ($e["tags"] as $key => $value) {
+				$tagsClasses .= ' '.preg_replace("/[^A-Za-z0-9]/", "", $value) ;
+			}
+		}
+
+		/* **************************************
+		* SCOPES FILTER
+		***************************************** */
+		$scopesClasses = "";
+		if( @$e["address"] && @$e["address"]['codeInsee'] )
+			$scopesClasses .= ' '.$e["address"]['codeInsee'];
+		if( @$e["address"] && @$e["address"]['postalCode'] )
+			$scopesClasses .= ' '.$e["address"]['postalCode'];
+		if( @$e["address"] && @$e["address"]['region'] )
+			$scopesClasses .= ' '.$e["address"]['region'];
+		if( @$e["address"] && @$e["address"]['addressLocality'] ){
+			$locality = str_replace( " ", "", $e["address"]['addressLocality']);
+			$scopesClasses .= ' '.$locality;
+		}
+
+		//$url = Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id);
+		$name = ( @$e["name"] ) ? $e["name"] : "" ;
+		if($type=="person")
+			$type="citoyen";
+		$url = "#element.detail.type.".$type."s.id.".$id;
+		$url = 'href="'.$url.'" class="lbh"';
+		$process = "";
+		if(@$e["isAdminPending"])
+			$process = " <color class='text-red'>(".Yii::t("common","Wait for confirmation").")</color>";
+		else if(!@$e["isAdmin"] && @$e["toBeValidated"])
+			$process = " <color class='text-red'>(en attente de confirmation)</color>";
+
+		if(@$e["tobeactivated"] || @$e["pending"]){
+			$process= " (En cours d'inscription)";
+			$processStyle='style="filter:grayscale(100%);-webkit-filter:grayscale(100%);"';
+		}
+		else{
+			$processStyle="";
+		}
+		$entryType = ( @$e["type"]) ? $e["type"] : "";
+		$panelHTML = '<li id="'.$collection.(string)$id.'" class="item_map_list col-lg-3  col-md-4 col-sm-6 col-xs-6 mix '.$collection.'Line '.$collection.' '.$scopesClasses.' '.$tagsClasses.' '.$entryType.'" data-cat="1" style="display: inline-block;">'.
+			'<div style="position:relative;">'.
+						'<div class="portfolio-item">';
+		$strHTML = '<a '.$url.' class="thumb-info item_map_list_panel" data-id="'.$id.'"  >'.$name.'</a>';
+
+		if ($process) {
+			$strHTML .= '<span class="text-xss">'.$process.'</span>';
+		}
+
+		/* **************************************
+		* DATE for Event and PROJECT uses
+		***************************************** */
+
+		if(isset($e["startDate"]) && !isset($e["endDate"]) && $type == "event"){
+			$strHTML .=  '<br/>Le <a class="startDateEvent" '.$url.'>'.date("d/m/y H:i",(isset($e["startDate"]->sec))  ? $e["startDate"]->sec : strtotime($e["startDate"]) ).'</a>';
+		}
+		if(isset($e["startDate"]) && isset($e["endDate"]) && $type == "event"){
+			if(isset($e["startDate"]->sec)){
+				$strHTML .=  '<br/>'.
+							 '<a class="startDateEvent start double" '.$url.'>'.date('m/d/Y', $e["startDate"]->sec).'</a>';
+				$strHTML .=  '<a class="startDateEvent end double" '.$url.'>'.date('m/d/Y', $e["endDate"]->sec).'</a>';
+
+			}else{
+				if (!empty($e["startDate"]) && !empty($e["endDate"])) {
+					if (gettype($e["startDate"]) == "object" && gettype($e["endDate"]) == "object") {
+						//Set TZ to UTC in order to be the same than Mongo
+						date_default_timezone_set('UTC');
+						$e["startDate"] = date('Y-m-d H:i:s', $e["startDate"]->sec);
+						$e["endDate"] = date('Y-m-d H:i:s', $e["endDate"]->sec);
+					} else {
+						//Manage old date with string on date event
+						$now = time();
+						$yesterday = mktime(0, 0, 0, date("m")  , date("d")-1, date("Y"));
+						$yester2day = mktime(0, 0, 0, date("m")  , date("d")-2, date("Y"));
+						$e["endDate"] = date('Y-m-d H:i:s', $yesterday);
+						$e["startDate"] = date('Y-m-d H:i:s',$yester2day);
+					}
+				}
+
+				$start = dateToStr($e["startDate"], "fr", true);
+				$end = dateToStr($e["endDate"], "fr", true);
+
+				if(substr($start, 0, 10) != substr($end, 0, 10)){
+					$strHTML .=  '<br/>'.
+								 '<a class="startDateEvent start double" '.$url.'>'.$e["startDate"].'</a>';
+					$strHTML .=  '<a class="startDateEvent end   double" '.$url.'>'.$e["endDate"].'</a>';
+				}else{
+					$hour1 = substr($start, strpos($start, "-")+2, strlen($start));
+					$hour2 = substr($end,   strpos($end,   "-")+2, strlen($end));
+
+					if($hour1 == "00h00" && $hour2 == "23h59") {
+						$strHTML .=  '<br/>'.
+									 '<a class="startDateEvent double" '.$url.' allday="true"> Le '.substr($start, 0, 10).'</a>';
+						$strHTML .=  '<a class="startDateEvent double" '.$url.'>'.Yii::t("event","All day",null,Yii::app()->controller->module->id).'</a>';
+					}else{
+						$strHTML .=  '<br/>'.
+									 '<a class="startDateEvent double" '.$url.' allday="true"> Le '.substr($start, 0, 10).'</a>';
+						$strHTML .=  '<a class="startDateEvent double" '.$url.'>'.$hour1. " - ".$hour2.'</a>';
+					}
+				}
+			}
+		}
+
+
+		/* **************************************
+		* TAGS
+		***************************************** */
+		$tagsHTML = "";
+		if(isset($e["tags"]) && !empty($e["tags"])){
+			foreach ($e["tags"] as $key => $value) {
+				$tagsHTML .= ' <a href="javascript:;" class="filter" data-filter=".'.preg_replace("/[^A-Za-z0-9]/", "", $value).'"><span class="text-red text-xss">#'.$value.'</span></a>';
+				if( $tags != "" && !in_array($value, $tags) ) {
+					array_push($tags, $value);
+					$tagsHTMLFull .= ' <a href="javascript:;" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".'.preg_replace("/[^A-Za-z0-9]/", "", $value).'"><span>#'.$value.'</span></a>';
+				}
+			}
+		}
+
+		/* **************************************
+		* SCOPES
+		***************************************** */
+		$scopeHTML = "";
+		if( isset($e["address"]) && isset( $e["address"]['codeInsee'])){
+			//$scopeHTML .= ' <a href="#" class="filter" data-filter=".'.$e["address"]['codeInsee'].'"><span class="label address text-dark text-xss">'.$e["address"]['codeInsee'].'</span></a>';
+			if( !in_array($e["address"]['codeInsee'], $scopes['codeInsee']) ) {
+				array_push($scopes['codeInsee'], $e["address"]['codeInsee'] );
+				$scopesHTMLFull .= ' <a href="javascript:;" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".'.$e["address"]['codeInsee'].'"><span>insee '.$e["address"]['codeInsee'].'</span></a>';
+			}
+		}
+		if( isset($e["address"]) && isset( $e["address"]['postalCode'])){
+			$scopeHTML .= ' <a href="javascript:;" class="filter" data-filter=".'.$e["address"]['postalCode'].'"><span class="label address text-dark text-xss">'.$e["address"]['postalCode'].'</span></a>';
+			if( !in_array($e["address"]['postalCode'], $scopes['postalCode']) ) {
+				$insee = isset($e["address"]['codeInsee']) ? $e["address"]['codeInsee'] : $e["address"]['postalCode'];
+				array_push($scopes['postalCode'], $e["address"]['postalCode'] );
+				$scopesHTMLFull .= ' <a href="javascript:;" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".'.$insee.'"><span>cp '.$e["address"]['postalCode'].'</span></a>';
+			}
+		}
+		if( isset($e["address"]) && isset( $e["address"]['region']) ){
+			$scopeHTML .= ' <a href="javascript:;" class="filter" data-filter=".'.$e["address"]['region'].'" ><span class="label address text-dark text-xss">'.$e["address"]['region'].'</span></a>';
+			if( !in_array($e["address"]['region'], $scopes['region']) ) {
+				array_push($scopes['region'], $e["address"]['region'] );
+				$scopesHTMLFull .= ' <a href="javascript:;" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".'.$e["address"]['region'].'"><span>region '.$e["address"]['region'].'</span></a>';
+			}
+		}
+		if( isset($e["address"]) && isset( $e["address"]['addressLocality'])){
+			if ($e["address"]['addressLocality']=="Unknown")
+				$adresseLocality="Adresse non renseignée";
+			else
+				$adresseLocality=$e["address"]['addressLocality'];
+			$scopeHTML .= ' <a href="javascript:;" class="filter" data-filter=".'.str_replace( " ", "", $e["address"]['addressLocality']).'" ><span class="label address text-dark text-xss">'.$adresseLocality.'</span></a>';
+			if( !in_array($e["address"]['addressLocality'], $scopes['addressLocality']) ) {
+				array_push($scopes['addressLocality'], $e["address"]['addressLocality'] );
+				$scopesHTMLFull .= ' <a href="javascript:;" class="filter btn btn-xs btn-default text-red marginbot" data-filter=".'.str_replace( " ", "", $e["address"]['addressLocality']).'"><span>Locality  '.$e["address"]['addressLocality'].'</span></a>';
+			}
+		}
+
+		//$strHTML .= '<div class="tools tools-bottom">'.$tagsHTML."<br/>".$scopeHTML.'</div>';
+		$featuresHTML = "";
+		if( $scopeHTML != "" ){
+			$strHTML .= '<div class=" scopes'.$id.$type.' features">'.$scopeHTML.'</div>';
+			//$featuresHTML .= ' <a href="#" onclick="showHideFeatures(\'scopes'.$id.$type.'\');"><i class="fa fa-circle-o text-red text-xss"></i></a>';
+		}
+		$strHTML .= '</div>';
+		$strHTML .= "<br/><div>";//$tagsHTML."<br/>".$scopeHTML;
+		if( isset( $e["tags"]) ){
+			$strHTML .= '<div class="hide tags'.$id.$type.' features tagblock">'.$tagsHTML.'</div>';
+			//$featuresHTML .= '<a href="#" onclick="showHideFeatures(\'tags'.$id.$type.'\');"><i class="fa fa-tags text-red text-xss"></i></a>';
+		}
+		if( isset($e["geo"]) && isset($e["geo"]["latitude"]) && isset($e["geo"]["longitude"]) ){
+			//$featuresHTML .= ' <a href="#" onclick="$(\'.box-ajax\').hide(); toastr.error(\'show on map + label!\');"><i class="fa fa-map-marker text-red text-xss"></i></a>';
+		}
+		$strBtnHTML="";
+		$color = "";
+		if($icon == "fa-users") $color = "green";
+		if($icon == "fa-user") $color = "yellow";
+		if($icon == "fa-calendar") $color = "orange";
+		if($icon == "fa-lightbulb-o") $color = "purple";
+		$flag = '<div class="ico-type-account"><i class="fa '.$icon.' fa-'.$color.'"></i>';
+		if(@$e["isAdmin"] && !@$e["isAdminPending"])
+			$flag .= "<i class='fa fa-bookmark fa-rotate-270 fa-red' style='left:-5px;'></i>";
+		$flag.="</div>";
+		echo $panelHTML.
+			'<div class="imgDiv left-col">'.$img.$flag.$featuresHTML.'</div>'.
+			'<div class="detailDiv">'.$strHTML.'</div></div></div>'.$strBtnHTML.'</li>';
+	} ?>
+</ul>
+</div>
+</div>
 
 	<div class="col-lg-2 col-md-2 col-sm-3 col-members">
 		<?php if($type=="poi"){
@@ -805,6 +1138,13 @@ function initMenuDetail(){
 
 		// },"html");
     });
+
+		$("#btn-menu-directory-all").click(function(){
+	    	hideAllSections();
+	    	$("#section-directory-all").show();
+				$("#Grid").show();
+	    });
+
 }
 
 
@@ -813,5 +1153,7 @@ function hideAllSections(){
 	$("#section-gallery").hide();
 	$("#section-stream").hide().html("");
 	$("#section-directory").hide();
+	$("#section-directory-all").hide();
+	$("#Grid").hide();
 }
 </script>
