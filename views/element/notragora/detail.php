@@ -353,7 +353,7 @@
 					}
 					if ($type == Organization::COLLECTION || $type == Project::COLLECTION ) {
 						if (Authorisation::canDeleteElement((String)$element["_id"], $type, Yii::app()->session["userId"])) { ?>
-							<a href="javascript:;" data-toggle="modal" data-target="#modal-delete-element" class="btn text-red"><i class="fa fa-trash" ></i> <?php echo Yii::t("common","Delete")?></a>
+					<?php  /*a href="javascript:;" data-toggle="modal" data-target="#modal-delete-element" class="btn text-red"><i class="fa fa-trash" ></i> <?php echo Yii::t("common","Delete")?></a>*/?>
 					<?php }
 					}
 				} else {
@@ -407,7 +407,7 @@
 				<button class="btn btn-default btn-menubar" id="btn-menu-directory-poi">PRODUCTIONS</button>
 			<?php } ?>
 			<?php	if($type == Person::COLLECTION && Yii::app()->session['userId']==(String)$element["_id"]){ ?>
-				<button class="btn btn-default btn-menubar" id="btn-menu-directory-all">REPERTOIRE</button>
+				<button class="btn btn-default btn-menubar" id="btn-menu-directory-all">MES GROUPES</button>
 			<?php	} ?>
 
 			<?php if(isset(Yii::app()->session["userId"]) && Yii::app()->session["userId"] == @$element["creator"]){ ?>
@@ -490,7 +490,7 @@
 
 	<div id="section-directory-all" class="col-md-12">
 	<ul id="Grid" class="pull-left  list-unstyled" style="display:none;">
-	<?php $organizations = PHDB::find(Organization::COLLECTION);
+	<?php $organizations = Person::getOrganizationsById(Yii::app()->session["userId"]);//PHDB::find(Organization::COLLECTION);
 	$memberId = Yii::app()->session["userId"];
 	$memberType = Person::COLLECTION;
 	$tags = array();
