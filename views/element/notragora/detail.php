@@ -989,6 +989,12 @@
   	var pois = <?php echo json_encode($entitiesPois); ?>
 
 	jQuery(document).ready(function() {
+		var viewLoading ="<?php echo (@$_GET["view"]) ? $_GET["view"] : "detail" ?>"
+		if(viewLoading=="directory"){
+			hideAllSections();
+			$("#section-directory-all").show();
+			$("#Grid").show();
+		}
 		var elementName = "<?php echo addslashes($element["name"])?>";
 		setTitle("<span id='main-title-menu'>"+elementName+"</span>",elementName, elementName);
 		$("#changePasswordBtn").click(function () {
