@@ -2067,7 +2067,6 @@ function updateOrganizer() {
 				className: 'btn-danger'
 			}
 		},
-		
 		callback: function (result) {
 			if (!result) {
 				return;
