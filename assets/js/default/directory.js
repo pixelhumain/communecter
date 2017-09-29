@@ -7,7 +7,7 @@ var scrollEnd = false;
 var totalData = 0;
 
 var timeout = null;
-var searchType = '';
+//var searchType = '';
 
 var translate = {"organizations":"Organisations",
                  "projects":"Projets",
@@ -262,8 +262,9 @@ function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
             if(typeof showResultInCalendar != "undefined")
               showResultInCalendar(mapElements);
 
+            
             //affiche les éléments sur la carte
-            if(CoSigAllReadyLoad)
+            if(typeof CoSigAllReadyLoad != "undefined")
             Sig.showMapElements(Sig.map, mapElements);
             else{
               setTimeout(function(){ 
