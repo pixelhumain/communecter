@@ -334,6 +334,11 @@ class CommunecterController extends Controller
 		"editchart"       => array("href" => "/ph/communecter/chart/editchart"),
 		"get"       => array("href" => "/ph/communecter/chart/get"),
     ),
+    "poi" => array(
+      "addlink"      => array("href" => "/ph/communecter/poi/addlink"),
+      "deletelink"      => array("href" => "/ph/communecter/poi/deletelink")
+    ),
+    
     "job"=> array(
       "edit"    => array("href" => "/ph/communecter/job/edit"),
       "public"  => array("href" => "/ph/communecter/job/public"),

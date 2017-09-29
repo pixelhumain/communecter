@@ -289,6 +289,26 @@
 		border-radius: 0px!important
 	}
 	#profil_imgPreview{}
+	.removeLink{
+		    display: none;
+    position: absolute;
+    right: -5px;
+    top: -5px;
+    border-radius: 12px;
+    width: 25px;
+    background-color: black;
+    height: 25px;
+    color: white;
+    border: inherit;
+	}
+	.removeLink:hover{
+		font-size: 15px;
+		border: 1px solid white;
+	}
+	.contentItem{
+		float:left;
+		position: relative;
+	}
 </style>
 	<div class="col-lg-10 col-md-10 col-sm-9 no-padding" id="onepage">
 		<?php
@@ -442,6 +462,85 @@
 
 
 			<?php if ($type == "poi"){ ?>
+				<div class="col-sm-10 col-md-10 col-xs-10 col-md-offset-1 col-sm-offset-1">
+				<div id="divProducors" class="col-md-6 col-sm-6 col-xs-6 padding-10">
+					<div class="col-md-12 col-sm-12 col-xs-12">
+					<h4 class="col-md-8 col-sm-8 col-xs-8 no-margin margin-bottom-5" style="color: #b4b4b4;font-size: 18px;">Producteurs</h4>
+					<?php if(@Yii::app()->session["userId"]){ ?>
+						<?php if ($edit==true || ($openEdition == true )) { ?>
+					<button class="btn btn-xs bg-white text-dark pull-right editLink"><i class="fa fa-pencil"></i></button>
+					<button class="btn btn-xs bg-white margin-left-5 text-green btn-menu-element-prodsupport tooltips pull-right"
+						data-toggle='modal'
+						data-placement="bottom"
+						data-original-title="Ajouter des producteurs"
+						data-target='#modal-scope'
+						data-connect='producors'>
+						<i class="fa fa-plus"></i>
+					</button>
+					<?php } } ?>
+					</div>
+					<div class="col-md-12 col-sm-12 col-xs-12">
+					<?php if(@$element["producors"] && !empty($element["producors"])){
+						foreach($element["producors"] as $key => $value){
+							$orga=Organization::getSimpleOrganizationById($key);
+							$urlImg=$this->module->assetsUrl.'/images/thumb/default_organizations.png';
+							if(@$orga["profilImageUrl"] && !empty($orga["profilImageUrl"]) )
+								$urlImg=Yii::app()->createUrl('/'.$orga["profilImageUrl"]);
+							?>
+							<div class="contentItem contentItem<?php echo $key ?>">
+								<a href="#element.detail.type.<?php echo Organization::COLLECTION ?>.id.<?php echo $key ?>" data-placement="top" data-original-title="<?php echo $orga["name"] ?>" class=" lbh btn no-padding contentImg tooltips">
+								<img width="50" height="50"  alt="image" class="" src="<?php echo $urlImg ?>">
+								</a>
+								<button class="removeLink" data-type="producors" data-id="<?php echo $key ?>"><i class="fa fa-remove"></i></button>
+							</div>
+
+					<?php }
+					}  else {
+						echo "<i>Aucun producteur ajouté</i>";
+					}
+					?>
+					</div>
+					<?php $this->renderPartial('../element/addSupportProducor',array("type"=>$type, "parentId" =>(string)$element['_id'])); ?>
+				</div>
+				<div id="divSupports" class="col-md-6 col-sm-6 col-xs-6 padding-10">
+					<div class="col-md-12 col-sm-12 col-xs-12">
+					<h4 class="col-md-8 col-sm-8 col-xs-8 no-margin margin-bottom-5" style="color: #b4b4b4;font-size:18px;">Soutien</h4>
+					<?php if(@Yii::app()->session["userId"]){ ?>
+						<?php if ($edit==true || ($openEdition == true )) { ?>
+					<button class="btn btn-xs bg-white text-dark pull-right editLink"><i class="fa fa-pencil"></i></button>
+					<button class="btn btn-xs bg-white margin-left-5 text-green btn-menu-element-prodsupport tooltips pull-right"
+						data-toggle='modal'
+						data-placement="bottom"
+						data-original-title="Ajouter des soutiens"
+						data-target='#modal-scope'
+						data-connect='supports'>
+						<i class="fa fa-plus"></i>
+					</button>
+					<?php } } ?>
+					</div>
+					<div class="col-md-12 col-sm-12 col-xs-12">
+					<?php if(@$element["supports"] && !empty($element["supports"])){
+						foreach($element["supports"] as $key => $value){
+							$orga=Organization::getSimpleOrganizationById($key);
+							$urlImg=$this->module->assetsUrl.'/images/thumb/default_organizations.png';
+							if(@$orga["profilImageUrl"] && !empty($orga["profilImageUrl"]) )
+								$urlImg=Yii::app()->createUrl('/'.$orga["profilImageUrl"]);
+							?>
+							<div class="contentItem contentItem<?php echo $key ?>">
+								<a href="#element.detail.type.<?php echo Organization::COLLECTION ?>.id.<?php echo $key ?>" data-placement="top" data-original-title="<?php echo $orga["name"] ?>" class=" lbh btn no-padding contentImg tooltips">
+								<img width="50" height="50"  alt="image" class="" src="<?php echo $urlImg ?>">
+								</a>
+								<button class="removeLink" data-type="supports" data-id="<?php echo $key ?>"><i class="fa fa-remove"></i></button>
+							</div>
+
+					<?php }
+					}  else {
+						echo "<i>Aucun soutien ajouté</i>";
+					}
+					?>
+					</div>
+				</div>
+				</div>
 				<div id="divTags" class="col-md-12 col-sm-12 col-xs-12 padding-10">
 					<?php if(@$element["tags"]){ ?>
 						<?php
@@ -989,6 +1088,31 @@
   	var pois = <?php echo json_encode($entitiesPois); ?>
 
 	jQuery(document).ready(function() {
+		$(".editLink").click(function(){
+			$(this).parents().eq(1).find(".removeLink").show();
+		});
+		$(".removeLink").click(function(){
+			var connect=$(this).data("type");
+			var id=$(this).data("id");
+			$.ajax({
+		        type: "POST",
+		        url: baseUrl+"/"+moduleId+"/poi/deletelink",
+				data: {connect:connect, id:id, parentId:contextData.id }
+			})
+			.done(function (data) {
+				    if ( data && data.result ) {
+				    	if(connect=="supports")
+				    		msg="Bien supprimé des soutiens";
+				    	else
+				    		msg="Bien supprimé des producteurs";
+				        toastr.info(msg);
+				        $(".contentItem"+id).remove();
+				        //loadByHash("#"+parentType.substr(0, parentType.length - 1)+".detail.id."+parentId);
+				    } else {
+				           toastr.error("Une erreur est survenue : ".data.msg);
+				    }
+			});
+		}); 
 		var viewLoading ="<?php echo (@$_GET["view"]) ? $_GET["view"] : "detail" ?>"
 		if(viewLoading=="directory"){
 			hideAllSections();
