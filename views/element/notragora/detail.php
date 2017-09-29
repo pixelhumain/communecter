@@ -465,7 +465,7 @@
 				<div class="col-sm-10 col-md-10 col-xs-10 col-md-offset-1 col-sm-offset-1">
 				<div id="divProducors" class="col-md-6 col-sm-6 col-xs-6 padding-10">
 					<div class="col-md-12 col-sm-12 col-xs-12">
-					<h4 class="col-md-8 col-sm-8 col-xs-8 no-margin margin-bottom-5" style="color: #b4b4b4;font-size: 18px;">Producteurs</h4>
+					<h4 class="col-md-8 col-sm-8 col-xs-8 no-margin margin-bottom-5 no-padding text-dark" style="font-size: 18px;">Producteurs</h4>
 					<?php if(@Yii::app()->session["userId"]){ ?>
 						<?php if ($edit==true || ($openEdition == true )) { ?>
 					<button class="btn btn-xs bg-white text-dark pull-right editLink"><i class="fa fa-pencil"></i></button>
@@ -504,7 +504,7 @@
 				</div>
 				<div id="divSupports" class="col-md-6 col-sm-6 col-xs-6 padding-10">
 					<div class="col-md-12 col-sm-12 col-xs-12">
-					<h4 class="col-md-8 col-sm-8 col-xs-8 no-margin margin-bottom-5" style="color: #b4b4b4;font-size:18px;">Soutien</h4>
+					<h4 class="col-md-8 col-sm-8 col-xs-8 no-margin margin-bottom-5 no-padding text-dark" style="font-size:18px;">Soutien</h4>
 					<?php if(@Yii::app()->session["userId"]){ ?>
 						<?php if ($edit==true || ($openEdition == true )) { ?>
 					<button class="btn btn-xs bg-white text-dark pull-right editLink"><i class="fa fa-pencil"></i></button>
