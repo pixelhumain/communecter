@@ -692,6 +692,7 @@ function backToForm(cancel){
 			$("#form-street").val($("[name='newElement_streetAddress']").val());
 			showMap(false);
 			Sig.clearMap();
+			updateMap();
 			$('#ajax-modal').modal("show");
 		}else{
 			if(typeof cancel == "undefined" || cancel == false)
@@ -713,6 +714,7 @@ function backToForm(cancel){
 			}
 			showMap(false);
 			Sig.clearMap();
+			updateMap()
 			$('#ajax-modal').modal("show");
 	}
 
