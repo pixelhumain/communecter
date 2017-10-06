@@ -1324,6 +1324,7 @@ function formatData(formData, collection,ctrl) {
 
 	// input de tags différents
 	var nbListTags = 1 ;
+	mylog.log("Here", nbListTags, jsonHelper.notNull("formData.tags"+nbListTags));
 	while(jsonHelper.notNull("formData.tags"+nbListTags)){
 		tagsSave=formData["tags"+nbListTags].split(",");
 		if(!formData.tags)formData.tags = [];
@@ -2198,6 +2199,19 @@ var elementLib = {
 
 		if( typeof formData.tags != "undefined" && formData.tags != "" )
 			formData.tags = formData.tags.split(",");
+
+		// input de tags différents
+		var nbListTags = 1 ;
+		mylog.log("Here", nbListTags, jsonHelper.notNull("formData.tags"+nbListTags));
+		while(jsonHelper.notNull("formData.tags"+nbListTags)){
+			tagsSave=formData["tags"+nbListTags].split(",");
+			if(!formData.tags)formData.tags = [];
+			$.each(tagsSave, function(i, e) {
+				formData.tags.push(e);
+			});
+			delete formData["tags"+nbListTags];
+			nbListTags++;
+		}
 
 		// Add collections and genres of notragora in tags
 		if( typeof formData.collections != "undefined" && formData.collections != "" ){
