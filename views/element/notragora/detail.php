@@ -372,8 +372,9 @@
 					<?php	}
 					}
 					if ($type == Organization::COLLECTION || $type == Project::COLLECTION ) {
-						if (Authorisation::canDeleteElement((String)$element["_id"], $type, Yii::app()->session["userId"])) { ?>
-					<?php  /*a href="javascript:;" data-toggle="modal" data-target="#modal-delete-element" class="btn text-red"><i class="fa fa-trash" ></i> <?php echo Yii::t("common","Delete")?></a>*/?>
+						//if (Authorisation::canDeleteElement((String)$element["_id"], $type, Yii::app()->session["userId"])) { 
+					  	if( Role::isSuperAdmin(Role::getRolesUserId(Yii::app()->session["userId"]))){ ?>
+					  	<a href="javascript:;" data-toggle="modal" data-target="#modal-delete-element" class="btn text-red"><i class="fa fa-trash" ></i> <?php echo Yii::t("common","Delete")?></a> 
 					<?php }
 					}
 				} else {
