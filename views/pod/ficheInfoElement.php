@@ -1,49 +1,10 @@
 <?php 
-$cssAnsScriptFilesTheme = array(
-//X-editable...
-//'/assets/plugins/x-editable/css/bootstrap-editable.css',
-//'/assets/plugins/x-editable/js/bootstrap-editable.js',
 
-//DatePicker
-//'/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' ,
-//'/assets/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.fr.js' ,
-//'/assets/plugins/bootstrap-datepicker/css/datepicker.css',
-
-//DateTime Picker
-//'/assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js' , 
-//'/assets/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.fr.js' , 
-//'/assets/plugins/bootstrap-datetimepicker/css/datetimepicker.css',
-
-//Wysihtml5
-//'/assets/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.css',
-//'/assets/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5-editor.css',
-//'/assets/plugins/wysihtml5/bootstrap3-wysihtml5/wysihtml5x-toolbar.min.js',
-//'/assets/plugins/wysihtml5/bootstrap3-wysihtml5/bootstrap3-wysihtml5.min.js',
-//'/assets/plugins/wysihtml5/wysihtml5.js',
-
-//'/assets/plugins/moment/min/moment.min.js' , 
-//'/assets/plugins/jquery.qrcode/jquery-qrcode.min.js'
-//'/plugins/to-markdown/to-markdown.js',
-
-);
 $cssAnsScriptFilesTheme = array(
 	'/plugins/to-markdown/to-markdown.js'
 );
 
 HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->request->baseUrl);
-
-
-/*$cssAnsScriptFilesModule = array(
-
-	'/plugins/jquery.qrcode/jquery-qrcode.min.js'
-);
-HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->request->baseUrl);*/
-
-//$cssAnsScriptFilesModule = array(
-//	'/js/dataHelpers.js',
-//	'/js/postalCode.js'
-//);
-//HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule , $this->module->assetsUrl);
 ?>
 <style>
 	.fileupload, .fileupload-preview.thumbnail, 
