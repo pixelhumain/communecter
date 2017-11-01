@@ -118,7 +118,7 @@
           </div>
 
           <?php if(@$srcMainImg != ""){ ?>
-            <a class="inline-block bg-black" target="_blank" href="<?php echo @$media["href"]; ?>">
+            <a class="inline-block bg-black" target="_blank" href="<?php echo $srcMainImg; ?>" data-lightbox="all">
             <img class="img-responsive" src="<?php echo $srcMainImg; ?>" />
             </a>
           <?php } ?>
