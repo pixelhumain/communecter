@@ -203,7 +203,7 @@ var formDefinition = {
 	            },
 	            "captcha" : {
 	                "inputType" : "recaptcha",
-	                "key":"6LdiygUTAAAAAKZxZ0c9-G43Xqp9ZiedhWswto1s"
+	                "key":"<?php echo Yii::app()->params["captcha"] ?>"
 	            }
 	        }
 	    },
