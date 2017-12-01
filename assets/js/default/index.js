@@ -72,6 +72,9 @@ function resizeInterface()
   $(".my-main-container").css("min-height", $(".sigModuleBg").height()-menuTopHeight);
   $(".my-main-container").css("max-height", $(".sigModuleBg").height()-menuTopHeight);
   $(".my-main-container").css("height", $(".sigModuleBg").height()-menuTopHeight);
+  $(".menu-left-container").css("min-height", $(".sigModuleBg").height()-menuTopHeight);
+  $(".menu-left-container").css("max-height", $(".sigModuleBg").height()-menuTopHeight);
+  $(".menu-left-container").css("height", $(".sigModuleBg").height()-menuTopHeight);
   $(".main-col-search").css("min-height", $(".sigModuleBg").height());
   //$("ul.notifList").css({"maxHeight" : height-heightDif});
 
