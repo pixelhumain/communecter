@@ -1387,9 +1387,8 @@ function updateMap(){
 	var verb = "and";
 	var elementNetwork = [];
 	if(typeof networkJson.request.oneElement != "undefined" && typeof networkJson.request.sourceKey != "undefined" && networkJson.request.oneElement == true){
-		
-		 elementNetwork = networkJson.request.sourceKey[0].split("@");
-		 mylog.log("elementNetwork", elementNetwork);
+		elementNetwork = networkJson.request.sourceKey[0].split("@");
+		mylog.log("elementNetwork", elementNetwork);
 	}
 
 	//mylog.log("params", params);
@@ -1420,7 +1419,7 @@ function updateMap(){
 					add = ( (verb == "and") ? and( tags, v.tags ) : or( tags, v.tags ) );
 				else
 					add= false;
-				mylog.log("here2", v.name, searchValNetwork, v.name.search( new RegExp( searchValNetwork, "i" )) );
+				//mylog.log("here2", v.name, searchValNetwork, v.name.search( new RegExp( searchValNetwork, "i" )) );
 				if(	add && 
 					( 	disableActived == false || 
 						(disableActived == true && typeof v.disabled != "undefined" && v.disabled == true) ) && 
@@ -1631,38 +1630,20 @@ function bindAutocomplete(){
 function exportCSV(){
 	$.ajax({
         type: 'POST',
-        data: params,
         url: baseUrl+'/'+moduleId+'/admin/exportcsv/',
+        data : { tagsActived : tagsActived },
         dataType : 'json',
         success: function(data){
-        	console.log("data",data);
-    //     	var chaine = "";
-    //     	var csv = '"name";"info";"url"' ;
-    //     	if(typeof data.resData != "undefined"){
-	   //      	$.each(data.resData, function(key, value2){
-	   //      		chaine += "<tr>" +
-	   //      					"<td>"+value2.name+"</td>"+
-	   //      					"<td>"+value2.info+"</td>"+
-	   //      					"<td>"+(notNull(value2.url) ? baseUrl+value2.url : "")+"</td>"+
-	   //      					"<td>"+value2.type+"</td>"+
-	   //      					"<td>"+(notNull(value2.id) ? baseUrl+value2.id : "")+"</td>"+
-	   //      				"</tr>";
-	   //      		csv += "\n";
-	   //      		csv += '"'+value2.name+'";"'+value2.info+'";"'+baseUrl+value2.url+'";"'+value2.type+'";"'+value2.id+'";' ;
-	        		
-				// });
-	  	// 	}
+        	mylog.log("data",data);
 	  		
         	$("<a />", {
 			    "download": "iviatic.csv",
-			    "href" : "data:application/csv," + encodeURIComponent(data)
+			    "href" : "data:application/csv," + data
+			    //"href" : "data:application/csv," + encodeURIComponent(data)
 			  }).appendTo("body")
 			  .click(function() {
 			     $(this).remove()
 			  })[0].click() ;
-
-  		// 	$("#bodyResult").html(chaine);
-    //     	$.unblockUI();
 
         },
   		error:function(data){
