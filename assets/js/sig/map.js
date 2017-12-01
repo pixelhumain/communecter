@@ -247,6 +247,7 @@
 
 						$(this.cssModuleName + " .item_map_list_" + objectId).click(function()
 						{	
+							mylog.log("here item_map_list_", center);
 							thisSig.map.panTo(center, {"animate" : true });
 							thisSig.checkListElementMap(thisSig.map);
 							thisSig.myMarker.openPopup();
@@ -611,7 +612,8 @@
 								//si le marker n'est pas dans un cluster (sinon le click est géré dans le .geoJson.onEachFeature)
 								if($.inArray(type, this.notClusteredTag) > -1)
 								$(this.cssModuleName + " .item_map_list_" + objectId).click(function()
-								{	thisMap.panTo(coordinates, {"animate" : true });
+								{	mylog.log("here2 item_map_list_", coordinates);
+									thisMap.panTo(coordinates, {"animate" : true });
 									thisSig.checkListElementMap(thisMap);
 									marker.openPopup();
 								});
@@ -629,6 +631,7 @@
 								$(this.cssModuleName + " .item_map_list_" + objectId).click(function(){	
 									//toastr.success('click on element not in map');
 									//mylog.dir(thisData);
+									mylog.log("here3 item_map_list_");
 									thisSig.showModalItemNotLocated(thisData);
 								});	
 							}	
@@ -754,33 +757,47 @@
 								thisMap.panTo(layer.getLatLng());	
 								layer.openPopup(); 
 							});
-						
+							var clickSig = false;
 							//au click sur un element de la liste de droite, on zoom pour déclusturiser, et on ouvre la bulle
 							$(thisSig.cssModuleName + " .item_map_list_" + feature.properties.id).click(function(){
-								
+								mylog.log("here4 item_map_list_", thisSig.cssModuleName + " .item_map_list_" + feature.properties.id);
+								mylog.log("here4 layer", layer);
 								thisSig.allowMouseoverMaker = false;
 								var coordinates =  [feature.geometry.coordinates[1], 
 													feature.geometry.coordinates[0]];
+								mylog.log("here4 coordinates", coordinates);
 								thisMap.panTo(coordinates, {"animate" : false });
 								
 								var visibleOne = null;
+								mylog.log("here4 layer", layer);
 								if(typeof layer != "undefined")
 									visibleOne = Sig.markersLayer.getVisibleParent(layer);
 
+								mylog.log("here4 visibleOne", visibleOne);
 								if(typeof visibleOne != "undefined"){
+									mylog.log("here4 visibleOne._childCount", visibleOne._childCount, visibleOne._spiderLeg);
 									if(typeof visibleOne._childCount != "undefined"){
 										var i = 0;
 										while(typeof visibleOne._childCount != "undefined" && i<5){
+											mylog.log("here4 while", visibleOne, i);
 											coordinates = visibleOne.getLatLng();
+											thisMap.setZoom(15, {"animate" : false });
 											thisMap.panTo(coordinates, {"animate" : false });
 											visibleOne.fire("click");
-											if(typeof layer != "undefined")
+											mylog.log("here4 layer2", layer);
+											if(typeof layer != "undefined"){
+												mylog.log("here4 layer3");
 												visibleOne = Sig.markersLayer.getVisibleParent(layer);
+												mylog.log("here4 layer3", visibleOne);
+											}
+											mylog.log("here4 visibleOne", visibleOne);
 											thisSig.currentParentToOpen = visibleOne;
 											i++;
 										}
+
 									}
 									else{
+										mylog.log("here4 visibleOne._spiderLeg", visibleOne._spiderLeg);
 										if(typeof visibleOne._spiderLeg == "undefined")	{
 											thisMap.fire("click");
 											thisMap.setZoom(15, {"animate" : false });
