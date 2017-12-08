@@ -537,7 +537,7 @@ $controler = Element::getControlerByCollection($type);
 	        <button type="button" class="lbh btn btn-success btn-confidentialitySettings" data-dismiss="modal" aria-label="Close" data-hash="#element.detail.type.<?php echo $type ?>.id.<?php echo $entity['_id'] ;?>">OK</button>
 	      </div>
 	      <?php
-		      //$addLink = (empty($users[Yii::app()->session["userId"]])?false:true); 
+		      
 		      if($edit && $type != Person::COLLECTION) 
 				$this->renderPartial('../element/addMembersFromMyContacts',array("type"=>$type, "parentId" =>(string)$entity['_id'], "users"=>@$users)); ?>
 	    </div><!-- /.modal-content -->

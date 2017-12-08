@@ -71,7 +71,10 @@ if($('#breadcum').length)
 	</style>
 <?php 
 	if($type != City::CONTROLLER && $type != Poi::COLLECTION && !@$_GET["renderPartial"])
-		$this->renderPartial('../pod/headerEntity', array("entity"=>$element, "type" => $type, "openEdition" => $openEdition, "edit" => $edit, "firstView" => "detail","menuConfig"=>@$menuConfig, "users" => $members, "deletePending" => $deletePending)); 
+		$this->renderPartial('../pod/headerEntity', array("entity"=>$element, "type" => $type, "openEdition" => $openEdition, "edit" => $edit, "firstView" => "detail","menuConfig"=>@$menuConfig, "users" => $members, "deletePending" => $deletePending));
+
+
+
 
 		//End isset renderPartial
 ?>
@@ -367,7 +370,7 @@ if($('#breadcum').length)
 			<div class="col-xs-12">
 				<?php   
 				$pois = PHDB::find(Poi::COLLECTION,array("parentId"=>(String) $element["_id"],"parentType"=>$type));
-				$this->renderPartial('../pod/POIList', array( "pois"=>$pois));
+				$this->renderPartial('../pod/POIList', array( "pois"=>$pois, "edit" =>	$edit));
 				?>
 	    	</div>	
 	    	
