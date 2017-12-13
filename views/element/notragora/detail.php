@@ -1143,7 +1143,6 @@
 		$("#nbMemberTotal").html(parseInt(nbAdmin)+parseInt(nbMember));
 
 		/*var url = "news/index/type/"+contextType+"/id/"+contextId+"?isFirst=1&";
-		console.log("URL", url);
 		if(contextType=="projects" || contextType=="citoyens"){
 			ajaxPost('#timeline-page', baseUrl+'/'+moduleId+'/'+url+"renderPartial=true&tpl=co2&nbCol=2",
 				null,
@@ -1231,7 +1230,6 @@ function initMenuDetail(){
     	hideAllSections();
     	$("#section-stream").show();
     	var url = "news/index/type/"+contextType+"/id/"+contextId+"?isFirst=1&";
-		console.log("URL", url);
 		ajaxPost('#section-stream', baseUrl+'/'+moduleId+'/'+url+"renderPartial=true&tpl=co2&nbCol=1",
 			null,
 			function(){
@@ -1242,7 +1240,6 @@ function initMenuDetail(){
     	hideAllSections();
     	$("#section-gallery").show();
     	var url = "gallery/index/type/"+contextType+"/id/"+contextId;
-		console.log("URL", url);
 		ajaxPost('#section-gallery', baseUrl+'/'+moduleId+'/'+url+"?renderPartial=true",
 			null,
 			function(){
