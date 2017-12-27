@@ -16,7 +16,6 @@ var translate = {"organizations":"Organisations",
                  "followers":"Ils nous suivent"};
 
 function startSearch(indexMin, indexMax, callBack){
-    console.log("startSearch", typeof callBack, callBack);
     if(loadingData) return;
     loadingData = true;
     
@@ -92,7 +91,6 @@ var mapElements = new Array();
 
 
 function autoCompleteSearch(name, locality, indexMin, indexMax, callBack){
-  console.log("autoCompleteSearch", typeof callBack, callBack);
 	if(typeof(cityInseeCommunexion) != "undefined"){
 	    var levelCommunexionName = { 1 : "CODE_POSTAL_INSEE",
 	                             2 : "INSEE",
@@ -415,7 +413,6 @@ var directory = {
 
     showResultsDirectoryHtml : function ( data, contentType, size ){ //size == null || min || max
       
-        console.log("showResultsDirectoryHtml data", typeof data, data);
         var str = "";
 
         if(typeof data == "object" && data!=null)

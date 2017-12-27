@@ -72,6 +72,9 @@ function resizeInterface()
   $(".my-main-container").css("min-height", $(".sigModuleBg").height()-menuTopHeight);
   $(".my-main-container").css("max-height", $(".sigModuleBg").height()-menuTopHeight);
   $(".my-main-container").css("height", $(".sigModuleBg").height()-menuTopHeight);
+  $(".menu-left-container").css("min-height", $(".sigModuleBg").height()-menuTopHeight);
+  $(".menu-left-container").css("max-height", $(".sigModuleBg").height()-menuTopHeight);
+  $(".menu-left-container").css("height", $(".sigModuleBg").height()-menuTopHeight);
   $(".main-col-search").css("min-height", $(".sigModuleBg").height());
   //$("ul.notifList").css({"maxHeight" : height-heightDif});
 
@@ -326,45 +329,6 @@ function showLocalActorsCityCommunexion(){
 
 	loadByHash("#city.detail.insee."+inseeCommunexion+".postalCode."+cpCommunexion);
 	return;
-
-	mylog.log("showLocalActorsCityCommunexion");
-	var data = { "name" : "", 
- 			 "locality" : inseeCommunexion,
- 			 "searchType" : [ "persons", "organizations", "projects", "events", "cities" ], 
- 			 "searchBy" : "INSEE",
-    		 "indexMin" : 0, 
-    		 "indexMax" : 500  
-    		};
-
-	setTitle("Les acteurs locaux : <span class='text-red'>" + cityNameCommunexion + ", " + cpCommunexion + "</span>","spin fa-circle-o-notch","Les acteurs locaux : " + cityNameCommunexion + ", " + cpCommunexion);
-
-	$.blockUI({
-		message : "<h1 class='homestead text-red'><i class='fa fa-spin fa-circle-o-notch'></i> " + cpCommunexion + " : Commune<span class='text-dark'>xion en cours ...</span></h1>"
-	});
-
-	showMap(true);
-	
-	$.ajax({
-      type: "POST",
-          url: baseUrl+"/" + moduleId + "/search/globalautocomplete",
-          data: data,
-          dataType: "json",
-          error: function (data){
-             mylog.log("error"); mylog.dir(data);          
-          },
-          success: function(data){
-            if(!data){ toastr.error(data.content); }
-            else{
-            	//mylog.dir(data);
-            	Sig.showMapElements(Sig.map, data);
-				setTitle("Les acteurs locaux : <span class='text-red'>" + cityNameCommunexion + ", " + cpCommunexion + "</span>","connect-develop","Les acteurs locaux : " + cityNameCommunexion + ", " + cpCommunexion );
-				$(".search-loader").html("<i class='fa fa-check'></i> Vous êtes communecté à " + cityNameCommunexion + ', ' + cpCommunexion);
-				
-				toastr.success('Vous êtes communecté !<br/>' + cityNameCommunexion + ', ' + cpCommunexion);
-				$.unblockUI();
-            }
-          }
- 	});
 
 }
 

@@ -139,9 +139,6 @@ HtmlHelper::registerCssAndScriptsFiles( $cssAnsScriptFilesModule ,Yii::app()->re
 
   var uploadUrl = "<?php echo Yii::app()->params['uploadUrl'] ?>";
 
-
-
-console.log("NEWS", news);
 jQuery(document).ready(function() {
 
   showFormBlock(false);
@@ -154,7 +151,7 @@ jQuery(document).ready(function() {
 
 });
 
-function initForm(){ console.log("initForm initForm");
+function initForm(){
   getMediaFromUrlContent(".get_url_input",".results",1);
 
   setTimeout(function(){
@@ -169,7 +166,6 @@ function initForm(){ console.log("initForm initForm");
   //Sig.restartMap();
   //Sig.showMapElements(Sig.map, news);
   initFormImages();
-  console.log(myContacts);
   if(myContacts != null){
     $.each(myContacts["people"], function (key,value){
       if(typeof(value) != "undefined" ){

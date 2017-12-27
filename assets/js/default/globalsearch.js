@@ -18,7 +18,7 @@ function showDropDownGS(show){
   }
 }
 
-var searchTypeGS = [ "persons", "organizations", "projects", "events", "cities" ];
+var searchTypeGS = [ "persons", "organizations", "projects", "events", "poi" ];
 var allSearchTypeGS = [ "persons", "organizations", "projects", "events", "cities" ];
 
 var loadingDataGS = false;
@@ -134,6 +134,7 @@ function autoCompleteSearchGS(search, indexMin, indexMax){
                   var insee = o.insee ? o.insee : "";
                   type = o.type;
                   if(type=="citoyen") type = "person";
+                  if(type=="video") type = "poi";
                   var url = "javascript:"; //baseUrl+'/'+moduleId+ "/default/simple#" + o.type + ".detail.id." + id;
                   var onclick = 'loadByHash("#' + type + '.detail.id.' + id + '");';
                   var onclickCp = "";
