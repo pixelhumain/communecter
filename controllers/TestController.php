@@ -1334,4 +1334,11 @@ La vie en santé;Santé;;
 		echo  "NB Cities : " .$nbcities."<br>" ;
 		echo $str;
 	}
+
+	public function actionCsv(){
+		$res = Import::exportcsv($_POST);
+       // Rest::json($res);
+       // var_dump( $res ); 
+        echo $res ;
+	}
 }

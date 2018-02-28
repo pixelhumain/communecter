@@ -1632,14 +1632,17 @@ function exportCSV(){
         type: 'POST',
         url: baseUrl+'/'+moduleId+'/admin/exportcsv/',
         data : { tagsActived : tagsActived },
-        dataType : 'json',
+        dataType : 'text',
         success: function(data){
         	mylog.log("data",data);
-	  		
+	  		data = data.replace(/<br>/g, "\n");
+	  		mylog.log("data2",data);
+
+	  		// alert("ligne : "+data.indexOf("<br>"));
         	$("<a />", {
 			    "download": "iviatic.csv",
-			    "href" : "data:application/csv," + data
-			    //"href" : "data:application/csv," + encodeURIComponent(data)
+			    //"href" : "data:application/csv," + data
+			    "href" : "data:application/csv," + encodeURIComponent(data)
 			  }).appendTo("body")
 			  .click(function() {
 			     $(this).remove()
