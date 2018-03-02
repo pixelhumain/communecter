@@ -1635,8 +1635,8 @@ function exportCSV(){
         dataType : 'text',
         success: function(data){
         	mylog.log("data",data);
-	  		data = data.replace(/<br>/g, "\n");
-	  		mylog.log("data2",data);
+	  		// data = data.replace(/<br>/g, "\n");
+	  		// mylog.log("data2",data);
 
 	  		// alert("ligne : "+data.indexOf("<br>"));
         	$("<a />", {

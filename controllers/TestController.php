@@ -1336,7 +1336,12 @@ La vie en santé;Santé;;
 	}
 
 	public function actionCsv(){
-		$res = Import::exportcsv($_POST);
+		$where = array("tagsActived" => array("Competence" => array("Equipements et infrastructures", "Transport de voyageurs"),
+						"Geographique" => array("Nord"),
+						"Structure" => array("Institutions publiques")) );
+
+
+		$res = Import::exportcsv($where);
        // Rest::json($res);
        // var_dump( $res ); 
         echo $res ;
