@@ -30,25 +30,25 @@ $cs = Yii::app()->getClientScript();
               
             </div>
           </li>-->
-          <li class="list-group-item text-purple col-md-4 col-sm-6 link-to-directory">
+         <!--  <li class="list-group-item text-purple col-md-4 col-sm-6 link-to-directory">
             <div class="" style="cursor:pointer;" onclick="loadByHash('#adminpublic.createfile')">
               <i class="fa fa-upload fa-2x"></i> 
-              <?php echo Yii::t("admin", "IMPORT DATA", null, Yii::app()->controller->module->id); ?>
+              <?php //echo Yii::t("admin", "IMPORT DATA", null, Yii::app()->controller->module->id); ?>
             </div>
           </li>
           <li class="list-group-item text-red col-md-4 col-sm-6 link-to-directory">
             <div class="" style="cursor:pointer;" onclick="loadByHash('#admin.openagenda')">
               <i class="fa fa-calendar fa-2x"></i>
                 
-              <?php echo Yii::t("admin", "OPEN AGENDA", null, Yii::app()->controller->module->id); ?>
+              <?php //echo Yii::t("admin", "OPEN AGENDA", null, Yii::app()->controller->module->id); ?>
               
             </div>
-          </li>
-          <li class="list-group-item text-red col-md-4 col-sm-6 link-to-directory">
+          </li> -->
+         <!--  <li class="list-group-item text-red col-md-4 col-sm-6 link-to-directory">
             <div class="" style="cursor:pointer;" onclick="loadByHash('#admin.checkgeocodage')">
               <i class="fa fa-map fa-2x"></i>
                 
-              <?php echo Yii::t("admin", "CHECK GEOCODAGE", null, Yii::app()->controller->module->id); ?>
+              <?php //echo Yii::t("admin", "CHECK GEOCODAGE", null, Yii::app()->controller->module->id); ?>
               
             </div>
           </li>
@@ -56,30 +56,30 @@ $cs = Yii::app()->getClientScript();
             <div class="" style="cursor:pointer;" onclick="loadByHash('#adminpublic.adddata')">
               <i class="fa fa-plus fa-2x"></i>
                 
-              <?php echo Yii::t("admin", "ADD DATA", null, Yii::app()->controller->module->id); ?>
+              <?php //echo Yii::t("admin", "ADD DATA", null, Yii::app()->controller->module->id); ?>
               
             </div>
-          </li>
+          </li> -->
 
-          <li class="list-group-item text-green col-md-4 col-sm-6 link-to-directory">
+         <!--  <li class="list-group-item text-green col-md-4 col-sm-6 link-to-directory">
             <div class="" style="cursor:pointer;" onclick="loadByHash('#log.monitoring')">
               <i class="fa fa-list fa-2x"></i>
                 
-              <?php echo Yii::t("admin", "LOG", null, Yii::app()->controller->module->id); ?>
+              <?php //echo Yii::t("admin", "LOG", null, Yii::app()->controller->module->id); ?>
               
             </div>
-          </li>
+          </li> -->
 
-          <li class="list-group-item text-green col-md-4 col-sm-6 link-to-directory">
+          <!-- <li class="list-group-item text-green col-md-4 col-sm-6 link-to-directory">
             <div class="" style="cursor:pointer;" onclick="loadByHash('#admin.checkcities')">
               <i class="fa fa-list fa-2x"></i>
                 
-              <?php echo Yii::t("admin", "CHECK CITIES", null, Yii::app()->controller->module->id); ?>
+              <?php //echo Yii::t("admin", "CHECK CITIES", null, Yii::app()->controller->module->id); ?>
               
             </div>
-          </li>
+          </li> -->
 
-           <li class="list-group-item text-orange col-md-4 col-sm-6 link-to-moderate">
+          <!--  <li class="list-group-item text-orange col-md-4 col-sm-6 link-to-moderate">
               <div class="" style="cursor:pointer;" onclick="loadByHash('#admin.moderate.one')">
                 <i class="fa fa-check fa-2x"></i>
                   
@@ -111,7 +111,7 @@ $cs = Yii::app()->getClientScript();
               <?php echo Yii::t("admin", "CITIES", null, Yii::app()->controller->module->id); ?>
               
             </div>
-          </li>
+          </li> -->
          
           <?php }
             if( Role::isSourceAdmin(Role::getRolesUserId(Yii::app()->session["userId"]) ) ){ 

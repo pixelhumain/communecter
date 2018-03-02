@@ -15,19 +15,21 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);*/
 
 <div class="panel panel-white">
 	<div class="panel-heading border-light">
-		<h4 class="panel-title"><i class="fa fa-globe fa-2x text-green"></i> <a href="javascript:;" onclick="applyStateFilter('organization|NGO|Group|LocalBusiness')" class="filter<?php echo Organization::COLLECTION ?> btn btn-xs btn-default"> Organizations <span class="badge badge-warning"> <?php echo count(@$organizations) ?></span></a> 
-																				<a href="javascript:;" onclick="applyStateFilter('person')" class="filter<?php echo Person::COLLECTION ?> btn btn-xs btn-default"> People <span class="badge badge-warning"> <?php echo count(@$people) ?></span></a>  
-																				<a href="javascript:;" onclick="applyStateFilter('event|concert|meeting|dance')" class="filter<?php echo Event::COLLECTION ?> btn btn-xs btn-default"> Events <span class="badge badge-warning"> <?php echo count(@$events) ?></span></a> 
-																				<a href="javascript:;" onclick="applyStateFilter('project')" class="filter<?php echo Project::COLLECTION ?> btn btn-xs btn-default"> Projects <span class="badge badge-warning"> <?php echo count(@$projects) ?></span></a>
-																				<a href="javascript:;" onclick="clearAllFilters('')" class="btn btn-xs btn-default"> All</a></h4>
+		<h4 class="panel-title"><i class="fa fa-globe fa-2x text-green"></i> 
+			<a href="javascript:;" onclick="applyStateFilter('organization|NGO|Group|LocalBusiness')" class="filter<?php echo Organization::COLLECTION ?> btn btn-xs btn-default"> Organizations <span class="badge badge-warning"> <?php echo count(@$organizations) ?></span></a> 
+			<a href="javascript:;" onclick="applyStateFilter('person')" class="filter<?php echo Person::COLLECTION ?> btn btn-xs btn-default"> People <span class="badge badge-warning"> <?php echo count(@$people) ?></span></a>  
+			<!-- <a href="javascript:;" onclick="applyStateFilter('event|concert|meeting|dance')" class="filter<?php //echo Event::COLLECTION ?> btn btn-xs btn-default"> Events <span class="badge badge-warning"> <?php //echo count(@$events) ?></span></a> 
+			<a href="javascript:;" onclick="applyStateFilter('project')" class="filter<?php //echo Project::COLLECTION ?> btn btn-xs btn-default"> Projects <span class="badge badge-warning"> <?php //echo count(@$projects) ?></span></a> -->
+			<a href="javascript:;" onclick="clearAllFilters('')" class="btn btn-xs btn-default"> All</a>
+		</h4>
 	</div>
 	<div class="panel-tools">
 		<?php if( Yii::app()->session["userId"] ) { ?>
-		<a href="javascript:;" onclick="openSubView('Add an Organisation', '/'+moduleId+'/organization/addorganizationform',null)" class="btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="Add an Organization"><i class="fa fa-plus"></i> <i class="fa fa-group"></i> </a>
+		<!-- <a href="javascript:;" onclick="openSubView('Add an Organisation', '/'+moduleId+'/organization/addorganizationform',null)" class="btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="Add an Organization"><i class="fa fa-plus"></i> <i class="fa fa-group"></i> </a>
 
 		<a href="javascript:;" onclick="openSubView('Add an Organisation', '/'+moduleId+'/events/addeventform',null)" class="btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="Add an Event"><i class="fa fa-plus"></i> <i class="fa fa-calendar"></i></a>
 
-		<a href="javascript:;" onclick="openSubView('Add an Organisation', '/'+moduleId+'/person/inviteSomeone',null)" class="btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="Invite Someone "><i class="fa fa-plus"></i> <i class="fa fa-user"></i></a>
+		<a href="javascript:;" onclick="openSubView('Add an Organisation', '/'+moduleId+'/person/inviteSomeone',null)" class="btn btn-xs btn-light-blue tooltips" data-placement="top" data-original-title="Invite Someone "><i class="fa fa-plus"></i> <i class="fa fa-user"></i></a> -->
 		<?php } ?>
 
 	</div>
@@ -115,14 +117,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);*/
 										$actions .= '<li><a href="javascript:;" data-id="'.$id.'" data-type="'.$type.'" class="margin-right-5 validateThisBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-1x stack-right-bottom text-danger"></i></span> Validate </a></li>';
 									}
 									//Beta Test
-									if (@Yii::app()->params['betaTest']) {
-										if( @$e["roles"]["betaTester"] ) {
-											$classes .= "betaTester";
-											$actions .= '<li><a href="javascript:;" data-id="'.$id.'" data-type="'.$type.'" class="margin-right-5 revokeBetaTesterBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-1x stack-right-bottom text-danger"></i></span> Revoke this beta tester </a></li>';
-										} else {
-											$actions .= '<li><a href="javascript:;" data-id="'.$id.'" data-type="'.$type.'" class="margin-right-5 addBetaTesterBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-1x stack-right-bottom text-danger"></i></span> Add this beta tester </a></li>';
-										}
-									}
+									
 									//Super Admin
 									if( @$e["roles"]["superAdmin"] ) {
 										$classes .= "superAdmin";
@@ -131,11 +126,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);*/
 										$actions .= '<li><a href="javascript:;" data-id="'.$id.'" data-type="'.$type.'" class="margin-right-5 addSuperAdminBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-check fa-stack-1x stack-right-bottom text-danger"></i></span> Add this super admin </a></li>';
 									}
 
-									$actions .= '<li><a href="javascript:;" data-id="'.$id.'" class="margin-right-5 switch2UserThisBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-eye fa-stack-1x stack-right-bottom text-danger"></i></span> Switch to this user</a> </li>';
+									//$actions .= '<li><a href="javascript:;" data-id="'.$id.'" class="margin-right-5 switch2UserThisBtn"><span class="fa-stack"><i class="fa fa-user fa-stack-1x"></i><i class="fa fa-eye fa-stack-1x stack-right-bottom text-danger"></i></span> Switch to this user</a> </li>';
 
 									$actions .= '<li><a href="javascript:;" data-id="'.$id.'" data-type="'.$type.'" class="margin-right-5 deleteThisBtn"><i class="fa fa-times text-red"></i>Delete</a> </li>';
 									//TODO
-									$actions .= '<li><a href="javascript:;" data-id="'.$id.'" data-type="'.$type.'" class="margin-right-5 banThisBtn"><i class="fa fa-times text-red"></i> TODO : Ban</a> </li>';
+									//$actions .= '<li><a href="javascript:;" data-id="'.$id.'" data-type="'.$type.'" class="margin-right-5 banThisBtn"><i class="fa fa-times text-red"></i> TODO : Ban</a> </li>';
 									
 								} else if( $type == Organization::CONTROLLER ) {
 								
@@ -361,7 +356,7 @@ function bindAdminBtnEvents(){
 	        var type = $(this).data("type");
 	        var urlToSend = baseUrl+"/"+moduleId+"/admin/activateuser/user/"+id;
 	        
-	        bootbox.confirm("confirm please !!",
+	        bootbox.confirm("Pouvez-vous confirmer la validation du compte?",
         	function(result) 
         	{
 				if (!result) {
@@ -389,7 +384,7 @@ function bindAdminBtnEvents(){
 
 		$(".addBetaTesterBtn").off().on("click",function () {
 			var btnClick = $(this);
-			bootbox.confirm("confirm please !!", function(result) {
+			bootbox.confirm("Pouvez-vous confirmer la membre en betatester", function(result) {
 				if (result) {
 					changeRole(btnClick, "addBetaTester");
 				}
@@ -398,7 +393,7 @@ function bindAdminBtnEvents(){
 
 		$(".revokeBetaTesterBtn").off().on("click",function () {
 			var btnClick = $(this);
-			bootbox.confirm("confirm please !!", function(result) {
+			bootbox.confirm("Pouvez-vous confirmer la supprission en betatester", function(result) {
 				if (result) {
 					changeRole(btnClick, "revokeBetaTester")
 				}
@@ -407,7 +402,7 @@ function bindAdminBtnEvents(){
 
 		$(".addSuperAdminBtn").off().on("click",function () {
 			var btnClick = $(this);
-			bootbox.confirm("confirm please !!", function(result) {
+			bootbox.confirm("Pouvez-vous confirmer la validation d'admin?", function(result) {
 				if (result) {
 					changeRole(btnClick, "addSuperAdmin");
 				}
@@ -416,7 +411,7 @@ function bindAdminBtnEvents(){
 
 		$(".revokeSuperAdminBtn").off().on("click",function () {
 			var btnClick = $(this);
-			bootbox.confirm("confirm please !!", function(result) {
+			bootbox.confirm("Pouvez-vous confirmer la suppression d'admin ?", function(result) {
 				if (result) {
 					changeRole(btnClick, "revokeSuperAdmin")
 				}
@@ -467,7 +462,7 @@ function bindAdminBtnEvents(){
 	        var type = $(this).data("type");
 	        var urlToSend = baseUrl+"/"+moduleId+"/admin/delete/type/"+type+"/id/"+id;
 	        
-	        bootbox.confirm("confirm please !!",
+	        bootbox.confirm("Pouvez-vous confirmer la suppression ?",
         	function(result) 
         	{
 				if (!result) {

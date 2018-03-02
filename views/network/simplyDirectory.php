@@ -1021,6 +1021,7 @@ function autoCompleteSearchSimply(name, locality, indexMin, indexMax){
   }
 
 function getAjaxFiche(url, breadcrumLevel){
+	mylog.log("getAjaxFiche", url, breadcrumLevel);
 	$("#ficheInfoDetail").empty();
 	if(location.hash == ""){
 	history.pushState(null, "New Title", url);
@@ -1040,7 +1041,10 @@ function getAjaxFiche(url, breadcrumLevel){
 	location.hash = url;
   urlHash=url;
 
-  if( urlHash.indexOf("type") < 0 && 
+  if( urlHash.indexOf("type") < 0 &&
+  	  urlHash.indexOf("admin") < 0 &&
+  	  urlHash.indexOf("stat") < 0 &&
+  	  urlHash.indexOf("log") < 0 &&
 	  urlHash.indexOf("default.view") < 0 && 
 	  urlHash.indexOf("gallery") < 0 && 
 	  urlHash.indexOf("news") < 0 &&
@@ -1048,7 +1052,7 @@ function getAjaxFiche(url, breadcrumLevel){
 	  urlHash.indexOf("invite") < 0){
 	
 	  urlSplit=urlHash.replace( "#","" ).split(".");
-	  console.log(urlHash);
+	  mylog.log(urlHash);
 
 	  if(urlSplit[0]=="person")
 		urlType="citoyens";

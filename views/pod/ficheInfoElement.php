@@ -196,7 +196,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->reque
 					<div class="btn-group pull-right">
 						<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"><span><i class="fa fa-trash"></i></span><span class="caret"></span></button>
 						<ul class="dropdown-menu" role="menu">
-						<?php if ($type == Organization::COLLECTION) { ?>
+						<?php if ($type == Organization::COLLECTION && Role::isSuperAdmin(Role::getRolesUserId(Yii::app()->session["userId"]))) { ?>
 							<li><a href="javascript:;" id="disableOrga" class="margin-right-5 tooltips"><i class="fa fa-times text-red"></i> <?php echo Yii::t("common","Disable")?></a> </li>
 							<li><a href="javascript:;" id="activedOrga" class="btn btn-sm btn-green tooltips" data-toggle="tooltip" data-placement="bottom" title="<?php echo Yii::t("common","Actived"); ?>" alt=""><i class="fa fa-check"></i><span class="hidden-xs"> <?php echo Yii::t("common","Actived")?></span></a></li>
 						<?php } ?>
