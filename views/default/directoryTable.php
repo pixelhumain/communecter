@@ -141,8 +141,9 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);*/
 							* TYPE + ICON
 							***************************************** */
 						$strHTML = '<tr id="'.$type.(string)$id.'">'.
-							'<td class="'.$collection.'Line '.$classes.'">'.
-								'<a href="'.Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id).'">';
+							'<td class="'.$collection.'Line '.$classes.'">'.#element.detail.type.organizations.id.58aec1cddd0452ed0b2a6d68
+								//'<a href="'.Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id).'">';
+								'<a href="#'.$type.'.detail.id.'.$id.'" class="lbh" onclick="loadByHash(\'#'.$type.'.detail.id.'.$id.'\');">';
 									if ($e && isset($e["imagePath"])){ 
 										$strHTML .= '<img width="50" height="50" alt="image" class="img-circle" src="'.Yii::app()->createUrl('/'.$moduleId.'/document/resized/50x50'.$e['imagePath']).'">'.((isset($e["type"])) ? $e["type"] : "");
 									} else { 
@@ -154,7 +155,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesModule);*/
 							/* **************************************
 							* NAME
 							***************************************** */
-							$strHTML .= '<td><a href="'.Yii::app()->createUrl('/'.$moduleId.'/'.$type.'/dashboard/id/'.$id).'">'.((isset($e["name"]))? $e["name"]:"").'</a></td>';
+							$strHTML .= '<td><a href="#'.$type.'.detail.id.'.$id.'" class="lbh" onclick="loadByHash(\'#'.$type.'.detail.id.'.$id.'\');">'.((isset($e["name"]))? $e["name"]:"").'</a></td>';
 							
 							/* **************************************
 							* EMAIL for admin use only
