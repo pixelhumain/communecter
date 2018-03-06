@@ -2303,8 +2303,8 @@ var elementLib = {
 	            			toastr.error(data.resultErrors.msg);
 	            	}
 
-	            	if(data.map && $.inArray(collection, ["events","organizations","projects","citoyens"] ) !== -1)
-			        	addFloopEntity(data.id, collection, data.map);
+	           //  	if(data.map && $.inArray(collection, ["events","organizations","projects","citoyens"] ) !== -1)
+			        	// addFloopEntity(data.id, collection, data.map);
 
 	            	if (typeof afterSave == "function")
 	            		afterSave(data);
@@ -3134,8 +3134,10 @@ var typeObj = {
 
 			    },
 			    afterSave : function(){
-					elementLib.closeForm();
-				    loadByHash( location.hash );
+					//elementLib.closeForm();
+					mylog.log("hereEEE");
+					window.location.reload();
+				    //loadByHash( location.hash );
 
 			    },
 			    properties : {
