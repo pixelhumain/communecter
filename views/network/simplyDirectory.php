@@ -1632,32 +1632,53 @@ function bindAutocomplete(){
 }
 
 function exportCSV(){
-	$.ajax({
-        type: 'POST',
-        url: baseUrl+'/'+moduleId+'/admin/exportcsv/',
-        data : { tagsActived : tagsActived },
-        dataType : 'text',
-        success: function(data){
-        	mylog.log("data",data);
-	  		// data = data.replace(/<br>/g, "\n");
-	  		// mylog.log("data2",data);
 
-	  		// alert("ligne : "+data.indexOf("<br>"));
-        	$("<a />", {
-			    "download": "iviatic.csv",
-			    //"href" : "data:application/csv," + data
-			    "href" : "data:application/csv," + encodeURIComponent(data)
-			  }).appendTo("body")
-			  .click(function() {
-			     $(this).remove()
-			  })[0].click() ;
+	bootbox.confirm({
+			message: "Le fichier est sous encodage UTF-8, pensait a utilisé ce format sur votre tableur",
+			buttons: {
+				confirm: {
+					label: trad["yes"],
+					className: 'btn-success'
+				},
+				cancel: {
+					label: trad["no"],
+					className: 'btn-danger'
+				}
+			},
+			callback: function (result) {
 
-        },
-  		error:function(data){
-  			mylog.log("error",data);
-  			$.unblockUI();
-  		}
-	});
+
+				$.ajax({
+			        type: 'POST',
+			        url: baseUrl+'/'+moduleId+'/admin/exportcsv/',
+			        data : { tagsActived : tagsActived },
+			        dataType : 'text',
+			        success: function(data){
+			        	mylog.log("data",data);
+				  		// data = data.replace(/<br>/g, "\n");
+				  		// mylog.log("data2",data);
+
+				  		// alert("ligne : "+data.indexOf("<br>"));
+			        	$("<a />", {
+						    "download": "iviatic-UTF-8.csv",
+						    //"href" : "data:application/csv," + data
+						    "href" : "data:application/csv," + encodeURIComponent(data)
+						    //"href" : "data:application/csv;charset=windows-1252;" + escape(encodeURIComponent(data))
+						    //"href" : "data:application/csv;charset=windows-1252;" + encodeURIComponent(data)
+						    //"href" : "data:application/csv;charset=windows-1252," + data
+						  }).appendTo("body")
+						  .click(function() {
+						     $(this).remove()
+						  })[0].click() ;
+
+			        },
+			  		error:function(data){
+			  			mylog.log("error",data);
+			  			$.unblockUI();
+			  		}
+				});
+			}
+		});	
 }
 
 
