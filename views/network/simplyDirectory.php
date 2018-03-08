@@ -1634,7 +1634,7 @@ function bindAutocomplete(){
 function exportCSV(){
 
 	bootbox.confirm({
-			message: "Le fichier est sous encodage UTF-8, pensait a utilisé ce format sur votre tableur",
+			message: "Le fichier est sous encodage UTF-8. Pensez à utiliser ce format sur votre tableur.",
 			buttons: {
 				confirm: {
 					label: trad["yes"],
