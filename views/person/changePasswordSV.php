@@ -9,7 +9,7 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->reque
 
 <div id="changePassword" >
 	<!-- start: PAGE CONTENT -->
-	<div class="noteWrap col-md-6 col-md-offset-3">
+	<div class="noteWrap col-md-6 col-md-offset-3" style="background-color: white">
 	    <!-- <div class="panel panel-white"> -->
         	<!-- <div class="panel-heading border-light"> -->
 				<h1 class="text-red" style="font-size:20px;"><i class="fa fa-key"></i> Changer votre mot de passe</h1>
@@ -20,10 +20,11 @@ HtmlHelper::registerCssAndScriptsFiles($cssAnsScriptFilesTheme,Yii::app()->reque
 				<div class="row">
 					<div class="col-md-12">
 						<div class="errorHandler alert alert-danger no-display">
-							<i class="fa fa-times-sign"></i> You have some form errors. Please check below.
+							<i class="fa fa-times-sign"></i> Des erreurs sont présentes. Vérifier ci dessous
 						</div>
+						<div class="errorHandler alert alert-danger no-display messageError"></div>
 						<div class="successHandler alert alert-success no-display">
-							<i class="fa fa-ok"></i> Your form validation is successful!
+							<i class="fa fa-ok"></i> La validation de votre formulaire est réussie !
 						</div>
 					</div>
 					<div>
@@ -108,6 +109,8 @@ var formValidator = function() {
 		    	  success: function(data){
 		    			if(!data.result){
 	                        toastr.error(data.msg);
+	                        $(".messageError").html(data.msg);
+	                        $(".messageError").show();
 	                        $.unblockUI();
 	                   	}
 	                    else { 

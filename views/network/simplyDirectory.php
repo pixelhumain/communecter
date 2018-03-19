@@ -1046,9 +1046,10 @@ function getAjaxFiche(url, breadcrumLevel){
   	  urlHash.indexOf("stat") < 0 &&
   	  urlHash.indexOf("log") < 0 &&
 	  urlHash.indexOf("default.view") < 0 && 
-	  urlHash.indexOf("gallery") < 0 && 
+	  urlHash.indexOf("gallery") < 0 &&
+	  urlHash.indexOf("person.changepassword") < 0 && 
 	  urlHash.indexOf("news") < 0 &&
-	  urlHash.indexOf("network") < 0 && 
+	  urlHash.indexOf("network") < 0 &&
 	  urlHash.indexOf("invite") < 0){
 	
 	  urlSplit=urlHash.replace( "#","" ).split(".");
