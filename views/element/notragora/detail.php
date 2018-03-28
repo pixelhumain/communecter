@@ -891,22 +891,28 @@
 			$nbMemberPending=0;
 			if(@$members && !empty($members)) {
 				foreach($members as $key => $member){
-					if((!isset($member["isAdmin"]) || @$member["isAdmin"]==false) && !@$member["toBeValidated"]){ $nbMember++;
-					$profilThumbImageUrl = Element::getImgProfil($member, "profilThumbImageUrl", $this->module->assetsUrl);
-					$spec = Element::getElementSpecsByType( @$member["type"] );
+					if((!isset($member["isAdmin"]) || @$member["isAdmin"]==false) && !@$member["toBeValidated"]){
+						$nbMember++;
+						$profilThumbImageUrl = Element::getImgProfil($member, "profilThumbImageUrl", $this->module->assetsUrl);
+						$spec = Element::getElementSpecsByType( @$member["type"] );
 		?>
-			<a href="#<?php echo $spec["hash"]; echo @$member["id"]?>"  class="lbh col-md-12 no-padding margin-top-5 elipsis">
-				<img class="img-circle" src="<?php echo $profilThumbImageUrl; ?>" height=35 width=35>
-				<span class="username-min"><?php echo @$member["name"]; ?></span>
-				<?php if (@$member["pending"]){ ?>
-					<br/><span style="font-style: italic;font-size: 10px;position: absolute;bottom: 0px;left: 38px;">En attente d'inscription</span>
-				<?php } ?>
-			</a>
-		<?php }else if((!isset($member["isAdmin"]) || @$member["isAdmin"]==false) && @$member["toBeValidated"]) $nbMemberPending++;
-		}}
+						<a href="#<?php echo $spec["hash"]; echo @$member["id"]?>"  class="lbh col-md-12 no-padding margin-top-5 elipsis">
+							<img class="img-circle" src="<?php echo $profilThumbImageUrl; ?>" height=35 width=35>
+							<span class="username-min"><?php echo @$member["name"]; ?></span>
+							<?php if (@$member["pending"]){ ?>
+								<br/><span style="font-style: italic;font-size: 10px;position: absolute;bottom: 0px;left: 38px;">En attente d'inscription</span>
+							<?php } ?>
+						</a>
+		<?php 		}else if( ( !isset($member["isAdmin"]) || @$member["isAdmin"]==false) && 
+								@$member["toBeValidated"] ) 
+						$nbMemberPending++;
+				}
+			}
+
 			if($nbMember==0){ ?>
 				<span style="font-style: italic;">Pas de membres sur ce groupe de travail</span>
 			<?php }
+
 			if($nbMemberPending > 0 || $nbAdminPending > 0){ ?>
 				<div class="col-md-12 no-padding margin-top-5">
 					<hr>
@@ -1140,6 +1146,9 @@
 		$("#nbAdmin").html(nbAdmin);
 		$("#nbMember").html(nbMember);
 		$("#nbPending").html(nbPending);
+		console.log("nbAdmin", nbAdmin);
+		console.log("nbMember", nbMember);
+		console.log("nbPending", nbPending);
 		$("#nbMemberTotal").html(parseInt(nbAdmin)+parseInt(nbMember));
 
 		/*var url = "news/index/type/"+contextType+"/id/"+contextId+"?isFirst=1&";

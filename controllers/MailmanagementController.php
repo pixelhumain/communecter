@@ -23,7 +23,8 @@ class MailmanagementController extends CommunecterController {
 	public function actions()
 	{
 	    return array(
-	        'droppedmail'    => 'citizenToolKit.controllers.mailmanagement.DroppedMailAction'
+	        'droppedmail'    => 'citizenToolKit.controllers.mailmanagement.DroppedMailAction',
+	        'updatetopending'    => 'citizenToolKit.controllers.mailmanagement.UpdateToPendingAction'
 	    );
 	}
 }

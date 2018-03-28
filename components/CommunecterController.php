@@ -430,6 +430,7 @@ class CommunecterController extends Controller
     ),
     "mailmanagement"=> array(
       "droppedmail" => array("href" => "/communecter/mailmanagement/droppedmail"),
+      "updatetopending" => array("href" => "/communecter/mailmanagement/updatetopending"),
     ),
     "element"=> array(
       "updatesettings"      => array('href' => "/ph/communecter/element/updatesettings"),
