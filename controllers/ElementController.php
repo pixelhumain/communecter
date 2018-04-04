@@ -28,7 +28,8 @@ class ElementController extends CommunecterController {
           'savecontact'           => 'citizenToolKit.controllers.element.SaveContactAction',
           'saveurl'               => 'citizenToolKit.controllers.element.SaveUrlAction',
           'delete'                => 'citizenToolKit.controllers.element.DeleteAction',
-          'get'                   => 'citizenToolKit.controllers.element.GetAction'
+          'get'                   => 'citizenToolKit.controllers.element.GetAction',
+          'params'                => 'citizenToolKit.controllers.element.ParamsAction'
       );
   }
 }

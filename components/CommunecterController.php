@@ -447,6 +447,7 @@ class CommunecterController extends Controller
       "savecontact"         => array("href" => "/ph/communecter/element/savecontact"),
       "saveurl"             => array("href" => "/ph/communecter/element/saveurl"),
       "get"                 => array("href" => "/ph/communecter/element/get"),
+      "params"              => array("href" => "/ph/communecter/element/params"),
       "delete"              => array("href" => "/ph/communecter/element/delete"),
     ),
     "co2" => array(
