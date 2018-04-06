@@ -2,10 +2,10 @@
 	<div class="modal-header bg-dark">
 		<h4 class="modal-title"><i class="fa fa-cog"></i> Paramètres </h4>
 	</div>
-	<div class="col-sm-4 text-right padding-10 margin-top-10 text-dark">
-    	<i class="fa fa-message"></i> <strong>Notifications par mail  :</strong>
+	<div class="col-sm-8 text-right padding-10 margin-top-10 text-dark">
+    	<i class="fa fa-message"></i> <strong>Continuer à recevoir des nouvelles des groupes de travail par mail?  :</strong>
 	</div>
-	<div class="col-sm-8 text-left padding-10">
+	<div class="col-sm-4 text-left padding-10">
 		<div class="btn-group btn-group-mailNotif inline-block">
 			<button class="btn btn-default confidentialitySettings" type="mailNotif" value="true"><i class="fa fa-check"></i> Oui </button>
 			<button class="btn btn-default confidentialitySettings" type="mailNotif" value="false"><i class="fa fa-times"></i> Non </button>

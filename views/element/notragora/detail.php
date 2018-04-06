@@ -853,7 +853,7 @@
                 </div>
 			</div>
 		<?php } else if($type==Organization::COLLECTION) { ?>
-			<h3>Membres du groupe (<span id="nbMemberTotal"></span>)</h3>
+			<h4 style="font-size: 14px; text-align: center;">Membres du groupe (<span id="nbMemberTotal"></span>)</h4>
 			<hr>
 			<h4>Administrateurs (<span id="nbAdmin"></span>)</h4>
 
