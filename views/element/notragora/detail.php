@@ -313,7 +313,7 @@
 	<div class="col-lg-10 col-md-10 col-sm-9 no-padding" id="onepage">
 		<?php
 		if ($type == "poi"){
-			if(@$element["type"]=="video" && @$element["medias"]){
+			if(@$element["type"]=="video" && @$element["medias"] && @$element["medias"][0]["content"]["videoLink"]){
 				$videoLink=str_replace ( "autoplay=1" , "autoplay=0" , @$element["medias"][0]["content"]["videoLink"]  );
 			?>
 				<div class="col-xs-12">
@@ -321,7 +321,25 @@
 						<iframe class="embed-responsive-item fullScreen" src="<?php echo @$videoLink ?>" allowfullscreen></iframe>
 					</div>
 				</div>
-			<?php } ?>
+			<?php } else if( @$element["medias"] && !empty($element["medias"][0]["content"]["url"]) ) {
+
+				?>
+				<div class="col-xs-12">
+					<div class="embed-responsive embed-responsive-16by9">
+						<iframe class="embed-responsive-item fullScreen" src="<?php echo $element["medias"][0]["content"]["url"] ?>" allowfullscreen></iframe>
+					</div>
+				</div>
+			<?php
+			} else if( @$element["urls"] && !empty($element["urls"][0]) ) {
+
+				?>
+				<div class="col-xs-12">
+					<div class="embed-responsive embed-responsive-16by9">
+						<iframe class="embed-responsive-item fullScreen" src="<?php echo $element["urls"][0] ?>" allowfullscreen></iframe>
+					</div>
+				</div>
+			<?php
+			} ?>
 				<div class="col-md-12 col-sm-12 col-xs-12 text-dark center">
 					<h1 class="center">
 						<?php echo $element['name']; ?>
