@@ -449,7 +449,9 @@
 				<button class="btn btn-default btn-menubar" id="btn-menu-directory-all">MES GROUPES</button>
 			<?php	} ?>
 
-			<?php if(isset(Yii::app()->session["userId"]) && Yii::app()->session["userId"] == @$element["creator"]){ ?>
+			<?php if(	isset(Yii::app()->session["userId"]) && 
+						// Yii::app()->session["userId"] == @$element["creator"] &&
+						Authorisation::isOrganizationAdmin(Yii::app()->session["userId"], (string) $element["_id"]) ){ ?>
 			<button onclick='javascript:elementLib.openForm("poi","subPoi")' class='btn btn-default pull-right btn-menubar'>
 				<i class='fa fa-plus'></i> <i class='fa fa-video-camera'></i> Ajouter une production
 			</button>
