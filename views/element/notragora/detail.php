@@ -510,7 +510,7 @@
 							?>
 							<div class="contentItem contentItem<?php echo $key ?>">
 								<a href="#element.detail.type.<?php echo Organization::COLLECTION ?>.id.<?php echo $key ?>" data-placement="top" data-original-title="<?php echo $orga["name"] ?>" class=" lbh btn no-padding contentImg tooltips">
-								<img width="50" height="50"  alt="image" class="" src="<?php echo $urlImg ?>">
+								<img width="60" height="60"  alt="image" class="" src="<?php echo $urlImg ?>">
 								</a>
 								<button class="removeLink" data-type="producors" data-id="<?php echo $key ?>"><i class="fa fa-remove"></i></button>
 							</div>
@@ -525,7 +525,7 @@
 				</div>
 				<div id="divSupports" class="col-md-6 col-sm-6 col-xs-6 padding-10">
 					<div class="col-md-12 col-sm-12 col-xs-12">
-					<h4 class="col-md-8 col-sm-8 col-xs-8 no-margin margin-bottom-5 no-padding text-dark" style="font-size:18px;">Soutien</h4>
+					<h4 class="col-md-8 col-sm-8 col-xs-8 no-margin margin-bottom-5 no-padding text-dark" style="font-size:18px;">Soutiens</h4>
 					<?php if(@Yii::app()->session["userId"]){ ?>
 						<?php if ($edit==true || ($openEdition == true )) { ?>
 					<button class="btn btn-xs bg-white text-dark pull-right editLink"><i class="fa fa-pencil"></i></button>
@@ -549,7 +549,7 @@
 							?>
 							<div class="contentItem contentItem<?php echo $key ?>">
 								<a href="#element.detail.type.<?php echo Organization::COLLECTION ?>.id.<?php echo $key ?>" data-placement="top" data-original-title="<?php echo $orga["name"] ?>" class=" lbh btn no-padding contentImg tooltips">
-								<img width="50" height="50"  alt="image" class="" src="<?php echo $urlImg ?>">
+								<img width="60" height="60"  alt="image" class="" src="<?php echo $urlImg ?>">
 								</a>
 								<button class="removeLink" data-type="supports" data-id="<?php echo $key ?>"><i class="fa fa-remove"></i></button>
 							</div>
