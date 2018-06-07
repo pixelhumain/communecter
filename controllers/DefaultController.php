@@ -102,6 +102,10 @@ class DefaultController extends CommunecterController {
     //$this->layout = "//layouts/mainSearch";
 
     //Get the last global statistics
+    $countCitoyen   = PHDB::count(Person::COLLECTION);
+    $countOrga    = PHDB::count(Organization::COLLECTION);
+    $countPoi   = PHDB::count(Poi::COLLECTION);
+    // $countEvent   = PHDB::count(Event::COLLECTION);
     $stats = Stat::getWhere(array(),null,1);
     if(is_array($stats)) $stats = array_pop($stats);
     $tpl = "home";
@@ -109,7 +113,10 @@ class DefaultController extends CommunecterController {
     	$tpl = "//layouts/default/home";
 
    // $tpl=(@$_GET["tpl"]) ? $_GET["tpl"]: "home";
-    $this->renderPartial($tpl, array("stats"=>$stats));
+    $this->renderPartial($tpl, array("stats"=>$stats, 
+                                      "countCitoyen"=>$countCitoyen,
+                                      "countOrga"=>$countOrga,
+                                      "countPoi"=>$countPoi));
   }
   public function actionApropos() 
   {

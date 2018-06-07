@@ -510,7 +510,7 @@
 							?>
 							<div class="contentItem contentItem<?php echo $key ?>">
 								<a href="#element.detail.type.<?php echo Organization::COLLECTION ?>.id.<?php echo $key ?>" data-placement="top" data-original-title="<?php echo $orga["name"] ?>" class=" lbh btn no-padding contentImg tooltips">
-								<img width="60" height="60"  alt="image" class="" src="<?php echo $urlImg ?>">
+								<img width="75" height="75"  alt="image" class="" src="<?php echo $urlImg ?>">
 								</a>
 								<button class="removeLink" data-type="producors" data-id="<?php echo $key ?>"><i class="fa fa-remove"></i></button>
 							</div>
@@ -549,7 +549,7 @@
 							?>
 							<div class="contentItem contentItem<?php echo $key ?>">
 								<a href="#element.detail.type.<?php echo Organization::COLLECTION ?>.id.<?php echo $key ?>" data-placement="top" data-original-title="<?php echo $orga["name"] ?>" class=" lbh btn no-padding contentImg tooltips">
-								<img width="60" height="60"  alt="image" class="" src="<?php echo $urlImg ?>">
+								<img width="75" height="75"  alt="image" class="" src="<?php echo $urlImg ?>">
 								</a>
 								<button class="removeLink" data-type="supports" data-id="<?php echo $key ?>"><i class="fa fa-remove"></i></button>
 							</div>
