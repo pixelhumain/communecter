@@ -1231,5 +1231,15 @@ class DatamigrationController extends CommunecterController {
 
 		echo "Number of user with preferences modified : ".$nbUser;
 	}
+
+	// public function actionUrlNotifcationOld() {
+	// 	$nbUser = 0;
+	// 	$where = array( "notify.url" => "/communecter/organization/directory/");
+	// 	$notif = PHDB::find(ActivityStream::COLLECTION,$where);
+	// 	// foreach ($users as $key => $person) {
+			
+	// 	// }
+	// 	Rest::json($notif); exit ;
+	// }
 }
 
