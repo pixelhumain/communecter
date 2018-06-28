@@ -1334,4 +1334,6 @@ La vie en santé;Santé;;
 		echo  "NB Cities : " .$nbcities."<br>" ;
 		echo $str;
 	}
+
+
 }
