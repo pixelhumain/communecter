@@ -18,7 +18,8 @@
 
 <?php
 
-	$this->renderPartial(@$path."first_step_directory"); ?>
+	$this->renderPartial(@$path."first_step_directory"); 
+?>
 
 <script type="text/javascript">
   //Icons by default categories
