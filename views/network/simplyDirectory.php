@@ -1279,8 +1279,9 @@ function inArrayRegex(tab,regex){
 
 function tagActivedUpdate(checked, tag, parent){
 	mylog.log("tagActivedUpdate", checked, tag, parent,tagsActived, typeof tagsActived[parent], (typeof tagsActived[parent] == "undefined"));
-	if(checked== false){
-		tagsActived[parent].splice($.inArray(tag, tagsActived),1);
+	if(checked == false){
+		mylog.log("tagActivedUpdate false", $.inArray(tag, tagsActived[parent]) );
+		tagsActived[parent].splice($.inArray(tag, tagsActived[parent]),1);
 	}
 	else{
 		if(typeof tagsActived[parent] == "undefined"){
